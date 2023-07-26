@@ -1,0 +1,76 @@
+//
+//  VanillaTasDiary-PrefixHeader.pch
+//  VanillaTasDiary
+//
+//  Created by zebin on 2023/7/26.
+//
+
+#ifndef VanillaTasDiary_PrefixHeader_pch
+#define VanillaTasDiary_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <ZygoteFoundation/DYTestModeDef.h>
+
+#if defined(__has_feature) && defined(__has_attribute)
+    #if __has_attribute(deprecated)
+        #define DY_DEPRECATED_ATTRIBUTE        __attribute__((deprecated))
+        #if __has_feature(attribute_deprecated_with_message)
+            #define DY_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+        #else
+            #define DY_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated))
+        #endif
+    #else
+        #define DY_DEPRECATED_ATTRIBUTE
+        #define DY_DEPRECATED_MSG_ATTRIBUTE(s)
+    #endif
+#elif defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
+    #define DY_DEPRECATED_ATTRIBUTE        __attribute__((deprecated))
+    #if (__GNUC__ >= 5) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 5))
+        #define DY_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+    #else
+        #define DY_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated))
+    #endif
+#else
+    #define DY_DEPRECATED_ATTRIBUTE
+    #define DY_DEPRECATED_MSG_ATTRIBUTE(s)
+#endif
+
+
+#define iPhoneX (((int)((kScreenHeight/kScreenWidth)*100) == 216) ? YES : NO)
+// 判断是否是iPhone X
+//#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+//是否是开启热点的状态
+#define STATUS_BAR_BIGGER_THAN_20 [UIApplication sharedApplication].statusBarFrame.size.height > 20
+// 状态栏高度
+#define STATUS_BAR_HEIGHT (iPhoneX ? 44.f : 20.f)
+// 导航栏高度
+#define NAVIGATION_BAR_HEIGHT (iPhoneX ? 88.f : 64.f)
+// tabBar高度
+#define TAB_BAR_HEIGHT (iPhoneX ? 83.f : 49.f)
+// home indicator
+#define HOME_INDICATOR_HEIGHT (iPhoneX ? 34.f : 0.f)
+
+#import <ZygoteFoundation/DYNavigatorManager.h>
+#import <ZygoteCategories/UIImageView+WebCache.h>
+#import <ZygoteFoundation/KiwiSDKMacro.h>
+
+#import <ZygoteFoundation/UiUtils.h>
+#import <ZygoteFoundation/StringUtils.h>
+#import <ZygoteNetwork/IZYGNetworkService.h>
+#import <ZygoteNetwork/ZYGNetWorkUtils.h>
+#import <ZygoteNetwork/ZYGHTTPManager.h>
+#import <ZygoteBaseSDK/WFBaseMacro.h>
+
+#define N_Def(notification) NSString * const notification = @#notification
+
+#define IS_LOW_PERFORMANCE_DEVICE   [[UIDevice currentDevice] isLowPerformanceDevice]
+
+#if TARGET_IPHONE_SIMULATOR
+#define IS_IPHONEX                  (CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(812.0,375.0)) || CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(375.0, 812.0)))
+#else
+#define IS_IPHONEX                  [[UIDevice currentDevice].machineModelName isEqualToString:@"iPhone X"]
+#endif
+
+#endif /* VanillaTasDiary_PrefixHeader_pch */

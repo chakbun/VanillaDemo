@@ -1,0 +1,59 @@
+syntax = "proto3";
+option objc_class_prefix = "PB4";
+package plugin_pb;
+
+//公会创建圈子
+message ClanCreateGroupReq{
+    int64 clan_id = 1;
+    int64 owner_id = 2;
+    string group_name = 3;//圈子名
+    string group_img = 4;//圈子图标 传全地址 http://xxx.c/ddd
+    string group_describe = 5;//圈子描述
+}
+
+message ClanCreateGroupRes {
+    int64 group_id = 1;
+}
+
+//加入公会圈子
+message ClanAddGroupMemberReq{
+    int64 clan_id = 1;
+    int64 player_id = 2;
+}
+message ClanAddGroupMemberRes{
+}
+
+//退出公会圈子
+message ClanDelGroupMemberReq{
+    int64 clan_id = 1;
+    int64 player_id = 2;
+}
+message ClanDelGroupMemberRes{
+}
+
+message DeleteAccountReq {
+    int64 player_id = 1;
+    bool is_delete = 2;
+}
+message DeleteAccountRes {
+}
+
+message CommContentCheckResultReq{
+    int64 player_id = 1;
+    int32 c_type = 2; //util/common/advert_audit 审核类型
+    int32 result_type = 3; //util/common/advert_audit 审核结果
+    string content = 4;
+    int64 content_id = 5;
+    string CustomId = 6;
+    string MachineOrHuman = 7;
+    repeated MediaData MediaData = 8;
+}
+
+message MediaData{
+    string Content = 1;// 文本 或者 url
+    string Result = 2;// pass refuse
+}
+
+message CommContentCheckResultRes{
+
+}
