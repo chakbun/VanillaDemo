@@ -13,11 +13,13 @@
 #import "CountryListController.h"
 #import "Masonry.h"
 #import "SVProgressHUD.h"
+#import "VTDSmsInputController.h"
 
 @interface VTDLoginViewController ()<CountryListControllerDelegate>
 
 @property (nonatomic, strong) UIButton *smsButton;
 @property (nonatomic, strong) UITextField *phoneTextField;
+@property (nonatomic, copy) NSString *areaCode;
 
 @end
 
@@ -25,7 +27,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = UIColor.whiteColor;
+    self.areaCode = @"86";
+
     UIImageView *bgView = [[UIImageView alloc] init];
     bgView.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.4];
     [self.view addSubview:bgView];
@@ -79,13 +83,19 @@
 
 - (void)didSmsButtonClicked:(UIButton *)button {
     if (self.phoneTextField.text.length > 0) {
+        __weak typeof(self) weakSelf = self;
         [SVProgressHUD showWithStatus:@""];
-        [ZYGService(ILoginService) smsCodeWithPhone:self.phoneTextField.text countryPhoneCode:@"86" smsType:kLoginSmsTypeLogin successBlock:^{
+        [ZYGService(ILoginService) smsCodeWithPhone:self.phoneTextField.text countryPhoneCode:self.areaCode smsType:kLoginSmsTypeLogin successBlock:^{
             [SVProgressHUD dismiss];
-            NSLog(@"successBlock");
+            NSLog(@"[smsCodeWithPhone]success");
+            VTDSmsInputController *vc = [[VTDSmsInputController alloc] init];
+            vc.phone = weakSelf.phoneTextField.text;
+            vc.areaCode = weakSelf.areaCode;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+            
         } failBlock:^(NSString *errorMsg, NSInteger errorCode) {
+            NSLog(@"[smsCodeWithPhone]failed, errorMsg:%@, errorCode:%@", errorMsg, @(errorCode));
             [SVProgressHUD dismiss];
-            NSLog(@"failBlock, errorMsg:%@, errorCode:%@", errorMsg, @(errorCode));
         }];
     }
 }
@@ -107,7 +117,7 @@
 }
 
 - (void)countryInforSelected:(NSDictionary *)inforDict {
-    NSLog(@"countryInforSelected: %@", inforDict);
+    NSLog(@"[countryInforSelected]infoDict:%@", inforDict);
 }
 
 @end

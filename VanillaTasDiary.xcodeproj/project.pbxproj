@@ -113,6 +113,8 @@
 		4947CB4F2A725BC400946307 /* CountryInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB4E2A725BC400946307 /* CountryInformation.m */; };
 		4947CB522A725BDB00946307 /* CountryListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB512A725BDB00946307 /* CountryListController.m */; };
 		4947CB552A725C1200946307 /* CountryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB532A725C1200946307 /* CountryTableViewCell.m */; };
+		4947CB592A726F4B00946307 /* PasswordGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB582A726F4B00946307 /* PasswordGridView.m */; };
+		4947CB5C2A7270FD00946307 /* VTDSmsInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */; };
 		C171CF3A442CE5D56DBE7645 /* libPods-VanillaTasDiary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */; };
 /* End PBXBuildFile section */
 
@@ -323,6 +325,10 @@
 		4947CB512A725BDB00946307 /* CountryListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryListController.m; sourceTree = "<group>"; };
 		4947CB532A725C1200946307 /* CountryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryTableViewCell.m; sourceTree = "<group>"; };
 		4947CB542A725C1200946307 /* CountryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryTableViewCell.h; sourceTree = "<group>"; };
+		4947CB572A726F4B00946307 /* PasswordGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordGridView.h; sourceTree = "<group>"; };
+		4947CB582A726F4B00946307 /* PasswordGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordGridView.m; sourceTree = "<group>"; };
+		4947CB5A2A7270FD00946307 /* VTDSmsInputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDSmsInputController.h; sourceTree = "<group>"; };
+		4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDSmsInputController.m; sourceTree = "<group>"; };
 		543F62DD3DC93CC3B185C61B /* Pods-VanillaTasDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.debug.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		7225A02B88AF3F719E1AFCEC /* Pods-VanillaTasDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.release.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.release.xcconfig"; sourceTree = "<group>"; };
 		F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VanillaTasDiary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -450,6 +456,7 @@
 		491AF76E2A70B240003B3B65 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4947CB562A726F1600946307 /* View */,
 				4947CB4C2A725BB000946307 /* Area */,
 				491AF7842A70CB61003B3B65 /* config_appkey.json */,
 				491AF7832A70CB61003B3B65 /* DYAppKeyList.h */,
@@ -769,6 +776,8 @@
 				491AF8882A7110AF003B3B65 /* VTDLoginViewController.m */,
 				491AF88D2A711EEE003B3B65 /* VTDLoginWithIDController.h */,
 				491AF88E2A711EEE003B3B65 /* VTDLoginWithIDController.m */,
+				4947CB5A2A7270FD00946307 /* VTDSmsInputController.h */,
+				4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -848,6 +857,15 @@
 				4947CB512A725BDB00946307 /* CountryListController.m */,
 			);
 			path = Area;
+			sourceTree = "<group>";
+		};
+		4947CB562A726F1600946307 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB572A726F4B00946307 /* PasswordGridView.h */,
+				4947CB582A726F4B00946307 /* PasswordGridView.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		6FF2E8819996CE394FFC30B2 /* Frameworks */ = {
@@ -1065,6 +1083,7 @@
 				491AF8162A70CBBD003B3B65 /* ConfExt.pbobjc.m in Sources */,
 				4947CB3C2A72482300946307 /* VTDProfileController.m in Sources */,
 				491AF80D2A70CBBD003B3B65 /* CollectExt.pbobjc.m in Sources */,
+				4947CB5C2A7270FD00946307 /* VTDSmsInputController.m in Sources */,
 				4947CB552A725C1200946307 /* CountryTableViewCell.m in Sources */,
 				491AF80F2A70CBBD003B3B65 /* CommonExt.pbobjc.m in Sources */,
 				491AF8152A70CBBD003B3B65 /* ActivityCliExt.pbobjc.m in Sources */,
@@ -1074,6 +1093,7 @@
 				491AF8702A70EB0D003B3B65 /* DBManager.m in Sources */,
 				491AF7F92A70CBBD003B3B65 /* PluginExt.pbobjc.m in Sources */,
 				491AF7602A6FD8D0003B3B65 /* AppDelegate.m in Sources */,
+				4947CB592A726F4B00946307 /* PasswordGridView.m in Sources */,
 				491AF8052A70CBBD003B3B65 /* CrackEggExt.pbobjc.m in Sources */,
 				491AF87F2A70EB7D003B3B65 /* DYAlertConfigModel.m in Sources */,
 				4947CB522A725BDB00946307 /* CountryListController.m in Sources */,
