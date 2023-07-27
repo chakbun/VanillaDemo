@@ -1,0 +1,145 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+message ScenePlayerVO {
+    sint64 id = 1;
+    sint64 forbid_speak_time = 14;   //禁言时间
+    bool chair_ban_speak = 15;       // 坑位发言状态，0开麦/1禁麦
+    bool chair_speak_onoff = 16;     // 玩家坑位发言开关 0关/1开
+    bool accompany_onoff = 17;       // 伴奏开关 0关/1开
+}
+
+message Device {
+    DeviceType type = 1;
+    string id = 2;         // deviceId
+    string token = 3;      // 推送token
+    string version = 4;    // client version
+}
+enum ASessExpand_Type {
+    ASE_Type_Zero               = 0;  // 站位
+    ASE_Type_ChangePower        = 1;  // 切换账号权限
+}
+
+// 切换账号对应值
+enum ASessExpand_Value {
+    ASE_Value_Zero                  = 0;  // 站位  手机登陆
+    ASE_Value_QQ                    = 2;  // qq登陆
+    ASE_Value_WeChat                = 3;  // 微信登陆
+    ASE_Value_WeChat_Subscription   = 4;  // 微信公众号登陆
+    ASE_Value_Apple                 = 5;  // apple登录
+}
+
+message AuthSessionExpandList {
+    repeated AuthSessionExpand list     = 1;
+}
+
+message AuthSessionExpand {
+    ASessExpand_Type    type        = 1;     // 拓展类型
+    int32               val         = 2;     // 拓展类型
+    string               str         = 3;     // 拓展类型
+
+}
+
+message AuthSession {
+	string id = 1;
+	int64 account_id = 2;
+	string ip = 3;
+}
+
+//图片审核
+message ImagesScan {
+    int64 id = 1;
+    int64 player_Id =2;
+    string icon =3;
+    ImagesSendMode send_mode=4;
+}
+//上传图片位置
+enum  ImagesSendMode{
+    ISM_HEAD = 0;//头像
+    ISM_ROOM = 1; //房间
+    ISM_ALBUMS=2;//相册
+}
+
+enum LoginType {
+    LT_DEV = 0;
+    LT_NATIVE = 1;  // 帐号密码登录
+    LT_QQ = 2;
+    LT_WEIXIN = 3;
+    LT_SMS = 4;   // 短信登录s
+    LT_QUICK = 5; // 一键登录
+    LT_APPLE = 6; // apple
+    LT_WECHAT_SUBSCRIPTION = 9;  // 微信公众号登录
+    LT_QQ_MINI_PROGRAM = 11; // QQ小程序
+    LT_WX_MINI_PROGRAM = 12; // 微信小程序登录
+    LT_CHANGE = 13; //  切换账号
+}
+
+message CommContentCheckResultReq {
+    int64 player_id = 1;
+    int32 c_type = 2 [deprecated = true]; //util/common/advert_audit 审核类型
+    int32 result_type = 3; //util/common/advert_audit 审核结果
+    string content = 4;
+    int64 content_id = 5;
+    string CustomId = 6;
+    string MachineOrHuman = 7;
+    repeated MediaData MediaData = 8;
+    string RiskType = 9; // 风险类型，  比如：ShuMeiRiskTypePorn  = `porn`
+    int32 block_level = 10; // 违规等级
+    string channel_code = 11; // 审核类型(找张工获取)
+    string type = 12; //   内容类型： 普通单条内容：general  音频流：audioStream
+    string room_id = 13; // 房间ID
+    string asr = 14; // 语音流 asr 结果
+    string source = 15; // 来源 Gme YunXin
+}
+
+message MediaData{
+    string Content = 1; //文本 或者 url
+    string Result = 2; // pass refuse
+}
+
+message CommContentCheckResultRes{
+
+}
+
+// 定时任务时间
+enum ScheduleTaskTime {
+    STT_NONE = 0;   // 占位
+    STT_0AM_DAILY = 1;    // 每天凌晨0点任务
+    STT_EVERY_MINUTE = 2; // 每分钟任务
+    STT_23PM59MINUTE_DAILY = 3; // 每天23点59分任务
+    STT_HALFHOUR = 4; // 每半小时任务
+}
+
+enum SendMailType {
+    SMT_PLAYER = 0; // 发送用户
+    SMT_ALL = 1; // 发送全部成员
+    SMT_ROOM = 2; // 发送房间
+}
+
+enum CpChatHealAction{
+    CCHA_NONE = 0; // 占位
+    CCHA_PORNOGRAPHIC = 1; // 涉黄 - 散步淫秽、色情内容等
+    CCHA_ETIQUETTE = 2; // 礼仪/黑麦 - 损害用户体验的
+    CCHA_TRUMPET_ORDER = 3; // 小号抢单 - 厅内主持期间使用小号抢单
+    CCHA_GUIDE_EXTERNAL_CONSUMPTION = 4; // 引导外部消费 - 引导用户去第三方平台进行消费
+    CCHA_HANG_UP_CALL = 5; // 主播挂断用户通话
+    CCHA_REPLACED = 6; // 被换一位或者被提前挂断
+    CCHA_SERVICE_QUALITY = 7; //服务质量 - 服务质量考核排名末位
+    CCHA_REFUSE_TO_MUCH = 8; // 一周CP - 拒绝或忽视用户一周CP次数过多
+    CCHA_VERSION_LOW = 9 ; // 心动接线员版本未更新处罚
+    CCHA_LATEST_HANG_UP_TO_MUCH = 10001; //  最近10笔心动8分钟订单中，被挂断订单数≥6 从配置生效开始算，满10笔计算一次，超过则重新计算；仅限盲盒
+    CCHA_ACTIVELY_HANG_UP = 10002; // 在心动8分钟服务中，主动挂断用户1次 此处8分钟指的是盲盒8分钟；im类型不算
+    CCHA_FINISH_ORDER = 10003; // 完成1笔心动8分钟订单 此处8分钟指的是盲盒8分钟；im类型不算
+    CCHA_FINISH_MASK_DATE = 10004; // 解锁1次蒙面约会
+    CCHA_FINISH_WEEK_CP_TASK = 10005;// 与1位用户完成一周CP任务 一周cp的来源必须是心动8分钟或速配。
+    CCHA_CP_GRAND_TOTAL_2000 = 10006; // 收到1位来自心动8分钟对象的礼物累计满2000金币 1个用户只算一次  此处8分钟指的是盲盒8分钟；im类型不算； 且在8分钟通话后48小时以内
+    CCHA_WEEK_CP_GRAND_TOTAL_2000 = 10007; // 收到1位来自一周CP对象的礼物累计满2000金币 1个用户只算一次 一周cp的来源必须是心动8分钟或速配；且在结成后48小时以内
+    CCHA_MASK_DATE_GRAND_TOTAL_2000 = 10008; // 收到1位来自蒙面约会对象的礼物累计满2000金币 1个用户只算一次 解锁后48小时以内
+    CCHA_CP_GRAND_TOTAL_9900 = 10009; // 收到1位来自心动8分钟对象的礼物累计满9900金币 1个用户只算一次 此处8分钟指的是盲盒8分钟；im类型不算；且在8分钟通话后48小时以内
+    CCHA_WEEK_CP_GRAND_TOTAL_9900 = 10010; // 收到1位来自一周CP对象的礼物累计满9900金币 1个用户只算一次 一周cp的来源必须是心动8分钟或速配；且在结成后48小时以内
+    CCHA_MASK_DATE_GRAND_TOTAL_9900 = 10011; // 收到1位来自蒙面约会对象的礼物累计满9900金币 1个用户只算一次 解锁后48小时以内
+    CCHA_CP_GUIDE_MISSION_DONE = 10012; // 成为1位用户的新人接待官并完成所有接待任务
+}

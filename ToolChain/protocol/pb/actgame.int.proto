@@ -1,0 +1,28 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+message FindCurRedEnvelopeRemainTimeReq {
+  SubInfoActivityType act_type = 1;  // 关联类型
+}
+
+message FindCurRedEnvelopeRemainTimeRes {
+  RedEnvelopeStatus cur_status = 1;  //当前状态
+  int64 remain_time = 2;             //开奖或剩余开奖结束时间戳
+}
+
+message PushActGameConfigReq {
+  SubInfoActivityType config_type = 1;  // 配置类型
+}
+
+message PushActGameConfigRes {//当前剩余开奖时间
+}
+
+service ActGameIntObj {
+  // 获取红包当前剩余时间和状态
+  rpc FindCurRedEnvelopeRemainTime(FindCurRedEnvelopeRemainTimeReq) returns (FindCurRedEnvelopeRemainTimeRes);
+  // 推送游戏活动配置
+  rpc PushActGameConfig(PushActGameConfigReq) returns (PushActGameConfigRes);
+}

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+import "pb/store.ext.proto";
+import "pb/common.ext.proto";
+import "pb/common.int.proto";
+
+
+package pb;
+
+enum UpdateStoreConfType {
+    StoreConfNull = 0;
+    StoreConf = 1; // 商城配置
+    FirstTabConf = 2; // 一级分栏配置
+}
+
+//更新商城配置
+message UpdateStoreConfReq {
+    UpdateStoreConfType confTye = 1;
+}
+
+message UpdateStoreConfRes {
+}
+
+
+//更新兑换配置
+message UpdateExchangeConfReq {
+
+}
+
+message UpdateExchangeConfRes {
+}
+
+//购物
+message BuyIntReq {
+    int32 id = 1;  //商品id，不是物品id，即不是asset_id
+    int32 num = 2;
+    int32 type = 3; //0-购买 1-兑换
+    int32 remark = 4; //备注，购买不填，活动兑换填子活动id
+    int64 player_id = 5;
+    int64 room_id = 6;
+    string mark = 7; //标记 用于识别该笔兑换来源，方便统计
+    string application = 8; //应用包名
+}
+
+message BuyIntRes {
+    int64 gold = 1; //扣除的金币数
+    int32 num = 2; //购买的数量
+}
+
+message ChargeNoticeExtraReq {
+    int64 player_id = 1;
+    string order_id = 2;
+    string order_id_3 = 3;
+
+
+    int64 amount = 5;
+    int64 gold = 6; // amount == gold
+    string remark = 7;
+    bool is_first = 8; // 是否首充
+    bytes extra_data = 9;
+}
+message ChargeNoticeExtraRes {
+
+}
+
+message SaleGiftIntReq {
+    int32 exchange_id = 1; // 兑换配置id
+    repeated SaleGiftInfo gift_info_list = 2; // 要兑换的礼物
+    int32 num = 3; // 兑换个数
+    int32 remark = 4; //备注，活动兑换填子活动id 或者活动id
+    int64 player_id = 5; // 用户id
+    int64 room_id = 6; //房间id
+    string application  = 7; //应用包名
+}
+
+message DelStoreBuyLimitReq {
+    int64 id = 1; // 商城商品id
+    int64 limit_range = 2; // 限制类型:1.全服2.个人
+    int64 player_id = 3; // 玩家id
+    bool is_admin = 4; // 是否后台配置更改导致的删除
+}
+message DelStoreBuyLimitRes {
+}
+
+message StoreScheduleTaskReq {
+    ScheduleTaskTime time = 1;
+}
+
+message StoreScheduleTaskRes {
+
+}
+
+service StoreIntObj {
+    rpc UpdateStoreConf(UpdateStoreConfReq) returns (UpdateStoreConfRes);
+    rpc UpdateExchangeConf (UpdateExchangeConfReq) returns (UpdateExchangeConfRes);
+    rpc GetExchangeConf (GetExchangeConfReq) returns (GetExchangeConfRes);
+    rpc GetStoreConf (GetStoreConfReq) returns (GetStoreConfRes);
+    rpc BuyInt (BuyIntReq) returns (BuyIntRes); //购买内部接口
+    // 充值回调预留接口
+    rpc ChargeNoticeExtra(ChargeNoticeExtraReq) returns (ChargeNoticeExtraRes);
+    // 卖道具
+    rpc SaleGiftInt (SaleGiftIntReq) returns (SaleGiftRes);
+    // 商城新限购过期删除，timer调用
+    rpc DelStoreBuyLimit (DelStoreBuyLimitReq) returns (DelStoreBuyLimitRes);
+    // 定时任务触发
+    rpc StoreScheduleTask(StoreScheduleTaskReq) returns(StoreScheduleTaskRes);
+}
+
+
+

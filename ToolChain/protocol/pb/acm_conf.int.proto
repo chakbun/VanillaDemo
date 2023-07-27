@@ -1,0 +1,3931 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/crack_egg.int.proto";
+import "pb/friend.ext.proto";
+import "pb/cubism.ext.proto";
+import "pb/store.ext.proto";
+
+/// 内部配置
+
+/// ACM配置说明
+/// 1: 结构以List结尾，返回一个切片配置，否则，返回单个结构配置
+/// 2: reserved预留字段说明 reserved "服务名(多个服务用英文逗号隔开)","配置对应的Key值","配置中文名"
+
+message ChargePushConfList{
+  string content = 1; //文本内容
+  int32 page_flag = 2; //是否访问过页面
+  int32 charge_flag = 3; //是否充值
+  int32 open_flag = 4; //是否开启宝盒
+  int32 send_time = 5; //发送时间点
+  reserved "timer","hydrogen.push.ChargePushConfList","首充push配置";
+}
+
+message LoginVideoConfList{
+    int32 weight = 1; //权重
+    string image = 2; //图片URL
+    string mini_image = 3; //小屏手机图片URL
+    string video = 4; //视频资源URL
+    string cover_url = 5; //视频第一帧图片URL
+    int32 is_show = 6; //是否展示slogen和icon；1：展示；0：不展示
+    int64 android_min_num = 7; //安卓最低版本号
+    int64 android_max_num = 8; //安卓最高版本号
+    int64 ios_min_num = 9; //iOS最低版本号
+    int64 ios_max_num = 10; //IOS最高版本号
+    string start_time = 11; //开始时间
+    string end_time = 12; //结束时间
+    string create_at = 13; //创建时间
+    string video_trancode = 14; //视频转码链接
+    reserved "index","hydrogen.login.LoginVideoConfList","登录页视频配置";
+}
+
+message LoginLimitConfList{
+  int64 id = 1;  //用户ID
+  reserved "userstatus,uauth,admin","hydrogen.login.LoginLimitConfList","登录限制";
+}
+
+message LoginLimitStatus{
+  bool flag = 1; //限制登录是否启用标志 true：启用 ； false ：不启用
+  reserved "userstatus,uauth,admin","hydrogen.login.LoginLimitStatus","登录限制启用标志";
+}
+
+message RoomDecorateConfList {
+    int64 decorate_id = 1;      // ID
+    string name = 2;            // 名字
+    int32 decorate_type = 3;    // 装饰类型
+    int32 room_pattern = 4;     // 房间模式
+    string room_type = 5;       // 房间类型
+    int32 time_type = 6;        // 计时类型
+    string bg_url = 7;          // 背景图
+    string small_bg_url = 8;    // 小背景图
+    string pc_url = 9;          // PC背景图
+    string small_pc_url = 10;   // PC小背景图
+    bool is_belong = 11;
+    string describe =12;
+    int32 weight = 13;
+    int64 create_time = 14;  //     CreateTime     time.Time `gorm:"column:create_time" json:"create_time"`
+    string operator = 15;
+    int64 begin = 16;
+    int64 end = 17;
+    string shelter_url = 18;      // 方形庇护图片地址
+    string pc_shelter_url = 19;   // 方形庇护PC图片地址
+    string stretchable_url = 20; // 拉伸图地址
+    repeated NewRoomPattern room_patterns = 21; //房间模式
+    string bg_video_url = 22; //客户端动态背景URL
+    string bg_video_pc_url = 23; //pc端动态背景URL
+    reserved "room","hydrogen.room.RoomDecorateConf","房间装饰";
+}
+
+// 特效配置(走内存)
+message CacheEffectConf {
+    map<string, EffectConfig> list = 1;
+    map<int32, EffectConfig> kv_list = 2;
+    string md5 = 3;
+    reserved "admin,assets,effect,friend,timer,room,gift","hydrogen.effect.CacheEffectConf","特效配置";
+}
+
+message AcmPendantConfList {
+  int64 id = 1;                                 // 自增主键
+	string name = 2;                              // 主题名称
+	bool is_use = 3;                              // 是否激活
+	string flag = 4;                              // 唯一标识
+	int64 begin_at = 5;                           // 开始时间
+	int64 end_at = 6;                             // 结束时间
+	int32 state = 7;                              // 挂件状态,1:静态;2:动态
+	int32 sort = 8;                               // 权重
+	string router_url = 9;                        // 跳转链接
+	string router_title = 10;                     // 跳转标题
+	string bg_url = 11;                           // 背景图片
+	string btn_url = 12;                          // 缩略按钮图片
+	string half_url = 13;                         // 侧边缩略状态图片
+	string pc_bg_url = 14;                        // PC背景图片
+	string pc_btn_url = 15;                       // PC缩略按钮图片
+	string pc_half_url = 16;                      // PC侧边缩略状态图片
+	string ios_min_version = 17;                  // IOS最低版本
+	string android_min_version = 18;              // 安卓最低版本
+	string pc_min_version = 19;                   // PC最低版本
+	string ios_max_version = 20;                  // IOS最高版本
+	string android_max_version = 21;              // 安卓最高版本
+	string pc_max_version = 22;                   // PC最最高本
+	int32 wealth_min_level = 23;                  // 财富等级>=
+	int32 charm_min_level = 24;                   // 魅力等级>=
+	int32 wealth_max_level = 25;                  // 财富等级<=
+	int32 charm_max_level = 26;                   // 魅力等级<=
+	bool is_and = 27;                             // 财富等级和魅力等级的与或判断，1:与；2:或
+	int32 pd_type = 28;                           // 挂件类型
+	bool thumbnail_btn = 29;                      // 收起缩略图
+	int32 spinning_speed = 30;                    // 挂件旋转速度
+	bool is_push = 31;                            // 过期后是否已推送
+	string mail_url = 32;                         // 男性挂件图片
+	string femail_url = 33;                       // 女性挂件图片
+	string room_url = 34;                         // 房间挂件图片
+  string channels = 35;                         // 挂件显示渠道
+  map<int32,bool> channels_map = 36;
+  repeated int32 channel_array = 37;
+  string channel_blacklist = 38; // 挂件不显示渠道
+  map<int32,bool> channel_blacklist_map = 39; //
+  repeated int32 channel_blacklist_array = 40;
+  reserved "index","hydrogen.index.PendantConfList","首页挂件配置";
+}
+
+// 首页挂件黑白名单
+message PendantBlackWhiteList {
+    int64 id = 1;                               // 挂件ID
+    map<int32,SliceInt64> black_white_map = 2;  // 黑白名单列表
+    reserved "index","hydrogen.index.PendantBlackWhiteList","首页挂件黑白名单";
+}
+
+// 名单列表
+message SliceInt64 {
+    repeated int64 ids = 1;
+}
+
+message MobaTeamManageRules {
+	int64 cd_time = 1;
+	string cd_toast = 2;
+	reserved "room","hydrogen.room.MobaTeamManageRules","车队管理规则";
+}
+//  头条样式配置
+message HeadLineStyleConf {
+    bool grab_status = 1;       // 抢头条入口
+    bool style_on_off = 2;      // 头条样式启用开关
+    int32 normal_min = 3;       // 普通头条最低价
+    int32 normal_max = 4;       // 普通头条最高价
+    int32 luxury_min = 5;       // 豪华头条最低价
+    int32 luxury_max = 6;       // 豪华头条最高价
+    int32 super_min = 7;        // 超级头条最低价
+    int32 super_max = 8;        // 超级头条最高价
+    bool super_system_msg = 9;  // 超级头条触发系统消息开关
+    int32 super_frequency = 10; // 超级头条频率 分钟/条
+    int32 super_limit = 11;     // 每人推送上限 次/日
+    string super_title = 12;    // 系统消息标题
+    string super_content = 13;  // 系统消息内容
+    reserved "room","hydrogen.room.HeadLineStyleConf","头条样式配置";
+}
+
+//默认开黑厅样式
+message MobaGameRoomDefault {
+  string game_icon_room =1;
+  string game_bg_room = 2;
+  reserved "room,admin","hydrogen.room.MobaGameRoomDefault","默认开黑厅样式";
+}
+
+// IM通话结束文案
+message IMCPMsgCfg {
+    string boos_cancel_text = 1;  // 取消通话文案（老板端）
+    string cp_cancel_text = 2;    // 取消通话文案（陪玩端）
+    string cp_cancel_tips = 3;    // 取消通话IM浮层提示（陪玩端）
+    string cp_end_text = 4;       // 通话过程中结束文案
+    reserved "chat","hydrogen.chat.IMCPMsgCfg","IM通话结束文案";
+}
+
+// IM-电话离线推送文案
+message IMCPOfflinePush {
+    string umeng_text = 1;  // 离线推送文案
+    reserved "chat","hydrogen.chat.IMCPOfflinePush","IM-电话离线推送文案";
+}
+
+// 私聊违规处理高等级用户配置
+message IMSeniorUserCfg {
+	int32 wealth_level = 1;
+	int32 charm_level = 2;
+	reserved "admin,friend","hydrogen.admin.IMSeniorUserCfg","私聊违规处理高等级用户配置";
+}
+
+enum USERTYPE {
+  UT_ZERO = 0;
+  UT_NORMAL = 1;   //正常用户
+  UT_SENIOR = 2;   //高等级用户
+}
+enum TIMETYPE {
+  TT_ZERO = 0;
+  TT_HOUR = 1;     // 小时
+  TT_YEAR = 2;      //年
+}
+// 处罚配置列表
+message IMPunishCfgList {
+  USERTYPE user_type =1;
+  TIMETYPE time_type = 9;
+  int32 time_interval = 2;
+  int64 min_times = 3;
+  int64 max_times = 4;
+  int64 equal_times = 5;
+  int32 punish_type = 6;
+  int32 days = 7;
+  bool status = 8;
+}
+
+message IMPunishCfgClass {
+  repeated IMPunishCfgList SeniorYear = 1;   //高等级用户年配置
+  repeated IMPunishCfgList SeniorHour = 2;   //高等级用户小时配置
+  repeated IMPunishCfgList NormalYear = 3;   //普通用户年配置
+  repeated IMPunishCfgList NormalHour = 4;   //普通用户小时配置
+  bool IsData = 9;   //上面都没有数据为false 否则为true
+  reserved "admin,friend","hydrogen.admin.IMPunishCfgList", "处罚配置列表";
+}
+// 违禁词管理
+message SensitiveWordChat {
+	repeated string chat = 1; // 公屏
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWordChat","敏感词-公屏";
+}
+
+message SensitiveWordName {
+	repeated string name = 1; // 昵称
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWordName","敏感词-昵称";
+}
+
+message SensitiveWordBroadcastIndex {
+	repeated string broadcast = 1; // 广播交友-首页
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWordBroadcastIndex","敏感词-广播交友(首页)";
+}
+
+message SensitiveWordBroadcast {
+	repeated string broadcast2 = 1; // 广播交友
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWordBroadcast","敏感词-广播交友";
+}
+
+message SensitiveWord {
+	repeated string sensitive = 1; // 敏感字库
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWord","敏感词-敏感字库";
+}
+
+message SensitiveWordPrivate {
+	repeated string private = 1; // 敏感字库
+	reserved "admin,activity,friend,chat,room,gift,index,robot,user,phome","hydrogen.admin.SensitiveWordPrivate","敏感词-私聊";
+}
+
+
+// 私聊违规白名单
+message IMPunishWhite {
+  map <int64,bool> punish_white = 1;
+  reserved "admin,friend","hydrogen.admin.IMPunishCfg","私聊违规白名单";
+}
+
+//语音机审阈值配置
+message GMELabelScoreValue {
+  int32 porn = 1;       //涉黄
+  int32 politics = 2;   //涉政
+  int32 abuse = 3;      //谩骂
+  int32 terrorism = 4;  //暴恐
+  int32 other = 5;      //其他
+  reserved "timer,admin","hydrogen.timer.GMELabelScoreValue","语音机审阈值配置";
+}
+
+// IM弹窗基础配置
+message IMToastBasicCfg {
+  int32 register_day = 1;         // 注册天数
+  int32 trigger_toast_second = 2; // 登陆首页后x秒内触发弹窗
+  int32 max_recv_toast = 3;       // 用户每日最多收到x条弹窗
+  reserved "user","hydrogen.admin.IMToastBasicCfg","IM弹窗基础配置";
+}
+
+// IM代聊基础配置
+message IMAutoChatCfg {
+  int32 first_reply_times = 1; //首次回复用户发送消息数
+  int32 nth_msg_send_double = 2; //第x句时连续回复用户2条消息
+  int32 no_reply_send_time = 3; //用户x分钟未回复消息时再发话术
+  int32 popup_reach_nth_msg = 4; //话术发送到x句时触发付费弹窗
+  int32 popup_gift_id = 5; //话术发送到x句时付费弹窗礼物ID 0 不弹窗 否则弹窗
+  int32 popup_air_ticket = 6; //话术发送到x句时发送飞机票 0 不发送 1 发送
+  reserved "admin,friend,user","hydrogen.friend.IMAutoChatCfg","IM代聊基础配置";
+}
+//视频直播房间对应URL
+message Url {
+  string url = 1;      //PC端URL
+  string low_bit_rate_url = 2;  //低码率URL
+}
+message ActivityRoomLiveUrl {
+  map<int64,string> room_map = 1;
+  map<int64,Url> url = 2;
+  reserved "admin,room","hydrogen.room.ActivityRoomLiveUrl","视频直播房间对应URL";
+}
+
+// IM礼物面板默认选项
+message IMGiftButtonCfg {
+  int32 condition = 1;    //条件
+  int32 days = 2;         //新用户注册天数
+  reserved "gift,admin", "hydrogen.gift.IMGiftButtonCfg", "IM礼物面板默认选项";
+}
+
+message FamilyPublicSettleConfList {
+  int64 family_id = 1;
+  int32 settle_type = 2;
+  string remark = 3;
+  int64 update_at = 4;
+  int64 create_at = 5;
+  reserved "clan,assets,user,admin","hydrogen.clan.FamilyPublicSettle","家族对公结算";
+}
+
+message ConsortiaPublicSettleConfList {
+  int64 room_id = 1;
+  int64 family_id = 2;
+  int32 settle_type = 3;
+  string remark = 4;
+  int64 update_at = 5;
+  int64 create_at = 6;
+  reserved "clan,assets,user,admin","hydrogen.clan.ConsortiaPublicSettle","公会对公结算";
+}
+
+message PublicSettleCompany {
+    int64 id = 1;
+    string company_name = 2; // 公司名称
+    string bank_name = 3; // 开户银行
+    string bank_sub_name = 4; // 开户支行
+    string bank_account = 5; // 银行账号
+    int32 rate = 6; // 对公结算手续费
+    string bill_type = 7; // 开票类型
+    string bill_content = 8; // 开票内容
+    int64 remit_company_id = 9; // 内部对完打款公司id
+    string bank_province = 10;
+    string bank_city = 11;
+    string operator = 12;
+}
+
+message CompanyPublicSettleConf{
+  map<int64,int64> family_map = 1; // 对公家族id、收款公司id
+  map<int64,int64> room_map = 2; // 对公公会id、收款公司id
+  map<int64,int64> person_map = 3; // 对公个人id、收款公司id 个人对公包含自助申请添加和后台添加的
+  map<int64, PublicSettleCompany> company_map = 4; // 收款公司id 收款公司信息
+  map<int64, PublicSettleAddType> person_add_type_map = 5; // 个人对公申请类型
+  reserved "clan,assets,user,admin,mission","oxygen.clan.CompanyPublicSettleConf","对公结算";
+}
+
+//IM渠道配置
+message IMChatChannelCfg {
+  repeated int32 channel_ids = 1;
+  reserved "user","hydrogen.admin.IMChatChannelCfg","IM渠道配置";
+}
+
+//IM打招呼话术
+message IMChatContent {
+  string content = 1;
+  reserved "admin,user","hydrogen.admin.IMChatContents","IM打招呼话术","ToList";
+}
+
+// 浇花2.0模式条件配置类型
+enum XcmCrackEggModeCondType {
+  XCEMCT_NONE = 0;  // 占位
+  XCEMCT_LOW = 1;    // 新手模式
+  XCEMCT_MIDDLE = 2; // 中阶模式
+  XCEMCT_HIGH = 3; // 高阶模式
+  XCEMCT_BEST = 4; // 高阶高爆模式
+  XCEMCT_BETTER = 5; // 高阶低爆模式
+  XCEMCT_HIGH_COMPST = 6; // 高阶补偿模式
+}
+
+// 浇花2.0模式条件配置限制类型
+enum XcmCrackEggCondType {
+  XCECT_NONE = 0;  // 占位
+  XCECT_HISTORY_COST_GOLD = 1;    // 用户浇花历史消费金币数
+  XCECT_DAILY_COST_GOLD = 2; // 用户当日浇花消费金币数
+  XCECT_DAILY_PROFIT_RATE = 3; // 用户当日个人平台利润率
+  XCECT_DAILY_DEFICIT = 4; // 用户当日浇花累计亏损金币
+  XCECT_COMPST_CD = 5; // 补偿冷却期(ms)
+}
+
+// 浇花2.0限制
+enum CrackeggLimitConf {
+	CLC_ZERO = 0;
+  // 大于（great）
+	CLC_GT = 1;
+  // 小于(little)
+	CLC_LT = 2;
+  // 等于(equal)
+	CLC_EQ = 3;
+  // 大于等于(great equal)
+	CLC_GE = 4;
+  // 小于等于(little equal)
+	CLC_LE = 5;
+}
+
+// 浇花2.0模式条件配置
+message XcmCrackEggCondCfg {
+  XcmCrackEggCondType limit_id = 1; // 条件类型
+  CrackeggLimitConf condition = 2;       // 关系运算符枚举: 大于，小于。。。。
+  int32 num = 3;						         // 条件比较值
+}
+
+// 浇花2.0模式模式条件配置
+message XcmCrackEggModeCondCfg{
+  XcmCrackEggModeCondType mode_type = 1;     // 条件模式类型
+  repeated XcmCrackEggCondCfg cond_list = 2; // 条件配置列表
+	reserved "crackegg","hydrogen.crackegg.XcmCrackEgg2ModeCondCfgList","浇花2.0模式条件配置","ToList";
+}
+
+// 浇花2.0进度配置
+message XcmCrackEgg2ProgressCfg{
+	repeated XcmCrackEgg2CompensateCfg compensate = 12;					//补偿机制
+	reserved "crackegg,admin","hydrogen.admin.XcmCrackEgg2ProgressCfg","浇花2.0进度配置";
+}
+
+message XcmCrackEgg2CompensateCfg {
+	repeated int32 pattern_id = 1;      // 模式ID
+	int32 num = 2;						// 抽取数量
+	int32 trigger_num = 3;				// 触发数量
+	int32 trigger_id = 4;				// 触发ID
+  int32 id = 5;               // 自增ID
+}
+
+// 浇花2.0快捷换新
+message XcmCrackEgg2QuickChangeCfg{
+  int32 id = 1; // 配置ID
+  int64 effect_at = 2; // 生效时间
+  string name = 3; // 方案名称
+  string model_name = 4; // 涉及到的模式
+  repeated ChangeDetail detail = 5; // 替换方案
+  int64 effect_end = 6; // 失效时间
+  int32 status = 7; // 状态
+  CrackEgg2QuickChangeTimeType time_type = 8; // 时间类型
+  string operator = 9; // 操作者
+  reserved "timer,admin,crackegg","hydrogen.timer.XcmCrackEgg2QuickChangeCfg","浇花2.0快捷换新","ToList";
+}
+
+// 浇花2.0快捷换新时间类型
+enum CrackEgg2QuickChangeTimeType{
+  ACM_CE2QCTT_NONE = 0; // 占位
+  ACM_CE2QCTT_DURATION = 1; // 时间段
+  ACM_CE2QCTT_FOREVER = 2; //  永久时间
+}
+
+// 浇花2.0模式配置
+message XcmCrackEgg2Cfg{
+  int32 id = 1; // 配置ID
+  CrackEgg2CfgModelType crack_type = 2; // 浇花类型
+  CrackEgg2AwardType type = 3; // 奖励类型
+  int32 award_id = 4; // 礼物ID
+  int32 day_max = 5; // 每天最大数量
+  int32 rate = 6; // 权重
+  string tips = 7; // 提示语
+  int32 wealth_lim = 8; // 财富等级限制
+  int32 num = 9; // 产出个数
+  int32 in_price = 10; // 内部计算价格
+  reserved "crackegg,timer","hydrogen.crackegg.XcmCrackEgg2Cfg","浇花2.0模式配置","ToList";
+}
+
+// CP官方厅
+message XcmCPOfficialRoom {
+  int64 id = 1;  // 房间ID
+  reserved "chat","hydrogen.chat.cp_official_room","CP官方厅配置","ToList";
+}
+
+// CP音色标签设置
+message XcmCpVoice {
+  map<int64,VoiceConf> cp_voice = 1; // 陪玩音色
+  reserved "chat,user,clan","hydrogen.chat.conf_cp_voice","CP音色标签设置";
+}
+
+// CP音色标签设置(半糖)
+message XcmCpVoiceFish {
+  map<int64,VoiceConf> cp_voice = 1; // 陪玩音色
+  reserved "chat","fish.chat.conf_cp_voice","CP音色标签设置(半糖)";
+}
+
+message VoiceConf {
+  int32 voice_id = 1;       // 声鉴卡ID
+  bool is_high_quality = 2; // 是否优质
+  int32 weight = 3;         // 权重
+  bool is_cp_card = 4;      // 是否推送至心动划卡
+  string pic_url = 5;        // 背景图
+  int32 width = 6;          // 图片宽
+  int32 height = 7;         // 图片高
+  string voice_url = 8;     // 音频地址
+  int32 voice_time = 9;     // 音频时长
+  int64 mask_date_weight = 10; // 蒙面约会权重
+}
+enum RegisterTimeType {
+  RTT_ZERO = 0;
+  RTT_ACCOUNT = 1;
+  RTT_DEVICE = 2;
+}
+message IMQuickChat {
+  repeated IMQuickChatConf list = 1;
+  int64 limit = 2;
+  RegisterTimeType register = 3;
+  reserved "chat,admin","hydrogen.chat.IMQuickChat","IM快捷聊天配置";
+}
+message IMQuickChatConf {
+  QuickChatUserType user_type = 1;
+  int32 limit_type = 2;
+  int64 days = 3;
+  int32 is_effect = 4;
+}
+
+message QuickChatContent {
+  int64 id = 1;
+  string content = 2;
+  int32 sex = 3;
+  int64 top = 4;
+  int64 content_id = 5;
+}
+message QuickChatContentList {
+  repeated QuickChatContent list = 1;
+}
+message IMQuickChatConfToContent {
+ map<string,QuickChatContentList> conf_to_content= 1;
+  reserved "chat,room,admin","hydrogen.chat.IMQuickChatConfToContent","IM快捷聊天配置对应文案";
+}
+
+message RoomQuickChatConf {
+  QuickChatUserType user_type = 1;
+  int32 limit_type = 2;
+  int64 days = 3;
+  int32 show_chance = 4;
+  string pattern = 5;
+}
+message RoomQuickChat {
+  repeated RoomQuickChatConf list = 1;
+  int64 limit = 2;
+  RegisterTimeType register = 3;
+  reserved "room,admin","hydrogen.room.RoomQuickChatConf","房间用户群快捷聊天配置";
+}
+message RoomQuickChatCategoryConf {
+  int64 id = 1;
+  QuickChatUserType user_type = 2;
+  string category = 3;
+  int32 is_effect = 4;
+  reserved "room,admin","hydrogen.room.RoomQuickChatCategoryConf","房间系统类型快捷聊天配置","ToList";
+}
+
+message RoomQuickChatCategoryToContent {
+  map<string,QuickChatContentList> cate_to_content= 1;
+  reserved "chat,room,admin","hydrogen.room.RoomQuickChatCategoryToContent","房间快捷聊天配置对应文案";
+}
+//隐私合规白名单
+message PrivacyWhite {
+  map <string, WhiteListForId> privacy = 1;
+  reserved "user","hydrogen.user.PrivacyWhiteList","隐私协议白名单";
+}
+
+message WhiteListForId {
+  map<int64,bool> id = 1;
+}
+
+// CP资源配置
+message XcmCPResources {
+  string mail_url = 1;
+  string femail_url = 2;
+  string bg_url = 3;
+  string btn_text = 4;
+  string chat_page_url = 5;
+  string window_page_url = 6;
+  string choice_page_name = 7;
+  string window_page_coupon_url = 8;
+  message window {
+    string title = 1;
+    string text = 2;
+    string pic_url = 3;
+  }
+  repeated window dial_window_info = 9;
+  string cp_mind = 10;
+  window blind_box = 11;
+  reserved "chat","hydrogen.chat.conf_cp_resources","8分钟恋爱资源配置";
+}
+
+// CP资源配置
+message XcmCPResourcesFish {
+  string mail_url = 1;
+  string femail_url = 2;
+  string btn_text = 3;
+  string chat_page_url = 4;
+  string choice_page_name = 5;
+  message window {
+    string title = 1;
+    string text = 2;
+    string pic_url = 3;
+  }
+  repeated window dial_window_info = 6;
+  string cp_mind = 7;
+  window blind_box = 8;
+  reserved "chat,phome","fish.chat.conf_cp_resources","8分钟恋爱资源配置(半糖)";
+}
+
+// 8麦沉低规则
+message Xcm8MikeRuleConf {
+  repeated int32 category_ids = 1; // 房间类型
+  int32 score = 2; // 扣除分数
+  map<int32,int32> category_map = 3;
+  reserved "phome,admin","hydrogen.phome.Xcm8MikeRuleConf","8麦沉低规则";
+}
+
+//个播任务亲密值设置
+message SingleLiveIntimacy {
+  int32 public_screen_intimacy = 1;     // 发送公屏可获得亲密值
+  int32 comment_intimacy = 2;           // 评论动态可获得亲密值
+  int32 live_intimacy = 3;              // 直播停留五分钟以上可获得亲密值
+  int32 gift_id = 4;                    // 加入粉丝团指定的礼物
+  string gift_name = 5;                 // 礼物名称
+  int32 valid_day = 6;                  // 一周的直播需达到的有效天数 单位（天）
+  int32 valid_min = 7;                  // 有效天数需达到的有效时长 单位（分钟）
+  SingleLiveAuditType audit_type = 8;   // 审核类型
+  reserved "gift,user,room,timer","hydrogen.gift.SingleLiveIntimacy","个播任务亲密值设置";
+}
+
+enum SingleLiveAuditType{
+  AUDIT_ZERO  = 0; //占位
+  AUDIT_AUTO  = 1; //自动审核
+  AUDIT_LABOR = 2; //人工审核
+}
+
+message SingleLiveLevConf {
+  int64 id = 1;
+  string name = 2;
+  int32 lev = 3;
+  int32 intimate = 4;
+  int64 decrease = 5;
+  string android_icon_url = 6;
+  string android_banner_url = 7;
+  string ios_head_icon_url = 8;
+  string ios_tail_icon_url = 9;
+  string ios_icon_url = 10;
+  string ios_icon_banner_url = 11;
+  string pc_icon_url = 12;
+  string pc_head_icon_url = 13;
+  string pc_middle_icon_url = 14;
+  string pc_tail_icon_url = 15;
+  string pc_icon_tag_url = 16;
+  string pc_icon_banner_url = 17;
+  string android_icon_tag_url = 18;
+  string web_icon_head_url = 19;
+  string web_icon_body_url = 20;
+  string web_icon_tail_url = 21;
+  int32 limit_intimate = 22;
+  string badge_url = 23;
+  string effect_url = 24;
+  string badge_begin_color = 25;
+  string badge_end_color = 26;
+  reserved "room,user,timer","hydrogen.room.SingleLiveLevConf","个播守护团等级配置","ToList";
+}
+
+message WhiteList {
+  map <int64,bool> player_ids = 1;
+}
+// 个播房间白名单
+message SingleLiveRoomWhite {
+  map <int64,WhiteList> room_ids= 1;
+  reserved "room","hydrogen.room.SingleLiveRoomWhite","个播房间白名单";
+}
+
+// 个播2.0亲密粉丝服务端任务配置
+message IntimateFansMiddionSrvCfg{
+  int64 id = 1;                    // 任务id
+  IntimateFansTargetType type = 2; // 任务类型
+  string name = 3;                 // 任务名称
+  int64 target_val = 4;            // 目标值
+  int64 intimate_val = 5;          // 亲密值
+  reserved "admin,user","hydrogen.user.XcmIntimateFansMiddionSrvCfg","个播2.0亲密粉丝服务端任务配置","ToList";
+}
+// 优惠券push配置
+message XcmConfCouponPush {
+  int64 coupon_id = 1;      // 优惠券ID
+  int32 push_type = 2;      // push类型
+  int32 condition_time = 3; // 时间（小时）
+  string content = 4;       // push内容
+  int32 router_type = 5;    // 跳转路由类型
+  int32 weight = 6;         // 权重
+  int32 condition_type = 7; // 唤醒方式
+  reserved "timer","hydrogen.timer.conf_coupon_push","优惠券push配置","ToList";
+}
+
+// CP黑鲸白名单
+message XcmCpBlackWhaleWhitelist {
+  repeated int64 black_whale_list = 1;   // CP黑鲸白名单
+  reserved "chat","hydrogen.chat.cp_black_whale_whitelist","CP黑鲸白名单";
+}
+
+// CP名模白名单
+message XcmCpTopModelWhitelist {
+  repeated int64 top_model_list = 1;     // CP名模白名单
+  reserved "chat","hydrogen.chat.cp_top_model_whitelist","CP名模白名单";
+}
+
+// 黑鲸资源配置
+message XcmCpBlackWhaleCfg {
+  string mail_url = 1;              // 男头像
+  string femail_url = 2;            // 女头像
+  string chatting_title_url = 3;    // 通话中标题图片
+  string tab_name = 4;              // 黑鲸版tab标题
+  string black_whale_btn_bg_url = 5;// 黑鲸1v1点击约会按钮的背景图
+  int32 black_whale_price = 6;      // 黑鲸VIP模式定价
+  int64 black_whale_start = 7;      // 黑鲸VIP模式开放开始时间(秒)
+  int64 black_whale_end = 8;        // 黑鲸VIP模式开放结束时间(秒)
+  string top_model_btn_bg_url = 9;  // 男女明星模式点击约会按钮的背景图
+  int32 top_model_price = 10;       // 男女明星模式定价
+  int64 top_model_start = 11;       // 男女明星模式开放开始时间(秒)
+  int64 top_model_end = 12;         // 男女明星模式开放结束时间(秒)
+  string btn_text = 13;             // 黑鲸版点击约会按钮的文案
+  string btn_bg_url_not_open = 14;  // 黑鲸版点击约会按钮的背景图（未开放图片，is_open=false显示该图片）
+  string black_whale_start_color = 15; // 黑鲸1v1声音条渐变色-开始颜色
+  string black_whale_end_color = 16;   // 黑鲸1v1声音条渐变色-结束颜色
+  string top_model_start_color = 17;   // 男女明星模式音条渐变色-开始颜色
+  string top_model_end_color = 18;     // 男女明星模式音条渐变色-结束颜色
+  string black_whale_early_taste_price = 19;  // 黑鲸尝鲜价，不为空则显示
+  string top_model_early_taste_price = 20;    // 男女明星尝鲜价，不为空则显示
+  int32 top_model_sort = 21;                  // 男女明星排序权重
+  int32 black_whale_sort = 22;                // 黑鲸排序权重
+  reserved "chat","hydrogen.chat.cp_black_whale_resource","黑鲸资源配置";
+}
+
+message CpVoiceCfg {
+  string voice_url = 1;   // 音频地址
+  int32 voice_time = 2;   // 音频时长
+}
+
+// 黑鲸1v1类型配置
+message XcmCpBlackWhaleImageVoiceCfg {
+  ChatCPType cp_type = 1;             // 通话类型
+  SexType sex = 2;                    // 性别
+  string ios_image = 3;               // IOS图片
+  string android_image = 4;           // Android图片
+  repeated CpVoiceCfg voice_list = 5; // 音频列表
+  reserved "chat","hydrogen.chat.cp_black_whale_image_voice","黑鲸1v1类型配置","ToList";
+}
+// 诈骗风控开关
+message XcmSwindleRiskSwitchConf {
+    bool is_open = 1; // 是否开启
+    reserved "user,assets,index,admin","hydrogen.index.XcmSwindleRiskSwitchConf","诈骗风控开关配置";
+}
+
+message RiskHandleConf {
+    int64 warn_today_max_pay = 1;       // 报警 今日最大充值
+    int64 warn_max_pay = 2;            // 报警 账号最大充值
+    int64 warn_today_max_withdraw = 3;  // 报警 今日最大提现
+    int64 warn_max_withdraw = 4;       // 报警 账号最大提现
+    int64 warn_today_max_exchange = 5;  // 报警 今日最大兑换
+    int64 warn_max_exchange = 6;       // 报警 账号最大兑换
+    bool warn_ban_pay = 7;             // 报警 是否禁止充值
+    bool warn_ban_withdraw = 8;        // 报警 是否禁止提现
+    bool warn_ban_exchange = 9;        // 报警 是否禁止兑换
+    bool warn_ban_cost = 10;            // 报警 是否禁止消费
+    int64 risk_today_max_pay = 11;       // 风控 今日最大充值
+    int64 risk_max_pay = 12;            // 风控 账号最大充值
+    int64 risk_today_max_withdraw = 13;  // 风控 今日最大提现
+    int64 risk_max_withdraw = 14;       // 风控 账号最大提现
+    int64 risk_today_max_exchange = 15;  // 风控 今日最大兑换
+    int64 risk_max_exchange = 16;       // 风控 账号最大兑换
+    bool risk_ban_pay = 17;             // 风控 微信投诉数
+    bool risk_ban_withdraw = 18;        // 风控 微信投诉数
+    bool risk_ban_exchange = 19;        // 风控 微信投诉数
+    bool risk_ban_cost = 20;            // 风控 微信投诉数
+}
+
+// 诈骗风控嫌疑人结果设置
+message XcmSwindleSuspectRiskHandleConf {
+    RiskHandleConf risk_handle_conf = 1; //结果设置
+    reserved "user,assets,index,admin","hydrogen.index.XcmSwindleSuspectRiskHandleConf","诈骗风控嫌疑人结果配置";
+}
+
+// 诈骗风控受害人结果设置
+message XcmSwindleVictimRiskHandleConf {
+    RiskHandleConf risk_handle_conf = 1; //结果设置
+    reserved "user,assets,index,admin","hydrogen.index.XcmSwindleVictimRiskHandleConf","诈骗风控受害人结果配置";
+}
+
+// 全服告白位配置
+message CpPublicNoticeConf{
+  int32 id = 1;
+  string name = 2;
+  int32 act_id = 3;
+  int32 rel_act_id = 4;
+  string bg_url = 5; // app背景资源
+  string pc_bg_url = 6; // pc背景资源
+  string countdown_color = 7; // 倒计时色值
+  int32 status = 8; // 激活状态
+  int64 start_time = 9; //生效时间
+  int64 end_time = 10; //生效时间
+  reserved "activity","hydrogen.activity.conf_cp_public_notice","全服告白位配置","ToList";
+}
+
+// 全网飘屏配置
+message WelfareRoomBannerConf {
+  int32 id = 1;
+  string name = 2;
+  int32 act_id = 3;
+  int32 rel_act_id = 4;
+  int32 welfare_id = 5;
+  string banner_content = 6; // 横幅内容
+  string banner_url = 7; // 横幅样式
+  string pc_banner_url = 8; // PC横幅样式
+  string banner_name_color = 9; //横幅昵称颜色
+  string banner_text_color = 10; //横幅文案颜色
+  string banner_effect_url = 11; //APP浪漫飘屏资源
+  string pc_banner_effect_url = 12; //PC浪漫飘屏资源
+  int32 status = 13; // 激活状态
+  int64 start_time = 14; //生效时间
+  int64 end_time = 15; //生效时间
+  int32 is_send_to_all_room = 16; // 是否在全服房间里显示
+  int64 banner_duration = 17; //横幅时长（毫秒）
+  int64 scroll_duration = 18; //飘屏动画时长（毫秒）
+  int32 banner_effect_count = 19; // 满屏数量
+  int32 banner_effect_speed = 20; // 下落速度
+  int32 banner_effect_angle = 21; // 旋转角度
+  int32 pc_banner_effect_count = 22; // PC满屏数量
+  int32 pc_banner_effect_speed = 23; // PC下落速度
+  int32 pc_banner_effect_angle = 24; // PC旋转角度
+  int32 weight = 25; // 权重，排序优先权重高的播放
+  int32 delay = 26; // 延迟播放（毫秒）
+  reserved "activity","hydrogen.activity.conf_welfare_room_banner","活动横幅配置","ToList";
+}
+
+enum RiskHandleType {
+    RHTY_NONE = 0; // 占位不用
+    RHTY_LIMIT_CONSUME  = 1; // 限制消费
+    RHTY_FREEZE_TICKET  = 2; // 冻结钻石
+}
+
+//送礼风控条件配置
+message GiftRiskConditionCfg {
+    bool switch = 1; // 总开关 开启才判断条件
+    int64 new_user_recharge = 3; //新用户注册送礼用户累计充值≥X金币
+    int64 new_user_receiver_gift = 4; //新用户注册送礼用户对本次送礼对象累计送礼价值≥Y金币
+
+    int32 sender_hour = 5; //异地用户登录送礼用户送礼的近n小时内
+    int64 sender_recharge = 6; //异地用户登录送礼用户累计充值≥x金币
+    int32 receiver_hour = 7; //异地用户登录送礼用户对本次送礼对象m小时内
+    int64 receiver_gift = 8; //异地用户登录送礼用户对本次收礼对象累计送礼≥y金币
+    bool warning_switch = 9; // 诈骗预警开关
+    bool freeze_switch = 10; // 诈骗风控冻结开关
+
+  //// 旧的废弃了
+
+  //// 以下是新的
+
+  // 新用户给公会成员送礼 - 基础条件
+  int64 new_user_hour = 2; // 新用户注册送礼用户为注册N个小时内的新用户
+  int64 new_user_chat_user_count = 11; // 新用户注册送礼用户私聊用户数<N
+  int64 new_user_chat_user_msg_count = 12; // 新用户注册送礼用户私聊消息数<N
+  int64 new_user_chat_room_count = 13; // 新用户注册送礼用户发过消息的房间数<N
+  int64 new_user_chat_room_msg_count = 14; // 新用户注册送礼用户房间消息数<N
+
+  // 新用户给公会成员送礼 - 风控条件
+  int64 new_user_risk_cond_cum_recharge = 15; // 新用户注册送礼用户累计充值≥X金币
+  int64 new_user_risk_cond_one_receiver_gift = 16; // 新用户注册送礼用户对本次送礼对象单次送礼价值≥Y金币
+  repeated string new_user_risk_areas = 17; // 风险地区
+
+  // 新用户给公会成员送礼 - 预警条件
+  int64 new_user_alert_cond_cum_recharge = 18; // 新用户注册送礼用户累计充值≥X金币
+  int64 new_user_alert_cond_cum_receiver_gift = 19; // 新用户注册送礼用户对本次送礼对象累计送礼价值≥Y金币
+
+  // 异地登录用户给公会成员送礼 - 基础条件
+  int64 off_site_user_send_gift_hour = 20; // 异地登录送礼用户送礼的近n小时内充值送礼情况
+  int64 off_site_user_chat_day = 21; // 异地登录送礼用户送礼的近n天内消息情况
+  int64 off_site_user_chat_user_count = 22; // 异地登录送礼用户私聊用户数<N
+  int64 off_site_user_chat_user_msg_count = 23; // 异地登录送礼用户私聊消息数<N
+  int64 off_site_user_chat_room_count = 24; // 异地登录送礼用户发过消息的房间数<N
+  int64 off_site_user_chat_room_msg_count = 25; // 异地登录送礼用户房间消息数<N
+
+  // 异地登录用户给公会成员送礼 - 风控条件
+  int64 off_site_user_risk_cond_cum_recharge = 26; // 异地登录送礼用户该段时间累计充值>=X金币
+  int64 off_site_user_risk_cond_one_receiver_gift = 27; // 异地登录送礼用户对本次送礼对象单次送礼价值>=Y金币
+  repeated string off_site_user_risk_areas = 28; // 风险地区
+
+  // 异地登录用户给公会成员送礼 - 预警条件
+  int64 off_site_user_alert_cond_cum_recharge = 29; // 异地登录送礼用户该段时间累计充值>=X金币
+  int64 off_site_user_alert_cond_cum_receiver_gift = 30; // 异地登录送礼用户该段时间对本次送礼对象累计送礼价值>=Y金币
+
+  bool new_user_send_gift_switch = 31; // 新用户给公会成员送礼风控开关
+  bool off_site_user_send_gift_switch = 32; // 异地登录用户给公会成员送礼风控开关
+
+  RiskHandleType risk_handle_type = 33; // 风控措施
+
+  reserved "assets,gift,admin","hydrogen.gift.v2.GiftRiskConditionCfg","送礼风控条件配置";
+}
+
+// CP挂断文案
+message XcmConfCPEndContent {
+  int32 end_type = 1;        // 结束类型
+  bool is_in_room = 2;       // 是否在房间
+  string content = 3;        // IM文案内容
+  reserved "chat","hydrogen.chat.conf_cp_end_content","结束通话配置","ToList";
+}
+
+message CheatAreaCfg {
+  string region = 1; // 地区
+  int32 day = 2;
+  int32 is_chat_cp = 3;
+  int32 is_nobility = 4;
+  int32 is_intimate = 5;
+  int32 is_effect = 6;
+  int32 is_headline = 7;
+  int32 is_id2 = 8;
+  int32 is_trend = 9;
+  int32 is_gift = 10;
+  int32 alipay_check = 11; // 开启支付宝账号检测
+  int32 close_whitelist_check = 12; // 关闭白名单判断
+  int32 id = 13; // 策略id
+  int32 device_check = 14;
+  repeated string device_list = 15;
+}
+
+// 风控地区
+message XcmCheatAreaCfg {
+  repeated string area_list = 1;   // 风控地区列表 deprecated
+  repeated CheatAreaCfg list = 2; // 新的风控地区配置列表
+  repeated int32 gift_list = 3; // 送出礼物不包含的列表
+  reserved "gift,mission","hydrogen.gift.conf_cheat_area","风控地区配置";
+}
+
+// 风控地区白名单
+message XcmCheatAreaWhitelistCfg {
+  map<int64,bool> area_map = 1;   // 风控地区白名单
+  reserved "gift","hydrogen.gift.conf_cheat_area_whitelist","风控地区白名单";
+}
+
+
+// 黑鲸1v1自定义类型
+message XcmCpBlackWhaleCustom {
+  int32 id = 1;                    // 类型
+  string name = 2;                 // 名称
+  string ios_bg_url = 3;           // IOS显示卡片
+  string android_bg_url = 4;       // 安卓显示卡片
+  string voice_url = 5;            // 弹窗音频
+  int32 voice_time = 6;            // 音频时长
+  string voice_start_color = 7;    // 语音条渐变色-开始颜色
+  string voice_end_color = 8;      // 语音条渐变色-结束颜色
+  string early_taste_price = 9;    // 尝鲜价，为空则不显示
+  int32 original_gold = 10;        // 价格
+  int64 start_time = 11;           // 开始时间(秒)
+  int64 end_time = 12;             // 结束时间(秒)
+  string btn_text = 13;            // 黑鲸版点击约会按钮的文案
+  string btn_bg_url = 14;          // 黑鲸版点击约会按钮的背景图
+  string btn_bg_url_not_open = 15; // 黑鲸版点击约会按钮的背景图（未开放图片，is_open=false显示该图片）
+  int32 sort = 16;                 // 排序权重
+  reserved "chat","hydrogen.chat.conf_chat_cp_custom","黑鲸1v1自定义类型","ToList";
+}
+
+message CustomlPlayerId {
+  repeated int64 list = 1; // 白名单
+}
+
+// 黑鲸1v1自定义白名单
+message XcmCpCustomWhitelist {
+  map<int32,CustomlPlayerId> custom_map = 1;
+  reserved "chat","hydrogen.chat.conf_cp_custom_whitelist","黑鲸1v1自定义白名单";
+}
+message XcmCfgTreasureMarketGoodsType {
+  int32  id = 1;
+  string goods_type = 2;
+  string tab_name = 3;
+  int32  sort = 4;
+  int32  status = 5;
+  string operator = 6;
+  reserved "activity", "hydrogen.activity.conf_treasure_market_goods_type", "珍宝市集商品类别", "ToList";
+}
+
+message XcmCfgTreasureMarketGoods {
+  int32 id = 1;
+  int32 goods_type = 2;
+  int32 gift_id = 3;
+  reserved "activity", "hydrogen.activity.conf_treasure_market_goods", "珍宝市集珍稀道具", "ToList";
+}
+
+// 新用户系数配置
+message XcmNewPlayerConvertRateCfg {
+  int64 player_coefficient = 1; // 新用户系数
+  int64 player_convert_rate = 2; // 新用户转化比率
+  int64 player_keep_rate = 3; // 新用户留存比率
+  reserved "timer","hydrogen.timer.XcmNewPlayerConvertRateCfg","新用户系数配置";
+}
+
+// 骚扰账号风控配置
+message XcmInventedPhoneCfg {
+  bool is_open = 1;   // 骚扰账号风控是否开启
+  reserved "friend,chat,admin","hydrogen.friend.conf_invented_phone_risk","骚扰账号风控配置";
+}
+
+// 骚扰账号风控白名单
+message XcmInventedPhoneWhiteListCfg {
+  map<int64,bool> invented_phone_map = 1;   // 骚扰账号风控白名单
+  reserved "friend,chat,admin","hydrogen.friend.conf_invented_phone_risk_white_list","骚扰账号风控白名单";
+}
+
+enum CARL_LIMIT_TYPE {
+  CARL_LT_NONE = 0;
+  CARL_LT_GOLD = 1; // 金额限制
+}
+
+enum CARL_MSG_TYPE {
+  CARL_MT_NONE = 0;
+  CARL_MT_TOAST = 1; // Toast提示
+  CARL_MT_POPUP = 2; // 弹窗提示
+}
+
+enum CARL_LIMIT_TARGET {
+  CARL_LTA_NONE = 0;
+  CARL_LTA_BLACK_WHALE = 1; // 黑鲸VIP
+  CARL_LTA_NOT_BLACK_WHALE = 2; // 非黑鲸VIP
+  CARL_LTA_ALL = 3; // 全体
+  CARL_LTA_NAME_LIST = 4; // 名单
+}
+
+// 活动抽奖风控配置
+message ConfActRiskLimit{
+  int32 id = 1;
+  int32 act_id = 2;
+  int32 rel_act_id = 3;
+  string limit_name = 4; // 风控名称
+  CARL_LIMIT_TYPE limit_type = 5; // 风控类型
+  int64 num = 6; // 限制数量
+  int32 limit_time = 7; // 休息时间（秒）
+  string msg = 8; // 提示内容
+  CARL_MSG_TYPE msg_type = 9; // 提示类型
+  CARL_LIMIT_TARGET limit_target = 10; // 风控对象
+  int32 name_list = 11; // 名单列表Id
+  repeated int64 while_list = 12; //白名单
+  reserved "activity","hydrogen.activity.ConfActRiskLimit","活动抽奖风控配置","ToList";
+}
+
+// 1v1代码重构
+message XcmCPCodeRebuild {
+  bool is_open = 1;  // 是否启用重构代码
+  reserved "chat","hydrogen.chat.CPCodeRebuild","1v1代码重构开关";
+}
+
+// CP语音SDK配置
+message XcmChatCPVoiceSdk {
+  map<int64,int32> sdk_map = 1; // CP语音SDK配置
+  reserved "chat","hydrogen.chat.conf_chat_cp_voice_sdk","CP语音SDK配置";
+}
+//分词词库配置
+message ElasticDictConf {
+  repeated string words = 1;
+  reserved "admin","hydrogen.admin.XcmElasticDictConf","分词词库配置";
+}
+
+enum ElasticSearchType {
+    EST_None = 0;
+    EST_Room  = 1;   //房间
+    EST_Player = 2;   //用户
+}
+
+message ElasticAlias {
+    string search_word = 1; // 搜索词
+    ElasticSearchType search_type = 2; // 搜索类型
+    int64 result_id = 3; // 结果id
+}
+
+//搜索别名配置
+message ElasticAliasConf {
+  repeated ElasticAlias aliases = 1;
+  reserved "admin,index,user","hydrogen.index.XcmElasticAliasConf","分词词库配置";
+}
+
+// 新手打招呼资源配置
+message XcmConfGreetResources {
+  string name = 1;  // 昵称
+  string icon = 2;  // 头像
+  SexType sex = 3;  // 性别
+  reserved "timer","hydrogen.timer.conf_greet_resources","新手打招呼资源配置","ToList";
+}
+// 兑换金币等级奖励配置
+message XcmExchangeCoinLevelRewardCfg {
+  int32 reward_type = 1; // 奖励类型
+  int64 item_id = 2; // 奖励id
+  int64 num = 3; // 奖励数量
+}
+
+// 兑换金币等级配置
+message XcmExchangeCoinLevelCfg {
+  int64 id = 1; // 配置id
+  int32 level = 2; // 等级
+  int64 exchange_coin = 3; // 上月兑换金币数量
+  repeated XcmExchangeCoinLevelRewardCfg rewards = 4; // 奖励
+  reserved "admin,effect,user","hydrogen.effect.exchange_coin_level_cfg","兑换金币等级配置","ToList";
+}
+
+// 钻石余量等级奖励配置
+
+
+// 钻石余量等级配置
+
+
+//////////////////////////////// 赏金PK //////////////////////////////////
+message PkOpenCfg {
+    int64 id = 1; //
+    string name = 2; // 名称
+    PkMode pk_mode = 3; // pk模式
+    int64 start_second = 4; // 每日开始时间 秒数
+    int64 end_second = 5; // 每日结束时间 秒数
+    int32 reward_rate = 6; // 赏金比例
+}
+
+message PkOpenCfgs {
+    repeated PkOpenCfg cfg = 1;
+}
+
+// pk房间开放设置配置 时间未开启的也不推送
+message PkRoomOpenCfg {
+  map<int64, PkOpenCfgs> room_cfgs = 1;
+  reserved "admin,room,timer,activity","hydrogen.room.pk_room_open_cfg","pk房间开放配置";
+}
+
+message SingleLivePkOpenCfg {
+    int64 id = 1; //
+    string name = 2; // 名称
+    SingleLivePkMode pk_mode = 3; // pk模式
+    int64 start_second = 4; // 每日开始时间 秒数
+    int64 end_second = 5; // 每日结束时间 秒数
+}
+
+message SingleLivePkOpenCfgs {
+    repeated SingleLivePkOpenCfg cfg = 1;
+}
+
+message SingleLivePkRoomOpenCfg {
+  map<int64, SingleLivePkOpenCfgs> room_cfgs = 1;
+  reserved "admin,room,timer","hydrogen.room.single_live_pk_room_open_cfg","达人pk房间开放配置";
+}
+
+// pk房间等级配置
+message PkRoomLevelCfg {
+    int64 id = 1;
+    PkRoomLevel level = 2; // 等级
+    int32 min_gold = 3; //流水最小值
+    int32 max_gold = 4; //流水最大值
+    map<int64, PkRoomLevel> room_level_map = 5; // 房间id等级
+    reserved "admin,room,timer","hydrogen.room.pk_room_level_cfg","pk房间等级配置","ToList";
+}
+
+// pk房间等级配置
+message SingleLivePkRoomLevelCfg {
+    int64 id = 1;
+    SingleLivePkRoomLevel level = 2; // 等级
+    int32 min_gold = 3; //流水最小值
+    int32 max_gold = 4; //流水最大值
+    map<int64, SingleLivePkRoomLevel> room_level_map = 5; // 房间id等级
+    reserved "admin,room,timer","hydrogen.room.single_live_pk_room_level_cfg","达人pk房间等级配置","ToList";
+}
+
+// pk通用配置
+message PkGeneralCfg {
+    int64 glod_hand_wait_second = 1; // 上帝之手等待时间 （配置的PK对象）
+    int64 same_level_wait_second = 2; // 同级等待时间
+    int64 expand_one_level_wait_second = 3; // 上下浮动一级时间
+    int64 expand_two_level_wait_second = 4; // 上下浮动两级时间
+    int64 match_start_wait_second = 5; // 匹配等待时间 （匹配成功后等待开始的时间）
+    int64 match_penalty_second = 6; // 匹配惩罚时间（匹配成功后不确认开始）
+    int64 invite_wait_second = 7; // 邀请等待时间
+    int64 protect_react_second = 8; // 保护机制反应时间
+    int64 protect_trigger_times = 9; // 保护机制触发次数
+    int64 same_family_limit_match_second = 10; // 相同家族下的厅/公会超过设置的时间后才能够匹配
+    int64 pk_time_long = 11;    // PK时长
+    int64 valid_score = 12;     // PK有效分值
+    int32 repeat_match_times = 13; // 重复配置时间
+    int32 repeat_match_num = 14; // 重复匹配次数
+    int32 open_time = 15; // 展开时长
+    int32 win_lose_times = 16; // 连胜或连败场数
+    int32 punishment_time = 17; // 惩罚时间
+    reserved "admin,room","hydrogen.room.pk_general_cfg","pk通用配置";
+}
+
+// 个播pk通用配置
+message SingleLivePkGeneralCfg {
+  int64 glod_hand_wait_second = 1; // 上帝之手等待时间 （配置的PK对象）
+  int64 same_level_wait_second = 2; // 同级等待时间
+  int64 expand_one_level_wait_second = 3; // 上下浮动一级时间
+  int64 expand_two_level_wait_second = 4; // 上下浮动两级时间
+  int64 match_start_wait_second = 5; // 匹配等待时间 （匹配成功后等待开始的时间）
+  int64 match_penalty_second = 6; // 匹配惩罚时间（匹配成功后不确认开始）
+  int64 invite_wait_second = 7; // 邀请等待时间
+  int64 protect_react_second = 8; // 保护机制反应时间
+  int64 protect_trigger_times = 9; // 保护机制触发次数
+  int64 same_family_limit_match_second = 10; // 相同家族下的厅/公会超过设置的时间后才能够匹配
+  int64 pk_time_long = 11;    // PK时长
+  int64 valid_score = 12;     // PK有效分值
+  int32 repeat_match_times = 13; // 重复配置时间
+  int32 repeat_match_num = 14; // 重复匹配次数
+  int32 open_time = 15; // 展开时长
+  int32 win_lose_times = 16; // 连胜或连败场数
+  int32 punishment_time = 17; // 惩罚时间
+  string kind_router_url = 18; // 达人PK之王路由
+  string rule_url = 19; // 规则路由
+  reserved "admin,room","hydrogen.room.single_live_pk_general_cfg","个播pk通用配置";
+}
+// **废弃不用**
+// pk对象列表配置 按权重倒序排序 停用的不用上传
+message PkObjectListCfg {
+    int64 id = 1;
+    string name = 2; // 规则名称
+    int32 weight = 3; // 权重
+    map<int64, bool> obj_a_ids = 4; // pk对象1 房间ids
+    map<int64, bool> obj_b_ids = 5; // pk对象2 房间ids
+    reserved "admin,room","hydrogen.room.pk_object_list_cfg","pk对象列表配置", "ToList";
+}
+
+// pk对象列表配置
+message PkObjectListCfgV2 {
+    map<int64, pkObjectList> obj_ids = 1; // pk对象 房间ids
+    reserved "admin,room","hydrogen.room.pk_object_list_cfg_v2","pk对象列表配置v2";
+}
+
+message pkObjectList {
+    repeated int64 match_obj_ids = 1; // pk匹配对象 房间ids
+}
+
+// pk对象列表配置 按权重倒序排序 停用的不用上传
+message SingleLivePkObjectListCfg {
+    int64 id = 1;
+    string name = 2; // 规则名称
+    int32 weight = 3; // 权重
+    map<int64, bool> obj_a_ids = 4; // pk对象1 房间ids
+    map<int64, bool> obj_b_ids = 5; // pk对象2 房间ids
+    reserved "admin,room","hydrogen.room.single_live_pk_object_list_cfg","达人pk对象列表配置", "ToList";
+}
+
+// pk积分配置
+message PkRoomScoreCfg {
+  int32 win_score = 1;          // 获胜方加的分数
+  int32 loss_score = 2;         // 失败方扣的分数
+  int32 double_win_score = 3;   // 连胜额外加的分
+  int32 target = 4;             // 或者放额外达到多少分后，再加target_score分
+  int32 target_score = 5;       //
+  reserved "room","hydrogen.room.pk_score_cfg","pk积分配置";
+}
+
+// 个播pk积分配置
+message SingleLivePkRoomScoreCfg {
+  int32 win_score = 1;          // 获胜方加的分数
+  int32 loss_score = 2;         // 失败方扣的分数
+  int32 double_win_score = 3;   // 连胜额外加的分
+  int32 target = 4;             // 或者放额外达到多少分后，再加target_score分
+  int32 target_score = 5;       //
+  reserved "room","hydrogen.room.single_live_pk_score_cfg","个播pk积分配置";
+}
+
+// pk技能配置
+message PkSkillCfg {
+  PkSkillType skill_type = 1;  // 技能类型
+  string icon = 2;             // 嘲讽技能名称
+  int32 sort = 3;              // 权重
+  int32 gold = 4;              // 花费金币
+  bool gold_superposition = 5; // 金币是否累加
+  int32 threshold_score = 6;   // 门槛分
+  int64 start_time = 7;        // 开始显示时间
+  int64 end_time = 8;          // 结束显示时间
+  int32 cd_time = 9;           // 嘲讽的CD时间
+  int32 cancel_score = 10;     // 解除秒杀的分数
+}
+
+message PkSkillCfgMap {
+  map<int32,PkSkillCfg> skill_map = 1;
+  reserved "room","hydrogen.room.pk_skill_cfg","pk技能配置";
+}
+// pk技能配置
+message SingleLivePkSkillCfg {
+  SingleLivePkSkillType skill_type = 1;  // 技能类型
+  string icon = 2;             // 嘲讽技能名称
+  int32 sort = 3;              // 权重
+  int32 gold = 4;              // 花费金币
+  bool gold_superposition = 5; // 金币是否累加
+  int32 threshold_score = 6;   // 门槛分
+  int64 start_time = 7;        // 开始显示时间
+  int64 end_time = 8;          // 结束显示时间
+  int32 cd_time = 9;           // 嘲讽的CD时间
+  int32 cancel_score = 10;     // 解除秒杀的分数
+}
+
+// 个播pk技能配置
+message SingleLivePkSkillCfgMap {
+  map<int32,SingleLivePkSkillCfg> skill_map = 1;
+  reserved "room","hydrogen.single_live_room.pk_skill_cfg","个播pk技能配置";
+}
+
+// PK宝箱奖励
+message BoxAward{
+  int64 AwardId = 1;     //奖励Id
+  string AwardName = 2;  //奖励名称
+  BoxAwardType AwardType = 3;   //奖励类型
+  int32 Prob = 4;        //概率 单位：%
+  int32 IsMVP = 5;       //是否mvp必得 0否 1是
+  string ImageUrl = 6;   //图片链接
+  int64 ValidTime = 7;   //有效时长
+}
+
+// PK宝箱配置
+message PkTreasureBoxCfg{
+  int32 BoxId = 1;       //宝箱编号
+  string BoxName = 2;    //宝箱名称
+  int32 PkScore = 3;     //达标pk值 (双方流水总和需大于此值 才生成宝箱)
+  int32 LostTime = 4;    //消失时长 单位:seconds
+  int32 AwardNum = 5;    //奖品数量
+  repeated BoxAward boxAward = 6; //奖励配置
+  reserved "room","hydrogen.room.PkTreasureBoxCfgList","PK获胜宝箱配置","ToList";
+}
+
+// PK主持白名单
+message XcmPkHostWhiteListCfg {
+  map <int64,bool> host_map = 1;
+  reserved "room","hydrogen.room.XcmPkHostWhiteList","PK主持白名单";
+}
+//////////////////////////////// 赏金PK //////////////////////////////////
+
+
+
+message XcmCfgDigTreasureLotteryPoolSwitch {
+  int32   id = 1;
+  int32   act_id = 2;
+  int32   rel_act_id = 3;
+  string  name = 4;
+  string  trigger_condition = 5;
+  int32   trigger_time = 6;
+  string  lottery_pool_switch = 7;
+  string  create_time = 8;
+  int32   trigger_condition_type = 9;
+  reserved "activity", "hydrogen.activity.conf_lottery_switch", "奖池配置切换", "ToList";
+}
+
+// 奖池切换配置 触发条件类型
+enum LpsTriggerConditionType {
+  TCT_NONE = 0;
+  TCT_GIFT = 1;                // 礼物
+  TCT_TIME = 2;                // 时间
+}
+
+enum LpsTimeTriggerConditionType {
+  TTCT_NONE = 0;
+  TTCT_DURATION = 1;            // 持续时间段
+  TTCT_DAILY_TIMING = 2;        // 每日计时
+}
+
+message XcmCfgLotteryPoolSwitchData {
+  int32   act_id = 1;
+  int32   rel_act_id = 2;
+  string  name = 3;
+  int32   trigger_condition_type = 4; // 1 礼物  2 每日计时  3 持续时间段
+  XcmCfgLotteryPoolSwitchTimeTrigger time_trigger = 5;
+  map<int32, string> gift_trigger_condition_map = 6;
+  int32   trigger_time = 7;
+  map<int32, int32> switch_map = 8;
+  reserved "activity", "hydrogen.activity.conf_lottery_switch_data", "奖池配置切换数据", "ToList";
+}
+
+message XcmCfgLotteryPoolSwitchTimeTrigger {
+  int32 time_type = 1;
+  string start_time = 2;
+  string end_time = 3;
+}
+
+// 推广员系统-基础设置
+message XcmConfRecallPromoterBasic {
+	int32 dispatch_num = 1;	 // 推送给推广员个数/人
+	int32 order_running_num = 2;	 // 推广员可执行任务上限
+	int32 order_take_num = 3;	 // 推广员当前可抢单任务上限
+  string redirect_url = 4; // 系统消息跳转url
+  bool more_orders_on_off = 5; // 更多任务开关
+	reserved "activity,timer","hydrogen.activity.ConfRecallPromoterBasic","推广员系统-基础设置";
+}
+
+// 推广员系统-任务礼包配置
+message XcmConfRecallPromoterGift {
+	int32 login_gift_s = 1;	 // S级召回礼包
+	int32 login_gift_a = 2;	 // A级召回礼包
+	int32 login_gift_b = 3;	 // B级召回礼包
+	int32 acc_login_gift = 4;	 // 累计登录活跃S级礼包
+	int32 charge_gift_1 = 5;	 // 首周累充100元礼包
+	int32 charge_gift_2 = 6;	 // 首周累充1000元礼包
+	int32 charge_gift_3 = 7;	 // 首周累充10000元礼包
+  int32 acc_login_gift_a = 8; // 累计登录活跃A级礼包
+  int32 acc_login_gift_b = 9; // 累计登录活跃B级礼包
+  int32 login_gift_c = 10;	 // C级召回礼包
+  int32 acc_login_gift_c = 11; // 累计登录活跃C级礼包
+	reserved "activity","hydrogen.activity.ConfRecallPromoterGift","推广员系统-任务礼包配置";
+}
+
+//  推广员系统-运营白名单
+message XcmConfRecallPromoterManualOrder {
+	int32 id = 1;	 // ID
+	int64 player_id = 2;	 // 用户Id
+	int32 rank = 3;	 // 级别
+	int64 promoter_id = 4;	 // 推广员Id
+  int32 order_id = 5; // 订单Id
+  int32 status = 6; // 状态
+	reserved "activity","hydrogen.activity.ConfRecallPromoterManualOrder","推广员系统-运营白名单","ToList";
+}
+
+//  推广员系统-推广员黑名单
+message XcmConfRecallPromoterBlackList {
+	int64 player_id = 1;	 // 用户Id
+	reserved "activity","hydrogen.activity.ConfRecallPromoterBlackList","推广员系统-推广员黑名单","ToList";
+}
+
+//  推广员系统-公会黑名单
+message XcmConfRecallPromoterConsortiaBlackList {
+	int64 room_id = 1;	 // 公会Id
+	reserved "activity","hydrogen.activity.ConfRecallPromoterConsortiaBlackList","推广员系统-公会黑名单","ToList";
+}
+
+message XcmRecallPromoter {
+  int64 promoter_id = 1;
+  int64 score = 2;
+}
+
+// 推广员召回用户库
+message XcmRecallPlayerLib {
+  int64 player_id = 1;
+  repeated XcmRecallPromoter promoters = 2;
+  int32 player_rank = 3;
+  reserved "activity","hydrogen.activity.RecallPlayerLib","推广员系统-召回用户库","ToList";
+}
+
+// 挚友头衔配置
+message XcmIntimateCfg {
+  int32 id = 1;                               //等于Type2
+  string name = 2;                            //挚友类型名称
+  int32 gold = 3;                             //金币
+  int32 sort = 4;                             //排序权重
+  int32 chair_exp = 5;                        //上麦经验
+  int32 chair_exp_minute = 6;                 //上麦经验每多少分钟
+  int32 chair_exp_limit = 7;                  //上麦经验日上限
+  int32 gift_exp = 8;                         // 送礼经验
+	int32 gift_exp_gold = 9;                    // 送礼经验每金币
+	int32 gift_exp_limit = 10;                  // 送礼经验日上限
+	int32 chair_val = 11;                       // 上麦陪伴值
+	int32 chair_val_minute = 12;
+	int32 chair_val_limit = 13;
+	int32 gift_val = 14; // 送礼陪伴值
+	int32 gift_val_gold = 15;
+	int32 gift_val_limit = 16;
+	string exp_level = 17; // 0,100,200
+	string be_intimate_pop_text = 18; //
+	string be_intimate_pub_text = 19;
+	string on_chair_pub_text = 20;
+	string on_chair_back_image_url = 21;         //上坑特效背景图片
+	string on_chair_back_image_url_pc = 22;      //上坑特效背景图片(pc)
+	string on_chair_content_color = 23;          //上坑特效普通文案颜色
+	string on_chair_name_color = 24;             //上坑特效昵称颜色
+	string animation_source_url = 25;            //心跳动画资源
+	string animation_source_url_pc = 26;         //心跳动画资源(pc)
+	string zone_back_image_url = 27;             //咪窝挚友背景图片
+	string zone_back_image_url_pc = 28;          //咪窝挚友背景图片(pc)
+	string zone_head_image_frame_url = 29;       //咪窝挚友头像框图片
+	string zone_head_image_frame_url_pc = 30;    //咪窝挚友头像框图片(pc)
+	string zone_theme_color = 31;                //咪窝挚友主题色
+	string zone_values_text_color = 32;          //咪窝挚友具体值字体色（2019.11.6、已陪伴）
+	string zone_player_name_color = 33;          //咪窝挚友玩家昵称字体色
+	string list_back_image_url = 34;             //挚友列表背景图片
+	string list_back_image_url_pc = 35;          //挚友列表背景图片(pc)
+	string list_head_image_frame_url = 36;       //挚友列表头像框图片
+	string list_head_image_frame_url_pc = 37;    //挚友列表头像框图片(pc)
+	string list_title_text_color = 38;           //挚友列表标签字体色（陪伴等级、陪伴时长、陪伴值）
+	string list_values_text_color = 39;          //挚友列表具体值字体色（LV3、0天0时11分、16520）
+	string list_progress_light_color = 40;       //挚友列表进度条浅色
+	string list_theme_color = 41;                //挚友列表主题色（挚友名称背景、进度条深色、兑换按钮背景色）
+	int32 buy_goods_limit_sort = 42;             //挚友兑换商品配置限制条件排序
+	string ever_back_image_url = 43;             //挚友曾经背景图
+	string ever_back_image_url_pc = 44;          //挚友曾经背景图(pc)
+	int32 show_room_banner = 45;                 //是否显示全服跑道(1:不显示, 2:显示)
+	string zone_back_image_url_pc_large = 46;    //咪窝挚友背景图片(pc大图)
+	int32 be_intimate_pub_push = 47;             //成为挚友公屏广播方式,1:房间, 2:全服
+	int32 title_can_change = 48;                 //头衔是否可修改(1:不可修改, 2:可修改)
+	int64 create_at = 49;                        //创建时间
+	string enter_room_effect = 50;               //进场横幅特效app
+	string enter_room_effect_pc = 51;            //进场横幅特效pc
+	string effect_name_color = 52;               //进场特效名字颜色
+	string effect_text_color = 53; 		           //进场特效文字颜色
+	string effect_text = 54; 	                   //进场特效文字
+	string friend_icon_url = 55;                 //好友列表显示挚友标识
+  int32 private_days = 56 [deprecated = true]; //不公开的天数 （已经废弃）
+  int32 unlock_days = 57;                     //解锁天数
+  reserved "admin,friend,room,gift,timer","hydrogen.friend.XcmIntimateCfg","挚友头衔配置","ToList";
+}
+
+// 挚友类型配置
+message XcmIntimateCommonConf {
+  int32 change_title_min_level = 1;   // 修改头衔所需最低等级
+  int32 change_title_gold = 2;        // 修改头衔所需金币
+  int32 title_max_len = 3;            // 头衔最大字符数
+  string title_achieve_level_msg = 4; // 达到修改头衔等级私信
+  string change_title_msg = 5;        // 修改头衔私信
+  int32 private_days = 6;            // 挚友可见天数
+  reserved "friend","hydrogen.friend.XcmIntimateCommonConf","挚友类型配置";
+}
+
+// 礼物分栏配置
+message XcmGiftClassifyCfg{
+  int32 id = 1;
+	string name = 2;                              // 礼物类型名
+	int32 sort = 3;                               // 权重
+	int32 is_bag = 4;                             // 是否在背包  2:互动
+	int32 is_default = 5;                         // 是否默认
+	int32 is_show = 6;                            // 是否显示
+	int32 num_type = 7;                           // 数量类型 0-可选 1-1个
+	int32 have_red = 8;                           // 第一次打开前是否有红点
+	int32 data_resource_target = 9;               // 数据来源：0 礼物，1 特效 2互动
+	string android_min = 10;
+	string android_max = 11;
+	string ios_min = 12;
+	string ios_max = 13;
+	string pc_min = 14;
+	string pc_max = 15;
+	string applets_min = 16;  // 小程序
+	string applets_max = 17;  // 小程序
+	int32 room_pattern = 18;  // 0所有模式，1普通模式，2交友模式，3个人模式，5陪伴模式
+	int32 room_type = 19;     // 0普通房，1全部，2引流房
+  int32 open = 20; // 1:全部；2：返利厅
+  repeated int32 room_patterns = 21; //房间模式数组
+  int32 classify_type = 22; // 分类类型  枚举GiftClassifyType
+  reserved "gift","hydrogen.gift.XcmGiftClassifyCfg","礼物分栏配置","ToList";
+}
+
+// Deprecated CP相似音映射
+message XcmCPMapVoiceCfg {
+  map<int32,int32> voice_map = 1;
+  reserved "chat","hydrogen.chat.cCPMapVoiceCfg","CP相似音映射配置";
+}
+
+// 随机抽奖-奖池配置
+message XcmConfLottery {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  int32 type = 4;
+  int32 get_num_type = 5;
+  string assign_items = 6;
+  int32 assign_id = 7;
+  int32 assign_num = 8;
+  int32 lucky_limit = 9;
+  int32 lucky_reset = 10;
+  int32 lucky_type = 11;
+  string lucky_reset_types = 12;
+  int32 lottery_price = 13;
+  int64 created = 14;
+  int32 lucky_cate = 15;
+  int32 lucky_award_type = 16;
+  int32 lucky_point = 17;
+  int32 assign_rate = 18;
+  bool is_allow_buy = 20;//是否允许购买道具
+  reserved "activity","hydrogen.activity.XcmConfLottery","随机抽奖-奖池配置","ToList";
+}
+
+// 随机抽奖-奖品配置
+message XcmConfAwardPool {
+  int32 id = 1;
+  int32 conf_lottery_id = 2;
+  int32 rel_id = 3;
+  string gift_name = 4;
+  string gift = 5;
+  int32 rate = 6;
+  int32 cycle = 7;
+  int64 cycle_num = 8;
+  int64 cycle_use_num = 9;
+  int64 cycle_day = 10;
+  int64 sum = 11;
+  int64 sum_use = 12;
+  int32 weight = 13;
+  int32 show_rate = 14;
+  string tips = 15;
+  string limited = 16;
+  int64 start_time = 17;
+  int64 end_time = 18;
+  string limit_gift = 19;
+  int64 created = 20;
+  string restraint=21;
+  reserved "activity","hydrogen.activity.XcmConfAwardPool","随机抽奖-奖品配置","ToList";
+}
+
+// 随机抽奖-幸运奖池
+message XcmConfLotteryLuck {
+  int32 id = 1;
+  int32 conf_lottery_id = 2;
+  int32 rel_id = 3;
+  string luck_name = 4;
+  int32 luck_num = 5;
+  int32 over_type = 6;
+  int32 grand_num = 7;
+  int64 lucky_time = 8;
+  string correct_basic_value = 9;
+  string rate = 10;
+  int64 created = 11;
+  int32 once_award = 12;
+  reserved "activity","hydrogen.activity.XcmConfLotteryLuck","随机抽奖-幸运奖池","ToList";
+}
+
+// 随机抽奖-组合幸运值
+message XcmConfLotteryLuckCombine {
+  int32 id = 1;
+  int32 act_id = 2;
+  int32 rel_id = 3;
+  int32 conf_lottery_id = 4;
+  string combination = 5;
+  int64 created = 6;
+  reserved "activity","hydrogen.activity.XcmConfLotteryLuckCombine","随机抽奖-组合幸运值","ToList";
+}
+
+// 随机抽奖-多奖池幸运值
+message XcmConfLotteryLuckGlobal {
+  int32 id = 1;
+  string conf_lottery_ids = 2;
+  int32 rel_id = 3;
+  string luck_name = 4;
+  int32 luck_num = 5;
+  int32 over_type = 6;
+  int32 grand_num = 7;
+  int64 lucky_time = 8;
+  string correct_basic_value = 9;
+  string rate = 10;
+  int64 created = 11;
+  int32 once_award = 12;
+  reserved "activity","hydrogen.activity.XcmConfLotteryLuckGlobal","随机抽奖-多奖池幸运值","ToList";
+}
+
+// 新厅配置
+message XcmCfgNewRoomTing {
+  int32 new_room_ting_day = 1; // 开厅天数
+  int32 new_room_ting_dec = 2; // 新厅标识
+  reserved "admin,phome,room", "hydrogen.phome.XcmCfgNewRoomTing", "新厅配置";
+}
+
+//公会基础配置
+message XcmConsortiaBaseCfg{
+  bool is_rely = 1;  //是否挂靠
+  repeated int64 Category = 2 ; //品类列表
+  repeated int64 Level = 3 ; //等级列表
+  int64 num = 4;  //基数
+  bool is_clan = 5; // 是否公会
+  int32 popularity_coefficient = 6; // 人气系数
+  int32 random_begin = 7; // 开始随机值
+  int32 random_end = 8; // 结束随机值
+  repeated XcmRevenueRule revenue_rule = 9; // 营收值增加规则
+  reserved "room,admin,gift,nobility","hydrogen.room.XcmConsortiaBaseCfg","公会基础配置","ToList";
+}
+
+enum XcmRevenueRule{
+  XRR_NONE = 0; // 占位
+  XRR_CONSORTIA_MEMBER = 1; // 公会成员
+  XRR_FAMILY_MEMBER = 2; // 家族成员
+  XRR_ON_CHAIR_0_7 = 3; // 0-7麦
+  XRR_ON_CHAIR = 4; // 在麦上
+}
+
+//新厅扶持配置枚举
+enum NewRoomStick{
+  NRS_ZERO = 0;
+  NRS_STANDARD = 1;  //标准
+  NRS_HIGH = 2; // 高优先
+  NRS_SUPER_HIGH = 3; // 超高优先
+  NRS_LOW = 4; // 低优先
+}
+
+//新厅扶持配置
+message NewRoomStickConf{
+  repeated int64 conf = 1; //扶持配置列表
+  reserved "room,admin,phome","hydrogen.room.NewRoomStickConf","新厅扶持配置";
+}
+
+//新厅扶持记录
+message NewRoomStickRecord{
+  map<int64,stickRecord> record = 1;
+  reserved "room,admin,phome","hydrogen.room.NewRoomStickRecord","新厅扶持记录";
+}
+
+message stickRecord{
+  int64 num = 1; //扶持分数
+  int64 Start = 2;    // 开始时间 秒
+  int64 end = 3;   //结束时间 秒
+}
+
+//独家扶持配置
+message ExclusiveStickConf{
+  repeated int64 conf = 1; //扶持配置列表
+  reserved "room,admin","hydrogen.room.ExclusiveStickConf","独家扶持配置";
+}
+
+message ExclusiveSupportRecord{
+  map<int64,int64> record = 1;
+  reserved "room,admin","hydrogen.room.ExclusiveSupportRecord","独家扶持记录";
+}
+
+// 公会运营值记录
+message XcmConsortiaOperationRecord{
+  map<int64,ConsortiaOperationRecordList> record = 1;
+  reserved "room,admin","hydrogen.room.XcmConsortiaOperationRecord","公会运营值记录";
+}
+
+message ConsortiaOperationRecordList{
+  repeated ConsortiaOperationRecord list = 1;
+}
+
+message ConsortiaOperationRecord{
+  int32 num = 1; // 运营值
+  int64 start = 2; // 开始时间(秒)
+  int64 end = 3; // 结束时间
+}
+
+// 用户对象
+enum PenalizeUserType {
+  PUT_ZERO = 0;         // 全部
+  PUT_NOT_CLAN = 1;     // 非公会成员
+  PUT_SIGN = 2;         // 签约成员
+  PUT_HONOR = 3;        // 荣誉成员
+  PUT_SIGN_MAIL = 4;    // 签约成员(男)
+  PUT_SIGN_FEMAIL = 5;  // 签约成员(女)
+  PUT_HONOR_MAIL = 6;   // 荣誉成员(男)
+  PUT_HONOR_FEMAIL = 7; // 荣誉成员(女)
+}
+
+// 处罚等级
+message PenalizeLevel {
+  int32 level = 1;  // 等级
+  int64 times = 2;  // 机审触发次数
+  int64 human_times = 3; //人审触发次数
+}
+
+// 处罚类型
+enum PenalizeType {
+  PENT_ZERO = 0;        // 占位
+  PENT_BAN_IM = 1;      // 禁私聊
+  PENT_BAN_ACCOUNT = 2; // 封账号
+  PENT_BAN_PHONE = 3;   // 封手机号
+  PENT_BAN_DEVICE = 4;  // 封设备ID
+  PENT_BAN_IDCARD = 5;  // 封身份证
+  PENT_BAN_STRANGER_IM = 6; //禁私聊陌生人
+  PENT_BAN_STRANGER_LEVEL5_IM = 7; //禁私聊陌生人
+  PENT_BAN_ON_CHAIR = 8; //禁房间语音
+  PENT_WARNING = 9; // 警告
+  PENT_BAN_WITHDRAWAL = 10; // 禁提现佣金
+}
+
+// 轻度处罚
+message PenalizeSlight {
+  int64 expire = 1;                         // 检测时效
+  repeated PenalizeLevel level_cfg = 2;    // 处罚等级配置
+  PenalizeType ban_type = 3;                // 处罚类型
+  int64 ban_time = 4;                       // 处罚时间
+  string ban_time_str = 5;                  // 处罚时间详情
+  int64 ban_withdrawal = 6;                 // 提现限制
+  string ban_withdrawal_str = 7;            // 提现限制时长
+  repeated PenalizeType ban_types = 8;      // 处罚类型 多选
+}
+
+// 重度处罚
+message PenalizeSerious {
+  int64 expire = 1;                         // 检测时效
+  int64 slight_times = 2;                   // 触发轻度处罚次数
+  PenalizeType ban_type = 3;                // 处罚类型
+  int64 ban_time = 4;                       // 处罚时间
+  string ban_time_str = 5;                  // 处罚时间详情
+  int64 ban_withdrawal = 6;                 // 提现限制
+  string ban_withdrawal_str = 7;            // 提现限制时长
+  repeated PenalizeType ban_types = 8;      // 处罚类型 多选
+}
+
+// 违法消息处罚配置
+message XcmIllegalMsgPenalizeCfg {
+  repeated PenalizeUserType user_obj = 1;   // 用户对象
+  int64 min_charm = 2;                      // 最低魅力值
+  int64 max_charm = 3;                      // 最高魅力值
+  int64 min_wealth = 4;                     // 最低财富值
+  int64 max_wealth = 5;                     // 最高财富值
+  repeated PenalizeSlight slight_list = 6;  // 轻度处罚
+  PenalizeSerious serious = 7;              // 重度处罚
+  int32 id = 8;                             // 配置唯一ID
+  string type = 9;                          // 配置类型
+  IllegalSceneType scene_type = 10;         // 应用场景
+  IllegalRoomType room_type = 11;           // 房间类型
+  reserved "friend","hydrogen.friend.illegalMsgPenalizeCfg","违法消息处罚配置","ToList";
+}
+
+enum IllegalSceneType{
+  IST_IM = 0; // 私聊场景
+  IST_CLANROOM = 1; // 公会房
+  IST_NOTCLANROOM = 2; // 非公会房
+  IST_CP = 3; // 8分钟恋爱
+  IST_VOICE_ALL = 4; // 音频全部
+}
+
+enum IllegalRoomType{
+  IRT_ALL = 0; // 全部
+  IRT_PASSWORD = 1; // 加密房
+  IRT_NOT_PASSWORD = 2; // 非加密房
+}
+
+// 礼物定时角标配置
+message XcmGiftTimingLabelCfg {
+  int64 id = 1;      // id
+  int32 gift_id = 2;      // 礼物id
+  int64 start_time = 3; // 开始时间（时间戳：秒）
+  int64 stop_time = 4; // 结束时间（时间戳：秒）
+  string url = 5; // 礼物角标
+  string pc_url = 6; // pc礼物角标
+  string remark = 7; // 备注
+}
+
+// 礼物定时角标配置列表
+message XcmGiftTimingLabelCfgList {
+  repeated XcmGiftTimingLabelCfg cfg_list = 1;
+}
+
+// 礼物定时角标配置Map
+message XcmGiftTimingLabelCfgMap {
+  map<int32, XcmGiftTimingLabelCfgList> cfg_map = 1; // giftId:配置列表
+  reserved "gift","hydrogen.gift.gift_timing_label_map","礼物定时角标配置Map";
+}
+
+// 引流房配置
+message XcmReferralTrafficRoomCfg {
+  bool switch = 1; // 开关
+  map<int64, bool> room_map = 2; // 房间id:bool
+  reserved "gift","hydrogen.gift.referral_traffic_room","引流房配置";
+}
+
+// 升级礼物配置
+message XcmGiftUpCfg {
+  int64 gift_id = 1; // 礼物id
+  int64 gift_up_id = 2; // 升级礼物配置id
+  int32 group_id = 3; // 分组id
+  int32 give_num = 4; // 需要赠送的数量
+  int32 valid_day = 5; // 有效天数
+  bool  push_all = 6; // true全服推送 false房间推送
+}
+
+// 升级礼物配置列表
+message XcmGiftUpCfgList {
+  repeated XcmGiftUpCfg cfg_list = 1; // 配置列表
+}
+
+// 升级礼物配置分组Map
+message XcmGiftUpGroupCfgMap {
+  map<int32, XcmGiftUpCfgList> group_map = 1; // groupId:升级礼物配置列
+  reserved "gift","hydrogen.gift.gift_up_group_cfg_map","升级礼物配置分组Map";
+}
+
+//cp处罚引导配置
+message XcmCPGuideCfg{
+  string picture = 1 ; //图片URL
+  string route_url = 2; //跳转路由
+  reserved "chat,admin","hydrogen.chat.CPGuideCfg","cp处罚引导配置";
+}
+// 礼物榜配置
+message XcmGiftRankCfg {
+  repeated XcmGiftRank list= 1;
+  map<int64, XcmGiftRank> kv = 2;
+  reserved "user","hydrogen.user.gift_rank_cfg","礼物榜配置";
+}
+
+message XcmGiftRank {
+ int64  GiftId = 1;
+ string GiftName = 2;
+ int32  Weight = 3;
+ int32  Sel = 4;
+ int32  EffectId = 5;
+ string EffectMsg = 6;
+ string GiftIcon = 7;
+ string GiftIconPc = 8;
+ int32  ShowDialogSwitch = 9;
+ uint32 Price = 10;
+}
+
+// 老板包配置
+message XcmBoosBagCfg {
+  map<int64,BoosBagCfg> cfg_map = 1;
+  reserved "admin,clan,user,chat,timer","hydrogen.clan.XcmBoosBagCfg","老板包配置";
+}
+
+message BoosBagCfg {
+  int64 cfg_id = 1;       // 配置ID
+  string bag_name = 2;    // 包名称
+  int32 total_num = 3;    // 老板包总数
+  int32 bag_type = 4;    // 包类型，1:首周 2:每周
+  string access_way = 5;  // 获取途径
+}
+
+message CPSimilarVoice {
+  int32 voice_id = 1;         // 标准音色
+  int32 similar_voice_id = 2; // 相似音色
+  int32 custom_cat_id = 3;    // 自定义品类
+}
+
+// CP相似音色配置
+message XcmCPSimilarVoiceCfg {
+  map<int32,CPSimilarVoice> voice_map = 1;
+  reserved "chat","hydrogen.chat.cpSimilarVoiceCfg","CP相似音色配置";
+}
+
+message SearchBigAnchorCfg {
+    bool is_open = 1; // 是否启用大主播模板
+    string badge_url = 2; // 徽章链接
+}
+
+// 搜索大主播模板配置
+message XcmSearchBigAnchorCfg {
+  SearchBigAnchorCfg star_wing_cfg = 1; // 星翼玩家配置
+  SearchBigAnchorCfg single_live_cfg = 2; // 个播达人配置
+  map<int64,string> big_anchor_map = 3; // 自定义大主播配置
+  reserved "admin,user,index","hydrogen.user.XcmSearchBigAnchorCfg","大主播模板配置";
+}
+
+// 个播达人列表配置
+message XcmSingleLivePlayerCfg {
+  map<int64, bool> player = 1; // 用户列表
+  reserved "admin,user,index","hydrogen.user.XcmSingleLivePlayerCfg","个播达人列表配置";
+}
+
+// 星翼玩家列表配置
+message XcmStarWingPlayerCfg {
+  map<int64, bool> player = 1; // 用户列表
+  reserved "admin,user,index","hydrogen.user.XcmStarWingPlayerCfg","星翼玩家列表配置";
+}
+
+// 个播PK互动内容库
+message SingleLiveXcmConfPkPunishmentContent {
+	int32 id = 1;	 // ID
+	string content = 2;	 // 惩罚内容
+	int32 sort = 3;	 // 权重
+	reserved "room","hydrogen.room.single_live_conf_pk_punishment_content","个播PK互动内容库","ToList";
+}
+
+// 临时保护 常用设备最大值
+message XcmUsuallyMaxCfg{
+  int64 max = 1;
+  reserved "user","hydrogen.user.UsuallyMaxCfg","临时保护-最多常用设备台数";
+}
+
+message XcmConfCPTypeFish {
+    message item {
+        int32 id = 1;
+        string picture = 2;     // 图片
+        string voice = 3;       // 声音
+        int32 voice_time = 4;  // 声音时长
+        int32 voice_id = 5;    // 声鉴卡ID
+        SexType sex = 6;        // 性别
+        int32 custom_cat_id = 7; // 自定义品类ID
+    }
+    repeated item list = 1;
+    reserved "chat,phome", "fish.chat.confCPType", "CP陪玩类型设置(半糖)";
+}
+
+message XcmConfCPType {
+  message item {
+    int32 id = 1;
+    string picture = 2;     // 图片
+    string voice = 3;       // 声音
+    int32 voice_time = 4;  // 声音时长
+    int32 voice_id = 5;    // 声鉴卡ID
+    SexType sex = 6;        // 性别
+    int32 weight = 7;       // 权重
+  }
+  repeated item list = 1;
+  reserved "chat,phome", "chat.confCPType", "CP陪玩类型设置";
+}
+
+message XcmConfCPTypeChannel {
+  int32 and_or = 1; // and 或者 or
+  repeated int64 advendor_id = 2; // 渠道平台
+  repeated int64 channel_type = 3; // 渠道类型
+  repeated int32 device_type = 4; // 设备类型
+  string white_channel = 5; // 渠道号
+
+  bool and_or_bool = 6;                    // 全且 或 全或
+  map<int64,bool> advendor_id_map = 7;    // 渠道平台
+  map<int64,bool> channel_type_map = 8;   // 渠道类型白名单
+  map<int32,bool> device_type_map = 9;    // 设备类型
+  map<int32, bool> white_channel_map = 10; // 渠道白名单
+  reserved "chat,phome,admin", "chat.confCPTypeChannel", "CP陪玩类型渠道设置";
+}
+
+message XcmCPCustomCategory {
+    message item {
+        int32 id = 1;
+        string name = 2;
+    }
+    map<int32, item> cat_map = 1;
+    reserved "chat,phome", "fish.admin.CPCustomCategory", "自定义品类";
+}
+
+message XcmConfCPTypeHomeFish {
+    int32 cp_type_id = 1;
+    string home_pic = 2;
+    int32 anchor_num = 3;
+    message pic {
+        string pic_url = 1;
+        int64 ver_min = 2;
+        int64 ver_max = 3;
+    }
+    repeated pic home_pic_list = 4;
+    reserved "phome","fish.admin.confCPTypeHome","CP陪玩类型设置首页(半糖)","ToList";
+}
+
+// CP相似音色配置
+message XcmCPSimilarVoiceCfgFish {
+    map<int32,CPSimilarVoice> voice_map = 1;
+    reserved "chat","fish.chat.cpSimilarVoiceCfg","CP相似音色配置(半糖)";
+}
+
+message CustomWhitelistConf {
+    message item {
+        int64 player_id = 1;      // 白名单
+        int32 weight = 2;         // 权重
+    }
+    repeated item list = 1;
+}
+// CP自定义品类白名单
+message XcmCpCustomCatWhitelistFish {
+  map<int32, CustomWhitelistConf> whitelist_map = 1;  // <品类id, 白名单列表>
+  reserved "chat,user","fish.chat.cpCustomCatWhitelist","CP自定义品类白名单(半糖)";
+}
+
+// CP陪玩规则
+message XcmCpRuleConfFish {
+    int32 split = 1;                    //CP服务分成
+    int32 recommend_times = 2;          //每日陪玩被推荐次数
+    int32 reject_limit_times = 3;       //每日挂断电话上限次数
+    int32 same_user_cd = 4;             //1v1已通话过的同一位陪玩不再下发，间隔时长
+    int32 push_number = 5;              //6元CP每次推送主播个数
+    int32 push_number20 = 6;            //20元CP每次推送主播个数
+    int32 time_interval = 7;            //6元CP推送间隔时长
+    int32 time_interval20 = 8;          //20元CP推送间隔时长
+    bool cancel3_times = 9;             //当日有超时取消订单3次以上的陪玩
+    int32 min_show_time = 10;           //主播来电弹窗最短时长
+    int32 cd_time = 11;                 //CP抢单成功冷却时间
+    int32 cp_num = 12;                  //弹窗弹出主播个数
+    int32 cp_end_days = 13;             //陪陪主动挂断，N分钟内不再推送该陪陪
+    int32 change_days = 14;             //最近N分钟
+    int32 change_times = 15;            //陪陪累计被用户挂断主动挂断>=N次
+    int32 change_cd = 16;               //N分钟内不再推送该陪陪
+    bool is_activity = 17;              //是否只推最近30分钟有活动行为的主播
+    string cp_guideline_male = 18;      //男老板引导语
+    string cp_guideline_female = 19;    //女老板引导语
+    int32 change_num_limit = 20;        //6元CP可换一次次数
+    int32 change_num_limit20 = 21;      //20元CP可换一次次数
+    int32 dial_pop_window_mode = 22;    //通话详情弹窗方式
+    reserved "chat,admin","fish.chat.cpRuleConf","CP陪玩规则(半糖)";
+}
+
+
+enum XcmConsortiaPKRankCategory {
+  XCPRC_NONE = 0; // 占位
+  XCPRC_SING = 1; // 点唱
+  XCPRC_MALE_SING = 2; // 男厅
+  XCPRC_FEMALE_SING = 3; // 女厅
+  XCPRC_ENTERTAINMENT = 4; // 娱乐
+}
+
+// 公会排行榜周榜奖励名单配置
+message XcmConsortiaPKRankCfg {
+  int32 id = 1; // 唯一ID
+  int64 room_id = 2; // 房间ID
+  XcmConsortiaPKRankCategory category = 3; // 发放品类
+  int64 begin = 4; // 开始时间
+  int64 end = 5; // 结束时间
+  reserved "timer,admin","hydrogen.timer.XcmConsortiaPKRankCfg","公会排行榜周榜奖励名单配置","ToList";
+}
+
+enum AliPayBonusPointTimeType{
+  APBPTT_None = 0;
+  APBPTT_FirstPointTime = 1;
+  APBPTT_SecondPointTime = 2;
+}
+
+// 支付宝充值买一送一时间点配置
+message XcmAliPayBonusTimePointCfg{
+  int64 start_time = 1; // 开始时间
+  int64 end_time = 2; // 结束时间
+  int64 min_money = 3; // 最小金额
+  int64 max_money = 4; // 最大金额
+  AliPayBonusPointTimeType time_type = 5;
+}
+
+// 支付宝充值买一送一配置
+message XcmAliPayBonusCfg {
+  string desc = 1; // 描述
+  map<int32, XcmAliPayBonusTimePointCfg> time_point_map = 2; // 时间点
+  string tips = 3; // 提示
+  reserved "admin,timer,assets,user","hydrogen.assets.XcmAliPayBonusCfg","支付宝充值买一送一配置";
+}
+
+message ConfRankPKCamp {
+  string camp_name = 1; //阵营名称
+  int32 conf_lottery_id = 2; // 关联的奖池id
+  repeated int32 rel_act_ids = 3; //关联的榜单id
+}
+
+// 活动榜单玩法-阵营PK配置
+message XcmConfRankPK {
+	int32 id = 1;	 // ID
+	string conf_name = 2;	 // 配置名称
+	int32 act_id = 3;	 // 主活动Id
+	repeated ConfRankPKCamp camps = 4;	 // 阵营
+	reserved "activity","hydrogen.activity.ConfRankPK","活动榜单玩法-阵营PK配置","ToList";
+}
+
+enum RankAwardRankType {
+  RART_NONE = 0;
+  RART_WIN = 1; // 胜利
+  RART_LOSE = 2; // 失败
+}
+
+message ConfRankAwardItem {
+  int32 item_id = 1;
+  RankAwardRankType rank_type = 2;
+  int32 start_rank = 3;
+  int32 end_rank = 4;
+  int32 rel_act_id = 5; // 关联的榜单
+}
+
+// 活动榜单玩法-奖励配置
+message XcmConfRankAward {
+	int32 id = 1;	 // ID
+	string conf_name = 2;	 // 配置名称
+	int32 act_id = 3;	 // 主活动
+	int32 rel_act_id = 4;	 // 子活动
+	repeated ConfRankAwardItem awards = 5;	 // 奖励
+	reserved "activity","hydrogen.activity.ConfRankAward","活动榜单玩法-奖励配置","ToList";
+}
+
+// 支付宝充值买一送一时间点配置
+message XcmAliPayBonusTimePointVsn2Cfg{
+  int64 start_time = 1; // 开始时间
+  int64 end_time = 2; // 结束时间
+}
+
+// 支付宝充值买一送一配置
+message XcmAliPayBonusVsn2Cfg {
+  string desc = 1; // 描述
+  string tips = 2; // 提示
+  int64 limit_count = 3; // 次数限制
+  int64 total_money = 4; // 总金额
+  int64 max_money = 5; // 最大充值金额
+  int64 min_money = 6; // 最小充值金额
+  int64 max_rate = 7; // 奖励金额最大比例
+  int64 min_rate = 8; // 奖励金额最小比例
+  repeated XcmAliPayBonusTimePointVsn2Cfg time_points = 9; // 时间点配置
+  reserved "admin,timer,assets,user","hydrogen.assets.XcmAliPayBonusVsn2Cfg","支付宝充值买一送一配置";
+}
+
+// 挚友商城banner配置
+message XcmConfInitmateStoreBanner {
+	int32 id = 1;	 // Id
+	string title = 2;	 // 标题
+	int32 weight = 3;	 // 权重
+	int64 start_time = 4;	 // 开始时间
+	int64 end_time = 5;	 // 结束时间
+	string img_url = 6;	 // App图片
+	string pc_img_url = 7;	 // PC图片
+	string redirect_url = 8;	 // 跳转地址
+	string ios_min_version = 9;	 // IOS最低版本
+	string ios_max_version = 10;	 // IOS最低版本
+	string android_min_version = 11;	 // 安卓最低版本
+	string android_max_version = 12;	 // 安卓最低版本
+	string pc_min_version = 13;	 // PC最低版本
+	string pc_max_version = 14;	 // PC最低版本
+	reserved "friend","hydrogen.friend.ConfInitmateStoreBanner","挚友商城banner配置","ToList";
+}
+
+// 热点基础配置
+message XcmHotPointBaseCfg {
+  int32 gold_limit = 1; // 上热点最低金币数
+  int32 top_num = 2; // 热点榜数量
+  int32 response_limit = 3; // 发布者回应字数限制
+  int32 heat_gold_limit = 4; // 加热最低金币数
+  float remove_hot_point_coefficient = 5; // 撤热点系数
+  float watch_num_coefficient = 6; // 围观人数系数
+  int64 limit_hours = 7; // 热点有效小时数
+  reserved "admin,timer,phome,room","hydrogen.admin.XcmHotPointBaseCfg","热点基础配置";
+}
+
+// 热点推荐逻辑配置
+message XcmHotPointRecommendCfg {
+  float hot_label_like_coefficient = 1; // 热标签点赞系数
+  float hot_label_comment_coefficient = 2; // 热标签评论系数
+  float hot_label_decrease_coefficient = 3; // 热标签衰减系数
+  float hot_label_score_limit = 4; // 热度门槛
+  int32 hot_label_num_limit = 5; // 热标签数量限制
+  float comment_like_coefficient = 6; // 点赞系数
+  float comment_score_limit = 7; // 精评门槛
+  int32 comment_word_limit = 8; // 字数限制
+  int32 comment_num_limit = 9; // 数量限制
+  int64 nex_label_time_limit = 10; // 新标签维护时间(秒)
+  string jump_url = 11; // 跳转地址
+  reserved "admin,timer,phome,room", "hydrogen.admin.XcmHotPointRecommendCfg", "热点推荐逻辑配置";
+}
+
+// 礼物图鉴等级配置
+message XcmConfGiftCollectLevel {
+	int32 id = 1;	 // 等级ID
+	string level_name = 2;	 // 等级名称
+	int64 exp = 3;	 // 所需经验值
+	string level_icon = 4;	 // 个人名片入口图标
+	string head_level_icon = 5;	 // 图鉴头像等级标志
+	reserved "gift","hydrogen.gift.ConfGiftCollectLevel","礼物图鉴等级配置","ToList";
+}
+
+// PK互动内容库
+message XcmConfPkPunishmentContent {
+	int32 id = 1;	 // ID
+	string content = 2;	 // 惩罚内容
+	int32 sort = 3;	 // 权重
+	reserved "room","hydrogen.room.conf_pk_punishment_content","PK惩罚内容库","ToList";
+}
+
+message XcmCPPlayerInfo {
+    message item {
+        int64 player_id = 1;
+        string pic_url = 2; // 卡片大图
+        string voice_url = 3; // 语音地址
+        int32 voice_time = 4; // 语音时长
+        int32 voice_id = 5; // 声鉴卡ID
+        repeated int32 custom_cat_id = 6; // 自定义品类ID
+    }
+    map<int64, item> info = 1;
+    reserved "user,phome,chat","hydrogen.user.XcmCPPlayerInfo","CP接线员信息";
+}
+// 排行榜分级展示
+message XcmRankShowCfg{
+  RankShowInfo info = 1;
+  reserved "index,admin","hydrogen.index.rank_show","排行榜分级展示";
+}
+
+message XcmBanOutlandsIpSignUp {
+  bool ip_switch = 1;  // 是否限制境外IP注册
+  bool is_third_account_reg_info_closed = 2;  // 注册时不使用第三方用户信息(昵称、头像)
+  reserved "uauth,user","hydrogen.uauth.BanOutlandsIpSignUp","注册限制开关";
+}
+
+
+// 浇花风控配置
+message ConfCrackEggRiskLimit{
+  int32 id = 1;
+  string limit_name = 2; // 风控名称
+  CARL_LIMIT_TYPE limit_type = 3; // 风控类型
+  int64 num = 4; // 限制数量
+  int32 limit_time = 5; // 休息时间（秒）
+  string msg = 6; // 提示内容
+  CARL_MSG_TYPE msg_type = 7; // 提示类型
+  CARL_LIMIT_TARGET limit_target = 8; // 风控对象
+  int32 name_list = 9; // 名单列表Id
+  repeated int64 while_list = 10; //白名单
+  reserved "crackegg,store","hydrogen.crackegg.ConfCrackEggRiskLimit","浇花风控配置","ToList";
+}
+
+// 云蹦迪 -----------------------------
+
+// 狂欢时刻气氛值来源类型
+enum CloudDiscoRockRuleType {
+  CDRRT_None = 0;              // 占位
+  CDRRT_Gift = 1;              // 送礼指定礼物
+  CDRRT_Player = 2;            // 送礼人数（去重）
+}
+
+// 狂欢时刻气氛值规则配置
+message XcmCloudDiscoRockRuleCfg{
+  CloudDiscoRockRuleType rule_type = 1; // 狂欢时刻气氛值来源类型
+  int64 gold_val = 2;                      // 1金币 = gold_val 分
+  int64 player_val = 3;                    // 1为用户（去重） = player_val 分
+  repeated int64 gift_ids = 4;             // 礼物id
+}
+
+// 云蹦迪狂欢时刻配置
+message XcmCloudDiscoRockCfg {
+  int64 rock_val = 1;           // 狂欢时刻气氛值
+  int64 rock_duration = 2;      // 狂欢时刻持续时长(单位：秒)
+  int64 decorate_id = 3;        // 房间背景id
+  repeated XcmCloudDiscoRockRuleCfg rock_rules = 4; // 狂欢时刻气氛值规则配置
+  string rock_msg = 5;                     // 狂欢时刻广播消息文案
+  reserved "room","hydrogen.room.XcmCloudDiscoRockCfg","云蹦迪狂欢时刻配置";
+}
+
+// 云蹦迪观众席配置
+message XcmCloudDiscoDancerCfg {
+  int64 max_dancer_num = 1; // 观众席人数上限
+  reserved "room","hydrogen.room.CloudDiscoMaxDancerCfg","云蹦迪观众席配置";
+}
+
+// 礼物触发效果枚举
+enum CloudDiscoGiftEffectType {
+  CDGET_None = 0;               // 占位
+  CDGET_Room = 1;               // 房间形态变化（背景 + 麦位抖动）
+  CDGET_DancerArea = 2;         // 观众席区域变化
+}
+
+// 云蹦迪礼物效果配置
+message XcmCloudDiscoGiftEffectCfg{
+  int64 gift_id = 1;                        // 礼物id
+  CloudDiscoGiftEffectType effect_type = 2; // 礼物触发效果
+  int64 decorate_id = 3;                    // 房间背景id
+  int64 effect_duration = 4;               // 效果持续时长(单位：秒)
+}
+
+// 云蹦迪礼物配置Map
+message XcmCloudDiscoGiftEffectCfgMap{
+  map<int64, XcmCloudDiscoGiftEffectCfg> effect_cfg_map = 1;  // <礼物id, 礼物效果配置>
+  reserved "room","hydrogen.room.XcmCloudDiscoGiftEffectCfg","云蹦迪礼物配置Map";
+}
+
+// 云蹦迪卡座规则
+message XcmCloudDiscoBoothCfg{
+  int64 threshold = 1;   //卡座流水门槛
+  int64 pick_up_threshold = 2; //带妹门槛
+  reserved "room,admin","hydrogen.room.XcmCloudDiscoBoothCfg","云蹦迪卡座规则";
+}
+// 云蹦迪 -----------------------------
+
+
+// 私聊审核结果特殊处理配置
+message IMSpecialTreatmentOfAuditResultsConf{
+  repeated IMSpecialRoleType sender_role_type = 1; // 发送者角色
+  ChannelScreenConf sender_channel = 2; // 发送者渠道
+  int64 sender_min_wealth = 3; // 发送者最低财富值
+  int64 sender_max_wealth = 4; // 发送者最大财富值
+  int64 sender_min_charm = 5; // 发送者最低魅力值
+  int64 sender_max_charm = 6; // 发送者最大魅力值
+  IMSpecialReceiverType receiver_type = 7; // 接收用户类型
+  repeated IMSpecialRoleType receiver_role_type = 8; // 接收者角色
+  ChannelScreenConf receiver_channel = 9; // 接收者渠道
+  int64 receiver_min_wealth = 10; // 接收者最低财富值
+  int64 receiver_max_wealth = 11; // 接收者最大财富值
+  int64 receiver_min_charm = 12; // 接收者最低魅力值
+  int64 receiver_max_charm = 13; // 接收者最大魅力值
+  repeated string illegal_type = 14; // 违规类型
+  string machine_result = 15; // 机审结果
+  string final_result = 16; // 最终发送结果
+  SafetyTips sender_tips = 17; // 发送者提示
+  SafetyTips receiver_tips = 18; // 接收者提示
+  int64 weight = 19; // 权重
+  string remark = 20; // 备注
+  int64 id = 21; // 配置ID
+  reserved "friend,admin","hydrogen.friend.IMSpecialTreatmentOfAuditResultsConf","私聊审核结果特殊处理配置","ToList";
+}
+
+message SafetyTips{
+  string title = 1; // 标题
+  string title_color = 2; // 标题颜色
+  string content = 3; // 内容
+  string content_color = 4; // 内容颜色
+  string button_content = 5; // 按钮内容
+  string button_color = 6; // 按钮颜色
+  string button_url = 7; // 按钮跳转路由
+  IMCloudCustomDataStyle tips_style = 8; // 样式
+  IMCloudCustomDataMsgType button_type = 9; // 按钮类型
+}
+
+
+// 角色类型
+enum IMSpecialRoleType {
+  IMSRT_ALL = 0; // 全部身份
+  IMSRT_NOT_CLAN_MEMBER = 1; // 非公会成员
+  IMSRT_SIGN_MEMBER = 2; // 签约成员-包括签约过期的
+  IMSRT_HONOR_MEMBER = 3; // 荣誉成员
+  IMSRT_SIGN_MALE_MEMBER = 4; //签约成员-包括签约过期的(男)
+  IMSRT_SIGN_FEMALE_MEMBER = 5; //签约成员-包括签约过期的(女)
+  IMSRT_HONOR_MALE_MEMBER = 6; // 荣誉成员(男)
+  IMSRT_HONOR_FEMALE_MEMBER = 7; // 荣誉成员(女)
+  IMSRT_NOT_CLAN_MALE_MEMBER = 8; // 非公会成员(男)
+  IMSRT_NOT_CLAN_FEMALE_MEMBER = 9; // 非公会成员(女)
+}
+
+// 渠道筛选配置
+message ChannelScreenConf{
+  map<int32, bool> white_channel = 1; // 渠道白名单
+  map<int64,bool> channel_type = 2;   // 渠道类型白名单
+  map<int64,bool> advendor_id = 3;    // 渠道平台
+  map<int32,bool> device_type = 4;    // 设备类型
+  bool and_or = 5;                    // 全且 或 全或
+  map<string,bool>application =6;     // 渠道应用标识
+}
+
+// 接收用户类型
+enum IMSpecialReceiverType {
+  IMSRTE_NONE = 0; // 占位
+  IMSRTE_ALL = 1; // 全部用户
+  IMSRTE_STRANGER = 2; // 陌生用户
+  IMSRTE_FRIENDSHIP = 3; // 好友
+}
+
+message XcmBlackWhaleVipNicknameProtection {
+  map<string,int64> nicknames = 1;
+  reserved "admin,user,uauth","hydrogen.user.BlackWhaleVipNicknameProtection","黑鲸VIP昵称保护";
+}
+
+// 空坑沉底配置
+message EmptyChairSedimentConf{
+  repeated int32 category = 1; // 公会类型
+  int64 down_min = 2; // 沉底检查周期(分钟)
+  int32 empty_num = 3; // 空坑次数
+  int64 up_min = 4; // 恢复检查周期(分钟)
+  int32 full_num = 5; // 满坑次数
+  int32 heat = 6; // 热度值
+  map<int32, int32> category_map = 7; // 公会类型map
+  repeated int32 patterns = 8; // 房间模式
+  map<int32, int32> pattern_map = 9; // 房间模式map
+  repeated int32 chairs = 10; // 麦位
+  reserved "room,phome,admin","hydrogen.room.EmptyChairSedimentConf","空坑沉底配置";
+}
+
+// imCP引导弹窗
+message XcmImCpDialogConf {
+	int32 id = 1;	 // ID
+	int32 register_time = 2;	 // 注册
+	string mail_card = 3;	 // 男性用户引导卡片文案：
+	string mail_card_btn = 4;	 // 男性用户引导卡片按钮文案：
+	string femail_card = 5;	 // 女性用户引导卡片文案：
+	string femail_card_btn = 6;	 // 女性用户引导卡片按钮文案：
+	string mail_dialog = 7;	 // 男性用户引导浮窗主标题：
+	string mail_dialog_btn = 8;	 // 男性用户引导浮窗副标题：
+	string femail_dialog = 9;	 // 女性用户引导浮窗主标题：
+	string femail_dialog_btn = 10;	 // 女性用户引导浮窗副标题：
+	bool and_or = 11;	 // 条件关系
+	map<int64,bool> channel_type = 12;	 // 渠道类型
+	map<int64,bool> advendor_id = 13;	 // 渠道平台
+	map<int32,bool> device_type = 14;	 // 渠道设备类型
+	map<int32,bool> white_channel_list = 15;	 // 渠道号
+	reserved "user","hydrogen.user.im_cp_dialog_conf","imCP引导弹窗";
+}
+
+// 私聊用户接收信息控制配置
+message XcmPlayerAcceptImLimitConf {
+  bool is_open = 1; // 启动配置
+  repeated PlayerAcceptImLimitConf conf_list = 2; // 配置列表
+  reserved "friend,admin","hydrogen.friend.XcmPlayerAcceptImLimitConf","私聊用户接收信息控制配置";
+}
+
+enum PlayerAcceptTimeType{
+  PATT_NONE = 0; // 占位
+  PATT_1_HOUR = 1; // 1小时
+  PATT_3_HOUR = 3; // 3小时
+  PATT_12_HOUR = 12; // 12小时
+  PATT_24_HOUR = 24; // 24小时
+}
+
+message PlayerAcceptImLimitConf {
+  repeated IMSpecialRoleType receiver_clan_type = 1; // 接收者角色
+  ChannelScreenConf receiver_channel = 2; // 接收者渠道
+  int64 receiver_wealth_min = 3; // 接收者最低财富值
+  int64 receiver_wealth_max = 4; // 接收者最大财富值
+  int64 receiver_charm_min = 5; // 接收者最低魅力值
+  int64 receiver_charm_max = 6; // 接收者最大魅力值
+  IMSpecialReceiverType relation_ship = 7; // 接收用户类型
+  PlayerAcceptTimeType receiver_accept_time = 8; // 接收频率
+  int64 receiver_accept_num = 9; // 接收次数
+  string remark = 10; // 备注
+  int64 id = 11; // 配置ID
+}
+
+// 点歌互动礼物基础配置
+message XcmConfSongInteractionBasic {
+	bool status = 1;	 // 状态
+	string toast = 2;	 // toast文案
+	reserved "gift","hydrogen.gift.ConfSongInteractionBasic","点歌互动礼物配置";
+}
+
+// 点歌互动礼物Toast配置
+message XcmConfSongInteractionToastRule {
+	int32 gift_id = 1;	 // 礼物id
+	int32 duration = 2;	 // 连续时长(min)
+	int32 num = 3;	 // 送出数量（大于等于）
+	reserved "gift","hydrogen.gift.ConfSongInteractionToastRule","点歌互动礼物Toast配置","ToList";
+}
+
+//信用分通用配置
+message XcmConfCreditGeneralCfg{
+  int64 bad_score = 1; //较差的分数的上限
+  int64 general_score = 2;//一般的分数的上限
+  int64 good_score = 3; //良好的分数的上限
+  int64 very_good_score = 4; //优秀的分数的上限
+  int64 excellent_score = 5; // 极好的分数的上限
+  int64 deposit_20_min = 6; //押金比例20的左区间
+  int64 deposit_20_max = 7; //押金比例20的右区间
+  int64 deposit_50_min = 8; //押金比例50的左区间
+  int64 deposit_50_max = 9; //押金比例50的右区间
+  int64 no_deposit_min = 10; //押金比例免押的左区间
+  int64 no_deposit_max = 11; //押金比例免押的右区间
+  int64 deposit_min = 12; //每日免押额度的左区间
+  int64 deposit_max = 13; //每日免押额度的右区间
+  int64 deposit_num = 14; //每日免押额度
+  reserved "mission","hydrogen.mission.ConfCreditGeneralCfg","信用分通用配置";
+ }
+
+message CreditAddCfg {
+  int32 max = 1;       //上限分
+  int32 base_level = 2;//基础门槛（级）
+  int32 base_score = 3;//基础门槛分
+  int32 add_level = 4; //梯度加成每（级）
+  int32 add_score = 5; //梯度加成分
+}
+
+ //信用分加分配置
+message XcmConfCreditAddCfg{
+   int32 clan_score = 1; //认证公会成员
+   int32 base_score = 2; //基础分
+   CreditAddCfg wealth_cfg = 3;// 财富等级
+   CreditAddCfg charm_cfg = 4;// 魅力等级
+   CreditAddCfg nobility_cfg = 5;  // 爵位配置
+   CreditAddCfg activity_cfg = 6;  // 活跃配置
+   CreditAddCfg intimate_cfg = 7;  // 挚友配置
+   reserved "mission","hydrogen.mission.ConfCreditAddCfg","信用分加分配置";
+}
+
+// 信用分扣分配置
+message XcmCreditReduceScoreCfgData {
+  map<int32,CreditReduceScoreCfg> reduced_score_map = 1; // 扣分配置, key 对应user.ext.proto BanType ; value 对应分数
+  reserved "admin,mission", "hydrogen.mission.XcmCreditReduceScoreCfgData", "信用分扣分配置";
+}
+
+// 礼物诈骗风控(IM私聊时监控)
+message XcmConfGiftFraudRiskControl {
+  bool switch = 1;	 // 礼物诈骗预警开关
+  repeated string control_region = 2;	 // 监控地区
+  repeated string control_text = 3;	 // 监控文本
+  int32 region_day = 4;	 // 多地区登录监控-近N天
+  int32 region_num = 5;	 // 多地区登录监控-≥N个地区
+  int32 inactive_num = 6;	 // 非活跃监控-超N天没登录
+  bool ban_switch = 7;     // 礼物诈骗处罚开关
+  repeated int64 ban_type = 8; //处罚措施
+  int32 ban_time = 9; //处罚时长
+  reserved "friend","hydrogen.friend.ConfGiftFraudRiskControl","礼物诈骗风控(IM私聊时监控)";
+}
+
+message CreditReduceScoreCfg{
+  // 小时
+  int64 reduce_score_time = 1;
+  int64 reduce_score_num = 2; // 0不扣分 -1扣全部
+}
+
+message XcmWishGiftConf {
+  repeated int32 gift_ids = 1; //礼物id列表
+  reserved "admin,room", "hydrogen.room.XcmWishGiftConf", "心愿墙礼物配置";
+}
+
+// 消费回馈配置
+message XcmConfGoldFeedback {
+	int32 id = 1;	 // Id
+	int32 act_id = 2;	 // 主活动
+	string name = 3;	 // 配置名称
+	int32 gold = 4;	 // 初始投放金币数
+	int32 cycle_type = 5;	 // 循环类型
+	int32 rel_act_id = 6;	 // 活动数据关联的子活动
+	reserved "activity","hydrogen.activity.ConfGoldFeedback","消费回馈配置","ToList";
+}
+
+message ConfGoldFeedbackRuleItem {
+  repeated int32 rel_act_ids = 1; // 关联的子活动
+  int32 min_rank = 2;
+  int32 max_rank = 3;
+  int32 rate = 4; // 比例
+}
+
+// 金币瓜分配置
+message XcmConfGoldFeedbackRule {
+	int32 id = 1;	 // Id
+	int32 act_id = 2;	 // 主活动
+	string name = 3;	 // 配置名称
+	int32 rule_type = 4;	 // 瓜分类型
+	repeated ConfGoldFeedbackRuleItem rules = 5;	 // 瓜分配置
+	reserved "activity","hydrogen.activity.ConfGoldFeedbackRule","金币瓜分配置","ToList";
+}
+
+message ConfLotteryLevelUp {
+  int32 level = 1;
+  int32 lottery_id = 2;
+}
+
+message ConfLotteryLevelUpTrigger {
+  int32 trigger_type = 1; // 1:礼物
+  repeated int32 gifts = 2; // 触发的礼物列表
+}
+
+// 有奖奖池升级配置
+message XcmConfLotteryLevelUp {
+	int32 id = 1;	 // Id
+	int32 act_id = 2;	 // 主活动
+	int32 rel_act_id = 3;	 // 子活动
+	string name = 4;	 // 名称
+	ConfLotteryLevelUpTrigger trigger = 5;	 // 触发配置
+	repeated ConfLotteryLevelUp levels = 6;	 // 升级配置
+	reserved "activity","hydrogen.activity.ConfLotteryLevelUp","有奖奖池升级配置","ToList";
+}
+// 小窝房配置
+message XcmFossaRoomCfg {
+    int64 expire_min = 1; // 有效时长（分钟）
+    reserved "room,admin","hydrogen.room.FossaRoomCfg","小窝配置";
+}
+
+
+//同IP支付账号风控
+message XcmSameIpPaymentAccountMonitorConf {
+  bool is_open = 1; // 启动配置
+  repeated PaymentAccountMonitorConf conf_list = 2; // 配置信息
+  reserved "assets,admin","oxygen.assets.XcmSameIpPaymentAccountMonitorConf","同IP支付账号控制配置";
+}
+
+//用户支付账号风控
+message XcmUserPaymentAccountMonitorConf {
+  bool is_open = 1; // 启动配置
+  repeated PaymentAccountMonitorConf conf_list = 2; // 配置信息
+  reserved "assets,admin","oxygen.assets.XcmUserPaymentAccountMonitorConf","用户支付账号控制配置";
+}
+
+message PaymentAccountMonitorConf{
+  int32 id=1;  //策略ID
+  int32  hours=2;  //近小时内
+  int32  alipay_account_count=3;//支付宝账号数
+  int32  wechat_account_count=4; //微信账号数
+  int64  days=8; //当前距离注册天数
+  int32  certification =9; //实名  0：未实名 1：已实名 2：不判断实名
+  ChannelScreenConf channel=10;//渠道
+  int64 wealth_min = 11; // 最低财富值
+  int64 wealth_max = 12; // 最大财富值
+  int64 charm_min = 13; // 最低魅力值
+  int64 charm_max = 14; // 最大魅力值
+  string risk_zone =15; //风险地区
+  int32  measure = 16; //措施  1:预警  2：风控
+  int64  duration =17; //时长
+  int64  weight = 18; //权重
+  int32  update_at= 19; //更新时间
+}
+message XcmConfMateCardType {
+  int32 id = 1;
+  string name = 2;
+  int32 status = 3;
+  reserved "room,admin","hydrogen.room.conf_mate_card_type","相亲卡片类型","ToList";
+}
+
+// 开业礼盒与公会类型关系
+message XcmConfOpenBoxClanTypeRelation{
+  map<int64, int64> relation = 1;//关系 <公会类型,礼物id>
+  reserved "clan,admin","hydrogen.gift.ConfOpenBoxClanTypeRetion","开业礼盒与公会类型关系配置";
+}
+//装扮物品分类配置
+message XcmCubismClassifyConfig{
+  map<int32, XcmCubismClassifyList> data = 1;
+  reserved "cubism,admin","hydrogen.cubism.cubism_classify_config","装扮物品分类配置";
+}
+
+message XcmCubismClassifyList {
+  repeated XcmConfCubismClassify classify_list = 1; // 配置列表
+}
+
+enum CubismClassifyIsShow {
+  CCIS_SHOW = 0;        //显示
+  CCIS_NOT_SHOW = 1;    //不显示
+}
+
+//装扮商品分类配置
+message XcmConfCubismClassify{
+  int32 id = 1;
+  string name = 2;
+  int32 weight = 3; //权重
+  int32 classify_type = 4;
+  string icon_url = 5;
+  CubismClassifyIsShow is_show = 6; //是否显示
+  string highlight_icon_url = 7;//高亮图标
+}
+
+//装扮物品配置
+message XcmCubismConfig{
+  map<string, XcmConfCubismConfig> data = 1;
+  reserved "cubism,admin","hydrogen.cubism.cubism_config","装扮物品配置";
+}
+
+message XcmConfCubismConfig{
+  string cubism_id = 1;
+  string name = 2;
+  int32 sex = 3;
+  string resource_url = 4;
+  string icon_url = 5;
+  int32 classify_id = 6;
+  int32 level = 7;
+  string banner_url = 8; //进场横幅
+  string enter_sentence = 9; //进场文案
+  string enter_sentence_color = 10; //文案颜色
+  string nickname_color = 11; //昵称颜色
+  int32 dye_cost = 12; //染色价格
+  int32 valid_day = 13;//特效有效期（天）
+}
+
+
+//装扮物品系列关系
+message XcmCubismConfigSeries{
+  map<string, XcmConfCubismConfigIds> data = 1;
+  reserved "cubism,admin","hydrogen.cubism.cubism_config_series","装扮物品系列关系";
+}
+
+message XcmConfCubismConfigIds{
+  repeated string cubism_ids = 1;
+}
+
+//装扮套装配置
+message XcmCubismSetConfig{
+  map<string, XcmConfCubismSet> data = 1; // map<set_id,  string>   string ->[]set  序列化成JSON
+  reserved "cubism,admin","hydrogen.cubism.cubism_set_config","装扮套装配置";
+}
+
+
+//装扮套装配置
+message XcmConfCubismSet{
+  string set_id = 1;
+  string name = 2;
+  int32 sex = 3;
+  int32 can_split = 4;
+  repeated SetConfig set = 5; // 配置信息
+  string icon_url = 6;
+  string default_set_resource_url = 7; //默认套装静态图资源
+}
+
+message SetConfig{
+  string  cubism_id = 1;  //物品id
+  int32   classify_id = 2;//分类id
+}
+
+message XcmCubismShopConfig{
+  map<string, CubismShopConfig> data = 1;   // map<productId, 商品对象>
+  map<int32, CubismShopConfigList> classify_product_map = 2; // map<分类ID, []商品对象>
+  reserved "cubism,admin", "hydrogen.cubism.cubism_shop_config", "虚拟形象商城信息";
+}
+
+message CubismShopConfigList {
+  repeated CubismShopConfig data_list = 1;
+}
+
+message CubismShopConfig{
+  int32 id = 1;
+  int32 classify_id = 2;
+  string product_id = 3;
+  int32 price = 4;
+  int32 weight = 5;
+  string set_ids = 6;
+  string android_min = 7;
+  string android_max = 8;
+  string ios_min = 9;
+  string ios_max = 10;
+  string pc_min = 11;
+  string pc_max = 12;
+  int32 logic_type = 13;
+  int32 wealth_lev_min = 14;
+  int32 wealth_lev_max = 15;
+  int32 charm_lev_min = 16;
+  int32 charm_lev_max = 17;
+  int32 is_show = 18;
+}
+
+message XcmCubismConfigCDN {
+  string conf_url = 1; // CDN 的URL
+  reserved "cubism,admin","hydrogen.cubism.CubismConfigCDN","虚拟形象物品配置CDN的URL";
+}
+
+//虚拟形象后台背景
+message XcmCubismBgConfig{
+  string cubism_room_bg_url = 1; //虚拟形象房间背景
+  string cubism_homepage_bg_url = 2; //个人主页虚拟形象背景
+  string cubism_space_bg_url = 3; //个人空间虚拟形象背景
+  string pc_cubism_room_left_bg_url = 4; //pc虚拟形象房间背景左侧
+  string pc_cubism_room_right_bg_url = 5; //pc虚拟形象房间背景右侧
+  string pc_cubism_space_bg_url = 6; //pc个人空间虚拟形象背景
+  string cubism_dressing_center_bg_url = 7; //虚拟形象装扮中心背景
+  reserved "cubism,admin","hydrogen.cubism.cubism_background_config","装扮物品分类配置";
+}
+
+//虚拟形象模型
+message XcmCubismModelConfig{
+  string cubism_male_model_url = 1; //男性模型
+  string cubism_female_model_url = 2; //女性模型
+  reserved "cubism,admin","hydrogen.cubism.cubism_model_config","模型配置";
+}
+
+
+// 个播-内容验证
+message XcmConfContentValidation {
+	uint32 id = 1;	 // Id
+	int64 player_id = 2;	 // 用户Id
+	string scene = 3;	 // 活动场景
+	string desc = 4;	 // 语音条简介
+	int32 weight = 5;	 // 权重
+	string audio_url = 6;	 // 语音文件
+  int32 audio_duration = 7; // 语音时长
+	reserved "activity","oxygen.activity.ConfContentValidation","个播-内容验证","ToList";
+}
+
+// 个播-内容验证基础配置
+message XcmConfContentValidationBasic {
+  string active_scene = 1;
+  string banner_url = 2;
+  reserved "activity","oxygen.activity.ConfContentValidationBasic","个播-内容验证基础配置";
+}
+
+
+message XcmConfGiftBannerModel {
+  map<int32, ConfGiftBannerModel> data_map = 1;  // map<主键，礼物说明图模板配置>
+  reserved "gift,admin","hydrogen.gift.conf_gift_banner_model","礼物说明图模板列表配置";
+}
+
+message ConfGiftBannerModel {
+  int32  id = 1;
+  string name = 2;
+  string icon = 3;
+  string icon_pc = 4;
+  string title_color = 5;
+  string button_color = 6;
+  int32 model_type = 7;
+}
+
+// 有奖活动抢占配置
+message XcmConfLotteryRace {
+  int32 id = 1; // 配置Id
+  int32 target_gift_id = 2; // 累计的指定礼物Id
+  int32 protect_time = 3; // 抢占保护时长
+  repeated int32 lottery_conf_ids = 4; // 关联的奖池Id
+  int32 draw_num = 5; // 开启次数
+  int32 reward_gift = 6; // 奖励礼物
+  int32 seize_time = 7; // 抢占时长
+  int64 start_time = 8; // 生效开始时间
+  int64 end_time = 9; // 生效结束时间
+  reserved "activity","oxygen.activity.ConfLotteryRace","有奖活动抢占配置","ToList";
+}
+
+// 房间榜单临时规则配置
+message XcmRoomRankTempRuleCfg {
+    bool stop_calculate = 1; // 停止计算
+    bool use_temp_cal_rule = 2; // 是否使用临时规则
+    reserved "clan,admin","hydrogen.clan.XcmRoomRankTempRuleCfg","房间榜单临时规则配置";
+    int32 tmp_rule = 3;//规则，1只统计金币礼物；2统计背包+金币礼物，指定礼物添加额外积分；
+    repeated XcmRoomExtraRule extra_cfg = 4;//限定礼物的配置
+}
+
+message XcmRoomExtraRule {
+    int32 gift_id = 1;//礼物id
+    string gift_name = 2;//礼物名字
+    int32 gold = 3;//礼物原价值
+    int32 extra_point = 4;//额外添加的金币/积分
+}
+
+message XcmJigsawCfgs {
+    repeated XcmJigsawCfg activated_cfgs = 1;
+    repeated XcmJigsawCfg unactivated_cfgs = 2;
+    reserved "activity,admin","hydrogen.activity.XcmJigsawCfgs","已激活的礼物拼图配置";
+}
+// 礼物拼图配置
+message XcmJigsawCfg {
+    int64 id=1;
+    int64 start_at_unix=2;
+    int64 end_at_unix=3;
+    int32 year = 4;//所属年份
+    int32 month = 5;//所属月份
+    repeated XcmJigsawModule modules = 6;//模块
+    bool enableEncore = 7;//是否开启返场
+    int64 encore_start_at_unix=8;
+    int64 encore_end_at_unix=9;
+    string encore_pc_icon=10;
+    string encore_app_icon=11;
+    map<int64, XcmJigsawModule> modulesMap = 12;
+    //是否激活
+    bool is_activated = 13;//是否激活
+    bool is_grey = 14;//是否灰度
+    map<int64, bool> grey_list_map = 15;//灰度列表
+}
+
+message XcmJigsawModule {
+    int64 id = 1;
+    string name = 2;
+    string img = 3;
+    string pc_icon = 4;//角标
+    string app_icon = 5;//角标
+    int32 gift_id = 6;//对应合拍礼物
+    repeated XcmJigsawGift required_gifts = 7;//收集礼物
+    int64 jigsaw_id = 8;
+    int32 type=9;//1限定，2典藏
+    map<int64, XcmJigsawGift> required_gifts_map = 10;
+    string text=11;//文案
+}
+
+message XcmJigsawGift {
+    int32 sort = 1;//排序，礼物列表和拼图蒙层的排序
+    int64 id = 2;//礼物id
+    int32 total = 3;
+}
+
+message XcmFireCfg {
+    int32 act_id=1;
+    int32 rel_id=2;
+    int64 package_b_count = 3;//获得能量补给包b的门槛
+    map <string,FirePackage> pkg_info_map=4;//a/b => 补给包
+    EnergyPool energy_pool = 5;//能量池配置
+    int32 rank_award_flow_lottery_id=6;
+    repeated RankAward rank_awards=7;
+    int32 welfare_id=8;//对应福利id
+    bool open_room_notice=9;//开启公屏
+    bool open_sys_notice=10;//开启系统通知
+    int64 id=11;//当前生效配置的id
+    reserved "activity,admin","hydrogen.activity.XcmFireCfg","火力全开配置";
+}
+message RankAward {
+    int64 flow=1;//流水
+    int64 top_one_award=2;
+    int64 top_tf_award=3;
+}
+
+message XcmChildrenCfg {
+    int32 act_id=1;
+    int32 rel_id=2;
+    repeated int32 trigger_gift_id = 3;//触发礼物id，多个
+    map <int32, bool> trigger_giftid_map=4;
+    int64 numth=5;
+    int32 bonus_gift=6;
+    int32 bonus_num=7;
+    bool open_person_letter=8;
+    string person_letter_text=9;
+    bool open_all_screen=10;
+    string all_screen_text=11;
+    bool open_sys_notice=12;
+    string sys_notice_text=13;
+    int64 id=14;//当前生效配置的id
+    reserved "activity,admin","hydrogen.activity.XcmChildrenCfg","61儿童节配置";
+}
+
+message FirePackage {
+    int32 gift_id=1;//能量补给包对应礼物id
+    string type=2;//能量补给包类型，a，b
+    int32 price=3;//能量补给包价格
+    string img=4;//能量补给包图
+    string name=5;//能量补给包名字
+    int32 lottery_id=6;//关联的奖池id
+}
+
+message EnergyPool {
+    int32 energy_rate=1;//抽奖次数和能量值比例
+    int32 ticket_rate=2;//抽奖次数和应援券比例
+    repeated int64 open_at_unix=3;//多个开奖时间点
+    int32 energy_gift=4;//能量值对应下发的礼物（风控礼物，用以兑换礼物）
+    repeated EnergyPoolCity cities=5;//城市
+    map <int64, EnergyPoolCity> cities_map=6;//城市map
+    int32 lottery_id=7;//能量值累计统计的奖池
+}
+
+message EnergyPoolCity {
+    int64 id=1;//城市id
+    string img=2;
+    string name=3;
+}
+
+message BistroWhiteDetail {
+  int64 label_id = 1; // 标签ID
+}
+
+// 深夜小酒馆模式陪陪白名单
+message BistroWhite {
+  map <int64,BistroWhiteDetail> bistro_white = 1;
+  reserved "admin,gift,chat,user,friend","hydrogen.admin.BistroWhiteCfg","深夜小酒馆模式陪陪白名单";
+}
+
+// 深夜小酒馆通话时段配置
+message XcmConfBistroCallTime{
+  string start_time = 1; // 开放时间
+  string end_time = 2; // 结束时间
+  reserved "admin,chat","hydrogen.admin.ConfBistroCallTime","深夜小酒馆通话时段配置";
+}
+
+// 深夜小酒馆弹窗规则配置
+message XcmConfBistroPopRule{
+  int64 pop_up_time = 1;//弹出时间
+  int64 show_time = 2; //显示时间（s）
+  string title = 3;   //弹窗标题
+  string content = 4; //弹窗内容
+  string icon_url = 5;//老板弹窗图标
+  string cp_icon_url = 6;//陪陪弹窗图标
+  int64 cp_pop_up_time = 7;//陪陪侧弹出时间
+  reserved "admin,chat","hydrogen.admin.XcmConfBistroPopRule","深夜小酒馆弹窗规则配置";
+}
+
+enum ChangeCoinSMSStrategyType {
+  CST_None = 0;
+  CST_Device = 1;
+  CST_Money = 2;
+  CST_TimesNum = 3;
+  CST_TimesMoney = 4;
+}
+
+enum ChangeCoinSMSStrategyMeasure {
+  CSM_None = 0;
+  CSM_Notice = 1; // 短信通知
+  CSM_SMS = 2; // 短信验证
+}
+
+message XcmChangeCoinSMS {
+  int32 id = 1;
+  ChangeCoinSMSStrategyType strategy_type = 2;
+  int32 times = 3;
+  int32 num = 4;
+  int32 money = 5;
+  ChangeCoinSMSStrategyMeasure strategy_measure = 6;
+  bool filter_switch = 7;
+  int32 weight = 8;
+  reserved "user,clan", "hydrogen.risk.changeCoinSMSConfig", "金币兑换短信验证配置", "ToList";
+}
+
+
+message BistroLabelModel {
+  string label_name = 1;
+  string label_url = 2;
+}
+
+// 深夜小酒馆标签
+message BistroLabel {
+  map <int64,BistroLabelModel> bistro_label = 1;
+  reserved "admin,user,friend,chat","hydrogen.admin.BistroLabel","深夜小酒馆标签";
+}
+
+// 新手随机进厅厅白名单
+message NewUserRandomRooms {
+  map<int64, bool> male_rooms = 1; // 男厅
+  map<int64, bool> female_rooms = 2; // 女厅
+  repeated int64 male_room_ids = 3; // 男厅
+  repeated int64 female_room_ids = 4; // 男厅
+  reserved "admin,room","hydrogen.room.NewUserRandomRooms","新手随机进厅厅白名单";
+}
+
+// 新手随机进厅基础配置
+message NewUserRandomRoomBasicConf {
+  int64 active_start_time           = 1; // 路径生效开始时间
+  int64 active_end_time             = 2; // 路径生效结束时间
+  bool and_or                        = 3; // 条件关系
+  map<int64,bool> channel_type       = 4; // 渠道类型
+  map<int64,bool> advendor_id        = 5; // 渠道平台
+  map<int32,bool> device_type        = 6; // 渠道设备类型
+  map<int32,bool> white_channel_list = 7; // 渠道号
+  map<string,bool> application       = 8; //渠道应用标识
+  reserved "admin,room","hydrogen.room.NewUserRandomRoomBasicConf","新手随机进厅基础配置";
+}
+
+
+
+// 深夜小酒馆 点酒弹窗配置
+message XcmConfBistroSendDialog {
+  map<string, BistroSendDialogMealPlateConf> meal_plate_map = 1; // 餐牌图片 map<id，配置>
+  string button_icon_boss = 2; // 老板侧按钮图片
+  string button_icon_cp = 3;   // 陪陪侧按钮图片
+  string button_icon_gray = 4;   // 置灰按钮图片
+  string bottom_content_boss = 5;   // 老板侧底部宣传文案
+  string bottom_content_cp = 6;   // 陪陪侧底部宣传文案
+  reserved "admin,chat","hydrogen.admin.XcmConfBistroSendDialog","深夜小酒馆点酒弹窗配置";
+}
+
+// 餐牌配置
+message BistroSendDialogMealPlateConf {
+  string id = 1;      // 主键
+  int32 minute = 2;   // 分钟数
+  string meal_plate_url = 3; // 餐牌URL
+  int32 using_type = 4; // 使用类型  1- 老板侧   2- 陪陪侧
+  string operator = 5;  // 操作人
+}
+
+// vip企微接入客服累计金币
+message XcmVipWeixinGoldCfg{
+  int64 gold = 1; // 累计金币
+  string url = 2; // 客服链接
+  string id = 3; // 企业ID
+  reserved "admin,user,assets","hydrogen.user.XcmVipWeixinGoldCfg","vip企微接入客服累计金币";
+}
+
+// 礼物广播配置
+message XcmConfBcGift{
+  int32 limit_num = 1; // 首页礼物广播滚动条数
+  int64 total_amount = 2; // 礼物广播上榜单次赠送礼物总价
+  reserved "admin,gift,room","hydrogen.admin.ConfBcGift","礼物广播配置";
+}
+message ACGNQuizRoleConfig{
+  string role_title = 1; //角色标题
+  string role_url = 2;//角色图
+  int64  weight = 3; //权重
+  int64  role_id = 4; //角色id
+  string title_url = 5; //标题图片
+  int32 acgn_type = 6; //所属玩法 0->乙女 1->虚拟女友
+}
+
+// 乙女问答游戏角色配置
+message XcmACGNQuizRoleConfig{
+  repeated ACGNQuizRoleConfig role = 1;//角色内容
+  reserved "chat,admin", "hydrogen.chat.XcmACGNQuizRoleConfig", "乙女问答游戏角色配置";
+}
+
+message ACGNQuizCardConfig{
+  string card_name = 1; //卡片标题
+  string role_url = 2;//卡片角色图
+  int32  card_type = 3; //卡片类型 1:问答卡; 2:结局卡
+  string card_voice = 4;//配音文件
+  string question = 5;//卡片问题
+  repeated string answer = 6;//卡片答案
+  int32  voice_id = 7; //声鉴卡
+  int64 card_id = 8;//卡片id
+}
+
+// 乙女问答游戏卡片配置
+message XcmACGNQuizCardConfig{
+  map<int64, ACGNQuizCardConfig> data = 1;   // map<card_id, 卡内容>
+  reserved "chat,admin", "hydrogen.chat.XcmACGNQuizCardConfig", "乙女问答游戏卡片配置";
+}
+
+message ACGNQuizCardSetConfig{
+  string card_set_name = 1; //卡组名称
+  int64 role_id = 2;//对应角色id
+  string bgm_url = 4;//配音文件
+  int64 card_set_id = 5;//卡组id
+  repeated int64 card_id = 6;//包含的卡id
+  int32 acgn_type = 7; //所属玩法 0->乙女 1->虚拟女友
+}
+
+message ACGNQuizCardSetConfigList {
+  repeated ACGNQuizCardSetConfig data_list = 1;
+}
+
+// 乙女问答游戏卡组配置
+message XcmACGNQuizCardSetConfig{
+  map<int64, ACGNQuizCardSetConfig> data = 1;   // map<card_set_id, 卡组内容>
+  map<int64, ACGNQuizCardSetConfigList> data_by_role_id = 2;   // map<role_id, []卡组内容>
+  reserved "chat,admin", "hydrogen.chat.XcmACGNQuizCardSetConfig", "乙女问答游戏卡组配置";
+}
+
+// 乙女问答游戏配置
+message XcmConfACGNQuiz {
+  string boy_icon_url = 1; // 虚拟男友入口图片
+  string boy_title_url = 2;   // 男友首页标题
+  string boy_background_url = 3;   // 男友首页背景
+  string girl_icon_url = 4; // 虚拟女友入口图片
+  string girl_title_url = 5;   // 女友首页标题
+  string girl_background_url = 6;   // 女友首页背景
+  reserved "admin,chat","hydrogen.admin.XcmConfACGNQuiz","乙女问答游戏配置";
+}
+
+message XcmUndertakeStrategy {
+  int64 id = 1;
+  int64 label_id = 2;
+  string router_url = 3;
+  reserved "admin,user", "hydrogen.user.XcmUndertakeStrategy", "承接策略配置", "ToList";
+}
+
+// 房间右上角角标
+message XcmConfRoomTopRightCornerLabel {
+  int32 label_type = 1; // 角标类型
+  int32 act_id = 2;	 // 主活动
+  int32 rel_act_id = 3;	 // 子活动
+  string router = 4; // 路由地址
+  int32 weight = 5; // 优先级
+  int64 start_time = 6; // 角标开始时间
+  int64 end_time = 7; // 角标结束时间
+  string app_label_icon = 8; // app角标图片资源
+  string app_label_icon_no_data = 9; // app角标图片资源(无数据)
+  string pc_label_icon = 10; // pc角标图片资源
+  string pc_label_icon_no_data = 11; // pc角标图片资源(无数据)
+  string countdown_color = 12; // 倒计时色值
+  bool show_number = 13; // 是否显示数值
+  string number_content = 14; // 数值文案
+  int32 refresh_rate = 15; // 刷新频率 单位：s
+  string number_background_image = 16; // 数值背景图
+  string number_color = 17; // 数值色值
+  string countdown_background_image = 18; // 倒计时背景图
+  string pc_number_background_image = 19; // PC数值背景图
+  string pc_countdown_background_image = 20; // PC倒计时背景图
+  int64 wealth_min = 21; // 最低财富值
+  int64 wealth_max = 22; // 最大财富值
+  int64 charm_min = 23; // 最低魅力值
+  int64 charm_max = 24; // 最大魅力值
+  bool logic_type = 25; // 等级逻辑关系
+  ConfRoomTopRightExtData ext = 26; // 扩展结构
+  bool show_countdown = 27; // 是否显示倒计时
+  string progress_bar_color = 28; // 进度颜色色值
+  string progress_bar_background_color = 29; // 进度条底色色值
+  string progress_bar_number_color = 30; // 进度条数字色值
+  reserved "admin,room","hydrogen.admin.XcmConfRoomTopRightCornerLabel","房间右上角角标配置", "ToList";
+}
+
+message ConfRoomTopRightExtData {
+  string event_name = 1; // 事件名
+  string remake = 2; // 备注文案
+  int32  sub_type = 3; //角标子类型
+  int64  item_id = 4; //关联物品id
+  int64  ext_number= 5; //扩展的数字字段
+  int64  sub_item_id= 6; //关联物品子id
+}
+
+//一周CP规则配置
+message XcmConfWeekCPRule{
+  int32 call_duration =1;  //心动8分钟通话时长（分钟）
+  int32 receptions   =2;   //模同时接待人数
+  int32 im_invites   =3;    //IM一天邀请次数
+  int32 eight_minute_invites  =4;  //心动8分钟一天邀请次数
+  int32 rel_activity_id  =5;  //关联的子活动id
+  reserved "admin,chat,activity","hydrogen.chat.ConfWeekCpRule","一周CP规则配置";
+}
+
+//一周黑名单
+message XcmConfWeekCPBlack{
+  map<int64,bool> black_map  = 1;	 // 配置黑名单
+  reserved "chat,index","hydrogen.chat.ConfWeekCPBlack","一周CP黑名单";
+}
+
+message ConfWeekCPTask{
+  string task_name = 1; // 任务名称
+  string task_finish_icon = 2; // 完成任务图标
+  string task_intro_cp = 3; // 模侧描述
+  string task_intro_player = 4; // 用户侧描述
+  int64 task_finish_progress = 5; // 任务完成进度
+  int64 task_weight = 6; // 任务权重
+  string task_icon_bg = 7; // 任务图标(带背景)
+}
+
+message XcmConfWeekCPTasks{
+  map<int32,ConfWeekCPTask> task_map = 1;
+  reserved "admin,chat,mission", "hydrogen.admin.XcmConfWeekCPTasks", "一周CP任务配置";
+}
+
+message XcmConfWeekLoveTasks{
+  map<int32,ConfWeekCPTask> task_map = 1;
+  reserved "admin,chat,mission", "hydrogen.admin.XcmConfWeekLoveTasks", "一周CP爱的回忆任务配置";
+}
+
+// 一周CP资源配置
+message XcmConfWeeklyCpResources {
+  int32 boss_wealth_level = 1;	 // 老板财富等级
+  int64 reward_effect_id1 = 2;	 // 奖励特效1
+  int64 valid_day1 = 3; // 有效天数1
+  string reward_icon1 = 4;	 // 奖励图标1
+  int64 reward_effect_id2 = 5;	 // 奖励特效2
+  int64 valid_day2 = 6; // 有效天数2
+  string reward_icon2 = 7;	 // 奖励图标2
+  string reward_icon = 8;	 // 奖励图标
+  reserved "chat,timer","hydrogen.chat.conf_weekly_cp_resources","一周CP资源配置";
+}
+
+// 一周CP邀请弹窗配置
+message XcmWeekCPInviteConf {
+  string btn_content = 1; // 按钮内容
+  repeated string url_list = 2; // 图片URL
+  reserved "admin,chat","hydrogen.chat.XcmWeekCPInviteConf","一周CP邀请弹窗配置";
+}
+
+// 一周CP速配资源配置
+message XcmMatchWeekCPResourceCfg {
+  repeated string male_icon = 1; // 男性图片列表
+  repeated string female_icon = 2; // 女性图片列表
+  repeated string words = 3; // 对话列表
+  map<int64, MatchWeekWhiteSignMember> white_map = 4; // 模白名单
+  reserved "admin,chat,user", "hydrogen.chat.XcmMatchWeekCPResourceCfg", "一周CP速配资源配置";
+}
+
+message MatchWeekWhiteSignMember {
+  int64 player_id = 1; // 模ID
+  int64 weight = 2; // 权重
+}
+
+// 一周cp速配基础配置
+message XcmMatchWeekBaseCfg{
+  int64 cd = 1; // 匹配成功后冷冻期 秒
+  int64 send_num = 2; // 一次性给 多少模派单
+  int64 max_initiate_num = 3; //模一天最多发起几次匹配
+  int64 max_initiated_num = 4; //用户一天最多几次收到邀请
+  int64 initiate_freeze_time = 5; // 模抢单成功后冷冻时间(秒)
+  int64 initiated_freeze_time = 6; // 用户被邀请后冷冻时间(秒)
+  int64 coupon_id = 7; // 优惠券ID
+  string coupon_tips = 8; // 优化券使用文案
+  reserved "admin,chat", "hydrogen.chat.XcmMatchWeekBaseCfg", "一周cp速配基础配置";
+}
+
+// 一周CP引导弹窗配置
+message XcmWeekCPGuideWindowConf{
+  string content = 1;       // 文案内容
+  int64 show_time = 2;      // 展示时间(秒)
+  string title = 3;         // 标题
+  int64 pop_up_time = 4;    // 弹出时间(秒) 通话X秒之后弹出
+  string btn_content = 5;   // 按钮内容
+  reserved "admin,chat","hydrogen.chat.XcmWeekCPGuideWindowConf","一周CP引导弹窗配置";
+}
+
+// 一周速配一对一配置
+message XcmMatchWeekOneToOneCfg{
+  map<int64, int64> cp_map = 1; // 一周CP一对一
+  map<int64, int64> travel_map = 2; // 一周旅行一对一
+  reserved "admin,chat", "hydrogen.chat.XcmMatchWeekOneToOneCfg", "一周速配一对一配置";
+}
+
+// 条件累计奖池配置
+message XcmConfPileUpLottery {
+  int64 id = 1;
+  int32 act_id = 2;//主活动
+  int32 rel_act_id = 3;//子活动
+  string name = 4;//配置名字
+  int32 award_id = 5;//奖品id
+  int32 init_award_num = 6;//初始投入奖池的奖品个数
+  int32 award_cost = 7;//每个奖品的成本
+  int32 draw_single_price = 8;//每一抽的单价
+  int32 ticket_valid_date = 9;//奖券有效期，0一直有效，1本轮有效，2本轮+下轮两轮有效
+  int32 per_draw = 10;//每per_draw抽
+  int32 per_unit = 11;//增加per_unit里程
+  string unit_name = 12;//单位名，如里程
+  int32 target_unit_num = 13;//目标里程
+  int32 incr_award_num = 14;//达到目标里程则投入几个礼物
+  repeated ConfDrawTiming draw_timings = 15;//开奖的时间点
+  bool room_chat = 16;
+  string room_chat_msg = 17;
+  bool all_chat = 18;
+  string all_chat_msg = 19;
+  bool send_mail = 20;
+  string send_mail_msg = 21;
+  int32 lottery_id = 22;//联动的奖池id
+  int64 accumulating_from=23;//开始累计里程时间
+  int64 accumulating_to=24;//截止累计里程时间
+  int32 welfare_id=25;//绑定的福利id
+  bool all_mail = 26;
+  string all_mail_title = 27;
+  string all_mail_msg = 28;
+  int32 wealth_lv_limit = 29;
+  reserved "activity,admin","hydrogen.activity.XcmConfPileUpLottery","条件累计奖池配置","ToList";
+}
+
+message ConfDrawTiming {
+    int64 id = 1;
+    int64 draw_at_unix = 2;
+}
+
+// 公会周奖励配置
+message XcmClanWeekRewardCfg {
+  int64 category_id = 1; // 公会分类ID
+  // 周流水阶梯区间 min ≤ 周流水 < max
+  int64 min_week_gold = 2;
+  int64 max_week_gold = 3; // -1 代表无上限
+  int64 reward_rate = 4; // 阶梯奖励分成 (使用时除以1000)
+  reserved "clan,admin","hydrogen.clan.XcmClanWeekRewardCfg","公会周奖励配置","ToList";
+}
+
+// 公会周奖励扶持开关
+message XcmClanWeekRewardOnOff {
+  bool issue_on_off = 1; // 发放开关
+  reserved "clan,admin", "hydrogen.clan.XcmClanWeekRewardOnOff", "公会周奖励扶持开关";
+}
+
+// 充值选项配置白名单
+message XcmConfRechargeWhitelistMap {
+  map<int32,ConfRechargeWhitelistMap> white_list_map = 1;
+  reserved "user","hydrogen.user.conf_recharge_whitelist","充值选项配置白名单";
+}
+
+message ConfRechargeWhitelistMap {
+  map<int64, int64> player_map = 1;
+}
+
+// 时装展馆-专属套装
+message XcmCubismExclusivePavilion {
+  string id = 1; // 服装id
+  string name = 2;  // 服装名称
+  CubismItemLevel level = 3; // 等级
+  string pic_url = 4; // 展示图片
+  string set_card_url = 5; // 套装卡片
+  string gain_at = 6; // 获得时间
+  string produce_way = 7; // 产出途径
+  int64 player_id = 8; // 所属用户
+  SexType cubism_sex = 9; // 服装性别
+  reserved "cubism,admin,room","hydrogen.cubism.CubismExclusivePavilion","时装展馆-专属套装","ToList";
+}
+
+// 时装展馆-限定套装
+message XcmCubismLimitedPavilion {
+  string id = 1; // 服装id
+  string name = 2;  // 服装名称
+  CubismItemLevel level = 3; // 等级
+  string pic_url = 4; // 展示图片
+  string set_card_url = 5; // 套装卡片
+  string produce_way = 6; // 产出途径
+  SexType cubism_sex = 7; // 服装性别
+  reserved "cubism,admin,room","hydrogen.cubism.CubismLimitedPavilion","时装展馆-限定套装","ToList";
+}
+// 周流水任务配置
+message XcmWeeklyGoldStreamTaskCfg{
+  string id = 1;
+  int32 consortia_category = 2; // 公会品类
+  int64 task_gold = 3; // 任务流水金币数
+  string operator  = 4; // 操作人
+  reserved "admin,user,clan", "hydrogen.admin.XcmWeeklyGoldStreamTaskCfg", "周流水任务配置","ToList";
+}
+
+//------------新人接待官---------------
+// 新人接待官陪陪名单
+message XcmCPGuideListCfg {
+  map <int64,bool> cp_guide_map = 1;
+  reserved "chat,user,friend","hydrogen.admin.XcmCPGuideListCfg","新人接待官陪陪名单";
+}
+
+// 新人接待官老板白名单
+message XcmCPGuideBossListCfg {
+  map <int64,bool> cp_guide_map = 1;
+  reserved "chat,user,friend","hydrogen.admin.XcmCPGuideBossListCfg","新人接待官老板名单";
+}
+
+// 新人接待官配置
+message XcmCPGuideConf {
+  message Reward {
+    int64 gift_id = 1; // 结成奖励礼物ID
+    int64 gift_num = 2; // 结成奖励礼物数量
+    string reward_desc = 3; // 结成奖励礼物文案
+  }
+
+  string icon_url = 1;//入口图标
+  bool on_off = 2;    // 入口开关
+  int64 guide_limit = 5;//陪玩同时接待人数上限(位)
+  int64 appoint_limit_hour = 6;//新人指定接待官限时(小时)
+  int64 change_limit_min = 7;//更换接待官限时(分钟)
+  int64 pop_tip_min = 8;//陪玩同时接待人数上限(位)
+  Reward male_reward = 10;//男性结成奖励
+  Reward female_reward = 11;//女性结成奖励
+  string reward_gift_desc = 12;//送礼信息文案（对陪玩提示）
+  map<int32, bool> white_channel_map = 13; // 渠道白名单
+  map<int64,bool> channel_type_map = 14;   // 渠道类型白名单
+  map<int64,bool> advendor_id_map = 15;    // 渠道平台
+  map<int32,bool> device_type_map = 16;    // 设备类型
+  bool and_or_bool = 17;                    // 全且 或 全或
+  string  white_channel = 18;
+  repeated int64 channel_type = 19;
+  repeated int64 advendor_id = 20;
+  repeated int32 device_type = 21;
+  int32 and_or = 22;
+  reserved "admin,chat","hydrogen.admin.XcmCPGuideCfg","新人接待官配置";
+}
+
+// 新人接待官返利配置
+message XcmCPGuideRebateCfg {
+  int64 rebate_duration = 1;//返利时间(d)
+  int64 rebate_percent = 2;//返利比例(%)
+  int64 rebate_limit = 3;//返利上限
+  reserved "admin,chat","hydrogen.admin.XcmCPGuideRebateCfg","新人接待官返利配置";
+}
+
+// 新人接待官任务配置
+message XcmCPGuideMissionCfg {
+  message Gift {
+    int64 gift_id = 1; // 试音礼物ID
+    int64 gift_num = 2; // 试音礼物数量
+    string desc = 3; // 试音任务文案
+  }
+
+  string in_room_desc = 1;//次日同房时长任务文案
+  int64 in_room_duration = 2;//次日同房时长(min)
+  string receive_message_desc = 3;//收到老板消息任务文案
+  int64 receive_message_num = 4;//收到老板消息(条)
+  Gift male_send_audition_gift = 5;//男性赠送试音礼物配置
+  Gift female_send_audition_gift = 6;//女性赠送试音礼物配置
+  Gift send_gift = 7;//厅内送出点歌或互动礼物配置
+  int64 mission_duration = 8;//任务完成时间(d)
+  string send_message_desc = 9;//发给老板消息任务文案
+  int64 send_message_num = 10;//发给老板消息(条)
+  reserved "admin,chat", "hydrogen.admin.XcmCPGuideMissionCfg", "新人接待官任务配置";
+}
+// 聊愈师分数配置
+message XcmCpChatHealScoreConfList{
+  int64 id = 1; // 类别ID
+  string name = 2; // 类别名称
+  int64 base_score = 3; // 基础分
+  int64 weight = 4; // 模块权重
+  string content = 5; // 模块引导文案
+  map<int64,CpChatHealScoreItem> item_detail = 6; // 具体增加分行为；key是CpChatHealAction枚举
+  int64 voice_score = 7; // 音色分
+  string voice_text = 8; // 音色分文案
+  int64 high_quality_score = 9; // 优质音色分
+  string high_quality_text = 10; // 优质音色分文案
+  reserved "admin,chat,mission","hydrogen.chat.XcmCpChatHealScoreConfList","聊愈师分数配置","ToList";
+}
+
+message CpChatHealScoreItem{
+  string name = 1; //聊愈值名称
+  int64 score = 2; // 分数
+  int64 valid_hours = 3; // 有效期 单位 小时 -1为永久
+  string remark = 4; //备注
+}
+
+message CpChatHealBaseConf{
+  string name = 1; // 聊愈师称号
+  int64 level = 2; // 聊愈师等级 CpChatHealLevel
+  int64 min_score = 3; // 分数段 下限 -1为不限制
+  int64 max_score = 4; // 分数段 上限 -1为不限制
+}
+
+message XcmCpChatHealBaseConf{
+  bool flag = 1 ; //开启后将优先按照级别进行筛选，然后再走原有8分钟派发逻辑
+  repeated CpChatHealBaseConf list = 2;
+  int64 min_num = 3; // 当前等级少于 多少人时则取下一级的接线员
+  reserved "admin,chat,mission","hydrogen.chat.XcmCpChatHealBaseConf","聊愈师等级配置";
+}
+message XcmGroupPhotoAlbumShowConfig {
+  int32 id = 1;
+  int32 level = 2;
+  string background_top_url = 3;
+  string background_bottom_url = 4;
+  string background_button_url = 5;
+  string background_button_pc_url = 6;
+  string app_corner_icon = 7;
+  string pc_corner_icon = 8;
+  string operator = 9;
+  int64 create_at = 10;
+  int64 update_at = 11;
+  reserved "admin,gift", "hydrogen.admin.XcmGroupPhotoAlbumShowConfig", "合拍相册展示配置", "ToList";
+}
+
+message XcmGroupPhotoAlbumBaseConfig {
+  int32 top_limit = 1; // 置顶数量限制
+  int32 star_unit_converter = 2; // 星级换算单位
+  reserved "admin,gift", "hydrogen.admin.XcmGroupPhotoAlbumBaseConfig", "合拍相册基本配置";
+}
+
+// 收礼获取积分配置
+message XcmPointsGainGiftConf {
+  bool on_off = 1;    // 开关
+  map<int64,uint64> gift_point_map = 2; // map<gift_id, point_num>
+  reserved "admin,gift", "hydrogen.admin.XcmPointsGainGiftConf", "积分商城积分获取配置";
+}
+
+// 积分商城积分商品配置
+message XcmPointsMallGoodsConf {
+  int64 id = 1; // 商品id
+  PointsMallGoodsType goods_type = 2; // 商品类型 1-礼物 2-特效
+  int64 gift_id = 3;  // 礼物id
+  int64 effect_id = 4; // 特效id
+  string goods_img = 5; // 商品图片
+  int64  point_num = 6; // 所需积分数
+  int64 valid_day = 7; // 有效期(天) -1无期限
+  int64 weight = 8; // 权重
+  reserved "admin,store", "hydrogen.admin.XcmPointsMallGoodsConf", "积分商城积分商品配置","ToList";
+}
+
+// 积分商城积分商品库存配置
+message XcmPointsMallGoodsStockConf {
+  int64 goods_id = 1; // 商品id
+  int64 daily_exchange_num = 2; // 每人限兑数量(日)
+  int64 daily_init_stock = 3; // 自动发放库存数量(日)
+  reserved "admin,store", "hydrogen.admin.XcmPointsMallGoodsStockConf", "积分商城积分商品库存配置","ToList";
+}
+
+message XcmRankStatementTaskConfig {
+  int32 id = 1;
+  int32 act_id = 2;
+  int32 rel_id = 3;
+  int32 rank_type = 4;  //任务榜单
+  int32 task_type = 5;  //任务类型
+  int32 trigger_type = 6; //触发类型
+  int32 member_type = 7; //成员类型
+  int32 award_type = 8; //奖励类型
+  RankTaskAwardWay award_way = 9; //奖励方式
+  RankTaskExtData ext_data = 10; //扩展配置
+  reserved "admin,activity", "hydrogen.admin.XcmRankStatementTaskConfig", "榜单流水任务配置", "ToList";
+}
+
+message RankTaskAwardWay {
+  int32 rate = 1; //奖励换算比例
+  int32 partition_type =2; //奖励分配方式
+}
+
+message RankTaskExtData {
+  int32 target_point = 1; //目标积分
+  int32 team_member_num = 2; // 组队成员上限
+  int32 team_member_type = 3; // 限定成员类型
+  int32 team_limit_range = 4; // 限定组队范围
+}
+
+// 虚拟号码限制注册
+message XcmConfSignUpInvented {
+  bool is_open = 1;	 // 虚拟号码限制注册开关
+  int32 device_count = 2;	 // 同设备限制个数
+  int32 ip_count = 3;	 // 同IP限制个数
+  reserved "uauth,user","hydrogen.uauth.conf_sign_up_invented","虚拟号码限制注册";
+}
+
+// 虚拟号码限制注册白名单
+message XcmConfSignUpInventedWhiteMap{
+  map<string, bool> white_map = 1;   // 配置白名单
+  reserved "uauth,user", "hydrogen.uauth.conf_sign_up_invented_white_map", "虚拟号码限制注册白名单";
+}
+
+// 有奖活动触发奖励配置
+message XcmConfLotteryTriggerAward {
+  int32 trigger_lottery_id = 1; // 触发有奖ID
+  int32 relate_lottery_id = 2; // 关联有奖ID
+  repeated PairInt32Num award_num_weight = 3; //奖励权重数据
+  reserved "activity,admin","oxygen.activity.ConfLotteryTriggerAward","有奖活动触发奖励配置";
+}
+
+message BoxNewRandomGift {
+  int32 gift_id = 1;
+  int32 gift_weight = 2;
+  int32 valid_date = 3;
+}
+
+message BoxNewCycleLimitType {
+  int32 cycle = 1;
+  int32 cycle_num = 2;
+  int32 sum = 3;
+}
+
+message BoxNewLimit {
+  int32 limit_player = 1; // 限制用户对象 0-收礼者 1-送礼者
+  int32 wealth_level = 2; //	财富等级
+  int32 charm_level = 3;  // 魅力等级
+  int32 and_or = 4;      // 且或  0-且 1-或
+}
+
+message GiftNewBoxEffectCfg {
+  int32  trigger_type = 1;     // 触发类型 0-无效果 1-特效 2-礼物
+  int32  target = 2;            // 触发对象 0-收礼者 1-送礼者
+  int32  effect_id = 3;        // 宝箱开出的ID，是特效为特效ID，是礼物为礼物ID
+  int32  box_num = 4;           // 宝盒里的礼物数量
+  int32  timeout = 5;           // 持续时间 秒
+  int32  add_type = 6;         // 活动类型 0-叠加 1-覆盖
+  int32  defer_time = 7;       // 延时时间 毫秒
+  int32  room_chat = 8;        // 房间公屏 0-否 1-是
+  string room_chat_msg = 9;    // 房间公屏内容
+  int32  room_chat_to_room = 10; // 跳转到房间 0-否 1-是
+  int32  all_chat = 11;          // 全网公屏 0-否 1-是
+  string all_chat_msg = 12;      // 全网公屏内容
+  int32  all_chat_to_room = 13;  // 跳转到房间 0-否 1-是
+  int32  send_mail = 14;         // 送礼私信 0-否 1-是
+  string send_mail_msg = 15;     // 送礼私信内容
+  int32  send_mail_to_room = 16; // 跳转到房间 0-否 1-是
+  int32  rec_mail = 17;          // 收礼私信 0-否 1-是
+  string rec_mail_msg = 18;      // 收礼私信内容
+  int32  rec_mail_to_room = 19;  // 跳转到房间 0-否 1-是
+  int32  all_mail = 20;          // 全网私信 0-否 1-是
+  string all_mail_msg = 21;      // 全网私信内容
+  int32  all_mail_to_room = 22;  // 跳转到房间 0-否 1-是
+  int32  trigger_time = 23;      // 触发时间
+  int32  trigger_multiple_num = 24; //触发倍数
+  repeated BoxNewRandomGift rand_pool_obj = 25; //随机奖池
+  string effect_name = 26;  // 如果是特效就是特效名称
+  string box_name = 27;     // 宝盒里的礼物名称
+  int32 gold = 28;          // 礼物价值
+  BoxNewRandomGift rand_pool_result = 29; //随机奖池结果
+}
+
+message XcmGiftBoxNewCfg {
+  int32 id = 1;
+  string name = 2;
+  int32 gift_id = 3;
+  int32 weight = 4;
+  repeated GiftNewBoxEffectCfg effect_list = 5; // 效果列表
+  BoxNewLimit player_limit_obj = 6; // 用户限制
+  BoxNewCycleLimitType cycle_limit = 7; // 循环限制数量
+  string weight_ratio = 8;  // 权重概率
+  reserved "gift","hydrogen.gift.GiftNewBoxCfg","宝盒礼物2.0配置","ToList";
+}
+
+message XcmBarrageGame {
+  message RoomTag {
+    string tag_icon = 1; // 标识图标
+    int32  tag_type = 2; // 标识类型 0-无 1-方形
+  }
+
+  int64 game_id = 1; // 游戏id
+  string game_name = 2; // 游戏名称
+  string game_ent_icon = 3; // 游戏入口图标
+  string game_addr = 4; // 游戏地址
+  int64 single_game_minute = 5; // 单局游戏时长 (分钟)
+  string classify_name = 6; // 游戏分栏名称
+  int64 weight = 7; // 游戏权重
+  int32 start_hour = 8; // 开放时间 (钟点)
+  int32 end_hour = 9; // 结束时间 (钟点)
+  repeated int64 clan_cates = 10; // 有效的公会分类id
+  repeated int64 room_pattern_list = 11; // 有效的房间模式
+  repeated int64 gift_ids = 12; // 关联的礼物id
+  repeated RoomTag room_tags = 13; // 房间标识
+  string status_bar_color = 15; // 状态栏颜色
+  reserved "barragegame,admin,gift,room","hydrogen.barragegame.XcmBarrageGame","弹幕游戏基础配置","ToList";
+}
+
+message XcmBarrageGameMatch {
+  int64 timeout_second = 1; // 匹配超时时间
+  int64 confirm_countdown_second = 2; // 匹配确认倒计时时间
+  int64 return_pool_cd_second = 3; // 匹配回池冷却时间
+  reserved "barragegame,admin,gift,room","hydrogen.barragegame.XcmBarrageGameMatch","弹幕游戏匹配配置";
+}
+
+message XcmBarrageGameUserBehavior {
+  int32 wealth_level = 1; // 财富等级
+  int64 apply_cd_second = 2; // 申请冷却时间 (秒)
+  reserved "barragegame,admin,gift,room","hydrogen.barragegame.XcmBarrageGameUserBehavior","弹幕游戏用户行为配置";
+}
+
+message BarrageGameOneToOne {
+  repeated int64 room_id = 1;
+}
+
+message BarrageGameOneToOneMap {
+  map<int64, BarrageGameOneToOne> one_to_one_map = 1;
+}
+
+message XcmBarrageGameOneToOne {
+  map<int64, BarrageGameOneToOneMap> cfg_map = 1;
+  reserved "barragegame,admin,gift,room","hydrogen.barragegame.XcmBarrageGameOneToOne","弹幕游戏一对一匹配配置";
+}
+
+message XcmBarrageGamePush {
+  message Conf {
+    int64 push_bit_rate = 1; // 推流码率
+    int64 push_frame_rate = 2; // 推流帧率
+    int64 keyframe_interval = 3; // 关键帧间隔
+    int64 video_width = 4; // 视频宽度
+    int64 video_height = 5; // 视频高度
+  }
+  Conf app = 1; // app推流配置
+  Conf pc = 2; // pc推流配置
+  reserved "barragegame,admin,gift,room","hydrogen.barragegame.XcmBarrageGamePush","弹幕游戏推流配置";
+}
+
+message XcmBarrageGameAnnouncement {
+  int64 id = 1;
+  int64 game_id = 2; // 游戏id
+  int32 show_position = 3; // 展示位置 1-公屏消息
+  int32 trigger_scen = 4; // 触发场景 1-游戏进行中 2-游戏结束
+  int32 trigger_type = 5; // 类型 1-单用户累计送礼价值 2-双方房间累计送礼价值
+  int64 gold_num = 6; // 送礼金币数
+  string public_msg = 7; // 公屏消息(存在变量占位符)
+  reserved "barragegame,admin,gift,room", "hydrogen.barragegame.XcmBarrageGameAnnouncement", "弹幕游戏公告配置", "ToList";
+}
+
+// 新手宝箱萌新配置
+message XcmConfNewbie {
+  message Gift {
+    int64 gift_num = 1; // 礼物数量
+    int64 gift_id = 2; // 礼物ID
+  }
+
+  int32 newbie_ageing = 1; // 萌新时效(小时)
+  map<int32, bool> white_channel_map = 2; // 渠道白名单
+  map<int64,bool> channel_type_map = 3;   // 渠道类型白名单
+  map<int64,bool> advendor_id_map = 4;    // 渠道平台
+  map<int32,bool> device_type_map = 5;    // 设备类型
+  bool and_or_bool = 6;                    // 全且 或 全或
+  string  white_channel = 7;
+  repeated int64 channel_type = 8;
+  repeated int64 advendor_id = 9;
+  repeated int32 device_type = 10;
+  int32 and_or = 11;
+  Gift male_gift = 12; // 萌新赠送礼物配置-男性
+  Gift female_gift = 13; // 萌新赠送礼物配置-女性
+  reserved "user,admin","hydrogen.admin.XcmConfNewbie","萌新配置";
+}
+
+// 新手宝箱免费宝箱配置
+message XcmConfNewerBoxFree {
+  int32 index_stay_second = 1; // 首页停留时间(秒)
+  string index_male_pop_img = 2; // 首页弹窗图片-男用户
+  string index_female_pop_img = 3; // 首页弹窗图片-女用户
+  int32 room_stay_second = 4; // 房间自动发放倒计时(秒)
+  string room_ent_icon = 5; // 房间入口图标
+  string room_pop_text = 6; // 房间弹框文案
+  reserved "user,admin","hydrogen.admin.XcmConfNewerBoxFree","新手宝箱免费宝箱配置";
+}
+
+// 新手宝箱6元宝箱配置
+message XcmConfNewerBoxSix {
+  message Reward {
+    int64  id = 1; // 奖励记录id
+    SexType  sex = 2; // 用户性别 0-不限 1-男 2-女
+    int64  weight = 3; // 权重
+    int32  reward_type = 4; // 礼物类型 1-礼物 2-特效
+    int64  gift_id = 5; // 礼物id(reward_type = 1)
+    int64  effect_id = 6; // 特效id(reward_type = 2)
+    int32  valid_day = 7; // 有效期(天) -1代表无限期
+    int32  reward_num = 8; // 个数
+  }
+
+  string ent_icon = 1; // 入口图标
+  string pop_text = 2; // 弹框文案
+  int32  buy_price = 3; // 购买价(显示)
+  int32  line_price = 4; // 划线价(显示)
+  int32  android_gold = 5; // 实际扣除金币数(安卓)
+  int32  ios_gold = 6; // 实际扣除金币数(IOS)
+  repeated Reward reward_list = 7; // 奖励列表
+  reserved "user,admin","hydrogen.admin.XcmConfNewerBoxSix","新手宝箱6元宝箱配置";
+}
+
+// 新手宝箱累计充值配置
+message XcmConfNewerBoxTotalRecharge {
+  message Gear {
+    int64 one = 1; // 第一档
+    int64 two = 2; // 第二档
+    int64 three = 3; // 第三档
+  }
+
+  message Reward {
+    int64  id = 1; // 奖励记录id
+    int32  gear_type =2; // 档位 1-一档 2-二挡 3-三挡
+    SexType  sex = 3; // 用户性别 0-不限 1-男 2-女
+    int64  weight = 4; // 权重
+    int32  reward_type = 5; // 礼物类型 1-礼物 2-特效
+    int64  gift_id = 6; // 礼物id(gift_type = 1)
+    int64  effect_id = 7; // 特效id(gift_type = 2)
+    int32  valid_day = 8; // 有效期(天) -1代表无限期
+    int32  reward_num = 9; // 个数
+  }
+
+  string ent_icon = 1; // 入口图标
+  Gear   android_gear = 2; // 安卓累充档位
+  Gear   ios_gear = 3; // ios累充档位
+  Gear   gift_gear = 4; // 礼物价值
+  repeated Reward reward_list = 5; // 奖励列表
+  reserved "user,admin","hydrogen.admin.XcmConfNewerBoxTotalRecharge","新手宝箱累充宝箱配置";
+}
+
+// 新手宝箱白名单
+message XcmConfNewerBoxWhite {
+  map<int64, bool> white_list = 1; // 白名单
+  reserved "user,admin","hydrogen.admin.XcmConfNewerBoxWhiteList","新手宝箱白名单配置";
+}
+
+// 房间特效配置
+message XcmRoomEffectConf {
+  map<int64,RoomEffectConf> room_effect_map = 36;
+  reserved "admin,room","hydrogen.room.XcmRoomEffectConf","房间特效配置";
+}
+
+// 房间特效配置
+message RoomEffectConf {
+  int64 room_effect_id = 1;	 // 房间特效ID
+  string room_effect_name = 2;	 // 房间特效名字
+  string room_effect_pic = 3;	 // 特效图片
+  string room_effect_url = 4;	 // 特效资源
+  string room_pc_effect_url = 5;	 // pc特效资源
+  repeated int64 consortia_category = 6;// 可显示该特效的公会类型
+  int64 room_effect_time = 7;	 // 房间时长
+}
+
+message XcmHighFrequencyFocusOnOffCfg{
+  bool is_open = 1; // 开关状态
+  reserved "admin,friend","hydrogen.friend.XcmHighFrequencyFocusOnOffCfg","高频关注功能开关";
+}
+
+message XcmHighFrequencyFocusWhiteListMap{
+  map<int64,HighFrequencyFocusWhiteItem> white_list_map = 1;
+  reserved "admin,friend","hydrogen.friend.XcmHighFrequencyFocusWhiteListMap","高频关注白名单";
+}
+
+message HighFrequencyFocusWhiteItem {
+  int64 player_id = 1; // 用户ID
+  int64 end_time = 2; // 失效时间戳
+}
+
+message XcmHighFrequencyFocusConf{
+  int64 id = 1; // 配置ID
+  ACMHFFSmallAccountType small_account_type = 2; // 小号判断
+  repeated int64 clan_type = 3; // 关注人公会身份
+  ACMHFFCertifyType certify_type = 4; // 实名状态
+  repeated int64 register_type = 5; // 注册方式
+  int32 charm_min = 6; // 最小魅力值
+  int32 charm_max = 7; // 最大魅力值
+  int32 wealth_min = 8; // 最小财富值
+  int32 wealth_max = 9; // 最大财富值
+  repeated int64 strange_clan_type = 10; // 被关注人公会身份
+  int64 action_focus_time = 11; // 近X时间
+  int64 action_focus_unit = 12; // 时间单位;60:分;3600:小时
+  int64 action_focus_num = 13; // 关注人数
+  repeated int32 ban_type = 14; // 处罚方式
+  int64 relieve_time = 15; // 处罚时长
+  int64 other_time = 16; // 处罚时长(自定义)
+  int64 weight = 17; // 配置权重
+  reserved "admin,friend","hydrogen.friend.XcmHighFrequencyFocusConf","高频关注配置","ToList";
+}
+
+enum ACMHFFSmallAccountType {
+  ACMHFFSAT_NONE = 0; // 不判断小号
+  ACMHFFSAT_TRUE = 1; // 是小号
+  ACMHFFSAT_FALSE = 2; // 不是小号
+}
+
+enum ACMHFFCertifyType {
+  ACMHFFCT_NONE = 0; // 不判断实名
+  ACMHFFCT_FALSE = 1; // 未实名
+  ACMHFFCT_TRUE = 2; // 已实名
+}
+
+message HighFrequencyFocusIPCfg{
+  int64 day_num = 1; // 天数
+  int32 player_num = 2; // 人数
+  reserved "admin,friend","hydrogen.friend.HighFrequencyFocusIPCfg","高频关注IP预警配置";
+  repeated int64 consortia_category = 5;// 可显示该特效的公会类型
+  int64 room_effect_time = 6;	 // 房间时长
+}
+
+// 活动榜单房间特效关联配置
+message XcmRankRoomEffectRelateConf {
+  int32 id = 1;
+  int32 act_id = 2;
+  int32 rel_id = 3;
+  int32 rank_stage = 4;
+  repeated string time_list = 5;
+  repeated RoomEffectRankConf rank_effect_list = 6;
+  reserved "admin,activity","hydrogen.activity.XcmRankRoomEffectRelateConf","活动榜单房间特效关联配置", "ToList";
+}
+
+// 活动榜单名次配置
+message RoomEffectRankConf {
+  int32 min_rank = 1;
+  int32 max_rank = 2;
+  int64 room_effect_id = 3;
+}
+
+message XcmGiftTopicConf {
+  int64 id = 1;
+  int64 topic_type_id = 2; //话题类型id
+  string topic_content = 3; //话题内容
+  int32  open_sex      = 4; //开启性别 -1不限制
+  int32  weight       = 5; //权重
+  reserved "gift","hydrogen.gift.GiftTopicConf","礼物话题配置","ToList";
+}
+
+message XcmPushTopicGift {
+  int64  gift_id = 1;
+  reserved "gift,admin", "hydrogen.gift.PushTopicGift", "话题礼物配置";
+}

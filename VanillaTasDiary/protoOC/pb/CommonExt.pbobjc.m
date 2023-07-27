@@ -83,96 +83,6 @@ BOOL PB3AppId_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PB3SubInfoActivityType
-
-GPBEnumDescriptor *PB3SubInfoActivityType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "SbiatZero\000SbiatRedEnvelope\000SbiatRandomId"
-        "2\000SbiatPkRank\000";
-    static const int32_t values[] = {
-        PB3SubInfoActivityType_SbiatZero,
-        PB3SubInfoActivityType_SbiatRedEnvelope,
-        PB3SubInfoActivityType_SbiatRandomId2,
-        PB3SubInfoActivityType_SbiatPkRank,
-    };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SubInfoActivityType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3SubInfoActivityType_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3SubInfoActivityType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3SubInfoActivityType_SbiatZero:
-    case PB3SubInfoActivityType_SbiatRedEnvelope:
-    case PB3SubInfoActivityType_SbiatRandomId2:
-    case PB3SubInfoActivityType_SbiatPkRank:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
-#pragma mark - Enum PB3IntimateFansTargetType
-
-GPBEnumDescriptor *PB3IntimateFansTargetType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "IfttNone\000IfttRoomListenInHost\000IfttRoomLi"
-        "stenInHostDuration\000IfttRoomGiftToHost\000If"
-        "ttRoomChat\000IfttHostZoneCommenting\000IfttHo"
-        "stZoneImpression\000";
-    static const int32_t values[] = {
-        PB3IntimateFansTargetType_IfttNone,
-        PB3IntimateFansTargetType_IfttRoomListenInHost,
-        PB3IntimateFansTargetType_IfttRoomListenInHostDuration,
-        PB3IntimateFansTargetType_IfttRoomGiftToHost,
-        PB3IntimateFansTargetType_IfttRoomChat,
-        PB3IntimateFansTargetType_IfttHostZoneCommenting,
-        PB3IntimateFansTargetType_IfttHostZoneImpression,
-    };
-    static const char *extraTextFormatInfo = "\007\000d\204\000\001d\220\000\002d\230\000\003d\216\000\004d\210\000\005d\222\000\006d\222\000";
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IntimateFansTargetType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3IntimateFansTargetType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3IntimateFansTargetType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3IntimateFansTargetType_IfttNone:
-    case PB3IntimateFansTargetType_IfttRoomListenInHost:
-    case PB3IntimateFansTargetType_IfttRoomListenInHostDuration:
-    case PB3IntimateFansTargetType_IfttRoomGiftToHost:
-    case PB3IntimateFansTargetType_IfttRoomChat:
-    case PB3IntimateFansTargetType_IfttHostZoneCommenting:
-    case PB3IntimateFansTargetType_IfttHostZoneImpression:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
 #pragma mark - Enum PB3CommonErr
 
 GPBEnumDescriptor *PB3CommonErr_EnumDescriptor(void) {
@@ -181,8 +91,7 @@ GPBEnumDescriptor *PB3CommonErr_EnumDescriptor(void) {
     static const char *valueNames =
         "ErrCodeNone\000ErrCodeRedis\000ErrCodeMysql\000Er"
         "rCodeFrequency\000ErrCodeParam\000ErrCodeNoMat"
-        "chObj\000ErrCodeBusy\000ErrCodeMaintain\000ErrCod"
-        "eUnavailable\000ErrCodeLimit\000";
+        "chObj\000ErrCodeBusy\000ErrCodeMaintain\000";
     static const int32_t values[] = {
         PB3CommonErr_ErrCodeNone,
         PB3CommonErr_ErrCodeRedis,
@@ -192,10 +101,8 @@ GPBEnumDescriptor *PB3CommonErr_EnumDescriptor(void) {
         PB3CommonErr_ErrCodeNoMatchObj,
         PB3CommonErr_ErrCodeBusy,
         PB3CommonErr_ErrCodeMaintain,
-        PB3CommonErr_ErrCodeUnavailable,
-        PB3CommonErr_ErrCodeLimit,
     };
-    static const char *extraTextFormatInfo = "\n\000\013\000\001\014\000\002\014\000\003\020\000\004\014\000\005\021\000\006\013\000\007\017\000\010\022\000\t\014\000";
+    static const char *extraTextFormatInfo = "\010\000\013\000\001\014\000\002\014\000\003\020\000\004\014\000\005\021\000\006\013\000\007\017\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CommonErr)
                                        valueNames:valueNames
@@ -221,8 +128,6 @@ BOOL PB3CommonErr_IsValidValue(int32_t value__) {
     case PB3CommonErr_ErrCodeNoMatchObj:
     case PB3CommonErr_ErrCodeBusy:
     case PB3CommonErr_ErrCodeMaintain:
-    case PB3CommonErr_ErrCodeUnavailable:
-    case PB3CommonErr_ErrCodeLimit:
       return YES;
     default:
       return NO;
@@ -310,11 +215,10 @@ GPBEnumDescriptor *PB3RoomPattern_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "RpGame\000RpStandard\000RpHighQuality\000RpPerson"
-        "al\000RpIntimate\000NpShow\000RpMate\000RpPerformMod"
-        "e\000RpMakingFriend\000RpSendOrder\000RpGamePlatf"
-        "orm\000NpAuction\000RpSingleLive\000RpMobaTeam\000Rp"
-        "OrganizeMobaTeam\000RpLive\000RpClub\000RpSingleL"
-        "iveVsn2\000RpCloudDisco\000";
+        "al\000RpIntimate\000NpShow\000RpMate\000RpSendOrder\000"
+        "RpGamePlatform\000NpAuction\000RpSingleLive\000Rp"
+        "MobaTeam\000RpOrganizeMobaTeam\000RpLive\000RpClu"
+        "b\000RpSingleLiveVsn2\000RpCloudDisco\000";
     static const int32_t values[] = {
         PB3RoomPattern_RpGame,
         PB3RoomPattern_RpStandard,
@@ -323,8 +227,6 @@ GPBEnumDescriptor *PB3RoomPattern_EnumDescriptor(void) {
         PB3RoomPattern_RpIntimate,
         PB3RoomPattern_NpShow,
         PB3RoomPattern_RpMate,
-        PB3RoomPattern_RpPerformMode,
-        PB3RoomPattern_RpMakingFriend,
         PB3RoomPattern_RpSendOrder,
         PB3RoomPattern_RpGamePlatform,
         PB3RoomPattern_NpAuction,
@@ -336,7 +238,7 @@ GPBEnumDescriptor *PB3RoomPattern_EnumDescriptor(void) {
         PB3RoomPattern_RpSingleLiveVsn2,
         PB3RoomPattern_RpCloudDisco,
     };
-    static const char *extraTextFormatInfo = "\001\021b\346\344\343\201\000";
+    static const char *extraTextFormatInfo = "\001\017b\346\344\343\201\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3RoomPattern)
                                        valueNames:valueNames
@@ -361,8 +263,6 @@ BOOL PB3RoomPattern_IsValidValue(int32_t value__) {
     case PB3RoomPattern_RpIntimate:
     case PB3RoomPattern_NpShow:
     case PB3RoomPattern_RpMate:
-    case PB3RoomPattern_RpPerformMode:
-    case PB3RoomPattern_RpMakingFriend:
     case PB3RoomPattern_RpSendOrder:
     case PB3RoomPattern_RpGamePlatform:
     case PB3RoomPattern_NpAuction:
@@ -573,14 +473,13 @@ GPBEnumDescriptor *PB3ChannelType_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "CtRoom\000CtAnonymous\000CtClan\000CtGlobal\000CtAll"
-        "Channel\000CtSquare\000";
+        "Channel\000";
     static const int32_t values[] = {
         PB3ChannelType_CtRoom,
         PB3ChannelType_CtAnonymous,
         PB3ChannelType_CtClan,
         PB3ChannelType_CtGlobal,
         PB3ChannelType_CtAllChannel,
-        PB3ChannelType_CtSquare,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ChannelType)
@@ -603,7 +502,6 @@ BOOL PB3ChannelType_IsValidValue(int32_t value__) {
     case PB3ChannelType_CtClan:
     case PB3ChannelType_CtGlobal:
     case PB3ChannelType_CtAllChannel:
-    case PB3ChannelType_CtSquare:
       return YES;
     default:
       return NO;
@@ -690,45 +588,6 @@ BOOL PB3OnlineStateType_IsValidValue(int32_t value__) {
     case PB3OnlineStateType_OstDisconnected:
     case PB3OnlineStateType_OstBackground:
     case PB3OnlineStateType_OstOnline:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
-#pragma mark - Enum PB3ChatMsgType
-
-GPBEnumDescriptor *PB3ChatMsgType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "CmtZero\000CmtText\000CmtImage\000CmtEmoji\000";
-    static const int32_t values[] = {
-        PB3ChatMsgType_CmtZero,
-        PB3ChatMsgType_CmtText,
-        PB3ChatMsgType_CmtImage,
-        PB3ChatMsgType_CmtEmoji,
-    };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ChatMsgType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3ChatMsgType_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3ChatMsgType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3ChatMsgType_CmtZero:
-    case PB3ChatMsgType_CmtText:
-    case PB3ChatMsgType_CmtImage:
-    case PB3ChatMsgType_CmtEmoji:
       return YES;
     default:
       return NO;
@@ -836,25 +695,24 @@ BOOL PB3InteractionType_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PB3TranslateType
+#pragma mark - Enum PB3GenderPattern
 
-GPBEnumDescriptor *PB3TranslateType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3GenderPattern_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "TtNormal\000TtPlural\000";
+        "GvZero\000GvMale\000GvFemale\000";
     static const int32_t values[] = {
-        PB3TranslateType_TtNormal,
-        PB3TranslateType_TtPlural,
+        PB3GenderPattern_GvZero,
+        PB3GenderPattern_GvMale,
+        PB3GenderPattern_GvFemale,
     };
-    static const char *extraTextFormatInfo = "\002\000b\206\000\001b\206\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3TranslateType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3GenderPattern)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3TranslateType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3GenderPattern_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -863,10 +721,11 @@ GPBEnumDescriptor *PB3TranslateType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3TranslateType_IsValidValue(int32_t value__) {
+BOOL PB3GenderPattern_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3TranslateType_TtNormal:
-    case PB3TranslateType_TtPlural:
+    case PB3GenderPattern_GvZero:
+    case PB3GenderPattern_GvMale:
+    case PB3GenderPattern_GvFemale:
       return YES;
     default:
       return NO;
@@ -1199,27 +1058,11 @@ GPBEnumDescriptor *PB3PlayerFlags3_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "Pf3Zero\000PfNoTicket\000PfSetSexPasswd\000PfBind"
-        "ChinaBank\000PfBindHongkongBank\000PfBindMalay"
-        "siaBank\000PfBindIndiaBank\000PfBindUsaBank\000Pf"
-        "BindCanadaBank\000PfBindIndonesiaBank\000PfBin"
-        "dTaiwanBank\000PfBindPaypal\000PfBindSingapore"
-        "Bank\000PfBindOtherBank\000";
+        "Pf3Zero\000PfNoTicket\000PfSetSexPasswd\000";
     static const int32_t values[] = {
         PB3PlayerFlags3_Pf3Zero,
         PB3PlayerFlags3_PfNoTicket,
         PB3PlayerFlags3_PfSetSexPasswd,
-        PB3PlayerFlags3_PfBindChinaBank,
-        PB3PlayerFlags3_PfBindHongkongBank,
-        PB3PlayerFlags3_PfBindMalaysiaBank,
-        PB3PlayerFlags3_PfBindIndiaBank,
-        PB3PlayerFlags3_PfBindUsaBank,
-        PB3PlayerFlags3_PfBindCanadaBank,
-        PB3PlayerFlags3_PfBindIndonesiaBank,
-        PB3PlayerFlags3_PfBindTaiwanBank,
-        PB3PlayerFlags3_PfBindPaypal,
-        PB3PlayerFlags3_PfBindSingaporeBank,
-        PB3PlayerFlags3_PfBindOtherBank,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PlayerFlags3)
@@ -1240,17 +1083,6 @@ BOOL PB3PlayerFlags3_IsValidValue(int32_t value__) {
     case PB3PlayerFlags3_Pf3Zero:
     case PB3PlayerFlags3_PfNoTicket:
     case PB3PlayerFlags3_PfSetSexPasswd:
-    case PB3PlayerFlags3_PfBindChinaBank:
-    case PB3PlayerFlags3_PfBindHongkongBank:
-    case PB3PlayerFlags3_PfBindMalaysiaBank:
-    case PB3PlayerFlags3_PfBindIndiaBank:
-    case PB3PlayerFlags3_PfBindUsaBank:
-    case PB3PlayerFlags3_PfBindCanadaBank:
-    case PB3PlayerFlags3_PfBindIndonesiaBank:
-    case PB3PlayerFlags3_PfBindTaiwanBank:
-    case PB3PlayerFlags3_PfBindPaypal:
-    case PB3PlayerFlags3_PfBindSingaporeBank:
-    case PB3PlayerFlags3_PfBindOtherBank:
       return YES;
     default:
       return NO;
@@ -1347,17 +1179,38 @@ GPBEnumDescriptor *PB3OnOffType_EnumDescriptor(void) {
         "ecall\000CpSexSelect\000CpSameCity\000DepositWhit"
         "e\000BehaviorGiveAlarm\000GiftRankDialog\000ImHar"
         "assComplaints\000RoomDepositSwitch\000FamilyDe"
-        "positSwitch\000ShowRevenueHeatValue\000IdLogin"
-        "\000FacebookLogin\000TwitterLogin\000AliBonus\000Inn"
-        "erAliFish\000InnerTecFish\000RemoteLogin\000Remot"
-        "eProtect\000CompositeSearch\000CompositeTextSe"
-        "arch\000ClanSignMemberCertify\000GiftCollectLe"
-        "vel\000RankShow\000HotFirepowerRank\000CloseComme"
-        "ntPublish\000HotPointSpaceShow\000UserIpAreaSh"
-        "ow\000TrendsIpAreaShow\000IndexGiftRank\000ImCpDi"
-        "alog\000RankHideRule\000ZoneIntimateTab\000Invite"
-        "Award\000CancelAccount\000ExchangeDiamondToGol"
-        "d\000GoogleIab\000AppleIap\000GiveAwayDiamond\000";
+        "positSwitch\000ShowRevenueHeatValue\000SingleL"
+        "ive\000PlayerInfoPkData\000AliBonus\000InnerAliFi"
+        "sh\000InnerTecFish\000RemoteLogin\000RemoteProtec"
+        "t\000CompositeSearch\000CompositeTextSearch\000Cl"
+        "anSignMemberCertify\000GiftCollectLevel\000Ran"
+        "kShow\000HotFirepowerRank\000CloseCommentPubli"
+        "sh\000HotPointSpaceShow\000UserIpAreaShow\000Tren"
+        "dsIpAreaShow\000IndexGiftRank\000ImCpDialog\000Ra"
+        "nkHideRule\000ZoneIntimateTab\000CubismShow\000Ph"
+        "omeIndexPushSpecial\000ShowIntimateBackgrou"
+        "nd\000BlackCustomer\000ThirdAccountBind\000Active"
+        "CreditScore\000NotCertificationEnterRoomFai"
+        "led\000IntimateCultivate\000IpAreaUpdate\000Highl"
+        "ightGiftShow\000IntimateRank\000ActSubInfoInte"
+        "ractive\000CompanyPublicSettle\000BlackWhaleSt"
+        "ore\000BlackWhaleStoreShow\000WeekCpEntrance\000W"
+        "eekCpFunction\000ChangeCoinSms\000WeekCpEntran"
+        "ceIos\000HeadLineSwitch\000BroadcastFriend\000Exc"
+        "hangeAgeLimit\000PublicSettleWithdrawLimit\000"
+        "WeekCpRewardLimit\000NewUserRandomRoom\000Bist"
+        "roBuyDialogShow\000BlackWhiteModel\000PersonPu"
+        "blicSettleSignEntrance\000WeiXinVipCustomer"
+        "Service\000AcgnQuizSwitch\000CpImSwitch\000RoomTo"
+        "pRightCornerLabel\000GenderPatternSelectWin"
+        "dows\000HonourMedalSwitch\000AcgnMaleHome\000Acgn"
+        "FemaleHome\000AcgnFemaleQuizSwitch\000GiftGrou"
+        "pPhotoAlbumSwitch\000CpChatHealLevelOnOff\000C"
+        "pChathealActionOnOff\000CpguideOnOff\000Cpguid"
+        "eRewardGift\000ClanCpguideRankOnOff\000PointsM"
+        "all\000GiftSameCertify\000GiftSamePhone\000NewerB"
+        "oxSwitch\000NewbieSendGiftSwitch\000InteractTo"
+        "picEdit\000InteractTopicSwitch\000";
     static const int32_t values[] = {
         PB3OnOffType_YearBag,
         PB3OnOffType_CrackEgg,
@@ -1598,9 +1451,8 @@ GPBEnumDescriptor *PB3OnOffType_EnumDescriptor(void) {
         PB3OnOffType_RoomDepositSwitch,
         PB3OnOffType_FamilyDepositSwitch,
         PB3OnOffType_ShowRevenueHeatValue,
-        PB3OnOffType_IdLogin,
-        PB3OnOffType_FacebookLogin,
-        PB3OnOffType_TwitterLogin,
+        PB3OnOffType_SingleLive,
+        PB3OnOffType_PlayerInfoPkData,
         PB3OnOffType_AliBonus,
         PB3OnOffType_InnerAliFish,
         PB3OnOffType_InnerTecFish,
@@ -1620,14 +1472,58 @@ GPBEnumDescriptor *PB3OnOffType_EnumDescriptor(void) {
         PB3OnOffType_ImCpDialog,
         PB3OnOffType_RankHideRule,
         PB3OnOffType_ZoneIntimateTab,
-        PB3OnOffType_InviteAward,
-        PB3OnOffType_CancelAccount,
-        PB3OnOffType_ExchangeDiamondToGold,
-        PB3OnOffType_GoogleIab,
-        PB3OnOffType_AppleIap,
-        PB3OnOffType_GiveAwayDiamond,
+        PB3OnOffType_CubismShow,
+        PB3OnOffType_PhomeIndexPushSpecial,
+        PB3OnOffType_ShowIntimateBackground,
+        PB3OnOffType_BlackCustomer,
+        PB3OnOffType_ThirdAccountBind,
+        PB3OnOffType_ActiveCreditScore,
+        PB3OnOffType_NotCertificationEnterRoomFailed,
+        PB3OnOffType_IntimateCultivate,
+        PB3OnOffType_IpAreaUpdate,
+        PB3OnOffType_HighlightGiftShow,
+        PB3OnOffType_IntimateRank,
+        PB3OnOffType_ActSubInfoInteractive,
+        PB3OnOffType_CompanyPublicSettle,
+        PB3OnOffType_BlackWhaleStore,
+        PB3OnOffType_BlackWhaleStoreShow,
+        PB3OnOffType_WeekCpEntrance,
+        PB3OnOffType_WeekCpFunction,
+        PB3OnOffType_ChangeCoinSms,
+        PB3OnOffType_WeekCpEntranceIos,
+        PB3OnOffType_HeadLineSwitch,
+        PB3OnOffType_BroadcastFriend,
+        PB3OnOffType_ExchangeAgeLimit,
+        PB3OnOffType_PublicSettleWithdrawLimit,
+        PB3OnOffType_WeekCpRewardLimit,
+        PB3OnOffType_NewUserRandomRoom,
+        PB3OnOffType_BistroBuyDialogShow,
+        PB3OnOffType_BlackWhiteModel,
+        PB3OnOffType_PersonPublicSettleSignEntrance,
+        PB3OnOffType_WeiXinVipCustomerService,
+        PB3OnOffType_AcgnQuizSwitch,
+        PB3OnOffType_CpImSwitch,
+        PB3OnOffType_RoomTopRightCornerLabel,
+        PB3OnOffType_GenderPatternSelectWindows,
+        PB3OnOffType_HonourMedalSwitch,
+        PB3OnOffType_AcgnMaleHome,
+        PB3OnOffType_AcgnFemaleHome,
+        PB3OnOffType_AcgnFemaleQuizSwitch,
+        PB3OnOffType_GiftGroupPhotoAlbumSwitch,
+        PB3OnOffType_CpChatHealLevelOnOff,
+        PB3OnOffType_CpChathealActionOnOff,
+        PB3OnOffType_CpguideOnOff,
+        PB3OnOffType_CpguideRewardGift,
+        PB3OnOffType_ClanCpguideRankOnOff,
+        PB3OnOffType_PointsMall,
+        PB3OnOffType_GiftSameCertify,
+        PB3OnOffType_GiftSamePhone,
+        PB3OnOffType_NewerBoxSwitch,
+        PB3OnOffType_NewbieSendGiftSwitch,
+        PB3OnOffType_InteractTopicEdit,
+        PB3OnOffType_InteractTopicSwitch,
     };
-    static const char *extraTextFormatInfo = "\033\te\203\000\023e\202\000\034h\201\000 h\201\346\0006\005\205\000<\005\207\000]\004\344\000_\005\203\000`\005\203\000v\003\210\343\000z\022\000\245\001\005\000\324\001h\343\201\000\331\001h\344\343\201\000\332\001h\344\346\343\201\000\336\001\021\000\337\001\r\000\340\001\014\000\343\001\023\000\350\001\014\000\354\001\021\000\355\001\023\000\362\001\010\000\371\001\025\000\373\001\004\344\000\374\001\020\000\201\002\005\204\204\000";
+    static const char *extraTextFormatInfo = "$\te\203\000\023e\202\000\034h\201\000 h\201\346\0006\005\205\000<\005\207\000]\004\344\000_\005\203\000`\005\203\000v\003\210\343\000z\022\000\245\001\005\000\324\001h\343\201\000\331\001h\344\343\201\000\332\001h\344\346\343\201\000\336\001\021\000\337\001\r\000\340\001\014\000\343\001\023\000\350\001\014\000\354\001\021\000\355\001\023\000\361\001\010\000\370\001\025\000\372\001\004\344\000\373\001\020\000\200\002\005\204\204\000\210\002\020\000\231\002\010\203\205\000\234\002\021\000\240\002\030\000\252\002\024\000\253\002\025\000\254\002c\t\000\255\002c\016\000\256\002\005b\r\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3OnOffType)
                                        valueNames:valueNames
@@ -1884,9 +1780,8 @@ BOOL PB3OnOffType_IsValidValue(int32_t value__) {
     case PB3OnOffType_RoomDepositSwitch:
     case PB3OnOffType_FamilyDepositSwitch:
     case PB3OnOffType_ShowRevenueHeatValue:
-    case PB3OnOffType_IdLogin:
-    case PB3OnOffType_FacebookLogin:
-    case PB3OnOffType_TwitterLogin:
+    case PB3OnOffType_SingleLive:
+    case PB3OnOffType_PlayerInfoPkData:
     case PB3OnOffType_AliBonus:
     case PB3OnOffType_InnerAliFish:
     case PB3OnOffType_InnerTecFish:
@@ -1906,12 +1801,56 @@ BOOL PB3OnOffType_IsValidValue(int32_t value__) {
     case PB3OnOffType_ImCpDialog:
     case PB3OnOffType_RankHideRule:
     case PB3OnOffType_ZoneIntimateTab:
-    case PB3OnOffType_InviteAward:
-    case PB3OnOffType_CancelAccount:
-    case PB3OnOffType_ExchangeDiamondToGold:
-    case PB3OnOffType_GoogleIab:
-    case PB3OnOffType_AppleIap:
-    case PB3OnOffType_GiveAwayDiamond:
+    case PB3OnOffType_CubismShow:
+    case PB3OnOffType_PhomeIndexPushSpecial:
+    case PB3OnOffType_ShowIntimateBackground:
+    case PB3OnOffType_BlackCustomer:
+    case PB3OnOffType_ThirdAccountBind:
+    case PB3OnOffType_ActiveCreditScore:
+    case PB3OnOffType_NotCertificationEnterRoomFailed:
+    case PB3OnOffType_IntimateCultivate:
+    case PB3OnOffType_IpAreaUpdate:
+    case PB3OnOffType_HighlightGiftShow:
+    case PB3OnOffType_IntimateRank:
+    case PB3OnOffType_ActSubInfoInteractive:
+    case PB3OnOffType_CompanyPublicSettle:
+    case PB3OnOffType_BlackWhaleStore:
+    case PB3OnOffType_BlackWhaleStoreShow:
+    case PB3OnOffType_WeekCpEntrance:
+    case PB3OnOffType_WeekCpFunction:
+    case PB3OnOffType_ChangeCoinSms:
+    case PB3OnOffType_WeekCpEntranceIos:
+    case PB3OnOffType_HeadLineSwitch:
+    case PB3OnOffType_BroadcastFriend:
+    case PB3OnOffType_ExchangeAgeLimit:
+    case PB3OnOffType_PublicSettleWithdrawLimit:
+    case PB3OnOffType_WeekCpRewardLimit:
+    case PB3OnOffType_NewUserRandomRoom:
+    case PB3OnOffType_BistroBuyDialogShow:
+    case PB3OnOffType_BlackWhiteModel:
+    case PB3OnOffType_PersonPublicSettleSignEntrance:
+    case PB3OnOffType_WeiXinVipCustomerService:
+    case PB3OnOffType_AcgnQuizSwitch:
+    case PB3OnOffType_CpImSwitch:
+    case PB3OnOffType_RoomTopRightCornerLabel:
+    case PB3OnOffType_GenderPatternSelectWindows:
+    case PB3OnOffType_HonourMedalSwitch:
+    case PB3OnOffType_AcgnMaleHome:
+    case PB3OnOffType_AcgnFemaleHome:
+    case PB3OnOffType_AcgnFemaleQuizSwitch:
+    case PB3OnOffType_GiftGroupPhotoAlbumSwitch:
+    case PB3OnOffType_CpChatHealLevelOnOff:
+    case PB3OnOffType_CpChathealActionOnOff:
+    case PB3OnOffType_CpguideOnOff:
+    case PB3OnOffType_CpguideRewardGift:
+    case PB3OnOffType_ClanCpguideRankOnOff:
+    case PB3OnOffType_PointsMall:
+    case PB3OnOffType_GiftSameCertify:
+    case PB3OnOffType_GiftSamePhone:
+    case PB3OnOffType_NewerBoxSwitch:
+    case PB3OnOffType_NewbieSendGiftSwitch:
+    case PB3OnOffType_InteractTopicEdit:
+    case PB3OnOffType_InteractTopicSwitch:
       return YES;
     default:
       return NO;
@@ -1934,7 +1873,8 @@ GPBEnumDescriptor *PB3EffectType_EnumDescriptor(void) {
         "eActivityBanner\000EffectTypeHonour\000EffectT"
         "ypeMood\000EffectTypeImbackground\000EffectTyp"
         "eTeacherMedal\000EffectTypeActivityCertific"
-        "ation\000EffectTypeCpchat\000";
+        "ation\000EffectTypeCpchat\000EffectTypeHomePag"
+        "e\000EffectTypePlayerCardBg\000";
     static const int32_t values[] = {
         PB3EffectType_EffectTypeNone,
         PB3EffectType_EffectTypeChatLight,
@@ -1957,8 +1897,10 @@ GPBEnumDescriptor *PB3EffectType_EnumDescriptor(void) {
         PB3EffectType_EffectTypeTeacherMedal,
         PB3EffectType_EffectTypeActivityCertification,
         PB3EffectType_EffectTypeCpchat,
+        PB3EffectType_EffectTypeHomePage,
+        PB3EffectType_EffectTypePlayerCardBg,
     };
-    static const char *extraTextFormatInfo = "\025\000\016\000\001\023\000\002\025\000\003\025\000\004\024\000\005\022\000\006\022\000\007\024\000\010\017\000\t\021\000\n\023\000\013\020\000\014\027\000\r\020\000\016\030\000\017\020\000\020\016\000\021\013b\t\000\022\026\000\023\037\000\024\013b\003\000";
+    static const char *extraTextFormatInfo = "\027\000\016\000\001\023\000\002\025\000\003\025\000\004\024\000\005\022\000\006\022\000\007\024\000\010\017\000\t\021\000\n\023\000\013\020\000\014\027\000\r\020\000\016\030\000\017\020\000\020\016\000\021\013b\t\000\022\026\000\023\037\000\024\013b\003\000\025\022\000\026\026\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3EffectType)
                                        valueNames:valueNames
@@ -1997,6 +1939,8 @@ BOOL PB3EffectType_IsValidValue(int32_t value__) {
     case PB3EffectType_EffectTypeTeacherMedal:
     case PB3EffectType_EffectTypeActivityCertification:
     case PB3EffectType_EffectTypeCpchat:
+    case PB3EffectType_EffectTypeHomePage:
+    case PB3EffectType_EffectTypePlayerCardBg:
       return YES;
     default:
       return NO;
@@ -2229,6 +2173,43 @@ BOOL PB3EffectGroupType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3EffectTargetType
+
+GPBEnumDescriptor *PB3EffectTargetType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "EttNone\000EttSingle\000EttIntimate\000";
+    static const int32_t values[] = {
+        PB3EffectTargetType_EttNone,
+        PB3EffectTargetType_EttSingle,
+        PB3EffectTargetType_EttIntimate,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3EffectTargetType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3EffectTargetType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3EffectTargetType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3EffectTargetType_EttNone:
+    case PB3EffectTargetType_EttSingle:
+    case PB3EffectTargetType_EttIntimate:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PB3EffectExpandType
 
 GPBEnumDescriptor *PB3EffectExpandType_EnumDescriptor(void) {
@@ -2379,6 +2360,85 @@ BOOL PB3ModelOnOffStatus_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3CubismType
+
+GPBEnumDescriptor *PB3CubismType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "CtUnknown\000CtExclusive\000CtLimited\000";
+    static const int32_t values[] = {
+        PB3CubismType_CtUnknown,
+        PB3CubismType_CtExclusive,
+        PB3CubismType_CtLimited,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CubismType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3CubismType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3CubismType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3CubismType_CtUnknown:
+    case PB3CubismType_CtExclusive:
+    case PB3CubismType_CtLimited:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3RankCubismItemLevel
+
+GPBEnumDescriptor *PB3RankCubismItemLevel_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "RcilNone\000RcilClothesN\000RcilClothesR\000RcilC"
+        "lothesSr\000RcilClothesSsr\000";
+    static const int32_t values[] = {
+        PB3RankCubismItemLevel_RcilNone,
+        PB3RankCubismItemLevel_RcilClothesN,
+        PB3RankCubismItemLevel_RcilClothesR,
+        PB3RankCubismItemLevel_RcilClothesSr,
+        PB3RankCubismItemLevel_RcilClothesSsr,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3RankCubismItemLevel)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3RankCubismItemLevel_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3RankCubismItemLevel_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3RankCubismItemLevel_RcilNone:
+    case PB3RankCubismItemLevel_RcilClothesN:
+    case PB3RankCubismItemLevel_RcilClothesR:
+    case PB3RankCubismItemLevel_RcilClothesSr:
+    case PB3RankCubismItemLevel_RcilClothesSsr:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PB3RankType
 
 GPBEnumDescriptor *PB3RankType_EnumDescriptor(void) {
@@ -2386,7 +2446,9 @@ GPBEnumDescriptor *PB3RankType_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "RtZero\000RtCharm\000RtWealth\000RtGift\000RtOrder\000R"
-        "tCharmHour\000RtWealthHour\000";
+        "tCharmHour\000RtWealthHour\000RtFishCharm\000RtFi"
+        "shWealth\000RtFishCharmHour\000RtFishWealthHou"
+        "r\000";
     static const int32_t values[] = {
         PB3RankType_RtZero,
         PB3RankType_RtCharm,
@@ -2395,13 +2457,19 @@ GPBEnumDescriptor *PB3RankType_EnumDescriptor(void) {
         PB3RankType_RtOrder,
         PB3RankType_RtCharmHour,
         PB3RankType_RtWealthHour,
+        PB3RankType_RtFishCharm,
+        PB3RankType_RtFishWealth,
+        PB3RankType_RtFishCharmHour,
+        PB3RankType_RtFishWealthHour,
     };
+    static const char *extraTextFormatInfo = "\004\005b\345\204\000\006b\346\204\000\tb\344\345\204\000\nb\344\346\204\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3RankType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3RankType_IsValidValue];
+                                     enumVerifier:PB3RankType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -2419,6 +2487,10 @@ BOOL PB3RankType_IsValidValue(int32_t value__) {
     case PB3RankType_RtOrder:
     case PB3RankType_RtCharmHour:
     case PB3RankType_RtWealthHour:
+    case PB3RankType_RtFishCharm:
+    case PB3RankType_RtFishWealth:
+    case PB3RankType_RtFishCharmHour:
+    case PB3RankType_RtFishWealthHour:
       return YES;
     default:
       return NO;
@@ -2513,15 +2585,19 @@ GPBEnumDescriptor *PB3UploadType_EnumDescriptor(void) {
         "dia\000Voice\000BillVoice\000BillPicture\000CmsSingl"
         "eImg\000CmsCombineImg\000CommunityImg\000Communit"
         "yVideo\000CommunityAudio\000CommunityGroupImg\000"
-        "ZoneCover\000UserVoice\000AnchorImg\000AnchorVide"
-        "o\000FaceIdimg\000FaceIdvideo\000BackgroundImg\000Ch"
-        "annelIcon\000WxrobotQrcode\000GreetVoice\000SongL"
-        "ibraryImg\000CommunityTagImg\000PersonLabelImg"
-        "\000OfficialWebMusic\000KefuVideo\000KefuVideoImg"
-        "\000NoAuthUplgpoad\000ActivityNoAuthUpload\000Roo"
-        "mProgramPic\000RoomProgramShowCover\000Officia"
-        "lMusic\000CertifyImg\000ClanApply\000Autograph\000Pr"
-        "otocol\000WelcomeVoice\000";
+        "ZoneCover\000UserVoice\000VoiceTag\000AnchorVideo"
+        "\000FaceIdimg\000FaceIdvideo\000BackgroundImg\000Cha"
+        "nnelIcon\000WxrobotQrcode\000GreetVoice\000SongLi"
+        "braryImg\000CommunityTagImg\000PersonLabelImg\000"
+        "OfficialWebMusic\000KefuVideo\000KefuVideoImg\000"
+        "NoAuthUpload\000ActivityNoAuthUpload\000RoomPr"
+        "ogramPic\000RoomProgramShowCover\000OfficialMu"
+        "sic\000CertifyImg\000ClanApply\000Autograph\000Proto"
+        "col\000WelcomeVoice\000BackendLibraryMusic\000Cpc"
+        "ardImage\000CpcardVoice\000NeonChorusTplMusic\000"
+        "NeonChorusWorksMusic\000CubismIcon\000WeekCpbu"
+        "rstCardImg\000PersonPublicSettleSignApplyCo"
+        "operateProof\000GroupPhotoIcon\000";
     static const int32_t values[] = {
         PB3UploadType_TypeZero,
         PB3UploadType_HeadAlbumImg,
@@ -2542,7 +2618,7 @@ GPBEnumDescriptor *PB3UploadType_EnumDescriptor(void) {
         PB3UploadType_CommunityGroupImg,
         PB3UploadType_ZoneCover,
         PB3UploadType_UserVoice,
-        PB3UploadType_AnchorImg,
+        PB3UploadType_VoiceTag,
         PB3UploadType_AnchorVideo,
         PB3UploadType_FaceIdimg,
         PB3UploadType_FaceIdvideo,
@@ -2556,7 +2632,7 @@ GPBEnumDescriptor *PB3UploadType_EnumDescriptor(void) {
         PB3UploadType_OfficialWebMusic,
         PB3UploadType_KefuVideo,
         PB3UploadType_KefuVideoImg,
-        PB3UploadType_NoAuthUplgpoad,
+        PB3UploadType_NoAuthUpload,
         PB3UploadType_ActivityNoAuthUpload,
         PB3UploadType_RoomProgramPic,
         PB3UploadType_RoomProgramShowCover,
@@ -2566,8 +2642,17 @@ GPBEnumDescriptor *PB3UploadType_EnumDescriptor(void) {
         PB3UploadType_Autograph,
         PB3UploadType_Protocol,
         PB3UploadType_WelcomeVoice,
+        PB3UploadType_BackendLibraryMusic,
+        PB3UploadType_CpcardImage,
+        PB3UploadType_CpcardVoice,
+        PB3UploadType_NeonChorusTplMusic,
+        PB3UploadType_NeonChorusWorksMusic,
+        PB3UploadType_CubismIcon,
+        PB3UploadType_WeekCpburstCardImg,
+        PB3UploadType_PersonPublicSettleSignApplyCooperateProof,
+        PB3UploadType_GroupPhotoIcon,
     };
-    static const char *extraTextFormatInfo = "+\000\010\000\001\014\000\002\013\000\003\013\000\004\t\000\005\n\000\006\010\000\007c\004\000\010\005\000\t\t\000\n\013\000\013\014\000\014\r\000\r\014\000\016\016\000\017\016\000\020\021\000\021\t\000\022\t\000\023\t\000\024\013\000\025\005b\002\000\026\005b\004\000\027\r\000\030\013\000\031c\005E\000\032\n\000\033\016\000\034\017\000\035\016\000\036\020\000\037)\000 ,\000!\016\000\"\024\000#\016\000$\024\000%\r\000&\n\000\'\t\000(\t\000)\010\000*\014\000";
+    static const char *extraTextFormatInfo = "4\000\010\000\001\014\000\002\013\000\003\013\000\004\t\000\005\n\000\006\010\000\007c\004\000\010\005\000\t\t\000\n\013\000\013\014\000\014\r\000\r\014\000\016\016\000\017\016\000\020\021\000\021\t\000\022\t\000\023\010\000\024\013\000\025\005b\002\000\026\005b\004\000\027\r\000\030\013\000\031c\005E\000\032\n\000\033\016\000\034\017\000\035\016\000\036\020\000\037)\000 ,\000!\014\000\"\024\000#\016\000$\024\000%\r\000&\n\000\'\t\000(\t\000)\010\000*\014\000+\023\000,c\010\000-c\010\000.\022\000/\024\0000\n\0001\005b\013\0002\037\n\0003\016\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UploadType)
                                        valueNames:valueNames
@@ -2604,7 +2689,7 @@ BOOL PB3UploadType_IsValidValue(int32_t value__) {
     case PB3UploadType_CommunityGroupImg:
     case PB3UploadType_ZoneCover:
     case PB3UploadType_UserVoice:
-    case PB3UploadType_AnchorImg:
+    case PB3UploadType_VoiceTag:
     case PB3UploadType_AnchorVideo:
     case PB3UploadType_FaceIdimg:
     case PB3UploadType_FaceIdvideo:
@@ -2618,7 +2703,7 @@ BOOL PB3UploadType_IsValidValue(int32_t value__) {
     case PB3UploadType_OfficialWebMusic:
     case PB3UploadType_KefuVideo:
     case PB3UploadType_KefuVideoImg:
-    case PB3UploadType_NoAuthUplgpoad:
+    case PB3UploadType_NoAuthUpload:
     case PB3UploadType_ActivityNoAuthUpload:
     case PB3UploadType_RoomProgramPic:
     case PB3UploadType_RoomProgramShowCover:
@@ -2628,54 +2713,15 @@ BOOL PB3UploadType_IsValidValue(int32_t value__) {
     case PB3UploadType_Autograph:
     case PB3UploadType_Protocol:
     case PB3UploadType_WelcomeVoice:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
-#pragma mark - Enum PB3UploadSubType
-
-GPBEnumDescriptor *PB3UploadSubType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "UstNone\000UstCertifyImgIdCardFront\000UstCert"
-        "ifyImgIdCardReverse\000UstAutographIdCard\000U"
-        "stAutographFreelance\000UstAutographWithdra"
-        "wal\000UstAutographWithdrawalConfirmation\000";
-    static const int32_t values[] = {
-        PB3UploadSubType_UstNone,
-        PB3UploadSubType_UstCertifyImgIdCardFront,
-        PB3UploadSubType_UstCertifyImgIdCardReverse,
-        PB3UploadSubType_UstAutographIdCard,
-        PB3UploadSubType_UstAutographFreelance,
-        PB3UploadSubType_UstAutographWithdrawal,
-        PB3UploadSubType_UstAutographWithdrawalConfirmation,
-    };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UploadSubType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3UploadSubType_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3UploadSubType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3UploadSubType_UstNone:
-    case PB3UploadSubType_UstCertifyImgIdCardFront:
-    case PB3UploadSubType_UstCertifyImgIdCardReverse:
-    case PB3UploadSubType_UstAutographIdCard:
-    case PB3UploadSubType_UstAutographFreelance:
-    case PB3UploadSubType_UstAutographWithdrawal:
-    case PB3UploadSubType_UstAutographWithdrawalConfirmation:
+    case PB3UploadType_BackendLibraryMusic:
+    case PB3UploadType_CpcardImage:
+    case PB3UploadType_CpcardVoice:
+    case PB3UploadType_NeonChorusTplMusic:
+    case PB3UploadType_NeonChorusWorksMusic:
+    case PB3UploadType_CubismIcon:
+    case PB3UploadType_WeekCpburstCardImg:
+    case PB3UploadType_PersonPublicSettleSignApplyCooperateProof:
+    case PB3UploadType_GroupPhotoIcon:
       return YES;
     default:
       return NO;
@@ -3015,6 +3061,41 @@ BOOL PB3EffectUseType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3ChargeExtraDataType
+
+GPBEnumDescriptor *PB3ChargeExtraDataType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "CedtNull\000CedtAct\000";
+    static const int32_t values[] = {
+        PB3ChargeExtraDataType_CedtNull,
+        PB3ChargeExtraDataType_CedtAct,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ChargeExtraDataType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3ChargeExtraDataType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3ChargeExtraDataType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3ChargeExtraDataType_CedtNull:
+    case PB3ChargeExtraDataType_CedtAct:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PB3PlayerFlagKey
 
 GPBEnumDescriptor *PB3PlayerFlagKey_EnumDescriptor(void) {
@@ -3270,7 +3351,7 @@ GPBEnumDescriptor *PB3ChannelPrefix_EnumDescriptor(void) {
         "CpZero\000CpFamily\000CpGame\000CpDynamicLoad\000CpA"
         "ctivity\000CpBroadcastIndexMakeFriend\000CpBro"
         "adcastRoomMakeFriend\000CpActivityNotice\000Cp"
-        "MobaTeam\000CpSquare\000CpRegion\000";
+        "MobaTeam\000CpActivityPc\000CpHotPoiniIndex\000";
     static const int32_t values[] = {
         PB3ChannelPrefix_CpZero,
         PB3ChannelPrefix_CpFamily,
@@ -3281,8 +3362,8 @@ GPBEnumDescriptor *PB3ChannelPrefix_EnumDescriptor(void) {
         PB3ChannelPrefix_CpBroadcastRoomMakeFriend,
         PB3ChannelPrefix_CpActivityNotice,
         PB3ChannelPrefix_CpMobaTeam,
-        PB3ChannelPrefix_CpSquare,
-        PB3ChannelPrefix_CpRegion,
+        PB3ChannelPrefix_CpActivityPc,
+        PB3ChannelPrefix_CpHotPoiniIndex,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ChannelPrefix)
@@ -3309,8 +3390,8 @@ BOOL PB3ChannelPrefix_IsValidValue(int32_t value__) {
     case PB3ChannelPrefix_CpBroadcastRoomMakeFriend:
     case PB3ChannelPrefix_CpActivityNotice:
     case PB3ChannelPrefix_CpMobaTeam:
-    case PB3ChannelPrefix_CpSquare:
-    case PB3ChannelPrefix_CpRegion:
+    case PB3ChannelPrefix_CpActivityPc:
+    case PB3ChannelPrefix_CpHotPoiniIndex:
       return YES;
     default:
       return NO;
@@ -3404,10 +3485,17 @@ GPBEnumDescriptor *PB3SendGiftSource_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "SgsDefault\000SgsImSend\000";
+        "SgsDefault\000SgsVirtualRoom\000SgsImSend\000SgsI"
+        "ntimateBox\000SgsLightUp\000SgsWeekTravel\000SgsI"
+        "mRedEnvelope\000";
     static const int32_t values[] = {
         PB3SendGiftSource_SgsDefault,
+        PB3SendGiftSource_SgsVirtualRoom,
         PB3SendGiftSource_SgsImSend,
+        PB3SendGiftSource_SgsIntimateBox,
+        PB3SendGiftSource_SgsLightUp,
+        PB3SendGiftSource_SgsWeekTravel,
+        PB3SendGiftSource_SgsImRedEnvelope,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SendGiftSource)
@@ -3426,7 +3514,52 @@ GPBEnumDescriptor *PB3SendGiftSource_EnumDescriptor(void) {
 BOOL PB3SendGiftSource_IsValidValue(int32_t value__) {
   switch (value__) {
     case PB3SendGiftSource_SgsDefault:
+    case PB3SendGiftSource_SgsVirtualRoom:
     case PB3SendGiftSource_SgsImSend:
+    case PB3SendGiftSource_SgsIntimateBox:
+    case PB3SendGiftSource_SgsLightUp:
+    case PB3SendGiftSource_SgsWeekTravel:
+    case PB3SendGiftSource_SgsImRedEnvelope:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3SendGiftPosition
+
+GPBEnumDescriptor *PB3SendGiftPosition_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "SgpZero\000SgpCpPendant\000SgpImPendant\000SgpInB"
+        "istro\000";
+    static const int32_t values[] = {
+        PB3SendGiftPosition_SgpZero,
+        PB3SendGiftPosition_SgpCpPendant,
+        PB3SendGiftPosition_SgpImPendant,
+        PB3SendGiftPosition_SgpInBistro,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SendGiftPosition)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3SendGiftPosition_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3SendGiftPosition_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3SendGiftPosition_SgpZero:
+    case PB3SendGiftPosition_SgpCpPendant:
+    case PB3SendGiftPosition_SgpImPendant:
+    case PB3SendGiftPosition_SgpInBistro:
       return YES;
     default:
       return NO;
@@ -3604,11 +3737,16 @@ GPBEnumDescriptor *PB3CouponJumpType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "CjtNone\000Cjt1V1\000CjtNobility\000";
+        "CjtNone\000Cjt1V1\000CjtNobility\000CjtOpenVoice\000"
+        "CjtSong\000CjtMatchCp\000CjtMaskDateMatch\000";
     static const int32_t values[] = {
         PB3CouponJumpType_CjtNone,
         PB3CouponJumpType_Cjt1V1,
         PB3CouponJumpType_CjtNobility,
+        PB3CouponJumpType_CjtOpenVoice,
+        PB3CouponJumpType_CjtSong,
+        PB3CouponJumpType_CjtMatchCp,
+        PB3CouponJumpType_CjtMaskDateMatch,
     };
     static const char *extraTextFormatInfo = "\001\001c\203\000";
     GPBEnumDescriptor *worker =
@@ -3631,6 +3769,10 @@ BOOL PB3CouponJumpType_IsValidValue(int32_t value__) {
     case PB3CouponJumpType_CjtNone:
     case PB3CouponJumpType_Cjt1V1:
     case PB3CouponJumpType_CjtNobility:
+    case PB3CouponJumpType_CjtOpenVoice:
+    case PB3CouponJumpType_CjtSong:
+    case PB3CouponJumpType_CjtMatchCp:
+    case PB3CouponJumpType_CjtMaskDateMatch:
       return YES;
     default:
       return NO;
@@ -3676,16 +3818,54 @@ BOOL PB3CouponDiscountType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3CouponDiscountUnit
+
+GPBEnumDescriptor *PB3CouponDiscountUnit_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "CduNone\000CduYuan\000CduFeng\000";
+    static const int32_t values[] = {
+        PB3CouponDiscountUnit_CduNone,
+        PB3CouponDiscountUnit_CduYuan,
+        PB3CouponDiscountUnit_CduFeng,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CouponDiscountUnit)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3CouponDiscountUnit_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3CouponDiscountUnit_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3CouponDiscountUnit_CduNone:
+    case PB3CouponDiscountUnit_CduYuan:
+    case PB3CouponDiscountUnit_CduFeng:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PB3CouponPackageType
 
 GPBEnumDescriptor *PB3CouponPackageType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "CptNone\000CptNewRegister\000";
+        "CptNone\000CptNewRegister\000CptCar\000";
     static const int32_t values[] = {
         PB3CouponPackageType_CptNone,
         PB3CouponPackageType_CptNewRegister,
+        PB3CouponPackageType_CptCar,
     };
     static const char *extraTextFormatInfo = "\002\000c\204\000\001c\213\000";
     GPBEnumDescriptor *worker =
@@ -3707,6 +3887,7 @@ BOOL PB3CouponPackageType_IsValidValue(int32_t value__) {
   switch (value__) {
     case PB3CouponPackageType_CptNone:
     case PB3CouponPackageType_CptNewRegister:
+    case PB3CouponPackageType_CptCar:
       return YES;
     default:
       return NO;
@@ -3744,6 +3925,56 @@ BOOL PB3CouponStatus_IsValidValue(int32_t value__) {
     case PB3CouponStatus_CsNone:
     case PB3CouponStatus_CsNormal:
     case PB3CouponStatus_CsStop:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3IntimateFansTargetType
+
+GPBEnumDescriptor *PB3IntimateFansTargetType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "IfttNone\000IfttRoomListenInHost\000IfttRoomLi"
+        "stenInHostDuration\000IfttRoomGiftToHost\000If"
+        "ttRoomChat\000IfttHostZoneCommenting\000IfttHo"
+        "stZoneImpression\000";
+    static const int32_t values[] = {
+        PB3IntimateFansTargetType_IfttNone,
+        PB3IntimateFansTargetType_IfttRoomListenInHost,
+        PB3IntimateFansTargetType_IfttRoomListenInHostDuration,
+        PB3IntimateFansTargetType_IfttRoomGiftToHost,
+        PB3IntimateFansTargetType_IfttRoomChat,
+        PB3IntimateFansTargetType_IfttHostZoneCommenting,
+        PB3IntimateFansTargetType_IfttHostZoneImpression,
+    };
+    static const char *extraTextFormatInfo = "\007\000d\204\000\001d\220\000\002d\230\000\003d\216\000\004d\210\000\005d\222\000\006d\222\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IntimateFansTargetType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IntimateFansTargetType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IntimateFansTargetType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IntimateFansTargetType_IfttNone:
+    case PB3IntimateFansTargetType_IfttRoomListenInHost:
+    case PB3IntimateFansTargetType_IfttRoomListenInHostDuration:
+    case PB3IntimateFansTargetType_IfttRoomGiftToHost:
+    case PB3IntimateFansTargetType_IfttRoomChat:
+    case PB3IntimateFansTargetType_IfttHostZoneCommenting:
+    case PB3IntimateFansTargetType_IfttHostZoneImpression:
       return YES;
     default:
       return NO;
@@ -3799,7 +4030,8 @@ GPBEnumDescriptor *PB3ChatCPType_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "CcptZero\000CcptDefault\000CcptIm\000CcptHome\000Ccp"
-        "tBlackWhale\000CcptTopModel\000CcptCustom\000";
+        "tBlackWhale\000CcptTopModel\000CcptCustom\000Ccpt"
+        "DialLog\000CcptBistro\000";
     static const int32_t values[] = {
         PB3ChatCPType_CcptZero,
         PB3ChatCPType_CcptDefault,
@@ -3808,6 +4040,8 @@ GPBEnumDescriptor *PB3ChatCPType_EnumDescriptor(void) {
         PB3ChatCPType_CcptBlackWhale,
         PB3ChatCPType_CcptTopModel,
         PB3ChatCPType_CcptCustom,
+        PB3ChatCPType_CcptDialLog,
+        PB3ChatCPType_CcptBistro,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ChatCPType)
@@ -3832,6 +4066,8 @@ BOOL PB3ChatCPType_IsValidValue(int32_t value__) {
     case PB3ChatCPType_CcptBlackWhale:
     case PB3ChatCPType_CcptTopModel:
     case PB3ChatCPType_CcptCustom:
+    case PB3ChatCPType_CcptDialLog:
+    case PB3ChatCPType_CcptBistro:
       return YES;
     default:
       return NO;
@@ -3876,6 +4112,46 @@ BOOL PB3RedEnvelopeStatus_IsValidValue(int32_t value__) {
     case PB3RedEnvelopeStatus_ResAward:
     case PB3RedEnvelopeStatus_ResNoticeAward:
     case PB3RedEnvelopeStatus_ResEnd:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3SubInfoActivityType
+
+GPBEnumDescriptor *PB3SubInfoActivityType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "SbiatZero\000SbiatRedEnvelope\000SbiatRandomId"
+        "2\000SbiatPkRank\000";
+    static const int32_t values[] = {
+        PB3SubInfoActivityType_SbiatZero,
+        PB3SubInfoActivityType_SbiatRedEnvelope,
+        PB3SubInfoActivityType_SbiatRandomId2,
+        PB3SubInfoActivityType_SbiatPkRank,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SubInfoActivityType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3SubInfoActivityType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3SubInfoActivityType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3SubInfoActivityType_SbiatZero:
+    case PB3SubInfoActivityType_SbiatRedEnvelope:
+    case PB3SubInfoActivityType_SbiatRandomId2:
+    case PB3SubInfoActivityType_SbiatPkRank:
       return YES;
     default:
       return NO;
@@ -4161,14 +4437,35 @@ GPBEnumDescriptor *PB3Application_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "AppNone\000AppAll\000AppOxygen\000AppOxygenPc\000App"
-        "Fish\000";
+        "AppNone\000AppAll\000AppMizhua\000AppOxygen\000AppYu"
+        "ngame\000AppHuhu\000AppPomelo\000AppOxygenPc\000AppF"
+        "ish\000AppZhuazhua\000AppLemon\000AppHuoxing\000AppJ"
+        "iumi\000AppManman\000AppChikii\000AppOxygencar\000Ap"
+        "pCallme\000AppOxygentime\000AppOxygenstarry\000Ap"
+        "pCaramel\000AppBuding\000AppMangguotang\000";
     static const int32_t values[] = {
         PB3Application_AppNone,
         PB3Application_AppAll,
+        PB3Application_AppMizhua,
         PB3Application_AppOxygen,
+        PB3Application_AppYungame,
+        PB3Application_AppHuhu,
+        PB3Application_AppPomelo,
         PB3Application_AppOxygenPc,
         PB3Application_AppFish,
+        PB3Application_AppZhuazhua,
+        PB3Application_AppLemon,
+        PB3Application_AppHuoxing,
+        PB3Application_AppJiumi,
+        PB3Application_AppManman,
+        PB3Application_AppChikii,
+        PB3Application_AppOxygencar,
+        PB3Application_AppCallme,
+        PB3Application_AppOxygentime,
+        PB3Application_AppOxygenstarry,
+        PB3Application_AppCaramel,
+        PB3Application_AppBuding,
+        PB3Application_AppMangguotang,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3Application)
@@ -4188,9 +4485,26 @@ BOOL PB3Application_IsValidValue(int32_t value__) {
   switch (value__) {
     case PB3Application_AppNone:
     case PB3Application_AppAll:
+    case PB3Application_AppMizhua:
     case PB3Application_AppOxygen:
+    case PB3Application_AppYungame:
+    case PB3Application_AppHuhu:
+    case PB3Application_AppPomelo:
     case PB3Application_AppOxygenPc:
     case PB3Application_AppFish:
+    case PB3Application_AppZhuazhua:
+    case PB3Application_AppLemon:
+    case PB3Application_AppHuoxing:
+    case PB3Application_AppJiumi:
+    case PB3Application_AppManman:
+    case PB3Application_AppChikii:
+    case PB3Application_AppOxygencar:
+    case PB3Application_AppCallme:
+    case PB3Application_AppOxygentime:
+    case PB3Application_AppOxygenstarry:
+    case PB3Application_AppCaramel:
+    case PB3Application_AppBuding:
+    case PB3Application_AppMangguotang:
       return YES;
     default:
       return NO;
@@ -4400,6 +4714,78 @@ BOOL PB3OrAnd_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3AccountType
+
+GPBEnumDescriptor *PB3AccountType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "AtDev\000AtNative\000AtQq\000AtWeixin\000AtChinaMobi"
+        "le\000AtChinaTelecom\000AtUmeng\000AtGoogle\000AtFac"
+        "ebook\000AtCaiji\000AtApple\000AtWechatSubscripti"
+        "on\000AtQqMiniProgram\000AtWxMiniProgram\000AtQqW"
+        "eb\000AtWeixinWeb\000AtRobot\000AtPhoneSubsidiary"
+        "\000";
+    static const int32_t values[] = {
+        PB3AccountType_AtDev,
+        PB3AccountType_AtNative,
+        PB3AccountType_AtQq,
+        PB3AccountType_AtWeixin,
+        PB3AccountType_AtChinaMobile,
+        PB3AccountType_AtChinaTelecom,
+        PB3AccountType_AtUmeng,
+        PB3AccountType_AtGoogle,
+        PB3AccountType_AtFacebook,
+        PB3AccountType_AtCaiji,
+        PB3AccountType_AtApple,
+        PB3AccountType_AtWechatSubscription,
+        PB3AccountType_AtQqMiniProgram,
+        PB3AccountType_AtWxMiniProgram,
+        PB3AccountType_AtQqWeb,
+        PB3AccountType_AtWeixinWeb,
+        PB3AccountType_AtRobot,
+        PB3AccountType_AtPhoneSubsidiary,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3AccountType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3AccountType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3AccountType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3AccountType_AtDev:
+    case PB3AccountType_AtNative:
+    case PB3AccountType_AtQq:
+    case PB3AccountType_AtWeixin:
+    case PB3AccountType_AtChinaMobile:
+    case PB3AccountType_AtChinaTelecom:
+    case PB3AccountType_AtUmeng:
+    case PB3AccountType_AtGoogle:
+    case PB3AccountType_AtFacebook:
+    case PB3AccountType_AtCaiji:
+    case PB3AccountType_AtApple:
+    case PB3AccountType_AtWechatSubscription:
+    case PB3AccountType_AtQqMiniProgram:
+    case PB3AccountType_AtWxMiniProgram:
+    case PB3AccountType_AtQqWeb:
+    case PB3AccountType_AtWeixinWeb:
+    case PB3AccountType_AtRobot:
+    case PB3AccountType_AtPhoneSubsidiary:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PB3MateChoiceStatus
 
 GPBEnumDescriptor *PB3MateChoiceStatus_EnumDescriptor(void) {
@@ -4442,29 +4828,23 @@ BOOL PB3MateChoiceStatus_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PB3FriendType
+#pragma mark - Enum PB3ReqFromType
 
-GPBEnumDescriptor *PB3FriendType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3ReqFromType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "FtStranger\000FtBan\000FtFollow\000FtFriend\000FtFol"
-        "lowFriend\000FtMyself\000FtFans\000";
+        "RftNormal\000RftPush\000";
     static const int32_t values[] = {
-        PB3FriendType_FtStranger,
-        PB3FriendType_FtBan,
-        PB3FriendType_FtFollow,
-        PB3FriendType_FtFriend,
-        PB3FriendType_FtFollowFriend,
-        PB3FriendType_FtMyself,
-        PB3FriendType_FtFans,
+        PB3ReqFromType_RftNormal,
+        PB3ReqFromType_RftPush,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3FriendType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ReqFromType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3FriendType_IsValidValue];
+                                     enumVerifier:PB3ReqFromType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4473,72 +4853,122 @@ GPBEnumDescriptor *PB3FriendType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3FriendType_IsValidValue(int32_t value__) {
+BOOL PB3ReqFromType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3FriendType_FtStranger:
-    case PB3FriendType_FtBan:
-    case PB3FriendType_FtFollow:
-    case PB3FriendType_FtFriend:
-    case PB3FriendType_FtFollowFriend:
-    case PB3FriendType_FtMyself:
-    case PB3FriendType_FtFans:
+    case PB3ReqFromType_RftNormal:
+    case PB3ReqFromType_RftPush:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3PrivacyType
+#pragma mark - Enum PB3CreditScoreStatus
 
-GPBEnumDescriptor *PB3PrivacyType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3CreditScoreStatus_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PrivacyZero\000Incognito\000ShowRecentVisit\000Re"
-        "cPushMsg\000HideRoom\000ShowPosition\000ShowAllTr"
-        "ends\000UpdateTrendNotice\000OnlineNotice\000Push"
-        "TrendLike\000PushTrendComment\000PushTrendAt\000P"
-        "ushTrendNoticeNew\000PushNewFans\000PushStrang"
-        "erMsg\000PushImpresentGift\000AllowViewNew\000All"
-        "owConcern\000AllowNewPm\000PostNewAchieve\000Push"
-        "SysMsg\000GameCommPushTrendLike\000GameCommPus"
-        "hTrend\000GameCommAcceptGameInvite\000PushFocu"
-        "sTrend\000PushIm\000";
+        "CssDefault\000CssNotActive\000CssActiveIng\000Css"
+        "Actived\000";
     static const int32_t values[] = {
-        PB3PrivacyType_PrivacyZero,
-        PB3PrivacyType_Incognito,
-        PB3PrivacyType_ShowRecentVisit,
-        PB3PrivacyType_RecPushMsg,
-        PB3PrivacyType_HideRoom,
-        PB3PrivacyType_ShowPosition,
-        PB3PrivacyType_ShowAllTrends,
-        PB3PrivacyType_UpdateTrendNotice,
-        PB3PrivacyType_OnlineNotice,
-        PB3PrivacyType_PushTrendLike,
-        PB3PrivacyType_PushTrendComment,
-        PB3PrivacyType_PushTrendAt,
-        PB3PrivacyType_PushTrendNoticeNew,
-        PB3PrivacyType_PushNewFans,
-        PB3PrivacyType_PushStrangerMsg,
-        PB3PrivacyType_PushImpresentGift,
-        PB3PrivacyType_AllowViewNew,
-        PB3PrivacyType_AllowConcern,
-        PB3PrivacyType_AllowNewPm,
-        PB3PrivacyType_PostNewAchieve,
-        PB3PrivacyType_PushSysMsg,
-        PB3PrivacyType_GameCommPushTrendLike,
-        PB3PrivacyType_GameCommPushTrend,
-        PB3PrivacyType_GameCommAcceptGameInvite,
-        PB3PrivacyType_PushFocusTrend,
-        PB3PrivacyType_PushIm,
+        PB3CreditScoreStatus_CssDefault,
+        PB3CreditScoreStatus_CssNotActive,
+        PB3CreditScoreStatus_CssActiveIng,
+        PB3CreditScoreStatus_CssActived,
     };
-    static const char *extraTextFormatInfo = "\032\000\013\000\001\t\000\002\017\000\003\n\000\004\010\000\005\014\000\006\r\000\007\021\000\010\014\000\t\r\000\n\020\000\013\013\000\014\022\000\r\013\000\016\017\000\017\005b\n\000\020\014\000\021\014\000\022\tA\000\023\016\000\024\n\000\025\025\000\026\021\000\027\030\000\030\016\000\031\006\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PrivacyType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CreditScoreStatus)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3PrivacyType_IsValidValue
+                                     enumVerifier:PB3CreditScoreStatus_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3CreditScoreStatus_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3CreditScoreStatus_CssDefault:
+    case PB3CreditScoreStatus_CssNotActive:
+    case PB3CreditScoreStatus_CssActiveIng:
+    case PB3CreditScoreStatus_CssActived:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3CreditScoreLevel
+
+GPBEnumDescriptor *PB3CreditScoreLevel_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "CslevelDefault\000CslevelBad\000CslevelSoso\000Cs"
+        "levelGood\000CslevelVeryGood\000CslevelExcelle"
+        "nt\000";
+    static const int32_t values[] = {
+        PB3CreditScoreLevel_CslevelDefault,
+        PB3CreditScoreLevel_CslevelBad,
+        PB3CreditScoreLevel_CslevelSoso,
+        PB3CreditScoreLevel_CslevelGood,
+        PB3CreditScoreLevel_CslevelVeryGood,
+        PB3CreditScoreLevel_CslevelExcellent,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CreditScoreLevel)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3CreditScoreLevel_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3CreditScoreLevel_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3CreditScoreLevel_CslevelDefault:
+    case PB3CreditScoreLevel_CslevelBad:
+    case PB3CreditScoreLevel_CslevelSoso:
+    case PB3CreditScoreLevel_CslevelGood:
+    case PB3CreditScoreLevel_CslevelVeryGood:
+    case PB3CreditScoreLevel_CslevelExcellent:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3CreditScorePrivilegeType
+
+GPBEnumDescriptor *PB3CreditScorePrivilegeType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "CsptZero\000CsptFreeCharge20Percent\000CsptFre"
+        "eCharge50Percent\000CsptFreeChargeAll\000";
+    static const int32_t values[] = {
+        PB3CreditScorePrivilegeType_CsptZero,
+        PB3CreditScorePrivilegeType_CsptFreeCharge20Percent,
+        PB3CreditScorePrivilegeType_CsptFreeCharge50Percent,
+        PB3CreditScorePrivilegeType_CsptFreeChargeAll,
+    };
+    static const char *extraTextFormatInfo = "\002\001d\344\346\202\347\000\002d\344\346\202\347\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CreditScorePrivilegeType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3CreditScorePrivilegeType_IsValidValue
                               extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
@@ -4548,57 +4978,40 @@ GPBEnumDescriptor *PB3PrivacyType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3PrivacyType_IsValidValue(int32_t value__) {
+BOOL PB3CreditScorePrivilegeType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3PrivacyType_PrivacyZero:
-    case PB3PrivacyType_Incognito:
-    case PB3PrivacyType_ShowRecentVisit:
-    case PB3PrivacyType_RecPushMsg:
-    case PB3PrivacyType_HideRoom:
-    case PB3PrivacyType_ShowPosition:
-    case PB3PrivacyType_ShowAllTrends:
-    case PB3PrivacyType_UpdateTrendNotice:
-    case PB3PrivacyType_OnlineNotice:
-    case PB3PrivacyType_PushTrendLike:
-    case PB3PrivacyType_PushTrendComment:
-    case PB3PrivacyType_PushTrendAt:
-    case PB3PrivacyType_PushTrendNoticeNew:
-    case PB3PrivacyType_PushNewFans:
-    case PB3PrivacyType_PushStrangerMsg:
-    case PB3PrivacyType_PushImpresentGift:
-    case PB3PrivacyType_AllowViewNew:
-    case PB3PrivacyType_AllowConcern:
-    case PB3PrivacyType_AllowNewPm:
-    case PB3PrivacyType_PostNewAchieve:
-    case PB3PrivacyType_PushSysMsg:
-    case PB3PrivacyType_GameCommPushTrendLike:
-    case PB3PrivacyType_GameCommPushTrend:
-    case PB3PrivacyType_GameCommAcceptGameInvite:
-    case PB3PrivacyType_PushFocusTrend:
-    case PB3PrivacyType_PushIm:
+    case PB3CreditScorePrivilegeType_CsptZero:
+    case PB3CreditScorePrivilegeType_CsptFreeCharge20Percent:
+    case PB3CreditScorePrivilegeType_CsptFreeCharge50Percent:
+    case PB3CreditScorePrivilegeType_CsptFreeChargeAll:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3UserOnOffType
+#pragma mark - Enum PB3PlayerExpSource
 
-GPBEnumDescriptor *PB3UserOnOffType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3PlayerExpSource_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "UserOnOffZero\000";
+        "Normal\000Admin\000Flower\000SystemDeducted\000Black"
+        "WhaleStore\000";
     static const int32_t values[] = {
-        PB3UserOnOffType_UserOnOffZero,
+        PB3PlayerExpSource_Normal,
+        PB3PlayerExpSource_Admin,
+        PB3PlayerExpSource_Flower,
+        PB3PlayerExpSource_SystemDeducted,
+        PB3PlayerExpSource_BlackWhaleStore,
     };
-    static const char *extraTextFormatInfo = "\001\000\r\000";
+    static const char *extraTextFormatInfo = "\004\000\006\000\001\005\000\002\006\000\004\017\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UserOnOffType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PlayerExpSource)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3UserOnOffType_IsValidValue
+                                     enumVerifier:PB3PlayerExpSource_IsValidValue
                               extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
@@ -4608,55 +5021,78 @@ GPBEnumDescriptor *PB3UserOnOffType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3UserOnOffType_IsValidValue(int32_t value__) {
+BOOL PB3PlayerExpSource_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3UserOnOffType_UserOnOffZero:
+    case PB3PlayerExpSource_Normal:
+    case PB3PlayerExpSource_Admin:
+    case PB3PlayerExpSource_Flower:
+    case PB3PlayerExpSource_SystemDeducted:
+    case PB3PlayerExpSource_BlackWhaleStore:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3BanType
+#pragma mark - Enum PB3SearchResultType
 
-GPBEnumDescriptor *PB3BanType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3SearchResultType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "BtZero\000BtAccount\000BtSpeak\000BtRoom\000BtIp\000BtD"
-        "evice\000BtTakeLeave\000BtWarning\000BtTop\000BtBroa"
-        "dcastFriend\000BtTickoutRoom\000BtBanPhone\000BtB"
-        "anIdcard\000BtBanPm\000BtCommunityPublish\000BtCo"
-        "mmunityComment\000BtBanModify\000BtForceLogout"
-        "\000BtBanVideo\000";
+        "SrtZero\000SrtKocCmd\000";
     static const int32_t values[] = {
-        PB3BanType_BtZero,
-        PB3BanType_BtAccount,
-        PB3BanType_BtSpeak,
-        PB3BanType_BtRoom,
-        PB3BanType_BtIp,
-        PB3BanType_BtDevice,
-        PB3BanType_BtTakeLeave,
-        PB3BanType_BtWarning,
-        PB3BanType_BtTop,
-        PB3BanType_BtBroadcastFriend,
-        PB3BanType_BtTickoutRoom,
-        PB3BanType_BtBanPhone,
-        PB3BanType_BtBanIdcard,
-        PB3BanType_BtBanPm,
-        PB3BanType_BtCommunityPublish,
-        PB3BanType_BtCommunityComment,
-        PB3BanType_BtBanModify,
-        PB3BanType_BtForceLogout,
-        PB3BanType_BtBanVideo,
+        PB3SearchResultType_SrtZero,
+        PB3SearchResultType_SrtKocCmd,
     };
-    static const char *extraTextFormatInfo = "\016\000b\204\000\001b\207\000\002b\205\000\003b\204\000\005b\206\000\006b\211\000\007b\207\000\010b\203\000\tb\217\000\nb\247\244\000\016b\220\000\017b\220\000\020b\343\206\000\021b\213\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3BanType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SearchResultType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3BanType_IsValidValue
+                                     enumVerifier:PB3SearchResultType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3SearchResultType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3SearchResultType_SrtZero:
+    case PB3SearchResultType_SrtKocCmd:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3ActGameCfgType
+
+GPBEnumDescriptor *PB3ActGameCfgType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "AgctNull\000AgctRedEnvelope\000AgctRandomId2\000A"
+        "gctIntimateCalendar\000AgctIntimateCultivat"
+        "e\000AgctIntimateRank\000";
+    static const int32_t values[] = {
+        PB3ActGameCfgType_AgctNull,
+        PB3ActGameCfgType_AgctRedEnvelope,
+        PB3ActGameCfgType_AgctRandomId2,
+        PB3ActGameCfgType_AgctIntimateCalendar,
+        PB3ActGameCfgType_AgctIntimateCultivate,
+        PB3ActGameCfgType_AgctIntimateRank,
+    };
+    static const char *extraTextFormatInfo = "\006\000d\204\000\001d\203\210\000\002d\206\203\000\003d\210\210\000\004d\210\211\000\005d\210\204\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ActGameCfgType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3ActGameCfgType_IsValidValue
                               extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
@@ -4666,114 +5102,41 @@ GPBEnumDescriptor *PB3BanType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3BanType_IsValidValue(int32_t value__) {
+BOOL PB3ActGameCfgType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3BanType_BtZero:
-    case PB3BanType_BtAccount:
-    case PB3BanType_BtSpeak:
-    case PB3BanType_BtRoom:
-    case PB3BanType_BtIp:
-    case PB3BanType_BtDevice:
-    case PB3BanType_BtTakeLeave:
-    case PB3BanType_BtWarning:
-    case PB3BanType_BtTop:
-    case PB3BanType_BtBroadcastFriend:
-    case PB3BanType_BtTickoutRoom:
-    case PB3BanType_BtBanPhone:
-    case PB3BanType_BtBanIdcard:
-    case PB3BanType_BtBanPm:
-    case PB3BanType_BtCommunityPublish:
-    case PB3BanType_BtCommunityComment:
-    case PB3BanType_BtBanModify:
-    case PB3BanType_BtForceLogout:
-    case PB3BanType_BtBanVideo:
+    case PB3ActGameCfgType_AgctNull:
+    case PB3ActGameCfgType_AgctRedEnvelope:
+    case PB3ActGameCfgType_AgctRandomId2:
+    case PB3ActGameCfgType_AgctIntimateCalendar:
+    case PB3ActGameCfgType_AgctIntimateCultivate:
+    case PB3ActGameCfgType_AgctIntimateRank:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3AppMissionClass
+#pragma mark - Enum PB3ActGameCfgSubType
 
-GPBEnumDescriptor *PB3AppMissionClass_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3ActGameCfgSubType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "AmcZero\000AmcDaily\000AmcCareer\000";
+        "AgctSubNull\000AgctSubCultivateTask\000AgctSub"
+        "CultivateStore\000AgctSubCultivateHandbook\000";
     static const int32_t values[] = {
-        PB3AppMissionClass_AmcZero,
-        PB3AppMissionClass_AmcDaily,
-        PB3AppMissionClass_AmcCareer,
+        PB3ActGameCfgSubType_AgctSubNull,
+        PB3ActGameCfgSubType_AgctSubCultivateTask,
+        PB3ActGameCfgSubType_AgctSubCultivateStore,
+        PB3ActGameCfgSubType_AgctSubCultivateHandbook,
     };
+    static const char *extraTextFormatInfo = "\004\000d\203\204\000\001d\203\211\204\000\002d\203\211\205\000\003d\203\211\210\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3AppMissionClass)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ActGameCfgSubType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3AppMissionClass_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3AppMissionClass_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3AppMissionClass_AmcZero:
-    case PB3AppMissionClass_AmcDaily:
-    case PB3AppMissionClass_AmcCareer:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
-#pragma mark - Enum PB3MissionType
-
-GPBEnumDescriptor *PB3MissionType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "MissZero\000MissPlayGame\000MissPlayDuration30"
-        "\000MissGameNhwwTop3\000MissGameFxqTop1\000MissGa"
-        "meWzqWin1\000MissGameBwfwTop30\000MissGameFkdt"
-        "wTop30\000MissTrendLike3\000MissCheckin\000MissGe"
-        "tGold\000MissGetAchievement\000MissBindThirdPa"
-        "rtyAccount\000MissBindPhone\000MissUpdateAvata"
-        "r\000MissUpdateProfileBackground\000MissFollow"
-        "User\000MissShareApp\000MissSetNickname\000MissTo"
-        "talGame\000";
-    static const int32_t values[] = {
-        PB3MissionType_MissZero,
-        PB3MissionType_MissPlayGame,
-        PB3MissionType_MissPlayDuration30,
-        PB3MissionType_MissGameNhwwTop3,
-        PB3MissionType_MissGameFxqTop1,
-        PB3MissionType_MissGameWzqWin1,
-        PB3MissionType_MissGameBwfwTop30,
-        PB3MissionType_MissGameFkdtwTop30,
-        PB3MissionType_MissTrendLike3,
-        PB3MissionType_MissCheckin,
-        PB3MissionType_MissGetGold,
-        PB3MissionType_MissGetAchievement,
-        PB3MissionType_MissBindThirdPartyAccount,
-        PB3MissionType_MissBindPhone,
-        PB3MissionType_MissUpdateAvatar,
-        PB3MissionType_MissUpdateProfileBackground,
-        PB3MissionType_MissFollowUser,
-        PB3MissionType_MissShareApp,
-        PB3MissionType_MissSetNickname,
-        PB3MissionType_MissTotalGame,
-    };
-    static const char *extraTextFormatInfo = "\010\000d\204\000\002d\344\350\202\000\003d\344\344\343\201\000\004d\344\343\343\201\000\005d\344\343\343\201\000\006d\344\344\343\202\000\007d\344\345\343\202\000\010d\345\344\201\000";
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3MissionType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3MissionType_IsValidValue
+                                     enumVerifier:PB3ActGameCfgSubType_IsValidValue
                               extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
@@ -4783,54 +5146,39 @@ GPBEnumDescriptor *PB3MissionType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3MissionType_IsValidValue(int32_t value__) {
+BOOL PB3ActGameCfgSubType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3MissionType_MissZero:
-    case PB3MissionType_MissPlayGame:
-    case PB3MissionType_MissPlayDuration30:
-    case PB3MissionType_MissGameNhwwTop3:
-    case PB3MissionType_MissGameFxqTop1:
-    case PB3MissionType_MissGameWzqWin1:
-    case PB3MissionType_MissGameBwfwTop30:
-    case PB3MissionType_MissGameFkdtwTop30:
-    case PB3MissionType_MissTrendLike3:
-    case PB3MissionType_MissCheckin:
-    case PB3MissionType_MissGetGold:
-    case PB3MissionType_MissGetAchievement:
-    case PB3MissionType_MissBindThirdPartyAccount:
-    case PB3MissionType_MissBindPhone:
-    case PB3MissionType_MissUpdateAvatar:
-    case PB3MissionType_MissUpdateProfileBackground:
-    case PB3MissionType_MissFollowUser:
-    case PB3MissionType_MissShareApp:
-    case PB3MissionType_MissSetNickname:
-    case PB3MissionType_MissTotalGame:
+    case PB3ActGameCfgSubType_AgctSubNull:
+    case PB3ActGameCfgSubType_AgctSubCultivateTask:
+    case PB3ActGameCfgSubType_AgctSubCultivateStore:
+    case PB3ActGameCfgSubType_AgctSubCultivateHandbook:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3BonusType
+#pragma mark - Enum PB3WeekCPSource
 
-GPBEnumDescriptor *PB3BonusType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3WeekCPSource_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "BonusZero\000BonusCoin\000BonusGiftBox\000";
+        "WcpsZero\000WcpsChatCp\000WcpsIm\000WcpsImList\000Wc"
+        "psMatchCp\000";
     static const int32_t values[] = {
-        PB3BonusType_BonusZero,
-        PB3BonusType_BonusCoin,
-        PB3BonusType_BonusGiftBox,
+        PB3WeekCPSource_WcpsZero,
+        PB3WeekCPSource_WcpsChatCp,
+        PB3WeekCPSource_WcpsIm,
+        PB3WeekCPSource_WcpsImList,
+        PB3WeekCPSource_WcpsMatchCp,
     };
-    static const char *extraTextFormatInfo = "\003\000\005\204\000\001\005\204\000\002\005\207\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3BonusType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3WeekCPSource)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3BonusType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3WeekCPSource_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4839,38 +5187,40 @@ GPBEnumDescriptor *PB3BonusType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3BonusType_IsValidValue(int32_t value__) {
+BOOL PB3WeekCPSource_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3BonusType_BonusZero:
-    case PB3BonusType_BonusCoin:
-    case PB3BonusType_BonusGiftBox:
+    case PB3WeekCPSource_WcpsZero:
+    case PB3WeekCPSource_WcpsChatCp:
+    case PB3WeekCPSource_WcpsIm:
+    case PB3WeekCPSource_WcpsImList:
+    case PB3WeekCPSource_WcpsMatchCp:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3GameViolationType
+#pragma mark - Enum PB3WeekCPInfoStatus
 
-GPBEnumDescriptor *PB3GameViolationType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3WeekCPInfoStatus_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "GvtZero\000GvtBlankWord\000GvtBlankDraw\000GvtPla"
-        "yerInform\000GvtEscape\000";
+        "WcpisZero\000WcpisInvited\000WcpisInCp\000WcpisCa"
+        "nInvite\000WcpisNoEntrance\000";
     static const int32_t values[] = {
-        PB3GameViolationType_GvtZero,
-        PB3GameViolationType_GvtBlankWord,
-        PB3GameViolationType_GvtBlankDraw,
-        PB3GameViolationType_GvtPlayerInform,
-        PB3GameViolationType_GvtEscape,
+        PB3WeekCPInfoStatus_WcpisZero,
+        PB3WeekCPInfoStatus_WcpisInvited,
+        PB3WeekCPInfoStatus_WcpisInCp,
+        PB3WeekCPInfoStatus_WcpisCanInvite,
+        PB3WeekCPInfoStatus_WcpisNoEntrance,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3GameViolationType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3WeekCPInfoStatus)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3GameViolationType_IsValidValue];
+                                     enumVerifier:PB3WeekCPInfoStatus_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4879,39 +5229,37 @@ GPBEnumDescriptor *PB3GameViolationType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3GameViolationType_IsValidValue(int32_t value__) {
+BOOL PB3WeekCPInfoStatus_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3GameViolationType_GvtZero:
-    case PB3GameViolationType_GvtBlankWord:
-    case PB3GameViolationType_GvtBlankDraw:
-    case PB3GameViolationType_GvtPlayerInform:
-    case PB3GameViolationType_GvtEscape:
+    case PB3WeekCPInfoStatus_WcpisZero:
+    case PB3WeekCPInfoStatus_WcpisInvited:
+    case PB3WeekCPInfoStatus_WcpisInCp:
+    case PB3WeekCPInfoStatus_WcpisCanInvite:
+    case PB3WeekCPInfoStatus_WcpisNoEntrance:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3QuitType
+#pragma mark - Enum PB3BlackWhaleModuleStyle
 
-GPBEnumDescriptor *PB3QuitType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3BlackWhaleModuleStyle_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "GqtZero\000GqtNormal\000GqtPressQuit\000GqtTimeou"
-        "t\000";
+        "BwmsZero\000BwmsHorizontal\000BwmsListCard\000";
     static const int32_t values[] = {
-        PB3QuitType_GqtZero,
-        PB3QuitType_GqtNormal,
-        PB3QuitType_GqtPressQuit,
-        PB3QuitType_GqtTimeout,
+        PB3BlackWhaleModuleStyle_BwmsZero,
+        PB3BlackWhaleModuleStyle_BwmsHorizontal,
+        PB3BlackWhaleModuleStyle_BwmsListCard,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3QuitType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3BlackWhaleModuleStyle)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3QuitType_IsValidValue];
+                                     enumVerifier:PB3BlackWhaleModuleStyle_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4920,36 +5268,38 @@ GPBEnumDescriptor *PB3QuitType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3QuitType_IsValidValue(int32_t value__) {
+BOOL PB3BlackWhaleModuleStyle_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3QuitType_GqtZero:
-    case PB3QuitType_GqtNormal:
-    case PB3QuitType_GqtPressQuit:
-    case PB3QuitType_GqtTimeout:
+    case PB3BlackWhaleModuleStyle_BwmsZero:
+    case PB3BlackWhaleModuleStyle_BwmsHorizontal:
+    case PB3BlackWhaleModuleStyle_BwmsListCard:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3PlayMatchType
+#pragma mark - Enum PB3BlackWhaleItemType
 
-GPBEnumDescriptor *PB3PlayMatchType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3BlackWhaleItemType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PlmtZero\000PlmtSingle\000PlmtTeam\000";
+        "BwitZero\000BwitCharmCard\000BwitWealthCard\000Bw"
+        "itGift\000BwitEffect\000";
     static const int32_t values[] = {
-        PB3PlayMatchType_PlmtZero,
-        PB3PlayMatchType_PlmtSingle,
-        PB3PlayMatchType_PlmtTeam,
+        PB3BlackWhaleItemType_BwitZero,
+        PB3BlackWhaleItemType_BwitCharmCard,
+        PB3BlackWhaleItemType_BwitWealthCard,
+        PB3BlackWhaleItemType_BwitGift,
+        PB3BlackWhaleItemType_BwitEffect,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PlayMatchType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3BlackWhaleItemType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3PlayMatchType_IsValidValue];
+                                     enumVerifier:PB3BlackWhaleItemType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4958,36 +5308,40 @@ GPBEnumDescriptor *PB3PlayMatchType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3PlayMatchType_IsValidValue(int32_t value__) {
+BOOL PB3BlackWhaleItemType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3PlayMatchType_PlmtZero:
-    case PB3PlayMatchType_PlmtSingle:
-    case PB3PlayMatchType_PlmtTeam:
+    case PB3BlackWhaleItemType_BwitZero:
+    case PB3BlackWhaleItemType_BwitCharmCard:
+    case PB3BlackWhaleItemType_BwitWealthCard:
+    case PB3BlackWhaleItemType_BwitGift:
+    case PB3BlackWhaleItemType_BwitEffect:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3PlayerEventType
+#pragma mark - Enum PB3BlackWhaleLimitType
 
-GPBEnumDescriptor *PB3PlayerEventType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3BlackWhaleLimitType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PetNone\000PetEnterGameHome\000PetStartGameMat"
-        "ch\000";
+        "BwltZero\000BwltNotLimit\000BwltEveryMonth\000Bwl"
+        "tEveryQuarter\000BwltEveryYear\000";
     static const int32_t values[] = {
-        PB3PlayerEventType_PetNone,
-        PB3PlayerEventType_PetEnterGameHome,
-        PB3PlayerEventType_PetStartGameMatch,
+        PB3BlackWhaleLimitType_BwltZero,
+        PB3BlackWhaleLimitType_BwltNotLimit,
+        PB3BlackWhaleLimitType_BwltEveryMonth,
+        PB3BlackWhaleLimitType_BwltEveryQuarter,
+        PB3BlackWhaleLimitType_BwltEveryYear,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PlayerEventType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3BlackWhaleLimitType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3PlayerEventType_IsValidValue];
+                                     enumVerifier:PB3BlackWhaleLimitType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -4996,35 +5350,63 @@ GPBEnumDescriptor *PB3PlayerEventType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3PlayerEventType_IsValidValue(int32_t value__) {
+BOOL PB3BlackWhaleLimitType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3PlayerEventType_PetNone:
-    case PB3PlayerEventType_PetEnterGameHome:
-    case PB3PlayerEventType_PetStartGameMatch:
+    case PB3BlackWhaleLimitType_BwltZero:
+    case PB3BlackWhaleLimitType_BwltNotLimit:
+    case PB3BlackWhaleLimitType_BwltEveryMonth:
+    case PB3BlackWhaleLimitType_BwltEveryQuarter:
+    case PB3BlackWhaleLimitType_BwltEveryYear:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3PushSourceType
+#pragma mark - Enum PB3IMCustomType
 
-GPBEnumDescriptor *PB3PushSourceType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3IMCustomType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PstZero\000PstCustom\000PstIm\000";
+        "ImctZero\000ImctBindWeekCp\000ImctWeekCpTaskCo"
+        "mplete\000ImctWeekCpAllTaskComplete\000ImctWee"
+        "kCpRefuce\000ImctWeekCpTaskFailed\000ImctWeekC"
+        "pInvite\000ImctBistroEnd\000ImctBistroCancel\000I"
+        "mctBistroInvite\000ImctBistroReject\000ImctMat"
+        "chWeekCpInvite\000ImctWeekCpInviteExpire\000Im"
+        "ctMatchWeekCpInviteSendSuccess\000ImctCpGui"
+        "deReject\000ImctCpGuideCancel\000ImctCpGuideCo"
+        "uple\000ImctCpGuideTimeout\000ImctCpGuideInvit"
+        "e\000ImctCommonText\000";
     static const int32_t values[] = {
-        PB3PushSourceType_PstZero,
-        PB3PushSourceType_PstCustom,
-        PB3PushSourceType_PstIm,
+        PB3IMCustomType_ImctZero,
+        PB3IMCustomType_ImctBindWeekCp,
+        PB3IMCustomType_ImctWeekCpTaskComplete,
+        PB3IMCustomType_ImctWeekCpAllTaskComplete,
+        PB3IMCustomType_ImctWeekCpRefuce,
+        PB3IMCustomType_ImctWeekCpTaskFailed,
+        PB3IMCustomType_ImctWeekCpInvite,
+        PB3IMCustomType_ImctBistroEnd,
+        PB3IMCustomType_ImctBistroCancel,
+        PB3IMCustomType_ImctBistroInvite,
+        PB3IMCustomType_ImctBistroReject,
+        PB3IMCustomType_ImctMatchWeekCpInvite,
+        PB3IMCustomType_ImctWeekCpInviteExpire,
+        PB3IMCustomType_ImctMatchWeekCpInviteSendSuccess,
+        PB3IMCustomType_ImctCpGuideReject,
+        PB3IMCustomType_ImctCpGuideCancel,
+        PB3IMCustomType_ImctCpGuideCouple,
+        PB3IMCustomType_ImctCpGuideTimeout,
+        PB3IMCustomType_ImctCpGuideInvite,
+        PB3IMCustomType_ImctCommonText,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PushSourceType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMCustomType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3PushSourceType_IsValidValue];
+                                     enumVerifier:PB3IMCustomType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5033,41 +5415,56 @@ GPBEnumDescriptor *PB3PushSourceType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3PushSourceType_IsValidValue(int32_t value__) {
+BOOL PB3IMCustomType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3PushSourceType_PstZero:
-    case PB3PushSourceType_PstCustom:
-    case PB3PushSourceType_PstIm:
+    case PB3IMCustomType_ImctZero:
+    case PB3IMCustomType_ImctBindWeekCp:
+    case PB3IMCustomType_ImctWeekCpTaskComplete:
+    case PB3IMCustomType_ImctWeekCpAllTaskComplete:
+    case PB3IMCustomType_ImctWeekCpRefuce:
+    case PB3IMCustomType_ImctWeekCpTaskFailed:
+    case PB3IMCustomType_ImctWeekCpInvite:
+    case PB3IMCustomType_ImctBistroEnd:
+    case PB3IMCustomType_ImctBistroCancel:
+    case PB3IMCustomType_ImctBistroInvite:
+    case PB3IMCustomType_ImctBistroReject:
+    case PB3IMCustomType_ImctMatchWeekCpInvite:
+    case PB3IMCustomType_ImctWeekCpInviteExpire:
+    case PB3IMCustomType_ImctMatchWeekCpInviteSendSuccess:
+    case PB3IMCustomType_ImctCpGuideReject:
+    case PB3IMCustomType_ImctCpGuideCancel:
+    case PB3IMCustomType_ImctCpGuideCouple:
+    case PB3IMCustomType_ImctCpGuideTimeout:
+    case PB3IMCustomType_ImctCpGuideInvite:
+    case PB3IMCustomType_ImctCommonText:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3AgentType
+#pragma mark - Enum PB3HighlightGiftLevel
 
-GPBEnumDescriptor *PB3AgentType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3HighlightGiftLevel_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "AtNone\000AtCharge\000AtDeliver\000AtAdminDeduct\000"
-        "AtChargePresent\000AtDeliverPresent\000AtAdmin"
-        "DeductPresent\000";
+        "HlglZero\000HlglN\000HlglR\000HlglSr\000HlglSsr\000Hlgl"
+        "Ur\000";
     static const int32_t values[] = {
-        PB3AgentType_AtNone,
-        PB3AgentType_AtCharge,
-        PB3AgentType_AtDeliver,
-        PB3AgentType_AtAdminDeduct,
-        PB3AgentType_AtChargePresent,
-        PB3AgentType_AtDeliverPresent,
-        PB3AgentType_AtAdminDeductPresent,
+        PB3HighlightGiftLevel_HlglZero,
+        PB3HighlightGiftLevel_HlglN,
+        PB3HighlightGiftLevel_HlglR,
+        PB3HighlightGiftLevel_HlglSr,
+        PB3HighlightGiftLevel_HlglSsr,
+        PB3HighlightGiftLevel_HlglUr,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3AgentType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3HighlightGiftLevel)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3AgentType_IsValidValue];
+                                     enumVerifier:PB3HighlightGiftLevel_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5076,41 +5473,38 @@ GPBEnumDescriptor *PB3AgentType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3AgentType_IsValidValue(int32_t value__) {
+BOOL PB3HighlightGiftLevel_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3AgentType_AtNone:
-    case PB3AgentType_AtCharge:
-    case PB3AgentType_AtDeliver:
-    case PB3AgentType_AtAdminDeduct:
-    case PB3AgentType_AtChargePresent:
-    case PB3AgentType_AtDeliverPresent:
-    case PB3AgentType_AtAdminDeductPresent:
+    case PB3HighlightGiftLevel_HlglZero:
+    case PB3HighlightGiftLevel_HlglN:
+    case PB3HighlightGiftLevel_HlglR:
+    case PB3HighlightGiftLevel_HlglSr:
+    case PB3HighlightGiftLevel_HlglSsr:
+    case PB3HighlightGiftLevel_HlglUr:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3MatchRegionType
+#pragma mark - Enum PB3PublicSettleAddType
 
-GPBEnumDescriptor *PB3MatchRegionType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3PublicSettleAddType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "MrtNone\000MrtSingle\000MrtFull\000";
+        "PsatNone\000PsatAdmin\000PsatPerson\000";
     static const int32_t values[] = {
-        PB3MatchRegionType_MrtNone,
-        PB3MatchRegionType_MrtSingle,
-        PB3MatchRegionType_MrtFull,
+        PB3PublicSettleAddType_PsatNone,
+        PB3PublicSettleAddType_PsatAdmin,
+        PB3PublicSettleAddType_PsatPerson,
     };
-    static const char *extraTextFormatInfo = "\001\000c\204\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3MatchRegionType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PublicSettleAddType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3MatchRegionType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3PublicSettleAddType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5119,63 +5513,38 @@ GPBEnumDescriptor *PB3MatchRegionType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3MatchRegionType_IsValidValue(int32_t value__) {
+BOOL PB3PublicSettleAddType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3MatchRegionType_MrtNone:
-    case PB3MatchRegionType_MrtSingle:
-    case PB3MatchRegionType_MrtFull:
+    case PB3PublicSettleAddType_PsatNone:
+    case PB3PublicSettleAddType_PsatAdmin:
+    case PB3PublicSettleAddType_PsatPerson:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3GiftType
+#pragma mark - Enum PB3RoomTopRightCornerLabelType
 
-GPBEnumDescriptor *PB3GiftType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3RoomTopRightCornerLabelType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "GtNone\000GtNormal\000GtStone\000GtCantGive\000GtEff"
-        "ect\000GtBox\000GtMagic\000GtDefer\000GtWish\000GtNotSh"
-        "owInApp\000GtAssets\000GtNotice\000GtWealthGift\000G"
-        "tJumpGift\000GtUpGift\000GtBoxNew\000GtLotteryEva"
-        "sion\000GtIntimateFans\000GtBlackGold\000GtTopLin"
-        "e\000GtTimeLimit\000GtTreasureBox\000GtTeacherStu"
-        "dent\000";
+        "RtrcltNone\000RtrcltRank\000RtrcltLove\000RtrcltT"
+        "imeLimit\000RtrcltProgressBar\000";
     static const int32_t values[] = {
-        PB3GiftType_GtNone,
-        PB3GiftType_GtNormal,
-        PB3GiftType_GtStone,
-        PB3GiftType_GtCantGive,
-        PB3GiftType_GtEffect,
-        PB3GiftType_GtBox,
-        PB3GiftType_GtMagic,
-        PB3GiftType_GtDefer,
-        PB3GiftType_GtWish,
-        PB3GiftType_GtNotShowInApp,
-        PB3GiftType_GtAssets,
-        PB3GiftType_GtNotice,
-        PB3GiftType_GtWealthGift,
-        PB3GiftType_GtJumpGift,
-        PB3GiftType_GtUpGift,
-        PB3GiftType_GtBoxNew,
-        PB3GiftType_GtLotteryEvasion,
-        PB3GiftType_GtIntimateFans,
-        PB3GiftType_GtBlackGold,
-        PB3GiftType_GtTopLine,
-        PB3GiftType_GtTimeLimit,
-        PB3GiftType_GtTreasureBox,
-        PB3GiftType_GtTeacherStudent,
+        PB3RoomTopRightCornerLabelType_RtrcltNone,
+        PB3RoomTopRightCornerLabelType_RtrcltRank,
+        PB3RoomTopRightCornerLabelType_RtrcltLove,
+        PB3RoomTopRightCornerLabelType_RtrcltTimeLimit,
+        PB3RoomTopRightCornerLabelType_RtrcltProgressBar,
     };
-    static const char *extraTextFormatInfo = "\027\000b\204\000\001b\206\000\002b\205\000\003b\210\000\004b\206\000\005b\203\000\006b\205\000\007b\205\000\010b\204\000\tb\214\000\nb\206\000\013b\206\000\014b\212\000\rb\210\000\016b\206\000\017b\206\000\020b\216\000\021b\214\000\022b\211\000\023b\207\000\024b\211\000\025b\213\000\026b\216\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3GiftType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3RoomTopRightCornerLabelType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3GiftType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3RoomTopRightCornerLabelType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5184,56 +5553,37 @@ GPBEnumDescriptor *PB3GiftType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3GiftType_IsValidValue(int32_t value__) {
+BOOL PB3RoomTopRightCornerLabelType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3GiftType_GtNone:
-    case PB3GiftType_GtNormal:
-    case PB3GiftType_GtStone:
-    case PB3GiftType_GtCantGive:
-    case PB3GiftType_GtEffect:
-    case PB3GiftType_GtBox:
-    case PB3GiftType_GtMagic:
-    case PB3GiftType_GtDefer:
-    case PB3GiftType_GtWish:
-    case PB3GiftType_GtNotShowInApp:
-    case PB3GiftType_GtAssets:
-    case PB3GiftType_GtNotice:
-    case PB3GiftType_GtWealthGift:
-    case PB3GiftType_GtJumpGift:
-    case PB3GiftType_GtUpGift:
-    case PB3GiftType_GtBoxNew:
-    case PB3GiftType_GtLotteryEvasion:
-    case PB3GiftType_GtIntimateFans:
-    case PB3GiftType_GtBlackGold:
-    case PB3GiftType_GtTopLine:
-    case PB3GiftType_GtTimeLimit:
-    case PB3GiftType_GtTreasureBox:
-    case PB3GiftType_GtTeacherStudent:
+    case PB3RoomTopRightCornerLabelType_RtrcltNone:
+    case PB3RoomTopRightCornerLabelType_RtrcltRank:
+    case PB3RoomTopRightCornerLabelType_RtrcltLove:
+    case PB3RoomTopRightCornerLabelType_RtrcltTimeLimit:
+    case PB3RoomTopRightCornerLabelType_RtrcltProgressBar:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3PresentPlace
+#pragma mark - Enum PB3WeekTravelSource
 
-GPBEnumDescriptor *PB3PresentPlace_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3WeekTravelSource_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PresentPlaceRoom\000PresentPlaceIm\000";
+        "WtsZero\000WtsRoom\000WtsIm\000";
     static const int32_t values[] = {
-        PB3PresentPlace_PresentPlaceRoom,
-        PB3PresentPlace_PresentPlaceIm,
+        PB3WeekTravelSource_WtsZero,
+        PB3WeekTravelSource_WtsRoom,
+        PB3WeekTravelSource_WtsIm,
     };
-    static const char *extraTextFormatInfo = "\002\000\020\000\001\rA\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3PresentPlace)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3WeekTravelSource)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3PresentPlace_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3WeekTravelSource_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5242,33 +5592,49 @@ GPBEnumDescriptor *PB3PresentPlace_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3PresentPlace_IsValidValue(int32_t value__) {
+BOOL PB3WeekTravelSource_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3PresentPlace_PresentPlaceRoom:
-    case PB3PresentPlace_PresentPlaceIm:
+    case PB3WeekTravelSource_WtsZero:
+    case PB3WeekTravelSource_WtsRoom:
+    case PB3WeekTravelSource_WtsIm:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3IMListTagType
+#pragma mark - Enum PB3WeekTravelInviteStatus
 
-GPBEnumDescriptor *PB3IMListTagType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3WeekTravelInviteStatus_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "ImlttZero\000ImlttCp\000";
+        "WtisNone\000WtisCanInvite\000WtisInviting\000Wtis"
+        "Reject\000WtisOngoing\000WtisFinished\000WtisNoIn"
+        "viteTimes\000WtisBlackList\000WtisNoEntrance\000W"
+        "tisInviteExpired\000WtisInWeekCp\000WtisOutOfR"
+        "eceive\000WtisWealthLimit\000";
     static const int32_t values[] = {
-        PB3IMListTagType_ImlttZero,
-        PB3IMListTagType_ImlttCp,
+        PB3WeekTravelInviteStatus_WtisNone,
+        PB3WeekTravelInviteStatus_WtisCanInvite,
+        PB3WeekTravelInviteStatus_WtisInviting,
+        PB3WeekTravelInviteStatus_WtisReject,
+        PB3WeekTravelInviteStatus_WtisOngoing,
+        PB3WeekTravelInviteStatus_WtisFinished,
+        PB3WeekTravelInviteStatus_WtisNoInviteTimes,
+        PB3WeekTravelInviteStatus_WtisBlackList,
+        PB3WeekTravelInviteStatus_WtisNoEntrance,
+        PB3WeekTravelInviteStatus_WtisInviteExpired,
+        PB3WeekTravelInviteStatus_WtisInWeekCp,
+        PB3WeekTravelInviteStatus_WtisOutOfReceive,
+        PB3WeekTravelInviteStatus_WtisWealthLimit,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMListTagType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3WeekTravelInviteStatus)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3IMListTagType_IsValidValue];
+                                     enumVerifier:PB3WeekTravelInviteStatus_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5277,42 +5643,46 @@ GPBEnumDescriptor *PB3IMListTagType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3IMListTagType_IsValidValue(int32_t value__) {
+BOOL PB3WeekTravelInviteStatus_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3IMListTagType_ImlttZero:
-    case PB3IMListTagType_ImlttCp:
+    case PB3WeekTravelInviteStatus_WtisNone:
+    case PB3WeekTravelInviteStatus_WtisCanInvite:
+    case PB3WeekTravelInviteStatus_WtisInviting:
+    case PB3WeekTravelInviteStatus_WtisReject:
+    case PB3WeekTravelInviteStatus_WtisOngoing:
+    case PB3WeekTravelInviteStatus_WtisFinished:
+    case PB3WeekTravelInviteStatus_WtisNoInviteTimes:
+    case PB3WeekTravelInviteStatus_WtisBlackList:
+    case PB3WeekTravelInviteStatus_WtisNoEntrance:
+    case PB3WeekTravelInviteStatus_WtisInviteExpired:
+    case PB3WeekTravelInviteStatus_WtisInWeekCp:
+    case PB3WeekTravelInviteStatus_WtisOutOfReceive:
+    case PB3WeekTravelInviteStatus_WtisWealthLimit:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3UserBehaviorsType
+#pragma mark - Enum PB3WeekTravelExpSource
 
-GPBEnumDescriptor *PB3UserBehaviorsType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3WeekTravelExpSource_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "UbtZero\000UbtAppOperationScreen\000UbtAppCutB"
-        "ackReception\000UbtPcOperationMouse\000UbtPcOp"
-        "erationKeyboard\000UbtPcCutBackReception\000Ub"
-        "tAppTurnBack\000UbtGmeVoiceBack\000";
+        "CommonWtesNone\000CommonWtesTask\000CommonWtes"
+        "Admin\000";
     static const int32_t values[] = {
-        PB3UserBehaviorsType_UbtZero,
-        PB3UserBehaviorsType_UbtAppOperationScreen,
-        PB3UserBehaviorsType_UbtAppCutBackReception,
-        PB3UserBehaviorsType_UbtPcOperationMouse,
-        PB3UserBehaviorsType_UbtPcOperationKeyboard,
-        PB3UserBehaviorsType_UbtPcCutBackReception,
-        PB3UserBehaviorsType_UbtAppTurnBack,
-        PB3UserBehaviorsType_UbtGmeVoiceBack,
+        PB3WeekTravelExpSource_CommonWtesNone,
+        PB3WeekTravelExpSource_CommonWtesTask,
+        PB3WeekTravelExpSource_CommonWtesAdmin,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UserBehaviorsType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3WeekTravelExpSource)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3UserBehaviorsType_IsValidValue];
+                                     enumVerifier:PB3WeekTravelExpSource_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5321,45 +5691,38 @@ GPBEnumDescriptor *PB3UserBehaviorsType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3UserBehaviorsType_IsValidValue(int32_t value__) {
+BOOL PB3WeekTravelExpSource_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3UserBehaviorsType_UbtZero:
-    case PB3UserBehaviorsType_UbtAppOperationScreen:
-    case PB3UserBehaviorsType_UbtAppCutBackReception:
-    case PB3UserBehaviorsType_UbtPcOperationMouse:
-    case PB3UserBehaviorsType_UbtPcOperationKeyboard:
-    case PB3UserBehaviorsType_UbtPcCutBackReception:
-    case PB3UserBehaviorsType_UbtAppTurnBack:
-    case PB3UserBehaviorsType_UbtGmeVoiceBack:
+    case PB3WeekTravelExpSource_CommonWtesNone:
+    case PB3WeekTravelExpSource_CommonWtesTask:
+    case PB3WeekTravelExpSource_CommonWtesAdmin:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3CommonSettingType
+#pragma mark - Enum PB3CpChatHealLevel
 
-GPBEnumDescriptor *PB3CommonSettingType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3CpChatHealLevel_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "SettingTypeNone\000SettingTypeActivityCente"
-        "r\000SettingTypeRoomWelcomeWords\000SettingTyp"
-        "eChatWelcomeWords\000";
+        "CchlNone\000CchlLevelS\000CchlLevelA\000CchlLevel"
+        "B\000CchlLevelC\000";
     static const int32_t values[] = {
-        PB3CommonSettingType_SettingTypeNone,
-        PB3CommonSettingType_SettingTypeActivityCenter,
-        PB3CommonSettingType_SettingTypeRoomWelcomeWords,
-        PB3CommonSettingType_SettingTypeChatWelcomeWords,
+        PB3CpChatHealLevel_CchlNone,
+        PB3CpChatHealLevel_CchlLevelS,
+        PB3CpChatHealLevel_CchlLevelA,
+        PB3CpChatHealLevel_CchlLevelB,
+        PB3CpChatHealLevel_CchlLevelC,
     };
-    static const char *extraTextFormatInfo = "\004\000\007\204\204\000\001\007\204\216\000\002\007\204\204\207\205\000\003\007\204\204\207\205\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CommonSettingType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CpChatHealLevel)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3CommonSettingType_IsValidValue
-                              extraTextFormatInfo:extraTextFormatInfo];
+                                     enumVerifier:PB3CpChatHealLevel_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -5368,12 +5731,88 @@ GPBEnumDescriptor *PB3CommonSettingType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3CommonSettingType_IsValidValue(int32_t value__) {
+BOOL PB3CpChatHealLevel_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3CommonSettingType_SettingTypeNone:
-    case PB3CommonSettingType_SettingTypeActivityCenter:
-    case PB3CommonSettingType_SettingTypeRoomWelcomeWords:
-    case PB3CommonSettingType_SettingTypeChatWelcomeWords:
+    case PB3CpChatHealLevel_CchlNone:
+    case PB3CpChatHealLevel_CchlLevelS:
+    case PB3CpChatHealLevel_CchlLevelA:
+    case PB3CpChatHealLevel_CchlLevelB:
+    case PB3CpChatHealLevel_CchlLevelC:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3NoticeStyleType
+
+GPBEnumDescriptor *PB3NoticeStyleType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "None\000ActivityDragonBoat\000";
+    static const int32_t values[] = {
+        PB3NoticeStyleType_None,
+        PB3NoticeStyleType_ActivityDragonBoat,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3NoticeStyleType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3NoticeStyleType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3NoticeStyleType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3NoticeStyleType_None:
+    case PB3NoticeStyleType_ActivityDragonBoat:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3RoomTopRightCornerLabelFiledType
+
+GPBEnumDescriptor *PB3RoomTopRightCornerLabelFiledType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "RtrclftNone\000RtrclftCurrentNum\000RtrclftGoa"
+        "lNum\000RtrclftNumberContent\000";
+    static const int32_t values[] = {
+        PB3RoomTopRightCornerLabelFiledType_RtrclftNone,
+        PB3RoomTopRightCornerLabelFiledType_RtrclftCurrentNum,
+        PB3RoomTopRightCornerLabelFiledType_RtrclftGoalNum,
+        PB3RoomTopRightCornerLabelFiledType_RtrclftNumberContent,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3RoomTopRightCornerLabelFiledType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3RoomTopRightCornerLabelFiledType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3RoomTopRightCornerLabelFiledType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3RoomTopRightCornerLabelFiledType_RtrclftNone:
+    case PB3RoomTopRightCornerLabelFiledType_RtrclftCurrentNum:
+    case PB3RoomTopRightCornerLabelFiledType_RtrclftGoalNum:
+    case PB3RoomTopRightCornerLabelFiledType_RtrclftNumberContent:
       return YES;
     default:
       return NO;
@@ -5481,11 +5920,13 @@ void SetPB3OnlineStatus_State_RawValue(PB3OnlineStatus *message, int32_t value) 
 @dynamic intimateFansOnOff;
 @dynamic havePlaylist;
 @dynamic channelListArray, channelListArray_Count;
-@dynamic region;
 @dynamic needChangeSex;
 @dynamic callCondition;
+@dynamic fishCharm;
+@dynamic fishCharmLevel;
+@dynamic fishWealth;
+@dynamic fishWealthLevel;
 @dynamic flags3;
-@dynamic playerLabelArray, playerLabelArray_Count;
 
 typedef struct PB3Player__storage_ {
   uint32_t _has_storage_[2];
@@ -5497,14 +5938,14 @@ typedef struct PB3Player__storage_ {
   int32_t wealthLevel;
   int32_t flowerLevel;
   int32_t guardNum;
+  int32_t fishCharmLevel;
+  int32_t fishWealthLevel;
   NSString *nickname;
   NSString *icon;
   GPBInt32Int32Dictionary *flagsKv;
   NSMutableArray *authInfoArray;
   GPBEnumArray *channelListArray;
-  NSString *region;
   NSString *callCondition;
-  NSMutableArray *playerLabelArray;
   int64_t id_p;
   int64_t id2;
   int64_t flags;
@@ -5512,6 +5953,8 @@ typedef struct PB3Player__storage_ {
   int64_t flags2;
   int64_t flower;
   int64_t newWealth;
+  int64_t fishCharm;
+  int64_t fishWealth;
   int64_t flags3;
 } PB3Player__storage_;
 
@@ -5756,20 +6199,11 @@ typedef struct PB3Player__storage_ {
         .dataType = GPBDataTypeEnum,
       },
       {
-        .name = "region",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3Player_FieldNumber_Region,
-        .hasIndex = 29,
-        .offset = (uint32_t)offsetof(PB3Player__storage_, region),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "needChangeSex",
         .dataTypeSpecific.className = NULL,
         .number = PB3Player_FieldNumber_NeedChangeSex,
-        .hasIndex = 30,
-        .offset = 31,  // Stored in _has_storage_ to save space.
+        .hasIndex = 29,
+        .offset = 30,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -5777,28 +6211,55 @@ typedef struct PB3Player__storage_ {
         .name = "callCondition",
         .dataTypeSpecific.className = NULL,
         .number = PB3Player_FieldNumber_CallCondition,
-        .hasIndex = 32,
+        .hasIndex = 31,
         .offset = (uint32_t)offsetof(PB3Player__storage_, callCondition),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "flags3",
+        .name = "fishCharm",
         .dataTypeSpecific.className = NULL,
-        .number = PB3Player_FieldNumber_Flags3,
-        .hasIndex = 33,
-        .offset = (uint32_t)offsetof(PB3Player__storage_, flags3),
+        .number = PB3Player_FieldNumber_FishCharm,
+        .hasIndex = 32,
+        .offset = (uint32_t)offsetof(PB3Player__storage_, fishCharm),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeSInt64,
       },
       {
-        .name = "playerLabelArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PlayerLabel),
-        .number = PB3Player_FieldNumber_PlayerLabelArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3Player__storage_, playerLabelArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
+        .name = "fishCharmLevel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Player_FieldNumber_FishCharmLevel,
+        .hasIndex = 33,
+        .offset = (uint32_t)offsetof(PB3Player__storage_, fishCharmLevel),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeSInt32,
+      },
+      {
+        .name = "fishWealth",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Player_FieldNumber_FishWealth,
+        .hasIndex = 34,
+        .offset = (uint32_t)offsetof(PB3Player__storage_, fishWealth),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeSInt64,
+      },
+      {
+        .name = "fishWealthLevel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Player_FieldNumber_FishWealthLevel,
+        .hasIndex = 35,
+        .offset = (uint32_t)offsetof(PB3Player__storage_, fishWealthLevel),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeSInt32,
+      },
+      {
+        .name = "flags3",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Player_FieldNumber_Flags3,
+        .hasIndex = 36,
+        .offset = (uint32_t)offsetof(PB3Player__storage_, flags3),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeSInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -5811,7 +6272,7 @@ typedef struct PB3Player__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\013\010\000\017\n\000 \013\000!\013\000";
+        "\006\013\010\000\017\n\000 \013\000!\013\000/\004\252\0001\004\253\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -5833,91 +6294,6 @@ void SetPB3Player_Sex_RawValue(PB3Player *message, int32_t value) {
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Player_FieldNumber_Sex];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
-
-#pragma mark - PB3PlayerLabel
-
-@implementation PB3PlayerLabel
-
-@dynamic labelIcon;
-@dynamic showInCommunity;
-@dynamic showInSearchPlayer;
-@dynamic labelWord;
-@dynamic dialogImg;
-
-typedef struct PB3PlayerLabel__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *labelIcon;
-  NSString *labelWord;
-  NSString *dialogImg;
-} PB3PlayerLabel__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "labelIcon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerLabel_FieldNumber_LabelIcon,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PlayerLabel__storage_, labelIcon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "showInCommunity",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerLabel_FieldNumber_ShowInCommunity,
-        .hasIndex = 1,
-        .offset = 2,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "showInSearchPlayer",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerLabel_FieldNumber_ShowInSearchPlayer,
-        .hasIndex = 3,
-        .offset = 4,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "labelWord",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerLabel_FieldNumber_LabelWord,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PlayerLabel__storage_, labelWord),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "dialogImg",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerLabel_FieldNumber_DialogImg,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PlayerLabel__storage_, dialogImg),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PlayerLabel class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PlayerLabel__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
 
 #pragma mark - PB3CaijiPlayer
 
@@ -6069,7 +6445,11 @@ void SetPB3CaijiPlayer_Sex_RawValue(PB3CaijiPlayer *message, int32_t value) {
 @dynamic genderNum;
 @dynamic isVoiceTag;
 @dynamic constellationText;
-@dynamic bgImage;
+@dynamic sex;
+@dynamic cubismIcon;
+@dynamic genderPattern;
+@dynamic cubismIconWidth;
+@dynamic cubismIconHeight;
 
 typedef struct PB3UserInfo__storage_ {
   uint32_t _has_storage_[1];
@@ -6078,6 +6458,8 @@ typedef struct PB3UserInfo__storage_ {
   int32_t age;
   int32_t voiceTime;
   int32_t genderNum;
+  PB3SexType sex;
+  PB3GenderPattern genderPattern;
   NSString *city;
   NSString *signature;
   NSString *birthday;
@@ -6085,8 +6467,10 @@ typedef struct PB3UserInfo__storage_ {
   NSString *constellation;
   NSString *voiceURL;
   NSString *constellationText;
-  NSString *bgImage;
+  NSString *cubismIcon;
   int64_t userId;
+  int64_t cubismIconWidth;
+  int64_t cubismIconHeight;
 } PB3UserInfo__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6222,13 +6606,49 @@ typedef struct PB3UserInfo__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "bgImage",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3UserInfo_FieldNumber_BgImage,
+        .name = "sex",
+        .dataTypeSpecific.enumDescFunc = PB3SexType_EnumDescriptor,
+        .number = PB3UserInfo_FieldNumber_Sex,
         .hasIndex = 15,
-        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, bgImage),
+        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, sex),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "cubismIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UserInfo_FieldNumber_CubismIcon,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, cubismIcon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "genderPattern",
+        .dataTypeSpecific.enumDescFunc = PB3GenderPattern_EnumDescriptor,
+        .number = PB3UserInfo_FieldNumber_GenderPattern,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, genderPattern),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "cubismIconWidth",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UserInfo_FieldNumber_CubismIconWidth,
+        .hasIndex = 18,
+        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, cubismIconWidth),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "cubismIconHeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UserInfo_FieldNumber_CubismIconHeight,
+        .hasIndex = 19,
+        .offset = (uint32_t)offsetof(PB3UserInfo__storage_, cubismIconHeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6251,6 +6671,30 @@ typedef struct PB3UserInfo__storage_ {
 }
 
 @end
+
+int32_t PB3UserInfo_Sex_RawValue(PB3UserInfo *message) {
+  GPBDescriptor *descriptor = [PB3UserInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UserInfo_FieldNumber_Sex];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3UserInfo_Sex_RawValue(PB3UserInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3UserInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UserInfo_FieldNumber_Sex];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3UserInfo_GenderPattern_RawValue(PB3UserInfo *message) {
+  GPBDescriptor *descriptor = [PB3UserInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UserInfo_FieldNumber_GenderPattern];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3UserInfo_GenderPattern_RawValue(PB3UserInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3UserInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UserInfo_FieldNumber_GenderPattern];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - PB3PlayerInfo
 
@@ -6284,10 +6728,13 @@ typedef struct PB3UserInfo__storage_ {
 @dynamic ipArea;
 @dynamic hasImCpDialogInfo, imCpDialogInfo;
 @dynamic isBlockUser;
-@dynamic languageCode;
+@dynamic hasWeekCp, weekCp;
+@dynamic bistroLabel;
+@dynamic hasLightUpData, lightUpData;
+@dynamic ifCpGuide;
 
 typedef struct PB3PlayerInfo__storage_ {
-  uint32_t _has_storage_[1];
+  uint32_t _has_storage_[2];
   int32_t fansNum;
   int32_t charmWeekRank;
   int32_t wealthWeekRank;
@@ -6309,7 +6756,9 @@ typedef struct PB3PlayerInfo__storage_ {
   PB3GiftCollectLevelInfo *giftCollectLevel;
   NSString *ipArea;
   PB3IMCPDialog *imCpDialogInfo;
-  NSString *languageCode;
+  PB3WeekCPInfo *weekCp;
+  NSString *bistroLabel;
+  PB3LightUpGiftWall *lightUpData;
   int64_t roomId;
   int64_t caijiId;
   int64_t logoutAt;
@@ -6574,13 +7023,40 @@ typedef struct PB3PlayerInfo__storage_ {
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "languageCode",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PlayerInfo_FieldNumber_LanguageCode,
+        .name = "weekCp",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3WeekCPInfo),
+        .number = PB3PlayerInfo_FieldNumber_WeekCp,
         .hasIndex = 29,
-        .offset = (uint32_t)offsetof(PB3PlayerInfo__storage_, languageCode),
+        .offset = (uint32_t)offsetof(PB3PlayerInfo__storage_, weekCp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "bistroLabel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerInfo_FieldNumber_BistroLabel,
+        .hasIndex = 30,
+        .offset = (uint32_t)offsetof(PB3PlayerInfo__storage_, bistroLabel),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "lightUpData",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3LightUpGiftWall),
+        .number = PB3PlayerInfo_FieldNumber_LightUpData,
+        .hasIndex = 31,
+        .offset = (uint32_t)offsetof(PB3PlayerInfo__storage_, lightUpData),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "ifCpGuide",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerInfo_FieldNumber_IfCpGuide,
+        .hasIndex = 32,
+        .offset = 33,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6610,6 +7086,136 @@ void SetPB3PlayerInfo_Status_RawValue(PB3PlayerInfo *message, int32_t value) {
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3PlayerInfo_FieldNumber_Status];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
+
+#pragma mark - PB3LightUpGiftWall
+
+@implementation PB3LightUpGiftWall
+
+@dynamic illuminatedNum;
+@dynamic notLit;
+@dynamic rule;
+@dynamic lightUpGiftItemListArray, lightUpGiftItemListArray_Count;
+
+typedef struct PB3LightUpGiftWall__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *rule;
+  NSMutableArray *lightUpGiftItemListArray;
+  int64_t illuminatedNum;
+  int64_t notLit;
+} PB3LightUpGiftWall__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "illuminatedNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LightUpGiftWall_FieldNumber_IlluminatedNum,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftWall__storage_, illuminatedNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "notLit",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LightUpGiftWall_FieldNumber_NotLit,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftWall__storage_, notLit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "rule",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LightUpGiftWall_FieldNumber_Rule,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftWall__storage_, rule),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "lightUpGiftItemListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3LightUpGiftItem),
+        .number = PB3LightUpGiftWall_FieldNumber_LightUpGiftItemListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftWall__storage_, lightUpGiftItemListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3LightUpGiftWall class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3LightUpGiftWall__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3LightUpGiftItem
+
+@implementation PB3LightUpGiftItem
+
+@dynamic giftId;
+@dynamic giftIcon;
+
+typedef struct PB3LightUpGiftItem__storage_ {
+  uint32_t _has_storage_[1];
+  uint32_t giftId;
+  NSString *giftIcon;
+} PB3LightUpGiftItem__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "giftId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LightUpGiftItem_FieldNumber_GiftId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftItem__storage_, giftId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "giftIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LightUpGiftItem_FieldNumber_GiftIcon,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3LightUpGiftItem__storage_, giftIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3LightUpGiftItem class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3LightUpGiftItem__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
 
 #pragma mark - PB3IMCPDialog
 
@@ -7152,7 +7758,6 @@ void SetPB3OnOffStatus_Type_RawValue(PB3OnOffStatus *message, int32_t value) {
 @dynamic URL;
 @dynamic msg;
 @dynamic roomDisplay;
-@dynamic name;
 
 typedef struct PB3IndexTips__storage_ {
   uint32_t _has_storage_[1];
@@ -7160,7 +7765,6 @@ typedef struct PB3IndexTips__storage_ {
   NSString *color;
   NSString *URL;
   NSString *msg;
-  NSString *name;
 } PB3IndexTips__storage_;
 
 // This method is threadsafe because it is initially called
@@ -7213,15 +7817,6 @@ typedef struct PB3IndexTips__storage_ {
         .offset = 5,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "name",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3IndexTips_FieldNumber_Name,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3IndexTips__storage_, name),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -7370,19 +7965,23 @@ typedef struct PB3RoomIndexConfig__storage_ {
 @dynamic roomId;
 @dynamic hasPasswd;
 @dynamic authInfoListArray, authInfoListArray_Count;
-@dynamic friendType;
-@dynamic playerLabelArray, playerLabelArray_Count;
+@dynamic roomName;
+@dynamic badgeURL;
+@dynamic isBlockUser;
+@dynamic playerRoomHasPasswd;
+@dynamic resultType;
 
 typedef struct PB3SearchPlayerEntry__storage_ {
   uint32_t _has_storage_[1];
   PB3SexType sex;
   int32_t charmLevel;
   int32_t wealthlEvel;
-  PB3FriendType friendType;
+  PB3SearchResultType resultType;
   NSString *nickname;
   NSString *icon;
   NSMutableArray *authInfoListArray;
-  NSMutableArray *playerLabelArray;
+  NSString *roomName;
+  NSString *badgeURL;
   int64_t id_p;
   int64_t id2;
   int64_t charm;
@@ -7514,22 +8113,49 @@ typedef struct PB3SearchPlayerEntry__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "friendType",
-        .dataTypeSpecific.enumDescFunc = PB3FriendType_EnumDescriptor,
-        .number = PB3SearchPlayerEntry_FieldNumber_FriendType,
+        .name = "roomName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SearchPlayerEntry_FieldNumber_RoomName,
         .hasIndex = 14,
-        .offset = (uint32_t)offsetof(PB3SearchPlayerEntry__storage_, friendType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
+        .offset = (uint32_t)offsetof(PB3SearchPlayerEntry__storage_, roomName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
       },
       {
-        .name = "playerLabelArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PlayerLabel),
-        .number = PB3SearchPlayerEntry_FieldNumber_PlayerLabelArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3SearchPlayerEntry__storage_, playerLabelArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
+        .name = "badgeURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SearchPlayerEntry_FieldNumber_BadgeURL,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PB3SearchPlayerEntry__storage_, badgeURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "isBlockUser",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SearchPlayerEntry_FieldNumber_IsBlockUser,
+        .hasIndex = 16,
+        .offset = 17,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "playerRoomHasPasswd",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SearchPlayerEntry_FieldNumber_PlayerRoomHasPasswd,
+        .hasIndex = 18,
+        .offset = 19,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "resultType",
+        .dataTypeSpecific.enumDescFunc = PB3SearchResultType_EnumDescriptor,
+        .number = PB3SearchPlayerEntry_FieldNumber_ResultType,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3SearchPlayerEntry__storage_, resultType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -7540,6 +8166,11 @@ typedef struct PB3SearchPlayerEntry__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3SearchPlayerEntry__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\020\005\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -7560,15 +8191,15 @@ void SetPB3SearchPlayerEntry_Sex_RawValue(PB3SearchPlayerEntry *message, int32_t
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-int32_t PB3SearchPlayerEntry_FriendType_RawValue(PB3SearchPlayerEntry *message) {
+int32_t PB3SearchPlayerEntry_ResultType_RawValue(PB3SearchPlayerEntry *message) {
   GPBDescriptor *descriptor = [PB3SearchPlayerEntry descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SearchPlayerEntry_FieldNumber_FriendType];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SearchPlayerEntry_FieldNumber_ResultType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3SearchPlayerEntry_FriendType_RawValue(PB3SearchPlayerEntry *message, int32_t value) {
+void SetPB3SearchPlayerEntry_ResultType_RawValue(PB3SearchPlayerEntry *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3SearchPlayerEntry descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SearchPlayerEntry_FieldNumber_FriendType];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SearchPlayerEntry_FieldNumber_ResultType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -7597,6 +8228,8 @@ void SetPB3SearchPlayerEntry_FriendType_RawValue(PB3SearchPlayerEntry *message, 
 @dynamic labelURL;
 @dynamic heat;
 @dynamic decorateArray, decorateArray_Count;
+@dynamic isBlockUser;
+@dynamic resultType;
 
 typedef struct PB3IndexEntry__storage_ {
   uint32_t _has_storage_[1];
@@ -7608,6 +8241,7 @@ typedef struct PB3IndexEntry__storage_ {
   uint32_t flags;
   int32_t highQualityOnline;
   int32_t heat;
+  PB3SearchResultType resultType;
   NSString *name;
   NSString *icon;
   NSString *detailsImg;
@@ -7816,6 +8450,24 @@ typedef struct PB3IndexEntry__storage_ {
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "isBlockUser",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IndexEntry_FieldNumber_IsBlockUser,
+        .hasIndex = 22,
+        .offset = 23,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "resultType",
+        .dataTypeSpecific.enumDescFunc = PB3SearchResultType_EnumDescriptor,
+        .number = PB3IndexEntry_FieldNumber_ResultType,
+        .hasIndex = 24,
+        .offset = (uint32_t)offsetof(PB3IndexEntry__storage_, resultType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3IndexEntry class]
@@ -7850,6 +8502,18 @@ void SetPB3IndexEntry_Type_RawValue(PB3IndexEntry *message, int32_t value) {
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
+int32_t PB3IndexEntry_ResultType_RawValue(PB3IndexEntry *message) {
+  GPBDescriptor *descriptor = [PB3IndexEntry descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IndexEntry_FieldNumber_ResultType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IndexEntry_ResultType_RawValue(PB3IndexEntry *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IndexEntry descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IndexEntry_FieldNumber_ResultType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
 #pragma mark - PB3Effect
 
 @implementation PB3Effect
@@ -7870,6 +8534,7 @@ void SetPB3IndexEntry_Type_RawValue(PB3IndexEntry *message, int32_t value) {
 @dynamic effectType;
 @dynamic effectSubType;
 @dynamic counter;
+@dynamic hasOtherPlayer, otherPlayer;
 
 typedef struct PB3Effect__storage_ {
   uint32_t _has_storage_[1];
@@ -7885,6 +8550,7 @@ typedef struct PB3Effect__storage_ {
   NSString *str;
   NSString *effectDecOwn;
   NSString *effectDecReview;
+  PB3Player *otherPlayer;
   int64_t decCreateAt;
   int64_t protectStartAt;
   int64_t endTimeNew;
@@ -8039,6 +8705,15 @@ typedef struct PB3Effect__storage_ {
         .offset = (uint32_t)offsetof(PB3Effect__storage_, counter),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "otherPlayer",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3Player),
+        .number = PB3Effect_FieldNumber_OtherPlayer,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PB3Effect__storage_, otherPlayer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -8449,8 +9124,7 @@ typedef struct PB3EffectChairCountTheme__storage_ {
 @dynamic hasChairTheme, chairTheme;
 @dynamic iosURL;
 @dynamic androidURL;
-@dynamic showBgColorTop;
-@dynamic showBgColorBottom;
+@dynamic targetType;
 
 typedef struct PB3EffectConfig__storage_ {
   uint32_t _has_storage_[3];
@@ -8480,6 +9154,7 @@ typedef struct PB3EffectConfig__storage_ {
   PB3EffectSubType effectSubType;
   int32_t loseHintType;
   int32_t getHintType;
+  PB3EffectTargetType targetType;
   NSString *name;
   NSString *URL;
   NSString *ver;
@@ -8513,8 +9188,6 @@ typedef struct PB3EffectConfig__storage_ {
   PB3EffectChairCountTheme *chairTheme;
   NSString *iosURL;
   NSString *androidURL;
-  NSString *showBgColorTop;
-  NSString *showBgColorBottom;
   int64_t timeoutNew;
   int64_t groupId;
   int64_t weightInGroup;
@@ -9130,22 +9803,13 @@ typedef struct PB3EffectConfig__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "showBgColorTop",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3EffectConfig_FieldNumber_ShowBgColorTop,
+        .name = "targetType",
+        .dataTypeSpecific.enumDescFunc = PB3EffectTargetType_EnumDescriptor,
+        .number = PB3EffectConfig_FieldNumber_TargetType,
         .hasIndex = 72,
-        .offset = (uint32_t)offsetof(PB3EffectConfig__storage_, showBgColorTop),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "showBgColorBottom",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3EffectConfig_FieldNumber_ShowBgColorBottom,
-        .hasIndex = 73,
-        .offset = (uint32_t)offsetof(PB3EffectConfig__storage_, showBgColorBottom),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .offset = (uint32_t)offsetof(PB3EffectConfig__storage_, targetType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -9228,6 +9892,18 @@ int32_t PB3EffectConfig_EffectSubType_RawValue(PB3EffectConfig *message) {
 void SetPB3EffectConfig_EffectSubType_RawValue(PB3EffectConfig *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3EffectConfig descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3EffectConfig_FieldNumber_EffectSubType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3EffectConfig_TargetType_RawValue(PB3EffectConfig *message) {
+  GPBDescriptor *descriptor = [PB3EffectConfig descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3EffectConfig_FieldNumber_TargetType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3EffectConfig_TargetType_RawValue(PB3EffectConfig *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3EffectConfig descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3EffectConfig_FieldNumber_TargetType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -9906,7 +10582,10 @@ void SetPB3ModelOnOff_Status_RawValue(PB3ModelOnOff *message, int32_t value) {
 @dynamic lev;
 @dynamic cardName;
 @dynamic isLive;
-@dynamic roomId;
+@dynamic cubismIcon;
+@dynamic cubismLevel;
+@dynamic cubismType;
+@dynamic setCardURL;
 
 typedef struct PB3Rank__storage_ {
   uint32_t _has_storage_[1];
@@ -9917,17 +10596,20 @@ typedef struct PB3Rank__storage_ {
   int32_t ranking;
   int32_t intimacy;
   int32_t lev;
+  PB3RankCubismItemLevel cubismLevel;
+  PB3CubismType cubismType;
   NSString *name;
   NSString *icon;
   PB3MaskInfo *maskInfo;
   NSString *cardName;
+  NSString *cubismIcon;
+  NSString *setCardURL;
   int64_t id_p;
   int64_t value;
   int64_t gapVal;
   int64_t giftId;
   int64_t id2;
   int64_t caijiId;
-  int64_t roomId;
 } PB3Rank__storage_;
 
 // This method is threadsafe because it is initially called
@@ -10099,13 +10781,40 @@ typedef struct PB3Rank__storage_ {
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "roomId",
+        .name = "cubismIcon",
         .dataTypeSpecific.className = NULL,
-        .number = PB3Rank_FieldNumber_RoomId,
+        .number = PB3Rank_FieldNumber_CubismIcon,
         .hasIndex = 19,
-        .offset = (uint32_t)offsetof(PB3Rank__storage_, roomId),
+        .offset = (uint32_t)offsetof(PB3Rank__storage_, cubismIcon),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeSInt64,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cubismLevel",
+        .dataTypeSpecific.enumDescFunc = PB3RankCubismItemLevel_EnumDescriptor,
+        .number = PB3Rank_FieldNumber_CubismLevel,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3Rank__storage_, cubismLevel),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "cubismType",
+        .dataTypeSpecific.enumDescFunc = PB3CubismType_EnumDescriptor,
+        .number = PB3Rank_FieldNumber_CubismType,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(PB3Rank__storage_, cubismType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "setCardURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Rank_FieldNumber_SetCardURL,
+        .hasIndex = 22,
+        .offset = (uint32_t)offsetof(PB3Rank__storage_, setCardURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -10116,6 +10825,11 @@ typedef struct PB3Rank__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3Rank__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\026\003\244\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -10133,6 +10847,30 @@ int32_t PB3Rank_Sex_RawValue(PB3Rank *message) {
 void SetPB3Rank_Sex_RawValue(PB3Rank *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3Rank descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Rank_FieldNumber_Sex];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3Rank_CubismLevel_RawValue(PB3Rank *message) {
+  GPBDescriptor *descriptor = [PB3Rank descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Rank_FieldNumber_CubismLevel];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3Rank_CubismLevel_RawValue(PB3Rank *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3Rank descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Rank_FieldNumber_CubismLevel];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3Rank_CubismType_RawValue(PB3Rank *message) {
+  GPBDescriptor *descriptor = [PB3Rank descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Rank_FieldNumber_CubismType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3Rank_CubismType_RawValue(PB3Rank *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3Rank descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Rank_FieldNumber_CubismType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -10387,28 +11125,20 @@ void SetPB3Rank1_Sex_RawValue(PB3Rank1 *message, int32_t value) {
 @dynamic categoryId;
 @dynamic isSignMember;
 @dynamic isPublicSettle;
-@dynamic type;
-@dynamic vipDay;
-@dynamic roomId;
 @dynamic bagListArray, bagListArray_Count;
 @dynamic isOperator;
-@dynamic levelIcon;
 
 typedef struct PB3ClanInfo__storage_ {
   uint32_t _has_storage_[1];
   PB3ClanIconType iconType;
-  int32_t type;
-  int32_t vipDay;
   NSString *iconWord;
   NSString *levelName;
   NSString *name;
   NSMutableArray *bagListArray;
-  NSString *levelIcon;
   int64_t id_p;
   int64_t level;
   int64_t familyId;
   int64_t categoryId;
-  int64_t roomId;
 } PB3ClanInfo__storage_;
 
 // This method is threadsafe because it is initially called
@@ -10526,33 +11256,6 @@ typedef struct PB3ClanInfo__storage_ {
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "type",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ClanInfo_FieldNumber_Type,
-        .hasIndex = 16,
-        .offset = (uint32_t)offsetof(PB3ClanInfo__storage_, type),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "vipDay",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ClanInfo_FieldNumber_VipDay,
-        .hasIndex = 17,
-        .offset = (uint32_t)offsetof(PB3ClanInfo__storage_, vipDay),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "roomId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ClanInfo_FieldNumber_RoomId,
-        .hasIndex = 18,
-        .offset = (uint32_t)offsetof(PB3ClanInfo__storage_, roomId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
         .name = "bagListArray",
         .dataTypeSpecific.className = GPBStringifySymbol(PB3BoosBag),
         .number = PB3ClanInfo_FieldNumber_BagListArray,
@@ -10565,19 +11268,10 @@ typedef struct PB3ClanInfo__storage_ {
         .name = "isOperator",
         .dataTypeSpecific.className = NULL,
         .number = PB3ClanInfo_FieldNumber_IsOperator,
-        .hasIndex = 19,
-        .offset = 20,  // Stored in _has_storage_ to save space.
+        .hasIndex = 16,
+        .offset = 17,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "levelIcon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ClanInfo_FieldNumber_LevelIcon,
-        .hasIndex = 21,
-        .offset = (uint32_t)offsetof(PB3ClanInfo__storage_, levelIcon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -10746,12 +11440,14 @@ typedef struct PB3BoosBag__storage_ {
 @dynamic roomName;
 @dynamic signature;
 @dynamic createAt;
+@dynamic relationType;
 
 typedef struct PB3SimplePlayer__storage_ {
   uint32_t _has_storage_[1];
   PB3SexType sex;
   int32_t wealthLevel;
   int32_t charmLevel;
+  int32_t relationType;
   NSString *name;
   NSString *icon;
   NSString *roomName;
@@ -10896,6 +11592,15 @@ typedef struct PB3SimplePlayer__storage_ {
         .offset = (uint32_t)offsetof(PB3SimplePlayer__storage_, createAt),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "relationType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SimplePlayer_FieldNumber_RelationType,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PB3SimplePlayer__storage_, relationType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -11261,6 +11966,115 @@ void SetPB3DecorateSignFrame_DecorateType_RawValue(PB3DecorateSignFrame *message
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
+#pragma mark - PB3ChargeExtraDataActivity
+
+@implementation PB3ChargeExtraDataActivity
+
+@dynamic remark;
+
+typedef struct PB3ChargeExtraDataActivity__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *remark;
+} PB3ChargeExtraDataActivity__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "remark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ChargeExtraDataActivity_FieldNumber_Remark,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ChargeExtraDataActivity__storage_, remark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ChargeExtraDataActivity class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ChargeExtraDataActivity__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ChargeExtraData
+
+@implementation PB3ChargeExtraData
+
+@dynamic type;
+@dynamic datas;
+
+typedef struct PB3ChargeExtraData__storage_ {
+  uint32_t _has_storage_[1];
+  PB3ChargeExtraDataType type;
+  NSData *datas;
+} PB3ChargeExtraData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = PB3ChargeExtraDataType_EnumDescriptor,
+        .number = PB3ChargeExtraData_FieldNumber_Type,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ChargeExtraData__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "datas",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ChargeExtraData_FieldNumber_Datas,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3ChargeExtraData__storage_, datas),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ChargeExtraData class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ChargeExtraData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3ChargeExtraData_Type_RawValue(PB3ChargeExtraData *message) {
+  GPBDescriptor *descriptor = [PB3ChargeExtraData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ChargeExtraData_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3ChargeExtraData_Type_RawValue(PB3ChargeExtraData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3ChargeExtraData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ChargeExtraData_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
 #pragma mark - PB3MaskIcon
 
 @implementation PB3MaskIcon
@@ -11404,36 +12218,6 @@ typedef struct PB3MaskInfo__storage_ {
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3MaskInfo__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3EmojiChatMsg
-
-@implementation PB3EmojiChatMsg
-
-
-typedef struct PB3EmojiChatMsg__storage_ {
-  uint32_t _has_storage_[1];
-} PB3EmojiChatMsg__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3EmojiChatMsg class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(PB3EmojiChatMsg__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -11957,22 +12741,18 @@ void SetPB3SyncOpt_Type_RawValue(PB3SyncOpt *message, int32_t value) {
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3ChatMsg
+#pragma mark - PB3ChangeDetail
 
-@implementation PB3ChatMsg
+@implementation PB3ChangeDetail
 
-@dynamic msgType;
-@dynamic hasText, text;
-@dynamic hasImage, image;
-@dynamic hasEmoji, emoji;
+@dynamic originId;
+@dynamic targetId;
 
-typedef struct PB3ChatMsg__storage_ {
+typedef struct PB3ChangeDetail__storage_ {
   uint32_t _has_storage_[1];
-  PB3ChatMsgType msgType;
-  PB3TextChatMsg *text;
-  PB3ImageChatMsg *image;
-  PB3EmojiChatMsg *emoji;
-} PB3ChatMsg__storage_;
+  int32_t originId;
+  int32_t targetId;
+} PB3ChangeDetail__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -11981,153 +12761,32 @@ typedef struct PB3ChatMsg__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "msgType",
-        .dataTypeSpecific.enumDescFunc = PB3ChatMsgType_EnumDescriptor,
-        .number = PB3ChatMsg_FieldNumber_MsgType,
+        .name = "originId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ChangeDetail_FieldNumber_OriginId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3ChatMsg__storage_, msgType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
+        .offset = (uint32_t)offsetof(PB3ChangeDetail__storage_, originId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
       {
-        .name = "text",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3TextChatMsg),
-        .number = PB3ChatMsg_FieldNumber_Text,
+        .name = "targetId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ChangeDetail_FieldNumber_TargetId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3ChatMsg__storage_, text),
+        .offset = (uint32_t)offsetof(PB3ChangeDetail__storage_, targetId),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "image",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3ImageChatMsg),
-        .number = PB3ChatMsg_FieldNumber_Image,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3ChatMsg__storage_, image),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "emoji",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3EmojiChatMsg),
-        .number = PB3ChatMsg_FieldNumber_Emoji,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3ChatMsg__storage_, emoji),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3ChatMsg class]
+        [GPBDescriptor allocDescriptorForClass:[PB3ChangeDetail class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3ChatMsg__storage_)
+                                   storageSize:sizeof(PB3ChangeDetail__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-int32_t PB3ChatMsg_MsgType_RawValue(PB3ChatMsg *message) {
-  GPBDescriptor *descriptor = [PB3ChatMsg descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ChatMsg_FieldNumber_MsgType];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPB3ChatMsg_MsgType_RawValue(PB3ChatMsg *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3ChatMsg descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ChatMsg_FieldNumber_MsgType];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-#pragma mark - PB3TextChatMsg
-
-@implementation PB3TextChatMsg
-
-@dynamic content;
-
-typedef struct PB3TextChatMsg__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *content;
-} PB3TextChatMsg__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "content",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3TextChatMsg_FieldNumber_Content,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3TextChatMsg__storage_, content),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3TextChatMsg class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3TextChatMsg__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3ImageChatMsg
-
-@implementation PB3ImageChatMsg
-
-@dynamic URL;
-
-typedef struct PB3ImageChatMsg__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *URL;
-} PB3ImageChatMsg__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "URL",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ImageChatMsg_FieldNumber_URL,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3ImageChatMsg__storage_, URL),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3ImageChatMsg class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3ImageChatMsg__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\001\001!!!\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -12227,6 +12886,7 @@ typedef struct PB3CouponUsedData__storage_ {
 @dynamic usageRemark;
 @dynamic status;
 @dynamic discountUnit;
+@dynamic couponUnit;
 
 typedef struct PB3CouponCliCfg__storage_ {
   uint32_t _has_storage_[1];
@@ -12236,6 +12896,7 @@ typedef struct PB3CouponCliCfg__storage_ {
   int32_t discount;
   PB3CouponJumpType jumpType;
   PB3CouponStatus status;
+  PB3CouponDiscountUnit couponUnit;
   NSString *name;
   NSString *jumpURL;
   NSString *usageRemark;
@@ -12348,6 +13009,15 @@ typedef struct PB3CouponCliCfg__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "couponUnit",
+        .dataTypeSpecific.enumDescFunc = PB3CouponDiscountUnit_EnumDescriptor,
+        .number = PB3CouponCliCfg_FieldNumber_CouponUnit,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3CouponCliCfg__storage_, couponUnit),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3CouponCliCfg class]
@@ -12403,6 +13073,18 @@ int32_t PB3CouponCliCfg_Status_RawValue(PB3CouponCliCfg *message) {
 void SetPB3CouponCliCfg_Status_RawValue(PB3CouponCliCfg *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3CouponCliCfg descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCliCfg_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3CouponCliCfg_CouponUnit_RawValue(PB3CouponCliCfg *message) {
+  GPBDescriptor *descriptor = [PB3CouponCliCfg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCliCfg_FieldNumber_CouponUnit];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3CouponCliCfg_CouponUnit_RawValue(PB3CouponCliCfg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3CouponCliCfg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCliCfg_FieldNumber_CouponUnit];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -12968,6 +13650,7 @@ typedef struct PB3VoiceFeature__storage_ {
 @dynamic advendorId;
 @dynamic advendorSubid;
 @dynamic pkgDeviceType;
+@dynamic application;
 
 typedef struct PB3AccountRes__storage_ {
   uint32_t _has_storage_[1];
@@ -12987,6 +13670,7 @@ typedef struct PB3AccountRes__storage_ {
   NSString *phone;
   NSString *createIp;
   NSString *deviceId;
+  NSString *application;
   int64_t id_p;
   int64_t channelTypeId;
   int64_t advendorId;
@@ -13179,6 +13863,15 @@ typedef struct PB3AccountRes__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "application",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3AccountRes_FieldNumber_Application,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3AccountRes__storage_, application),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3AccountRes class]
@@ -13213,18 +13906,20 @@ void SetPB3AccountRes_DeviceType_RawValue(PB3AccountRes *message, int32_t value)
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3ChangeDetail
+#pragma mark - PB3CreditScore
 
-@implementation PB3ChangeDetail
+@implementation PB3CreditScore
 
-@dynamic originId;
-@dynamic targetId;
+@dynamic status;
+@dynamic score;
+@dynamic level;
 
-typedef struct PB3ChangeDetail__storage_ {
+typedef struct PB3CreditScore__storage_ {
   uint32_t _has_storage_[1];
-  int32_t originId;
-  int32_t targetId;
-} PB3ChangeDetail__storage_;
+  PB3CreditScoreStatus status;
+  int32_t score;
+  PB3CreditScoreLevel level;
+} PB3CreditScore__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -13233,194 +13928,40 @@ typedef struct PB3ChangeDetail__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "originId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ChangeDetail_FieldNumber_OriginId,
+        .name = "status",
+        .dataTypeSpecific.enumDescFunc = PB3CreditScoreStatus_EnumDescriptor,
+        .number = PB3CreditScore_FieldNumber_Status,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3ChangeDetail__storage_, originId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "targetId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ChangeDetail_FieldNumber_TargetId,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3ChangeDetail__storage_, targetId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3ChangeDetail class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3ChangeDetail__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GameCommPlayer
-
-@implementation PB3GameCommPlayer
-
-@dynamic id_p;
-@dynamic nickname;
-@dynamic sex;
-@dynamic icon;
-@dynamic wealth;
-@dynamic signature;
-@dynamic flagsKv, flagsKv_Count;
-@dynamic isDelete;
-@dynamic bgImage;
-@dynamic languageCode;
-@dynamic region;
-@dynamic birthday;
-
-typedef struct PB3GameCommPlayer__storage_ {
-  uint32_t _has_storage_[1];
-  PB3SexType sex;
-  NSString *nickname;
-  NSString *icon;
-  NSString *signature;
-  GPBInt32Int32Dictionary *flagsKv;
-  NSString *bgImage;
-  NSString *languageCode;
-  NSString *region;
-  NSString *birthday;
-  int64_t id_p;
-  int64_t wealth;
-} PB3GameCommPlayer__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "id_p",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Id_p,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, id_p),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "nickname",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Nickname,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, nickname),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "sex",
-        .dataTypeSpecific.enumDescFunc = PB3SexType_EnumDescriptor,
-        .number = PB3GameCommPlayer_FieldNumber_Sex,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, sex),
+        .offset = (uint32_t)offsetof(PB3CreditScore__storage_, status),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
-        .name = "icon",
+        .name = "score",
         .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Icon,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, icon),
+        .number = PB3CreditScore_FieldNumber_Score,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CreditScore__storage_, score),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "wealth",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Wealth,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, wealth),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "signature",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Signature,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, signature),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "flagsKv",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_FlagsKv,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, flagsKv),
-        .flags = GPBFieldMapKeyInt32,
         .dataType = GPBDataTypeInt32,
       },
       {
-        .name = "isDelete",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_IsDelete,
-        .hasIndex = 6,
-        .offset = 7,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "bgImage",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_BgImage,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, bgImage),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "languageCode",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_LanguageCode,
-        .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, languageCode),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "region",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Region,
-        .hasIndex = 10,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, region),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "birthday",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommPlayer_FieldNumber_Birthday,
-        .hasIndex = 11,
-        .offset = (uint32_t)offsetof(PB3GameCommPlayer__storage_, birthday),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .name = "level",
+        .dataTypeSpecific.enumDescFunc = PB3CreditScoreLevel_EnumDescriptor,
+        .number = PB3CreditScore_FieldNumber_Level,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CreditScore__storage_, level),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GameCommPlayer class]
+        [GPBDescriptor allocDescriptorForClass:[PB3CreditScore class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GameCommPlayer__storage_)
+                                   storageSize:sizeof(PB3CreditScore__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -13430,30 +13971,46 @@ typedef struct PB3GameCommPlayer__storage_ {
 
 @end
 
-int32_t PB3GameCommPlayer_Sex_RawValue(PB3GameCommPlayer *message) {
-  GPBDescriptor *descriptor = [PB3GameCommPlayer descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3GameCommPlayer_FieldNumber_Sex];
+int32_t PB3CreditScore_Status_RawValue(PB3CreditScore *message) {
+  GPBDescriptor *descriptor = [PB3CreditScore descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScore_FieldNumber_Status];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3GameCommPlayer_Sex_RawValue(PB3GameCommPlayer *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3GameCommPlayer descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3GameCommPlayer_FieldNumber_Sex];
+void SetPB3CreditScore_Status_RawValue(PB3CreditScore *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3CreditScore descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScore_FieldNumber_Status];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3PrivacyTypeVal
+int32_t PB3CreditScore_Level_RawValue(PB3CreditScore *message) {
+  GPBDescriptor *descriptor = [PB3CreditScore descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScore_FieldNumber_Level];
+  return GPBGetMessageInt32Field(message, field);
+}
 
-@implementation PB3PrivacyTypeVal
+void SetPB3CreditScore_Level_RawValue(PB3CreditScore *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3CreditScore descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScore_FieldNumber_Level];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
-@dynamic onOffType;
-@dynamic onOffVal;
+#pragma mark - PB3CreditScorePrivilege
 
-typedef struct PB3PrivacyTypeVal__storage_ {
+@implementation PB3CreditScorePrivilege
+
+@dynamic type;
+@dynamic freeChargeNum;
+@dynamic depositNum;
+@dynamic creditScore;
+
+typedef struct PB3CreditScorePrivilege__storage_ {
   uint32_t _has_storage_[1];
-  PB3PrivacyType onOffType;
-  int32_t onOffVal;
-} PB3PrivacyTypeVal__storage_;
+  PB3CreditScorePrivilegeType type;
+  int32_t creditScore;
+  int64_t freeChargeNum;
+  int64_t depositNum;
+} PB3CreditScorePrivilege__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -13462,31 +14019,49 @@ typedef struct PB3PrivacyTypeVal__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "onOffType",
-        .dataTypeSpecific.enumDescFunc = PB3PrivacyType_EnumDescriptor,
-        .number = PB3PrivacyTypeVal_FieldNumber_OnOffType,
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = PB3CreditScorePrivilegeType_EnumDescriptor,
+        .number = PB3CreditScorePrivilege_FieldNumber_Type,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PrivacyTypeVal__storage_, onOffType),
+        .offset = (uint32_t)offsetof(PB3CreditScorePrivilege__storage_, type),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
-        .name = "onOffVal",
+        .name = "freeChargeNum",
         .dataTypeSpecific.className = NULL,
-        .number = PB3PrivacyTypeVal_FieldNumber_OnOffVal,
+        .number = PB3CreditScorePrivilege_FieldNumber_FreeChargeNum,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PrivacyTypeVal__storage_, onOffVal),
+        .offset = (uint32_t)offsetof(PB3CreditScorePrivilege__storage_, freeChargeNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "depositNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CreditScorePrivilege_FieldNumber_DepositNum,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CreditScorePrivilege__storage_, depositNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "creditScore",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CreditScorePrivilege_FieldNumber_CreditScore,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CreditScorePrivilege__storage_, creditScore),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PrivacyTypeVal class]
+        [GPBDescriptor allocDescriptorForClass:[PB3CreditScorePrivilege class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PrivacyTypeVal__storage_)
+                                   storageSize:sizeof(PB3CreditScorePrivilege__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -13496,34 +14071,30 @@ typedef struct PB3PrivacyTypeVal__storage_ {
 
 @end
 
-int32_t PB3PrivacyTypeVal_OnOffType_RawValue(PB3PrivacyTypeVal *message) {
-  GPBDescriptor *descriptor = [PB3PrivacyTypeVal descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3PrivacyTypeVal_FieldNumber_OnOffType];
+int32_t PB3CreditScorePrivilege_Type_RawValue(PB3CreditScorePrivilege *message) {
+  GPBDescriptor *descriptor = [PB3CreditScorePrivilege descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScorePrivilege_FieldNumber_Type];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3PrivacyTypeVal_OnOffType_RawValue(PB3PrivacyTypeVal *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3PrivacyTypeVal descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3PrivacyTypeVal_FieldNumber_OnOffType];
+void SetPB3CreditScorePrivilege_Type_RawValue(PB3CreditScorePrivilege *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3CreditScorePrivilege descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CreditScorePrivilege_FieldNumber_Type];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3GameCommGameIcon
+#pragma mark - PB3PairInt32Num
 
-@implementation PB3GameCommGameIcon
+@implementation PB3PairInt32Num
 
-@dynamic gameId;
-@dynamic gameName;
-@dynamic icon;
-@dynamic nameBgColor;
+@dynamic num1;
+@dynamic num2;
 
-typedef struct PB3GameCommGameIcon__storage_ {
+typedef struct PB3PairInt32Num__storage_ {
   uint32_t _has_storage_[1];
-  NSString *gameName;
-  NSString *icon;
-  NSString *nameBgColor;
-  int64_t gameId;
-} PB3GameCommGameIcon__storage_;
+  int32_t num1;
+  int32_t num2;
+} PB3PairInt32Num__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -13532,49 +14103,31 @@ typedef struct PB3GameCommGameIcon__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "gameId",
+        .name = "num1",
         .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommGameIcon_FieldNumber_GameId,
+        .number = PB3PairInt32Num_FieldNumber_Num1,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GameCommGameIcon__storage_, gameId),
+        .offset = (uint32_t)offsetof(PB3PairInt32Num__storage_, num1),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
+        .dataType = GPBDataTypeInt32,
       },
       {
-        .name = "gameName",
+        .name = "num2",
         .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommGameIcon_FieldNumber_GameName,
+        .number = PB3PairInt32Num_FieldNumber_Num2,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GameCommGameIcon__storage_, gameName),
+        .offset = (uint32_t)offsetof(PB3PairInt32Num__storage_, num2),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "icon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommGameIcon_FieldNumber_Icon,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3GameCommGameIcon__storage_, icon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "nameBgColor",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameCommGameIcon_FieldNumber_NameBgColor,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3GameCommGameIcon__storage_, nameBgColor),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GameCommGameIcon class]
+        [GPBDescriptor allocDescriptorForClass:[PB3PairInt32Num class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GameCommGameIcon__storage_)
+                                   storageSize:sizeof(PB3PairInt32Num__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -13584,28 +14137,18 @@ typedef struct PB3GameCommGameIcon__storage_ {
 
 @end
 
-#pragma mark - PB3GameAchievement
+#pragma mark - PB3PairInt64Num
 
-@implementation PB3GameAchievement
+@implementation PB3PairInt64Num
 
-@dynamic achievementId;
-@dynamic gameId;
-@dynamic title;
-@dynamic desc;
-@dynamic finishCount;
-@dynamic visibility;
-@dynamic finishType;
+@dynamic num1;
+@dynamic num2;
 
-typedef struct PB3GameAchievement__storage_ {
+typedef struct PB3PairInt64Num__storage_ {
   uint32_t _has_storage_[1];
-  int32_t finishCount;
-  int32_t visibility;
-  int32_t finishType;
-  NSString *title;
-  NSString *desc;
-  int64_t achievementId;
-  int64_t gameId;
-} PB3GameAchievement__storage_;
+  int64_t num1;
+  int64_t num2;
+} PB3PairInt64Num__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -13614,314 +14157,31 @@ typedef struct PB3GameAchievement__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "achievementId",
+        .name = "num1",
         .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_AchievementId,
+        .number = PB3PairInt64Num_FieldNumber_Num1,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, achievementId),
+        .offset = (uint32_t)offsetof(PB3PairInt64Num__storage_, num1),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
-        .name = "gameId",
+        .name = "num2",
         .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_GameId,
+        .number = PB3PairInt64Num_FieldNumber_Num2,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, gameId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "title",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_Title,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, title),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "desc",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_Desc,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, desc),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "finishCount",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_FinishCount,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, finishCount),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "visibility",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_Visibility,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, visibility),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "finishType",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GameAchievement_FieldNumber_FinishType,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3GameAchievement__storage_, finishType),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GameAchievement class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GameAchievement__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3TetrisBattleResultExtra
-
-@implementation PB3TetrisBattleResultExtra
-
-@dynamic eraseLines;
-
-typedef struct PB3TetrisBattleResultExtra__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t eraseLines;
-} PB3TetrisBattleResultExtra__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "eraseLines",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3TetrisBattleResultExtra_FieldNumber_EraseLines,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3TetrisBattleResultExtra__storage_, eraseLines),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3TetrisBattleResultExtra class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3TetrisBattleResultExtra__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3MillionaireResultExtra
-
-@implementation PB3MillionaireResultExtra
-
-@dynamic lastCorrectNum;
-
-typedef struct PB3MillionaireResultExtra__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t lastCorrectNum;
-} PB3MillionaireResultExtra__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "lastCorrectNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3MillionaireResultExtra_FieldNumber_LastCorrectNum,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3MillionaireResultExtra__storage_, lastCorrectNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3MillionaireResultExtra class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3MillionaireResultExtra__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3BasicPlayerInfo
-
-@implementation PB3BasicPlayerInfo
-
-@dynamic id_p;
-@dynamic nickname;
-@dynamic sex;
-@dynamic id2;
-@dynamic icon;
-@dynamic isDelete;
-
-typedef struct PB3BasicPlayerInfo__storage_ {
-  uint32_t _has_storage_[1];
-  PB3SexType sex;
-  NSString *nickname;
-  NSString *icon;
-  int64_t id_p;
-  int64_t id2;
-} PB3BasicPlayerInfo__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "id_p",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3BasicPlayerInfo_FieldNumber_Id_p,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3BasicPlayerInfo__storage_, id_p),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeSInt64,
-      },
-      {
-        .name = "nickname",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3BasicPlayerInfo_FieldNumber_Nickname,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3BasicPlayerInfo__storage_, nickname),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "sex",
-        .dataTypeSpecific.enumDescFunc = PB3SexType_EnumDescriptor,
-        .number = PB3BasicPlayerInfo_FieldNumber_Sex,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3BasicPlayerInfo__storage_, sex),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
-      },
-      {
-        .name = "id2",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3BasicPlayerInfo_FieldNumber_Id2,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3BasicPlayerInfo__storage_, id2),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeSInt64,
-      },
-      {
-        .name = "icon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3BasicPlayerInfo_FieldNumber_Icon,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3BasicPlayerInfo__storage_, icon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "isDelete",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3BasicPlayerInfo_FieldNumber_IsDelete,
-        .hasIndex = 5,
-        .offset = 6,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3BasicPlayerInfo class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3BasicPlayerInfo__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-int32_t PB3BasicPlayerInfo_Sex_RawValue(PB3BasicPlayerInfo *message) {
-  GPBDescriptor *descriptor = [PB3BasicPlayerInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BasicPlayerInfo_FieldNumber_Sex];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPB3BasicPlayerInfo_Sex_RawValue(PB3BasicPlayerInfo *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3BasicPlayerInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BasicPlayerInfo_FieldNumber_Sex];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-#pragma mark - PB3DirectCancelAccountReq
-
-@implementation PB3DirectCancelAccountReq
-
-@dynamic accountId;
-
-typedef struct PB3DirectCancelAccountReq__storage_ {
-  uint32_t _has_storage_[1];
-  int64_t accountId;
-} PB3DirectCancelAccountReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "accountId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3DirectCancelAccountReq_FieldNumber_AccountId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3DirectCancelAccountReq__storage_, accountId),
+        .offset = (uint32_t)offsetof(PB3PairInt64Num__storage_, num2),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3DirectCancelAccountReq class]
+        [GPBDescriptor allocDescriptorForClass:[PB3PairInt64Num class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3DirectCancelAccountReq__storage_)
+                                   storageSize:sizeof(PB3PairInt64Num__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -13931,46 +14191,24 @@ typedef struct PB3DirectCancelAccountReq__storage_ {
 
 @end
 
-#pragma mark - PB3DirectCancelAccountRes
+#pragma mark - PB3PlayerWeekCP
 
-@implementation PB3DirectCancelAccountRes
-
-
-typedef struct PB3DirectCancelAccountRes__storage_ {
-  uint32_t _has_storage_[1];
-} PB3DirectCancelAccountRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3DirectCancelAccountRes class]
-                                     rootClass:[PB3CommonExtRoot class]
-                                          file:PB3CommonExtRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(PB3DirectCancelAccountRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3ThirdPartyCancelAccountReq
-
-@implementation PB3ThirdPartyCancelAccountReq
+@implementation PB3PlayerWeekCP
 
 @dynamic playerId;
+@dynamic name;
+@dynamic icon;
+@dynamic sex;
+@dynamic isClanSign;
+@dynamic isInvite;
 
-typedef struct PB3ThirdPartyCancelAccountReq__storage_ {
+typedef struct PB3PlayerWeekCP__storage_ {
   uint32_t _has_storage_[1];
+  PB3SexType sex;
+  NSString *name;
+  NSString *icon;
   int64_t playerId;
-} PB3ThirdPartyCancelAccountReq__storage_;
+} PB3PlayerWeekCP__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -13981,20 +14219,65 @@ typedef struct PB3ThirdPartyCancelAccountReq__storage_ {
       {
         .name = "playerId",
         .dataTypeSpecific.className = NULL,
-        .number = PB3ThirdPartyCancelAccountReq_FieldNumber_PlayerId,
+        .number = PB3PlayerWeekCP_FieldNumber_PlayerId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3ThirdPartyCancelAccountReq__storage_, playerId),
+        .offset = (uint32_t)offsetof(PB3PlayerWeekCP__storage_, playerId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerWeekCP_FieldNumber_Name,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3PlayerWeekCP__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "icon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerWeekCP_FieldNumber_Icon,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3PlayerWeekCP__storage_, icon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "sex",
+        .dataTypeSpecific.enumDescFunc = PB3SexType_EnumDescriptor,
+        .number = PB3PlayerWeekCP_FieldNumber_Sex,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3PlayerWeekCP__storage_, sex),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "isClanSign",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerWeekCP_FieldNumber_IsClanSign,
+        .hasIndex = 4,
+        .offset = 5,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "isInvite",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3PlayerWeekCP_FieldNumber_IsInvite,
+        .hasIndex = 6,
+        .offset = 7,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3ThirdPartyCancelAccountReq class]
+        [GPBDescriptor allocDescriptorForClass:[PB3PlayerWeekCP class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3ThirdPartyCancelAccountReq__storage_)
+                                   storageSize:sizeof(PB3PlayerWeekCP__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -14004,17 +14287,48 @@ typedef struct PB3ThirdPartyCancelAccountReq__storage_ {
 
 @end
 
-#pragma mark - PB3ThirdPartyCancelAccountRes
+int32_t PB3PlayerWeekCP_Sex_RawValue(PB3PlayerWeekCP *message) {
+  GPBDescriptor *descriptor = [PB3PlayerWeekCP descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3PlayerWeekCP_FieldNumber_Sex];
+  return GPBGetMessageInt32Field(message, field);
+}
 
-@implementation PB3ThirdPartyCancelAccountRes
+void SetPB3PlayerWeekCP_Sex_RawValue(PB3PlayerWeekCP *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3PlayerWeekCP descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3PlayerWeekCP_FieldNumber_Sex];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
-@dynamic retSuccess;
-@dynamic expectCancelTime;
+#pragma mark - PB3WeekCPInfo
 
-typedef struct PB3ThirdPartyCancelAccountRes__storage_ {
+@implementation PB3WeekCPInfo
+
+@dynamic inviteTimes;
+@dynamic id_p;
+@dynamic status;
+@dynamic source;
+@dynamic hasCp, cp;
+@dynamic expireTime;
+@dynamic totalMission;
+@dynamic completedMission;
+@dynamic rewardsArray, rewardsArray_Count;
+@dynamic imInviteTimes;
+@dynamic hasInviteConf, inviteConf;
+
+typedef struct PB3WeekCPInfo__storage_ {
   uint32_t _has_storage_[1];
-  int64_t expectCancelTime;
-} PB3ThirdPartyCancelAccountRes__storage_;
+  int32_t inviteTimes;
+  PB3WeekCPInfoStatus status;
+  PB3WeekCPSource source;
+  int32_t totalMission;
+  int32_t completedMission;
+  int32_t imInviteTimes;
+  NSString *id_p;
+  PB3PlayerWeekCP *cp;
+  NSMutableArray *rewardsArray;
+  PB3WeekCPInviteConf *inviteConf;
+  int64_t expireTime;
+} PB3WeekCPInfo__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -14023,31 +14337,1221 @@ typedef struct PB3ThirdPartyCancelAccountRes__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "retSuccess",
+        .name = "inviteTimes",
         .dataTypeSpecific.className = NULL,
-        .number = PB3ThirdPartyCancelAccountRes_FieldNumber_RetSuccess,
+        .number = PB3WeekCPInfo_FieldNumber_InviteTimes,
         .hasIndex = 0,
-        .offset = 1,  // Stored in _has_storage_ to save space.
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, inviteTimes),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
+        .dataType = GPBDataTypeInt32,
       },
       {
-        .name = "expectCancelTime",
+        .name = "id_p",
         .dataTypeSpecific.className = NULL,
-        .number = PB3ThirdPartyCancelAccountRes_FieldNumber_ExpectCancelTime,
+        .number = PB3WeekCPInfo_FieldNumber_Id_p,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "status",
+        .dataTypeSpecific.enumDescFunc = PB3WeekCPInfoStatus_EnumDescriptor,
+        .number = PB3WeekCPInfo_FieldNumber_Status,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3ThirdPartyCancelAccountRes__storage_, expectCancelTime),
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, status),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "source",
+        .dataTypeSpecific.enumDescFunc = PB3WeekCPSource_EnumDescriptor,
+        .number = PB3WeekCPInfo_FieldNumber_Source,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, source),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "cp",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3PlayerWeekCP),
+        .number = PB3WeekCPInfo_FieldNumber_Cp,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, cp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "expireTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInfo_FieldNumber_ExpireTime,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, expireTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "totalMission",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInfo_FieldNumber_TotalMission,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, totalMission),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "completedMission",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInfo_FieldNumber_CompletedMission,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, completedMission),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "rewardsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3WeekCPReward),
+        .number = PB3WeekCPInfo_FieldNumber_RewardsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, rewardsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "imInviteTimes",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInfo_FieldNumber_ImInviteTimes,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, imInviteTimes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "inviteConf",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3WeekCPInviteConf),
+        .number = PB3WeekCPInfo_FieldNumber_InviteConf,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3WeekCPInfo__storage_, inviteConf),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3WeekCPInfo class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3WeekCPInfo__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3WeekCPInfo_Status_RawValue(PB3WeekCPInfo *message) {
+  GPBDescriptor *descriptor = [PB3WeekCPInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekCPInfo_FieldNumber_Status];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3WeekCPInfo_Status_RawValue(PB3WeekCPInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3WeekCPInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekCPInfo_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3WeekCPInfo_Source_RawValue(PB3WeekCPInfo *message) {
+  GPBDescriptor *descriptor = [PB3WeekCPInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekCPInfo_FieldNumber_Source];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3WeekCPInfo_Source_RawValue(PB3WeekCPInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3WeekCPInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekCPInfo_FieldNumber_Source];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3WeekCPReward
+
+@implementation PB3WeekCPReward
+
+@dynamic imageURL;
+@dynamic rewardName;
+
+typedef struct PB3WeekCPReward__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *imageURL;
+  NSString *rewardName;
+} PB3WeekCPReward__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "imageURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPReward_FieldNumber_ImageURL,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3WeekCPReward__storage_, imageURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "rewardName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPReward_FieldNumber_RewardName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3WeekCPReward__storage_, rewardName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3WeekCPReward class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3WeekCPReward__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\005\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3HighlightGift
+
+@implementation PB3HighlightGift
+
+@dynamic giftId;
+@dynamic level;
+@dynamic starLevel;
+@dynamic flashCardImgURL;
+@dynamic giftNum;
+@dynamic hasSender, sender;
+@dynamic hasReceiver, receiver;
+@dynamic createdAt;
+@dynamic operator_p;
+@dynamic giftName;
+@dynamic logId;
+@dynamic flashCardBgImgURL;
+@dynamic bigFlashCardImgURL;
+@dynamic bigFlashCardBgImgURL;
+
+typedef struct PB3HighlightGift__storage_ {
+  uint32_t _has_storage_[1];
+  uint32_t giftId;
+  PB3HighlightGiftLevel level;
+  int32_t starLevel;
+  uint32_t giftNum;
+  NSString *flashCardImgURL;
+  PB3SimplePlayer *sender;
+  PB3SimplePlayer *receiver;
+  NSString *operator_p;
+  NSString *giftName;
+  NSString *flashCardBgImgURL;
+  NSString *bigFlashCardImgURL;
+  NSString *bigFlashCardBgImgURL;
+  int64_t createdAt;
+  int64_t logId;
+} PB3HighlightGift__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "giftId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_GiftId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, giftId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "level",
+        .dataTypeSpecific.enumDescFunc = PB3HighlightGiftLevel_EnumDescriptor,
+        .number = PB3HighlightGift_FieldNumber_Level,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, level),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "starLevel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_StarLevel,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, starLevel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "flashCardImgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_FlashCardImgURL,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, flashCardImgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "giftNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_GiftNum,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, giftNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "sender",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3SimplePlayer),
+        .number = PB3HighlightGift_FieldNumber_Sender,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, sender),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "receiver",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3SimplePlayer),
+        .number = PB3HighlightGift_FieldNumber_Receiver,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, receiver),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "createdAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_CreatedAt,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, createdAt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "operator_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_Operator_p,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, operator_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "giftName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_GiftName,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, giftName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "logId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_LogId,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, logId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "flashCardBgImgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_FlashCardBgImgURL,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, flashCardBgImgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bigFlashCardImgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_BigFlashCardImgURL,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, bigFlashCardImgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bigFlashCardBgImgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3HighlightGift_FieldNumber_BigFlashCardBgImgURL,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3HighlightGift__storage_, bigFlashCardBgImgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3HighlightGift class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3HighlightGift__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\004\004\005\244\243\241!!\000\014\005\244\242\243\241!!\000\r\003\245\244\243\241!!\000\016\003\245\244\242\243\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3HighlightGift_Level_RawValue(PB3HighlightGift *message) {
+  GPBDescriptor *descriptor = [PB3HighlightGift descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3HighlightGift_FieldNumber_Level];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3HighlightGift_Level_RawValue(PB3HighlightGift *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3HighlightGift descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3HighlightGift_FieldNumber_Level];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3EnterCubismEffect
+
+@implementation PB3EnterCubismEffect
+
+@dynamic cubismIcon;
+@dynamic bannerURL;
+@dynamic enterSentence;
+@dynamic enterSentenceColor;
+@dynamic nicknameColor;
+
+typedef struct PB3EnterCubismEffect__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *cubismIcon;
+  NSString *bannerURL;
+  NSString *enterSentence;
+  NSString *enterSentenceColor;
+  NSString *nicknameColor;
+} PB3EnterCubismEffect__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cubismIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3EnterCubismEffect_FieldNumber_CubismIcon,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3EnterCubismEffect__storage_, cubismIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bannerURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3EnterCubismEffect_FieldNumber_BannerURL,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3EnterCubismEffect__storage_, bannerURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "enterSentence",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3EnterCubismEffect_FieldNumber_EnterSentence,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3EnterCubismEffect__storage_, enterSentence),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "enterSentenceColor",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3EnterCubismEffect_FieldNumber_EnterSentenceColor,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3EnterCubismEffect__storage_, enterSentenceColor),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "nicknameColor",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3EnterCubismEffect_FieldNumber_NicknameColor,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3EnterCubismEffect__storage_, nicknameColor),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3EnterCubismEffect class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3EnterCubismEffect__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\002\006\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3WeekCPInviteConf
+
+@implementation PB3WeekCPInviteConf
+
+@dynamic inviteContent;
+@dynamic btnContent;
+@dynamic URLListArray, URLListArray_Count;
+@dynamic tips;
+
+typedef struct PB3WeekCPInviteConf__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *inviteContent;
+  NSString *btnContent;
+  NSMutableArray *URLListArray;
+  NSString *tips;
+} PB3WeekCPInviteConf__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "inviteContent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInviteConf_FieldNumber_InviteContent,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3WeekCPInviteConf__storage_, inviteContent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "btnContent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInviteConf_FieldNumber_BtnContent,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3WeekCPInviteConf__storage_, btnContent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "URLListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInviteConf_FieldNumber_URLListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3WeekCPInviteConf__storage_, URLListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tips",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekCPInviteConf_FieldNumber_Tips,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3WeekCPInviteConf__storage_, tips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3WeekCPInviteConf class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3WeekCPInviteConf__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\003\000url_list\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3WeekTravelInfo
+
+@implementation PB3WeekTravelInfo
+
+@dynamic status;
+@dynamic source;
+@dynamic hasInviter, inviter;
+@dynamic hasInvitee, invitee;
+@dynamic travelId;
+@dynamic curInviteTimes;
+@dynamic inviteTimes;
+@dynamic inviteText;
+@dynamic validUntil;
+@dynamic awardIconListArray, awardIconListArray_Count;
+@dynamic cityId;
+@dynamic rejectEndTime;
+@dynamic inviteExpiredText;
+@dynamic curExp;
+@dynamic finalExp;
+@dynamic expireTime;
+@dynamic cityIcon;
+@dynamic cityName;
+@dynamic startDate;
+@dynamic expURL;
+
+typedef struct PB3WeekTravelInfo__storage_ {
+  uint32_t _has_storage_[1];
+  PB3WeekTravelInviteStatus status;
+  PB3WeekTravelSource source;
+  int32_t curInviteTimes;
+  int32_t inviteTimes;
+  int32_t cityId;
+  int32_t curExp;
+  int32_t finalExp;
+  PB3Player *inviter;
+  PB3Player *invitee;
+  NSString *travelId;
+  NSString *inviteText;
+  NSMutableArray *awardIconListArray;
+  NSString *inviteExpiredText;
+  NSString *cityIcon;
+  NSString *cityName;
+  NSString *expURL;
+  int64_t validUntil;
+  int64_t rejectEndTime;
+  int64_t expireTime;
+  int64_t startDate;
+} PB3WeekTravelInfo__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "status",
+        .dataTypeSpecific.enumDescFunc = PB3WeekTravelInviteStatus_EnumDescriptor,
+        .number = PB3WeekTravelInfo_FieldNumber_Status,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, status),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "source",
+        .dataTypeSpecific.enumDescFunc = PB3WeekTravelSource_EnumDescriptor,
+        .number = PB3WeekTravelInfo_FieldNumber_Source,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, source),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "inviter",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3Player),
+        .number = PB3WeekTravelInfo_FieldNumber_Inviter,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, inviter),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "invitee",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3Player),
+        .number = PB3WeekTravelInfo_FieldNumber_Invitee,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, invitee),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "travelId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_TravelId,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, travelId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "curInviteTimes",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_CurInviteTimes,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, curInviteTimes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "inviteTimes",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_InviteTimes,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, inviteTimes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "inviteText",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_InviteText,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, inviteText),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "validUntil",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_ValidUntil,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, validUntil),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "awardIconListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_AwardIconListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, awardIconListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cityId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_CityId,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, cityId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "rejectEndTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_RejectEndTime,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, rejectEndTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "inviteExpiredText",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_InviteExpiredText,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, inviteExpiredText),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "curExp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_CurExp,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, curExp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "finalExp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_FinalExp,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, finalExp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "expireTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_ExpireTime,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, expireTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "cityIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_CityIcon,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, cityIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cityName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_CityName,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, cityName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "startDate",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_StartDate,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, startDate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "expURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3WeekTravelInfo_FieldNumber_ExpURL,
+        .hasIndex = 18,
+        .offset = (uint32_t)offsetof(PB3WeekTravelInfo__storage_, expURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3WeekTravelInfo class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3WeekTravelInfo__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001.\003\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3WeekTravelInfo_Status_RawValue(PB3WeekTravelInfo *message) {
+  GPBDescriptor *descriptor = [PB3WeekTravelInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekTravelInfo_FieldNumber_Status];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3WeekTravelInfo_Status_RawValue(PB3WeekTravelInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3WeekTravelInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekTravelInfo_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3WeekTravelInfo_Source_RawValue(PB3WeekTravelInfo *message) {
+  GPBDescriptor *descriptor = [PB3WeekTravelInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekTravelInfo_FieldNumber_Source];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3WeekTravelInfo_Source_RawValue(PB3WeekTravelInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3WeekTravelInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3WeekTravelInfo_FieldNumber_Source];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3MatchWeekCPInvite
+
+@implementation PB3MatchWeekCPInvite
+
+@dynamic sponsorId;
+@dynamic receiverId;
+
+typedef struct PB3MatchWeekCPInvite__storage_ {
+  uint32_t _has_storage_[1];
+  int64_t sponsorId;
+  int64_t receiverId;
+} PB3MatchWeekCPInvite__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "sponsorId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3MatchWeekCPInvite_FieldNumber_SponsorId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3MatchWeekCPInvite__storage_, sponsorId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "receiverId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3MatchWeekCPInvite_FieldNumber_ReceiverId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3MatchWeekCPInvite__storage_, receiverId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3ThirdPartyCancelAccountRes class]
+        [GPBDescriptor allocDescriptorForClass:[PB3MatchWeekCPInvite class]
                                      rootClass:[PB3CommonExtRoot class]
                                           file:PB3CommonExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3ThirdPartyCancelAccountRes__storage_)
+                                   storageSize:sizeof(PB3MatchWeekCPInvite__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3SystemNoticeEvent
+
+@implementation PB3SystemNoticeEvent
+
+@dynamic eventType;
+@dynamic eventBody;
+@dynamic remake;
+
+typedef struct PB3SystemNoticeEvent__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *eventType;
+  NSString *eventBody;
+  NSString *remake;
+} PB3SystemNoticeEvent__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "eventType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SystemNoticeEvent_FieldNumber_EventType,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3SystemNoticeEvent__storage_, eventType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "eventBody",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SystemNoticeEvent_FieldNumber_EventBody,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3SystemNoticeEvent__storage_, eventBody),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "remake",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SystemNoticeEvent_FieldNumber_Remake,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3SystemNoticeEvent__storage_, remake),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3SystemNoticeEvent class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3SystemNoticeEvent__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ActivityNoticeEvent
+
+@implementation PB3ActivityNoticeEvent
+
+@dynamic funcName;
+@dynamic actId;
+@dynamic relId;
+@dynamic boxId;
+@dynamic roomId;
+
+typedef struct PB3ActivityNoticeEvent__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t actId;
+  int32_t relId;
+  int32_t boxId;
+  NSString *funcName;
+  int64_t roomId;
+} PB3ActivityNoticeEvent__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "funcName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ActivityNoticeEvent_FieldNumber_FuncName,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ActivityNoticeEvent__storage_, funcName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "actId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ActivityNoticeEvent_FieldNumber_ActId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3ActivityNoticeEvent__storage_, actId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "relId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ActivityNoticeEvent_FieldNumber_RelId,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3ActivityNoticeEvent__storage_, relId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "boxId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ActivityNoticeEvent_FieldNumber_BoxId,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3ActivityNoticeEvent__storage_, boxId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "roomId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ActivityNoticeEvent_FieldNumber_RoomId,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3ActivityNoticeEvent__storage_, roomId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ActivityNoticeEvent class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ActivityNoticeEvent__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IMCustomCommonTextMsg
+
+@implementation PB3IMCustomCommonTextMsg
+
+@dynamic content;
+
+typedef struct PB3IMCustomCommonTextMsg__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *content;
+} PB3IMCustomCommonTextMsg__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "content",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCustomCommonTextMsg_FieldNumber_Content,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IMCustomCommonTextMsg__storage_, content),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMCustomCommonTextMsg class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMCustomCommonTextMsg__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3RoomTopRightCornerLabelChangeField
+
+@implementation PB3RoomTopRightCornerLabelChangeField
+
+@dynamic type;
+@dynamic value;
+
+typedef struct PB3RoomTopRightCornerLabelChangeField__storage_ {
+  uint32_t _has_storage_[1];
+  PB3RoomTopRightCornerLabelFiledType type;
+  NSString *value;
+} PB3RoomTopRightCornerLabelChangeField__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = PB3RoomTopRightCornerLabelFiledType_EnumDescriptor,
+        .number = PB3RoomTopRightCornerLabelChangeField_FieldNumber_Type,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3RoomTopRightCornerLabelChangeField__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "value",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3RoomTopRightCornerLabelChangeField_FieldNumber_Value,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3RoomTopRightCornerLabelChangeField__storage_, value),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3RoomTopRightCornerLabelChangeField class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3RoomTopRightCornerLabelChangeField__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3RoomTopRightCornerLabelChangeField_Type_RawValue(PB3RoomTopRightCornerLabelChangeField *message) {
+  GPBDescriptor *descriptor = [PB3RoomTopRightCornerLabelChangeField descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3RoomTopRightCornerLabelChangeField_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3RoomTopRightCornerLabelChangeField_Type_RawValue(PB3RoomTopRightCornerLabelChangeField *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3RoomTopRightCornerLabelChangeField descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3RoomTopRightCornerLabelChangeField_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3InteractTopicEffect
+
+@implementation PB3InteractTopicEffect
+
+@dynamic topic;
+@dynamic playerId;
+
+typedef struct PB3InteractTopicEffect__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *topic;
+  int64_t playerId;
+} PB3InteractTopicEffect__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "topic",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InteractTopicEffect_FieldNumber_Topic,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3InteractTopicEffect__storage_, topic),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "playerId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InteractTopicEffect_FieldNumber_PlayerId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3InteractTopicEffect__storage_, playerId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3InteractTopicEffect class]
+                                     rootClass:[PB3CommonExtRoot class]
+                                          file:PB3CommonExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3InteractTopicEffect__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

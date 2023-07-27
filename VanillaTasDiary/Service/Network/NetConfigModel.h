@@ -152,7 +152,6 @@ extern NSString *kNetApiLiveExtService;
  *
  */
 - (NSString *)roomExtService;
-- (NSString *)activityRoomExtService;
 
 //添加备用长连接列表
 - (void)addLongLinkHostList:(NSArray *)hostList;

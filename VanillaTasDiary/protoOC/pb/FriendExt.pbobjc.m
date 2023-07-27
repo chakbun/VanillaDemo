@@ -17,7 +17,9 @@
 
 #import "pb/FriendExt.pbobjc.h"
 #import "pb/CommonExt.pbobjc.h"
+#import "pb/NobilityExt.pbobjc.h"
 #import "pb/TeacherExt.pbobjc.h"
+#import "pb/AcmConfExt.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -47,47 +49,6 @@ static GPBFileDescriptor *PB3FriendExtRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - Enum PB3IMAutoChatMsgType
-
-GPBEnumDescriptor *PB3IMAutoChatMsgType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "ImAutoChatMsgTypeNone\000ImAutoChatMsgTypeT"
-        "ext\000ImAutoChatMsgTypeVoice\000ImAutoChatMsg"
-        "TypePic\000";
-    static const int32_t values[] = {
-        PB3IMAutoChatMsgType_ImAutoChatMsgTypeNone,
-        PB3IMAutoChatMsgType_ImAutoChatMsgTypeText,
-        PB3IMAutoChatMsgType_ImAutoChatMsgTypeVoice,
-        PB3IMAutoChatMsgType_ImAutoChatMsgTypePic,
-    };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMAutoChatMsgType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3IMAutoChatMsgType_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL PB3IMAutoChatMsgType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeNone:
-    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeText:
-    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeVoice:
-    case PB3IMAutoChatMsgType_ImAutoChatMsgTypePic:
-      return YES;
-    default:
-      return NO;
-  }
-}
-
 #pragma mark - Enum PB3FriendErr
 
 GPBEnumDescriptor *PB3FriendErr_EnumDescriptor(void) {
@@ -97,10 +58,8 @@ GPBEnumDescriptor *PB3FriendErr_EnumDescriptor(void) {
         "ErrNone\000ErrCodeAlready\000ErrCodePushFail\000E"
         "rrCodeFollowLimit\000ErrCodeNoPlayer\000ErrThe"
         "yHasIntimate\000ErrIntimateVersionToLow\000Err"
-        "BlockFollow\000ErrCustomMax\000ErrGreetDirty\000E"
-        "rrRequestTimeOut\000ErrFriendImImgLevel\000Err"
-        "GetAllContacts\000ErrOperType\000ErrUnFollow\000E"
-        "rrNotAllowFollow\000";
+        "CustomMax\000ErrGreetDirty\000ErrRequestTimeOu"
+        "t\000ErrFriendImImgLevel\000";
     static const int32_t values[] = {
         PB3FriendErr_ErrNone,
         PB3FriendErr_ErrCodeAlready,
@@ -109,17 +68,12 @@ GPBEnumDescriptor *PB3FriendErr_EnumDescriptor(void) {
         PB3FriendErr_ErrCodeNoPlayer,
         PB3FriendErr_ErrTheyHasIntimate,
         PB3FriendErr_ErrIntimateVersionToLow,
-        PB3FriendErr_ErrBlockFollow,
         PB3FriendErr_ErrCustomMax,
         PB3FriendErr_ErrGreetDirty,
         PB3FriendErr_ErrRequestTimeOut,
         PB3FriendErr_ErrFriendImImgLevel,
-        PB3FriendErr_ErrGetAllContacts,
-        PB3FriendErr_ErrOperType,
-        PB3FriendErr_ErrUnFollow,
-        PB3FriendErr_ErrNotAllowFollow,
     };
-    static const char *extraTextFormatInfo = "\020\000\007\000\001\016\000\002\017\000\003\022\000\004\017\000\005\022\000\006\027\000\007\016\000\010\014\000\t\r\000\n\021\000\013\023\000\014\021\000\r\013\000\016\013\000\017\021\000";
+    static const char *extraTextFormatInfo = "\013\000\007\000\001\016\000\002\017\000\003\022\000\004\017\000\005\022\000\006\027\000\007\014\000\010\r\000\t\021\000\n\023\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3FriendErr)
                                        valueNames:valueNames
@@ -144,15 +98,10 @@ BOOL PB3FriendErr_IsValidValue(int32_t value__) {
     case PB3FriendErr_ErrCodeNoPlayer:
     case PB3FriendErr_ErrTheyHasIntimate:
     case PB3FriendErr_ErrIntimateVersionToLow:
-    case PB3FriendErr_ErrBlockFollow:
     case PB3FriendErr_ErrCustomMax:
     case PB3FriendErr_ErrGreetDirty:
     case PB3FriendErr_ErrRequestTimeOut:
     case PB3FriendErr_ErrFriendImImgLevel:
-    case PB3FriendErr_ErrGetAllContacts:
-    case PB3FriendErr_ErrOperType:
-    case PB3FriendErr_ErrUnFollow:
-    case PB3FriendErr_ErrNotAllowFollow:
       return YES;
     default:
       return NO;
@@ -312,7 +261,8 @@ GPBEnumDescriptor *PB3FriendCmdId_EnumDescriptor(void) {
         "sList\000SearchFriend\000FollowIm\000TeacherStude"
         "ntRelationship\000GraduateApprenticePushCmd"
         "Id\000TeacherLevelUpPushCmdId\000TeacherStuden"
-        "tSendGiftCmdId\000";
+        "tSendGiftCmdId\000GreetNoviceSysPush\000Broadc"
+        "astImcloudCustomDataSafetyTipsCmdId\000";
     static const int32_t values[] = {
         PB3FriendCmdId_None200,
         PB3FriendCmdId_OperCmdId,
@@ -328,8 +278,10 @@ GPBEnumDescriptor *PB3FriendCmdId_EnumDescriptor(void) {
         PB3FriendCmdId_GraduateApprenticePushCmdId,
         PB3FriendCmdId_TeacherLevelUpPushCmdId,
         PB3FriendCmdId_TeacherStudentSendGiftCmdId,
+        PB3FriendCmdId_GreetNoviceSysPush,
+        PB3FriendCmdId_BroadcastImcloudCustomDataSafetyTipsCmdId,
     };
-    static const char *extraTextFormatInfo = "\t\005\013\000\006\013\000\007\010\000\010\014\000\t\010\000\n\032\000\013\026\343\342\000\014\022\343\342\000\r\026\343\342\000";
+    static const char *extraTextFormatInfo = "\013\005\013\000\006\013\000\007\010\000\010\014\000\t\010\000\n\032\000\013\026\343\342\000\014\022\343\342\000\r\026\343\342\000\016\022\000\017\nb\030\343\342\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3FriendCmdId)
                                        valueNames:valueNames
@@ -361,6 +313,8 @@ BOOL PB3FriendCmdId_IsValidValue(int32_t value__) {
     case PB3FriendCmdId_GraduateApprenticePushCmdId:
     case PB3FriendCmdId_TeacherLevelUpPushCmdId:
     case PB3FriendCmdId_TeacherStudentSendGiftCmdId:
+    case PB3FriendCmdId_GreetNoviceSysPush:
+    case PB3FriendCmdId_BroadcastImcloudCustomDataSafetyTipsCmdId:
       return YES;
     default:
       return NO;
@@ -373,22 +327,24 @@ GPBEnumDescriptor *PB3OperType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "None2001\000Follow\000Unfollow\000Block\000Unblock\000R"
-        "emoveFan\000";
+        "None2001\000Follow\000Unfollow\000Block\000Unblock\000M"
+        "ove\000";
     static const int32_t values[] = {
         PB3OperType_None2001,
         PB3OperType_Follow,
         PB3OperType_Unfollow,
         PB3OperType_Block,
         PB3OperType_Unblock,
-        PB3OperType_RemoveFan,
+        PB3OperType_Move,
     };
+    static const char *extraTextFormatInfo = "\001\005\004\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3OperType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3OperType_IsValidValue];
+                                     enumVerifier:PB3OperType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -404,7 +360,53 @@ BOOL PB3OperType_IsValidValue(int32_t value__) {
     case PB3OperType_Unfollow:
     case PB3OperType_Block:
     case PB3OperType_Unblock:
-    case PB3OperType_RemoveFan:
+    case PB3OperType_Move:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3FriendType
+
+GPBEnumDescriptor *PB3FriendType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "FtStranger\000FtBan\000FtFollow\000FtFriend\000FtFol"
+        "lowFriend\000FtMyself\000FtFans\000";
+    static const int32_t values[] = {
+        PB3FriendType_FtStranger,
+        PB3FriendType_FtBan,
+        PB3FriendType_FtFollow,
+        PB3FriendType_FtFriend,
+        PB3FriendType_FtFollowFriend,
+        PB3FriendType_FtMyself,
+        PB3FriendType_FtFans,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3FriendType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3FriendType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3FriendType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3FriendType_FtStranger:
+    case PB3FriendType_FtBan:
+    case PB3FriendType_FtFollow:
+    case PB3FriendType_FtFriend:
+    case PB3FriendType_FtFollowFriend:
+    case PB3FriendType_FtMyself:
+    case PB3FriendType_FtFans:
       return YES;
     default:
       return NO;
@@ -702,23 +704,25 @@ BOOL PB3UserGreetContentType_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PB3ImCustomMsgType
+#pragma mark - Enum PB3GoodsType
 
-GPBEnumDescriptor *PB3ImCustomMsgType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3GoodsType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "IcmyZero\000IcmyInvivateGame\000";
+        "GptZero\000GptGift\000GptBackground\000GptTicket\000";
     static const int32_t values[] = {
-        PB3ImCustomMsgType_IcmyZero,
-        PB3ImCustomMsgType_IcmyInvivateGame,
+        PB3GoodsType_GptZero,
+        PB3GoodsType_GptGift,
+        PB3GoodsType_GptBackground,
+        PB3GoodsType_GptTicket,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ImCustomMsgType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3GoodsType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3ImCustomMsgType_IsValidValue];
+                                     enumVerifier:PB3GoodsType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -727,10 +731,12 @@ GPBEnumDescriptor *PB3ImCustomMsgType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3ImCustomMsgType_IsValidValue(int32_t value__) {
+BOOL PB3GoodsType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3ImCustomMsgType_IcmyZero:
-    case PB3ImCustomMsgType_IcmyInvivateGame:
+    case PB3GoodsType_GptZero:
+    case PB3GoodsType_GptGift:
+    case PB3GoodsType_GptBackground:
+    case PB3GoodsType_GptTicket:
       return YES;
     default:
       return NO;
@@ -941,23 +947,25 @@ BOOL PB3TeacherStudentOptType_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PB3AppletType
+#pragma mark - Enum PB3FromType
 
-GPBEnumDescriptor *PB3AppletType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3FromType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "ApptZero\000ApptPromoter\000";
+        "FromTypeNone\000FromTypeImAuto\000FromTypeHuma"
+        "nReview\000";
     static const int32_t values[] = {
-        PB3AppletType_ApptZero,
-        PB3AppletType_ApptPromoter,
+        PB3FromType_FromTypeNone,
+        PB3FromType_FromTypeImAuto,
+        PB3FromType_FromTypeHumanReview,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3AppletType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3FromType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3AppletType_IsValidValue];
+                                     enumVerifier:PB3FromType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -966,34 +974,40 @@ GPBEnumDescriptor *PB3AppletType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3AppletType_IsValidValue(int32_t value__) {
+BOOL PB3FromType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3AppletType_ApptZero:
-    case PB3AppletType_ApptPromoter:
+    case PB3FromType_FromTypeNone:
+    case PB3FromType_FromTypeImAuto:
+    case PB3FromType_FromTypeHumanReview:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB3AppletPowerType
+#pragma mark - Enum PB3NewIMListTagType
 
-GPBEnumDescriptor *PB3AppletPowerType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3NewIMListTagType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "AptZero\000AptMember\000AptAdmin\000";
+        "NimlttZero\000NimlttCp\000NimlttWeekCp\000NimlttR"
+        "edEnvelope\000NimlttWeekTravel\000NimlttMaskDa"
+        "te\000";
     static const int32_t values[] = {
-        PB3AppletPowerType_AptZero,
-        PB3AppletPowerType_AptMember,
-        PB3AppletPowerType_AptAdmin,
+        PB3NewIMListTagType_NimlttZero,
+        PB3NewIMListTagType_NimlttCp,
+        PB3NewIMListTagType_NimlttWeekCp,
+        PB3NewIMListTagType_NimlttRedEnvelope,
+        PB3NewIMListTagType_NimlttWeekTravel,
+        PB3NewIMListTagType_NimlttMaskDate,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3AppletPowerType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3NewIMListTagType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB3AppletPowerType_IsValidValue];
+                                     enumVerifier:PB3NewIMListTagType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -1002,11 +1016,14 @@ GPBEnumDescriptor *PB3AppletPowerType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB3AppletPowerType_IsValidValue(int32_t value__) {
+BOOL PB3NewIMListTagType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB3AppletPowerType_AptZero:
-    case PB3AppletPowerType_AptMember:
-    case PB3AppletPowerType_AptAdmin:
+    case PB3NewIMListTagType_NimlttZero:
+    case PB3NewIMListTagType_NimlttCp:
+    case PB3NewIMListTagType_NimlttWeekCp:
+    case PB3NewIMListTagType_NimlttRedEnvelope:
+    case PB3NewIMListTagType_NimlttWeekTravel:
+    case PB3NewIMListTagType_NimlttMaskDate:
       return YES;
     default:
       return NO;
@@ -1087,81 +1104,252 @@ BOOL PB3IMCloudCustomDataMsgType_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - PB3IMAutoChatPush
+#pragma mark - Enum PB3SessionShowType
 
-@implementation PB3IMAutoChatPush
-
-@dynamic status;
-@dynamic giftId;
-@dynamic targetId;
-
-typedef struct PB3IMAutoChatPush__storage_ {
-  uint32_t _has_storage_[1];
-  PB3IMAutoChatStatus status;
-  int32_t giftId;
-  int64_t targetId;
-} PB3IMAutoChatPush__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
+GPBEnumDescriptor *PB3SessionShowType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "status",
-        .dataTypeSpecific.enumDescFunc = PB3IMAutoChatStatus_EnumDescriptor,
-        .number = PB3IMAutoChatPush_FieldNumber_Status,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, status),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
-      },
-      {
-        .name = "giftId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3IMAutoChatPush_FieldNumber_GiftId,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, giftId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "targetId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3IMAutoChatPush_FieldNumber_TargetId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, targetId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
+    static const char *valueNames =
+        "SessionShowBoth\000SessionNotShow\000SessionSh"
+        "owSend\000SessionShowReceive\000";
+    static const int32_t values[] = {
+        PB3SessionShowType_SessionShowBoth,
+        PB3SessionShowType_SessionNotShow,
+        PB3SessionShowType_SessionShowSend,
+        PB3SessionShowType_SessionShowReceive,
     };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3IMAutoChatPush class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3IMAutoChatPush__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3SessionShowType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3SessionShowType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
   }
   return descriptor;
 }
 
-@end
-
-int32_t PB3IMAutoChatPush_Status_RawValue(PB3IMAutoChatPush *message) {
-  GPBDescriptor *descriptor = [PB3IMAutoChatPush descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatPush_FieldNumber_Status];
-  return GPBGetMessageInt32Field(message, field);
+BOOL PB3SessionShowType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3SessionShowType_SessionShowBoth:
+    case PB3SessionShowType_SessionNotShow:
+    case PB3SessionShowType_SessionShowSend:
+    case PB3SessionShowType_SessionShowReceive:
+      return YES;
+    default:
+      return NO;
+  }
 }
 
-void SetPB3IMAutoChatPush_Status_RawValue(PB3IMAutoChatPush *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3IMAutoChatPush descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatPush_FieldNumber_Status];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+#pragma mark - Enum PB3IMListShowType
+
+GPBEnumDescriptor *PB3IMListShowType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "ImlstZero\000ImlstListShowBoth\000ImlstSendSho"
+        "w\000ImlstSayHelloBoth\000ImlstReceiveShow\000";
+    static const int32_t values[] = {
+        PB3IMListShowType_ImlstZero,
+        PB3IMListShowType_ImlstListShowBoth,
+        PB3IMListShowType_ImlstSendShow,
+        PB3IMListShowType_ImlstSayHelloBoth,
+        PB3IMListShowType_ImlstReceiveShow,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMListShowType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IMListShowType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IMListShowType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IMListShowType_ImlstZero:
+    case PB3IMListShowType_ImlstListShowBoth:
+    case PB3IMListShowType_ImlstSendShow:
+    case PB3IMListShowType_ImlstSayHelloBoth:
+    case PB3IMListShowType_ImlstReceiveShow:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3IMListTagType
+
+GPBEnumDescriptor *PB3IMListTagType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "ImlttZero\000ImlttCp\000ImlttWeekCp\000ImlttBistr"
+        "o\000ImlttCpGuideCp\000ImlttCpGuideAccept\000Imlt"
+        "tCpGuideRebate\000";
+    static const int32_t values[] = {
+        PB3IMListTagType_ImlttZero,
+        PB3IMListTagType_ImlttCp,
+        PB3IMListTagType_ImlttWeekCp,
+        PB3IMListTagType_ImlttBistro,
+        PB3IMListTagType_ImlttCpGuideCp,
+        PB3IMListTagType_ImlttCpGuideAccept,
+        PB3IMListTagType_ImlttCpGuideRebate,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMListTagType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IMListTagType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IMListTagType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IMListTagType_ImlttZero:
+    case PB3IMListTagType_ImlttCp:
+    case PB3IMListTagType_ImlttWeekCp:
+    case PB3IMListTagType_ImlttBistro:
+    case PB3IMListTagType_ImlttCpGuideCp:
+    case PB3IMListTagType_ImlttCpGuideAccept:
+    case PB3IMListTagType_ImlttCpGuideRebate:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3IMAutoChatMsgType
+
+GPBEnumDescriptor *PB3IMAutoChatMsgType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "ImAutoChatMsgTypeNone\000ImAutoChatMsgTypeT"
+        "ext\000ImAutoChatMsgTypeVoice\000ImAutoChatMsg"
+        "TypePic\000";
+    static const int32_t values[] = {
+        PB3IMAutoChatMsgType_ImAutoChatMsgTypeNone,
+        PB3IMAutoChatMsgType_ImAutoChatMsgTypeText,
+        PB3IMAutoChatMsgType_ImAutoChatMsgTypeVoice,
+        PB3IMAutoChatMsgType_ImAutoChatMsgTypePic,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMAutoChatMsgType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IMAutoChatMsgType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IMAutoChatMsgType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeNone:
+    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeText:
+    case PB3IMAutoChatMsgType_ImAutoChatMsgTypeVoice:
+    case PB3IMAutoChatMsgType_ImAutoChatMsgTypePic:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3IMAutoChatMsgAuditStatus
+
+GPBEnumDescriptor *PB3IMAutoChatMsgAuditStatus_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "ImAutoChatMsgAuditNone\000ImAutoChatMsgAudi"
+        "tPass\000ImAutoChatMsgAuditAuditing\000ImAutoC"
+        "hatMsgAuditAuditRefuse\000";
+    static const int32_t values[] = {
+        PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditNone,
+        PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditPass,
+        PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditAuditing,
+        PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditAuditRefuse,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IMAutoChatMsgAuditStatus)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IMAutoChatMsgAuditStatus_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IMAutoChatMsgAuditStatus_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditNone:
+    case PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditPass:
+    case PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditAuditing:
+    case PB3IMAutoChatMsgAuditStatus_ImAutoChatMsgAuditAuditRefuse:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3IntimateTicketType
+
+GPBEnumDescriptor *PB3IntimateTicketType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "IttZero\000IttIncome\000IttConsume\000";
+    static const int32_t values[] = {
+        PB3IntimateTicketType_IttZero,
+        PB3IntimateTicketType_IttIncome,
+        PB3IntimateTicketType_IttConsume,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3IntimateTicketType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3IntimateTicketType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3IntimateTicketType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3IntimateTicketType_IttZero:
+    case PB3IntimateTicketType_IttIncome:
+    case PB3IntimateTicketType_IttConsume:
+      return YES;
+    default:
+      return NO;
+  }
 }
 
 #pragma mark - PB3PrivateMessage
@@ -1415,60 +1603,6 @@ typedef struct PB3Online__storage_ {
 
 @end
 
-#pragma mark - PB3FriendGame
-
-@implementation PB3FriendGame
-
-@dynamic gameId;
-@dynamic gameName;
-
-typedef struct PB3FriendGame__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t gameId;
-  NSString *gameName;
-} PB3FriendGame__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "gameId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3FriendGame_FieldNumber_GameId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3FriendGame__storage_, gameId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "gameName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3FriendGame_FieldNumber_GameName,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3FriendGame__storage_, gameName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3FriendGame class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3FriendGame__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
 #pragma mark - PB3Friender
 
 @implementation PB3Friender
@@ -1492,8 +1626,8 @@ typedef struct PB3FriendGame__storage_ {
 @dynamic roomName;
 @dynamic isDelete;
 @dynamic isCategory;
-@dynamic redPoint;
-@dynamic hasPlayGame, playGame;
+@dynamic isBlockUser;
+@dynamic bistroLabel;
 
 typedef struct PB3Friender__storage_ {
   uint32_t _has_storage_[1];
@@ -1504,13 +1638,12 @@ typedef struct PB3Friender__storage_ {
   PB3AppId appId;
   int32_t wealthLevel;
   int32_t charmLevel;
-  uint32_t redPoint;
   NSString *alias;
   NSString *name;
   NSString *icon;
   NSString *signature;
   NSString *roomName;
-  PB3FriendGame *playGame;
+  NSString *bistroLabel;
   uint64_t id_p;
   int64_t created;
   int64_t flag;
@@ -1695,22 +1828,22 @@ typedef struct PB3Friender__storage_ {
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "redPoint",
+        .name = "isBlockUser",
         .dataTypeSpecific.className = NULL,
-        .number = PB3Friender_FieldNumber_RedPoint,
+        .number = PB3Friender_FieldNumber_IsBlockUser,
         .hasIndex = 22,
-        .offset = (uint32_t)offsetof(PB3Friender__storage_, redPoint),
+        .offset = 23,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeUInt32,
+        .dataType = GPBDataTypeBool,
       },
       {
-        .name = "playGame",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3FriendGame),
-        .number = PB3Friender_FieldNumber_PlayGame,
-        .hasIndex = 23,
-        .offset = (uint32_t)offsetof(PB3Friender__storage_, playGame),
+        .name = "bistroLabel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Friender_FieldNumber_BistroLabel,
+        .hasIndex = 24,
+        .offset = (uint32_t)offsetof(PB3Friender__storage_, bistroLabel),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -1904,6 +2037,14 @@ typedef struct PB3FriendCount__storage_ {
 @dynamic roomId;
 @dynamic roomName;
 @dynamic signature;
+@dynamic openAt;
+@dynamic dayGiftExpMax;
+@dynamic effectId;
+@dynamic curDayGiftExp;
+@dynamic sort;
+@dynamic playerName;
+@dynamic playerIcon;
+@dynamic friendId2;
 
 typedef struct PB3IntimateFriend__storage_ {
   uint32_t _has_storage_[1];
@@ -1915,16 +2056,24 @@ typedef struct PB3IntimateFriend__storage_ {
   int32_t exp;
   int32_t currLevelExp;
   int32_t nextLevelExp;
+  int32_t sort;
   NSString *friendName;
   NSString *friendIcon;
   NSString *intimateTitle;
   NSString *roomName;
   NSString *signature;
+  NSString *playerName;
+  NSString *playerIcon;
   int64_t playerId;
   int64_t friendId;
   int64_t roomTime;
   int64_t created;
   int64_t roomId;
+  int64_t openAt;
+  int64_t dayGiftExpMax;
+  int64_t effectId;
+  int64_t curDayGiftExp;
+  int64_t friendId2;
 } PB3IntimateFriend__storage_;
 
 // This method is threadsafe because it is initially called
@@ -2104,6 +2253,78 @@ typedef struct PB3IntimateFriend__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "openAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_OpenAt,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, openAt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "dayGiftExpMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_DayGiftExpMax,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, dayGiftExpMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "effectId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_EffectId,
+        .hasIndex = 22,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, effectId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "curDayGiftExp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_CurDayGiftExp,
+        .hasIndex = 23,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, curDayGiftExp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "sort",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_Sort,
+        .hasIndex = 24,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, sort),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "playerName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_PlayerName,
+        .hasIndex = 25,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, playerName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "playerIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_PlayerIcon,
+        .hasIndex = 26,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, playerIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "friendId2",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateFriend_FieldNumber_FriendId2,
+        .hasIndex = 27,
+        .offset = (uint32_t)offsetof(PB3IntimateFriend__storage_, friendId2),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3IntimateFriend class]
@@ -2161,6 +2382,8 @@ void SetPB3IntimateFriend_FriendSex_RawValue(PB3IntimateFriend *message, int32_t
 @dynamic intimateText;
 @dynamic publicText;
 @dynamic roomName;
+@dynamic hasPlayerNobilityInfo, playerNobilityInfo;
+@dynamic hasFriendNobilityInfo, friendNobilityInfo;
 @dynamic isPushAll;
 
 typedef struct PB3IntimateMsg__storage_ {
@@ -2173,6 +2396,8 @@ typedef struct PB3IntimateMsg__storage_ {
   NSString *intimateText;
   NSString *publicText;
   NSString *roomName;
+  PB3RoomNobilityInfo *playerNobilityInfo;
+  PB3RoomNobilityInfo *friendNobilityInfo;
   int64_t playerId;
   int64_t friendId;
   int64_t roomId;
@@ -2294,11 +2519,29 @@ typedef struct PB3IntimateMsg__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "playerNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3IntimateMsg_FieldNumber_PlayerNobilityInfo,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3IntimateMsg__storage_, playerNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "friendNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3IntimateMsg_FieldNumber_FriendNobilityInfo,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3IntimateMsg__storage_, friendNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
         .name = "isPushAll",
         .dataTypeSpecific.className = NULL,
         .number = PB3IntimateMsg_FieldNumber_IsPushAll,
-        .hasIndex = 12,
-        .offset = 13,  // Stored in _has_storage_ to save space.
+        .hasIndex = 14,
+        .offset = 15,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -2592,6 +2835,8 @@ typedef struct PB3BroadcastIntimateVal__storage_ {
 @dynamic friendName;
 @dynamic type;
 @dynamic expLevel;
+@dynamic hasPlayerNobilityInfo, playerNobilityInfo;
+@dynamic hasFriendNobilityInfo, friendNobilityInfo;
 
 typedef struct PB3BroadcastIntimateLevel__storage_ {
   uint32_t _has_storage_[1];
@@ -2599,6 +2844,8 @@ typedef struct PB3BroadcastIntimateLevel__storage_ {
   int32_t expLevel;
   NSString *playerName;
   NSString *friendName;
+  PB3RoomNobilityInfo *playerNobilityInfo;
+  PB3RoomNobilityInfo *friendNobilityInfo;
   int64_t playerId;
   int64_t friendId;
 } PB3BroadcastIntimateLevel__storage_;
@@ -2663,6 +2910,24 @@ typedef struct PB3BroadcastIntimateLevel__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "playerNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3BroadcastIntimateLevel_FieldNumber_PlayerNobilityInfo,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3BroadcastIntimateLevel__storage_, playerNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "friendNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3BroadcastIntimateLevel_FieldNumber_FriendNobilityInfo,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3BroadcastIntimateLevel__storage_, friendNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3BroadcastIntimateLevel class]
@@ -2692,6 +2957,8 @@ typedef struct PB3BroadcastIntimateLevel__storage_ {
 @dynamic msg;
 @dynamic type2;
 @dynamic intimateType;
+@dynamic playerIcon;
+@dynamic toDismissTips;
 
 typedef struct PB3IntimateApplyNotice__storage_ {
   uint32_t _has_storage_[1];
@@ -2700,6 +2967,8 @@ typedef struct PB3IntimateApplyNotice__storage_ {
   int32_t intimateType;
   NSString *playerName;
   NSString *msg;
+  NSString *playerIcon;
+  NSString *toDismissTips;
   int64_t playerId;
   int64_t playerId2;
 } PB3IntimateApplyNotice__storage_;
@@ -2781,6 +3050,24 @@ typedef struct PB3IntimateApplyNotice__storage_ {
         .offset = (uint32_t)offsetof(PB3IntimateApplyNotice__storage_, intimateType),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "playerIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateApplyNotice_FieldNumber_PlayerIcon,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3IntimateApplyNotice__storage_, playerIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "toDismissTips",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateApplyNotice_FieldNumber_ToDismissTips,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3IntimateApplyNotice__storage_, toDismissTips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3618,12 +3905,16 @@ typedef struct PB3IntimateListReq__storage_ {
 @dynamic dataArray, dataArray_Count;
 @dynamic slot;
 @dynamic availableSlot;
+@dynamic hasTopData, topData;
+@dynamic iconListArray, iconListArray_Count;
 
 typedef struct PB3IntimateListRes__storage_ {
   uint32_t _has_storage_[1];
   int32_t slot;
   int32_t availableSlot;
   NSMutableArray *dataArray;
+  PB3IntimateFriend *topData;
+  NSMutableArray *iconListArray;
 } PB3IntimateListRes__storage_;
 
 // This method is threadsafe because it is initially called
@@ -3658,6 +3949,24 @@ typedef struct PB3IntimateListRes__storage_ {
         .offset = (uint32_t)offsetof(PB3IntimateListRes__storage_, availableSlot),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "topData",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IntimateFriend),
+        .number = PB3IntimateListRes_FieldNumber_TopData,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IntimateListRes__storage_, topData),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "iconListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3XcmIntimateBackgroundIconCfgData),
+        .number = PB3IntimateListRes_FieldNumber_IconListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3IntimateListRes__storage_, iconListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3790,10 +4099,12 @@ typedef struct PB3ApplyIntimateRes__storage_ {
 @dynamic playerId;
 @dynamic type;
 @dynamic agree;
+@dynamic type2;
 
 typedef struct PB3ReplyIntimateReq__storage_ {
   uint32_t _has_storage_[1];
   PB3IntimateType type;
+  int32_t type2;
   int64_t playerId;
 } PB3ReplyIntimateReq__storage_;
 
@@ -3829,6 +4140,15 @@ typedef struct PB3ReplyIntimateReq__storage_ {
         .offset = 3,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "type2",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ReplyIntimateReq_FieldNumber_Type2,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3ReplyIntimateReq__storage_, type2),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -4398,10 +4718,12 @@ typedef struct PB3BroadcastGreet__storage_ {
 
 @dynamic content;
 @dynamic userGreetContentType;
+@dynamic acceptNum;
 
 typedef struct PB3AcceptGreetReq__storage_ {
   uint32_t _has_storage_[1];
   PB3UserGreetContentType userGreetContentType;
+  int32_t acceptNum;
   NSString *content;
 } PB3AcceptGreetReq__storage_;
 
@@ -4428,6 +4750,15 @@ typedef struct PB3AcceptGreetReq__storage_ {
         .offset = (uint32_t)offsetof(PB3AcceptGreetReq__storage_, userGreetContentType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "acceptNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3AcceptGreetReq_FieldNumber_AcceptNum,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3AcceptGreetReq__storage_, acceptNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -4462,9 +4793,11 @@ void SetPB3AcceptGreetReq_UserGreetContentType_RawValue(PB3AcceptGreetReq *messa
 
 @implementation PB3AcceptGreetRes
 
+@dynamic idsArray, idsArray_Count;
 
 typedef struct PB3AcceptGreetRes__storage_ {
   uint32_t _has_storage_[1];
+  GPBInt64Array *idsArray;
 } PB3AcceptGreetRes__storage_;
 
 // This method is threadsafe because it is initially called
@@ -4472,12 +4805,23 @@ typedef struct PB3AcceptGreetRes__storage_ {
 + (GPBDescriptor *)descriptor {
   static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "idsArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3AcceptGreetRes_FieldNumber_IdsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3AcceptGreetRes__storage_, idsArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+    };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3AcceptGreetRes class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3AcceptGreetRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -5299,6 +5643,16 @@ typedef struct PB3ReplyGreetRes__storage_ {
 @dynamic backgroundDarkColor;
 @dynamic buttonBackColor;
 @dynamic buttonTitleColor;
+@dynamic goodType;
+@dynamic rule;
+@dynamic icon;
+@dynamic ruleRate;
+@dynamic minLevel;
+@dynamic rate;
+@dynamic isWhiteRepoSend;
+@dynamic toastTips;
+@dynamic blackPlayerMap, blackPlayerMap_Count;
+@dynamic whitePlayerMap, whitePlayerMap_Count;
 
 typedef struct PB3Goods__storage_ {
   uint32_t _has_storage_[1];
@@ -5307,12 +5661,21 @@ typedef struct PB3Goods__storage_ {
   uint32_t goldPrice;
   uint32_t expPrice;
   int32_t type2;
+  PB3GoodsType goodType;
+  int32_t minLevel;
+  int32_t rate;
   NSString *goodsName;
   NSString *unit;
   NSString *backgroundLightColor;
   NSString *backgroundDarkColor;
   NSString *buttonBackColor;
   NSString *buttonTitleColor;
+  NSString *rule;
+  NSString *icon;
+  NSString *ruleRate;
+  NSString *toastTips;
+  GPBInt64Int64Dictionary *blackPlayerMap;
+  GPBInt64ObjectDictionary *whitePlayerMap;
   int64_t goodsId;
   int64_t goodsBuyId;
 } PB3Goods__storage_;
@@ -5458,6 +5821,96 @@ typedef struct PB3Goods__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "goodType",
+        .dataTypeSpecific.enumDescFunc = PB3GoodsType_EnumDescriptor,
+        .number = PB3Goods_FieldNumber_GoodType,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, goodType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "rule",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_Rule,
+        .hasIndex = 18,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, rule),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "icon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_Icon,
+        .hasIndex = 19,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, icon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "ruleRate",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_RuleRate,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, ruleRate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "minLevel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_MinLevel,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, minLevel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "rate",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_Rate,
+        .hasIndex = 22,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, rate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "isWhiteRepoSend",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_IsWhiteRepoSend,
+        .hasIndex = 23,
+        .offset = 24,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "toastTips",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_ToastTips,
+        .hasIndex = 25,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, toastTips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "blackPlayerMap",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3Goods_FieldNumber_BlackPlayerMap,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, blackPlayerMap),
+        .flags = GPBFieldMapKeyInt64,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "whitePlayerMap",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3PairInt64Num),
+        .number = PB3Goods_FieldNumber_WhitePlayerMap,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3Goods__storage_, whitePlayerMap),
+        .flags = GPBFieldMapKeyInt64,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3Goods class]
@@ -5484,6 +5937,18 @@ int32_t PB3Goods_Type_RawValue(PB3Goods *message) {
 void SetPB3Goods_Type_RawValue(PB3Goods *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3Goods descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Goods_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3Goods_GoodType_RawValue(PB3Goods *message) {
+  GPBDescriptor *descriptor = [PB3Goods descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Goods_FieldNumber_GoodType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3Goods_GoodType_RawValue(PB3Goods *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3Goods descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3Goods_FieldNumber_GoodType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -5533,6 +5998,87 @@ typedef struct PB3IntimateStoreGoods__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3IntimateStoreGoods__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3InitmateStoreBanner
+
+@implementation PB3InitmateStoreBanner
+
+@dynamic id_p;
+@dynamic imgURL;
+@dynamic pcImgURL;
+@dynamic redirectURL;
+
+typedef struct PB3InitmateStoreBanner__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t id_p;
+  NSString *imgURL;
+  NSString *pcImgURL;
+  NSString *redirectURL;
+} PB3InitmateStoreBanner__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InitmateStoreBanner_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3InitmateStoreBanner__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "imgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InitmateStoreBanner_FieldNumber_ImgURL,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3InitmateStoreBanner__storage_, imgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "pcImgURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InitmateStoreBanner_FieldNumber_PcImgURL,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3InitmateStoreBanner__storage_, pcImgURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "redirectURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3InitmateStoreBanner_FieldNumber_RedirectURL,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3InitmateStoreBanner__storage_, redirectURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3InitmateStoreBanner class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3InitmateStoreBanner__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\003\002\003\241!!\000\003\002\243\241!!\000\004\010\241!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -5614,6 +6160,8 @@ typedef struct PB3IntimateStoreReq__storage_ {
 @dynamic type;
 @dynamic gold;
 @dynamic type2;
+@dynamic ticket;
+@dynamic bannersArray, bannersArray_Count;
 
 typedef struct PB3IntimateStoreRes__storage_ {
   uint32_t _has_storage_[1];
@@ -5628,10 +6176,12 @@ typedef struct PB3IntimateStoreRes__storage_ {
   NSString *intimateIcon;
   NSMutableArray *backgroundArray;
   NSMutableArray *goodsArray;
+  NSMutableArray *bannersArray;
   int64_t playerId;
   int64_t intimateId;
   int64_t expValue;
   int64_t gold;
+  int64_t ticket;
 } PB3IntimateStoreRes__storage_;
 
 // This method is threadsafe because it is initially called
@@ -5775,6 +6325,24 @@ typedef struct PB3IntimateStoreRes__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "ticket",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateStoreRes_FieldNumber_Ticket,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3IntimateStoreRes__storage_, ticket),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeSInt64,
+      },
+      {
+        .name = "bannersArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3InitmateStoreBanner),
+        .number = PB3IntimateStoreRes_FieldNumber_BannersArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3IntimateStoreRes__storage_, bannersArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3IntimateStoreRes class]
@@ -5838,11 +6406,13 @@ void SetPB3IntimateStoreRes_Type_RawValue(PB3IntimateStoreRes *message, int32_t 
 @dynamic goodsBuyId;
 @dynamic expPrice;
 @dynamic goldPrice;
+@dynamic goodType;
 
 typedef struct PB3BuyIntimateGoodsReq__storage_ {
   uint32_t _has_storage_[1];
   uint32_t expPrice;
   uint32_t goldPrice;
+  PB3GoodsType goodType;
   int64_t playerId;
   int64_t intimateId;
   int64_t goodsId;
@@ -5909,6 +6479,15 @@ typedef struct PB3BuyIntimateGoodsReq__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
       },
+      {
+        .name = "goodType",
+        .dataTypeSpecific.enumDescFunc = PB3GoodsType_EnumDescriptor,
+        .number = PB3BuyIntimateGoodsReq_FieldNumber_GoodType,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3BuyIntimateGoodsReq__storage_, goodType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3BuyIntimateGoodsReq class]
@@ -5925,6 +6504,18 @@ typedef struct PB3BuyIntimateGoodsReq__storage_ {
 }
 
 @end
+
+int32_t PB3BuyIntimateGoodsReq_GoodType_RawValue(PB3BuyIntimateGoodsReq *message) {
+  GPBDescriptor *descriptor = [PB3BuyIntimateGoodsReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BuyIntimateGoodsReq_FieldNumber_GoodType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3BuyIntimateGoodsReq_GoodType_RawValue(PB3BuyIntimateGoodsReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3BuyIntimateGoodsReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BuyIntimateGoodsReq_FieldNumber_GoodType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - PB3BuyIntimateGoodsRes
 
@@ -7624,14 +8215,12 @@ typedef struct PB3IntimateSlotInfo__storage_ {
 @dynamic page;
 @dynamic beginTime;
 @dynamic forceFullSync;
-@dynamic ownerId;
 
 typedef struct PB3ContactListReq__storage_ {
   uint32_t _has_storage_[1];
   PB3ContactType contactType;
   int32_t page;
   int64_t beginTime;
-  int64_t ownerId;
 } PB3ContactListReq__storage_;
 
 // This method is threadsafe because it is initially called
@@ -7675,15 +8264,6 @@ typedef struct PB3ContactListReq__storage_ {
         .offset = 4,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "ownerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3ContactListReq_FieldNumber_OwnerId,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3ContactListReq__storage_, ownerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -7906,6 +8486,7 @@ typedef struct PB3ContactOnlineListRes__storage_ {
 @dynamic playerId;
 @dynamic roomId;
 @dynamic roomName;
+@dynamic isBlockUser;
 
 typedef struct PB3ContactOnline__storage_ {
   uint32_t _has_storage_[1];
@@ -7946,6 +8527,15 @@ typedef struct PB3ContactOnline__storage_ {
         .offset = (uint32_t)offsetof(PB3ContactOnline__storage_, roomName),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "isBlockUser",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ContactOnline_FieldNumber_IsBlockUser,
+        .hasIndex = 3,
+        .offset = 4,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -8084,6 +8674,158 @@ void SetPB3ContactListMD5Res_ContactType_RawValue(PB3ContactListMD5Res *message,
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ContactListMD5Res_FieldNumber_ContactType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
+
+#pragma mark - PB3ContactBlockedListReq
+
+@implementation PB3ContactBlockedListReq
+
+@dynamic contactType;
+
+typedef struct PB3ContactBlockedListReq__storage_ {
+  uint32_t _has_storage_[1];
+  PB3ContactType contactType;
+} PB3ContactBlockedListReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "contactType",
+        .dataTypeSpecific.enumDescFunc = PB3ContactType_EnumDescriptor,
+        .number = PB3ContactBlockedListReq_FieldNumber_ContactType,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ContactBlockedListReq__storage_, contactType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ContactBlockedListReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ContactBlockedListReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3ContactBlockedListReq_ContactType_RawValue(PB3ContactBlockedListReq *message) {
+  GPBDescriptor *descriptor = [PB3ContactBlockedListReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ContactBlockedListReq_FieldNumber_ContactType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3ContactBlockedListReq_ContactType_RawValue(PB3ContactBlockedListReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3ContactBlockedListReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ContactBlockedListReq_FieldNumber_ContactType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3ContactBlockedListRes
+
+@implementation PB3ContactBlockedListRes
+
+@dynamic listArray, listArray_Count;
+@dynamic total;
+
+typedef struct PB3ContactBlockedListRes__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *listArray;
+  int64_t total;
+} PB3ContactBlockedListRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "listArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3ContactBlocked),
+        .number = PB3ContactBlockedListRes_FieldNumber_ListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3ContactBlockedListRes__storage_, listArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "total",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ContactBlockedListRes_FieldNumber_Total,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ContactBlockedListRes__storage_, total),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ContactBlockedListRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ContactBlockedListRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ContactBlocked
+
+@implementation PB3ContactBlocked
+
+@dynamic playerId;
+
+typedef struct PB3ContactBlocked__storage_ {
+  uint32_t _has_storage_[1];
+  uint64_t playerId;
+} PB3ContactBlocked__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "playerId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ContactBlocked_FieldNumber_PlayerId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ContactBlocked__storage_, playerId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ContactBlocked class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ContactBlocked__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
 
 #pragma mark - PB3IntimateGiveBackReq
 
@@ -9267,6 +10009,8 @@ void SetPB3TeacherStudentSendGiftRes_Opt_RawValue(PB3TeacherStudentSendGiftRes *
 @dynamic roomId2;
 @dynamic roomName;
 @dynamic publicText;
+@dynamic hasFromNobilityInfo, fromNobilityInfo;
+@dynamic hasToNobilityInfo, toNobilityInfo;
 @dynamic isPushAll;
 
 typedef struct PB3BroadcastTeacherStudentSendGift__storage_ {
@@ -9279,6 +10023,8 @@ typedef struct PB3BroadcastTeacherStudentSendGift__storage_ {
   NSString *toIcon;
   NSString *roomName;
   NSString *publicText;
+  PB3RoomNobilityInfo *fromNobilityInfo;
+  PB3RoomNobilityInfo *toNobilityInfo;
   int64_t fromId;
   int64_t toId;
   int64_t roomId;
@@ -9400,11 +10146,29 @@ typedef struct PB3BroadcastTeacherStudentSendGift__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "fromNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3BroadcastTeacherStudentSendGift_FieldNumber_FromNobilityInfo,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3BroadcastTeacherStudentSendGift__storage_, fromNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "toNobilityInfo",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3RoomNobilityInfo),
+        .number = PB3BroadcastTeacherStudentSendGift_FieldNumber_ToNobilityInfo,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3BroadcastTeacherStudentSendGift__storage_, toNobilityInfo),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
         .name = "isPushAll",
         .dataTypeSpecific.className = NULL,
         .number = PB3BroadcastTeacherStudentSendGift_FieldNumber_IsPushAll,
-        .hasIndex = 12,
-        .offset = 13,  // Stored in _has_storage_ to save space.
+        .hasIndex = 14,
+        .offset = 15,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -9425,16 +10189,542 @@ typedef struct PB3BroadcastTeacherStudentSendGift__storage_ {
 
 @end
 
-#pragma mark - PB3AppletInfoReq
+#pragma mark - PB3IMCloudCustomData
 
-@implementation PB3AppletInfoReq
+@implementation PB3IMCloudCustomData
+
+@dynamic sessionShowType;
+@dynamic curType;
+@dynamic endTime;
+@dynamic endType;
+@dynamic fromType;
+@dynamic selfLast;
+@dynamic targetLast;
+@dynamic tag;
+@dynamic tagEndTime;
+@dynamic hasSenderTips, senderTips;
+@dynamic hasReceiverTips, receiverTips;
+@dynamic application;
+@dynamic tagListArray, tagListArray_Count;
+
+typedef struct PB3IMCloudCustomData__storage_ {
+  uint32_t _has_storage_[1];
+  PB3SessionShowType sessionShowType;
+  PB3IMListShowType curType;
+  PB3IMListShowType endType;
+  PB3FromType fromType;
+  PB3IMListTagType tag;
+  PB3IMCloudCustomDataSafetyTips *senderTips;
+  PB3IMCloudCustomDataSafetyTips *receiverTips;
+  NSString *application;
+  NSMutableArray *tagListArray;
+  int64_t endTime;
+  int64_t selfLast;
+  int64_t targetLast;
+  int64_t tagEndTime;
+} PB3IMCloudCustomData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "sessionShowType",
+        .dataTypeSpecific.enumDescFunc = PB3SessionShowType_EnumDescriptor,
+        .number = PB3IMCloudCustomData_FieldNumber_SessionShowType,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, sessionShowType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "curType",
+        .dataTypeSpecific.enumDescFunc = PB3IMListShowType_EnumDescriptor,
+        .number = PB3IMCloudCustomData_FieldNumber_CurType,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, curType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "endTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomData_FieldNumber_EndTime,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, endTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "endType",
+        .dataTypeSpecific.enumDescFunc = PB3IMListShowType_EnumDescriptor,
+        .number = PB3IMCloudCustomData_FieldNumber_EndType,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, endType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "fromType",
+        .dataTypeSpecific.enumDescFunc = PB3FromType_EnumDescriptor,
+        .number = PB3IMCloudCustomData_FieldNumber_FromType,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, fromType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "selfLast",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomData_FieldNumber_SelfLast,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, selfLast),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "targetLast",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomData_FieldNumber_TargetLast,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, targetLast),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "tag",
+        .dataTypeSpecific.enumDescFunc = PB3IMListTagType_EnumDescriptor,
+        .number = PB3IMCloudCustomData_FieldNumber_Tag,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, tag),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "tagEndTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomData_FieldNumber_TagEndTime,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, tagEndTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "senderTips",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMCloudCustomDataSafetyTips),
+        .number = PB3IMCloudCustomData_FieldNumber_SenderTips,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, senderTips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "receiverTips",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMCloudCustomDataSafetyTips),
+        .number = PB3IMCloudCustomData_FieldNumber_ReceiverTips,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, receiverTips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "application",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomData_FieldNumber_Application,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, application),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tagListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMListTag),
+        .number = PB3IMCloudCustomData_FieldNumber_TagListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomData__storage_, tagListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMCloudCustomData class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMCloudCustomData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3IMCloudCustomData_SessionShowType_RawValue(PB3IMCloudCustomData *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_SessionShowType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomData_SessionShowType_RawValue(PB3IMCloudCustomData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_SessionShowType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMCloudCustomData_CurType_RawValue(PB3IMCloudCustomData *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_CurType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomData_CurType_RawValue(PB3IMCloudCustomData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_CurType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMCloudCustomData_EndType_RawValue(PB3IMCloudCustomData *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_EndType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomData_EndType_RawValue(PB3IMCloudCustomData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_EndType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMCloudCustomData_FromType_RawValue(PB3IMCloudCustomData *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_FromType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomData_FromType_RawValue(PB3IMCloudCustomData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_FromType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMCloudCustomData_Tag_RawValue(PB3IMCloudCustomData *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_Tag];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomData_Tag_RawValue(PB3IMCloudCustomData *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomData descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomData_FieldNumber_Tag];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3IMListTag
+
+@implementation PB3IMListTag
+
+@dynamic tag;
+@dynamic tagEndTime;
+@dynamic isShow;
+@dynamic targetId;
+@dynamic msgContent;
+@dynamic tagType;
+@dynamic bossId;
+
+typedef struct PB3IMListTag__storage_ {
+  uint32_t _has_storage_[1];
+  PB3IMListTagType tag;
+  PB3NewIMListTagType tagType;
+  NSString *msgContent;
+  int64_t tagEndTime;
+  int64_t targetId;
+  int64_t bossId;
+} PB3IMListTag__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "tag",
+        .dataTypeSpecific.enumDescFunc = PB3IMListTagType_EnumDescriptor,
+        .number = PB3IMListTag_FieldNumber_Tag,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, tag),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "tagEndTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMListTag_FieldNumber_TagEndTime,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, tagEndTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "isShow",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMListTag_FieldNumber_IsShow,
+        .hasIndex = 2,
+        .offset = 3,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "targetId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMListTag_FieldNumber_TargetId,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, targetId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "msgContent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMListTag_FieldNumber_MsgContent,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, msgContent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tagType",
+        .dataTypeSpecific.enumDescFunc = PB3NewIMListTagType_EnumDescriptor,
+        .number = PB3IMListTag_FieldNumber_TagType,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, tagType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "bossId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMListTag_FieldNumber_BossId,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3IMListTag__storage_, bossId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMListTag class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMListTag__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3IMListTag_Tag_RawValue(PB3IMListTag *message) {
+  GPBDescriptor *descriptor = [PB3IMListTag descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMListTag_FieldNumber_Tag];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMListTag_Tag_RawValue(PB3IMListTag *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMListTag descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMListTag_FieldNumber_Tag];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMListTag_TagType_RawValue(PB3IMListTag *message) {
+  GPBDescriptor *descriptor = [PB3IMListTag descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMListTag_FieldNumber_TagType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMListTag_TagType_RawValue(PB3IMListTag *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMListTag descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMListTag_FieldNumber_TagType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3BroadcastIMCloudCustomDataSafetyTips
+
+@implementation PB3BroadcastIMCloudCustomDataSafetyTips
+
+@dynamic msgKey;
+@dynamic hasSenderTips, senderTips;
+
+typedef struct PB3BroadcastIMCloudCustomDataSafetyTips__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *msgKey;
+  PB3IMCloudCustomDataSafetyTips *senderTips;
+} PB3BroadcastIMCloudCustomDataSafetyTips__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "msgKey",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BroadcastIMCloudCustomDataSafetyTips_FieldNumber_MsgKey,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3BroadcastIMCloudCustomDataSafetyTips__storage_, msgKey),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "senderTips",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMCloudCustomDataSafetyTips),
+        .number = PB3BroadcastIMCloudCustomDataSafetyTips_FieldNumber_SenderTips,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3BroadcastIMCloudCustomDataSafetyTips__storage_, senderTips),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3BroadcastIMCloudCustomDataSafetyTips class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3BroadcastIMCloudCustomDataSafetyTips__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IMCloudCustomDataSafetyTips
+
+@implementation PB3IMCloudCustomDataSafetyTips
+
+@dynamic tipsStyle;
+@dynamic msg;
+@dynamic msgType;
+
+typedef struct PB3IMCloudCustomDataSafetyTips__storage_ {
+  uint32_t _has_storage_[1];
+  PB3IMCloudCustomDataStyle tipsStyle;
+  PB3IMCloudCustomDataMsgType msgType;
+  NSString *msg;
+} PB3IMCloudCustomDataSafetyTips__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "tipsStyle",
+        .dataTypeSpecific.enumDescFunc = PB3IMCloudCustomDataStyle_EnumDescriptor,
+        .number = PB3IMCloudCustomDataSafetyTips_FieldNumber_TipsStyle,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomDataSafetyTips__storage_, tipsStyle),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "msg",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMCloudCustomDataSafetyTips_FieldNumber_Msg,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomDataSafetyTips__storage_, msg),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "msgType",
+        .dataTypeSpecific.enumDescFunc = PB3IMCloudCustomDataMsgType_EnumDescriptor,
+        .number = PB3IMCloudCustomDataSafetyTips_FieldNumber_MsgType,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IMCloudCustomDataSafetyTips__storage_, msgType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMCloudCustomDataSafetyTips class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMCloudCustomDataSafetyTips__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3IMCloudCustomDataSafetyTips_TipsStyle_RawValue(PB3IMCloudCustomDataSafetyTips *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomDataSafetyTips descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomDataSafetyTips_FieldNumber_TipsStyle];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomDataSafetyTips_TipsStyle_RawValue(PB3IMCloudCustomDataSafetyTips *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomDataSafetyTips descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomDataSafetyTips_FieldNumber_TipsStyle];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3IMCloudCustomDataSafetyTips_MsgType_RawValue(PB3IMCloudCustomDataSafetyTips *message) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomDataSafetyTips descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomDataSafetyTips_FieldNumber_MsgType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3IMCloudCustomDataSafetyTips_MsgType_RawValue(PB3IMCloudCustomDataSafetyTips *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMCloudCustomDataSafetyTips descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMCloudCustomDataSafetyTips_FieldNumber_MsgType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3IMAutoChatMsg
+
+@implementation PB3IMAutoChatMsg
 
 @dynamic type;
+@dynamic index;
+@dynamic content;
+@dynamic status;
+@dynamic reason;
+@dynamic voiceTime;
+@dynamic voiceSize;
+@dynamic imgWidth;
+@dynamic imgHeight;
 
-typedef struct PB3AppletInfoReq__storage_ {
+typedef struct PB3IMAutoChatMsg__storage_ {
   uint32_t _has_storage_[1];
-  PB3AppletType type;
-} PB3AppletInfoReq__storage_;
+  PB3IMAutoChatMsgType type;
+  int32_t index;
+  PB3IMAutoChatMsgAuditStatus status;
+  int32_t voiceTime;
+  int32_t voiceSize;
+  int32_t imgWidth;
+  int32_t imgHeight;
+  NSString *content;
+  NSString *reason;
+} PB3IMAutoChatMsg__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -9444,21 +10734,93 @@ typedef struct PB3AppletInfoReq__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "type",
-        .dataTypeSpecific.enumDescFunc = PB3AppletType_EnumDescriptor,
-        .number = PB3AppletInfoReq_FieldNumber_Type,
+        .dataTypeSpecific.enumDescFunc = PB3IMAutoChatMsgType_EnumDescriptor,
+        .number = PB3IMAutoChatMsg_FieldNumber_Type,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3AppletInfoReq__storage_, type),
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, type),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
+      {
+        .name = "index",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_Index,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, index),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "content",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_Content,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, content),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "status",
+        .dataTypeSpecific.enumDescFunc = PB3IMAutoChatMsgAuditStatus_EnumDescriptor,
+        .number = PB3IMAutoChatMsg_FieldNumber_Status,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, status),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "reason",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_Reason,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, reason),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "voiceTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_VoiceTime,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, voiceTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "voiceSize",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_VoiceSize,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, voiceSize),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "imgWidth",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_ImgWidth,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, imgWidth),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "imgHeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatMsg_FieldNumber_ImgHeight,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsg__storage_, imgHeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3AppletInfoReq class]
+        [GPBDescriptor allocDescriptorForClass:[PB3IMAutoChatMsg class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3AppletInfoReq__storage_)
+                                   storageSize:sizeof(PB3IMAutoChatMsg__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -9468,32 +10830,40 @@ typedef struct PB3AppletInfoReq__storage_ {
 
 @end
 
-int32_t PB3AppletInfoReq_Type_RawValue(PB3AppletInfoReq *message) {
-  GPBDescriptor *descriptor = [PB3AppletInfoReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AppletInfoReq_FieldNumber_Type];
+int32_t PB3IMAutoChatMsg_Type_RawValue(PB3IMAutoChatMsg *message) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatMsg_FieldNumber_Type];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3AppletInfoReq_Type_RawValue(PB3AppletInfoReq *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3AppletInfoReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AppletInfoReq_FieldNumber_Type];
+void SetPB3IMAutoChatMsg_Type_RawValue(PB3IMAutoChatMsg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatMsg_FieldNumber_Type];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3AppletInfoRes
+int32_t PB3IMAutoChatMsg_Status_RawValue(PB3IMAutoChatMsg *message) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatMsg_FieldNumber_Status];
+  return GPBGetMessageInt32Field(message, field);
+}
 
-@implementation PB3AppletInfoRes
+void SetPB3IMAutoChatMsg_Status_RawValue(PB3IMAutoChatMsg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatMsg_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
-@dynamic powerType;
-@dynamic playerId;
-@dynamic name;
+#pragma mark - PB3AddIMAutoChatMsgReq
 
-typedef struct PB3AppletInfoRes__storage_ {
+@implementation PB3AddIMAutoChatMsgReq
+
+@dynamic msgsArray, msgsArray_Count;
+
+typedef struct PB3AddIMAutoChatMsgReq__storage_ {
   uint32_t _has_storage_[1];
-  PB3AppletPowerType powerType;
-  NSString *name;
-  int64_t playerId;
-} PB3AppletInfoRes__storage_;
+  NSMutableArray *msgsArray;
+} PB3AddIMAutoChatMsgReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -9502,40 +10872,22 @@ typedef struct PB3AppletInfoRes__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "powerType",
-        .dataTypeSpecific.enumDescFunc = PB3AppletPowerType_EnumDescriptor,
-        .number = PB3AppletInfoRes_FieldNumber_PowerType,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3AppletInfoRes__storage_, powerType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
-      },
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AppletInfoRes_FieldNumber_PlayerId,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3AppletInfoRes__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "name",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AppletInfoRes_FieldNumber_Name,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3AppletInfoRes__storage_, name),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .name = "msgsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMAutoChatMsg),
+        .number = PB3AddIMAutoChatMsgReq_FieldNumber_MsgsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3AddIMAutoChatMsgReq__storage_, msgsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3AppletInfoRes class]
+        [GPBDescriptor allocDescriptorForClass:[PB3AddIMAutoChatMsgReq class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3AppletInfoRes__storage_)
+                                   storageSize:sizeof(PB3AddIMAutoChatMsgReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -9545,42 +10897,271 @@ typedef struct PB3AppletInfoRes__storage_ {
 
 @end
 
-int32_t PB3AppletInfoRes_PowerType_RawValue(PB3AppletInfoRes *message) {
-  GPBDescriptor *descriptor = [PB3AppletInfoRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AppletInfoRes_FieldNumber_PowerType];
+#pragma mark - PB3AddIMAutoChatMsgRes
+
+@implementation PB3AddIMAutoChatMsgRes
+
+
+typedef struct PB3AddIMAutoChatMsgRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3AddIMAutoChatMsgRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3AddIMAutoChatMsgRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3AddIMAutoChatMsgRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IMAutoChatMsgListReq
+
+@implementation PB3IMAutoChatMsgListReq
+
+
+typedef struct PB3IMAutoChatMsgListReq__storage_ {
+  uint32_t _has_storage_[1];
+} PB3IMAutoChatMsgListReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMAutoChatMsgListReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3IMAutoChatMsgListReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IMAutoChatMsgListRes
+
+@implementation PB3IMAutoChatMsgListRes
+
+@dynamic msgsArray, msgsArray_Count;
+
+typedef struct PB3IMAutoChatMsgListRes__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *msgsArray;
+} PB3IMAutoChatMsgListRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "msgsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IMAutoChatMsg),
+        .number = PB3IMAutoChatMsgListRes_FieldNumber_MsgsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatMsgListRes__storage_, msgsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMAutoChatMsgListRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMAutoChatMsgListRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IMAutoChatPush
+
+@implementation PB3IMAutoChatPush
+
+@dynamic status;
+@dynamic giftId;
+@dynamic targetId;
+
+typedef struct PB3IMAutoChatPush__storage_ {
+  uint32_t _has_storage_[1];
+  PB3IMAutoChatStatus status;
+  int32_t giftId;
+  int64_t targetId;
+} PB3IMAutoChatPush__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "status",
+        .dataTypeSpecific.enumDescFunc = PB3IMAutoChatStatus_EnumDescriptor,
+        .number = PB3IMAutoChatPush_FieldNumber_Status,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, status),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "giftId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatPush_FieldNumber_GiftId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, giftId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "targetId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IMAutoChatPush_FieldNumber_TargetId,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IMAutoChatPush__storage_, targetId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IMAutoChatPush class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IMAutoChatPush__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3IMAutoChatPush_Status_RawValue(PB3IMAutoChatPush *message) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatPush descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatPush_FieldNumber_Status];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3AppletInfoRes_PowerType_RawValue(PB3AppletInfoRes *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3AppletInfoRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AppletInfoRes_FieldNumber_PowerType];
+void SetPB3IMAutoChatPush_Status_RawValue(PB3IMAutoChatPush *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IMAutoChatPush descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IMAutoChatPush_FieldNumber_Status];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB3PromoterInviteReq
+#pragma mark - PB3RoomProgramNoticeReq
 
-@implementation PB3PromoterInviteReq
+@implementation PB3RoomProgramNoticeReq
 
-@dynamic playerId;
-@dynamic inviteId;
-@dynamic startTime;
-@dynamic endTime;
+@dynamic roomProgramShowId;
+
+typedef struct PB3RoomProgramNoticeReq__storage_ {
+  uint32_t _has_storage_[1];
+  int64_t roomProgramShowId;
+} PB3RoomProgramNoticeReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "roomProgramShowId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3RoomProgramNoticeReq_FieldNumber_RoomProgramShowId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3RoomProgramNoticeReq__storage_, roomProgramShowId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3RoomProgramNoticeReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3RoomProgramNoticeReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3RoomProgramNoticeRes
+
+@implementation PB3RoomProgramNoticeRes
+
+
+typedef struct PB3RoomProgramNoticeRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3RoomProgramNoticeRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3RoomProgramNoticeRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3RoomProgramNoticeRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IntimateTicketRecordReq
+
+@implementation PB3IntimateTicketRecordReq
+
 @dynamic page;
 @dynamic pageSize;
-@dynamic inviteStartTime;
-@dynamic inviteEndTime;
 
-typedef struct PB3PromoterInviteReq__storage_ {
+typedef struct PB3IntimateTicketRecordReq__storage_ {
   uint32_t _has_storage_[1];
   int32_t page;
   int32_t pageSize;
-  NSString *startTime;
-  NSString *endTime;
-  NSString *inviteStartTime;
-  NSString *inviteEndTime;
-  int64_t playerId;
-  int64_t inviteId;
-} PB3PromoterInviteReq__storage_;
+} PB3IntimateTicketRecordReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -9589,238 +11170,31 @@ typedef struct PB3PromoterInviteReq__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "inviteId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_InviteId,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, inviteId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "startTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_StartTime,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, startTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "endTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_EndTime,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, endTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "page",
         .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_Page,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, page),
+        .number = PB3IntimateTicketRecordReq_FieldNumber_Page,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketRecordReq__storage_, page),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "pageSize",
         .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_PageSize,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, pageSize),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "inviteStartTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_InviteStartTime,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, inviteStartTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "inviteEndTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteReq_FieldNumber_InviteEndTime,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteReq__storage_, inviteEndTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInviteReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInviteReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterInviteItem
-
-@implementation PB3PromoterInviteItem
-
-@dynamic playerId;
-@dynamic playerName;
-@dynamic inviteId;
-@dynamic inviteName;
-@dynamic inviteCode;
-@dynamic createAt;
-@dynamic loginAt;
-@dynamic chargeTotal;
-@dynamic chargeNum;
-@dynamic chargeAt;
-@dynamic loginCount;
-
-typedef struct PB3PromoterInviteItem__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t chargeNum;
-  NSString *playerName;
-  NSString *inviteName;
-  NSString *inviteCode;
-  int64_t playerId;
-  int64_t inviteId;
-  int64_t createAt;
-  int64_t loginAt;
-  int64_t chargeTotal;
-  int64_t chargeAt;
-  int64_t loginCount;
-} PB3PromoterInviteItem__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "playerName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_PlayerName,
+        .number = PB3IntimateTicketRecordReq_FieldNumber_PageSize,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, playerName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "inviteId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_InviteId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, inviteId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "inviteName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_InviteName,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, inviteName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "inviteCode",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_InviteCode,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, inviteCode),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "createAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_CreateAt,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, createAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "loginAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_LoginAt,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, loginAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "chargeTotal",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_ChargeTotal,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, chargeTotal),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "chargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_ChargeNum,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, chargeNum),
+        .offset = (uint32_t)offsetof(PB3IntimateTicketRecordReq__storage_, pageSize),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
-      {
-        .name = "chargeAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_ChargeAt,
-        .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, chargeAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "loginCount",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteItem_FieldNumber_LoginCount,
-        .hasIndex = 10,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteItem__storage_, loginCount),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInviteItem class]
+        [GPBDescriptor allocDescriptorForClass:[PB3IntimateTicketRecordReq class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInviteItem__storage_)
+                                   storageSize:sizeof(PB3IntimateTicketRecordReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -9830,18 +11204,19 @@ typedef struct PB3PromoterInviteItem__storage_ {
 
 @end
 
-#pragma mark - PB3PromoterInviteRes
+#pragma mark - PB3IntimateTicketRecordRes
 
-@implementation PB3PromoterInviteRes
+@implementation PB3IntimateTicketRecordRes
 
-@dynamic listArray, listArray_Count;
-@dynamic total;
+@dynamic totalArray, totalArray_Count;
+@dynamic infoArray, infoArray_Count;
+@dynamic recordOnOff;
 
-typedef struct PB3PromoterInviteRes__storage_ {
+typedef struct PB3IntimateTicketRecordRes__storage_ {
   uint32_t _has_storage_[1];
-  int32_t total;
-  NSMutableArray *listArray;
-} PB3PromoterInviteRes__storage_;
+  NSMutableArray *totalArray;
+  NSMutableArray *infoArray;
+} PB3IntimateTicketRecordRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -9850,987 +11225,40 @@ typedef struct PB3PromoterInviteRes__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "listArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PromoterInviteItem),
-        .number = PB3PromoterInviteRes_FieldNumber_ListArray,
+        .name = "totalArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3TicketTotal),
+        .number = PB3IntimateTicketRecordRes_FieldNumber_TotalArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteRes__storage_, listArray),
+        .offset = (uint32_t)offsetof(PB3IntimateTicketRecordRes__storage_, totalArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "total",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInviteRes_FieldNumber_Total,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInviteRes__storage_, total),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInviteRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInviteRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterInfoReq
-
-@implementation PB3PromoterInfoReq
-
-@dynamic playerId;
-@dynamic startTime;
-@dynamic endTime;
-@dynamic page;
-@dynamic pageSize;
-
-typedef struct PB3PromoterInfoReq__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t page;
-  int32_t pageSize;
-  NSString *startTime;
-  NSString *endTime;
-  int64_t playerId;
-} PB3PromoterInfoReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoReq_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoReq__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "startTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoReq_FieldNumber_StartTime,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoReq__storage_, startTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "endTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoReq_FieldNumber_EndTime,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoReq__storage_, endTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "page",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoReq_FieldNumber_Page,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoReq__storage_, page),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "pageSize",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoReq_FieldNumber_PageSize,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoReq__storage_, pageSize),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInfoReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInfoReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterInfoItem
-
-@implementation PB3PromoterInfoItem
-
-@dynamic playerId;
-@dynamic playerName;
-@dynamic dateAt;
-@dynamic userNum;
-@dynamic validUserNum;
-@dynamic chargeUserNum;
-@dynamic chargeNum;
-@dynamic chargeTotal;
-@dynamic chargeFirstNum;
-@dynamic validChargeNum;
-@dynamic validChargeTotal;
-
-typedef struct PB3PromoterInfoItem__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t userNum;
-  int32_t validUserNum;
-  int32_t chargeUserNum;
-  int32_t chargeNum;
-  int32_t chargeTotal;
-  int32_t chargeFirstNum;
-  int32_t validChargeNum;
-  int32_t validChargeTotal;
-  NSString *playerName;
-  int64_t playerId;
-  int64_t dateAt;
-} PB3PromoterInfoItem__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "playerName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_PlayerName,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, playerName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "dateAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_DateAt,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, dateAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "userNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_UserNum,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, userNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validUserNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ValidUserNum,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, validUserNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeUserNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ChargeUserNum,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, chargeUserNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ChargeNum,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, chargeNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeTotal",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ChargeTotal,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, chargeTotal),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeFirstNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ChargeFirstNum,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, chargeFirstNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validChargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ValidChargeNum,
-        .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, validChargeNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validChargeTotal",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoItem_FieldNumber_ValidChargeTotal,
-        .hasIndex = 10,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoItem__storage_, validChargeTotal),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInfoItem class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInfoItem__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterInfoRes
-
-@implementation PB3PromoterInfoRes
-
-@dynamic listArray, listArray_Count;
-@dynamic total;
-
-typedef struct PB3PromoterInfoRes__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t total;
-  NSMutableArray *listArray;
-} PB3PromoterInfoRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "listArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PromoterInfoItem),
-        .number = PB3PromoterInfoRes_FieldNumber_ListArray,
+        .name = "infoArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3IntimateTicketInfo),
+        .number = PB3IntimateTicketRecordRes_FieldNumber_InfoArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoRes__storage_, listArray),
+        .offset = (uint32_t)offsetof(PB3IntimateTicketRecordRes__storage_, infoArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "total",
+        .name = "recordOnOff",
         .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterInfoRes_FieldNumber_Total,
+        .number = PB3IntimateTicketRecordRes_FieldNumber_RecordOnOff,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterInfoRes__storage_, total),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterInfoRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterInfoRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalReq
-
-@implementation PB3PromoterTotalReq
-
-@dynamic playerId;
-@dynamic startTime;
-@dynamic endTime;
-
-typedef struct PB3PromoterTotalReq__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *startTime;
-  NSString *endTime;
-  int64_t playerId;
-} PB3PromoterTotalReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalReq_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalReq__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "startTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalReq_FieldNumber_StartTime,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalReq__storage_, startTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "endTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalReq_FieldNumber_EndTime,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalReq__storage_, endTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalItem
-
-@implementation PB3PromoterTotalItem
-
-@dynamic playerId;
-@dynamic playerName;
-@dynamic createAt;
-@dynamic userNum;
-@dynamic validUserNum;
-@dynamic chargeUserNum;
-@dynamic chargeNum;
-@dynamic chargeTotal;
-@dynamic loginAt;
-
-typedef struct PB3PromoterTotalItem__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t userNum;
-  int32_t validUserNum;
-  int32_t chargeUserNum;
-  int32_t chargeNum;
-  int32_t chargeTotal;
-  NSString *playerName;
-  int64_t playerId;
-  int64_t createAt;
-  int64_t loginAt;
-} PB3PromoterTotalItem__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "playerName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_PlayerName,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, playerName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "createAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_CreateAt,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, createAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "userNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_UserNum,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, userNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validUserNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_ValidUserNum,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, validUserNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeUserNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_ChargeUserNum,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, chargeUserNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_ChargeNum,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, chargeNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeTotal",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_ChargeTotal,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, chargeTotal),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "loginAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalItem_FieldNumber_LoginAt,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalItem__storage_, loginAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalItem class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalItem__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalRes
-
-@implementation PB3PromoterTotalRes
-
-@dynamic listArray, listArray_Count;
-
-typedef struct PB3PromoterTotalRes__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *listArray;
-} PB3PromoterTotalRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "listArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PromoterTotalItem),
-        .number = PB3PromoterTotalRes_FieldNumber_ListArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalRes__storage_, listArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalDateReq
-
-@implementation PB3PromoterTotalDateReq
-
-@dynamic playerId;
-@dynamic startTime;
-@dynamic endTime;
-
-typedef struct PB3PromoterTotalDateReq__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *startTime;
-  NSString *endTime;
-  int64_t playerId;
-} PB3PromoterTotalDateReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateReq_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateReq__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "startTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateReq_FieldNumber_StartTime,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateReq__storage_, startTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "endTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateReq_FieldNumber_EndTime,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateReq__storage_, endTime),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalDateReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalDateReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalDateItem
-
-@implementation PB3PromoterTotalDateItem
-
-@dynamic dateAt;
-@dynamic userNum;
-@dynamic validUserNum;
-@dynamic chargeFirstCny;
-@dynamic validChargeNum;
-@dynamic validChargeCny;
-@dynamic chargeCny;
-@dynamic chargeNum;
-@dynamic chargeFirstUsd;
-@dynamic validChargeUsd;
-@dynamic chargeUsd;
-
-typedef struct PB3PromoterTotalDateItem__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t userNum;
-  int32_t validUserNum;
-  int32_t validChargeNum;
-  int32_t chargeNum;
-  NSString *dateAt;
-  int64_t chargeFirstCny;
-  int64_t validChargeCny;
-  int64_t chargeCny;
-  int64_t chargeFirstUsd;
-  int64_t validChargeUsd;
-  int64_t chargeUsd;
-} PB3PromoterTotalDateItem__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "dateAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_DateAt,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, dateAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "userNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_UserNum,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, userNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validUserNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ValidUserNum,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, validUserNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeFirstCny",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ChargeFirstCny,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, chargeFirstCny),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "validChargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ValidChargeNum,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, validChargeNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "validChargeCny",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ValidChargeCny,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, validChargeCny),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "chargeCny",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ChargeCny,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, chargeCny),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "chargeNum",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ChargeNum,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, chargeNum),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "chargeFirstUsd",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ChargeFirstUsd,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, chargeFirstUsd),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "validChargeUsd",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ValidChargeUsd,
-        .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, validChargeUsd),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "chargeUsd",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3PromoterTotalDateItem_FieldNumber_ChargeUsd,
-        .hasIndex = 10,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateItem__storage_, chargeUsd),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalDateItem class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalDateItem__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3PromoterTotalDateRes
-
-@implementation PB3PromoterTotalDateRes
-
-@dynamic listArray, listArray_Count;
-
-typedef struct PB3PromoterTotalDateRes__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *listArray;
-} PB3PromoterTotalDateRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "listArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3PromoterTotalDateItem),
-        .number = PB3PromoterTotalDateRes_FieldNumber_ListArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3PromoterTotalDateRes__storage_, listArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3PromoterTotalDateRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3PromoterTotalDateRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetGroupNoticeReq
-
-@implementation PB3GetGroupNoticeReq
-
-@dynamic groupId;
-@dynamic setRead;
-
-typedef struct PB3GetGroupNoticeReq__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t setRead;
-  NSString *groupId;
-} PB3GetGroupNoticeReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "groupId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeReq_FieldNumber_GroupId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeReq__storage_, groupId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "setRead",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeReq_FieldNumber_SetRead,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeReq__storage_, setRead),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetGroupNoticeReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GetGroupNoticeReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetGroupNoticeRes
-
-@implementation PB3GetGroupNoticeRes
-
-@dynamic notification;
-@dynamic createAt;
-@dynamic playerId;
-@dynamic nickName;
-@dynamic role;
-@dynamic icon;
-@dynamic isRead;
-
-typedef struct PB3GetGroupNoticeRes__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t role;
-  NSString *notification;
-  NSString *nickName;
-  NSString *icon;
-  int64_t createAt;
-  int64_t playerId;
-} PB3GetGroupNoticeRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "notification",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_Notification,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, notification),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "createAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_CreateAt,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, createAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_PlayerId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "nickName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_NickName,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, nickName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "role",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_Role,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, role),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "icon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_Icon,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3GetGroupNoticeRes__storage_, icon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "isRead",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupNoticeRes_FieldNumber_IsRead,
-        .hasIndex = 6,
-        .offset = 7,  // Stored in _has_storage_ to save space.
+        .offset = 1,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetGroupNoticeRes class]
+        [GPBDescriptor allocDescriptorForClass:[PB3IntimateTicketRecordRes class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GetGroupNoticeRes__storage_)
+                                   storageSize:sizeof(PB3IntimateTicketRecordRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -10840,18 +11268,20 @@ typedef struct PB3GetGroupNoticeRes__storage_ {
 
 @end
 
-#pragma mark - PB3SetGroupNoticeReq
+#pragma mark - PB3TicketTotal
 
-@implementation PB3SetGroupNoticeReq
+@implementation PB3TicketTotal
 
-@dynamic groupId;
-@dynamic notification;
+@dynamic timeStamp;
+@dynamic incomeTotal;
+@dynamic consumeTotal;
 
-typedef struct PB3SetGroupNoticeReq__storage_ {
+typedef struct PB3TicketTotal__storage_ {
   uint32_t _has_storage_[1];
-  NSString *groupId;
-  NSString *notification;
-} PB3SetGroupNoticeReq__storage_;
+  int64_t timeStamp;
+  int64_t incomeTotal;
+  int64_t consumeTotal;
+} PB3TicketTotal__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -10860,31 +11290,40 @@ typedef struct PB3SetGroupNoticeReq__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "groupId",
+        .name = "timeStamp",
         .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeReq_FieldNumber_GroupId,
+        .number = PB3TicketTotal_FieldNumber_TimeStamp,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeReq__storage_, groupId),
+        .offset = (uint32_t)offsetof(PB3TicketTotal__storage_, timeStamp),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeInt64,
       },
       {
-        .name = "notification",
+        .name = "incomeTotal",
         .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeReq_FieldNumber_Notification,
+        .number = PB3TicketTotal_FieldNumber_IncomeTotal,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeReq__storage_, notification),
+        .offset = (uint32_t)offsetof(PB3TicketTotal__storage_, incomeTotal),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "consumeTotal",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3TicketTotal_FieldNumber_ConsumeTotal,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3TicketTotal__storage_, consumeTotal),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3SetGroupNoticeReq class]
+        [GPBDescriptor allocDescriptorForClass:[PB3TicketTotal class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3SetGroupNoticeReq__storage_)
+                                   storageSize:sizeof(PB3TicketTotal__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -10894,26 +11333,30 @@ typedef struct PB3SetGroupNoticeReq__storage_ {
 
 @end
 
-#pragma mark - PB3SetGroupNoticeRes
+#pragma mark - PB3IntimateTicketInfo
 
-@implementation PB3SetGroupNoticeRes
+@implementation PB3IntimateTicketInfo
 
-@dynamic notification;
+@dynamic type;
+@dynamic fansId;
+@dynamic fansName;
+@dynamic fansIcon;
+@dynamic icon;
+@dynamic num;
+@dynamic price;
 @dynamic createAt;
-@dynamic playerId;
-@dynamic nickName;
-@dynamic role;
-@dynamic icon;
 
-typedef struct PB3SetGroupNoticeRes__storage_ {
+typedef struct PB3IntimateTicketInfo__storage_ {
   uint32_t _has_storage_[1];
-  int32_t role;
-  NSString *notification;
-  NSString *nickName;
+  PB3IntimateTicketType type;
+  uint32_t num;
+  int32_t price;
+  NSString *fansName;
+  NSString *fansIcon;
   NSString *icon;
+  int64_t fansId;
   int64_t createAt;
-  int64_t playerId;
-} PB3SetGroupNoticeRes__storage_;
+} PB3IntimateTicketInfo__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -10922,548 +11365,85 @@ typedef struct PB3SetGroupNoticeRes__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "notification",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_Notification,
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = PB3IntimateTicketType_EnumDescriptor,
+        .number = PB3IntimateTicketInfo_FieldNumber_Type,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, notification),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "createAt",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_CreateAt,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, createAt),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_PlayerId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "nickName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_NickName,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, nickName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "role",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_Role,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, role),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "icon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupNoticeRes_FieldNumber_Icon,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB3SetGroupNoticeRes__storage_, icon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3SetGroupNoticeRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3SetGroupNoticeRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3SetGroupUnableSendMsgReq
-
-@implementation PB3SetGroupUnableSendMsgReq
-
-@dynamic opType;
-@dynamic playerId;
-@dynamic groupId;
-
-typedef struct PB3SetGroupUnableSendMsgReq__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t opType;
-  NSString *groupId;
-  int64_t playerId;
-} PB3SetGroupUnableSendMsgReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "opType",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupUnableSendMsgReq_FieldNumber_OpType,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3SetGroupUnableSendMsgReq__storage_, opType),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupUnableSendMsgReq_FieldNumber_PlayerId,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3SetGroupUnableSendMsgReq__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "groupId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3SetGroupUnableSendMsgReq_FieldNumber_GroupId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3SetGroupUnableSendMsgReq__storage_, groupId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3SetGroupUnableSendMsgReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3SetGroupUnableSendMsgReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3SetGroupUnableSendMsgRes
-
-@implementation PB3SetGroupUnableSendMsgRes
-
-
-typedef struct PB3SetGroupUnableSendMsgRes__storage_ {
-  uint32_t _has_storage_[1];
-} PB3SetGroupUnableSendMsgRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3SetGroupUnableSendMsgRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(PB3SetGroupUnableSendMsgRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetGroupPlayerReq
-
-@implementation PB3GetGroupPlayerReq
-
-@dynamic groupId;
-@dynamic getType;
-
-typedef struct PB3GetGroupPlayerReq__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t getType;
-  NSString *groupId;
-} PB3GetGroupPlayerReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "groupId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupPlayerReq_FieldNumber_GroupId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GetGroupPlayerReq__storage_, groupId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "getType",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GetGroupPlayerReq_FieldNumber_GetType,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GetGroupPlayerReq__storage_, getType),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetGroupPlayerReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GetGroupPlayerReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetGroupPlayerRes
-
-@implementation PB3GetGroupPlayerRes
-
-@dynamic groupPlayersArray, groupPlayersArray_Count;
-
-typedef struct PB3GetGroupPlayerRes__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *groupPlayersArray;
-} PB3GetGroupPlayerRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "groupPlayersArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3GroupPlayer),
-        .number = PB3GetGroupPlayerRes_FieldNumber_GroupPlayersArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3GetGroupPlayerRes__storage_, groupPlayersArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetGroupPlayerRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GetGroupPlayerRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GroupPlayer
-
-@implementation PB3GroupPlayer
-
-@dynamic playerId;
-@dynamic role;
-@dynamic icon;
-@dynamic nickName;
-
-typedef struct PB3GroupPlayer__storage_ {
-  uint32_t _has_storage_[1];
-  int32_t role;
-  NSString *icon;
-  NSString *nickName;
-  int64_t playerId;
-} PB3GroupPlayer__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "playerId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GroupPlayer_FieldNumber_PlayerId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3GroupPlayer__storage_, playerId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "role",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GroupPlayer_FieldNumber_Role,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3GroupPlayer__storage_, role),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "icon",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GroupPlayer_FieldNumber_Icon,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3GroupPlayer__storage_, icon),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "nickName",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3GroupPlayer_FieldNumber_NickName,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3GroupPlayer__storage_, nickName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GroupPlayer class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GroupPlayer__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetNoticeReadListReq
-
-@implementation PB3GetNoticeReadListReq
-
-
-typedef struct PB3GetNoticeReadListReq__storage_ {
-  uint32_t _has_storage_[1];
-} PB3GetNoticeReadListReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetNoticeReadListReq class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(PB3GetNoticeReadListReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3GetNoticeReadListRes
-
-@implementation PB3GetNoticeReadListRes
-
-@dynamic noticeReadListArray, noticeReadListArray_Count;
-
-typedef struct PB3GetNoticeReadListRes__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *noticeReadListArray;
-} PB3GetNoticeReadListRes__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "noticeReadListArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB3NoticeRead),
-        .number = PB3GetNoticeReadListRes_FieldNumber_NoticeReadListArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB3GetNoticeReadListRes__storage_, noticeReadListArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3GetNoticeReadListRes class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3GetNoticeReadListRes__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3NoticeRead
-
-@implementation PB3NoticeRead
-
-@dynamic groupId;
-@dynamic isRead;
-
-typedef struct PB3NoticeRead__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *groupId;
-} PB3NoticeRead__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "groupId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3NoticeRead_FieldNumber_GroupId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3NoticeRead__storage_, groupId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "isRead",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3NoticeRead_FieldNumber_IsRead,
-        .hasIndex = 1,
-        .offset = 2,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3NoticeRead class]
-                                     rootClass:[PB3FriendExtRoot class]
-                                          file:PB3FriendExtRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3NoticeRead__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PB3AnchorSendWelcomeWord
-
-@implementation PB3AnchorSendWelcomeWord
-
-@dynamic text;
-@dynamic voice;
-@dynamic voiceDuration;
-@dynamic roomId;
-@dynamic sex;
-
-typedef struct PB3AnchorSendWelcomeWord__storage_ {
-  uint32_t _has_storage_[1];
-  PB3SexType sex;
-  NSString *text;
-  NSString *voice;
-  int64_t voiceDuration;
-  int64_t roomId;
-} PB3AnchorSendWelcomeWord__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "text",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AnchorSendWelcomeWord_FieldNumber_Text,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB3AnchorSendWelcomeWord__storage_, text),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "voice",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AnchorSendWelcomeWord_FieldNumber_Voice,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB3AnchorSendWelcomeWord__storage_, voice),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "voiceDuration",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AnchorSendWelcomeWord_FieldNumber_VoiceDuration,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB3AnchorSendWelcomeWord__storage_, voiceDuration),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "roomId",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3AnchorSendWelcomeWord_FieldNumber_RoomId,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB3AnchorSendWelcomeWord__storage_, roomId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "sex",
-        .dataTypeSpecific.enumDescFunc = PB3SexType_EnumDescriptor,
-        .number = PB3AnchorSendWelcomeWord_FieldNumber_Sex,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB3AnchorSendWelcomeWord__storage_, sex),
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, type),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
+      {
+        .name = "fansId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_FansId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, fansId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "fansName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_FansName,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, fansName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "fansIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_FansIcon,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, fansIcon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "icon",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_Icon,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, icon),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "num",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_Num,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, num),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "price",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_Price,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, price),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeSInt32,
+      },
+      {
+        .name = "createAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IntimateTicketInfo_FieldNumber_CreateAt,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3IntimateTicketInfo__storage_, createAt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB3AnchorSendWelcomeWord class]
+        [GPBDescriptor allocDescriptorForClass:[PB3IntimateTicketInfo class]
                                      rootClass:[PB3FriendExtRoot class]
                                           file:PB3FriendExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB3AnchorSendWelcomeWord__storage_)
+                                   storageSize:sizeof(PB3IntimateTicketInfo__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -11473,17 +11453,257 @@ typedef struct PB3AnchorSendWelcomeWord__storage_ {
 
 @end
 
-int32_t PB3AnchorSendWelcomeWord_Sex_RawValue(PB3AnchorSendWelcomeWord *message) {
-  GPBDescriptor *descriptor = [PB3AnchorSendWelcomeWord descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AnchorSendWelcomeWord_FieldNumber_Sex];
+int32_t PB3IntimateTicketInfo_Type_RawValue(PB3IntimateTicketInfo *message) {
+  GPBDescriptor *descriptor = [PB3IntimateTicketInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IntimateTicketInfo_FieldNumber_Type];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB3AnchorSendWelcomeWord_Sex_RawValue(PB3AnchorSendWelcomeWord *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB3AnchorSendWelcomeWord descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3AnchorSendWelcomeWord_FieldNumber_Sex];
+void SetPB3IntimateTicketInfo_Type_RawValue(PB3IntimateTicketInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3IntimateTicketInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3IntimateTicketInfo_FieldNumber_Type];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
+
+#pragma mark - PB3IllegalMsgAppealReq
+
+@implementation PB3IllegalMsgAppealReq
+
+@dynamic msgKey;
+@dynamic msgContent;
+@dynamic toPlayerId;
+
+typedef struct PB3IllegalMsgAppealReq__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *msgKey;
+  NSString *msgContent;
+  int64_t toPlayerId;
+} PB3IllegalMsgAppealReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "msgKey",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IllegalMsgAppealReq_FieldNumber_MsgKey,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3IllegalMsgAppealReq__storage_, msgKey),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "msgContent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IllegalMsgAppealReq_FieldNumber_MsgContent,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3IllegalMsgAppealReq__storage_, msgContent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "toPlayerId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3IllegalMsgAppealReq_FieldNumber_ToPlayerId,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3IllegalMsgAppealReq__storage_, toPlayerId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IllegalMsgAppealReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3IllegalMsgAppealReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3IllegalMsgAppealRes
+
+@implementation PB3IllegalMsgAppealRes
+
+
+typedef struct PB3IllegalMsgAppealRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3IllegalMsgAppealRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3IllegalMsgAppealRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3IllegalMsgAppealRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3PullIntimateBackgroundCfgDataReq
+
+@implementation PB3PullIntimateBackgroundCfgDataReq
+
+
+typedef struct PB3PullIntimateBackgroundCfgDataReq__storage_ {
+  uint32_t _has_storage_[1];
+} PB3PullIntimateBackgroundCfgDataReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3PullIntimateBackgroundCfgDataReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3PullIntimateBackgroundCfgDataReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3PullIntimateBackgroundCfgDataRes
+
+@implementation PB3PullIntimateBackgroundCfgDataRes
+
+@dynamic listArray, listArray_Count;
+
+typedef struct PB3PullIntimateBackgroundCfgDataRes__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *listArray;
+} PB3PullIntimateBackgroundCfgDataRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "listArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3XcmIntimateBackgroundCfgData),
+        .number = PB3PullIntimateBackgroundCfgDataRes_FieldNumber_ListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3PullIntimateBackgroundCfgDataRes__storage_, listArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3PullIntimateBackgroundCfgDataRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3PullIntimateBackgroundCfgDataRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3QueryImOnlineStatusReq
+
+@implementation PB3QueryImOnlineStatusReq
+
+
+typedef struct PB3QueryImOnlineStatusReq__storage_ {
+  uint32_t _has_storage_[1];
+} PB3QueryImOnlineStatusReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3QueryImOnlineStatusReq class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3QueryImOnlineStatusReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3QueryImOnlineStatusRes
+
+@implementation PB3QueryImOnlineStatusRes
+
+@dynamic online;
+
+typedef struct PB3QueryImOnlineStatusRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3QueryImOnlineStatusRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "online",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3QueryImOnlineStatusRes_FieldNumber_Online,
+        .hasIndex = 0,
+        .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3QueryImOnlineStatusRes class]
+                                     rootClass:[PB3FriendExtRoot class]
+                                          file:PB3FriendExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3QueryImOnlineStatusRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
 
 
 #pragma clang diagnostic pop

@@ -1,0 +1,295 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+enum AssetsCmdId { //300
+                   AssetsNone1 = 0; //
+                   AssetsMoneyCmdId = 300101; //AssetsMoney 推送资产
+                   AssetsBagCmdId = 300102; //AssetsBag 推送背包变化
+                   AssetsEffectPlayer = 300103; //BcPlayerEffect 推送个人特效变化
+                   AssetsEffectRoom = 300104; //BcRoomEffect 推送到房间特效变化
+                   AssetsEffectTips = 300105; //EffectTips 推送特效提示
+                   AssetsInDebtCmdId = 300106; //AssetsInDebt 负债变化推送
+                   AssetsPointCmdId = 300107; //AssetsPoint 积分变化推送
+                   AssetsIsPayTodayCmdId = 300108; // PushFirstPayGift 今日首充推送
+}
+
+// 金钱资产
+message AssetsMoneyReq {
+}
+
+message AssetsMoney {
+    int32 gold = 1;             // 金币
+    uint32 silver = 2;          // 银币，暂时没有用
+    uint32 gift_ticket = 3;     // 钻石
+    uint32 charge = 4;          // 累计金额
+    uint32 freeze_ticket = 5;   // 冻结钻石
+    map<int64, PlayerAssets> assets_map = 6; // 个人资产map, key为PlayerAssetsType
+    int32 vip_weixin_custom_service = 7; // vip企微客服接入金额门槛
+    string vip_weixin_custom_service_url = 8; // vip企微客服链接
+    string vip_weixin_custom_service_id = 9; // vip企微企业ID
+}
+
+message AssetsBag {
+    repeated BagItem items  = 1;            // 背包道具列表
+}
+
+// 金钱资产返回
+message AssetsMoneyRes {
+    uint32 flag         = 1;            //1请求返回，2推送
+    AssetsMoney money   = 2;
+    bool is_ban_withdrawal = 3;         // (h5)是否限制提现，true:限制提现，false:没有限制
+    string ban_withdrawal_time = 4;     // (h5)提现限制时间，如：7天
+    CreditScorePrivilege privilege = 5; // (h5)信用分特权
+}
+
+
+// 积分资产
+message AssetsPointReq {
+}
+// 积分资产
+message AssetsPointRes {
+    map<int32, AssetsPoint> point = 5; // 积分map,key为PointType
+}
+
+message AssetsPoint {
+    PointType point_type = 1; //积分类型
+    uint32 num = 3; //数量
+}
+
+enum PointType {
+    POINT_ZERO = 0;
+    POINT_STORE = 100001; // 商城积分
+    POINT_PLAYER = 100002; // 玩家积分
+}
+
+// 个人资产类型枚举
+enum PlayerAssetsType {
+  PAT_None = 0; // 占位（不使用）
+  PAT_Gold = 1; // 金币券(旧金币改为金币券)
+  PAT_GiftTicket = 2; // 钻石
+  PAT_Gift = 3; // 礼物
+  PAT_Charge = 4; // 累计充值
+  PAT_Point = 5; // 积分
+  PAT_Coupon = 6; // 优惠券
+  PAT_RiskTicket = 7; // 风险冻结钻石
+  PAT_RiskPenaltyTicket = 8; // 风险扣除钻石
+  // 1-8 服务端assets_type.go中已使用
+  PAT_Deposit = 9; // 佣金
+  PAT_FreezeDeposit = 10; // 冻结中的佣金
+  PAT_NobleGold = 11; // 贵族金币
+  PAT_ChargeGold = 12; // 新金币(充值金币)
+  // 扣除金币券(单独扣除金币券)
+  PAT_GoldTicket = 13;
+  // 礼物皮肤
+  PAT_GiftSkin = 14;
+  // 特效
+  PAT_Effect = 15;
+}
+
+// 个人资产结构
+message PlayerAssets {
+  PlayerAssetsType assets_type = 1; // 资产类型
+  int64 assets_num = 2; // 资产数量数量
+}
+
+// 背包请求
+message AssetsBagReq {
+}
+
+// 背包返回
+message AssetsBagRes {
+    uint32 flag             = 1;            //1请求返回全部，2推送单个更新
+    repeated BagItem items  = 2;            // 背包道具列表
+
+}
+
+
+//广播个人特效
+message BcPlayerEffect {
+  int64 player_id                       = 1;            //
+  repeated Effect effect                 = 2;            //
+}
+//广播房间特效
+message BcRoomEffect {
+  int64 player_id                       = 1;            //
+  repeated Effect effect                 = 2;            //
+}
+message EffectConfigReq {
+  repeated int32 effect_ids = 1;    //特效ID
+}
+message EffectConfigRes {
+     map<int32, EffectConfig> list = 1;
+}
+message EffectConfigCDNReq {}
+message EffectConfigCDNRes {
+    string conf_url = 1; // CND 的URL
+}
+message GetEffectReq {
+  int64 player_id               = 1;                 // 发起者
+}
+message GetEffectRes {
+  int32 flag                       = 1;            //
+  int64 player_id               = 2;                 // 发起者
+  repeated Effect effect                 = 3;            //
+  repeated Effect protect_effect = 4; // 保护期特效，只有id、protect_second、protect_start_at有值
+  repeated EffectLimit effect_limit = 5;  //特效穿戴限制
+}
+//特效提示(个人)公屏
+message EffectTips {
+  int32 effect_id                       = 1;            //
+  string effect_name                    = 2;            //
+  EffectTipsType tip_type               = 3;            // 提示类型
+  repeated int32 timeout                = 4;	// 结束时间 [年,月, 日, 时, 分, 秒]
+  int32 timeout_second                  = 5;	// 剩余秒数
+  EffectType type                       = 6;            //type
+  EffectTimeType time_type              = 7;            //计时类型
+  string msg                            = 8;            //自定义文字
+}
+
+enum AssetsType {
+    AT_ZERO = 0; // 占位不使用
+    AT_Hammer = 1; // 锤子
+    AT_POINTS = 2; // 积分
+    AT_Hammer_Gold = 3; // 黄金水滴
+    AT_Hammer_DO  = 4; // 钻石水滴
+    AT_Hammer_Black_Gold = 5; // 黑金水滴
+}
+message AsstesDetail {
+    int32 id = 1;
+}
+message AsstesCollection {
+    string icon = 1;
+    repeated AsstesDetail list = 2;
+}
+message GetAssetsConfReq {
+}
+message GetAssetsConfRes {
+    map<sint32, AsstesCollection> assets_conf = 1; // sint32 对应 AssetsType
+}
+
+message UseEffectReq{
+    int32 id = 1;
+    EffectUseType use_type = 2;//使用类型
+}
+
+message UseEffectRes{
+    EffectType type       = 1;            //type
+}
+
+message NobilityEffectConfReq{
+
+}
+message NobilityEffectConfRes{
+    repeated NobilityEffectItem item = 1;
+}
+
+message NobilityEffectItem{
+    int32  nobility_id = 1;
+    int32  effect_id = 2;
+    int32  privilege_id = 3;
+
+}
+
+message InDebtInfoReq{
+}
+message InDebtInfoRes{
+    sint64 in_debt_tick = 1; // 负债砖石金额
+}
+
+// 300106 推送
+message AssetsInDebt {
+    sint64 in_debt_tick = 1; // 负债砖石金额
+}
+
+// 获取玩家的勋章列表
+message MedalEffectReq {
+    int64 player_id = 1; // 玩家id
+}
+message MedalEffectRes {
+    repeated Medal medal_list = 1; // 勋章列表
+}
+message Medal {
+    int32 id = 1; // id
+    string name = 2; // 名称
+    string url = 3; //资源 app,pc勋章
+    string pc_url2 = 4; // pc勋章动态图
+    string effect_desc = 5; //勋章活动描述
+    string extra_url = 6; //预留资源/app勋章动态图/app渠道前缀动态图/APP荣耀动态图片 /心情元素3
+}
+
+message ProtectEffectReq {
+    int64 player_id = 1; // 发起者
+}
+message ProtectEffectRes {
+    int64 player_id = 1; // 发起者
+    repeated Effect protect_effect = 2; // 保护期特效，只有id、protect_second、protect_start_at有值
+}
+
+// 首充有礼推送
+message PushFirstPayGift{
+    bool is_pay_today = 1;      // 今日是否充值
+}
+
+// 对公结算账单状态
+enum BizSettlementStatusType {
+    BSST_ALL = 0; // 全部账单
+    BSST_NORMAL = 1; // 待结算
+    BSST_CHECKING = 2; // 对账中
+    BSST_SETTLEMENT = 3; // 已发放
+    BSST_UNFREEZE = 6; // 已解冻
+}
+
+// 对公结算账单记录
+message BizSettlementRecord {
+    string date_at = 1; // 日期
+    int64 clan_id = 2;  // 公会ID
+    string clan_name = 3; // 公会名称
+    int64 diamond = 4; // 个人扣钻
+    string checking_settle_money = 5; // 待结算金额 单位元
+    string final_settle_money = 6; // 最终结算金额 单位元
+    BizSettlementStatusType status_type = 7; // 结算状态
+    string unfreeze_settle_money = 8; // 已解冻金额 单位元
+}
+
+// 个人结算账单列表
+message PersonalBizSettlementListReq {
+    BizSettlementStatusType status_type = 1; // 账单状态
+    int64 start_time = 2; // 开始时间
+    int64 end_time = 3; // 结束时间
+    int32 page = 4; // 页数，从1开始
+    int32 page_size = 5; // 每页数量
+    bool is_all = 6; // 是否导出
+}
+
+// 个人结算账单列表
+message PersonalBizSettlementListRes {
+    repeated BizSettlementRecord list = 1;
+    int64 total = 2; // 总共有多少记录
+    int64 date_update_at = 3; // 数据更新时间
+}
+
+service AssetsExtObj {
+    rpc GetMoney (AssetsMoneyReq) returns (AssetsMoneyRes);     // 获取资产
+    rpc GetBag (AssetsBagReq) returns (AssetsBagRes);           // 获取背包
+    rpc GetEffect (GetEffectReq) returns (GetEffectRes);        // 获取个人特效
+    rpc GetEffectConf (EffectConfigReq) returns (EffectConfigRes);        // 获取特效配置
+
+    //h5界面获取资产
+    rpc H5Money (AssetsMoneyReq) returns (AssetsMoneyRes);
+
+    // 资产配置
+    rpc GetAssetsConf (GetAssetsConfReq) returns (GetAssetsConfRes);
+    rpc ZoneEffect (GetEffectReq) returns (GetEffectRes);        // 获取咪爪的特效
+    rpc UseEffect (UseEffectReq) returns (UseEffectRes);        //使用特效
+    rpc NobilityEffectConf(NobilityEffectConfReq) returns (NobilityEffectConfRes);
+    rpc InDebtInfo (InDebtInfoReq) returns (InDebtInfoRes);     // 获取负债情况
+    rpc AssetsPoint (AssetsPointReq) returns (AssetsPointRes);     // 积分资产
+    // 个人结算账单
+    rpc PersonalBizSettlementList(PersonalBizSettlementListReq) returns(PersonalBizSettlementListRes);
+
+}
+
+
+

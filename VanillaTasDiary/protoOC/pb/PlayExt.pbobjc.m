@@ -16,6 +16,7 @@
 #import <stdatomic.h>
 
 #import "pb/PlayExt.pbobjc.h"
+#import "pb/CommonExt.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -25,8 +26,8 @@
 
 @implementation PB3PlayExtRoot
 
-// No extensions in the file and no imports, so no need to generate
-// +extensionRegistry.
+// No extensions in the file and none of the imports (direct or indirect)
+// defined extensions, so no need to generate +extensionRegistry.
 
 @end
 
@@ -120,6 +121,43 @@ BOOL PB3LikeSongOperation_IsValidValue(int32_t value__) {
     case PB3LikeSongOperation_LsoUnlike:
     case PB3LikeSongOperation_LsoPlay:
     case PB3LikeSongOperation_LsoShare:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3UploadSongMsgType
+
+GPBEnumDescriptor *PB3UploadSongMsgType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "UsmtNone\000UsmtDelete\000UsmtAudit\000";
+    static const int32_t values[] = {
+        PB3UploadSongMsgType_UsmtNone,
+        PB3UploadSongMsgType_UsmtDelete,
+        PB3UploadSongMsgType_UsmtAudit,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UploadSongMsgType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3UploadSongMsgType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3UploadSongMsgType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3UploadSongMsgType_UsmtNone:
+    case PB3UploadSongMsgType_UsmtDelete:
+    case PB3UploadSongMsgType_UsmtAudit:
       return YES;
     default:
       return NO;
@@ -1037,6 +1075,830 @@ typedef struct PB3LikeSongRes__storage_ {
                                         fields:NULL
                                     fieldCount:0
                                    storageSize:sizeof(PB3LikeSongRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3SongInfo
+
+@implementation PB3SongInfo
+
+@dynamic id_p;
+@dynamic name;
+@dynamic singer;
+@dynamic size;
+@dynamic URL;
+@dynamic cratedAt;
+@dynamic auditStatus;
+@dynamic duration;
+
+typedef struct PB3SongInfo__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t size;
+  PB3AuditStatus auditStatus;
+  int32_t duration;
+  NSString *name;
+  NSString *singer;
+  NSString *URL;
+  int64_t id_p;
+  int64_t cratedAt;
+} PB3SongInfo__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_Name,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "singer",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_Singer,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, singer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "size",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_Size,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, size),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "URL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_URL,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, URL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cratedAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_CratedAt,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, cratedAt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "auditStatus",
+        .dataTypeSpecific.enumDescFunc = PB3AuditStatus_EnumDescriptor,
+        .number = PB3SongInfo_FieldNumber_AuditStatus,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, auditStatus),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "duration",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3SongInfo_FieldNumber_Duration,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3SongInfo__storage_, duration),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3SongInfo class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3SongInfo__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\005!!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3SongInfo_AuditStatus_RawValue(PB3SongInfo *message) {
+  GPBDescriptor *descriptor = [PB3SongInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SongInfo_FieldNumber_AuditStatus];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3SongInfo_AuditStatus_RawValue(PB3SongInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3SongInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3SongInfo_FieldNumber_AuditStatus];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3FetchSongsOnWebsiteReq
+
+@implementation PB3FetchSongsOnWebsiteReq
+
+@dynamic page;
+@dynamic pageSize;
+
+typedef struct PB3FetchSongsOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t page;
+  int32_t pageSize;
+} PB3FetchSongsOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "page",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchSongsOnWebsiteReq_FieldNumber_Page,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3FetchSongsOnWebsiteReq__storage_, page),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "pageSize",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchSongsOnWebsiteReq_FieldNumber_PageSize,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3FetchSongsOnWebsiteReq__storage_, pageSize),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3FetchSongsOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3FetchSongsOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3FetchSongsOnWebsiteRes
+
+@implementation PB3FetchSongsOnWebsiteRes
+
+@dynamic songsArray, songsArray_Count;
+@dynamic total;
+
+typedef struct PB3FetchSongsOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t total;
+  NSMutableArray *songsArray;
+} PB3FetchSongsOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "songsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3SongInfo),
+        .number = PB3FetchSongsOnWebsiteRes_FieldNumber_SongsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3FetchSongsOnWebsiteRes__storage_, songsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "total",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchSongsOnWebsiteRes_FieldNumber_Total,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3FetchSongsOnWebsiteRes__storage_, total),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3FetchSongsOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3FetchSongsOnWebsiteRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3UploadSongOnWebsiteReq
+
+@implementation PB3UploadSongOnWebsiteReq
+
+@dynamic name;
+@dynamic singer;
+@dynamic URL;
+@dynamic md5;
+
+typedef struct PB3UploadSongOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *name;
+  NSString *singer;
+  NSString *URL;
+  NSString *md5;
+} PB3UploadSongOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongOnWebsiteReq_FieldNumber_Name,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3UploadSongOnWebsiteReq__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "singer",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongOnWebsiteReq_FieldNumber_Singer,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3UploadSongOnWebsiteReq__storage_, singer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "URL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongOnWebsiteReq_FieldNumber_URL,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3UploadSongOnWebsiteReq__storage_, URL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "md5",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongOnWebsiteReq_FieldNumber_Md5,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3UploadSongOnWebsiteReq__storage_, md5),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3UploadSongOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3UploadSongOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\003!!!\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3UploadSongOnWebsiteRes
+
+@implementation PB3UploadSongOnWebsiteRes
+
+
+typedef struct PB3UploadSongOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3UploadSongOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3UploadSongOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3UploadSongOnWebsiteRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3UpdateSongOnWebsiteReq
+
+@implementation PB3UpdateSongOnWebsiteReq
+
+@dynamic id_p;
+@dynamic name;
+@dynamic singer;
+
+typedef struct PB3UpdateSongOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *name;
+  NSString *singer;
+  int64_t id_p;
+} PB3UpdateSongOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UpdateSongOnWebsiteReq_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3UpdateSongOnWebsiteReq__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UpdateSongOnWebsiteReq_FieldNumber_Name,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3UpdateSongOnWebsiteReq__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "singer",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UpdateSongOnWebsiteReq_FieldNumber_Singer,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3UpdateSongOnWebsiteReq__storage_, singer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3UpdateSongOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3UpdateSongOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3UpdateSongOnWebsiteRes
+
+@implementation PB3UpdateSongOnWebsiteRes
+
+
+typedef struct PB3UpdateSongOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3UpdateSongOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3UpdateSongOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3UpdateSongOnWebsiteRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3DeleteSongOnWebsiteReq
+
+@implementation PB3DeleteSongOnWebsiteReq
+
+@dynamic idsArray, idsArray_Count;
+
+typedef struct PB3DeleteSongOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+  GPBInt64Array *idsArray;
+} PB3DeleteSongOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "idsArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3DeleteSongOnWebsiteReq_FieldNumber_IdsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3DeleteSongOnWebsiteReq__storage_, idsArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3DeleteSongOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3DeleteSongOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3DeleteSongOnWebsiteRes
+
+@implementation PB3DeleteSongOnWebsiteRes
+
+
+typedef struct PB3DeleteSongOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3DeleteSongOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3DeleteSongOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3DeleteSongOnWebsiteRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3UploadSongMsg
+
+@implementation PB3UploadSongMsg
+
+@dynamic id_p;
+@dynamic createdAt;
+@dynamic isRead;
+@dynamic songName;
+@dynamic auditStatus;
+@dynamic msgType;
+
+typedef struct PB3UploadSongMsg__storage_ {
+  uint32_t _has_storage_[1];
+  PB3AuditStatus auditStatus;
+  PB3UploadSongMsgType msgType;
+  NSString *songName;
+  int64_t id_p;
+  int64_t createdAt;
+} PB3UploadSongMsg__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongMsg_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3UploadSongMsg__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "createdAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongMsg_FieldNumber_CreatedAt,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3UploadSongMsg__storage_, createdAt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "isRead",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongMsg_FieldNumber_IsRead,
+        .hasIndex = 2,
+        .offset = 3,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "songName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3UploadSongMsg_FieldNumber_SongName,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3UploadSongMsg__storage_, songName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "auditStatus",
+        .dataTypeSpecific.enumDescFunc = PB3AuditStatus_EnumDescriptor,
+        .number = PB3UploadSongMsg_FieldNumber_AuditStatus,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3UploadSongMsg__storage_, auditStatus),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "msgType",
+        .dataTypeSpecific.enumDescFunc = PB3UploadSongMsgType_EnumDescriptor,
+        .number = PB3UploadSongMsg_FieldNumber_MsgType,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3UploadSongMsg__storage_, msgType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3UploadSongMsg class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3UploadSongMsg__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t PB3UploadSongMsg_AuditStatus_RawValue(PB3UploadSongMsg *message) {
+  GPBDescriptor *descriptor = [PB3UploadSongMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UploadSongMsg_FieldNumber_AuditStatus];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3UploadSongMsg_AuditStatus_RawValue(PB3UploadSongMsg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3UploadSongMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UploadSongMsg_FieldNumber_AuditStatus];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3UploadSongMsg_MsgType_RawValue(PB3UploadSongMsg *message) {
+  GPBDescriptor *descriptor = [PB3UploadSongMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UploadSongMsg_FieldNumber_MsgType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3UploadSongMsg_MsgType_RawValue(PB3UploadSongMsg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3UploadSongMsg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3UploadSongMsg_FieldNumber_MsgType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - PB3FetchUploadSongMsgOnWebsiteReq
+
+@implementation PB3FetchUploadSongMsgOnWebsiteReq
+
+@dynamic page;
+@dynamic pageSize;
+
+typedef struct PB3FetchUploadSongMsgOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t page;
+  int32_t pageSize;
+} PB3FetchUploadSongMsgOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "page",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchUploadSongMsgOnWebsiteReq_FieldNumber_Page,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3FetchUploadSongMsgOnWebsiteReq__storage_, page),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "pageSize",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchUploadSongMsgOnWebsiteReq_FieldNumber_PageSize,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3FetchUploadSongMsgOnWebsiteReq__storage_, pageSize),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3FetchUploadSongMsgOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3FetchUploadSongMsgOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3FetchUploadSongMsgOnWebsiteRes
+
+@implementation PB3FetchUploadSongMsgOnWebsiteRes
+
+@dynamic messagesArray, messagesArray_Count;
+@dynamic unread;
+@dynamic total;
+
+typedef struct PB3FetchUploadSongMsgOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t unread;
+  int32_t total;
+  NSMutableArray *messagesArray;
+} PB3FetchUploadSongMsgOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "messagesArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3UploadSongMsg),
+        .number = PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_MessagesArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3FetchUploadSongMsgOnWebsiteRes__storage_, messagesArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "unread",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_Unread,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3FetchUploadSongMsgOnWebsiteRes__storage_, unread),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "total",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_Total,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3FetchUploadSongMsgOnWebsiteRes__storage_, total),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3FetchUploadSongMsgOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3FetchUploadSongMsgOnWebsiteRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ReadUploadSongMsgOnWebsiteReq
+
+@implementation PB3ReadUploadSongMsgOnWebsiteReq
+
+
+typedef struct PB3ReadUploadSongMsgOnWebsiteReq__storage_ {
+  uint32_t _has_storage_[1];
+} PB3ReadUploadSongMsgOnWebsiteReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ReadUploadSongMsgOnWebsiteReq class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3ReadUploadSongMsgOnWebsiteReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ReadUploadSongMsgOnWebsiteRes
+
+@implementation PB3ReadUploadSongMsgOnWebsiteRes
+
+
+typedef struct PB3ReadUploadSongMsgOnWebsiteRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3ReadUploadSongMsgOnWebsiteRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ReadUploadSongMsgOnWebsiteRes class]
+                                     rootClass:[PB3PlayExtRoot class]
+                                          file:PB3PlayExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3ReadUploadSongMsgOnWebsiteRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

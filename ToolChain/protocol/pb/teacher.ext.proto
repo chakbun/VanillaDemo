@@ -1,0 +1,162 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+// 师徒系统相关协议，接口定义在friend.ext
+
+// 师徒信息数据
+message TeacherStudentUserItem {
+  int64 player_id = 1;  // 用户ID
+  int64 player_sid = 2; // 用户靓号ID
+  string name = 3;      // 用户名称
+  SexType sex = 4;      // 性别
+  string icon = 5;      // 头像
+}
+
+// 出师用户列表
+message GraduateListReq {
+  int64 player_id = 1;                  // 用户出师列表
+}
+message GraduateListRes {
+  repeated TeacherStudentUserItem graduate_list = 1;  // 出师列表
+}
+
+// 师徒签到
+message TeacherSignReq{
+  int64 relationship_id = 1;    // 关系Id
+}
+message TeacherSignRes{
+  int64 relationship_id = 1;   // 关系Id
+  int64 exp = 2;               // 新经验值
+  int32 level_id = 3;          // 当前等级ID
+  repeated int64 sign_ids = 5; // 签到成员id列表
+  int64 sign_exp = 6;          // 签到经验值
+}
+
+// 师徒关系条目数据
+message TeacherStudentListItem {
+  TeacherStudentUserItem user = 1; // 用户信息
+  repeated int64 sign_ids = 2;     // 签到成员id列表
+  int32 level_id = 3;              // 当前等级ID
+  int64 exp = 4;                   // 当前经验值
+  int64 sign_exp = 5;              // 签到经验值
+  int64 created_at = 6;             // 关系建立时间
+  int64 relationship_id = 7;      // 关系ID
+}
+
+// 获取师徒列表
+message TeacherStudentListReq {
+  int64 player_id = 1; //用户徒弟列表
+}
+
+// 师徒列表返回
+message TeacherStudentListRes {
+  bool is_have_ever = 1;                        // 是否有曾经列表
+  repeated TeacherStudentListItem teachers = 2; // 师父列表
+  repeated TeacherStudentListItem students = 3; // 徒弟列表
+}
+
+// 曾经师徒关系条目数据
+message TeacherStudentEverListItem {
+  TeacherStudentUserItem user = 1;     // 用户信息
+  int64 established_relation_time = 2; // 建立关系时间（时间戳，秒）
+  int64 split_relation_time = 3;       // 解除关系时间（时间戳，秒）
+  string established_relation = 4;     // 建立关系
+  string split_relation = 5;           // 解除关系理由
+  int64 total_exp = 6;                 // 总经验值
+  int64 relationship_id = 7;              // 关系ID
+  int32 level_id = 8; // 等级ID
+  int64 tid = 9; // 师父ID
+  int64 sid = 10; // 徒弟ID
+}
+
+// 获取我曾经的师父和徒弟列表
+message TeacherStudentEverListReq {
+  int32 page = 1;  // 分页请求
+}
+
+// 我曾经的师父和徒弟列表返回
+message TeacherStudentEverListRes {
+  repeated TeacherStudentEverListItem list = 1; // 曾经关系列表
+  int32 total = 2;                              // 列表总条目
+}
+
+// 师徒等级配置
+message TeacherStudentLevCfg{
+  int32 level_id = 1;                    // 等级ID
+  int32 level = 2;                       // 等级
+  string teacher_title = 3;              // 师父称号
+  string student_title = 4;              // 徒弟称号
+  int64  upgrade_exp = 5;                // 升级所需经验值
+  string on_chair_back_image_url = 6;    // 上坑特效背景图片
+  string on_chair_back_image_url_pc = 7; // 上坑特效背景图片(pc)
+  string on_chair_content_color = 8;     // 上坑特效普通文案颜色
+  string on_chair_name_color = 9;        // 上坑特效昵称颜色
+  string animation_source_url = 10;      // 心跳动画资源
+  string animation_source_url_pc = 11;   // 心跳动画资源(pc)
+  string enter_room_effect = 12;         // 进房横幅特效app
+  string enter_room_effect_pc = 13;      // 进房横幅特效pc
+  string effect_name_color = 14;         // 进房横幅特效名字颜色
+  string effect_text_color = 15;         // 进房横幅特效文字颜色
+  string effect_text = 16;               // 进房横幅后面文字内容
+  int32 gift_id = 17;                    // 礼物ID
+}
+
+// 获取师徒等级配置
+message TeacherStudentLevCfgReq{}
+message TeacherStudentLevCfgRes{
+  repeated TeacherStudentLevCfg cfg_list = 1;  // 师徒等级配置列表
+}
+
+// 师徒关系枚举
+enum TeacherRelationshipType {
+  TRT_NULL = 0;    // 占位
+  TRT_Teacher = 1; // 老师
+  TRT_Student = 2; // 徒弟
+}
+
+// 师徒关系升级推送 friend.ext.proto, TeacherLevelUpPush_CMD_ID
+message TeacherLevelUpPush{
+  TeacherStudentUserItem target_info = 1;   // 对方信息
+  bool is_teacher = 2;                      // 对方是否是师父
+  string msg = 3;                           // 升级消息提示
+}
+
+// 师徒关系出师推送 friend.ext.proto, GraduateApprenticePush_CMD_ID
+message GraduateApprenticePush{
+  TeacherStudentUserItem target_info = 1;   // 对方信息
+  string msg = 2;                           // 出师消息提示
+}
+
+// 获取师徒详情页信息
+message TeacherStudentDetailReq{
+  int64 relationship_id = 1;  // 关系ID
+}
+message TeacherStudentDetailRes{
+  TeacherStudentUserItem target_info = 1; // 对方信息
+  bool is_teacher = 2;                    // 对方是否是师父
+  int64 exp = 3;                          // 当前经验值
+  int32 level_id = 4;                     // 当前等级ID
+  repeated int64 sign_ids = 5;            // 签到成员id列表
+  int64 created_at = 6;                   // 关系建立时间
+  int64 sign_exp = 7;                     // 签到经验值
+}
+
+message TeacherStudentGenealogyItem {
+  TeacherStudentUserItem user = 1; // 用户信息
+  int32 level_id = 2;              // 当前等级ID
+  string level_name = 3;         // 当前等级名称
+  int64 exp = 4;                   // 当前经验值
+  int64 created_at = 5;             // 关系建立时间
+  int64 relationship_id = 6;      // 关系ID
+}
+// 获取宗谱列表 
+message TeacherStudentGenealogyReq{
+  int64 player_id = 1;                  // 用户出师列表
+}
+message TeacherStudentGenealogyRes{
+  TeacherStudentGenealogyItem tagetUser = 1; // 对方信息
+  repeated TeacherStudentGenealogyItem teachers = 2; // 师父列表
+  repeated TeacherStudentGenealogyItem students = 3; // 徒弟列表
+}

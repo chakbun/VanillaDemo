@@ -1,0 +1,171 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+enum RedEnvelopeErrCode {
+   REEC_ZERO = 0;
+   REEC_NOT_ENOUGH_MONEY = 47001; // 金币不足，请充值
+   REEC_OPEN_BAD_LUCKY = 47002; // 运气不好，开红包遇到锁，在请求开一次
+}
+
+enum RedEnvelopeCmdId {
+    RedEnvelopeNone1      = 0; // 占位不用
+    RedEnvelopeInfoCmdId  = 403001; // 红包(泡泡)信息 BroadcastRedEnvelopeStatus
+    RedEnvelopeOpenCmdId  = 403002; // 戳红包(泡泡)成功公屏 RedEnvelopeOpen
+}
+
+enum BroadcastRedEnvelopeType {
+    BRET_NULl = 0;
+    BRET_SEND = 1; // 发红包推送
+    BRET_ENTER = 2; // 进房间推送
+    BRET_CLOSE = 3; // 结束红包推送
+}
+
+message BroadcastRedEnvelopeStatus {
+    RedEnvelopeInfo red_envelope = 1;   // 红包信息
+    BroadcastRedEnvelopeType type = 2; // 推送类型
+}
+
+message RedEnvelopeInfo {
+    string      red_envelope_id  = 1; // 红包(泡泡)ID
+    int32       red_envelope_num = 2; // 红包(泡泡)数量
+    int32       opened_num       = 3; // 已被抢数量
+    int32       gold_each        = 4; // 单个红包(泡泡)
+    int64       gold_total       = 5; // 所有红包(泡泡)
+    string      greeting         = 6; // 祝福语
+    int32       valid_time       = 7; // 有效时间 秒
+    int32       wealth_level     = 8; // 财富等级
+    int32       charm_level      = 9; // 魅力等级
+    LevelOption level_option     = 10; // 等级选项
+    RedPlayer   sender           = 11; // 发红包(泡泡)用户信息
+    int64       send_at          = 12; // 发红包(泡泡)时间 unix时间戳 秒
+    int64       end_at           = 13; // 结束时间 unix时间戳 秒
+    int64       gold_opened      = 14; // 开启的红包价值
+}
+
+message RedEnvelopeOpen {
+    int64 open_id = 1; // 戳红包者ID
+    int64 open_id2 = 2;
+    string open_name = 3; // 戳红包者名称
+    int64 send_id = 4; // 发红包者ID
+    int64 send_id2 = 5;
+    string send_name = 6; // 发红包者名称
+    int32 gold = 7; // 领取的数额
+}
+
+message RedPlayer {
+    int64  player_id    = 1;
+    int64  id2          = 2;
+    string name         = 3;
+    string icon         = 4;
+    int32  sex          = 5;
+    int32  wealth_level = 6;
+    int32  charm_level  = 7;
+}
+
+enum LevelOption {
+    LVO_NULL = 0; // 占位不用
+    LVO_AND  = 1; // 等级 且
+    LVO_OR   = 2; // 等级 或
+}
+
+// 吐泡泡
+message SendRedEnvelopeReq {
+    int32       red_envelope_num = 1; // 红包(泡泡)数量  0-999
+    int32       gold_each        = 2; // 单个红包(泡泡)
+    string      greeting         = 3; // 祝福语
+    int32       valid_time       = 4; // 有效时间
+    int32       wealth_level     = 5; // 财富等级
+    int32       charm_level      = 6; // 魅力等级
+    LevelOption level_option     = 7; // 等级选项
+}
+message SendRedEnvelopeRes {
+
+}
+
+// 吐泡泡  随机红包
+message SendRandomRedEnvelopeReq {
+    int32       red_envelope_num = 1; // 红包(泡泡)数量  0-999
+    int32       gold             = 2; // 红包金币总额 100 最少，最后两个个尾数只能是0，服务端只会扣除整百
+    string      greeting         = 3; // 祝福语
+    int32       valid_time       = 4; // 有效时间
+    int32       wealth_level     = 5; // 财富等级
+    int32       charm_level      = 6; // 魅力等级
+    LevelOption level_option     = 7; // 等级选项
+}
+message SendRandomRedEnvelopeRes {
+}
+
+// 开泡泡
+message OpenRedEnvelopeReq {
+    string red_envelope_id = 1; // 红包(泡泡)ID
+}
+// 领取记录接口
+message RedEnvelopeLuckyListReq {
+    string red_envelope_id = 1; // 红包(泡泡)ID
+    int32  index           = 2; // 第一次请求传0
+}
+
+// 戳泡泡成功|领取记录接口 都返回这个结构
+message RedEnvelopeLuckyListRes {
+    RedEnvelopeInfo         red_envelope_info = 1;
+    repeated RedEnvelopeLog lucky_boys        = 2; // 一次最多返回50条记录，获取后面的记录用红包ID和index请求列表接口
+    int32                   index             = 3; // -1 到底了
+    int32                   gold              = 4; // 余额
+    int32                   opened_gold       = 5; // 开启的价值
+    string                  over_msg          = 6; // 领完显示的文字
+}
+
+enum RedEnvelopeLogType {
+    RELT_NONE    = 0; // 占位
+    RELT_SEND    = 1; // 房间送出
+    RELT_RECEIVE = 2; // 收到
+    RELT_MY_SEND = 3; // 我的送出记录
+}
+
+// 泡泡记录
+message RedEnvelopeLogReq {
+    RedEnvelopeLogType type = 1;
+}
+message RedEnvelopeLogRes {
+    repeated RedEnvelopeLog list = 1;
+    RedEnvelopeLogType type = 2;
+}
+message RedEnvelopeLog {
+    RedPlayer player     = 1;
+    int32     gold       = 2; // 领取|退回
+    int64     create_at  = 3; // unix时间戳 秒
+    int32     num        = 4; // 领取数量
+    int32     num_total  = 5; // 总数量
+    int32     gold_total = 6; // 总
+}
+
+message RedEnvelopeConf {
+    repeated int32 valid_times = 1;
+    int32 tax_rate = 2; // 官方扣除的税率 tax_rate=百分数*100， 例：20%，则 tax_rate=2000
+}
+
+// 泡泡配置
+message RedEnvelopeConfReq {
+
+}
+message RedEnvelopeConfRes {
+    RedEnvelopeConf config = 1;
+}
+
+// 撤销泡泡
+message CloseRedEnvelopeReq {
+    string red_envelope_id = 1;
+}
+message CloseRedEnvelopeRes {
+
+}
+
+// 戳泡泡
+message BreakRedEnvelopeReq {
+    string red_envelope_id = 1;
+}
+message BreakRedEnvelopeRes {
+    bool can_open = 1; // true 没有开过泡泡 false 开过泡泡
+    RedEnvelopeInfo red_envelope = 2; // 红包对象
+}

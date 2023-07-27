@@ -1,0 +1,17 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+message AlarmHelloReq {
+    string name = 1;
+}
+
+message AlarmHelloRes {
+    string greet = 1;
+}
+
+service AlarmExtObj {
+    rpc AlarmHello (AlarmHelloReq) returns (AlarmHelloRes);
+}
+
+

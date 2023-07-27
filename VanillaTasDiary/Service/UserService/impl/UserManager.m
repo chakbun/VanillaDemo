@@ -1377,7 +1377,7 @@ completionBlock:(void (^)(NSString *imageUrl, NSString *errorMessage, NSInteger 
 - (void)changePassword:(NSString *)password accountID:(NSInteger)accountID completion:(void(^)(BOOL success, NSString *msg))completion {
     PB3ChangePasswdReq *req = [PB3ChangePasswdReq message];
     req.value = password;
-    req.playerId = accountID;
+//    req.playerId = accountID;
     [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:PB3ChangePasswdRes.class ServiceName:kNetApiUserExtService functionName:@"ChangePasswd" completion:^(id rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
         NSLog(@"changePassword[ChangePasswd] = %@,error = %@", rsp, error);
         if (completion) {
@@ -1386,28 +1386,28 @@ completionBlock:(void (^)(NSString *imageUrl, NSString *errorMessage, NSInteger 
     }];
 }
 
-- (void)statisticInformationWithAccountID:(NSInteger)account completion:(void(^)(PB3AccountInteractInfoRes *, NSString *))completion {
-    PB3AccountInteractInfoReq *req = [PB3AccountInteractInfoReq message];
-    req.playerId = account;
-    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:PB3AccountInteractInfoRes.class ServiceName:kNetApiUserExtService functionName:@"AccountInteractInfo" completion:^(id rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
-        NSLog(@"statisticInformationWithCompletion[AccountInteractInfo] = %@,error = %@", rsp, error);
-        if (completion) {
-            completion(rsp, error.errorMessage);
-        }
-    }];
-}
+//- (void)statisticInformationWithAccountID:(NSInteger)account completion:(void(^)(PB3AccountInteractInfoRes *, NSString *))completion {
+//    PB3AccountInteractInfoReq *req = [PB3AccountInteractInfoReq message];
+//    req.playerId = account;
+//    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:PB3AccountInteractInfoRes.class ServiceName:kNetApiUserExtService functionName:@"AccountInteractInfo" completion:^(id rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
+//        NSLog(@"statisticInformationWithCompletion[AccountInteractInfo] = %@,error = %@", rsp, error);
+//        if (completion) {
+//            completion(rsp, error.errorMessage);
+//        }
+//    }];
+//}
 
 - (void)loadContactListWithType:(PB3ContactType)type userID:(NSInteger)userID completion:(void(^)(NSArray<PB3Friender *> *, NSString *))completion {
-    PB3ContactListReq *req = [PB3ContactListReq message];
-    req.contactType = type;
-    req.ownerId = userID;
-    req.forceFullSync = YES;
-    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:PB3ContactListRes.class ServiceName:kNetApiFriendExtService functionName:@"ContactList" completion:^(PB3ContactListRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
-        NSLog(@"loadContactListWithCompletion[ContactList] = %@,error = %@", rsp, error);
-        if (completion) {
-            completion(rsp.listArray, error.errorMessage);
-        }
-    }];
+//    PB3ContactListReq *req = [PB3ContactListReq message];
+//    req.contactType = type;
+//    req.ownerId = userID;
+//    req.forceFullSync = YES;
+//    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:PB3ContactListRes.class ServiceName:kNetApiFriendExtService functionName:@"ContactList" completion:^(PB3ContactListRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
+//        NSLog(@"loadContactListWithCompletion[ContactList] = %@,error = %@", rsp, error);
+//        if (completion) {
+//            completion(rsp.listArray, error.errorMessage);
+//        }
+//    }];
 }
 
 - (void)sendGiftToUser:(NSInteger)receiver gift:(NSInteger)giftID count:(NSInteger)count msg:(NSString *)msg completion:(void(^)(BOOL success, NSString *))completion {

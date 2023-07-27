@@ -1,0 +1,367 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+message SingleLiveRankReq {
+  SingleLiveRankType type = 1;
+  SingleLiveFlagType rank_flag = 2;
+  sint64 this_time = 3; // 本场榜最近更新时间戳
+  int64 live_id = 4; // 主播ID
+}
+// 个播排行榜枚举
+enum SingleLiveRankType {
+  Single_Live_Rank_None = 0;
+  Single_Live_Rank_This = 1;  // 本场榜
+  Single_Live_Rank_Guard = 2; // 守护
+  Single_Live_Rank_Charm = 3; // 主播魅力榜
+}
+// 个播排行榜枚举
+enum SingleLiveFlagType {
+  Single_Live_Flag_None = 0;
+  Single_Live_Flag_Week = 1; // 周榜
+  Single_Live_Flag_Mouth = 2; // 月榜
+  Single_Live_Flag_Year = 3; // 年榜
+}
+message SingleLiveRankRes {
+  repeated Rank room_rank_list = 1; //排行榜
+  Rank1 my_rank = 2; //我的排行榜
+  sint64 this_time = 3; // 本场榜更新时间戳
+  int32 gift_id = 4; // 加入粉丝团礼物ID
+}
+
+// 个播操作枚举
+enum SingleLiveOptType {
+  SLOT_STOP = 0;  // 下播
+  SLOT_START = 1; // 开播
+}
+
+// 个播状态枚举
+enum SingleLiveStatus {
+  SLS_OFFLINE = 0; // 下播
+  SLS_ONLINE = 1;  // 在播
+}
+
+// 个播模式信息
+message SingleLiveInfo {
+  SingleLiveStatus status = 1; // 当前状态
+  int64 online_time = 2;       // 开播时间(unix时间戳, 秒)
+}
+
+// 个播开播/下播操作
+message SingleLiveOptReq {
+  SingleLiveOptType OptType = 1; // 操作类型枚举, 推送个播模式信息
+}
+message SingleLiveOptRes {
+}
+
+// 个播本场直播数据广播
+message SingleLiveTimeStats {
+  string url = 1; // 直播结束页面
+}
+
+// 个播本场直播数据
+message SingleLiveTimeStatsReq {
+  int64 id = 1; // 场次ID
+}
+message SingleLiveTimeStatsRes {
+  int64 live_time = 1; // 直播时长（秒）
+  int64 live_ticket = 2; // 直播收益
+  int64 consumer_num = 3; // 打赏人数
+  int64 audience_num = 4; // 收听人数
+  int64 top_audience_num = 5; // 峰值人数
+  int64 new_fans_num = 6; // 新增粉丝数
+}
+
+// 个播本场排行榜
+message SingleLiveTimeRank {
+  int64 player_id = 1; // 用户ID
+  int64 player_sid = 2; // 短号
+  string name = 3; // 昵称
+  string icon = 4; // 头像
+  int32 wealth_lev = 5; // 财富等级
+  int32 charm_lev = 6; // 魅力等级
+  int64 val = 7; // 贡献值
+  MaskInfo mask_info = 8;    //马甲信息
+}
+
+// 本场直播贡献榜单
+message SingleLiveTimeRankReq {
+  int32 page = 1;
+  int32 page_size = 2;
+  int64 id = 3; // 场次ID
+}
+message SingleLiveTimeRankRes {
+  repeated SingleLiveTimeRank rank_list = 1; // 排行榜数据
+}
+
+// 亲密粉丝信息
+message IntimateFansInfo {
+  int32 lev = 1;  // 亲密粉丝等级
+  string host_icon_name = 2; // 主播名牌名称
+  bool is_fan = 3; // 是否是粉丝: true:是; false:否
+}
+
+// 节目详情
+message RoomProgramItem {
+    string title = 1; //节目描述 限20个字
+  string sub_title = 2; //房间简介 介绍 限 35个字
+    string program_pic = 3; //节目单图片
+    int32 title_status = 4; //本档档期 审核状态 0已通过，1审核中
+    int32 sub_title_status = 5; //子标题 介绍 审核状态 0已通过，1审核中
+    int32 program_pic_status = 6; //节目单图片 审核状态 0已通过，1审核中
+    string last_title = 7; //上一次更改的房间描述
+    int32 program_pic_width = 8; //节目单图片宽度
+    int32 program_pic_height = 9; //节目单图片高度
+}
+
+//保存节目信息
+//通过版本号判断 是否是新的节目 新的节目不用传节目单图片
+message AddRoomProgramReq {
+    RoomProgramItem program = 1; 
+}
+message AddRoomProgramRes {
+}
+
+enum RoomProgramShowDayType {
+    Rpsdt_None = 0; // 占位
+    Rpsdt_Today = 1; // 今天
+    Rpsdt_Tomorrow = 2; // 明天
+    Rpsdt_Yesterday = 3; // 昨天
+}
+
+//节目单项目重复天
+enum RoomProgramRepeatDay {
+    Rprd_Sun = 0; // 周日
+    Rprd_Mon = 1; // 周一
+    Rprd_Tues = 2;  // 周二
+    Rprd_Wed = 3; // 周三
+    Rprd_Thur = 4; // 周四
+    Rprd_Fri = 5; // 周五
+    Rprd_Sat = 6; // 周六
+}
+
+//节目单项目主播
+message RoomProgramAnchor {
+    int64 id = 1; // 主播id
+    int64 id2 = 2; // 主播靓号
+    string nickname = 3; // 主播名称
+    string icon = 4; // 主播头像
+}
+
+//节目单项目
+message RoomProgramShow {
+    int64 id = 1; // 节目单项目id
+    string subject = 2; // 主题 最长20个字
+    string intro = 3; // 介绍 最长50个字
+    sint64 start_time = 4; // 节目开始时间
+    sint64 end_time = 5; // 节目结束时间
+    int32 start_time_seconds = 6; // 节目开始时间秒数
+    int32 end_time_seconds = 7; // 节目结束时间秒数
+    repeated RoomProgramRepeatDay days = 8; // 重复天
+    repeated int64 player_ids = 9; // 主播ids
+    repeated RoomProgramAnchor anchors = 10; // 主播信息列表
+    bool is_notice = 11; // 是否预告通知
+    bool is_order = 12; // 是否预约
+    RoomProgramShowDayType day_type = 13; // 1 今天 2 明天
+    AuditStatus subject_status = 14; //主题 审核状态 
+    AuditStatus intro_status = 15; //介绍 审核状态 
+    AuditStatus cover_status = 16; //封面 审核状态 
+    string cover = 17; //封面
+    int32 cover_width = 18; //封面宽度
+    int32 cover_height = 19; //封面高度
+}
+
+//添加节目单项目
+message AddRoomProgramShowReq {
+    RoomProgramShow show = 1; // 节目单项目详情
+}
+message AddRoomProgramShowRes {
+}
+//删除节目单项目
+message DelRoomProgramShowReq {
+    int64 id = 1; // 节目单项目id
+}
+message DelRoomProgramShowRes {
+}
+
+//预约节目操作
+enum OrderRoomProgramShowAction {
+    Orpsa_None = 0; // 占位
+    Orpsa_Order = 1; // 预约
+    Orpsa_Cancel = 2; // 取消预约
+}
+
+//预约节目单项目
+message OrderRoomProgramShowReq {
+    int64 id = 1; // 节目单项目id
+    RoomProgramShowDayType day_type = 2; // 1 今天 2 明天
+    OrderRoomProgramShowAction action = 3; // 操作 1 预约 2 取消预约
+    int64 room_id = 4; // 房间id 在首页预约节目用到
+}
+message OrderRoomProgramShowRes {
+}
+
+//获取用户预约房间节目列表
+message OrderRoomProgramShowListReq {
+    sint64 room_id = 1; 
+}
+message OrderRoomProgramShowListRes {
+    repeated RoomProgramShow shows = 1; //预约的节目
+}
+
+//房间节目
+//通过版本号判断 是否是新节目 新节目返回节目单项目列表 不是新节目返回节目单图片
+message RoomProgramReq {
+}
+message RoomProgramRes {
+    RoomProgramItem program = 1; //节目详情
+    int64 notice_push_time = 2;  // 预告推送按钮点击的时间戳
+    int64 fans_count = 3;  // 房间粉丝数
+    repeated RoomProgramShow shows = 4; // 节目单项目列表
+}
+
+// ------- 个播2.0
+// 个播模式2.0房间模版类型
+enum SingleLiveTplType{
+  SLTT_NONE = 0;                 // 占位
+  SLTT_SINGLE = 1;               // 单人
+  SLTT_DOUBLE = 2;               // 双人
+}
+// 个播模式2.0房间模版显示类型
+enum ShowSingleLiveTplType{
+  SSLTT_NONE = 0;                 // 占位
+  SSLTT_SINGLE = 1;               // 仅显示单人
+  SSLTT_DOUBLE = 2;               // 显示单人和双人
+}
+
+// 个播2.0表演中节目信息
+message RoomProgramOnlineInfo{}
+
+// 获取个播2.0表演中节目信息
+message RoomProgramOnlineInfoReq{
+}
+message RoomProgramOnlineInfoRes{
+  int64 room_id = 1; // 房间id
+  string subject = 2; // 当前节目标题
+  string title = 3; // 节目单标题
+  int64 end_time = 4; // 节目结束时间(时间戳：秒)
+}
+
+// 获取房间节目状态
+message RoomProgramStateReq{
+    int64 room_id = 1; // 房间id
+    int64 show_id = 2; // 节目id
+    int64 end_time = 3; // 活动结束时间
+}
+message RoomProgramStateRes{
+}
+
+// -------- 个播权限
+// 申请个播权限
+message ApplySLPermissionReq{
+  int64 player_id = 1;
+}
+
+message ApplySLPermissionRes{
+  bool is_auto = 1; //自动审批是否打开 1是 0否
+  string message = 2; //提示信息
+}
+
+// 获取个播权限
+message GetSLPermissionReq{
+  int64 player_id = 1;
+  int32 need_active = 2; //需要活跃传1
+}
+
+// cmdId=800135 个播权限返回
+message GetSLPermissionRes{
+  SingleLivePermStatus status = 1;//个播权限状态
+  int64 update_time = 2; //更新时间
+  bool is_active = 3; //是否活跃 1是 0否
+  int64 valid_min = 4; //活跃有效时常 单位（分钟）
+  int64 active_done = 5; //近N天完成活跃天数 单位（天）
+  int64 active_day = 6; //近N天
+}
+
+//个播权限状态 0 未申请,1 未审核,2 已通过,3 未通过,4 人工冻结,5 自动冻结
+enum SingleLivePermStatus{
+  SL_NOT_APPLY = 0;
+  SL_NOT_AUDIT = 1;
+  SL_PASS = 2;
+  SL_NOT_PASS = 3;
+  SL_LABOR_FREEZE = 4;
+  SL_AUTO_FREEZE = 5;
+}
+
+//冻结个播权限
+message FreezeReq{
+  int64 player_id = 1;
+  FreezeReqType req_type = 2;
+}
+message FreezeRes{
+  FreezeResCode code = 1;
+}
+
+// 0定时器 1下播 2管理后台
+enum FreezeReqType{
+  TIMER = 0;
+  UNLIVE = 1;
+  ADMIN = 2;
+}
+
+enum FreezeResCode{
+  FREEZE_SUC = 0; //冻结成功
+  FREEZE_LIVE = 1; //正在直播
+}
+
+message SingLiveStatsPlayer {
+    sint64 id = 1;
+    sint64 id2 = 2; // 靓号. ==0时没有
+    string nickname = 3;
+    SexType sex = 4;
+    string icon = 5; // 图标
+}
+
+// 直播数据统计
+message SingleLiveStatsReq {
+}
+message SingleLiveStatsRes {
+    SingLiveStatsPlayer player = 1; // 用户信息
+    bool is_frozen = 2; // 是否冻结 粉丝徽章是否高亮标识
+    int64 unfreeze_time = 3; // 解冻时间 为0时不显示解冻时间
+    int64 intimate_fans_num = 4; // 守护数
+    int64 fans_count = 5;  // 订阅数
+    int64 task_need_day = 6; // 本周任务需要的天数
+    int64 task_live_day = 7; // 本周有效直播天数
+    int64 task_need_time_one_day = 8; // 每天需要直播的时长 单位:秒
+    int64 update_time = 9; // 更新时间
+    IntimateFansInfo intimate_fans_info = 10; // 亲密粉丝信息
+}
+
+// 直播数据趋势时间
+enum SingLiveDataTrendTime {
+    SLDTT_ZERO             = 0; // 占位不使用
+    SLDTT_ThisWeek         = 1; // 本周
+    SLDTT_LastWeek         = 2; // 上周
+    SLDTT_LastMonth        = 3; // 上月
+}
+
+// 直播数据
+message SingleLiveData {
+    int64 day_time = 1; // 时间戳
+    int64 live_time = 2; // 直播时间
+    int64 live_ticket = 3; // 直播收益
+}
+
+// 直播数据趋势
+message SingleLiveDataTrendReq {
+   SingLiveDataTrendTime trend_time = 1; // 时间范围
+}
+message SingleLiveDataTrendRes {
+    int64 live_day = 1; // 直播天数
+    int64 live_time = 2; // 直播时长 秒
+    int64 live_ticket = 3; // 直播收益
+    repeated SingleLiveData data = 4; // 直播数据
+    int64 update_time = 5; // 更新时间
+}

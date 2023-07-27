@@ -228,7 +228,7 @@ typedef void (^UserServicePrivaceChangeBlock)(PB3ChangePrivacyRes *rsp, NSString
 
 - (void)changePassword:(NSString *)password accountID:(NSInteger)accountID completion:(void(^)(BOOL success, NSString *msg))completion;
 
-- (void)statisticInformationWithAccountID:(NSInteger)account completion:(void(^)(PB3AccountInteractInfoRes *, NSString *))completion;
+//- (void)statisticInformationWithAccountID:(NSInteger)account completion:(void(^)(PB3AccountInteractInfoRes *, NSString *))completion;
 
 - (void)loadContactListWithType:(PB3ContactType)type userID:(NSInteger)userID completion:(void(^)(NSArray<PB3Friender *> *, NSString *))completion;
 

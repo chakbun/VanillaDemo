@@ -1,0 +1,480 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/user.ext.proto";
+import "pb/nobility.ext.proto";
+import "pb/common.ext.proto";
+import "pb/chat.ext.proto";
+import "pb/common.int.proto";
+
+// 事件协议
+
+
+// 事件类型
+enum EvtType {
+  EVT_None = 0;    // 占位不使用
+  EVT_Present = 1; // EvtPresent
+  // 个播房间给直播主播送礼
+  EVT_SingleLiveRoomGiftToHost = 2;  // EvtSingleLiveRoomGiftToHost
+  // 个播房间发送公屏（不使用）
+  EVT_SingleLiveRoomChat = 3;
+  // 亲密粉丝评论主播动态（不使用）
+  EVT_HostZoneCommenting = 4;
+  // 亲密粉丝在主播空间写印象（不使用）
+  EVT_HostZoneImpression = 5;
+  // 开通亲密粉丝
+  EVT_JoinIntimateFans = 6; // EvtJoinIntimateFans
+  // 亲密粉丝在个播主播直播时发公屏
+  EVT_IntimateFansSpeakOnLive = 7; // EvtIntimateFansSpeakOnLive
+  // 评论动态事件
+  EVT_CommentTrend = 8; // EvtCommentTrend
+  // 好友关注事件
+  EVT_FriendFollow = 9; // EvtFriendFollow
+  // 在房间收听时长
+  ET_RoomListenInHostDuration = 10; // EvtRoomListenInHostDuration
+  // 激活信用分
+  ET_ActiveCreditScore = 11; // EvtActiveCreditScore
+  // 触发违规处罚
+  EVT_BanAccount = 12; // EvtBanAccount
+  // 退信用分
+  EVT_ReleaseIllegalPunishment = 13; // EvtReleaseIllegalPunishment
+  // 实名
+  EVT_RealName = 14; // EVTRealName
+  // 公会(加入)
+  EVT_Clan_Join = 15; // EVTClanJoin
+  // 公会(退出)
+  EVT_Clan_Quit = 16; // EVTClanQuit
+  // 公会(签约)
+  EVT_Clan_Signed = 17; // EVTClanSigned
+  // 爵位(开通)
+  EVT_Nobility_Open = 18; // EVTNobilityOpen
+  // 爵位(续费)
+  EVT_Nobility_Renew = 19; // EVTNobilityRenew
+  // 爵位(过期)
+  EVT_Nobility_Expire = 20; // EVTNobilityExpire
+  // 财富等级
+  EVT_WealthLevel = 21; // EVTWealthLevel
+  // 魅力等级
+  EVT_CharmLevel = 22; // EVTCharmLevel
+  // 每月重算信用分(活跃评估，人脉评估)
+  EVT_CreditScoreEveryMonth = 23; // EVTCreditScoreEveryMonth
+  // 信用分对公分数
+  EVT_CreditScore_PublicSettle = 24; // EVTCreditScorePublicSettle
+  // 浪漫满屋(在个人房(含达人房)和TA相处累计60分钟)
+  EVT_WeeklyCPOnline = 25; // EVTWeeklyCPOnline
+  // 纸短情长(在私信中聊天且对方回复5个)
+  EVT_WeeklyCPIMReply = 26; // EVTWeeklyCPIMReply
+  // 成为挚友
+  EVT_BecomeIntimate = 27; // EVTBecomeIntimate
+  // 成为一周CP 我们恋爱啦
+  EVT_BecomeWeeklyCP = 28; // EVTBecomeWeeklyCP
+  // 一周CP陪伴时长（主播在麦，用户在房）
+  EVT_WeeklyCPOnChair = 29; // EVTWeeklyCPOnChair
+  // 心动邂逅(8分钟通话)
+  EVT_WeeklyCPCalling = 30; // EVTWeeklyCPCalling
+  // 互动送礼
+  EVT_Interaction = 31; // EVTInteraction
+  // 浪漫告白(用户送模)
+  EVT_RomanticConfession = 32; // EVTRomanticConfession
+  // 公会分成回调
+  EVT_WeeklySendGift = 33; // EVTWeeklySendGift
+  // 一周CP事件
+  EVT_WeekOfCP = 34; // EVT_WeekOfCP
+  // 送礼，包括点歌、互动
+  EVT_SendGift = 35;  // EVTSendGift
+  // 进公会房事件
+  EVT_ENTER_CLAN_ROOM = 36; // EVTEnterClanRoom
+  // 解除挚友
+  EVT_DismissIntimate = 37; // EVTDismissIntimate
+  // 发布头条
+  EVT_PushHeadline = 38; // EVTPushHeadline
+  // 下发特效
+  EVT_AddEffect = 39; // EVTAddEffect
+  // 发布动态
+  EVT_PublishTrend = 40; // EVTPublishTrend
+  // 8分钟通话
+  EVT_8MCPCalling = 41; // EVT8MCPCalling
+  // 删除特效
+  EVT_DelEffect = 42; // EVTDelEffect
+  // 蒙面约会
+  EVT_MaskDate = 43; // EVTMaskDate
+  //心动8分钟
+  EVT_ChatCPEnd = 44; //EVTChatCPEnd
+  //接收限时礼物
+  EVT_ReceiveLimitTimeGift = 45;  //EVTReceiveLimitTimeGift
+  //CP黑名单惩罚
+  EVT_CPBlackListPunish =46; //EVTCPBlackListPunish
+  //一周cp所有任务完成
+  EVT_FinishWeeklyCP = 47 ; //EVTFinishWeeklyCP
+  //成为1位用户的新人接待官并完成所有接待任务
+  EVT_CPGuideMissionDone = 48; //EVTCPGuideMissionDone
+}
+
+// 赠送礼物
+message EvtPresent {
+  int64 player_id = 1;  // 赠送者id
+  int64 to_id = 2;      // 收礼者id
+  int64 gift_id = 3;    // 礼物id
+  int64 gift_num = 4;   // 礼物数量
+  int64 GainTicket = 5; // 收益
+  int64 room_id = 6;    // 房间id
+  int64 sys_ticket = 7; // 平台收益
+  int64 gift_price = 8; // 礼物价格(金币)
+}
+
+// 个播房间给直播主播送礼事件
+message EvtSingleLiveRoomGiftToHost {
+  int64 player_id = 1;  // 粉丝id
+  int64 host_id = 2;    // 主播id
+  int64 room_id = 3;    // 房间id
+  int64 gift_id = 4;    // 礼物id
+  int64 gift_num = 5;   // 礼物数量
+  int64 gift_price = 6; // 礼物价格(金币)
+}
+
+// 开通亲密粉丝事件
+message EvtJoinIntimateFans {
+  int64 player_id = 1; // 粉丝id
+  int64 host_id = 2;   // 主播id
+  int64 room_id = 3;   // 房间id
+}
+
+// 亲密粉丝在个播主播直播时发公屏
+message EvtIntimateFansSpeakOnLive {
+  int64 player_id = 1; // 发言者id
+  int64 host_id = 2; // 主播id
+}
+
+// 评论动态事件
+message EvtCommentTrend {
+  int64 player_id = 1;
+  int64 to_player_id = 2;
+}
+
+// 好友关注事件
+message EvtFriendFollow {
+  int64 player_id = 1; // 关注者
+  int64 to_id = 2; // 被关注者
+}
+
+// 个播在房间收听守护主播时长
+message EvtRoomListenInHostDuration{
+  int64 player_id = 1;    // 粉丝id
+  int64 host_id = 2;      // 主播id
+  int64 listen_time = 3;  // 收听时长
+}
+
+// 激活信用分
+message EvtActiveCreditScore {
+  int64 player_id = 1; //
+}
+
+// 触发事件
+message FireEvtReq {
+  EvtType evt_type = 1; // 事件类型
+  bytes data = 2;			  // 根据事件类型，创建对应的结构体
+  map<int32,int32> err_handler = 3; // 遇到锁的功能模块
+}
+message FireEvtRes {
+}
+
+// 触发违规处罚
+message EvtBanAccount{
+  int64 player_id = 1; // 用户ID
+  BanType ban_type = 2; // 处罚类型
+  int64 expire_time = 3; // 小时
+  string operator = 4; // 操作者
+  EvtBanAccountType trigger_type = 5; // 触发类型
+  int64 reduce_score_num = 6; // 扣除分数
+}
+
+enum EvtBanAccountType{
+  EBAT_SYSTEM = 0; // 系统处罚
+  EBAT_HUMAN = 1; // 人工处罚
+}
+
+// 退信用分
+message EvtReleaseIllegalPunishment{
+  int64 id = 1; // 记录ID
+  string operator = 2; // 操作者ID
+}
+
+// 实名
+message EVTRealName {
+  int64 player_id = 1; // 用户ID
+}
+
+// 公会(加入)
+message EVTClanJoin {
+  int64 player_id = 1;      // 用户ID
+  int64 clan_id = 2;        // 公会ID
+  bool is_signMember = 3;   // 是否签约成员
+  int32 sign_time = 4;      // 签约时长(签约结束时间)
+}
+
+// 公会(退出)
+message EVTClanQuit {
+  int64 player_id = 1;      // 用户ID
+  int64 clan_id = 2;        // 公会ID
+  bool is_signMember = 3;   // 是否签约成员
+  int32 sign_time = 4;      // 签约时长(签约结束时间)
+}
+
+// 公会(签约)
+message EVTClanSigned {
+  int64 player_id = 1;      // 用户ID
+  int64 clan_id = 2;        // 公会ID
+  bool is_signMember = 3;   // 是否签约成员
+  int32 sign_time = 4;      // 签约时长(签约结束时间)
+}
+
+// 爵位(开通)
+message EVTNobilityOpen {
+  int64 player_id = 1;                 // 用户ID
+  PlayerNobilityInfo opt_nobility = 2; // 操作爵位
+  PlayerNobilityInfo nobility = 3;     // 用户当前最高爵位信息
+}
+
+// 爵位(续费)
+message EVTNobilityRenew {
+  int64 player_id = 1;                 // 用户ID
+  PlayerNobilityInfo opt_nobility = 2; // 操作爵位
+  PlayerNobilityInfo nobility = 3;     // 用户当前最高爵位信息
+}
+
+// 爵位(过期)
+message EVTNobilityExpire {
+  int64 player_id = 1;                 // 用户ID
+  PlayerNobilityInfo opt_nobility = 2; // 操作爵位
+  PlayerNobilityInfo nobility = 3;     // 用户当前最高爵位信息
+}
+
+// 财富等级
+message EVTWealthLevel{
+  int64 player_id = 1;   // 用户ID
+  int32 wealth_level = 2;// 财富等级
+  int64 wealth = 3;      // 财富值
+}
+
+// 魅力等级
+message EVTCharmLevel {
+  int64 player_id = 1;   // 用户ID
+  int32 charm_level = 2; // 魅力等级
+  int64 charm = 3;       // 魅力值
+}
+
+// 每月重算信用分(活跃评估，人脉评估)
+message EVTCreditScoreEveryMonth{
+  int64 player_id = 1;   // 用户ID
+}
+
+// 信用分对公分数
+message EVTCreditScorePublicSettle {
+  int64 player_id = 1;    // 用户ID
+  bool public_settle = 2; // 是否对公
+  reserved "evt";
+}
+
+message EVTEnterClanRoom {
+  int64 player_id = 1;
+  int64 room_id = 2;
+  reserved "evt";
+}
+
+// 8分钟通话
+message EVT8MCPCalling{
+  int64 boss_id = 1; // 用户ID
+  int64 player_id = 2; // 主播ID
+  int32 chat_time = 3; // 通话时长
+  reserved "evt";
+}
+
+// 成为挚友
+message EVTBecomeIntimate{
+  int64 player_id = 1;
+  int64 friend_id = 2;
+  reserved "evt";
+}
+
+// 解除挚友
+message EVTDismissIntimate {
+  int64 player_id = 1;
+  int64 friend_id = 2;
+  reserved "evt";
+}
+
+// 发布头条
+message EVTPushHeadline {
+  int64 player_id = 1;
+  reserved "evt";
+}
+
+// 下发特效
+message EVTAddEffect {
+  int64 player_id = 1;
+  int32 effect_id = 2;
+  EffectType effect_type = 3;
+  reserved "evt";
+}
+
+// 删除特效
+message EVTDelEffect {
+  int64 player_id = 1;
+  int32 effect_id = 2;
+  EffectType effect_type = 3;
+  reserved "evt";
+}
+
+// 发布动态
+message EVTPublishTrend {
+  int64 player_id = 1;
+  reserved "evt";
+}
+
+
+// 送礼，包括点歌、互动
+message EVTSendGift {
+  int64 player_id = 1;  // 赠送者id
+  int64 to_id = 2;      // 收礼者id
+  int32 gift_id = 3;    // 礼物id
+  int32 gift_num = 4;   // 礼物数量
+  int64 room_id = 5;    // 房间ID
+  int64 cost_gold = 6;  // 老板花费的金币
+  SendGiftSource source = 7; // 送礼来源
+  int64 gain_ticket=8; //收到钻石数
+  reserved "evt";
+}
+
+/*********** 一周CP事件 ***********/
+
+// 一周CP陪伴
+message EVTWeeklyCPOnChair{
+  int64 boss_id = 1; // 用户ID
+  int64 player_id = 2; // 主播ID
+  int64 period_num = 3; // 秒数
+  reserved "evt";
+}
+
+message EVTWeeklySendGift{
+  int64 player_id = 1;  // 赠送者id
+  int64 to_id = 2;      // 收礼者id
+  int32 gift_id = 3;    // 礼物id
+  int32 gift_num = 4;   // 礼物数量
+  int64 room_id = 5;    // 房间ID
+  int64 gift_gold = 6;  // 礼物总价值
+  int64 cost_gold = 7;  // 老板花费的金币
+  reserved "evt";
+}
+// 成为一周CP
+message EVTBecomeWeeklyCP{
+  int64 boss_id = 1; // 用户ID
+  int64 player_id = 2; // 主播ID
+  WeekCPSource source = 3; // 来源
+  reserved "evt";
+}
+// 心动邂逅(8分钟通话)
+message EVTWeeklyCPCalling{
+  int64 boss_id = 1; // 用户ID
+  int64 player_id = 2; // 主播ID
+  int32 chat_time = 3; // 通话时长
+  reserved "evt";
+}
+
+// 浪漫满屋(在个人房(含达人房)和TA相处累计60分钟)
+message EVTWeeklyCPOnline{
+  int64 player_id_min = 1; // 用户ID
+  int64 player_id_max = 2; // 用户ID
+  int64 period_num = 3; // 秒数
+  reserved "evt";
+}
+
+// 纸短情长(在私信中聊天且对方回复5个)
+message EVTWeeklyCPIMReply{
+  int64 sender_id = 1; // 发送者ID
+  int64 receiver_id = 2; // 接收者ID
+  reserved "evt";
+}
+
+// 浪漫告白(用户送模)
+message EVTRomanticConfession{
+  int64 player_id = 1;  // 赠送者id
+  int64 to_id = 2;      // 收礼者ids
+  int64 room_id = 3;    // 房间id
+  reserved "evt";
+}
+
+// 甜蜜互动送礼
+message EVTInteraction{
+  int64 sender_id = 1; // 送礼者ID
+  int64 receiver_id = 2;  // 收礼者ID
+  int64 room_id = 3; // 房间ID
+  int64 ia_id = 4; // 互动id
+  int32 ia_num = 5; // 互动数量
+  int32 source_gift = 6; // 礼物ID
+  reserved "evt";
+}
+
+// 认证一周CP事件
+message EVTWeekOfCP{
+  string id = 1;        // 唯一ID
+  int64 player_id = 2;  // 用户ID
+  int64 cp_id = 3;      // CPID
+  int64 create_at = 4;  // 结成一周CP的时间
+  int64 finish_time = 5;// 认证一周CP的时间
+  int64 invite_id = 6;  // 邀请者ID
+  int64 clan_sign_id = 7; // 签约成员ID(主播ID)
+  reserved "evt";
+}
+/*********** 一周CP事件 ***********/
+
+// 蒙面约会
+message EVTMaskDate {
+  int64 id = 1;
+  int64 player_id = 2;
+  int64 date_player_id = 3;
+  reserved "evt";
+}
+
+// 心动8分钟
+message EVTChatCPEnd {
+  string id = 1;               // id,唯一标识
+  int64 player_id = 2;
+  int64 date_player_id = 3;
+  FirstPayCPEndType type = 4;  // 结束通话方式
+  ChatCPType chat_type = 5;   // CP语音通话类型
+  int64 chat_time = 6;     //通话时长
+  reserved "evt";
+}
+
+// 接收限时礼物
+message EVTReceiveLimitTimeGift {
+  int64 player_id = 1;
+  int64 to_id = 2;
+  int32 gift_id = 3;
+  int64 cost_gold = 4;  // 老板花费的金币
+  int64 gain_ticket=5 ;//收到钻石数
+  reserved "evt";
+}
+
+// 黑名单惩罚
+message EVTCPBlackListPunish {
+  int64 player_id = 1;
+  CpChatHealAction active_id = 2;
+  reserved "evt";
+}
+
+// 一周cp所有任务完成
+message EVTFinishWeeklyCP{
+  int64 boss_id = 1; // 用户ID
+  int64 player_id = 2; // 主播ID
+  WeekCPSource source = 3; // 来源
+  reserved "evt";
+}
+
+//成为1位用户的新人接待官并完成所有接待任务
+message EVTCPGuideMissionDone {
+  int64 player_id = 1; // 主播ID
+  int64 boss_id = 2; // 用户ID
+  reserved "evt";
+}

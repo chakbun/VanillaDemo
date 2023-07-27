@@ -1,5 +1,5 @@
 syntax = "proto3";
-option objc_class_prefix = "PB4";
+option objc_class_prefix = "PB3";
 package plugin_pb;
 
 //公会创建圈子
@@ -56,4 +56,18 @@ message MediaData{
 
 message CommContentCheckResultRes{
 
+}
+
+message CommunityTrendDataInt{
+    int64 id = 1;  // 动态ID
+    int32 like_num = 2; // 点赞数量
+    int32 comment_num = 3; // 评论数量
+}
+
+message GetCommunityTrendDataIntReq{
+    repeated int64 ids = 1; // 动态ID列表
+}
+
+message GetCommunityTrendDataIntRes{
+    repeated CommunityTrendDataInt list = 1;
 }

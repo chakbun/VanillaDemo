@@ -1,0 +1,855 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+// 给客户端专用协议文件-活动(纯H5 不要放在这里面)
+
+
+//活动房间入口位置
+enum ActivityLocation {
+  Location_None = 0;
+  Location_Left_Top = 1;
+  Location_Right_Top = 2;
+  Location_Bottom = 3;
+  Location_Center = 4;
+}
+
+//房间角标数据类型
+enum RoomSubInfoShow {
+  RoomSubInfoShow_None = 0;
+  Show_Point = 1; //积分
+  Show_People = 2; //人数
+  Show_Marriage = 3; //姻缘值
+}
+
+//个人页数据类型 具体看文档https://www.tapd.cn/35578143/prong/stories/view/1135578143001001130
+enum PlayerPageType {
+  PlayerPageType_None = 0;
+  One_Point_Point = 1;
+  Two_Point_Point = 2;
+  One_Num_Num = 3;
+  Two_Num_NUm = 4;
+  One_Num_Point = 5;
+  Two_Point_Point_Count = 6;
+}
+
+enum ActivityType {
+  Type_None = 0;
+  Type_Normal = 1; //普通积分类型
+  Type_Task = 2; //任务类型
+}
+
+
+enum RelActivityType {
+  Rel_Type_None = 0;
+  Rel_Type_GoodNum = 1; //靓号活动
+  Rel_Type_Sort_Send = 2; //排行榜赠送活动
+  Rel_Type_Sort_Get = 3; //排行榜获得活动
+  Rel_Type_Mine = 4; //矿山
+  Rel_Type_Sort_Pay = 5; //排行榜充值活动
+  Rel_Type_Sort_Consume = 6; //排行榜消费活动
+  Rel_Type_Common = 7; //普通活动
+}
+
+//活动任务类型
+enum ActivityTaskType {
+  Task_Type_None = 0;
+  Task_Type_Pay = 1; //充值
+  Task_Type_Gift_Get = 2; //个人获得礼物
+  Task_Type_Room_Gift_Get = 3; //房间获得礼物
+  Task_Type_Buy = 4; //购买 针对于靓号
+  Task_Type_Gift_Send = 6; //个人送礼
+  Task_Type_Completed_Task = 7; //完成任务
+}
+
+//活动触发类型
+enum ActivityTaskTriggerType {
+  Task_Trigger_Type_None = 0;
+  Task_Trigger_Type_Repeated = 1; //重复
+  Task_Trigger_Type_Once = 2; //一次性
+  Task_Trigger_Type_Day = 3; //每日
+}
+
+enum ActivityTaskTriggerPointType {
+  Task_Trigger_Point_Type_None = 0;
+  Task_Trigger_Point_Type_Num = 1; //数量
+  Task_Trigger_Point_Type_Point = 2; //积分
+
+}
+
+message ActPicture {
+  string name = 1;
+  string picture = 2;
+  string link = 3;
+  int32 sort = 4; //排序
+  int64 start_time = 5;
+  int64 end_time = 6;
+  int32 status = 7; //开启状态
+  string video = 8;
+}
+
+//页面内容
+message ConfActPage {
+  int32 is_share = 1; //支持分享0否1是
+  string act_rule = 2; //活动规则
+  string share_picture = 3; //分享按钮图片
+  repeated ActPicture act_picture = 4; //活动图片
+}
+
+message Int32s {
+  repeated int32 arr = 1;
+}
+
+//活动任务
+message ActivityTask {
+  int32 id = 1;
+  string name = 2;
+  ActivityTaskType type = 3; //任务类型 任务类型 1-充值 2-个人获礼 3-房间送礼获礼 4-个人送礼 6 购买 7-完成任务
+  repeated int32 trigger_id = 4; //活动触发id
+  ActivityTaskTriggerType trigger_type = 5; //活动触发类型 //活动触发类型 1-重复 2-一次性 3-每日
+  int64 trigger_point = 6; //活动触发点
+  ActivityTaskTriggerPointType trigger_point_type = 7; //触发点的类型 //触发点的类型 //1-数量 2-积分
+  repeated Int32s reward = 8;
+  repeated Int32s room_reward = 9; //房间奖励
+  int64 player_award_point = 10; //人员奖励积分
+  int64 room_award_point = 11; //房间奖励积分
+}
+
+message ActivityResource {
+  ActivityLocation location = 1; // 入口位置
+  string activity_url = 2; // 活动链接
+  string progress_color = 3; // 进度条颜色
+  string enter_background = 4; //入口角标 url
+  string enter_small_background = 5; //入口右下角角标 url
+  string card_background = 6; // 卡片背景
+  bool player_page_status = 7; //个人活动页状态，表示是否开启
+  PlayerPageType player_page_type = 8; // 个人页类型
+  string player_page_url = 9; //个人页url
+  RoomSubInfoShow roomsubinfo_show = 10; //point或者people
+  string pc_enter_background = 11; //pc入口角标 url
+  int32 weight = 12; //权重
+}
+
+//子活动
+message RelActivity {
+    int32 id = 1;
+    string name = 2;
+    RelActivityType type = 3;
+    repeated int32 gift_id = 4; //关联的礼物id
+    repeated ActivityTask tasks = 5; //活动任务
+    int64 start_time = 6; //开始时间
+    int64 end_time = 7; //结束时间
+    int64 guaranteed_times = 8; //保底触发次数
+    int32 gender = 9; //性别 0-不分性别 1-男 2 -女
+    //    repeated ListGiftShow gift_shows = 10; //礼物墙配置
+    int32 sort_count_type = 10; //排行统计类型 1-人员榜 2-房间榜 3-人员和房间 4-公会房间贡献榜(所有) 5-公会房间贡献榜(签约)
+    string statist_start_time = 11; // 统计开始时间 格式（HH:mm:ss)，默认没限制为空
+    string statist_end_time = 12; // 统计结束时间，格式同上
+}
+
+//主活动结构
+message Activity {
+  int32 id = 1;
+  string name = 2;
+  bool status = 3;
+  ActivityType type = 4;
+  int64 start_time = 5;
+  int64 end_time = 6;
+  ActivityResource resource = 7;
+  repeated RelActivity rel = 8;
+  ConfActPage act_page = 9; //页面内容
+  int32 is_limit = 10; //0-不限制 1-在限制中
+  int32 self_act_gender = 11; //自身参与活动时性别
+}
+
+//新版奖励自定义奖励
+message ConfNewAwardCustomAward {
+  int32 award_id = 1; //奖励id
+  string award_name = 2; //奖励名称
+  int32 prize_id = 3; // 奖品id
+  string picture = 4; //图片
+  string remark = 5; //备注  //如果是秒，转换成时或天，否则用原来的单位
+  int64 price = 6;
+  int64 num = 7;
+  string unit = 8; //单位
+  int32 type = 9; // 奖励类型 1:金币；2:钻石；3:礼物；4：奖金池；5:特效；6:挚友背景；7:特殊；8:红包；9:房间背景；10:宝盒礼物；11:解锁礼物
+}
+
+// 奖品展示
+message ConfActAwardShow {
+  int32 id = 1;
+  string name = 2;
+  int32 act_id = 3; //活动id
+  int32 rel_id = 4;
+  int32 gift_id = 5;
+  int32 gift_num = 6;
+  string picture = 7;
+  string thumbnail = 8;
+  int32 sort = 9;
+  string Msg = 10;
+  string Remark = 11;
+}
+
+//新版奖励
+message ConfNewAward {
+  repeated ConfNewAwardCustomAward awards = 1;
+  repeated ConfActAwardShow awardShows = 2;
+}
+
+message ConfWelfare {
+  int32 id = 1;
+  int32 group = 2; ////分组
+  int32 relative_id = 3; ////关联id
+  int32 status = 4; //状态 1-执行中 2-待领取
+  int64 trigger_num = 5; //触发次数 表示当完成某个任务多少次之后可完成福利
+  int32 trigger_type = 6; //触发类型
+  int32 trigger_rate = 7; //触发频率
+  int64 num_limit = 8; //数量限制
+  repeated int32 prepose = 9; //前置福利  就是需要完成某些福利后才能进行此福利
+  repeated int32 bill_type = 10; //订单类型
+  int64 skip_id = 11; //跳转id
+  string welfare_name = 12; //福利名称
+  int32 count_num = 13; //累计天数
+  repeated ConfNewAwardCustomAward awards = 14; // 新版奖励信息
+  int32 gift_id = 15 [deprecated=true]; // 补签道具id   废弃
+  int32 gift_num = 16 [deprecated=true]; // 补签道具数量 废弃
+  int32 lottery_id = 17; // 抽奖配置
+  int32 redirect = 18; // 是否跳转 0否1是
+  string redirect_url = 19; // 跳转链接
+  string remark = 20; // 备注
+  int32 trigger_num_repeated = 21; // 触发次数判定
+  int64 ValidityStartTime = 22; //限时福利开始时间 0不限制
+  int64 ValidityEndTime = 23; //限时福利结束时间 0不限制
+  int64 num_of_received = 24; //全福里全服領取的数量 当total_num>0有效
+  int64 total_num = 25; //福利全服总数
+  int32 day_or_week_num_limit = 26; // 每天或每日完成次数限制
+  repeated int32 range_ids = 27; // 范围id列表
+}
+
+message ConfRelPuzzle {
+  int32 rel_puzzle_id = 1; //
+  int32 line = 2; //行数
+  repeated int32 nums = 3; //数量
+}
+
+message Puzzle {
+  int32 puzzle_id = 1;
+  repeated ConfRelPuzzle lines = 2; // nums //下标从零开始，若已经完成则把对应下标的数字变成0  例如 [1,2,3] [0,2,3]则表示第一个已经完成
+  bool finished = 3; //表示是否已全部完成
+}
+
+//拼图配置
+message ConfPuzzle {
+  int32 puzzle_id = 1;
+  string name = 2;
+  int32 rel_id = 3; //关联id 子活动id
+  int64 start_time = 4; //开始时间
+  int64 end_time = 5; // 结束时间
+  repeated ConfRelPuzzle conf_rel_puzzle = 6; //子拼图配置
+  int32 gift_id = 7; //拼图物品id
+}
+
+message ConfLotteryPoint {
+  int32 point = 1; //幸运值
+  map<int32, int32> rate = 2; //达到幸运值后的倍率 第一位是奖品等级（1-小，2-中 3-大奖），第二是倍率 200代表翻两倍
+  int32 conf_luck_id = 3; // 幸运值配置的ID
+  map<int32, int32> corrects = 4; // 修正值， map<LotteryAward.lottery_award_id, weight> 
+}
+
+
+message LotteryAward {
+  int32 lottery_award_id = 1;
+  string lottery_award_name = 2;
+  int32 showRate = 3; // 显示概率
+  int32 weight = 4; // 奖品等级
+  int64 start_time = 5;
+  int64 end_time = 6;
+  repeated ConfNewAwardCustomAward awards = 7;
+  string tips = 8; // 奖品配置文案
+}
+
+message AssignItem {
+  int32 id = 1; //是定物品id
+  int32 num = 2; //指定物品数量
+}
+
+message ConfLottery {
+  int32 conf_id = 1; //id
+  string name = 2; //名称
+  int32 rel_id = 3; //子活动
+  int32 get_num_type = 4; //获取抽奖次数类型 1-特定礼物 2-特定商品
+  int32 assign_id = 5; //指定id
+  int32 assign_num = 6; //指定数量
+  repeated ConfLotteryPoint point_list = 7; //幸运值
+  repeated LotteryAward award_pool = 8; //奖励池
+  repeated AssignItem assign_items = 9; // 指定物品列表
+  int32 lucky_limit = 10; //幸运值范围 0-全服 1-个人
+  int32 lucky_reset = 11; //幸运值重置 0-中奖重置 1-中奖不重置
+}
+
+message ConfBlindLottery {
+  int32 conf_id = 1; //id
+  string name = 2; //名称
+  int32 rel_id = 3; //子活动
+  int32 get_num_type = 4; //获取抽奖次数类型 1-特定礼物 2-特定商品
+  repeated LotteryAward award_pool = 5; //奖励池
+  repeated AssignItem assign_items = 6; // 指定物品列表
+}
+
+message ConfVoteList {
+  int32 id = 1;
+  int32 rel_id = 2; // 关联id
+  string name = 3; //投票名字
+  int32 type = 4; //投票类型1-排行榜报名 2-入围名单
+  int32 vote_cate = 5; //投票类型分类 排行榜：1-人员榜 2-房间榜 入围名单，不用填
+  int32 by_voter_num = 6; //被投票人数
+  int32 rate_each_num = 8; //循环内每人被投票次数   如果频率是每天，这个是1，表示每天可以给每人投一票
+  int32 vote_num = 9; //投票次数 每个周期可投票的次数
+  int64 start_time = 10; //
+  int64 end_time = 11; //
+}
+
+message ConfVoteAward {
+  int32 id = 1;
+  int32 act_id = 2; // 主活动id
+  string name = 3; //名字
+  repeated int32 rel_id = 4; //子活动列表
+  int32 num = 5; //数量
+}
+
+//投票配置
+message ConfVote {
+  repeated ConfVoteList list = 1; //投票配置列表
+  repeated ConfVoteAward awards = 2; //投票奖励列表
+}
+
+//养成奖励
+message ConfCultivateAward {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  int32 cycle = 4; //循环 1-长期 2-每日 3-每星期 4-每月
+  int64 start_dot = 5;
+  int64 end_dot = 6;
+  repeated int32 gift_list = 7; //礼物列表
+}
+
+//养成配置
+message ConfCultivate {
+  int32 rel_id = 1;
+  string cultivate_name = 2; //养成名称
+  int32 most_level = 3; //最高等级
+  int32 cycle = 4; //循环 1-长期 2-每日 3-每星期 4-每月
+  int32 cycle_level = 5; //一次循环可升的等级，例如每日14，那一天就只能提升14级
+  int32 cycle_level_type = 6; //1-叠加 2-不叠加
+  repeated ConfCultivateAward awards = 7;
+}
+
+message GoldBackRanking {
+  int32 min_rank = 1;
+  int32 max_rank = 2;
+  int32 num = 3;
+}
+
+//返现配置
+message ConfGoldBack {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  repeated GoldBackRanking rank = 4;
+  int64 max_gold = 5; //返现最高金额
+}
+
+//合成
+message CompoundAsset {
+  int32 asset_id = 1;
+  int32 asset_num = 2;
+  int32 rate = 3;
+  string asset_name = 4;
+  string asset_image_url = 5;
+}
+
+message FailAsset {
+  int32 id = 1;
+  int32 asset_id = 2;
+  int32 asset_num = 3;
+  int32 cycle = 4; //1-循环 2-每天 3-一次性
+  int32 min_rate = 5; //保底概率
+  int32 group = 6; //分组
+  string asset_name = 7;
+  string asset_image_url = 8;
+}
+
+message CompoundFormula {
+  int32 asset_id = 1;
+  int32 compound_rate = 2;
+  int32 min_num = 3;
+  int32 max_num = 4;
+  int32 fail_deduct_num = 5; //失败扣除物品
+  int32 cli_rate = 6;  //显示概率
+  string asset_name = 7;
+  string asset_image_url = 8;
+}
+
+message LimitActData {
+  int32 limit_num = 1; //限制数量
+  int32 limit_range = 2; //1-全服 2-个人
+  int32 use_num = 3; //已兑换数量
+  int32 limit_cycle = 4; //每隔一段时间重置 1-每周 2-每月 3-每天 4-不重置
+}
+
+message ConfCompound {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  repeated CompoundAsset success_asset = 4;
+  repeated CompoundFormula compound_formula = 5;
+  repeated FailAsset fail_asset = 6;
+  repeated LimitActData limits = 7;
+}
+
+//合成结构
+message LogCompound {
+  int32 rel_id = 1;
+  int32 compound_id = 2;
+  int64 player_id = 3;
+  repeated CompoundAsset used_asset = 4; //使用物品
+  repeated CompoundAsset compound_asset = 5; //合成出来的物品，无论成败
+  repeated CompoundAsset consume_asset = 6; //消耗物品
+  bool status = 7; //成败
+  int32 rate = 8; //合成的概率
+  int64 created = 9; //合成时间
+  int32 cliRate = 10; //显示概率
+}
+
+message ConfCard {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  int32 conf_draw_card_id = 4; //抽卡配置
+  int32 type = 5; //卡牌类型 1-普通 2-特殊
+  int32 rate = 6; //概率
+  string picture = 7; //图片
+  string tips = 8; //文案 （数组形式）
+}
+
+//抽卡配置
+message ConfDrawCard {
+  int32 id = 1;
+  string name = 2;
+  int32 rel_id = 3;
+  int32 consume_type = 4; //抽卡耗费类型 1-充值
+  int32 consume_num = 5; //耗费数量
+  int32 gain_num = 6;
+  int32 total = 7; //每轮总卡数
+  int32 usable = 8; //最大抽卡数量
+  repeated ConfCard cards = 9; //卡片配置
+  int32 sum_card_rate = 10; //总概率
+}
+
+message UserStintConfig {
+  int32 stint_type = 1; //限制类型 1等级限制 2用户认证 3参与次数限制 4中奖次数限制 5房间限制; 11:组队限制
+  int32 wealth_level = 2; //财富等级
+  int32 operation = 3; //1 and 2 or
+  int32 charm_level = 4; //魅力等级
+  int32 bind_phone = 5; //是否绑定手机 0否 1是
+  int32 verified = 6; //是否实名认证 0否 1是
+  int32 max_participate = 7; //最大参与次数
+  int32 max_winning = 8; //最大中奖次数
+  repeated int64 room_id = 9 [deprecated=true]; //房间列表 废弃
+  int32 cp_type = 10; // 组队限制：1：必须CP组队；2:必须不组队
+}
+
+message ConfUserStint {
+  int32 conf_id = 1; //id
+  string name = 2; //名称
+  int32 young_model = 3; //青少年模式
+  repeated UserStintConfig config_list = 4; //配置列表
+}
+
+message UserStint {
+  int32 act_id = 1;
+  int32 rel_id = 2;
+  int32 conf_id = 3; //配置id
+  ConfUserStint conf_user_stint = 4; //配置
+}
+
+// 夺宝配置
+message ConfTreasure {
+  int32 id = 1;
+  int32 act_id = 2;
+  int32 rel_act_id = 3;
+  string name = 4;
+  int64 duration_time = 5; // 每期夺宝开启时间，单位秒
+  int64 wait_time = 6; // 开奖后，下一期等待时间 0表示立即开启下一期
+  int32 gift_id = 7; // 投注物品id
+  int32 gift_num = 8; // 1注需要投入的物品数量
+}
+
+// 夺宝礼物配置
+message ConfTreasureGift {
+  int32 id = 1;
+  string name = 2;
+  int32 treasure_id = 3;
+  int32 prize_id = 4; // 奖品礼物id
+  int32 gift_max_num = 5; // 奖品产出最大数量
+  int32 pool_size = 6; // 投注池大小，达到这个数字时开奖数
+  int32 player_bet_max_num = 7; // 单人最大投注数量
+  int32 weight = 8; // 权重 最大10000
+  int32 act_id = 9; //活动
+  int32 rel_act_id = 10; //子活动
+}
+
+// 动态表单配置
+message ConfActFormCarrier {
+  int32 id = 1;
+  string name = 2; // 载体名称
+  int32 act_id = 3; // 活动id
+  int32 rel_act_id = 4; // 子活动id
+  int32 form_id = 5; // 表单id
+  int32 verify = 6;   // 是否开启审核，0不开启 1开启
+  int32 status = 7; // 状态 0关闭 1启用
+  int64 start_time = 8;   // 配置开启时间，时间戳
+  int64 end_time = 9;     // 配置结束时间，时间戳
+}
+
+//个人信息卡进度
+message CardProgressReq {
+  int32 activity_id = 1;
+  int32 rel_activity_id = 2;
+  int64 player_id = 3;
+}
+
+message CardGift {
+  int32 task_id = 1;
+  repeated int32 gift_id = 2; //礼物id
+  int64 gift_num = 3; //礼物积分或者数量 按类型区分
+  int64 point = 4; //积分
+}
+
+message CardProgressRes {
+  int64 point_total = 1; //总积分
+  int64 point_extra = 2; //当日获得的额外分数
+  repeated CardGift gift = 3; //
+}
+
+// 活动配置
+enum ActivityConfType {
+    ACT_NONE = 0; //占位
+    ACT_ACTIVITY = 1;
+    ACT_WELFARE = 2; //福利配置
+    ACT_PUZZLE = 3; //拼图配置
+    ACT_LOTTERY = 4; //抽奖配置
+    ACT_VOTE = 5; //投票
+    ACT_CULTIVATE = 6; //养成配置
+    ACT_NEW_AWARD = 7; //新版奖励
+    ACT_GOLD_BACK = 8; //返现配置
+    ACT_COMPOUND = 9; //合成配置
+    ACT_DRAW_CARD = 10; //抽卡配置
+    ACT_LOTTERY2 = 11; //抽奖配置
+    ACT_USER_STINT = 12;//活动用户限制规则
+    ACT_TREASURE_LIST = 13; //夺宝配置列表
+    ACT_TREASURE_GIFT_LIST = 14; //夺宝礼物列表
+    ACT_FORM_CARRIER = 15; //动态表单配置 - 表单载体
+    ACT_SUMMARY_LIST = 16; //盘点配置
+    ACT_SERVER_LOTTERY = 17; //全服抽奖配置
+    ACT_BLIND_LOTTERY = 18; //盲盒抽奖
+    ACT_DEFEND_PETS = 19; // 保卫宠物
+    ACT_DEFEND_PETS_BATTLE = 20; // 保卫宠物对战配置
+    ACT_Exchange = 23; // 兑换
+    ACT_PLAYER_POLY_INFO = 24; // 用户二次关联信息聚合
+    ACT_PLAYER = 26; // 查看个人信息(只用于站内)(默认返回)
+    ACT_CLANINFO = 27; // 公会信息(默认返回)
+    ACT_SERVER_TIMESTAMP = 28; // 服务器时间(默认返回)
+    ACT_CONF_ID_DIG = 29; // 活动配置奖励，特效、礼物等ID聚合
+}
+
+//获取配置
+message GetActivityReq {
+  int32 act_id = 1; //0或者此活动id不存在，则返回所有
+  repeated ActivityConfType confs = 2; // 请求的活动配置 (空数组表示返回所有)
+  int64 player_id = 3; //用户ID
+}
+
+message GetActivityRes {
+  repeated Activity activity = 1;
+  repeated ConfWelfare welfare = 2; //福利配置
+  repeated ConfPuzzle conf_puzzle = 3; //拼图配置
+  repeated ConfLottery lottery = 4; //抽奖配置
+  ConfVote vote = 5; //投票
+  repeated ConfCultivate cultivate = 6; //养成配置
+  ConfNewAward new_award = 7; //新版奖励
+  repeated ConfGoldBack gold_back = 8; //返现配置
+  repeated ConfCompound compound = 9; //合成配置
+  repeated ConfDrawCard draw_card = 10; //抽卡配置
+  repeated ConfLottery lottery2 = 11; //抽奖配置
+  repeated UserStint user_stint = 12; //活动用户限制规则
+  repeated ConfTreasure conf_treasure_list = 13; // 夺宝配置列表
+  repeated ConfTreasureGift conf_treasure_gift_list = 14; // 夺宝礼物列表
+  repeated ConfActFormCarrier conf_act_form_carrier = 15; // 动态表单配置 - 表单载体
+  repeated ConfSummary conf_summary_list = 16; // 盘点配置
+  repeated ConfServerLottery conf_server_lottery = 17; // 全服抽奖配置
+  repeated ConfBlindLottery blind_lottery = 18; //盲盒抽奖
+  repeated ConfDefendPets conf_defend_pets = 19; // 保卫宠物配置
+  repeated ConfPetBattle conf_pet_battle = 20; // 保卫宠物对战配置
+  Player player                          = 21; // 查看个人信息(只用于站内)
+  ClanInfo clan                          = 22;                  // 公会信息
+  ServerTimestamp server_timestamp       = 23;                  // 服务器时间
+}
+
+// 宠物对战配置
+message ConfPetBattle {
+  int32 id = 1; // 宠物配置id
+  int32 act_id = 2;       // 活动ID
+  int32 rel_act_id = 3;   // 子活动Id
+  int32 revenge_rel_act_id = 4; //  复仇关联子活动ID
+  string battle_name = 5; // 战斗配置名称
+  int32 change_pet_cost = 6; // 换宠花费金币
+  int32 battle_cost_item_id = 7; // 体力值消耗物品ID
+  int32 pk_cost_num = 8; // 进行pk消耗物品数量
+  int32 revenge_cost_num = 9; // 进行复仇消耗物品数量
+  int32 revenge_probability = 10; // 复仇成功概率
+}
+
+// 宠物配置
+message ConfDefendPets {
+  int32 id = 1; // 宠物id
+  string name = 2;  // 宠物名字
+  string pet_image = 3;  // 宠物形象
+  string pet_animation = 4; // 宠物属性
+  int32 prop = 5; // 宠物属性(1-水,2-火,3-草)
+  string desc = 6; // 宠物描述
+  string restraint_desc = 7; // 宠物克制信息描述
+}
+
+// 盘点配置
+message ConfSummary {
+  int32 id = 1;   // 盘点配置
+  string name = 2; // 盘点配置名称
+  int32 act_id = 3; // 活动id
+  int32 rel_id = 4; // 子活动id
+  int64 start_time = 5; // 配置开始时间
+  int64 end_time = 6; // 配置结束时间
+  int32 year = 7; // 盘点，统计年份
+}
+
+//房间角标信息
+message ActivityRoomSubInfoReq {
+  int32 activity_id = 1;
+  int32 rel_activity_id = 2;
+}
+
+message ActivityRoomSubInfoRes {
+  int64 sort = 1; //排名
+  int64 num = 2; //积分或完成任务的人数，按需变化
+}
+
+enum ActivityCmdId {//202
+  IC_Activity_None = 0;
+  Activity_Notice = 202101; //活动通知 NoticeActivity
+}
+
+//活动通知
+message NoticeActivity {
+  int32 type = 1; //1-角标积分
+  repeated int32 act_id = 2; //活动id列表  用这些id去请求角标积分
+}
+
+//###########靓号库
+//获取靓号库列表
+message GoodNumListReq {
+  int64 player_id = 1;
+}
+
+message GoodNumListRes {
+  repeated int64 list = 1; //靓号列表
+  int64 used = 2; //使用中的靓号
+  int64 num = 3; //靓号库槽位
+  string player_name = 4; //用户名称
+  string player_icon = 5; //用户头像
+  int64 player_id = 6;     //用户Id
+}
+
+//购买靓号库位置
+message BuyGoodNumSlotReq {
+}
+
+message BuyGoodNumSlotRes {
+}
+
+
+//使用靓号
+message UseGoodNumReq {
+  int64 num = 1;
+}
+
+message UseGoodNumRes {
+}
+
+
+//批量删除靓号
+message DelGoodNumReq {
+  repeated int64 nums = 1; //批量删除靓号
+}
+
+message DelGoodNumRes {
+}
+
+//开启事件宝箱
+message DrawEventRewardBoxReq {
+  int32 act_id = 1;       // 活动id
+  int32 rel_act_id = 2;   // 子活动id
+  int64 room_id = 3;      // 房间id(废弃字段不用传)
+  int32 box_id = 4;       // 宝箱id
+  int32 box_num = 5;      // 宝箱数量
+}
+
+//物品奖励类型
+enum RewardType {
+  RewardTypeNull = 0;  //无
+  RewardTypeGold = 1;  //金币
+  RewardTypeGiftTicket = 2;  //钻石
+  RewardTypeGift = 3;  //礼物
+  RewardTypeGoldPool = 4;  //奖金池
+  RewardTypeGoldEffect = 5;  //特效
+  RewardTypeCronyBackground = 6;  //挚友背景
+  RewardTypeSpecial = 7;  //特殊
+  RewardTypeRedPacket = 8;  //红包
+  RewardTypeRoomBackground = 9;  //房间背景
+  RewardTypeGiftBox = 10; // 宝盒礼物
+}
+
+message EventBoxReward {
+  int32 prize_id = 1; //物品id
+  int32 num = 2; //奖励数量
+  int32 type = 3; //奖励类型
+  string Unit = 4; //单位
+  int32 award_id = 5; //自定义奖励ID，不是活动服奖励，可能该ID为0
+}
+
+message DrawEventRewardBoxRes {
+  repeated EventBoxReward reward_list = 1; //奖励列表
+  int32 cur_hit_times = 2;  //本次开奖点击次数
+  int32 max_hit_times = 3; //本日最高点击次数
+  string max_hit_player_name = 4; //本日最高记录保持者
+  int32 is_new_record = 5;  //是否是新纪录 0否 1是新纪录
+  string desc = 6; //提示文案
+}
+
+//土豪引爆宝箱
+message TriggerEventRewardBoxReq {
+  int32 act_id = 1;       // 活动id
+  int32 rel_act_id = 2;   // 子活动id
+}
+
+//土豪引爆宝箱返回
+message TriggerEventRewardBoxRes {
+  repeated EventBoxReward reward_list = 1; //奖励列表
+}
+
+//全服抽奖信息
+message ConfServerLottery  {
+  int32 act_id = 1;
+  int32 rel_act_id = 2;
+  repeated int32 lottery_id_list = 3; //抽奖id列表
+  int32 lucky_point = 4; //配置的幸运值
+  repeated LotteryAward award_list = 5; //奖品列表
+}
+
+//限时福利配置数据
+message OnTimeWelfareData {
+  int64 conf_id = 1;                //配置福利ID
+  string welfare_name = 2;          //福利昵称
+  string welfare_des = 3;           //福利描述
+  int32  relate_lottery_id = 4;     //关联抽奖ID
+  string ios_pic_url = 5;           //ios背景图地址
+  string android_pic_url = 6;       //android背景图地址
+  string router_url = 7;            //跳转路由
+  string time_color = 8;            //时间颜色
+  int32 begin_time = 9;             //开始时间
+  int32 end_time = 10;               //结束时间
+  int32 is_show_widget = 11;         //是否限时挂件
+  int32 act_id = 12;                 //活动ID
+  int32 rel_act_id = 13;             //子活动ID
+  int32 is_show_router_url = 14;     //是否弹出路由
+}
+
+//获取限时福利配置
+message FindOnTimeWelfareConfReq {
+  int64  conf_id = 1;               //福利配置ID，传0时拉取当前正在进行的配置
+}
+
+//获取限时福利配置
+message FindOnTimeWelfareConfRes {
+  repeated OnTimeWelfareData conf_list = 1; //限时福利
+}
+
+//定时在线福利开启推送 cmdId=101045
+message OnTimeWelfareStart {
+  OnTimeWelfareData start_conf = 1; //在线福利配置ID
+}
+//周年金蟾小游戏点击请求
+message PlayAnnualGameReq {
+  int32 act_id = 1;       // 活动ID
+  int32 rel_act_id = 2;   // 子活动Id
+  int32 box_id = 3;       // 宝箱id
+  int32 hit_times = 4;    // 点击次数
+  int32 is_over = 5;      // 是否是最后一次点击 0不是 1是
+}
+
+//周年金蟾小游戏点击返回
+message PlayAnnualGameRes {
+
+}
+
+message CardTask {
+  int32 task_id = 1; // 任务Id
+  string task_name = 2; //任务名称（5个字以内）
+  int32 progress = 3; // 进度
+  int32 total = 4; // 任务上限
+}
+
+// 获取个人名片任务栏数据
+message ListCardTaskReq {
+  int64 player_id = 1; 
+}
+
+message ListCardTaskRes {
+  repeated CardTask tasks = 1; //任务数据
+  int64 score = 2; // 任务总积分
+  string entry_url = 3; // 活动入口地址
+  bool is_show = 4; // 是否显示名片任务栏数据
+  string title = 5; // 顶部文案
+}
+
+message CpPlayerInfo {
+  int64 id = 1;
+  int64 id2 = 2;
+  string name = 3;
+  string icon = 4;
+}
+
+// 获取告白位数据
+message FindCpPublicNoticeReq {
+
+}
+
+message FindCpPublicNoticeRes {
+  repeated CpPlayerInfo players = 1;
+  int64 countdown = 2; //倒计时结束的时间戳(秒) （虚位以待或者活动结束，countdown都为0）
+  string countdown_color = 3; //倒计时颜色值
+  string bg_url = 4; // 背景资源
+  string pc_bg_url = 5; // PC背景资源
+  CpPublicNoticeStatus status = 6; // 当前状态 1-有CP数据；2-虚位以待；3-活动结束不显示图标
+}
+
+//检查赏金任务是否有更新
+message CheckPromoterRecallUpdateReq {
+
+}
+
+message CheckPromoterRecallUpdateRes {
+  int32 new_task_num = 1; // 新分配的任务数量 （不为0时，显示新任务数，否则显示正在进行任务数）
+  int32 current_task_num = 2; // 当前正在进行的任务数量
+}

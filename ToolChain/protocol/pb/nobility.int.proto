@@ -1,0 +1,200 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/nobility.ext.proto";
+import "pb/common.ext.proto";
+
+message GetPlayerPrivilegesReq {
+    int64          player_id     = 1;
+    repeated int32 privilege_ids = 2; // 特权ID，0 返回所有
+}
+
+message GetPlayerPrivilegesRes {
+    map<int32, NobilityPrivilege> privilege = 1; // 特权配置key = PrivilegeType
+    PlayerNobilityInfoInt player_nobility = 2;
+    MaskInfo mask_info = 3;
+}
+
+message PlayerNobilityInfoInt {
+    int64 player_id = 1;
+    int32 nobility_id = 2;
+    int64 create_at = 3;
+    int32 level = 4;
+    string nobility_name = 5;
+}
+
+enum CheckNobilityResult {
+    CNR_Null = 0;
+    CNR_Greater = 1; // >
+    CNR_Equal   = 2; // =
+    CNR_Lesser  = 3; // <
+}
+
+message CheckNobilityLevelReq {
+    int64 player_id = 1;
+    int32 nobility_id = 2;
+}
+
+message CheckNobilityLevelRes {
+    CheckNobilityResult result = 1;
+}
+
+message GetMaskReq {
+    int64 player_id = 1;
+}
+message GetMaskRes {
+    MaskInfo mask_info = 1;
+}
+
+message NoticeBuyNobilityReq {
+    int32           nobility_id = 1; // 爵位ID
+    BuyNobilityType buy_type    = 2; // 购买类型
+    PayNobilityType pay_type    = 3; // 支付类型
+    int64           player_id   = 4; // 用户ID
+    int64           gold        = 5; // 返回金币数
+    int64           amount      = 6; // 消耗金币，人名币
+    int32           price_id    = 7; // 价格ID
+    int64           room_id     = 8; // 受益房间ID
+    string          order_id    = 9; // 内部订单ID
+    string          order_3_id  = 10;// 第三方订单ID
+    int64           benefit_id  = 11; // 受益人ID
+
+    string          create_at   = 13; // 支付时间
+    int64           coupon_id   = 14; // 优惠券ID
+    string          ip          = 15; // IP
+    string          area        = 16; // 地区
+    string          device_id   = 17; // 设备ID
+    string          application = 18; // 应用
+}
+message NoticeBuyNobilityRes {
+
+}
+
+message CheckOrderReq {
+    int64 player_id = 1; // 用户ID
+    int64 gold = 2; // 充值金额
+    map<string, string> extends = 3;
+    string order_id = 4; // 订单ID
+}
+
+message CheckOrderRes {
+    int64 player_id = 1; // 用户ID
+    int64 gold = 2; // 充值金额
+    map<string, string> extends = 3;
+}
+
+// 请求防跟踪进房设置
+message IntFollowToRoomReq {
+    int64 player_id = 1;
+}
+message IntFollowToRoomRes {
+    bool ban_follow_me = 1; // true 则开启防跟踪踩房
+    bool friend_follow = 2; // true 则我的好友可以跟踪踩房
+}
+
+message PrivilegeMoreDealFriendExtra {
+    int32 more_intimate_slot = 1;    //特权增加可开通的挚友槽位数
+}
+
+message GetRoomRankMasksReq {
+    int64 room_id = 1;              //房间id
+    repeated int64 player_ids = 2;   //榜单人员id
+}
+message GetRoomRankMasksRes {
+    repeated MaskInfo masks = 1;    //需要显示马甲的列表
+}
+
+enum IssueNobilityType {
+    INT_Null = 0;
+    INT_Issue = 1; // 发放
+    INT_Cancel = 2; // 删除
+}
+
+message IssueNobilityReq {
+    int64 player_id = 1; // 用户ID
+    int32 nobility_id = 2; // 爵位ID
+    int32 days = 3; // 续期多少天
+    IssueNobilityType opt_type = 4; // 操作
+    string operator = 5;
+    string remark = 6;
+    int32  status = 7; // 1 已过期，2 使用中，3 取消发放
+    int32  sql_id= 8;
+}
+message IssueNobilityRes {
+
+}
+
+enum TimerOptNobilityType {
+    TONT_Update = 0;
+    TONT_WillEndProtect = 1; // 将过保护期
+    TONT_WillEndValid = 2; // 将过有效期
+    TONT_EndValidNotice = 3; // 过有效期通知
+    TONT_EndValidUpdate = 4; // 更新爵位
+    TONT_AddHallTotalDays = 5; // 更新名人堂累计天数
+}
+
+message TimerNobilityReq {
+    int64 player_id = 1;
+    TimerOptNobilityType opt_type = 2;
+}
+message TimerNobilityRes {
+
+}
+
+message GetPlayerNobilityInfoReq {
+    int64 player_id = 1;
+}
+message GetPlayerNobilityInfoRes {
+    PlayerNobilityInfo player_nobility = 1;
+}
+
+message VipBuyNobilityReq {
+    int64 player_id = 1;
+    int64 price_cmb = 2;
+    int64 room_id = 3;
+    int64 benefit_id = 4;
+    string create_at = 5; // 支付时间
+    string order_id = 6; // 内部订单ID
+    string order_3_id = 7; // 银行交易ID
+}
+message VipBuyNobilityRes {
+
+}
+
+message GetNobilityConfSingleReq {
+    int32 nobility_id = 1;  // 爵位ID
+}
+
+message GetNobilityConfSingleRes {
+    NobilityConf nobility = 1; // 爵位配置
+}
+
+service NobilityIntObj {
+    // 获取配置
+    rpc GetNobilityConf(GetNobilityConfReq) returns (GetNobilityConfRes);
+    // 获取用户特权
+    rpc GetPlayerPrivileges(GetPlayerPrivilegesReq) returns (GetPlayerPrivilegesRes);
+    // 比较个人爵位等级
+    rpc CheckNobilityLevel(CheckNobilityLevelReq) returns (CheckNobilityLevelRes);
+    // 获取马甲信息
+    rpc GetMask(GetMaskReq) returns (GetMaskRes);
+    // 微信支付宝购买爵位
+    rpc NoticeBuyNobility(NoticeBuyNobilityReq) returns (NoticeBuyNobilityRes);
+    // 检查订单
+    rpc CheckOrder(CheckOrderReq) returns (CheckOrderRes);
+    // 请求防跟踪进房设置
+    rpc IntFollowToRoom (IntFollowToRoomReq) returns (IntFollowToRoomRes);
+    // 获取房间排行榜马甲
+    rpc GetRoomRankMasks (GetRoomRankMasksReq) returns (GetRoomRankMasksRes);
+    // 爵位发放
+    rpc IssueNobility (IssueNobilityReq) returns (IssueNobilityRes);
+    // 定时任务更新爵位
+    rpc TimerNobility (TimerNobilityReq) returns (TimerNobilityRes);
+    // 获取个人爵位信息
+    rpc GetPlayerNobilityInfo (GetPlayerNobilityInfoReq) returns (GetPlayerNobilityInfoRes);
+    // 招行大额购买爵位
+    rpc VipBuyNobility(VipBuyNobilityReq) returns (VipBuyNobilityRes);
+    // 获取单个爵位配置
+    rpc GetNobilityConfSingle(GetNobilityConfSingleReq) returns (GetNobilityConfSingleRes);
+}

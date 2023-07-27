@@ -27,267 +27,267 @@
 
 CF_EXTERN_C_BEGIN
 
-@class PB4ExtraInfo;
-@class PB4PAuthInfo;
-@class PB4TrendTag;
-@class PB4VideoButton;
-@class PB4VideoContentTop;
-@class PB4VideoInfo;
-GPB_ENUM_FWD_DECLARE(PB4PluginSexType);
-GPB_ENUM_FWD_DECLARE(PB4VideoRecmdSource);
+@class PB3ExtraInfo;
+@class PB3PAuthInfo;
+@class PB3TrendTag;
+@class PB3VideoButton;
+@class PB3VideoContentTop;
+@class PB3VideoInfo;
+GPB_ENUM_FWD_DECLARE(PB3PluginSexType);
+GPB_ENUM_FWD_DECLARE(PB3VideoRecmdSource);
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Enum PB4VideoCmdId
+#pragma mark - Enum PB3VideoCmdId
 
 /** 广播cmdId定义 // 304 */
-typedef GPB_ENUM(PB4VideoCmdId) {
+typedef GPB_ENUM(PB3VideoCmdId) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoCmdId_IcVideoZero = 0,
+  PB3VideoCmdId_IcVideoZero = 0,
 };
 
-GPBEnumDescriptor *PB4VideoCmdId_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoCmdId_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoCmdId_IsValidValue(int32_t value);
+BOOL PB3VideoCmdId_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoGetType
+#pragma mark - Enum PB3VideoGetType
 
 /** 获取类型 */
-typedef GPB_ENUM(PB4VideoGetType) {
+typedef GPB_ENUM(PB3VideoGetType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoGetType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoGetType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoGetType_VgtZero = 0,
+  PB3VideoGetType_VgtZero = 0,
 
   /** 进app后首次拉取 */
-  PB4VideoGetType_VgtFirst = 1,
+  PB3VideoGetType_VgtFirst = 1,
 };
 
-GPBEnumDescriptor *PB4VideoGetType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoGetType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoGetType_IsValidValue(int32_t value);
+BOOL PB3VideoGetType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4EIButtonType
+#pragma mark - Enum PB3EIButtonType
 
-typedef GPB_ENUM(PB4EIButtonType) {
+typedef GPB_ENUM(PB3EIButtonType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4EIButtonType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3EIButtonType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4EIButtonType_EibtZero = 0,
+  PB3EIButtonType_EibtZero = 0,
 
   /** 互动按钮 */
-  PB4EIButtonType_EibtSkill = 1,
+  PB3EIButtonType_EibtSkill = 1,
 
   /** 聊一聊按钮 */
-  PB4EIButtonType_EibtChat = 2,
+  PB3EIButtonType_EibtChat = 2,
 
   /** 撩TA */
-  PB4EIButtonType_EibtLiaoTa = 3,
+  PB3EIButtonType_EibtLiaoTa = 3,
 
   /** 真心话 */
-  PB4EIButtonType_EibtZhenxinhua = 4,
+  PB3EIButtonType_EibtZhenxinhua = 4,
 
   /**  CP约会 */
-  PB4EIButtonType_EibtCpYuehui = 5,
+  PB3EIButtonType_EibtCpYuehui = 5,
 };
 
-GPBEnumDescriptor *PB4EIButtonType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3EIButtonType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4EIButtonType_IsValidValue(int32_t value);
+BOOL PB3EIButtonType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoPlayerStatus
+#pragma mark - Enum PB3VideoPlayerStatus
 
-typedef GPB_ENUM(PB4VideoPlayerStatus) {
+typedef GPB_ENUM(PB3VideoPlayerStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoPlayerStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoPlayerStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoPlayerStatus_VpsZero = 0,
+  PB3VideoPlayerStatus_VpsZero = 0,
 
   /** 不在房 */
-  PB4VideoPlayerStatus_VpsOutRoom = 1,
+  PB3VideoPlayerStatus_VpsOutRoom = 1,
 
   /** 在房 */
-  PB4VideoPlayerStatus_VpsInRoom = 2,
+  PB3VideoPlayerStatus_VpsInRoom = 2,
 
   /** 在麦上 */
-  PB4VideoPlayerStatus_VpsOnChair = 3,
+  PB3VideoPlayerStatus_VpsOnChair = 3,
 
   /** 在唱歌 */
-  PB4VideoPlayerStatus_VpsSinging = 4,
+  PB3VideoPlayerStatus_VpsSinging = 4,
 };
 
-GPBEnumDescriptor *PB4VideoPlayerStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoPlayerStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoPlayerStatus_IsValidValue(int32_t value);
+BOOL PB3VideoPlayerStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoCTopType
+#pragma mark - Enum PB3VideoCTopType
 
-typedef GPB_ENUM(PB4VideoCTopType) {
+typedef GPB_ENUM(PB3VideoCTopType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoCTopType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoCTopType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoCTopType_VctZero = 0,
+  PB3VideoCTopType_VctZero = 0,
 
   /** 活动 */
-  PB4VideoCTopType_VctActivity = 1,
+  PB3VideoCTopType_VctActivity = 1,
 
   /** 同城 */
-  PB4VideoCTopType_VctSameCity = 2,
+  PB3VideoCTopType_VctSameCity = 2,
 
   /** 你关注的人 */
-  PB4VideoCTopType_VctFallow = 3,
+  PB3VideoCTopType_VctFallow = 3,
 };
 
-GPBEnumDescriptor *PB4VideoCTopType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoCTopType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoCTopType_IsValidValue(int32_t value);
+BOOL PB3VideoCTopType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoRecReason
+#pragma mark - Enum PB3VideoRecReason
 
 /** 视频推荐原因 */
-typedef GPB_ENUM(PB4VideoRecReason) {
+typedef GPB_ENUM(PB3VideoRecReason) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoRecReason_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoRecReason_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoRecReason_VrrZero = 0,
+  PB3VideoRecReason_VrrZero = 0,
 
   /** 附近的人 */
-  PB4VideoRecReason_VrrNearby = 1,
+  PB3VideoRecReason_VrrNearby = 1,
 
   /** 关注的人 */
-  PB4VideoRecReason_VrrFocus = 2,
+  PB3VideoRecReason_VrrFocus = 2,
 
   /** 精选 */
-  PB4VideoRecReason_VrrGood = 4,
+  PB3VideoRecReason_VrrGood = 4,
 
   /** 运营位置 置顶 */
-  PB4VideoRecReason_VrrTop = 3,
+  PB3VideoRecReason_VrrTop = 3,
 
   /** 标签内容库 */
-  PB4VideoRecReason_VrrLabel = 5,
+  PB3VideoRecReason_VrrLabel = 5,
 };
 
-GPBEnumDescriptor *PB4VideoRecReason_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoRecReason_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoRecReason_IsValidValue(int32_t value);
+BOOL PB3VideoRecReason_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoButtonType
+#pragma mark - Enum PB3VideoButtonType
 
-typedef GPB_ENUM(PB4VideoButtonType) {
+typedef GPB_ENUM(PB3VideoButtonType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoButtonType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoButtonType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoButtonType_VbtZero = 0,
+  PB3VideoButtonType_VbtZero = 0,
 
   /** 互动 */
-  PB4VideoButtonType_VbtInteraction = 1,
+  PB3VideoButtonType_VbtInteraction = 1,
 
   /** 技能点单 */
-  PB4VideoButtonType_VbtBill = 2,
+  PB3VideoButtonType_VbtBill = 2,
 
   /** 私聊 */
-  PB4VideoButtonType_VbtIm = 3,
+  PB3VideoButtonType_VbtIm = 3,
 };
 
-GPBEnumDescriptor *PB4VideoButtonType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoButtonType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoButtonType_IsValidValue(int32_t value);
+BOOL PB3VideoButtonType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoOptType
+#pragma mark - Enum PB3VideoOptType
 
-typedef GPB_ENUM(PB4VideoOptType) {
+typedef GPB_ENUM(PB3VideoOptType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoOptType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoOptType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoOptType_VotZero = 0,
+  PB3VideoOptType_VotZero = 0,
 
   /** 开始 */
-  PB4VideoOptType_VotStart = 1,
+  PB3VideoOptType_VotStart = 1,
 
   /** 播完了某个视频 */
-  PB4VideoOptType_VotComplete = 2,
+  PB3VideoOptType_VotComplete = 2,
 
   /** 停止 */
-  PB4VideoOptType_VotStop = 3,
+  PB3VideoOptType_VotStop = 3,
 
   /** 不感兴趣 */
-  PB4VideoOptType_VotUninterested = 4,
+  PB3VideoOptType_VotUninterested = 4,
 
   /** 加载完封面 */
-  PB4VideoOptType_VotCover = 5,
+  PB3VideoOptType_VotCover = 5,
 };
 
-GPBEnumDescriptor *PB4VideoOptType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoOptType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoOptType_IsValidValue(int32_t value);
+BOOL PB3VideoOptType_IsValidValue(int32_t value);
 
-#pragma mark - PB4VideoExtRoot
+#pragma mark - PB3VideoExtRoot
 
 /**
  * Exposes the extension registry for this file.
@@ -299,22 +299,22 @@ BOOL PB4VideoOptType_IsValidValue(int32_t value);
  * which is a @c GPBExtensionRegistry that includes all the extensions defined by
  * this file and all files that it depends on.
  **/
-@interface PB4VideoExtRoot : GPBRootObject
+@interface PB3VideoExtRoot : GPBRootObject
 @end
 
-#pragma mark - PB4VideoReq
+#pragma mark - PB3VideoReq
 
-typedef GPB_ENUM(PB4VideoReq_FieldNumber) {
-  PB4VideoReq_FieldNumber_GetType = 1,
-  PB4VideoReq_FieldNumber_LastTrendId = 2,
-  PB4VideoReq_FieldNumber_LastIdsArray = 3,
-  PB4VideoReq_FieldNumber_LastIndex = 4,
+typedef GPB_ENUM(PB3VideoReq_FieldNumber) {
+  PB3VideoReq_FieldNumber_GetType = 1,
+  PB3VideoReq_FieldNumber_LastTrendId = 2,
+  PB3VideoReq_FieldNumber_LastIdsArray = 3,
+  PB3VideoReq_FieldNumber_LastIndex = 4,
 };
 
-@interface PB4VideoReq : GPBMessage
+@interface PB3VideoReq : GPBMessage
 
 /** 拉取类型 */
-@property(nonatomic, readwrite) PB4VideoGetType getType;
+@property(nonatomic, readwrite) PB3VideoGetType getType;
 
 /** 最后一条视频动态ID */
 @property(nonatomic, readwrite) int64_t lastTrendId;
@@ -330,28 +330,28 @@ typedef GPB_ENUM(PB4VideoReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoReq's @c getType property, even
+ * Fetches the raw value of a @c PB3VideoReq's @c getType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoReq_GetType_RawValue(PB4VideoReq *message);
+int32_t PB3VideoReq_GetType_RawValue(PB3VideoReq *message);
 /**
- * Sets the raw value of an @c PB4VideoReq's @c getType property, allowing
+ * Sets the raw value of an @c PB3VideoReq's @c getType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoReq_GetType_RawValue(PB4VideoReq *message, int32_t value);
+void SetPB3VideoReq_GetType_RawValue(PB3VideoReq *message, int32_t value);
 
-#pragma mark - PB4VideoRes
+#pragma mark - PB3VideoRes
 
-typedef GPB_ENUM(PB4VideoRes_FieldNumber) {
-  PB4VideoRes_FieldNumber_InfosArray = 1,
-  PB4VideoRes_FieldNumber_PreloadIdxArray = 2,
+typedef GPB_ENUM(PB3VideoRes_FieldNumber) {
+  PB3VideoRes_FieldNumber_InfosArray = 1,
+  PB3VideoRes_FieldNumber_PreloadIdxArray = 2,
 };
 
-@interface PB4VideoRes : GPBMessage
+@interface PB3VideoRes : GPBMessage
 
 /** 视频信息 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4VideoInfo*> *infosArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3VideoInfo*> *infosArray;
 /** The number of items in @c infosArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger infosArray_Count;
 
@@ -362,37 +362,37 @@ typedef GPB_ENUM(PB4VideoRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4VideoInfo
+#pragma mark - PB3VideoInfo
 
-typedef GPB_ENUM(PB4VideoInfo_FieldNumber) {
-  PB4VideoInfo_FieldNumber_TrendId = 1,
-  PB4VideoInfo_FieldNumber_PlayerId = 2,
-  PB4VideoInfo_FieldNumber_Name = 3,
-  PB4VideoInfo_FieldNumber_Sex = 4,
-  PB4VideoInfo_FieldNumber_Icon = 5,
-  PB4VideoInfo_FieldNumber_VideoURL = 6,
-  PB4VideoInfo_FieldNumber_LikeNum = 7,
-  PB4VideoInfo_FieldNumber_CommentNum = 8,
-  PB4VideoInfo_FieldNumber_Content = 9,
-  PB4VideoInfo_FieldNumber_TagsArray = 10,
-  PB4VideoInfo_FieldNumber_IsGaveLike = 11,
-  PB4VideoInfo_FieldNumber_CoverURL = 12,
-  PB4VideoInfo_FieldNumber_VideoWidth = 13,
-  PB4VideoInfo_FieldNumber_VideoHeight = 14,
-  PB4VideoInfo_FieldNumber_SkillId = 15,
-  PB4VideoInfo_FieldNumber_IaId = 16,
-  PB4VideoInfo_FieldNumber_ActivityId = 17,
-  PB4VideoInfo_FieldNumber_SourceId = 18,
-  PB4VideoInfo_FieldNumber_From = 19,
-  PB4VideoInfo_FieldNumber_Quality = 20,
-  PB4VideoInfo_FieldNumber_LabelId = 21,
-  PB4VideoInfo_FieldNumber_RecmdSource = 22,
-  PB4VideoInfo_FieldNumber_RecmdSourceId = 23,
-  PB4VideoInfo_FieldNumber_TraceInfo = 24,
-  PB4VideoInfo_FieldNumber_AuthInfoListArray = 25,
+typedef GPB_ENUM(PB3VideoInfo_FieldNumber) {
+  PB3VideoInfo_FieldNumber_TrendId = 1,
+  PB3VideoInfo_FieldNumber_PlayerId = 2,
+  PB3VideoInfo_FieldNumber_Name = 3,
+  PB3VideoInfo_FieldNumber_Sex = 4,
+  PB3VideoInfo_FieldNumber_Icon = 5,
+  PB3VideoInfo_FieldNumber_VideoURL = 6,
+  PB3VideoInfo_FieldNumber_LikeNum = 7,
+  PB3VideoInfo_FieldNumber_CommentNum = 8,
+  PB3VideoInfo_FieldNumber_Content = 9,
+  PB3VideoInfo_FieldNumber_TagsArray = 10,
+  PB3VideoInfo_FieldNumber_IsGaveLike = 11,
+  PB3VideoInfo_FieldNumber_CoverURL = 12,
+  PB3VideoInfo_FieldNumber_VideoWidth = 13,
+  PB3VideoInfo_FieldNumber_VideoHeight = 14,
+  PB3VideoInfo_FieldNumber_SkillId = 15,
+  PB3VideoInfo_FieldNumber_IaId = 16,
+  PB3VideoInfo_FieldNumber_ActivityId = 17,
+  PB3VideoInfo_FieldNumber_SourceId = 18,
+  PB3VideoInfo_FieldNumber_From = 19,
+  PB3VideoInfo_FieldNumber_Quality = 20,
+  PB3VideoInfo_FieldNumber_LabelId = 21,
+  PB3VideoInfo_FieldNumber_RecmdSource = 22,
+  PB3VideoInfo_FieldNumber_RecmdSourceId = 23,
+  PB3VideoInfo_FieldNumber_TraceInfo = 24,
+  PB3VideoInfo_FieldNumber_AuthInfoListArray = 25,
 };
 
-@interface PB4VideoInfo : GPBMessage
+@interface PB3VideoInfo : GPBMessage
 
 /** 视频ID */
 @property(nonatomic, readwrite) int64_t trendId;
@@ -403,7 +403,7 @@ typedef GPB_ENUM(PB4VideoInfo_FieldNumber) {
 /** 玩家昵称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 /** 玩家头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
@@ -421,7 +421,7 @@ typedef GPB_ENUM(PB4VideoInfo_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *content;
 
 /** 标签 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendTag*> *tagsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendTag*> *tagsArray;
 /** The number of items in @c tagsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
 
@@ -459,7 +459,7 @@ typedef GPB_ENUM(PB4VideoInfo_FieldNumber) {
 @property(nonatomic, readwrite) int32_t labelId;
 
 /** 视频推荐来源 */
-@property(nonatomic, readwrite) enum PB4VideoRecmdSource recmdSource;
+@property(nonatomic, readwrite) enum PB3VideoRecmdSource recmdSource;
 
 /** 算法ID */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *recmdSourceId;
@@ -468,49 +468,49 @@ typedef GPB_ENUM(PB4VideoInfo_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *traceInfo;
 
 /** 认证信息 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PAuthInfo*> *authInfoListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PAuthInfo*> *authInfoListArray;
 /** The number of items in @c authInfoListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger authInfoListArray_Count;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoInfo's @c sex property, even
+ * Fetches the raw value of a @c PB3VideoInfo's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoInfo_Sex_RawValue(PB4VideoInfo *message);
+int32_t PB3VideoInfo_Sex_RawValue(PB3VideoInfo *message);
 /**
- * Sets the raw value of an @c PB4VideoInfo's @c sex property, allowing
+ * Sets the raw value of an @c PB3VideoInfo's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoInfo_Sex_RawValue(PB4VideoInfo *message, int32_t value);
+void SetPB3VideoInfo_Sex_RawValue(PB3VideoInfo *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4VideoInfo's @c recmdSource property, even
+ * Fetches the raw value of a @c PB3VideoInfo's @c recmdSource property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoInfo_RecmdSource_RawValue(PB4VideoInfo *message);
+int32_t PB3VideoInfo_RecmdSource_RawValue(PB3VideoInfo *message);
 /**
- * Sets the raw value of an @c PB4VideoInfo's @c recmdSource property, allowing
+ * Sets the raw value of an @c PB3VideoInfo's @c recmdSource property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoInfo_RecmdSource_RawValue(PB4VideoInfo *message, int32_t value);
+void SetPB3VideoInfo_RecmdSource_RawValue(PB3VideoInfo *message, int32_t value);
 
-#pragma mark - PB4VideoPlayerReq
+#pragma mark - PB3VideoPlayerReq
 
-typedef GPB_ENUM(PB4VideoPlayerReq_FieldNumber) {
-  PB4VideoPlayerReq_FieldNumber_TrendId = 1,
-  PB4VideoPlayerReq_FieldNumber_From = 2,
-  PB4VideoPlayerReq_FieldNumber_Quality = 3,
-  PB4VideoPlayerReq_FieldNumber_LabelId = 4,
+typedef GPB_ENUM(PB3VideoPlayerReq_FieldNumber) {
+  PB3VideoPlayerReq_FieldNumber_TrendId = 1,
+  PB3VideoPlayerReq_FieldNumber_From = 2,
+  PB3VideoPlayerReq_FieldNumber_Quality = 3,
+  PB3VideoPlayerReq_FieldNumber_LabelId = 4,
 };
 
 /**
  * 视频玩家信息
  **/
-@interface PB4VideoPlayerReq : GPBMessage
+@interface PB3VideoPlayerReq : GPBMessage
 
 /** 视频ID */
 @property(nonatomic, readwrite) int64_t trendId;
@@ -526,86 +526,86 @@ typedef GPB_ENUM(PB4VideoPlayerReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4VideoPlayerRes
+#pragma mark - PB3VideoPlayerRes
 
-typedef GPB_ENUM(PB4VideoPlayerRes_FieldNumber) {
-  PB4VideoPlayerRes_FieldNumber_ContentTop = 1,
-  PB4VideoPlayerRes_FieldNumber_Button = 2,
-  PB4VideoPlayerRes_FieldNumber_Status = 3,
-  PB4VideoPlayerRes_FieldNumber_RoomId = 4,
-  PB4VideoPlayerRes_FieldNumber_RecReason = 5,
-  PB4VideoPlayerRes_FieldNumber_ExtraInfoBtn = 6,
+typedef GPB_ENUM(PB3VideoPlayerRes_FieldNumber) {
+  PB3VideoPlayerRes_FieldNumber_ContentTop = 1,
+  PB3VideoPlayerRes_FieldNumber_Button = 2,
+  PB3VideoPlayerRes_FieldNumber_Status = 3,
+  PB3VideoPlayerRes_FieldNumber_RoomId = 4,
+  PB3VideoPlayerRes_FieldNumber_RecReason = 5,
+  PB3VideoPlayerRes_FieldNumber_ExtraInfoBtn = 6,
 };
 
-@interface PB4VideoPlayerRes : GPBMessage
+@interface PB3VideoPlayerRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4VideoContentTop *contentTop;
+@property(nonatomic, readwrite, strong, null_resettable) PB3VideoContentTop *contentTop;
 /** Test to see if @c contentTop has been set. */
 @property(nonatomic, readwrite) BOOL hasContentTop;
 
 /** 底部按钮 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4VideoButton *button;
+@property(nonatomic, readwrite, strong, null_resettable) PB3VideoButton *button;
 /** Test to see if @c button has been set. */
 @property(nonatomic, readwrite) BOOL hasButton;
 
-@property(nonatomic, readwrite) PB4VideoPlayerStatus status;
+@property(nonatomic, readwrite) PB3VideoPlayerStatus status;
 
 /** 玩家所在房间id */
 @property(nonatomic, readwrite) int64_t roomId;
 
 /** 推荐原因 */
-@property(nonatomic, readwrite) PB4VideoRecReason recReason;
+@property(nonatomic, readwrite) PB3VideoRecReason recReason;
 
 /** 新按钮 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4ExtraInfo *extraInfoBtn;
+@property(nonatomic, readwrite, strong, null_resettable) PB3ExtraInfo *extraInfoBtn;
 /** Test to see if @c extraInfoBtn has been set. */
 @property(nonatomic, readwrite) BOOL hasExtraInfoBtn;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoPlayerRes's @c status property, even
+ * Fetches the raw value of a @c PB3VideoPlayerRes's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoPlayerRes_Status_RawValue(PB4VideoPlayerRes *message);
+int32_t PB3VideoPlayerRes_Status_RawValue(PB3VideoPlayerRes *message);
 /**
- * Sets the raw value of an @c PB4VideoPlayerRes's @c status property, allowing
+ * Sets the raw value of an @c PB3VideoPlayerRes's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoPlayerRes_Status_RawValue(PB4VideoPlayerRes *message, int32_t value);
+void SetPB3VideoPlayerRes_Status_RawValue(PB3VideoPlayerRes *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4VideoPlayerRes's @c recReason property, even
+ * Fetches the raw value of a @c PB3VideoPlayerRes's @c recReason property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoPlayerRes_RecReason_RawValue(PB4VideoPlayerRes *message);
+int32_t PB3VideoPlayerRes_RecReason_RawValue(PB3VideoPlayerRes *message);
 /**
- * Sets the raw value of an @c PB4VideoPlayerRes's @c recReason property, allowing
+ * Sets the raw value of an @c PB3VideoPlayerRes's @c recReason property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoPlayerRes_RecReason_RawValue(PB4VideoPlayerRes *message, int32_t value);
+void SetPB3VideoPlayerRes_RecReason_RawValue(PB3VideoPlayerRes *message, int32_t value);
 
-#pragma mark - PB4ExtraInfo
+#pragma mark - PB3ExtraInfo
 
-typedef GPB_ENUM(PB4ExtraInfo_FieldNumber) {
-  PB4ExtraInfo_FieldNumber_ButtonType = 1,
-  PB4ExtraInfo_FieldNumber_ButtonIcon = 2,
-  PB4ExtraInfo_FieldNumber_ButtonContent = 3,
-  PB4ExtraInfo_FieldNumber_Icon = 4,
-  PB4ExtraInfo_FieldNumber_Content = 5,
-  PB4ExtraInfo_FieldNumber_OrderNum = 6,
-  PB4ExtraInfo_FieldNumber_SkillInfo = 7,
-  PB4ExtraInfo_FieldNumber_ExpireTime = 8,
-  PB4ExtraInfo_FieldNumber_JumpURL = 9,
-  PB4ExtraInfo_FieldNumber_Price = 10,
+typedef GPB_ENUM(PB3ExtraInfo_FieldNumber) {
+  PB3ExtraInfo_FieldNumber_ButtonType = 1,
+  PB3ExtraInfo_FieldNumber_ButtonIcon = 2,
+  PB3ExtraInfo_FieldNumber_ButtonContent = 3,
+  PB3ExtraInfo_FieldNumber_Icon = 4,
+  PB3ExtraInfo_FieldNumber_Content = 5,
+  PB3ExtraInfo_FieldNumber_OrderNum = 6,
+  PB3ExtraInfo_FieldNumber_SkillInfo = 7,
+  PB3ExtraInfo_FieldNumber_ExpireTime = 8,
+  PB3ExtraInfo_FieldNumber_JumpURL = 9,
+  PB3ExtraInfo_FieldNumber_Price = 10,
 };
 
-@interface PB4ExtraInfo : GPBMessage
+@interface PB3ExtraInfo : GPBMessage
 
 /** 按钮类型 */
-@property(nonatomic, readwrite) PB4EIButtonType buttonType;
+@property(nonatomic, readwrite) PB3EIButtonType buttonType;
 
 /** 按钮图标 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *buttonIcon;
@@ -637,30 +637,30 @@ typedef GPB_ENUM(PB4ExtraInfo_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4ExtraInfo's @c buttonType property, even
+ * Fetches the raw value of a @c PB3ExtraInfo's @c buttonType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ExtraInfo_ButtonType_RawValue(PB4ExtraInfo *message);
+int32_t PB3ExtraInfo_ButtonType_RawValue(PB3ExtraInfo *message);
 /**
- * Sets the raw value of an @c PB4ExtraInfo's @c buttonType property, allowing
+ * Sets the raw value of an @c PB3ExtraInfo's @c buttonType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ExtraInfo_ButtonType_RawValue(PB4ExtraInfo *message, int32_t value);
+void SetPB3ExtraInfo_ButtonType_RawValue(PB3ExtraInfo *message, int32_t value);
 
-#pragma mark - PB4VideoContentTop
+#pragma mark - PB3VideoContentTop
 
-typedef GPB_ENUM(PB4VideoContentTop_FieldNumber) {
-  PB4VideoContentTop_FieldNumber_CtType = 1,
-  PB4VideoContentTop_FieldNumber_Icon = 2,
-  PB4VideoContentTop_FieldNumber_Text = 3,
-  PB4VideoContentTop_FieldNumber_JumpURL = 4,
+typedef GPB_ENUM(PB3VideoContentTop_FieldNumber) {
+  PB3VideoContentTop_FieldNumber_CtType = 1,
+  PB3VideoContentTop_FieldNumber_Icon = 2,
+  PB3VideoContentTop_FieldNumber_Text = 3,
+  PB3VideoContentTop_FieldNumber_JumpURL = 4,
 };
 
-@interface PB4VideoContentTop : GPBMessage
+@interface PB3VideoContentTop : GPBMessage
 
 /** l类型 */
-@property(nonatomic, readwrite) PB4VideoCTopType ctType;
+@property(nonatomic, readwrite) PB3VideoCTopType ctType;
 
 /** icon，可能没有 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
@@ -674,31 +674,31 @@ typedef GPB_ENUM(PB4VideoContentTop_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoContentTop's @c ctType property, even
+ * Fetches the raw value of a @c PB3VideoContentTop's @c ctType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoContentTop_CtType_RawValue(PB4VideoContentTop *message);
+int32_t PB3VideoContentTop_CtType_RawValue(PB3VideoContentTop *message);
 /**
- * Sets the raw value of an @c PB4VideoContentTop's @c ctType property, allowing
+ * Sets the raw value of an @c PB3VideoContentTop's @c ctType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoContentTop_CtType_RawValue(PB4VideoContentTop *message, int32_t value);
+void SetPB3VideoContentTop_CtType_RawValue(PB3VideoContentTop *message, int32_t value);
 
-#pragma mark - PB4VideoButton
+#pragma mark - PB3VideoButton
 
-typedef GPB_ENUM(PB4VideoButton_FieldNumber) {
-  PB4VideoButton_FieldNumber_Icon = 1,
-  PB4VideoButton_FieldNumber_Text = 2,
-  PB4VideoButton_FieldNumber_JumpURL = 3,
-  PB4VideoButton_FieldNumber_CtType = 4,
-  PB4VideoButton_FieldNumber_TypeId = 5,
+typedef GPB_ENUM(PB3VideoButton_FieldNumber) {
+  PB3VideoButton_FieldNumber_Icon = 1,
+  PB3VideoButton_FieldNumber_Text = 2,
+  PB3VideoButton_FieldNumber_JumpURL = 3,
+  PB3VideoButton_FieldNumber_CtType = 4,
+  PB3VideoButton_FieldNumber_TypeId = 5,
 };
 
 /**
  * 视频底部按钮
  **/
-@interface PB4VideoButton : GPBMessage
+@interface PB3VideoButton : GPBMessage
 
 /** 活动图标 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
@@ -710,7 +710,7 @@ typedef GPB_ENUM(PB4VideoButton_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *jumpURL;
 
 /** 类型 */
-@property(nonatomic, readwrite) PB4VideoButtonType ctType;
+@property(nonatomic, readwrite) PB3VideoButtonType ctType;
 
 /** 互动/技能id */
 @property(nonatomic, readwrite) int64_t typeId;
@@ -718,71 +718,71 @@ typedef GPB_ENUM(PB4VideoButton_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoButton's @c ctType property, even
+ * Fetches the raw value of a @c PB3VideoButton's @c ctType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoButton_CtType_RawValue(PB4VideoButton *message);
+int32_t PB3VideoButton_CtType_RawValue(PB3VideoButton *message);
 /**
- * Sets the raw value of an @c PB4VideoButton's @c ctType property, allowing
+ * Sets the raw value of an @c PB3VideoButton's @c ctType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoButton_CtType_RawValue(PB4VideoButton *message, int32_t value);
+void SetPB3VideoButton_CtType_RawValue(PB3VideoButton *message, int32_t value);
 
-#pragma mark - PB4VideoLikeReq
+#pragma mark - PB3VideoLikeReq
 
-typedef GPB_ENUM(PB4VideoLikeReq_FieldNumber) {
-  PB4VideoLikeReq_FieldNumber_Page = 1,
+typedef GPB_ENUM(PB3VideoLikeReq_FieldNumber) {
+  PB3VideoLikeReq_FieldNumber_Page = 1,
 };
 
 /**
  * 我喜欢的视频
  **/
-@interface PB4VideoLikeReq : GPBMessage
+@interface PB3VideoLikeReq : GPBMessage
 
 /** 从1开始 */
 @property(nonatomic, readwrite) int32_t page;
 
 @end
 
-#pragma mark - PB4VideoLikeRes
+#pragma mark - PB3VideoLikeRes
 
-typedef GPB_ENUM(PB4VideoLikeRes_FieldNumber) {
-  PB4VideoLikeRes_FieldNumber_NextPage = 1,
-  PB4VideoLikeRes_FieldNumber_InfosArray = 2,
+typedef GPB_ENUM(PB3VideoLikeRes_FieldNumber) {
+  PB3VideoLikeRes_FieldNumber_NextPage = 1,
+  PB3VideoLikeRes_FieldNumber_InfosArray = 2,
 };
 
-@interface PB4VideoLikeRes : GPBMessage
+@interface PB3VideoLikeRes : GPBMessage
 
 /** 下一页页码，如果没有下一页，则为-1 */
 @property(nonatomic, readwrite) int32_t nextPage;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4VideoInfo*> *infosArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3VideoInfo*> *infosArray;
 /** The number of items in @c infosArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger infosArray_Count;
 
 @end
 
-#pragma mark - PB4VideoOptReq
+#pragma mark - PB3VideoOptReq
 
-typedef GPB_ENUM(PB4VideoOptReq_FieldNumber) {
-  PB4VideoOptReq_FieldNumber_OptType = 1,
-  PB4VideoOptReq_FieldNumber_TrendId = 2,
-  PB4VideoOptReq_FieldNumber_Second = 3,
-  PB4VideoOptReq_FieldNumber_LeftNum = 4,
-  PB4VideoOptReq_FieldNumber_SourceId = 5,
-  PB4VideoOptReq_FieldNumber_RecmdSource = 6,
-  PB4VideoOptReq_FieldNumber_RecmdSourceId = 7,
-  PB4VideoOptReq_FieldNumber_TraceInfo = 8,
-  PB4VideoOptReq_FieldNumber_FirstPlay = 9,
+typedef GPB_ENUM(PB3VideoOptReq_FieldNumber) {
+  PB3VideoOptReq_FieldNumber_OptType = 1,
+  PB3VideoOptReq_FieldNumber_TrendId = 2,
+  PB3VideoOptReq_FieldNumber_Second = 3,
+  PB3VideoOptReq_FieldNumber_LeftNum = 4,
+  PB3VideoOptReq_FieldNumber_SourceId = 5,
+  PB3VideoOptReq_FieldNumber_RecmdSource = 6,
+  PB3VideoOptReq_FieldNumber_RecmdSourceId = 7,
+  PB3VideoOptReq_FieldNumber_TraceInfo = 8,
+  PB3VideoOptReq_FieldNumber_FirstPlay = 9,
 };
 
 /**
  * 用户播放、结束播放视频
  **/
-@interface PB4VideoOptReq : GPBMessage
+@interface PB3VideoOptReq : GPBMessage
 
-@property(nonatomic, readwrite) PB4VideoOptType optType;
+@property(nonatomic, readwrite) PB3VideoOptType optType;
 
 @property(nonatomic, readwrite) int64_t trendId;
 
@@ -796,7 +796,7 @@ typedef GPB_ENUM(PB4VideoOptReq_FieldNumber) {
 @property(nonatomic, readwrite) int64_t sourceId;
 
 /** 视频推荐来源 */
-@property(nonatomic, readwrite) enum PB4VideoRecmdSource recmdSource;
+@property(nonatomic, readwrite) enum PB3VideoRecmdSource recmdSource;
 
 /** 算法ID */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *recmdSourceId;
@@ -810,46 +810,46 @@ typedef GPB_ENUM(PB4VideoOptReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoOptReq's @c optType property, even
+ * Fetches the raw value of a @c PB3VideoOptReq's @c optType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoOptReq_OptType_RawValue(PB4VideoOptReq *message);
+int32_t PB3VideoOptReq_OptType_RawValue(PB3VideoOptReq *message);
 /**
- * Sets the raw value of an @c PB4VideoOptReq's @c optType property, allowing
+ * Sets the raw value of an @c PB3VideoOptReq's @c optType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoOptReq_OptType_RawValue(PB4VideoOptReq *message, int32_t value);
+void SetPB3VideoOptReq_OptType_RawValue(PB3VideoOptReq *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4VideoOptReq's @c recmdSource property, even
+ * Fetches the raw value of a @c PB3VideoOptReq's @c recmdSource property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoOptReq_RecmdSource_RawValue(PB4VideoOptReq *message);
+int32_t PB3VideoOptReq_RecmdSource_RawValue(PB3VideoOptReq *message);
 /**
- * Sets the raw value of an @c PB4VideoOptReq's @c recmdSource property, allowing
+ * Sets the raw value of an @c PB3VideoOptReq's @c recmdSource property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoOptReq_RecmdSource_RawValue(PB4VideoOptReq *message, int32_t value);
+void SetPB3VideoOptReq_RecmdSource_RawValue(PB3VideoOptReq *message, int32_t value);
 
-#pragma mark - PB4VideoOptRes
+#pragma mark - PB3VideoOptRes
 
-@interface PB4VideoOptRes : GPBMessage
+@interface PB3VideoOptRes : GPBMessage
 
 @end
 
-#pragma mark - PB4VideoButtonReportReq
+#pragma mark - PB3VideoButtonReportReq
 
-typedef GPB_ENUM(PB4VideoButtonReportReq_FieldNumber) {
-  PB4VideoButtonReportReq_FieldNumber_Btn = 1,
-  PB4VideoButtonReportReq_FieldNumber_TrendId = 2,
+typedef GPB_ENUM(PB3VideoButtonReportReq_FieldNumber) {
+  PB3VideoButtonReportReq_FieldNumber_Btn = 1,
+  PB3VideoButtonReportReq_FieldNumber_TrendId = 2,
 };
 
-@interface PB4VideoButtonReportReq : GPBMessage
+@interface PB3VideoButtonReportReq : GPBMessage
 
 /** 按钮类型 */
-@property(nonatomic, readwrite) PB4EIButtonType btn;
+@property(nonatomic, readwrite) PB3EIButtonType btn;
 
 /** 视频ID */
 @property(nonatomic, readwrite) int64_t trendId;
@@ -857,20 +857,20 @@ typedef GPB_ENUM(PB4VideoButtonReportReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4VideoButtonReportReq's @c btn property, even
+ * Fetches the raw value of a @c PB3VideoButtonReportReq's @c btn property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4VideoButtonReportReq_Btn_RawValue(PB4VideoButtonReportReq *message);
+int32_t PB3VideoButtonReportReq_Btn_RawValue(PB3VideoButtonReportReq *message);
 /**
- * Sets the raw value of an @c PB4VideoButtonReportReq's @c btn property, allowing
+ * Sets the raw value of an @c PB3VideoButtonReportReq's @c btn property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4VideoButtonReportReq_Btn_RawValue(PB4VideoButtonReportReq *message, int32_t value);
+void SetPB3VideoButtonReportReq_Btn_RawValue(PB3VideoButtonReportReq *message, int32_t value);
 
-#pragma mark - PB4VideoButtonReportRes
+#pragma mark - PB3VideoButtonReportRes
 
-@interface PB4VideoButtonReportRes : GPBMessage
+@interface PB3VideoButtonReportRes : GPBMessage
 
 @end
 

@@ -1,0 +1,197 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/crack_egg.ext.proto";
+
+
+//开启或关闭砸蛋
+message OpenCrackEggReq {
+    bool open = 1;
+}
+
+message OpenCrackEggRes {
+
+}
+
+//设置奖品
+message UpdateAwardReq {
+    int32 award_id = 1;
+    uint64 player_id = 2;
+    int64 draw_num = 3; //抽奖次数，即需要抽多少次才能得到 默认1次
+}
+
+message UpdateAwardRes {
+}
+
+
+message CrackLuckConfigItem {
+    int32 id 			= 		1;             // 惟一id
+    bool gold 			= 		2;             // 是否金币奖励
+    int64 gold_rate 		= 		3;             // 金币奖励比例
+    bool  gift 			= 		4;             // 是否大奖奖励
+    int64 gift_mul  		= 		5;             // 大奖倍数 2倍填1，三倍填2
+    int64 weight 		= 		6;             // 权重
+    int64 max_num 		= 		7;             // 全服当天最大数量
+    string str 			= 		8;             // 广播内容
+    string desc 		= 		9;             // 描述
+}
+
+//设置幸运砸蛋
+message UpdateLuckReq {
+    int32 op_type = 1; // 1-更新奖池 2-更新指定人幸运大奖
+    int32 val 		= 2; // 增加奖池
+}
+
+message UpdateLuckRes {
+    int32 flag 		= 1; // 1-成功，0-不成功
+    int32 op_type 	= 2; // 1-更新奖池 2-更新指定人幸运大奖
+    int32 val 		= 3; // 增加奖池
+}
+
+message AdminConfReq {
+    int32 op_type 	= 1; // 0-立刻生效配置
+}
+
+message AdminConfRes {
+}
+
+message UpdateClientTimeReq {
+}
+message UpdateClientTimeRes {
+}
+
+//更新新的主题配置
+message UpdateCrackThemeReq {
+}
+message UpdateCrackThemeRes {
+}
+
+enum CrackEgg2CfgModelType{
+    // 占位
+    CE2CMT_NONE = 0;
+    // 白嫖模式
+    CE2CMT_FREE = 3061;
+    // 白嫖变身模式
+    CE2CMT_SHIFT_FREE = 3062;
+    // 普通-新手模式
+    CE2CMT_NORMAL_LOW = 4000;
+    // 普通-中阶模式
+    CE2CMT_NORMAL_MIDDLE = 4001;
+    // 普通-高阶模式
+    CE2CMT_NORMAL_HIGH = 4002;
+    // 普通-高阶高爆模式
+    CE2CMT_NORMAL_BEST = 4003;
+    // 普通-高阶低爆模式
+    CE2CMT_NORMAL_BETTER = 4004;
+    // 普通-补偿模式
+    CE2CMT_NORMAL_COMPST = 4005;
+    // 普通变身-新手模式
+    CE2CMT_NORMAL_SHIFT_LOW = 4006;
+    // 普通变身-中阶模式
+    CE2CMT_NORMAL_SHIFT_MIDDLE = 4007;
+    // 普通变身-高阶模式
+    CE2CMT_NORMAL_SHIFT_HIGH = 4008;
+    // 普通变身-高阶高爆模式
+    CE2CMT_NORMAL_SHIFT_BEST = 4009;
+    // 普通变身-高阶低爆模式
+    CE2CMT_NORMAL_SHIFT_BETTER = 4010;
+    // 普通变身-高阶补偿模式
+    CE2CMT_NORMAL_SHIFT_COMPST = 4011;
+    // 黄金-新手模式
+    CE2CMT_GOLD_LOW = 4012;
+    // 黄金-中阶模式
+    CE2CMT_GOLD_MIDDLE = 4013;
+    // 黄金-高阶模式
+    CE2CMT_GOLD_HIGH = 4014;
+    // 黄金-高阶高爆模式
+    CE2CMT_GOLD_BEST = 4015;
+    // 黄金-高阶低爆模式
+    CE2CMT_GOLD_BETTER = 4016;
+    // 黄金-补偿模式
+    CE2CMT_GOLD_COMPST = 4017;
+    // 黄金变身-新手模式
+    CE2CMT_GOLD_SHIFT_LOW = 4018;
+    // 黄金变身-中阶模式
+    CE2CMT_GOLD_SHIFT_MIDDLE = 4019;
+    // 黄金变身-高阶模式
+    CE2CMT_GOLD_SHIFT_HIGH = 4020;
+    // 黄金变身-高阶高爆模式
+    CE2CMT_GOLD_SHIFT_BEST = 4021;
+    // 黄金变身-高阶低爆模式
+    CE2CMT_GOLD_SHIFT_BETTER = 4022;
+    // 黄金变身-高阶补偿模式
+    CE2CMT_GOLD_SHIFT_COMPST = 4023;
+    // 钻石-新手模式
+    CE2CMT_DO_LOW = 4024;
+    // 钻石-中阶模式
+    CE2CMT_DO_MIDDLE = 4025;
+    // 钻石-高阶模式
+    CE2CMT_DO_HIGH = 4026;
+    // 钻石-高阶高爆模式
+    CE2CMT_DO_BEST = 4027;
+    // 钻石-高阶低爆模式
+    CE2CMT_DO_BETTER = 4028;
+    // 钻石-补偿模式
+    CE2CMT_DO_COMPST = 4029;
+    // 钻石变身-新手模式
+    CE2CMT_DO_SHIFT_LOW = 4030;
+    // 钻石变身-中阶模式
+    CE2CMT_DO_SHIFT_MIDDLE = 4031;
+    // 钻石变身-高阶模式
+    CE2CMT_DO_SHIFT_HIGH = 4032;
+    // 钻石变身-高阶高爆模式
+    CE2CMT_DO_SHIFT_BEST = 4033;
+    // 钻石变身-高阶低爆模式
+    CE2CMT_DO_SHIFT_BETTER = 4034;
+    // 钻石变身-高阶补偿模式
+    CE2CMT_DO_SHIFT_COMPST = 4035;
+    // 黑金-新手模式
+    CE2CMT_BLACK_GOLD_LOW = 4036;
+    // 黑金-中阶模式
+    CE2CMT_BLACK_GOLD_MIDDLE = 4037;
+    // 黑金-高阶模式
+    CE2CMT_BLACK_GOLD_HIGH = 4038;
+    // 黑金-高阶高爆模式
+    CE2CMT_BLACK_GOLD_BEST = 4039;
+    // 黑金-高阶低爆模式
+    CE2CMT_BLACK_GOLD_BETTER = 4040;
+    // 黑金-补偿模式
+    CE2CMT_BLACK_GOLD_COMPST = 4041;
+    // 黑金变身-新手模式
+    CE2CMT_BLACK_GOLD_SHIFT_LOW = 4042;
+    // 黑金变身-中阶模式
+    CE2CMT_BLACK_GOLD_SHIFT_MIDDLE = 4043;
+    // 黑金变身-高阶模式
+    CE2CMT_BLACK_GOLD_SHIFT_HIGH = 4044;
+    // 黑金变身-高阶高爆模式
+    CE2CMT_BLACK_GOLD_SHIFT_BEST = 4045;
+    // 黑金变身-高阶低爆模式
+    CE2CMT_BLACK_GOLD_SHIFT_BETTER = 4046;
+    // 黑金变身-高阶补偿模式
+    CE2CMT_BLACK_GOLD_SHIFT_COMPST = 4047;
+}
+
+enum CrackEgg2AwardType{
+    // 占位
+    CE2AT_NONE = 0;
+    // 小奖
+    CE2AT_SMALL = 1;
+    // 大奖
+    CE2AT_BIG = 2;
+    // 全服礼物
+    CE2AT_SUPER = 3;
+}
+
+service CrackEggIntObj {
+    rpc OpenCrackEgg (OpenCrackEggReq) returns (OpenCrackEggRes); //开启关闭砸蛋
+    rpc UpdateAward (UpdateAwardReq) returns (UpdateAwardRes); //设置礼物
+    rpc AdminLuck (UpdateLuckReq) returns (UpdateLuckRes); //设置幸运奖池
+    rpc UpdateConf (AdminConfReq) returns (AdminConfRes); // 配置更新
+    rpc UpdateClientTime (UpdateClientTimeReq) returns (UpdateClientTimeRes);
+    rpc GetLuckByInt(CrackEggLuckReq) returns (CrackEggLuckRes); //获取幸运砸蛋
+    rpc UpdateCrackTheme(UpdateCrackThemeReq) returns (UpdateCrackThemeRes); //更新新的主题配置
+}
+
+
+
+

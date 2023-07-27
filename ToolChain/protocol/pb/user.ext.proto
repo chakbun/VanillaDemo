@@ -1,0 +1,3231 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+import "pb/bill.ext.proto";
+import "pb/system.ext.proto";
+import "pb/nobility.ext.proto";
+import "pb/acm_conf.ext.proto";
+
+
+enum UserCode {
+	SUCCESS = 0;    // 成功
+	ErrUserKeyExpired = 33001;    // key失效, 请重新登录
+	ErrUserBanAccount = 33002;    // 被封号
+	ErrUserBanIp = 33003;    // 封ip
+	ErrUserNameIllegal = 33004;    // 昵称长度为2-20个字符
+	ErrUserRelogin = 33005;    // 需要重新登录
+	ErrUserNameDuplicate = 33006;    // 昵称已存在
+	ErrUserWrongArgs = 33017;    // 参数错误
+	ErrUserFail = 33018;    // 失败(此错误吗所以方法都适用)
+
+
+
+	ErrUserNotBindBand = 33022;    // 请先绑定银行卡
+
+
+	ErrUserBindMaliFail = 33025;    // 绑定码云失败
+
+	ErrUserNoRight = 33027;    // 没有权限
+	ErrUserPassword = 33029;    // 提现密码错误
+	ErrUserBusy = 33031;    // 本次操作失败
+	ErrUserBindIdCard = 33032;    // 绑定身份证失败
+	ErrUserNotAgree = 33033;    // 未通过劳动协议
+	ErrUserNameDirty = 33034;    // 昵称修改失败，包含违禁字眼，请重新输入
+	ErrUserPassLength = 33035;    // 密码长度不符合要求
+	ErrUserKickOutRoom = 33036;    // 不能将房主踢出房间
+	ErrUserIndexTop = 33037;    // 房主不在线不能置顶
+	ErrUserOffline = 33038;    // 用户不在线
+
+	ErrUserPasswdLength = 33045;    // 密码至少为6位，且必须包含字母和数字
+	ErrUserPasswdEqual = 33046;    // 两次输入的密码不一致
+	ErrUserOriginPasswd = 33047;    // 原密码错误，请重新输入
+
+	ErrUserSMSCode = 33048;    // 验证码错误
+	ErrUserBindPhone = 33049;    // 手机号已被绑定
+
+	ErrUserLoginTimeout = 33050; // 登录超时
+	ErrUserNamePasswd = 33051; // 账号/密码错误
+	ErrUser3rdError = 33052; // 第三方接口返回错误
+	ErrUserBindPhoneRewardAgain = 33053; // 已经领取过奖励了
+	ErrUserBindPhoneNot = 33054; // 没有绑定手机号
+	ErrUserBindPhoneEquel = 33055; // 绑定相同的手机号
+	ErrUserBindPhoneErr = 33056; // 绑定相同的手机号
+	ErrUserSamePhoneBind10 = 33069; // 同一手机号至多绑定10个第三方登入账号
+
+	ErrUserCertificationInput = 33074; // 信息不能不为空
+	ErrUserCertificationCardNoErr = 33075; // 身份证号码不正确
+	ErrUserCertificationFull = 33076; // 该身份证绑定的ID个数已达上线
+	ErrUserCertificationBusy = 33077; // 网络君开小差了
+	ErrUserCertificationCallback = 33078; // 客户端回调失败
+	ErrUserCertificationFail = 33079; // 实名认证失败，请稍后再试
+	ErrUserCertificationChangeGold = 33080; // 兑换金币需要完成实名认证
+
+	ErrUserHadCertified = 33082; // 已经实名认证了
+	ErrUserCertifyUpdateUserInfo = 33083; // 修改个人资料必须实名认证
+	ErrUserCodeCertifyWord = 33084; // 打字，必须实名认证
+	ErrUserUserName = 33085;  //用户姓名不匹配
+
+	ErrUserBillSignature = 33090; // 简介不合法
+	ErrUserBillFreeze = 33091; // 点单权限已冻结
+	ErrUserBillCheck = 33092; // 还在审核中
+	ErrUserBillClose = 33093; // 不是接单状态
+	ErrUserBillNone = 33094; // 请先提交资源
+	ErrUserBillNoRight = 33095; // 不是点单主播
+	ErrUserBillFileNotExist = 33096; // 文件不存在
+
+
+
+	ErrUserNoCertify = 33098; //未实名认证
+	ErrUserSendSMSCode = 33099; //发送验证码失败
+
+	ErrUserRecentVisitorOptLimit = 33100; //最近访客操作失败
+	ErrUserDataAudit = 33101; //资料审核不能再提交
+	ErrUserBillSkillNotAuth = 33108;    //点单技能未认证
+	ErrUserNoBillSkill = 33109;    //还没有点单技能
+	ErrUserNewPlayerBillNoAuth = 33110; //没有接新手单的权限
+	ErrUserBillSkillAlreadyAuth = 33111; //技能已认证
+	ErrUserBillSkillChecking = 33112; //技能审核中
+	ErrUserBillSkillNotOpen = 33113; // 认证技能未开启
+
+
+
+	ErrUserProtectionOfMinors = 33160; // 未成年人此功能受限
+	ErrUserRemarkExceed = 33161;         // 文字描述超出指定长度了
+	ErrUserWrongType = 33162;            // 不存在的类型
+	ErrUserBindPhoneByUmeng = 33163;            // umeng友盟一键绑定手机失败
+	ErrUserBillProtectionOfMinors = 33164;      // 未成年人点单技能认证受限弹窗
+
+
+	ErrUserInfoChecking = 33210;								//用户申诉审核中
+
+
+	ErrUserChangeCoin = 33250; // 兑换金币需要验证码
+}
+
+
+// 用户广播cmdId定义 // 500
+enum UserCmdId {
+	UC_Zero = 0;
+	UC_UpdatePlayerName = 500004;   // 房间广播昵称变更					SSC001004
+	UC_CharmLevel = 500006;   // 广播魅力升级
+	UC_WealthLevel = 500007;   // 广播财富升级
+	UC_UserBan = 500008;   // 广播封号信息				SSC100052
+	UC_PlayerFlags = 500009;    // 广播更新PlayerFlags		SSC000060
+	UC_UpdateIcon = 500010;    // 房间广播更新icon
+	UC_UpdateOnOff = 500011;    // 广播更新开关状态
+	UC_SetShortId = 500012;   // 广播设置靓号
+	UC_SearchPlayer = 500013;   // 搜索广播                 // SearchPlayers
+	UC_IsChargeToday = 500014;   // 今天是否首充过状态推送 IsChargeToday
+	UC_VersionContent = 500015;   // 版本新内容简介推送 NewVersionContent
+	UC_CountdownStart = 500016;   // 开始跨年倒计时播放 CountdownStart
+	UC_AuditDetail = 500017;   // 用户审核消息推送
+	UC_FlowerLevel = 500018;   // 广播浇花升级
+	UC_PlayerFlagsKV = 500019;    // 广播更新player.flags_kv 	BroadcastUpdateFlagsKV
+	UC_AntiAddiction = 500020;   // 用户防沉迷弹窗
+	UC_OfficialAuth = 500021;   // 等级认证
+	UC_BillPlayerStatus = 500022; // 接单开关变更推送 UpdateBillPlayerStatus
+	UC_DelProfileVoice = 500023; // 删除声鉴卡推送 UC_DelProfileVoiceRes
+	UC_LeaveMessage = 500024; // 用户弹幕推送 LeaveMessageInfo
+	UC_BlackWhale = 500025; // 黑鲸vip标识推送 BlackWhaleRes
+	UC_IntimateFansCardInfo = 500027; // 亲密粉丝名牌信息 PushIntimateFansCardInfo
+	UC_WhaleBossList = 500028;        // 捞鲸老板列表 WhaleBossListRes
+	UC_WhaleBossStatus = 500029;      // 捞鲸状态 WhaleBossStatusRes
+	UC_SettingOnOffChange = 500030;   // 设置页开关状态改变 SettingOnOffStatus
+	UC_ImGenerationWindows = 500031;  // IM代聊弹窗 ImGenerationWindows
+	UC_BroadcastJoinIntimateFansV2 = 500032;   // 加入粉丝团成功推送 BroadcastJoinIntimateFansV2
+	UC_BroadcastIntimateFansExp = 500033;   // 个播2.0亲密粉丝经验值变化 BroadcastIntimateFansExp
+	UC_BroadcastNeteaseToken = 500034; // 推送网易云信token信息 NeteaseTokenRes
+}
+
+// 防沉迷弹窗类型
+enum AntiAddictionAlertType {
+	AntiAddictionAlertType_None = 0;
+	AntiAddictionAlertType_Prompt = 1;    // 建议
+	AntiAddictionAlertType_Enforce = 2;    // 强制下线
+	AntiAddictionAlertType_Close = 3;   // 关闭弹窗
+}
+
+// cmdId=500018 广播用户防沉迷弹窗
+message BroadcastAntiAddictionAlert {
+	AntiAddictionAlertType type = 1;
+	int32 limit_hours = 2;
+}
+
+enum UserBindPhoneOpType {
+	UCPhoneOpType_SendCode = 0;    // 发送验证码
+	UCPhoneOpType_ConfirmCode = 1;    // 确认验证码
+
+	// 重绑手机
+	UCPhoneOpType_OldSendCode = 2;    // 旧手机发送验证码
+	UCPhoneOpType_OldConfirmCode = 3;    // 旧手机确认验证码
+	UCPhoneOpType_NewSendCode = 4;    // 旧手机发送验证码
+	UCPhoneOpType_NewConfirmCode = 5;    // 旧手机确认验证码
+}
+
+
+enum UserBindPhoneItemType {
+	UCPhoneItemType_Gift 			= 0;	// 礼物
+	UCPhoneItemType_Gold 			= 1;	// 金币
+}
+
+enum UserMailType {
+	UserMail_None = 0;  // 全部消息(旧数据用，全部消息都是系统消息，不划分, 新版 0 和 1 都是系统消息)
+	UserMail_System = 1;  // 系统消息
+	UserMail_Activity = 2;  // 官方消息
+}
+
+// cmdId=1004 广播昵称变更
+message BroadcastUpdatePlayerName {
+	 sint64 id = 1;
+	 string name = 2;
+}
+
+// cmdId=1006 广播魅力升级
+message BroadcastCharmLevel {
+	sint64 id = 1;
+	string name = 2;
+	int64 charm = 3;
+	int32 charm_level = 4;
+	RoomNobilityInfo nobility_info = 5; // 爵位信息
+}
+
+// cmdId=1007 广播财富升级
+message BroadcastWealthLevel {
+	sint64 id = 1;
+	string name = 2;
+	int64 wealth = 3;
+	int32 wealth_level = 4;
+	RoomNobilityInfo nobility_info = 5; // 爵位信息
+}
+
+// cmdId=1007 广播财富升级
+message BroadcastFlowerLevel {
+	sint64 id = 1;
+	string name = 2;
+	int64 flower = 3;
+	int32 flower_level = 4;
+}
+
+// 处罚类型
+enum BanType {
+	BT_Zero = 0;
+	BT_Account = 1;  // 封号
+	BT_Speak = 2;	// 禁言
+	BT_Room = 3;	// 封房间
+	BT_IP = 4;		// IP
+	BT_Device = 5;		// 封设备id
+	BT_TakeLeave = 6;	// 踢下线
+	BT_Warning = 8;		// 警告
+	BT_Top = 9;			// 置顶
+	BT_BroadcastFriend = 10;  // 禁止广播交友
+	BT_tickout_room = 11; // 提出房间
+	BT_BAN_PHONE = 12; // 封手机号
+	BT_BAN_IDCARD = 13; // 封身份证
+	BT_BAN_PM = 14;	// 禁私聊
+	BT_CommunityPublish = 15; //社区:限制发布动态
+	BT_CommunityComment = 16; //社区:限制评论动态
+	BT_BAN_Modify = 17; //禁修改资料
+	BT_ForceLogout = 18; // 通知下线
+	BT_BAN_VIDEO = 19; // 视频推荐黑名单
+	BT_BAN_WITHDRAWAL = 20; // 限制提现
+	BT_BAN_STRANGER_PM = 21; // 禁私聊陌生人
+	BT_BAN_STRANGER_LEVEL5_PM = 22; //禁私聊财富等级五级以下的陌生人
+	BT_BAN_ROOM_VOICE = 23; // 禁止房间语音
+	BT_BAN_LEAVE_CHAIR = 24; // 移麦
+	BT_BAN_SILENCE =25; //静默
+	BT_BAN_CP_CHAT = 26; // 禁8分钟接单
+	BT_BAN_LEAVE_CHAIR_SPECIFY_ROOM = 27; // 移除指定房间麦位
+	BT_BAN_FOCUS = 28; // 禁止关注
+	BT_BAN_IM_SELF = 29; // 私聊仅自己可见
+}
+
+// 广播处罚类型 cmdid = 500008   SSC100051
+message BroadcastBan {
+	uint32 banType = 1;
+    uint32 status = 2;		// 0解除/1生效
+    uint32 time = 3;		// 剩余时间,单位:秒
+    string remark = 4;		// 原因
+    uint64 operaterId = 5;  // 操作人， =0时，后台管理操作
+		string banName = 6; //处罚名称
+}
+
+// 广播更新PlayerFlags cmdId = 500009   SSC000060
+message BraodUpdatePlayerFlags {
+	sint64	player_id = 1;
+	int32 flagType = 2;  // 1=PlayerFlags；2=PlayerFlags2；3=PlayerFlags3
+    sint64 flagVal = 3;
+}
+
+// 广播更新icon cmdId = 500010;
+message BraodUpdateIcon {
+	sint64 player_id = 1;
+	string icon = 2;
+}
+
+// 广播更新开关状态 cmdId = 500011
+message BroadcastUpdateOnOff {
+	OnOffStatus on_off = 1;
+}
+
+// 广播设置靓号　cmdId = 500012
+message BroadcastShortId {
+	int64 player_id = 1;
+	int64 short_id = 2;
+}
+
+// 广播更新player.flags_kv	cmdId = 500019
+message BroadcastUpdateFlagsKV {
+	sint64 player_id = 1;
+	PlayerFlagKey flag_key = 2;
+	int32 flag_val = 3;		//参考 key对应的enum{}
+}
+
+// 请求player
+message PlayerReq {
+    sint64 id = 1;  // 注：前端通过context上下文传值
+}
+
+message PlayerRes {
+	Player player = 1;
+	sint64 account_flags = 2;   // common.AccountFlags
+	repeated Effect effect = 3;         //特效
+	int32 activity_adchannel = 4;  // 前端不用
+	ClanInfo clan = 5;                  // 公会信息
+	BindPhoneInfo bindPhoneInfo = 6; // 第三方登陆绑定手机号信息
+	sint32 charm_week_rank = 7; // 明星周榜排名 0:未上榜
+	sint32 wealth_week_rank = 8; // 富豪周榜排名 0:未上榜
+	BillPlayerCard bill_player = 9;  // 点单主播信息
+	bool display_download_app_entry = 10;	//显示下载官方app二维码(pc端使用)
+	UserInfo user_info = 11; //用户信息
+	int32 is_minors = 12;	// 是否未成年，如果未实名验证，这里返回的是0
+	string invite_code = 13;	//邀请码
+	LastRoomInfo last_room_info = 14; // 玩家所在房间信息
+	bool is_black_whale = 15; // 是否是黑鲸vip
+	int32 adChannel = 16;  // 渠道号
+	int32 real_channel = 17;  // 渠道号（包括推广渠道）
+	int64 account_create_at = 18; // 账号创建时间
+	AccountType account_type = 19; // 账号注册类型
+    bool is_public_settle = 20; //是否是对公结算 (个人)
+	bool is_cp_guide = 35; //是否是新人接待官
+}
+
+
+// H5请求player 只能查看自己
+message H5PlayerReq {
+}
+
+message H5PlayerRes {
+	Player player = 1;
+	int32 is_minors = 2;	// 是否未成年，如果未实名验证，这里返回的是0
+	ClanInfo clan = 3;                  // 公会信息
+}
+
+message LastRoomInfo {
+	sint64 id = 1; // 房间ID
+	sint64 id2 = 2; // 房间靓号ID
+	string name = 3; // 房间名称
+}
+
+enum RegisterType {
+	RTZERO = 0; // 占位不使用
+	RT_WEIXIN = 1; // 微信
+	RT_QQ = 2; // QQ
+	RT_PHONE = 3; // 手机号
+}
+
+message BindPhoneInfo {
+	bool is_draw = 1; // 是否领取绑定手机号奖励
+	string phone = 2; // 绑定的手机号码
+	RegisterType type = 3;
+}
+
+// 请求来源类型
+enum RequestSourceType {
+  RST_ZERO = 0; // 占位不使用
+  RST_IM = 1; // 请求来源为IM
+  RST_PK = 2; // 请求来源为PK
+}
+
+// 请求playerInfo, 1次最多取50个 (取代http=11协议)
+message PlayerInfoListReq {
+  repeated int64 ids = 1;
+  RequestSourceType type = 2;
+}
+
+message PlayerInfoListRes {
+	repeated PlayerInfo list = 1;
+}
+
+// 等级
+message LevelReq {
+}
+
+message LevelRes {
+	sint64 charm = 1;
+	sint32 charm_level = 2; // 魅力等级
+	sint32 charm_rank = 3; // 魅力等级
+	sint32 wealth = 4; // 财富值
+	sint32 wealth_level = 5; // 财富等级
+	sint32 wealth_rank = 6;
+	sint32 exp = 7; // 在线经验
+	sint32 exp_rank = 8; // 在线经验
+	sint32 bill = 9; //接单量
+	sint32 bill_level = 10; //接单等级
+	sint32 bill_rank = 11; 	//接单排名
+	int64 bill_tick = 12;   //收益(钻石)
+	sint64 charm_exp = 13;  // 魅力值下一等级经验值
+	sint64 wealth_exp = 14; // 财富值下一等级经验值
+	sint64 prev_charm_exp = 15;  // 魅力值当前等级经验值
+	sint64 prev_wealth_exp = 16; // 财富值当前等级经验值
+	sint32 charm_max_level = 17;  // 魅力值最大等级
+	sint32 wealth_max_level = 18; // 财富值最大等级
+	sint64 new_wealth = 19;       // 新财富值
+	sint64 fish_charm = 20;	 // 半糖魅力值
+	sint32 fish_charm_level = 21; // 半糖魅力等级
+	sint32 fish_charm_rank = 22; // 半糖魅力排行
+	sint64 fish_wealth = 23; // 半糖财富值
+	sint32 fish_wealth_level = 24; // 半糖财富等级
+	sint32 fish_wealth_rank = 25; // 半糖财富排行
+	sint64 fish_charm_exp = 26;  // 半糖魅力值下一等级经验值
+	sint64 fish_wealth_exp = 27; // 半糖财富值下一等级经验值
+	sint64 fish_prev_charm_exp = 28;  // 半糖魅力值当前等级经验值
+	sint64 fish_prev_wealth_exp = 29; // 半糖财富值当前等级经验值
+}
+
+enum SourceType {
+	ST_MODIFY = 0;
+	ST_REGISTER = 1; //注册
+}
+
+// 设置用户信息
+message UserInfoReq {
+	sint32 type = 1;  	// 修改对应的编号：2名称，3性别, 4城市，5个性签名，6心声，7生日, 8语音, 10虚拟形象静态图, 11男声女声版
+	string nickname = 2;
+	SexType sex = 3;
+	string city = 4;
+	string signature = 5;  			// 个性签名
+	string mind = 6;				// 心声
+	string birthday = 7;
+	string voice_url = 8;
+	SourceType source_type = 9;  // 1注册 0 正常修改
+	string cubism_icon = 10;	// 虚拟形象静态图
+	GenderPattern gender_pattern = 11; // 男声女声版
+}
+
+message UserInfoRes {
+	sint32 type = 1;  	// 修改对应的编号：2名称，3性别, 4城市，5个性签名，6心声，7生日
+	AuditStatus status = 2;  // 审核状态
+	string old_value = 3;//先审后发 名称、个性签名、心声返回旧值
+	string new_value = 4;//新值
+}
+
+message CertificationSexTypeReq{
+}
+
+message CertificationSexTypeRes{
+		SexType sex = 1; //性别
+}
+
+//用户审核中的资料
+message UserAuditDetailReq{
+}
+
+message UserAuditDetailRes{
+	int64  player_id = 1;
+	string nick_name = 2;
+	AuditStatus nick_name_status = 3;
+	string icon = 4;
+	AuditStatus icon_status = 5;
+	string sign = 6;
+	AuditStatus sign_status = 7;
+	string mind = 8;
+	AuditStatus mind_status = 9;
+	string voice = 10;
+	int32 voice_time = 11;
+	AuditStatus voice_status = 12;
+	VoiceTagInfo voice_tag_info = 13;        // 声鉴卡审核信息
+	AuditStatus voice_tag_status = 14;       // 声鉴卡审核状态
+}
+
+
+// 用户设置， 兼容旧的 http0010.UserSetting
+message UserSetting {
+	sint64 userId = 1;
+	bool imFriend = 2; // [default=true];	// 是否允许加好友
+	bool imMessage = 3; // [default=true];  	// 是否陌生人聊天
+	uint32 imWealthLevel = 4; // 接受多少富私聊
+	bool isInvite = 5; // [default=true];	// 是否接受邀请
+	bool isPosition = 6; // [default=true];     // 是否公开位置
+	bool isWealth = 7; // [default=false];     // 是否隐藏财富值
+	bool isRemind = 8; // [default=false];     // 上线对好友提示 false==提示 true==不提示
+	bool isTotalRemind = 9; // [default=false];     // 关闭全站上线提醒 false==提示 true==不提示
+	bool chatShowCity = 12; // [default=true]; // 聊天是否显示地区
+}
+
+message SetUserSettingRes {
+}
+
+
+// 更新用户设置信息
+// message SCS001008 UserSetting userSetting = 2;
+// message SSC001008 IntegerVO result 结果，0失败，1成功
+
+// 绑定银行卡
+// message SCS001005 StringList;  0姓名；1开户行；2开户支行；3银行卡号；4手机号；5码云账号;6身份证号
+// message SSC001009 IntegerVO； 0失败；1成功；2已绑定; 3银行卡用户名与已实名认证的身份证名不一致;
+
+// 申请提现钻石
+// message SCS001011 IntegerVO;  // 提现钻石
+// message SCS001011 IntegerVO;  // 0成功；1不是提现日;2请先绑定银行卡;3本周已提现;
+
+// 更改密码 SCS001010 StringVO 新密码
+
+// 房间申请提现钻石
+// message SCS001012 IntegerVO;  // 提现钻石
+// message SSC001012 IntegerVO;  // 0成功；1不是提现日;2请先绑定银行卡;3本周已提现;4钻石不足;
+
+// 房间申请兑换金币
+// message SCS001013 IntegerList;  // 0兑换金币；1提现密码
+// message SSC001013 IntegerVO;  // 0成功；4钻石不足;6提现密码不正确
+
+// 设置密码
+// message SCS001015 IntegerVO;  //密码
+// message SSC001015 IntegerVO;  //0成功；1失败
+
+// [M] 礼券兑换
+// message SCS000020 IntegerList;  		// 0兑换数量;1提现密码
+// message SSC000020 IntegerVO is_ok;  	// 1=成功；2=礼券不足；6提现密码不正确
+
+
+
+// errCode 33018 失败；33019 已绑定; 33020 银行卡用户名与已实名认证的身份证名不一致; 33025 绑定码云失败; 33026 绑定银行卡失败;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+message ChangePasswdReq {
+	string value = 1;
+}
+
+message ChangePasswdRes {
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 关闭验证码
+
+
+
+
+
+
+
+
+
+message SuperManagerReq {
+	sint64 playerId = 1;
+    sint32 banType = 2; 	// BanType处罚类型, ACCOUNT(1, "封号"), SPEAK(2, "禁言"), ROOM(3, "封房间"), IP(4, "封IP"), DEVICEID(5, "封设备id"),
+							// TAKELEAVE(6, "踢下线"), WARNING(8, "警告"), TOP(9, "置顶"),FRIEND(10,"禁止广播交友");
+	uint32 time = 3; 		// 时间,单位:分
+	sint32 opType = 4;		// 操作类型，1设置，0取消
+}
+
+message SuperManagerRes {
+	// errCode 0 成功; 33027 没有权限;
+}
+
+message GetOnOffListReq {
+	sint64 player_id = 1; //用户id
+}
+message GetOnOffListRes {
+    repeated OnOffStatus status_list = 1;
+}
+
+message SearchPlayersReq {
+	sint32 page = 1;		// 页数
+	sint32 pageSize = 2;	// 每页多少条数据
+	string key_word = 3;	// 搜索关键词，房间Id或用户Id或公会Id以及房间名等
+}
+message SearchPlayersRes {
+	sint32 page = 1;			// 页数
+	sint32 pageSize = 2;		// 每页多少条数据
+	repeated SearchPlayerEntry list = 3;
+}
+
+message SearchPlayers {
+	sint32 page = 1;		// 页数
+	sint32 pageSize = 2;	// 每页多少条数据
+	string key_word = 3;	// 搜索关键词，房间Id或用户Id或公会Id以及房间名等
+	repeated SearchPlayerEntry list = 4;
+}
+
+message GetPlayerGainsReq {
+	int32 type = 1; // 1:个人，2:房间, 3:家族
+}
+message GetPlayerGainsRes {
+	string today = 1;      // 今日收益
+	string week = 2;       // 本周收益
+	string month = 3;      // 本月收益
+	string last_month = 4; // 上月收益
+	bool is_fast_withdraw = 5;  // 是否有秒提
+}
+
+message GetTatolGainReq {
+	int32 type = 1;		// 1个人，2房间, 3家族
+}
+message GetTatolGainRes {
+	string total_gain = 1;	// 总收益
+}
+
+//  系统邮件
+message MailMsg {
+	int64 id = 1;			// mail id
+	int32 cmd_id = 2;		// 广播的cmdId
+	int32 create_at = 3;	// 创建时间
+	bytes data = 4;			// 根据cmdId，创建对应的结构体
+	UserMailType type = 5;  // 消息类型
+	SubMsgType sub_msg_type = 6;     // 消息类型子类型
+}
+
+// last_read_time值由前端保存在本地，last_read_time更新机制：
+// 1、登录时判断对应的last_read_time>1分钟才请求，请求返回后更新last_read_time为当前时间
+// 2、收到对应cmdId时，更新last_read_time为当前时间
+// 当前对应的cmdId消息有：101001(SystemMsgNotice系统消息), 100137(BroadcastMateMatchMsg交友成功系统消息)
+message ReadMailReq {
+	int32 last_read_time = 1;  // 最后读取时间
+	UserMailType type = 2;  // 消息类型
+	SubMsgType sub_msg_type = 3;     // 消息类型子类型
+}
+
+message ReadMailRes {
+	repeated MailMsg list = 1;
+    repeated int64 msg_id = 2; // 过期消息id
+}
+
+message LastMailReq {
+	int32 last_read_time = 1;  // 最后读取时间
+	UserMailType type = 2;  // 消息类型
+	SubMsgType sub_msg_type = 3;     // 消息类型子类型
+}
+
+message LastMailRes {
+	bool flag = 1;      // 是否成功
+}
+
+// 广播新邮件 cmdId=101005, 更新last_read_time为当前时间
+message BroadcastMailMsg {
+	MailMsg mail = 1;
+}
+
+message GetPhoneUsedReq {
+	string country_code = 1; // 国家代号
+	string phone_no = 2; // 电话号码
+	string phone_sign = 3; // 手机号签名
+}
+message GetPhoneUsedRes {
+	bool is_used = 1;
+}
+
+message LoginWithPhoneSMSReq {
+	string phone_no = 1; // 国家区号+电话号码
+	string sms_token = 2; // send_sms_code.go接口获取
+    int32 channel = 3;    // 渠道号
+	DeviceType device_type = 4; //设备类型
+	string device_id = 5; //设备号
+}
+message LoginWithPhoneSMSRes {
+	string login_token = 1; // 登录凭证
+	bool is_new = 2; // 是否新建账号
+}
+
+message LoginWithPhonePasswordReq {
+	string phone_no = 1; // 国家区号+电话号码
+	string password = 2;
+    int32 channel = 3;    // 渠道号
+
+}
+message LoginWithPhonePasswordRes {
+	string login_token = 1; // 登录凭证
+}
+
+message ChinaMobileQuickLoginReq {
+	string app_id = 1; // SDK appid
+	string token = 2;
+    int32 channel = 3;    // 渠道号
+	DeviceType device_type = 4; //设备类型
+	string device_id = 5; //设备号
+}
+message ChinaMobileQuickLoginRes {
+	string login_token = 1; // 登录凭证
+	bool is_new = 2; // 是否新建账号
+}
+
+message ChinaTelecomAuthReq{
+	string access_token = 2;
+    int32 channel = 3;    // 渠道号
+	DeviceType device_type = 4; //设备类型
+	string device_id = 5; //设备号
+}
+message ChinaTelecomAuthRes{
+	string login_token = 1; // 登录凭证
+	bool is_new = 2; // 是否新建账号
+}
+
+
+message NewAuthTokenReq {}
+message NewAuthTokenRes {
+	string auth_req_token = 1;
+}
+
+message AuthReqTokenConfirmReq{
+	string auth_req_token = 1;
+}
+message AuthReqTokenConfirmRes{}
+
+message AuthReqResultReq{
+	string auth_req_token = 1;
+}
+message AuthReqResultRes{
+	sint32 result = 1; // 0成功，1未授权, 2已过期
+	// result == 0:
+	string login_token = 2; // 登录key
+}
+
+// 房间资产结构
+message RoomAssets {
+	int64 assets_type = 1; // 资产类型(枚举值含义在clan.mizhua.proto的RoomAssetsType)
+	int64 assets_num = 2; // 资产数量数量
+	bool isFreeze = 3; // 提现是否冻结
+}
+
+//H5收益页面  ---->
+//获取房间收益
+message RoomGiftTicketReq {
+	int64 player_id = 1;
+}
+
+message RoomGiftTicketRes {
+	int64 result = 1;   // 0, 表示非RT_REWARD， 1：RT_REWARD房
+	int64 value = 2;    //钻石数量
+	map<int64, RoomAssets> assets_map = 3; // 房间资产map, (枚举值含义在clan.mizhua.proto的RoomAssetsType)
+}
+//H5收益页面  <--------
+
+message HasUpdateSexPasswdReq {}
+message HasUpdateSexPasswdRes {
+	bool is_set = 1;
+	bool is_set_interest = 2; // 是否设置过兴趣
+}
+
+message SetUpdateSexPasswdReq {}
+message SetUpdateSexPasswdRes {}
+
+message UpdateSexReq{
+}
+message UpdateSexRes{
+}
+
+//提现记录
+
+
+
+
+
+message UpdatePasswdReq {
+	string old_passwd = 1; // 旧密码
+	string new_passwd1 = 2; // 新密码
+	string new_passwd2 = 3; // 新密码
+}
+message UpdatePasswdRes {
+	//ErrUserPasswdLength      = 33045;    // 密码至少为6位，且必须包含字母和数字
+	//ErrUserPasswdEqual       = 33046;	// 两次输入的密码不一致
+	//ErrUserOriginPasswd      = 33047;    // 原密码错误，请重新输入
+}
+
+message UpdatePasswdChangePhoneReq {
+	string new_passwd1 = 1; // 新密码
+	string new_passwd2 = 2; // 确认新密码
+	string name = 3;				//姓名
+	string identity_card_no = 4; //身份证号码
+	string identity_card_photo = 5; //身份证自拍
+	int64 id = 6; //用户ID
+	string phone = 7; //新手机号
+}
+
+message UpdatePasswdChangePhoneRes {
+	CheckType type = 1; //审核类型
+	string name = 2; //用户昵称
+	string time = 3; // 申诉时间
+}
+
+message ChangeExchangePasswdReq{
+	string new_passwd1 = 1; // 新兑换密码
+	string new_passwd2 = 2; // 确认新兑换密码
+	string name = 3;				//姓名
+	string identity_card_no = 4; //身份证号码
+	string identity_card_photo = 5; //身份证自拍
+	string card_num = 6; //银行卡号
+	string phone = 7; //绑定银行卡手机号
+}
+
+message ChangeExchangePasswdRes{
+	CheckType type = 1; //审核类型
+	string name = 2; //用户昵称
+	string time = 3; // 申诉时间
+}
+
+message BindPhoneReq {
+	string PhoneAreaCode 			=	1; // 区号
+	string Phone 					=	2; // 手机
+	string Code 				    =	3; // 验证码
+	UserBindPhoneOpType op_type		=	4; // 操作
+	string yidun_token              =   5; // 网易易盾token
+	string phone_sign = 6; // 手机号签名
+}
+
+message H5BindPhoneReq {
+	string phone_area_code 			=	1; // 区号
+	string phone 					=	2; // 手机
+	string code 				    =	3; // 验证码
+	UserBindPhoneOpType op_type		=	4; // 操作
+}
+
+message BindPhoneRes {
+	bool				is_succ			= 	1; // 是否成功
+	string              phone           =   2; // 绑定成功的手机号，代*
+}
+
+message BindPhoneItem {
+	int32 gift_id = 1;
+	string image = 2;
+	string name = 3;
+	string gift_description = 4;
+	int32 new_user_gift = 5;
+	int32 number = 6;
+	UserBindPhoneItemType item_type	=	7;			// 奖励类型
+}
+
+message GetBindPhoneItemReq {
+}
+
+message GetBindPhoneItemRes {
+	repeated BindPhoneItem	list	= 1;
+	bool            is_force		= 3; // 是否强制关闭面板
+}
+
+message CanRechargeCreditReq {
+	int64 player_id = 1; // 用户ID
+}
+message CanRechargeCreditRes {
+	uint32 day_remain_credit = 1; // 当日剩余充值额度
+	uint32 total_remain_credit = 2; // 剩余总充值额度
+	bool is_limit = 3; // 是否为限制用户
+}
+
+message BindPhonePlayer{
+	int64		id					= 1;
+	int64		id2					= 2;
+	string		name				= 3;
+	string		icon				= 4;
+	AccountChannelType  type        = 5;  // 渠道类型
+	SexType     sex                 = 7;  // 性别
+}
+
+enum AccountChannelType {
+	ACT_ZERO = 0;       // 占位
+	ACT_PHONE = 1;      // 手机
+	ACT_QQ = 2;         // QQ
+	ACT_WECHAT = 3;     // 微信
+	ACT_APPLE_ID = 4;   // AppleId
+	ACT_SUBSIDIARY = 5; // 小号
+}
+
+message ShowBindPhoneIdsReq {
+}
+message ShowBindPhoneIdsRes {
+	bool isBindPhone = 1;  				// 是否绑定过手机：true绑定，false未绑定
+	repeated BindPhonePlayer list = 2; 	// 绑定同一个手机的ID
+	bool change_power 		= 3;  		// 是否可以切账号
+	bool is_open 			= 4;  		// 是否开启手机绑定
+	bool is_show_add        = 5;        // 是否显示添加小号按钮
+	repeated string content = 6;        // 常见问题内容
+	string phone            = 7;        // 手机号(已打码)
+	int32 account_num       = 8;        // 绑定了多少个账号
+	bool is_wechat_or_qq    = 9;        // 登录方式是否为微信或QQ
+	bool is_show_icon       = 10;       // 是否显示登录类型的图标
+}
+
+message GetShowBindPhoneIdsReq {
+	string sms_token = 1; // token
+}
+message GetShowBindPhoneIdsRes {
+	repeated BindPhonePlayer list = 1; 	// 绑定同一个手机的ID
+	bool is_show_icon = 2; // 是否显示登录类型的图标
+}
+
+message CreateNewTokenReq {
+	int64 id = 2; // 选定的用户ID
+}
+message CreateNewTokenRes {
+	string key 			= 2;
+	bool is_apply_logoff = 3;  // 是否申请注销
+	string logoff_expired = 4; // 注销结束时间
+	int64 short_id = 5; // 短号
+}
+
+message GetCertificationReq{
+	int64 id = 1; //用户id
+}
+
+message GetCertificationRes{
+	bool flag = 1; // true：已认证 ； flag：未认证
+}
+
+message GetCertificationInfoReq {
+	string certify_id = 1;
+}
+message GetCertificationInfoRes {
+	string name = 2; // 用户姓名
+	string identity_card_no = 3;	// 打码的用户身份证号
+}
+message CertificationInfoReq {
+}
+message CertificationInfoRes {
+	string name = 2; // 用户姓名
+	string identity_card_no = 3;	// 打码的用户身份证号
+}
+
+message CertificationUrlReq {
+	string name = 1;  // 姓名
+	string identity_card_no = 2;  // 身份证号
+}
+message CertificationUrlRes {
+	string target_url = 1; // 跳转链接，回调的url带
+	string biz_no = 2; // 芝麻认证的biz_no
+}
+
+// ----------点单 ----------
+
+enum ChongZhiType {
+	ChongZhiType_Zero = 0; // 不使用
+	ChongZhiType_Weixin = 1; // 微信
+	ChongZhiType_Zhifubao = 2; // 支付宝
+	ChongZhiType_Union = 3; // 银联
+	ChongZhiType_HalfWeixin = 4; // 半屏微信
+	ChongZhiType_HalfZhifubao  = 5; // 半屏支付宝
+	ChongZhiType_PcZhifubao  = 6; // pc支付宝
+	ChongZhiType_PcWeixin  = 7; // pc微信
+	ChongzhiType_InnerZhifubao = 8;//支付宝内购
+	ChongzhiType_InnerWeixin = 9;//微信内购
+
+}
+
+// 充值优惠途径类型
+enum ChargeBonusType {
+	CBT_None = 0; // 占位不使用
+	CBT_AliPay = 1; // 支付宝
+}
+
+// 充值优惠信息
+message ChargeBonusInfo{
+	ChargeBonusType charge_type = 1;  // 充值类型
+	bool is_random_double = 2; // 是否随机双倍
+	string tips = 3; // 充值优惠提示
+	string desc = 4; // 充值优惠说明
+}
+
+message GetChongZhiReq {
+	sint64 player_id = 1;
+	ChongZhiType type = 2;
+}
+
+message GetChongZhiRes {
+	repeated ChongZhiItem list = 3;
+	bool     is_cmb_user = 4;
+	repeated ChargeBonusInfo bonus_info_list = 5; // 充值优惠信息列表
+}
+
+enum ChongZhiPlayerType {
+		ChongZhiPlayerType_All = 0; // 全部用户
+		ChongZhiPlayerType_Not_CPS = 1; // 非cps用户
+		ChongZhiPlayerType_CPS = 2; //cps用户
+		ChongZhiPlayerType_WhiteList = 3; // 白名单
+}
+
+message ChongZhiItem {
+	string unit = 1; // 单位
+	int32 gold = 2; // 金币
+	int32 amount = 3; // （元）
+	ChongZhiPlayerType player_type = 4; // 用户类型
+	map<int32,bool> player_type_map = 5;// 用户类型
+	int32 id = 6; // 配置ID
+}
+
+message AuthGetCjIdReq {
+}
+message AuthGetCjIdRes {
+	int64 mz_id = 1;  // 咪爪id
+	int64 cj_id = 2;  // 菜鸡id
+}
+message DialogCallbackReq {
+	bytes callback_data = 1; // 回调参数，直接返回弹窗的回调数据
+	DialogButtonType type = 2; // 按钮类型
+}
+message DialogCallbackRes {
+}
+
+
+
+
+// 获取图片列表 咪窝相册
+message ImageInfo {
+	sint64 id = 1; // 图片id
+	uint32 width = 2;
+	uint32 height = 3;
+	bool is_video = 4;	// 是否视频缩略图
+	string url = 5;		// 使用新的 url，当值不为空时，使用此值，否则使用旧的id
+	AuditStatus status = 6;  // 审核状态
+}
+
+message ImageInfoList {
+	repeated ImageInfo pics = 1; // 图片列表
+}
+
+message ImageInfoListReq {
+	int64 player_id = 1;
+}
+
+message ImageInfoListRes {
+	ImageInfoList image_info_list = 1; 	// 图片列表
+}
+
+
+enum SmsCode {
+	SMS_OK = 0; // 成功
+	SMS_Error = 1; // 获取验证码失败
+
+}
+
+message YunpianSmsCodeReq {
+	string phone = 1;
+	string country = 2;
+}
+
+message YunpianSmsCodeRes {
+	SmsCode code = 1;
+	string msg = 2;
+}
+
+
+message DeleteAccountCheckReq {
+	string client_info = 1;  // 客户端信息
+}
+message DeleteAccountCheckRes {
+	bool account_safe = 1; // 账号处于安全状态(在最近的一个月内，没有进行过密码修改，手机换绑等敏感操作)
+	bool account_ban = 2; // 非风险类账号(在最近6个月内，账号没有被封号过)
+	bool money_empty = 3; // 金币和钻石余额均为0
+	bool bill_order = 4;	// 账号未完成订单
+	SimplePlayer player = 5; // 用户信息
+	bool is_bind_phone = 6;  // 是否绑定手机
+	bool is_clan_identity = 7;  // 是否是公会会长/家族族长
+	bool is_ios_verity = 8;  // ios是否在审核中
+	bool is_servicing_order = 9; // 是否有我接的订单
+	bool is_bill_ordering = 10;  // 是否有我下的订单
+	int32 keep_days = 11;  // 注销保护天数
+	bool is_account_ban_freedom = 12; // 当前账号是否解封
+}
+
+message DeleteAccountReq {
+}
+message DeleteAccountRes {
+	string phone = 1; // 用户绑定的手机号
+}
+
+message DeleteAccountConfirmReq {
+	string code = 1; // 验证码
+	bool is_abandon_assets = 2; // 是否放弃余额
+	bool is_abandon_servicing_order = 3; // 是否放弃我接的订单
+	bool is_abandon_bill_ordering = 4; // 是否放弃我下的订单
+}
+message DeleteAccountConfirmRes {
+	int32 keep_days = 1; // 保存天数
+}
+
+
+//咪窝最近访客数据
+message VisitNumReq{
+	int64 owner_id = 1;
+}
+message VisitNumRes{
+	int64 total_visit_num = 1;
+	int64 add_num = 2;//新增浏览数量
+}
+
+
+//最近访客统计
+message VisitorStatReq{
+
+}
+message VisitorStatRes{
+	int64 total_visit_num = 1;
+	int64 add_num = 2;//新增浏览数量
+	int64 today_visitor = 3;//今天浏览人数
+	int64 today_visit_num = 4;//今天浏览量
+}
+
+//最近访客列表
+message VisitorListReq{
+	int64 owner_id = 1;// 访主id
+	int32 page = 2;//页数
+}
+message VisitorListRes{
+	repeated VisitorInfo visitor_info = 1;
+}
+// 我的访问记录
+message MyVisitListReq{
+	int32 page = 1;//页数
+}
+message MyVisitListRes{
+	repeated VisitorInfo visitor_info = 1;
+
+}
+
+
+//最近访客操作
+message VisitorOptReq{
+	int64 own_id = 1;//访主id
+	int64 id = 2;//信息id
+	VisitorOptType opt_type = 3;
+	int32 page = 4;
+	int64 visitor_id = 5;
+}
+message VisitorOptRes{
+	int32 code = 1;//0成功 1失败
+}
+
+// 最近访客操作限制
+message VisitorOptLimitReq{
+
+}
+message VisitorOptLimitRes {
+	VisitorOptLimitType hide_limit_type = 1; //隐藏限制类型
+	int32 hide_limit_lv = 2;
+	VisitorOptLimitType invisible = 3; //隐身限制类型
+	int32 invisible_limit_lv = 4;
+	string hide_describe = 5; // 隐藏文案
+	string invisible_describe = 6; // 隐身文案
+}
+
+
+// cmdId=500014 今天是否首充过状态推送
+// 推送的条件：登陆的时候会推送;用户今天第一次充值会推送;用户领取完成、领取福利会判断是否推送;用户领取了礼包后会推送
+message IsChargeToday {
+	int32 is_charge = 1; // 今天是否充值过，0没有，1有
+	int32 gift_icon = 2; // 房间礼包图标是否显示 0否1是
+}
+
+
+message GetSimplePlayerReq {
+	int64 player_id = 1;
+}
+message GetSimplePlayerRes {
+	SimplePlayer player = 1;
+	RiskType risk_type  = 2;
+}
+
+// 充值风控
+enum RiskType {
+	RT_Zero = 0;
+	RT_Warn = 1; // 预警
+	RT_Risk = 2; // 风控
+}
+
+//  oss上传回调:  Obj=mizhua.user.UserIntObj, Func=UresOssCallback
+message UresOssCallbackReq {
+	UploadType type = 1;
+}
+message UresOssCallbackRes {
+}
+
+// 保存上传图片
+message SaveOssImageListReq {
+	UploadType type = 1;            // 上传类型
+	repeated string url = 2;        // 不要带cdn
+	int32 voice_time = 3;           // 录音时长
+	int32 voice_tag_id = 4;         // 主音色Id
+	int32 voice_tag_num = 5;        // 主音色指数
+	int32 voice_style_id = 6;       // 曲风Id
+	int32 voice_style_num = 7;      // 曲风指数
+	repeated string char_tags = 8;  // 个性标签
+	int32 image_width = 9;			// 图片宽度
+	int32 image_height = 10;		// 图片高度
+}
+message SaveOssImageListRes {
+}
+
+// 删除图片
+message DeleteOssImageListReq {
+	int64 id = 1; // 相册图片id
+	UploadType type = 2;
+	string url = 3;  // 不要带cdn
+}
+message DeleteOssImageListRes {
+}
+
+// cmdId=500015 版本新内容简介 推送
+message NewVersionContent {
+	repeated string contents = 1;
+	string title = 2;
+}
+
+// cmdId=500016 开始跨年倒计时播放
+message CountdownStart {
+}
+
+// 隐私设置
+message PrivacySettingReq {
+}
+message PrivacySettingRes {
+	repeated PrivacyTypeVal on_off_list = 1; // 开关列表
+	string incognito_describe = 2; 		// 隐身浏览等级限制提示语
+}
+
+// 改变隐私设置
+message ChangePrivacyReq {
+	PrivacyTypeVal on_off = 1; // 开关
+}
+message ChangePrivacyRes {
+	PrivacyTypeVal on_off = 1; // 开关
+}
+
+message PrivacyTypeVal {
+	PrivacyType on_off_type = 1; // 开关类型
+	int32 on_off_val = 2; // 0关1开
+}
+
+// 隐私开关类型
+enum PrivacyType {
+	PrivacyZero = 0; // 占位不使用
+	Incognito = 1; // 隐身浏览开关
+	ShowRecentVisit = 2; // 打开我的访客
+	RecPushMsg = 3; // 接收push消息通知,默认打开
+
+	HideRoom = 11; // 隐藏我的个人房间
+	ShowPosition = 12; // 显示我的位置
+	ShowAllTrends = 13; // 展示全部动态，默认显示最近6个月
+	UpdateTrendNotice = 14; // 动态更新提醒
+	OnlineNotice = 15; // 上线全服通知
+
+	// 氧吧互动 后台推送开关
+	PushTrendLike = 20; // 点赞
+	PushTrendComment = 21; // 评论
+	PushTrendAt = 22; // @
+	PushTrendNoticeNew = 23; // 关注的人发动态
+	// 消息提醒 后台推送开关
+	PushNewFans = 24; // 新粉丝关注
+	PushStrangerMsg = 25; // 陌生人私聊
+	PushIMPresentGift = 26; // 私聊中收到礼物通知
+	RecIMPresentGift = 27; // 接收IM礼物开关
+	IMQuickChatContent = 28; // IM聊天快捷提示开关
+	RoomQuickChatContent = 29; // 房间快捷聊天提示开关
+	RoomRankNotFlower = 30; // 房间内榜单过滤鲜花开关
+	PersonalizationSwitch = 31; // 个性化开关
+}
+
+message GetNoAuthBeforeLoginReq {
+	DeviceType device  = 1;
+	string     version = 2; // 6.5.0
+}
+
+message GetNoAuthBeforeLoginRes {
+	repeated OnOffStatus list = 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+enum CertifySourceState {
+	CSS_NONE = 0; // 不展示
+	CSS_NOT_UPLOAD = 1; // 未上传资料
+	CSS_AUDITING = 2; // 审核中
+	CSS_REFUSE = 3; // 审核不通过
+	CSS_PASS = 4; // 审核通过
+	CSS_RE_AUDITING = 5; // 复审中
+}
+
+message TypeImageListReq {
+	int64 player_id = 1;
+	UploadType type = 2;
+}
+
+message TypeImageListRes {
+	repeated ImageInfo pics = 1; // 图片列表
+	UploadType type = 2;
+}
+
+enum ClearMsgRedType {
+	CMRType_None = 0;  //占位
+	CMRType_ALL	 = 1;  //消息页面-所有类型红点
+	CMRType_BillVisit = 2; //消息页面-点单浏览通知
+}
+message ClearMsgRedReq {
+	ClearMsgRedType msg_type = 1;
+}
+
+message ClearMsgRedRes {
+}
+
+// 动态等级配置
+message DynamicIconLevConfReq {
+}
+
+message DynamicIconLevConfRes {
+    int32 charm_level = 1;      // 魅力等级
+    int32 wealth_level = 2;     // 财富等级
+    int32 logic = 3;            // 逻辑关系, 0表示或,1表示且
+    string desc = 4;            // 动态头像设置条件描述
+}
+
+// 微信公众号获取绑定玩家id
+message WeChatBindListReq {
+	string union_id = 1;
+	string open_id = 2;
+	string app_id = 3;
+	WeChatLogin login_type = 4;
+}
+message WeChatBindListRes {
+	bool status = 1; // 是否已绑定成功，否的话请求 WeChatBindIdReq
+	repeated WeChatBind bind_list = 2;
+}
+enum WeChatLogin {
+	WX_LOGIN_ZERO = 0;
+	WX_LOGIN_PHONE = 1; // 手机登录绑定
+	WX_LOGIN_ID_PSW = 2; // 账号id登录绑定
+}
+
+// 微信绑定账号信息
+message WeChatBind {
+	int64 player_id = 1;
+	string name = 2;
+	string icon = 3; // 头像
+}
+
+// 微信公众号绑定玩家id
+message WeChatBindIdReq {
+	string union_id = 1;
+	string open_id = 2;
+	string app_id = 3;
+	int64 player_id = 4;
+}
+message WeChatBindIdRes {
+	string token = 1;
+}
+
+// 解除微信公众号绑定玩家id
+message CancelWeChatBindIdReq {
+}
+message CancelWeChatBindIdRes {
+}
+
+// 删除个人资料声音
+message DelProfileVoiceReq {
+}
+message DelProfileVoiceRes {
+	bool is_voice_tag = 1;    // 是否有声鉴卡标签
+}
+
+// 获取微信公众号接单大神信息
+message WechatBindInfoReq {
+}
+message WechatBindInfoRes {
+    int64 player_id = 1;         // 用户ID
+    string name = 2;             // 用户名字
+    int32 is_bill_authority = 3; // 是否有接单权限(1:有权限, 0:没权限)
+    string icon = 4;             // 用户头像
+}
+
+// 微信公众号手机验证码登录
+message GetWeChatSubLoginReq {
+	string phone = 1;
+	string sms_code = 2; // 验证码
+}
+message GetWeChatSubLoginRes {
+	string token = 1;             // token
+}
+
+// 歌手、声优认证发放类型
+enum AuthGainType {
+    AuthGainGuild = 0;          // 公会发放
+    AuthGainOffical = 1;        // 官方发放
+    AuthGainLevelUp = 2;        // 升级
+}
+
+// 认证等级配置
+message AuthLevCfg {
+    sint32 level = 1;           // 等级
+    string name = 2;            // 名称
+    string url = 3;             // 图标URL
+    AuthGainType gain_type = 4; // 获取方式
+    sint64 lev_exp = 5;         // 升级经验值(点歌数量)
+}
+
+// 获取歌手、声优等级配置
+message AuthLevCfgReq {
+    AuthType auth_type = 1;     // 认证类型
+}
+message AuthLevCfgRes {
+    AuthType auth_type = 1;               // 认证类型
+    repeated AuthLevCfg auth_lev_cfg = 2; // 等级配置列表
+}
+
+// 删除认证
+message AuthDelRes {
+    AuthType auth_type = 1;     // 认证类型
+}
+
+// 公会后台设置认证
+message AuthClanReq {
+	sint64 player_id = 1;       // 成员id
+	sint32 level = 2;           // 等级
+	AuthType auth_type = 3;     // 认证类型
+	bool is_set = 4;            // true为设置认证，false为删除认证
+}
+
+message AuthClanRes {
+	sint64 player_id = 1;       // 成员id
+	AuthInfo auth_info = 2;     // 认证信息
+}
+
+
+// 声鉴卡信息
+message VoiceTagInfo {
+	int32 voice_tag_id = 1;         // 主音色
+	string voice_tag_text = 2;      // 主音色文字
+	int32 voice_tag_num = 3;        // 主音色指数
+	int32 voice_style_id = 4;       // 曲风
+	string voice_style_text = 5;    // 曲风文字
+	int32 voice_style_num = 6;      // 曲风指数
+	repeated string char_tags = 7;  // 个性标签
+	string voice_url = 8;           // 声音URL
+	int32 voice_time = 9;           // 声音时长
+}
+
+// 获取自己声鉴卡信息
+message VoiceTagInfoReq {
+}
+message VoiceTagInfoRes {
+	VoiceTagInfo voice_tag = 1;     // 声鉴卡信息
+	string signature = 2;  			    // 个性签名
+	repeated VoiceTagCfg voice_tag_cfg = 3; // 主音色配置
+	repeated VoiceStyleCfg voice_style_cfg = 4; // 曲风配置
+}
+
+// 获取声鉴卡信息
+message VoiceTagPlayerInfoReq {
+	sint64 player_id = 1;         // 用户ID
+}
+message VoiceTagPlayerInfoRes {
+	sint64 player_id = 1;           // 用户ID
+	string nick_name = 2;           // 昵称
+	string signature = 3;  			    // 个性签名
+	VoiceTagInfo voice_tag = 4;     // 声鉴卡信息
+	string icon = 5;                // 头像
+	sint64 short_id = 6;            // 靓号
+	SexType sex = 7;                // 性别
+}
+
+message VoiceTagCfgList {
+	SexType gender = 1;                     // 性别
+	repeated VoiceTagCfg voice_tag_cfg = 2; // 主音色
+}
+
+// 声鉴卡主音色
+message VoiceTagCfg {
+	int32 voice_tag_id = 1;    // 主音色Id
+	string voice_tag_text = 2; // 主音色文字
+}
+
+// 声鉴卡主音色
+message VoiceStyleCfg {
+	int32 voice_style_id = 1;    // 曲风Id
+	string voice_style_text = 2; // 曲风文字
+}
+
+// 获取声鉴卡配置信息
+message VoiceTagReq {
+}
+message VoiceTagRes {
+	repeated VoiceTagCfgList voice_tag = 1; // 主音色配置
+	repeated VoiceStyleCfg voice_style = 2; // 曲风配置
+}
+
+// 通过友盟一键绑定手机
+message UmengQuickBindPhoneReq {
+	// app_key，用户在友盟注册的应用分配的
+	string app_key = 1;
+	// token，由客户端 sdk 每次请求前获取
+	string token = 2;
+    string yidun_token = 3; // 网易易盾token
+}
+message UmengQuickBindPhoneRes {
+	string phone = 1; // 绑定成功，返回手机号
+}
+
+// UC_BillPlayerStatus = 500022
+message UpdateBillPlayerStatus {
+	int32 skill_id = 1; // 技能ID，为0时修改总开关
+	bool  status   = 2; // 开关状态
+	bool  is_new_status = 3; // 是否是新手单开关状态，技能里有两个开关状态
+}
+
+message IsCheckingReq{
+	int64 id = 1; //用户ID
+	CheckType type = 2; //申诉类型
+}
+
+message IsCheckingRes{
+	bool flag = 1; //true：正在审核中；false：没有审核记录
+	CheckType type = 2; //审核类型
+	string name = 3; //用户姓名
+	string time = 4; // 申诉时间
+}
+
+enum CheckType{
+	CHECK_NONE = 0;
+	CHECK_CHANGE_PWD = 1; //修改登录密码
+	CHECK_BIND_PHONE = 2; //修改绑定手机
+	CHECK_CHANGE_EXCHANGE_PWD = 3; //修改兑换密码
+
+}
+
+// 空间弹幕
+enum LeaveMessageType {
+	LMT_NONE = 0; //占位不用
+	LMT_OWNER = 1; // 我的留言
+	LMT_OTHER = 2;  // 我写的留言
+}
+
+// 获取空间首页弹幕
+message IndexLeaveMessageListReq {
+	int64 owner_id = 1; //被访者ID
+}
+
+message IndexLeaveMessageListRes {
+	repeated LeaveMessageInfo leave_message_info = 1;
+}
+
+// 获取我的空间留言
+message LeaveMessageListReq {
+	int32 index = 1; //  初始传0，-1没有了不用再请求
+	LeaveMessageType leave_msg_type = 2; // 留言类型
+}
+
+message LeaveMessageListRes {
+	repeated LeaveMessageInfo leave_message_info = 1;
+	int32    next_index        = 2; // 请求下一页传回
+}
+
+message LeaveMessageInfo {
+	int64 id = 1; //弹幕ID
+	string nick_name = 2; //用户昵称
+	string icon = 3; // 用户头像
+	string leave_message = 4; //留言内容
+	int64 create_at = 5; // 留言时间
+	SexType sex = 6; // 性别
+	int64 player_id = 7; // 用户ID
+	int64 receive_player_id = 8; // 推送首页弹幕接收人ID（只作用于空间首页弹幕）
+}
+
+// 写弹幕
+message SendLeaveMessageReq {
+	int64 receive_player_id = 1; // 接收者ID
+	string leave_message = 2; // 留言内容
+}
+
+message SendLeaveMessageRes {
+}
+
+// 删除弹幕
+message DeleteLeaveMessageReq {
+	int64 id = 1; // 留言ID(全部删除ID为0)
+	bool delete_all = 2; // 是否全部删除(全部删除为true，单条为false)
+	LeaveMessageType leave_msg_type = 3; // 删除留言类型(必填)
+}
+
+message DeleteLeaveMessageRes {
+}
+
+message SimplePlayerListReq {
+	repeated int64 ids = 1;
+}
+message SimplePlayerListRes {
+	repeated SimplePlayer list = 1;
+}
+
+// 获取我的留言红点
+message GetLeaveMessageRedPointReq {
+
+}
+
+message GetLeaveMessageRedPointRes {
+	int32 total = 1; // 红点个数;0:无红点
+}
+
+//获取玩家属性或者设置
+message PlayerAttributeReq {
+	map<string, int32> attributes = 1;
+}
+
+message PlayerAttributeRes {
+	map<string, int32> attributes = 1; // key:new_sw, msg_folding_sw, msg_folding_num value 默认是0 1：表示开，
+}
+
+// 更新黑鲸vip状态
+message BlackWhaleReq{
+}
+message BlackWhaleRes{
+    bool is_black_whale = 1; // 是否是黑鲸vip
+}
+
+// 开通亲密粉丝
+message JoinIntimateFansReq{
+	sint64 player_id = 1; // 主播账号ID
+	sint32 day = 2; // 时间数量，多少天，多少月，多少年，根据 IntimateFansDayConf 判断
+	IntimateFansDayConf type = 3;
+	sint32 gold = 4; // 金币
+	sint32 id = 5; // 配置ID，IntimateFansConf 里的ID
+}
+message JoinIntimateFansRes{
+	sint64 valid_at = 1; // 有效期
+}
+
+// 进入开通亲密粉丝查询页
+message JoinIntimateFansQueryReq{
+	sint64 player_id = 1; // 主播账号ID
+}
+message JoinIntimateFansQueryRes{
+	Player player = 1; // 主播信息
+	sint32 fans_num = 2; // 亲密粉丝人数
+	sint64 valid_at = 3; // 开通亲密粉丝有效期
+	repeated IntimateFansConf conf = 4;
+}
+// 开通亲密粉丝天数配置
+message IntimateFansConf{
+	sint32 id = 1; //配置ID
+	sint32 day = 2; // 时间数量，多少天，多少月，多少年，根据 IntimateFansDayConf 判断
+	IntimateFansDayConf type = 3;
+	sint32 price = 4; // 原价
+	sint32 discount = 5; // 特惠价格
+}
+// 开通亲密粉丝天数配置类型
+enum IntimateFansDayConf {
+	Intimate_Fans_None = 0;
+	Intimate_Fans_Day = 1;  // 天
+	Intimate_Fans_Month = 2; // 月
+	Intimate_Fans_Year = 3; // 年
+}
+
+// 亲密粉丝等级配置
+message IntimateFansLevConf {
+	int32 lev = 1;                    // 等级
+	string lev_name = 2;              // 等级名称
+	string android_icon_url = 3;      // 安卓铭牌
+	string android_banner_url = 4;    // 安卓横幅
+	string ios_head_icon_url = 5;     // ios头图
+	string ios_tail_icon_url = 6;     // ios尾图
+	string ios_icon_url = 7;          // ios铭牌标签
+	string ios_icon_banner_url = 8;   // ios铭牌横幅
+	string pc_icon_url = 9;           // pc铭牌
+	string pc_head_icon_url = 10;     // pc头图
+	string pc_middle_icon_url = 11;   // pc中图
+	string pc_tail_icon_url = 12;     // pc尾图
+	string pc_icon_tag_url = 13;      // pc铭牌标签
+	string pc_icon_banner_url = 14;   // pc铭牌横幅
+	string android_icon_tag_url = 15; // 安卓铭牌标签
+	string web_icon_head_url = 16;    // web铭牌头
+	string web_icon_body_url = 17;    // web铭牌身体
+	string web_icon_tail_url = 18;    // web铭牌尾部
+    int64  lev_exp = 19;              // 等级经验值
+    int64  max_daily_exp = 20;        // 每日获得最高经验值
+}
+
+// 获取亲密粉丝等级配置信息
+message IntimateFansLevConfReq {
+}
+message IntimateFansLevConfRes{
+	repeated IntimateFansLevConf conf_list = 1;
+}
+
+// 亲密粉丝铭牌变更类型
+enum PushIntimateFansCardInfoType {
+	PIFCIT_Upd = 0;  // 占位
+	PIFCIT_Add = 1;  // 新增
+	PIFCIT_Del = 2;  // 删除
+	PIFCIT_Lev = 3;  // 更新等级
+	PIFCIT_Card = 4; // 更新铭牌
+}
+
+// 推送亲密粉丝铭牌信息
+message PushIntimateFansCardInfo {
+	int64 player_id = 1;                        // 名牌ID
+	string card_name = 2;                       // 名牌名字
+	int32 lev = 3;                              // 等级
+	PushIntimateFansCardInfoType push_type = 4; // 亲密粉丝铭牌变更类型
+    int64 exp = 5;                              // 当前经验值
+    int64 daily_exp = 6;                        // 今日增加经验值
+}
+
+// 亲密粉丝名牌信息
+message IntimateFansCardInfo {
+	int64 player_id = 1; // 名牌ID
+	int32 lev = 2; // 等级
+	string card_name = 3; // 名牌名字
+}
+
+// 获取亲密粉丝名牌信息
+message IntimateFansCardInfoReq {
+}
+message IntimateFansCardInfoRes {
+	int64 used_player_id = 1; // 当前正在使用的亲密粉丝名牌ID, 小于等于0表示未佩戴
+	repeated IntimateFansCardInfo card_list = 2; // 名牌信息
+}
+
+// 佩戴亲密粉丝牌子
+message SetIntimateFansCardReq {
+	int64 player_id = 1; // 名牌ID
+}
+message SetIntimateFansCardRes {
+	int64 player_id = 1; // 成功佩戴的牌子ID
+}
+
+// 亲密粉丝的主播信息
+message IntimateFansHostInfo {
+	int64 player_id = 1; // 主播ID
+	int64 player_sid = 2; // 主播短号ID
+	string icon = 3; // 主播头像
+	int64 intimate_fans_num = 4; // 守护人数
+	int64 intimate_val = 5; // 亲密度
+	int64 intimate_rank = 6; // 亲密度排名
+	repeated string rank_icon_list = 7; // 守护排行榜前N名头像
+	string player_name  = 8; // 主播昵称
+}
+
+// 亲密粉丝名牌信息设置
+message IntimateFansCardSetting {
+	int32 status = 1; // 审核状态，0已通过，1审核中
+	string card_name = 2; // 当前名称
+	string audit_name = 3; // 审核名称
+}
+
+// 亲密粉丝等级信息
+message IntimateFansLevInfo {
+	int32 lev = 1; // 当前等级
+	int64 exp = 2; // 当前亲密度值
+	int64 gap_exp = 3; // 距离下一级还差亲密度值
+	int64 expired_time = 4; // 到期时间
+	string my_icon = 5; // 我的头像
+	string host_icon = 6; // 主播头像
+	int64 lev_exp = 7; // 等级经验值
+	bool max_lev = 8;  // 是否达到最高等级:true:是;false:否
+}
+
+enum IntimateFansHostViewType{
+	IFHVT_HOST_VIEW = 0; // 主播查看守护榜
+	IFHVT_FANS_VIEW = 1; // 粉丝查看守护榜
+}
+
+// 主播、粉丝查看自己亲密粉丝信息
+message IntimateFansHostViewReq {
+	int32 index = 1; //  初始传0，-1没有了不用再请求
+	int64 host_id = 2; // 主播ID
+	IntimateFansHostViewType view_type = 3; // 查看端
+}
+
+message IntimateFansHostViewRes {
+	IntimateFansHostInfo host_info = 1; // 主播信息
+	IntimateFansCardSetting card_setting = 2; // 名牌信息设置
+	repeated IntimateFanInfo fan_list = 3; // 粉丝列表
+	int32 next_index = 4; // 下次请求返回
+	IntimateFansLevInfo lev_info = 5; // 等级信息
+}
+
+message IntimateFanInfo {
+	int32 lev = 1; // 当前等级
+	int64 exp = 2; // 当前亲密度值
+	int64 fan_id = 3; // 粉丝ID
+	int64 fan_id2 = 4; // 粉丝靓号
+	string fan_name = 5; // 粉丝昵称
+	string fan_icon = 6; // 粉丝头像
+	int32 fan_charm_lev = 7; // 粉丝魅力等级
+	int32 fan_wealth_lev = 8; // 粉丝财富等级
+}
+
+// 查看与主播的亲密粉丝信息
+message IntimateFansViewReq {
+	int64 player_id = 1;  // 主播ID
+}
+message IntimateFansViewRes {
+	IntimateFansHostInfo host_info = 1; // 主播信息
+}
+
+// 设置亲密粉丝名牌
+message SetIntimateFansCardInfoReq {
+	string card_name = 1; // 名牌名称
+}
+message SetIntimateFansCardInfoRes {
+	IntimateFansCardSetting card_setting = 1; // 名牌信息设置
+}
+
+// 亲密粉丝团任务目标
+message IntimateFansTarget {
+	int64 id = 1;                    // 任务ID
+	IntimateFansTargetType type = 2; // 任务类型
+	string name = 3;                 // 任务名称
+	string desc = 4;                 // 任务描述
+	int32 status = 5;                // 任务状态, 0表示未完成， 1表示已完成
+	int64 progress_val = 6;          // 进度值
+	int64 target_val = 7;            // 目标值
+	int64 intimate_val = 8;          // 亲密值
+    string router = 9;               // 跳转路由
+}
+
+// 获取亲密粉丝明细
+message IntimateFansDetailReq {
+	int64 player_id = 1;  // 亲密粉丝主播
+}
+message IntimateFansDetailRes {
+	bool is_valid = 1; // 是否是亲密粉丝
+	repeated IntimateFansTarget target_list = 2; // 任务列表（当is_valid为true时返回）
+	IntimateFansLevInfo lev_info = 3; // 等级信息 (当is_valid为true时返回)
+	repeated IntimateFansConf conf_list = 4; // 开通信息 (当is_valid为false时返回)
+}
+
+message GuardLiveListReq{}
+message GuardLiveListRes{
+	bool on_off = 1; // 用户是否有亲密粉丝团权限
+	repeated GuardLiveInfo list = 2; // 正在守护的主播信息
+	repeated GuardLiveTimeoutInfo timeout_list = 3; // 守护的主播信息(已过期)
+	repeated GuardLiveRecommendInfo recommend_list = 4; // 推荐的主播, list 为空时有
+	sint64 live_id = 5; // 当前用户佩戴名牌的主播ID
+}
+message GuardLiveCommonInfo{
+	sint32 lev = 1; // 亲密粉丝等级
+	string banner_name = 2; // 自定义名牌名称
+	string live_icon = 3; //  主播头像
+	string live_name = 4; // 主播名称
+	sint64 live_id = 5; // 主播ID
+	sint64 live_sid = 6; // 短号
+}
+message GuardLiveInfo{
+	GuardLiveCommonInfo info = 1;
+	sint64 valid_at = 2; // 亲密粉丝到期时间(秒)
+}
+message GuardLiveTimeoutInfo{
+	GuardLiveCommonInfo info = 1;
+}
+message GuardLiveRecommendInfo{
+	GuardLiveCommonInfo info = 1;
+	sint32 fans_num = 2; // 粉丝数量
+}
+
+message IntimateFansJumpUrlReq{
+	sint64 live_id = 1; // 主播ID
+}
+message IntimateFansJumpUrlRes{
+	sint64 live_id = 1; // 主播ID
+}
+
+//------------代收提现--------------
+
+//获取用户本月提现渠道金额
+
+
+
+// 请求上次代收款人信息
+
+
+
+
+
+
+
+// 获取代收短信验证码
+
+
+
+// 代收提现
+
+
+
+
+// 获取特定开关状态
+message SwitchStatusReq {
+	repeated PrivacyType type_list = 1; // 开关列表
+}
+message SwitchStatusRes {
+	repeated PrivacyTypeVal on_off_list = 1; // 开关列表
+}
+
+// 获取捞鲸状态
+message WhaleBossStatusReq {
+}
+message WhaleBossStatusRes {
+    int32 day_times = 1; // 今日可捞次数
+    int64 next_time = 2; // 下次可捞时间
+}
+
+// 捞鲸老板数据
+message WhaleBoss {
+    int64 player_id = 1;        // 用户ID
+    int64 player_sid = 2;       // 靓号
+    string name = 3;            // 用户昵称
+    SexType sex = 4;            // 性别
+    int32 wealth_lev = 5;       // 财富等级
+    int32 charm_lev = 6;        // 魅力等级
+    int32 potential = 7;        // 潜力值
+	  string icon = 8;            // 头像
+}
+
+// 捞鲸老板列表
+message WhaleBossListReq {
+}
+message WhaleBossListRes {
+    repeated WhaleBoss boss_list = 1; // 老板列表
+}
+
+// 捞鲸请求
+message CatchWhaleBossReq {
+}
+message CatchWhaleBossRes {
+  repeated WhaleBoss boss_list = 1; // 老板列表
+  int32 day_times = 2; // 今日可捞次数
+  int64 next_time = 3; // 下次可捞时间
+}
+// 保存歌单图片
+message SaveSongImgReq {
+	string img = 1; // 歌单图片url
+	int32 width = 2;		// 图片宽度
+	int32 height = 3;		// 图片高度
+}
+message SaveSongImgRes {
+}
+
+
+// 首页加载完成
+message HomeLoadSuccessReq {
+  int64 timestamp = 1;  // 当前时间戳
+  bool is_cold = 2;		// 是否为冷启动进入首页
+}
+
+message HomeLoadSuccessRes {}
+// 设置用户频道信息过滤
+message SetChannelFilterReq {
+  repeated ChannelType channel_list = 1; // 频道列表(勾选的频道)
+}
+
+message SetChannelFilterRes {
+}
+
+// 订阅频道
+message ChannelSubscribeReq {
+	int64 channel_id = 1;           // 频道ID(没有则不传)
+	ChannelPrefix channel_type = 2; // 频道类型
+	int64 timestamp = 3; 			// 精确到毫秒
+}
+
+message ChannelSubscribeRes {}
+
+// 批量订阅频道
+message BatchChannelSubscribeReq {
+	repeated ChannelSubscribeReq channel_list = 1;
+}
+
+message BatchChannelSubscribeRes {}
+
+// 取消频道订阅
+message ChannelDesubscribeReq {
+	ChannelPrefix channel_type = 1; // 频道类型
+	int64 timestamp = 2;			// 精确到毫秒
+}
+
+message ChannelDesubscribeRes {}
+
+// 批量取消频道订阅
+message BatchChannelDesubscribeReq {
+	repeated ChannelDesubscribeReq channel_list = 1;
+}
+
+message BatchChannelDesubscribeRes {}
+
+message UpdateBindPhoneReq{
+	string identity_card_photo = 1; //身份证自拍
+	string phone = 2; //新手机号
+}
+
+message UpdateBindPhoneRes{
+	CheckType type = 1; //审核类型
+	string name = 2; //用户昵称
+	string time = 3; // 申诉时间
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 设置页开关类型
+enum SettingType {
+	SONOFFT_ZERO = 0;     // 占位
+	SONOFFT_MESSAGE = 1;  // 来电消息通知开关
+	SONOFFT_IM_GIFT = 2;  // IM送礼消息通知开关
+}
+
+message SettingOnOffReq {
+	SettingOnOffStatus on_off = 1;
+}
+
+// 设置页开关
+message SettingOnOffStatus {
+	SettingType on_off_type = 1;
+	bool is_open = 2;
+}
+
+message SettingOnOffRes {
+}
+
+message SettingOnOffListReq {
+}
+
+message SettingOnOffListRes {
+	repeated SettingOnOffStatus list = 1;
+}
+
+message ReceivePushReq {
+}
+
+message ReceivePushRes {
+}
+
+// IM代聊弹窗 cmdid=500031
+message ImGenerationWindows {
+	int64 player_id = 1;	// 主播ID
+	string name = 2;		// 主播名称
+	SexType sex = 3;		// 性别
+	string tag = 4; 		// 便签
+	string icon = 5;		// 头像
+	string content = 6;		// 引导术语
+	int32 age = 7;			// 年龄
+}
+
+message ImGenerationReq {
+	int64 player_id = 1;	// 主播ID
+}
+
+message ImGenerationRes {
+}
+
+message DialogCallBackExitReq {
+		DialogButtonType type = 1; // 按钮类型;按钮类型为退出登录
+}
+message DialogCallBackExitRes {
+
+}
+
+// start ----------------- 个播2.0 -----------------
+
+message BroadcastJoinIntimateFansV2{
+	int64 anchor_id = 1;  // 主播ID
+	int64 anchor_id2 = 2; // 主播靓号
+	string anchor_name = 3; // 主播昵称
+	string anchor_icon = 4; // 主播头像
+	int64 player_id = 5; // 用户ID
+	int64 player_id2 = 6; // 用户靓号
+	string player_name = 7; // 用户昵称
+	string player_icon = 8; // 用户头像
+	string content = 9;   // 弹窗显示内容
+	string btn_text = 10; // 按钮文案
+	int64 show_time = 11; // 弹窗显示时间(秒)
+}
+
+// 亲密粉丝等级配置
+message IntimateFansVsn2LevConf {
+	int32 lev = 1;              // 等级
+	string lev_name = 2;        // 等级名称
+	string card_url = 3;        // 铭牌url
+	string banner_url = 4;      // 横幅url（安卓）
+	int64 lev_exp = 5;         // 等级经验值
+	int64 max_daily_exp = 6;   // 每日获得最高经验值
+	string card_start_color = 7; // 铭牌起始色
+	string card_end_color = 8;   // 铭牌结束色
+	string ios_head_icon_url = 9;     // ios横幅头图url
+	string ios_tail_icon_url = 10;     // ios横幅尾图url
+	string pc_head_icon_url = 11;     // pc横幅头图url
+	string pc_middle_icon_url = 12;     // pc横幅中图url
+	string pc_tail_icon_url = 13;     // pc横幅尾图url
+}
+
+// 获取亲密粉丝等级配置信息
+message IntimateFansVsn2LevConfReq {
+}
+message IntimateFansVsn2LevConfRes{
+	repeated IntimateFansVsn2LevConf conf_list = 1;
+}
+
+// 获取亲密粉丝任务配置
+message IntimateFansMissionConfReq{
+}
+message IntimateFansMissionConfRes{
+	repeated IntimateFansMiddionCliCfg conf_list = 1;
+}
+
+// 亲密粉丝团任务目标
+message IntimateFansMissionTarget{
+	int64 id = 1;                    // 任务id
+	int32 status = 2;                // 任务状态, 0表示未完成， 1表示已完成
+	int64 progress_val = 3;          // 进度值
+}
+
+// 用户与主播亲密粉丝团信息
+message IntimateFansDetailInfo{
+	bool is_valid = 1;            // 是否是亲密粉丝
+	int64 player_id = 2;          // 主播id
+	string nick_name = 3;         // 主播名称
+	int64 player_sid = 4;         // 主播短号
+	string player_icon = 5;       // 主播头像
+	int64 gift_id = 6;            // 礼物id
+	int64 daily_exp = 7;          // 今日增加亲密值 （当is_valid为true时返回）
+	int64 lev = 8;                // 当前等级      （当is_valid为true时返回）
+	int64 exp = 9;                // 当前经验值    （当is_valid为true时返回）
+	int64 fans_num = 10;          // 亲密粉丝数量 （当is_valid为true时返回）
+	repeated IntimateFansMissionTarget target_list = 11; // 任务列表 （当is_valid为true时返回）
+	string card_name = 12;        // 名牌名称（当is_valid为true时返回）
+}
+
+// 获取亲密粉丝明细2.0
+message IntimateFansDetailVsn2Req{
+	repeated int64 player_ids = 1; // 亲密粉丝主播id数组
+}
+message IntimateFansDetailVsn2Res{
+	repeated IntimateFansDetailInfo info_list = 1; // 用户与主播亲密粉丝团信息
+}
+
+message IntimateFansCardInfoV2 {
+	int64 player_id = 1;        // 名牌ID
+	int32 lev = 2;              // 等级
+	string card_name = 3;       // 名牌名字
+	int32 exp = 4;              // 经验值(今日获得经验值)
+	int32 limit_exp = 5;        // 每日获得经验值限制
+	int32 gap_exp = 6;          // 距离下一级还差经验值值
+	bool max_lev = 7;           // 是否达到最高等级:true:是;false:否
+	int64 room_id = 8;          // 正在个播的房间ID
+	int64 player_id2 = 9;       // 主播靓号
+	string player_name = 10;    // 主播昵称
+	string player_icon = 11;    // 主播头像
+	int32 current_exp = 12;     // 用户当前经验值（下一等级经验值=当前经验值+距离下一级还差经验值值）
+}
+
+// 获取亲密粉丝牌子列表
+message IntimateFansCardInfoVsn2Req {
+}
+message IntimateFansCardInfoVsn2Res {
+	int64 used_player_id = 1; // 当前正在使用的亲密粉丝名牌ID, 小于等于0表示未佩戴
+	repeated IntimateFansCardInfoV2 card_list = 2; // 名牌信息
+}
+
+// 退出粉丝团
+message ExitIntimateFansReq{
+	int64 player_id = 1;            //  主播id
+}
+message ExitIntimateFansRes{
+	// PushIntimateFansCardInfo = 500027
+}
+
+message BroadcastIntimateFansExp{
+	int64 host_id = 1;  // 主播id
+}
+// end ----------------- 个播2.0 -----------------
+
+message NeteaseTokenReq {
+
+}
+// cmdid=500034
+message NeteaseTokenRes {
+	string token = 1; // 网易云信token
+	int64  expire_at = 2; // 过期时间戳
+	DeviceType device_type = 3; // 设备类型app或者pc
+}
+
+enum ParentCollectionBillType {
+	PCBT_NONE = 0; // 占位
+	PCBT_PERSON_BASIC_INFO = 1; // 用户基本信息
+	PCBT_PERSON_IDENTIFY_INFO = 2; // 用户身份信息
+	PCBT_PERSON_NET_INFO = 3; // 用户网络身份标识
+	PCBT_PERSON_VIRTUAL_ASSET = 4; // 用户虚拟财产
+	PCBT_PERSON_USAGE_INFO = 5; // 用户使用信息
+	PCBT_PERSON_DEVICE_INFO = 6; // 用户设备信息
+}
+
+enum SubCollectionBillType {
+	SCBT_NONE = 0; // 占位
+	SCBT_REAL_NAME = 1; // 真实姓名
+	SCBT_PHONE = 2; // 手机号码
+	SCBT_CARD_ID = 3; // 身份证ID
+	SCBT_FACE_ID = 4; // 面部识别特征
+	SCBT_THINKING = 5; // 心声
+	SCBT_PICTURE = 6; // 照片
+	SCBT_PASSWORD = 7; // 账户登录密码
+	SCBT_TEENAGER_PASSWORD = 8; // 青少年模式密码
+	SCBT_IP_ADDR = 9; // 网络地址（ip地址）
+	SCBT_ACCOUNT_STATUS = 10; // 账号状态
+	SCBT_ACCOUNT_BAN = 11; // 违规类型
+	SCBT_DEVICE_INFO = 12; // 设备型号
+	SCBT_OS_VERSION = 13; // 操作系统版本
+	SCBT_SOFT_VERSION = 14; // 软件版本号
+
+	SCBT_IOS_AD_IDFA = 16; // IDFA（iOS）
+	SCBT_UUID = 17; // 设备ID
+
+}
+
+enum TimeCollectionBillType{
+	TCBT_NONE = 0; // 占位
+	TCBT_7_DAY = 1; // 最近7天
+	TCBT_1_MONTH = 2; // 最近30天
+	TCBT_1_YEAR = 3; // 最近1年
+}
+
+message CollectionBillList {
+	repeated string list = 1;
+}
+
+message CollectionPersonBillReq{
+		ParentCollectionBillType parent_type = 1; // 父类型
+		TimeCollectionBillType time_type = 2; // 时间区间
+}
+
+message CollectionPersonBillRes{
+	map<int32, CollectionBillList> bill_map = 1;
+}
+
+// 钻石兑换金币记录
+
+
+// 获取钻石兑换金币记录
+
+
+
+// 兑换佣金（钻石兑换佣金）
+message ExchangeToDepositReq{
+	int64 num = 1; // 需要兑换的数量
+    bool is_admin = 2; // 是否是后台
+}
+message ExchangeToDepositRes{}
+
+// 钻石兑换佣金记录
+
+
+// 获取钻石兑换佣金记录
+
+
+
+// 佣金冻结记录
+message FreezeDepositLog{
+	int64 id = 1; // 记录id
+	int64 created_at = 2; // 冻结时间（时间戳：秒）
+	int64 freeze_deposit = 3; // 冻结金额
+	int64 release_at = 4; // 解冻时间（时间戳：秒）
+}
+
+// 获取佣金冻结记录
+message FreezeDepositLogsReq{
+	int32 page = 1; // 页数
+	int32 page_size = 2; // 页面条数
+}
+message FreezeDepositLogsRes{
+	int64 sum = 1; // 累计冻结
+	repeated FreezeDepositLog log_list = 2; // 记录列表
+	int32 total = 3; // 记录总数
+}
+
+// 获取房间钻石兑换金币记录
+
+
+
+// 房间钻石兑换佣金（钻石兑换佣金）
+message RoomExchangeToDepositReq{
+	int64 num = 1; // 需要兑换的数量
+    bool is_admin = 2; // 是否是后台
+}
+message RoomExchangeToDepositRes{}
+
+// 获取房间钻石兑换佣金记录
+
+
+
+message UploadCertifySourceReq {
+	string name = 1; // 姓名
+	string certify_no = 2; // 身份证号
+	string img_a = 3; // 身份证正面
+	string img_b = 4; // 身份证背面
+}
+message UploadCertifySourceRes {
+}
+
+message FindGiftRankTop3ByGiftIdReq {
+	int64 gift_id = 1;
+}
+
+message FindGiftRankTop3ByGiftIdRes {
+	repeated Rank rank_list = 1; // 排名结果
+	int32 my_rank = 2;
+}
+
+// 充值优惠记录
+message ChargeBonusLog{
+	int64 player_id = 1; // 用户id
+	int64 player_sid = 2; // 用户短号
+	string player_name = 3; // 用户名称
+	string player_icon = 4; // 用户头像
+	int64 charge_val = 5; // 充值金额
+	int64 bonus_val = 6; // 获得奖励金币券值
+}
+
+// 充值优惠记录信息列表(最近20条轮播)
+message GetChargeBonusLogsReq{
+	bool is_inner = 1; // 站内为true，站外为false
+}
+message GetChargeBonusLogsRes{
+	repeated ChargeBonusLog log_list = 1;
+}
+
+message PlayerCubismModelReq {
+	int64 player_id = 1;
+}
+message PlayerCubismModelRes {
+	string cubism_model_name = 1;
+}
+
+message SetPlayerCubismModelReq {
+	int64 player_id = 1;
+	string cubism_model_name = 2;
+}
+message SetPlayerCubismModelRes {
+
+}
+message ChangeCoinSendCodeReq {
+	int64 gold = 1;//金币数量
+
+}
+message ChangeCoinSendCodeRes {
+
+}
+
+// 相同实名的用户
+message SameCertifyUsersReq {
+}
+
+message SameCertifyUsersRes {
+    repeated SimplePlayer player_list = 1;
+}
+
+// 获取对公结算自动提现开关
+
+
+
+// 设置对公结算自动提现开关
+
+
+
+message	CheckIsVipWeixinReq{
+}
+
+message	CheckIsVipWeixinRes{
+	string vip_weixin_custom_service_url = 1; // vip企微客服链接
+	string vip_weixin_custom_service_id = 2; // vip企微企业ID
+}
+
+
+// 个人对公结算签约入口检查判断
+message PersonPublicSettleSignCheckReq {
+}
+message PersonPublicSettleSignCheckRes {
+}
+
+// 个人对公结算签约状态
+enum PersonPublicSettleSignStatus {
+	PPSSS_NONE = 0; // 占位
+	PPSSS_COMPANY_AUDITING = 1; // 公司信息审核
+	PPSSS_COMPANY_AUDIT_PASS = 2; // 公司信息审核通过
+	PPSSS_COMPANY_AUDIT_REJECT = 3; // 公司信息审核拒绝
+	PPSSS_CONTRACT_AUDITING = 4; // 合同审核
+	PPSSS_CONTRACT_AUDIT_PASS = 5; // 合同审核通过
+	PPSSS_CONTRACT_AUDIT_REJECT = 6; // 合同审核拒绝
+	PPSBOSS_BREAK_OFF_AUDITING = 7; // 解约审核
+	PPSBOSS_BREAK_OFF_AUDIT_PASS = 8; // 解约审核通过
+	PPSBOSS_BREAK_OFF_AUDIT_REJECT = 9; // 解约审核拒绝
+	PPSBOSS_ABORT = 10; // 签约中止
+	PPSBOSS_RENEWAL = 11; // 自动续约
+	PPSBOSS_DEL_BY_ADMIN = 12; // 后台删除
+}
+
+// 签约信息
+message PersonPublicSettleSignInfo {
+	// int64 id                            = 1; // 记录id
+	int64 player_id                     = 2; // 用户ID
+	PersonPublicSettleSignStatus status = 3; // 状态
+	string reject_reason                = 4; // 拒绝理由
+
+	//// 第一阶段
+	// 公司信息
+	string company_name                 = 5; // 公司名称
+	string unified_social_credit_code   = 6; // 统一社会信用代码
+	string company_address              = 7; // 公司地址
+
+	// 银行账户
+	string bank_account_company_name    = 8; // 公司开户名称
+	string bank_account                 = 9; // 银行账号
+	string bank_name                    = 10; // 开户银行
+	string bank_sub_name                = 11; // 开户支行
+
+	// 公司联系人信息
+	string contact_username             = 12; // 公司联系人
+	string contact_phone                = 13; // 联系电话
+	string contact_address              = 14; // 联系地址
+	string contact_email                = 15; // 联系email
+
+	string cooperate_proof_url          = 16; // 合作证明url
+	string cooperate_proof_filename     = 17; // 合作证明文件名称
+	string contract_demo_url            = 18; // 合同模板下载链接 #不用填写直接用
+
+	//// 第二阶段
+	string express_num                  = 19; // 快递单号
+	//// 第三阶段
+	int64 sign_at                       = 20; // 成功签约绑定时间
+
+	// 乙方 内容提供者信息
+	string identity_code = 21; // 身份证号
+	string phone = 22; // 绑定的手机号
+	string certification_name = 23; // 实名姓名
+
+}
+
+// 个人对公结算签约流程详情
+message PersonPublicSettleSignInfoReq {
+	PersonPublicSettleSignInfo info = 1; // 签约信息
+}
+message PersonPublicSettleSignInfoRes {
+	PersonPublicSettleSignInfo info = 1; // 签约信息
+}
+
+// 个人对公结算解约
+message PersonPublicSettleBreakOffSignReq {
+}
+message PersonPublicSettleBreakOffSignRes {
+}
+
+message NewUserJumpRouterReq {
+
+}
+message NewUserJumpRouterRes {
+	string router_url = 1; //跳转路由
+}
+
+message H5RoomWithDrawFreezeDetailReq {
+	int64 room_id = 1;
+}
+
+message H5RoomWithDrawFreezeDetailRes {
+	 int64 weekly_gold_stream_task = 1;// 周金币流水任务
+	 int64 curr_week_need_replenish_gold = 2; // 本周需补充的金币流水
+	 repeated H5RoomWeeklyGoldStream gold_stream_details = 3; // 流水明细
+}
+
+message H5RoomWeeklyGoldStream {
+	string week_period = 1; // 周时间段
+	int64 room_stream = 2 ; // 房间流水
+	int64 cumulative_need_replenish_room_stream = 3 ; // 累计需补房间流水
+	int64 ori_cumulative_need_replenish_room_stream = 4 ; // 原始累计需补房间流水
+	int64 week_need_replenish_gold = 5 ; // 房间流水缺口
+	int32 use_status = 6; // 使用状态
+	int32 id = 7; // 流水记录ID
+}
+
+message QueryIndexNewerBoxDialogReq {
+
+}
+
+message QueryIndexNewerBoxDialogRes {
+	NewerBoxGiftItem gift_item = 1; // 礼物
+	string index_dialog_image = 2; // 首页弹窗图片
+	bool if_show = 3; 					// 是否需要展示弹窗
+	int32 index_stay_time = 4; // 首页停留时长  单位：秒
+}
+
+message QueryNewerBoxRandomRoomReq {
+
+}
+
+message QueryNewerBoxRandomRoomRes {
+	int64 room_id = 1;
+}
+
+message FinishNewerBoxDialogReq {
+	NewerBoxDialogType dialog_type = 1; // 弹窗类型
+}
+
+message FinishNewerBoxDialogRes {
+
+}
+
+enum NewerBoxDialogType {
+	NBDT_NONE = 0;
+	NBDT_INDEX = 1; // 首页引导弹窗
+	NBDT_FREE = 2; // 免费宝箱弹窗
+}
+
+message QueryNewerBoxEntranceReq{
+
+}
+
+message QueryNewerBoxEntranceRes{
+	string box_icon = 1;    // 宝箱图片
+	string box_label_icon = 2;   // 宝箱标签图片
+	NewerBoxType box_type = 3; // 宝箱类型
+	int32 auto_send_countdown_time = 4; // 自动发放倒计时 单位：秒
+	int64 end_time = 5; // 宝箱结束时间戳
+}
+
+message QueryNewerBoxReq {
+
+}
+
+message QueryNewerBoxRes {
+	string box_icon = 1;    // 宝箱图片
+	string box_label_icon = 2;   // 宝箱标签图片
+	string dialog_content = 3;   // 弹窗文案
+	repeated NewerBoxGiftItem gift_list = 4; // 礼物列表
+	int32 origin_box_price = 5; // 宝箱原价
+	int32 actual_box_price = 6; // 宝箱划线价
+	int32 actual_deduce_gold = 7 ; //  实际扣除金币数
+	AccumulateChargeInfo accumulate_charge_info = 8; // 累充信息
+	int64 end_time = 9; // 宝箱结束时间戳
+	NewerBoxType box_type = 10; // 宝箱类型
+}
+
+message NewerBoxGiftItem {
+	int32 gift_id = 1;
+	string gift_icon = 2;
+	int32 gift_num = 3; // 礼物数量
+	int32 validity = 4; // 有效期  单位：天
+	string gift_name = 5; // 礼物名称
+	int32 gift_price = 6; // 礼物价格
+	int32 effect_id = 7;  // 特效ID
+}
+
+// 累充信息
+message AccumulateChargeInfo {
+	int32 charge_level_1 = 1; // 累充档位第一档 单位：元
+	int32 charge_level_2 = 2; // 累充档位第二档
+	int32 charge_level_3 = 3; // 累充档位第三档
+	int32 gift_worth_1 = 4; // 礼包价值第一档 单位：元
+	int32 gift_worth_2 = 5; // 礼包价值第二档
+	int32 gift_worth_3 = 6; // 礼包价值第三档
+	repeated NewerBoxGiftItem gift_list_1 = 7; // 礼物列表第一档
+	repeated NewerBoxGiftItem gift_list_2 = 8; // 礼物列表第二档
+	repeated NewerBoxGiftItem gift_list_3 = 9; // 礼物列表第三档
+	NewerBoxRewardReceiveStatus receive_status_1 = 10; // 礼物是否可以领取 第一档
+	NewerBoxRewardReceiveStatus receive_status_2 = 11; // 礼物是否可以领取 第二档
+	NewerBoxRewardReceiveStatus receive_status_3 = 12; // 礼物是否可以领取 第三档
+	int32 accumulate_charge_progress = 13; // 累充进度  单位：元
+}
+
+enum NewerBoxRewardReceiveStatus {
+	NBRRS_NONE = 0;
+	NBRRS_NOT_REACH = 1;  // 未达标
+	NBRRS_NOT_RECEIVED = 2;  // 未领取
+	NBRRS_RECEIVED = 3;  // 已领取
+}
+
+enum NewerBoxType {
+	NBT_NONE = 0;
+	NBT_FREE = 1; // 免费宝箱
+	NBT_SIX = 2; // 6元宝箱
+	NBT_ACCUMULATE = 3; // 累计宝箱
+}
+
+message BuyNewerBoxReq {
+	NewerBoxType box_type = 1 ; // 宝箱类型
+}
+
+message BuyNewerBoxRes {
+
+}
+
+message ReceiveNewerBoxRewardReq {
+		NewerBoxTaskType task_type = 1;
+}
+
+message ReceiveNewerBoxRewardRes {
+
+}
+
+enum NewerBoxTaskType {
+	NBTT_NONE = 0;
+	NBTT_FREE = 1; // 免费宝箱
+	NBTT_SIX = 2; // 6元宝箱
+	NBTT_ACCUMULATE_1 = 3; // 累计宝箱 第一档
+	NBTT_ACCUMULATE_2 = 4; // 累计宝箱 第二档
+	NBTT_ACCUMULATE_3 = 5; // 累计宝箱 第三档
+}
+
+enum NewerBoxTaskStatus {
+	NBTS_NONE = 0; // 占位
+	NBTS_ING = 1; // 进心中
+	NBTS_FINISH = 2; // 已完成
+}
+
+message DiaryEditReq {
+	int64 id = 1; // 存在id=编辑
+	int64 category_id = 2; // 分类id
+	string title = 3; // 标题
+	string content = 4; // 日记内容
+	int32 font_size = 5; // 字体型号
+	string font_color = 6; // 字体颜色
+	string bg_img = 7; // 背景图片
+	repeated string imgs = 8; // 日记图片
+	bool is_passerby = 9; // 是否过客日记
+
+}
+
+message DiaryEditRes {
+
+}
+
+
+message DiaryDetailRes {
+	DiaryInfo data = 1;
+}
+
+message DiaryDetailReq {
+	int64 id = 1;
+}
+
+message PasserbyDiaryRes {
+	repeated DiaryInfo list = 1;
+	int32    next_index        = 2; // 请求下一页传回
+}
+
+message PasserbyDiaryReq {
+	int32 index = 1; //  初始传0，-1没有了不用再请求
+}
+
+message DiaryCategoryDeleteRes {
+
+}
+
+message DiaryCategoryDeleteReq {
+	int64 id = 1;
+}
+
+message DiaryCategoryAddRes {
+
+}
+
+message DiaryCategoryAddReq {
+	string category_name = 1;
+}
+
+message DiaryCategoryWithNumReq {
+
+}
+
+message DiaryCategoryWithNumRes {
+	repeated DiaryCategoryInfo list = 1;
+}
+
+message DiaryCategoryReq {
+
+}
+
+message DiaryCategoryRes {
+	repeated DiaryCategoryInfo list = 1;
+}
+
+message DiaryCategoryInfo {
+	int64 id = 1;
+	string category_name = 2; // 分类名称
+	int64 diary_num = 3; // 日记数量 DiaryCategoryWithNum接口-才会返回日记数量
+}
+
+message DiaryDeleteReq {
+	int64 id = 1;
+}
+
+message DiaryDeleteRes {
+
+}
+
+message MyDiaryReq {
+	int32 index = 1; //  初始传0，-1没有了不用再请求
+	int64 category_id = 2; // 分类id，不穿不筛选
+}
+
+message MyDiaryRes {
+	repeated DiaryInfo list = 1;
+	int32    next_index        = 2; // 请求下一页传回
+}
+
+message DiaryInfo {
+	int64 id = 1;
+	int64 user_id = 2; // 用户id
+	string avatar = 3; // 用户头像
+	string user_name = 4; // 用户昵称
+	int64 category_id = 5; // 分类id
+	string title = 6; // 标题
+	string content = 7; // 日记内容
+	int32 font_size = 8; // 字体型号
+	string font_color = 9; // 字体颜色
+	string bg_img = 10; // 背景图片
+	repeated string imgs = 11; // 日记图片
+	bool is_passerby = 12; // 是否发布到过客
+	int64  view_count = 13; // 浏览量
+	string publish_at = 14; // 发布时间
+}
+
+service UserExtObj {
+	// 检查手机号是否已经使用
+	rpc GetPhoneUsed(GetPhoneUsedReq) returns (GetPhoneUsedRes);
+	// 检查手机号是否已经使用(手机号签名)
+	rpc GetPhoneUsedBySign(GetPhoneUsedReq) returns (GetPhoneUsedRes);
+
+	// 请求player(自己)
+    rpc GetPlayer (PlayerReq) returns (PlayerRes);
+	// 请求playerInfo (原http 11 协议)
+	rpc GetPlayerInfoList (PlayerInfoListReq) returns (PlayerInfoListRes);
+	// 鉴权获取playerInfo
+	rpc FindPlayerInfoList (PlayerInfoListReq) returns (PlayerInfoListRes);
+	// 请求等级信息 (原http 12 协议)
+	rpc GetLevel (LevelReq) returns (LevelRes);
+
+	// 获取菜鸡用户id
+	rpc AuthGetCjId(AuthGetCjIdReq) returns (AuthGetCjIdRes);
+
+    rpc SetUserInfo (UserInfoReq) returns (UserInfoRes); 			// 设置用户信息
+    rpc SetUserSetting (UserSetting) returns (SetUserSettingRes);   // 更新用户设置
+
+
+	// 绑定银行卡
+	
+
+	// 申请提现检测 //秒提
+	
+
+	// 个人提现钻石
+	
+
+	// 改变账号密码
+	rpc ChangePasswd(ChangePasswdReq) returns (ChangePasswdRes);
+
+	// 房间申请提现钻石
+	
+
+	// 房间申请兑换金币
+	
+
+	// 设置提现密码
+	
+
+	// 个人钻石兑换金币
+	
+
+	// 超级管理权限
+	rpc SuperManager(SuperManagerReq) returns (SuperManagerRes);
+    // 请求开关状态列表
+	rpc GetOnOffList (GetOnOffListReq) returns (GetOnOffListRes);
+	// 搜索条目
+	rpc SearchPlayers (SearchPlayersReq) returns (SearchPlayersRes);
+	// 获取今日收益，本周收益，本月收益，上月收益
+	rpc GetPlayerGains (GetPlayerGainsReq) returns (GetPlayerGainsRes);
+	// 获取总收益
+	rpc GetTatolGain (GetTatolGainReq) returns (GetTatolGainRes);
+	// 获取邮件(离线消息)
+	rpc ReadMail (ReadMailReq) returns (ReadMailRes);
+	// 设置最后读取的id
+	rpc LastMail (LastMailReq) returns (LastMailRes);
+
+	// 手机号验证码登录
+	rpc GetLoginWithPhoneSMS(LoginWithPhoneSMSReq) returns (LoginWithPhoneSMSRes);
+	// 手机号密码登录
+	rpc GetLoginWithPhonePassword(LoginWithPhonePasswordReq) returns (LoginWithPhonePasswordRes);
+	// 移动一键登录
+	rpc GetChinaMobileQuickLogin(ChinaMobileQuickLoginReq) returns (ChinaMobileQuickLoginRes);
+	// 电信免密登录
+	rpc GetChinaTelecomAuth(ChinaTelecomAuthReq) returns (ChinaTelecomAuthRes);
+
+	// 请求App验证登录
+	rpc GetNewAuthToken(NewAuthTokenReq) returns (NewAuthTokenRes);
+	// 授权WEB登录
+	rpc AuthReqTokenConfirm(AuthReqTokenConfirmReq) returns (AuthReqTokenConfirmRes);
+	// 获取授权结果
+	rpc GetAuthReqResult(AuthReqResultReq) returns (AuthReqResultRes);
+
+	// 获取是否设置过性别密码
+	rpc HasUpdateSexPasswd(HasUpdateSexPasswdReq) returns (HasUpdateSexPasswdRes);
+	// 设置已修改性别密码
+	rpc SetUpdateSexPasswd(SetUpdateSexPasswdReq) returns (SetUpdateSexPasswdRes);
+
+	// 个人钻石兑换金币 配置
+	
+	// 个人钻石兑换金币 修改密码
+	
+	// 个人钻石兑换金币 校验密码
+	
+	// 关闭兑换密码
+	
+
+	//H5 --->
+    //获取房间收益
+    rpc H5RoomGiftTicket (RoomGiftTicketReq) returns (RoomGiftTicketRes);
+    // 获取今日收益，本周收益，本月收益，上月收益
+	rpc H5PlayerGains (GetPlayerGainsReq) returns (GetPlayerGainsRes);
+	// 获取总收益
+	rpc H5TatolGain (GetTatolGainReq) returns (GetTatolGainRes);
+    //H5 <-----
+
+	// 提现记录，包括个人和房间和家族
+	
+
+	// 新版设置密码
+	rpc UpdatePasswd(UpdatePasswdReq) returns (UpdatePasswdRes);
+
+	//忘记密码，未登录app，变了手机
+	rpc GetUpdatePasswdChangePhone(UpdatePasswdChangePhoneReq) returns (UpdatePasswdChangePhoneRes);
+
+	//修改绑定手机
+	rpc UpdateBindPhone(UpdateBindPhoneReq) returns (UpdateBindPhoneRes);
+
+	// 修改兑换密码
+	rpc ChangeExchangePasswd(ChangeExchangePasswdReq) returns (ChangeExchangePasswdRes);
+
+	//获取用户是否实名认证信息
+	rpc GetCertification(GetCertificationReq) returns (GetCertificationRes);
+
+	//用户该类型申诉是否进行中
+	rpc GetIsChecking(IsCheckingReq)returns(IsCheckingRes);
+	// 是否绑定手机号
+	// rpc HasBindPhone(BindPhoneStatusReq) returns (BindPhoneStatusRes);
+	// 绑定手机号
+	rpc BindPhone(BindPhoneReq) returns (BindPhoneRes);
+	// 绑定手机号（手机号签名）
+	rpc BindPhoneBySign(BindPhoneReq) returns (BindPhoneRes);
+	rpc H5BindPhone(H5BindPhoneReq) returns (BindPhoneRes);
+	// 获取绑定手机号奖励列表
+	rpc GetBindPhoneItem(GetBindPhoneItemReq) returns (GetBindPhoneItemRes);
+	// 判断是否可以充值
+	rpc GetCanRechargeCredit(CanRechargeCreditReq) returns (CanRechargeCreditRes);
+
+	// 获取绑定手机的ID列表
+	rpc ShowBindPhoneIds (ShowBindPhoneIdsReq) returns (ShowBindPhoneIdsRes);
+  // 未授权获取绑定手机的ID列表
+	rpc GetShowBindPhoneIds(GetShowBindPhoneIdsReq) returns (GetShowBindPhoneIdsRes);
+
+	// 获取新token
+	rpc CreateNewToken(CreateNewTokenReq) returns (CreateNewTokenRes);
+
+	// 获取实名认证信息实名认证成功H5回调
+	rpc GetCertificationInfo (GetCertificationInfoReq) returns (GetCertificationInfoRes);
+	rpc CertificationInfo (CertificationInfoReq) returns (CertificationInfoRes);
+	// 获取芝麻认证URL
+	rpc CertificationUrl (CertificationUrlReq) returns (CertificationUrlRes);
+
+	// 点单
+	// 接单设置
+	rpc BillOrderSet (BillOrderSetReq) returns (BillOrderSetRes);
+	// 得到接单主播信息
+	rpc GetBillPlayer (GetBillPlayerReq) returns (GetBillPlayerRes);
+	// 快捷设置接单状态
+	rpc BillOrderStatusSet (BillOrderStatusSetReq) returns (BillOrderStatusSetRes);
+	// 设置技能
+	rpc BillOrderSkillsSet (BillOrderSkillsSetReq) returns (BillOrderSkillsSetRes);
+	// 删除图片/声音
+	rpc BillDelFile (BillDelFileReq) returns (BillDelFileRes);
+	// 拉取充值接口
+	rpc GetChongZhi(GetChongZhiReq) returns (GetChongZhiRes);
+
+    // 弹窗回调接口
+	rpc DialogCallback(DialogCallbackReq) returns (DialogCallbackRes);
+	// 添加官方反馈
+	rpc AddBillFeedback(BillFeedbackReq) returns (BillFeedbackRes);
+	//点单: 设置是否接新手单
+	rpc BillOrderAcceptNewSet (BillOrderAcceptNewSetReq) returns (BillOrderAcceptNewSetRes);
+	// 接单技能分类设置
+	rpc BillOrderSkillsSetSep (BillOrderSkillsSetSepReq) returns (BillOrderSkillsSetSepRes);
+
+
+	//新绑定银行卡信息
+	
+
+	//换绑银行卡信息
+	
+
+	// 获取图片列表 咪窝相册
+	rpc ImageInfo(ImageInfoListReq) returns (ImageInfoListRes);
+
+	//sms
+	rpc GetYunPianSmsCode (YunpianSmsCodeReq) returns (YunpianSmsCodeRes);                      // 获取验证码
+
+	//派单: 主播设置是否接收派单信息
+	rpc SendOrderReceiveMsgSet (SendOrderReceiveMsgSetReq) returns (SendOrderReceiveMsgSetRes);
+
+	// 账号注销 注销检查
+	rpc DeleteAccountCheck (DeleteAccountCheckReq) returns (DeleteAccountCheckRes);
+	// 账号注销 注销
+	rpc DeleteAccount (DeleteAccountReq) returns (DeleteAccountRes);
+	// 账号注销 注销验证码确认
+	rpc DeleteAccountConfirm (DeleteAccountConfirmReq) returns (DeleteAccountConfirmRes);
+
+
+	//最近访客咪窝页面显示
+	rpc VisitNum (VisitNumReq) returns (VisitNumRes);
+	//最近访客统计
+	rpc VisitorStat (VisitorStatReq) returns (VisitorStatRes);
+
+	//最近访客列表
+	rpc VisitorList (VisitorListReq) returns (VisitorListRes);
+	//最近访客操作
+	rpc VisitorOpt (VisitorOptReq) returns (VisitorOptRes);
+	//我的访问记录
+	rpc MyVisitList(MyVisitListReq) returns (MyVisitListRes);
+	//最近访客操作限制
+	rpc VisitorOptLimit (VisitorOptLimitReq) returns (VisitorOptLimitRes);
+
+	// h5getPlayer
+	rpc GetSimplePlayer(GetSimplePlayerReq) returns (GetSimplePlayerRes);
+	// 保存上传图片
+	rpc SaveOssImageList(SaveOssImageListReq) returns (SaveOssImageListRes);
+	//  删除图片 (删除相册图片要使用此接口)
+	rpc DeleteOssImageList(DeleteOssImageListReq) returns (DeleteOssImageListRes);
+	//  获取隐私设置
+	rpc PrivacySetting(PrivacySettingReq) returns (PrivacySettingRes);
+	//  改变隐私设置
+	rpc ChangePrivacy(ChangePrivacyReq) returns (ChangePrivacyRes);
+
+    // 获取不用鉴权的开关
+	rpc GetNoAuthBeforeLogin(GetNoAuthBeforeLoginReq) returns (GetNoAuthBeforeLoginRes);
+
+	// 用户审核资料
+	rpc UserAuditDetail(UserAuditDetailReq) returns (UserAuditDetailRes);
+
+	// 撤销提现
+	
+	// 是否设置过体现密码
+	
+	// 检查提现密码是否正确
+	
+	// 查询银行卡信息
+	
+
+	//点单-技能认证/审核
+	rpc BillSkillCheck(BillSkillCheckReq) returns (BillSkillCheckRes);
+    //点单-个人技能详情
+    rpc BillPlayerSkill(BillPlayerSkillReq) returns (BillPlayerSkillRes);
+	//点单-技能设置项设置
+	rpc BillSkillOptionSet(BillSkillOptionSetReq) returns (BillSkillOptionSetRes);
+	//点单-个人技能排序
+	rpc BillSkillSort(BillSkillSortReq) returns (BillSkillSortRes);
+	//点单-头像(包含审核状态)
+	rpc BillStatusIcon(BillStatusIconReq) returns (BillStatusIconRes);
+	//点单-浏览主播信息上报
+	rpc VisitBillPlayerV2 (VisitBillPlayerV2Req) returns (VisitBillPlayerV2Res);
+	//点单-主播被访问记录
+	rpc VisitLogV2 (VisitLogV2Req) returns (VisitLogV2Res);
+	//点单-访问记录红点
+	rpc VisitLogV2Red (VisitLogV2RedReq) returns (VisitLogV2RedRes);
+
+	//清除消息页面红点
+	rpc ClearMsgRed (ClearMsgRedReq) returns (ClearMsgRedRes);
+
+	rpc TypeImageList(TypeImageListReq) returns (TypeImageListRes);
+
+	// 鉴权的获取充值配置接口
+	rpc ChongZhiConfig(GetChongZhiReq) returns (GetChongZhiRes);
+
+	// 获取动态头像等级配置
+	rpc GetDynamicIconLevConf(DynamicIconLevConfReq) returns (DynamicIconLevConfRes);
+
+	// 微信公众号获取绑定玩家id列表
+	rpc WeChatBindList(WeChatBindListReq) returns (WeChatBindListRes);
+	// 微信公众号绑定玩家id
+	rpc WeChatBindId(WeChatBindIdReq) returns (WeChatBindIdRes);
+	// 解除微信公众号绑定玩家id
+	rpc CancelWeChatBindId(CancelWeChatBindIdReq) returns (CancelWeChatBindIdRes);
+
+	// 删除个人资料声音
+	rpc DelProfileVoiceRpc(DelProfileVoiceReq) returns (DelProfileVoiceRes);
+
+	// 获取微信公众号接单大神信息
+	rpc WechatBindInfoRpc(WechatBindInfoReq) returns (WechatBindInfoRes);
+
+	// 微信公众号手机验证码登录
+	rpc GetWeChatSubLogin(GetWeChatSubLoginReq) returns (GetWeChatSubLoginRes);
+
+	// 歌手、声优认证协议
+	rpc AuthClan(AuthClanReq) returns (AuthClanRes); //公会后台认证（包括设置认证和删除认证）
+
+  // 获取自己声鉴卡信息
+	rpc VoiceTagInfo(VoiceTagInfoReq) returns (VoiceTagInfoRes);
+	// 获取声鉴卡信息
+	rpc VoiceTagPlayerInfo(VoiceTagPlayerInfoReq) returns (VoiceTagPlayerInfoRes);
+
+	// 通过友盟一键绑定手机
+	rpc UmengQuickBindPhone (UmengQuickBindPhoneReq) returns (UmengQuickBindPhoneRes);
+
+	// 获取个人留言列表
+	rpc LeaveMessageList(LeaveMessageListReq) returns (LeaveMessageListRes);
+	// 写留言
+	rpc SendLeaveMessage(SendLeaveMessageReq) returns (SendLeaveMessageRes);
+	// 删除留言
+	rpc DeleteLeaveMessage(DeleteLeaveMessageReq) returns (DeleteLeaveMessageRes);
+	// 获取首页空间弹幕
+	rpc IndexLeaveMessageList(IndexLeaveMessageListReq) returns (IndexLeaveMessageListRes);
+
+	// 获取玩家基础信息列表
+	rpc SimplePlayerList (SimplePlayerListReq) returns (SimplePlayerListRes);
+
+	// 获取玩家留言红点
+	rpc GetLeaveMessageRedPoint(GetLeaveMessageRedPointReq) returns (GetLeaveMessageRedPointRes);
+
+    // 亲密粉丝
+	// 开通亲密粉丝
+	rpc JoinIntimateFans (JoinIntimateFansReq) returns (JoinIntimateFansRes);
+	// 进入开通亲密粉丝页
+	rpc JoinIntimateFansQuery (JoinIntimateFansQueryReq) returns (JoinIntimateFansQueryRes);
+	// 获取亲密粉丝等级配置
+	rpc IntimateFansLevConf(IntimateFansLevConfReq) returns (IntimateFansLevConfRes);
+	// 亲密粉丝牌子列表
+	rpc IntimateFansCardInfo(IntimateFansCardInfoReq) returns (IntimateFansCardInfoRes);
+    // 佩戴亲密粉丝牌子
+	rpc SetIntimateFansCard(SetIntimateFansCardReq) returns (SetIntimateFansCardRes);
+	// 主播、粉丝查看自己亲密粉丝信息
+	rpc IntimateFansHostView(IntimateFansHostViewReq) returns (IntimateFansHostViewRes);
+	// 查看自己与主播亲密粉丝信息
+	rpc IntimateFansView(IntimateFansViewReq) returns (IntimateFansViewRes);
+	// 亲密粉丝数据明细
+	rpc IntimateFansDetail(IntimateFansDetailReq) returns (IntimateFansDetailRes);
+	// 设置亲密粉丝名牌信息
+	rpc SetIntimateFansCardInfo(SetIntimateFansCardInfoReq) returns (SetIntimateFansCardInfoRes);
+	// 用户守护的主播列表
+	rpc GuardLiveList(GuardLiveListReq) returns (GuardLiveListRes);
+	// 获取亲密粉丝页面跳转URL(跳转h5页面)
+	rpc IntimateFansJumpUrl(IntimateFansJumpUrlReq) returns (IntimateFansJumpUrlRes);
+
+	// 个播、亲密粉丝 2.0
+	rpc IntimateFansVsn2LevConf(IntimateFansVsn2LevConfReq) returns (IntimateFansVsn2LevConfRes); // 获取亲密粉丝2.0等级配置
+	rpc IntimateFansMissionConf(IntimateFansMissionConfReq) returns (IntimateFansMissionConfRes); // 获取亲密粉丝2.0任务配置
+	rpc IntimateFansDetailVsn2(IntimateFansDetailVsn2Req) returns(IntimateFansDetailVsn2Res); // 获取亲密粉丝明细2.0
+	rpc IntimateFansCardInfoV2(IntimateFansCardInfoVsn2Req) returns (IntimateFansCardInfoVsn2Res); // 获取亲密粉丝牌子列表
+	rpc ExitIntimateFans(ExitIntimateFansReq) returns (ExitIntimateFansRes); // 删除亲密粉丝牌子
+	// ---------------
+
+	//玩家属性配置
+	rpc PlayerAttribute(PlayerAttributeReq) returns (PlayerAttributeRes);
+
+    // 代收提现
+	 // 提现额度
+	 // 上次代收款人信息
+	 // 代收款人信息列表
+	    // 获取代收短信验证码
+	 // 代收提现
+	//获取特定开关状态
+	rpc SwitchStatus (SwitchStatusReq) returns (SwitchStatusRes);
+	// 捞鲸
+	rpc WhaleBossStatus(WhaleBossStatusReq) returns (WhaleBossStatusRes); // 获取捞鲸状态
+	rpc WhaleBossList(WhaleBossListReq) returns (WhaleBossListRes);       // 捞鲸老板列表
+	rpc CatchWhaleBoss(CatchWhaleBossReq) returns (CatchWhaleBossRes);    // 捞鲸请求
+
+	// 客户端加载首页完成
+	rpc HomeLoadSuccess (HomeLoadSuccessReq) returns (HomeLoadSuccessRes);
+	// 设置用户频道过滤
+	rpc SetChannelFilter (SetChannelFilterReq) returns (SetChannelFilterRes);
+	// 保存歌单图片
+	rpc SaveSongImg (SaveSongImgReq) returns (SaveSongImgRes);
+
+	// 消除大神中心红点
+	rpc BillMasterRedPoint (BillMasterRedPointReq) returns (BillMasterRedPointRes);
+
+	// 客户端频道订阅
+	rpc ChannelSubscribe(ChannelSubscribeReq) returns (ChannelSubscribeRes);
+	// 客户端取消频道订阅
+	rpc ChannelDesubscribe(ChannelDesubscribeReq) returns (ChannelDesubscribeRes);
+	// 客户端批量频道订阅
+	rpc BatchChannelSubscribe(BatchChannelSubscribeReq) returns (BatchChannelSubscribeRes);
+	// 客户端批量取消频道订阅
+	rpc BatchChannelDesubscribe(BatchChannelDesubscribeReq) returns (BatchChannelDesubscribeRes);
+
+
+	// 设置页开关
+	rpc SettingOnOff(SettingOnOffReq) returns (SettingOnOffRes);
+	// 获取设置页开关列表
+	rpc SettingOnOffList(SettingOnOffListReq) returns (SettingOnOffListRes);
+	// 客户端登录后能接收到推送时，调下这个接口，每次登录只调一次。要处理弱网情况
+	rpc ReceivePush(ReceivePushReq) returns (ReceivePushRes);
+	// 点击IM代聊打招呼按钮，接入代聊
+	rpc ImGeneration(ImGenerationReq) returns (ImGenerationRes);
+
+	//退出登录回调
+	rpc DialogCallBackExit(DialogCallBackExitReq)returns(DialogCallBackExitRes);
+
+	// 更新提现协议提示状态
+	
+
+	// 点击提现协议发送验证码
+	
+
+	// 验证点击提现协议发送验证码
+	
+
+	// 获取网易云信token
+	rpc NeteaseToken(NeteaseTokenReq) returns (NeteaseTokenRes);
+
+	// H5请求player(自己)
+	rpc H5Player (H5PlayerReq) returns (H5PlayerRes);
+
+	// 获取用户收集清单
+	rpc CollectionPersonBill(CollectionPersonBillReq) returns (CollectionPersonBillRes);
+
+	// --------- 佣金
+	 // 获取钻石兑换金币记录
+	rpc ExchangeToDeposit(ExchangeToDepositReq) returns (ExchangeToDepositRes); // 兑换佣金（钻石兑换佣金）
+	 // 获取钻石兑换佣金记录
+	rpc FreezeDepositLogs(FreezeDepositLogsReq) returns (FreezeDepositLogsRes); // 获取佣金冻结记录
+
+  // 	--------- 房间佣金
+	 // 获取房间钻石兑换金币记录
+	rpc RoomExchangeToDeposit(RoomExchangeToDepositReq) returns (RoomExchangeToDepositRes); // 兑换佣金（房间钻石兑换佣金）
+	 // 获取房间钻石兑换佣金记录
+
+	// 用户身份信息审核
+	rpc UploadCertifySource(UploadCertifySourceReq) returns (UploadCertifySourceRes);
+
+	// 根据礼物ID，查询礼物榜前3
+	rpc FindGiftRankTop3ByGiftId(FindGiftRankTop3ByGiftIdReq) returns (FindGiftRankTop3ByGiftIdRes);
+
+	// 充值优惠记录信息列表
+	rpc GetChargeBonusLogs(GetChargeBonusLogsReq) returns (GetChargeBonusLogsRes);
+
+	// 临时接口
+	rpc PlayerCubismModel(PlayerCubismModelReq) returns (PlayerCubismModelRes);
+	rpc SetPlayerCubismModel(SetPlayerCubismModelReq) returns (SetPlayerCubismModelRes);
+	// 兑换金币发送验证码
+	rpc ChangeCoinSendCode(ChangeCoinSendCodeReq) returns (ChangeCoinSendCodeRes);
+	// 相同实名的用户
+	rpc SameCertifyUsers(SameCertifyUsersReq) returns (SameCertifyUsersRes);
+
+	// 获取对公结算自动提现开关
+	
+	// 设置对公结算自动提现开关
+	
+	// 查询是否是达到VIP
+	rpc CheckIsVipWeixin(CheckIsVipWeixinReq)returns (CheckIsVipWeixinRes);
+
+	// 个人对公结算签约入口检查判断
+	rpc PersonPublicSettleSignCheck(PersonPublicSettleSignCheckReq)returns (PersonPublicSettleSignCheckRes);
+	// 个人对公结算签约流程详情
+	rpc PersonPublicSettleSignInfo(PersonPublicSettleSignInfoReq)returns (PersonPublicSettleSignInfoRes);
+	// 个人对公结算解约
+	rpc PersonPublicSettleBreakOffSign(PersonPublicSettleBreakOffSignReq)returns (PersonPublicSettleBreakOffSignRes);
+
+	//新注册用户进首页前的跳转路由
+	rpc NewUserJumpRouter(NewUserJumpRouterReq) returns (NewUserJumpRouterRes);
+	// H5 房间提现权限冻结详情
+	rpc H5RoomWithDrawFreezeDetail(H5RoomWithDrawFreezeDetailReq) returns (H5RoomWithDrawFreezeDetailRes);
+
+	// ******新人宝箱 start ********
+	// 获取首页免费新人宝箱引导弹窗
+	rpc QueryIndexNewerBoxDialog(QueryIndexNewerBoxDialogReq)returns(QueryIndexNewerBoxDialogRes);
+	// 获取新人宝箱随机进房ID
+	rpc QueryNewerBoxRandomRoom(QueryNewerBoxRandomRoomReq)returns(QueryNewerBoxRandomRoomRes);
+	// 完成新人宝箱弹窗
+	rpc FinishNewerBoxDialog(FinishNewerBoxDialogReq)returns(FinishNewerBoxDialogRes);
+	// 获取新人宝箱入口
+	rpc QueryNewerBoxEntrance(QueryNewerBoxEntranceReq)returns(QueryNewerBoxEntranceRes);
+	// 获取新人宝箱
+	rpc QueryNewerBox(QueryNewerBoxReq)returns(QueryNewerBoxRes);
+	// 购买新人宝箱
+	rpc BuyNewerBox(BuyNewerBoxReq)returns(BuyNewerBoxRes);
+	// 领取宝箱奖励
+	rpc ReceiveNewerBoxReward(ReceiveNewerBoxRewardReq)returns(ReceiveNewerBoxRewardRes);
+	// ******新人宝箱 end ********
+
+	// ******日记 start ********
+	// 编辑日记
+	rpc DiaryEdit(DiaryEditReq) returns(DiaryEditRes);
+	// 我的日记
+	rpc MyDiary(MyDiaryReq) returns(MyDiaryRes);
+	// 删除日记
+	rpc DiaryDelete(DiaryDeleteReq) returns(DiaryDeleteRes);
+	// 我的日记分类
+	rpc DiaryCategory(DiaryCategoryReq) returns(DiaryCategoryRes);
+	// 我的日记分类(附带日记数量)
+	rpc DiaryCategoryWithNum(DiaryCategoryWithNumReq) returns(DiaryCategoryWithNumRes){};
+	// 新增日记分类
+	rpc DiaryCategoryAdd(DiaryCategoryAddReq) returns(DiaryCategoryAddRes);
+	// 删除日记分类
+	rpc DiaryCategoryDelete(DiaryCategoryDeleteReq) returns(DiaryCategoryDeleteRes);
+	// 过客日记
+	rpc PasserbyDiary(PasserbyDiaryReq) returns(PasserbyDiaryRes);
+	// 日记详情
+	rpc DiaryDetail(DiaryDetailReq) returns(DiaryDetailRes);
+	// ******日记 end   ********
+}

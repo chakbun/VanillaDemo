@@ -21,15 +21,15 @@
     return type;
 }
 
-+ (kPlayerClanIconType)clanIconTypeByCommunityType:(PB4CommunityClanIconType)iconType
-{
-    kPlayerClanIconType type = kPlayerClanIconTypeNormal;
-    if (iconType == PB4CommunityClanIconType_CcitRely) {
-        type = kPlayerClanIconTypeRely;
-    }if (iconType == PB4CommunityClanIconType_CcitBill) {
-        type = kPlayerClanIconTypeOrder;
-    }
-    return type;
-}
+//+ (kPlayerClanIconType)clanIconTypeByCommunityType:(PB4CommunityClanIconType)iconType
+//{
+//    kPlayerClanIconType type = kPlayerClanIconTypeNormal;
+//    if (iconType == PB4CommunityClanIconType_CcitRely) {
+//        type = kPlayerClanIconTypeRely;
+//    }if (iconType == PB4CommunityClanIconType_CcitBill) {
+//        type = kPlayerClanIconTypeOrder;
+//    }
+//    return type;
+//}
 
 @end

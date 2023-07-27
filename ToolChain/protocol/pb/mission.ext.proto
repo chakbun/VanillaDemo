@@ -1,0 +1,148 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+// 任务状态
+enum MissionStatus {
+    MS_None = 0;                // 占位
+    MS_Doing = 1;               // 进行中
+    MS_Finished = 2;            // 已完成
+    MS_Done = 3;                // 已提交
+}
+
+// 任务计算类型
+enum MissionCalcType {
+    MCT_None = 0;               // 占位
+    MCT_Target = 1;             // 目标
+    MCT_Acc = 2;                // 累计
+}
+
+
+
+// 信用分用户基础信息
+message CreditScorePlayer {
+    int64 player_id = 1;        // 用户ID
+    int64 id2 = 2;              // 靓号
+    string player_name = 3;     // 用户名称
+    string icon = 4;            // 头像
+    int32 score = 5;            // 用户信用分
+    CreditScoreLevel level = 6; // 信用分级别
+    int64 score_update_at = 7;  // 信用分更新时间
+    int32 last_month_score = 8; // 上个月信用分(score和last_month_score相等，显示:暂无变化记录)
+    int32 change_score = 9;     // 周期变化分数(如果为0，显示:暂无变化记录)
+}
+
+// 信用分身份证明
+message CreditScoreIdentity {
+    int32 score = 1;            // 身份证明得分
+    bool is_certification = 2;  // 是否实名
+    bool is_clan = 3;           // 是否公会成员
+    bool is_nobility = 4;       // 是否开通爵位
+    int32 total = 5;            // 总分
+    bool is_public_settle = 6;  // 是否对公
+}
+
+// 信用分行为累计
+message CreditScoreActive {
+    int32 score = 1;            // 活跃得分
+    int32 active_days = 2;      // 活跃天数(如果是-1，显示:本月活跃数据，下个月结算)
+    int32 total = 3;            // 总分
+}
+
+
+// 信用分消费实力
+message CreditScoreConsumeStrength {
+    int32 score = 1;            // 消费实力得分
+    int32 wealth_level = 2;     // 财富等级
+    int32 charm_level = 3;      // 魅力等级
+    int32 total = 4;            // 总分
+}
+
+// 信用分违规次数
+message CreditScorePunish {
+    int32 score = 1;            // 违规得分
+    bool is_punish = 2;         // 30天内是否有违规记录
+    int32 total = 3;            // 总分
+}
+
+// 信用分人脉关系
+message CreditScoreIntimate {
+    int32 score = 1;            // 人脉得分
+    int32 intimate_num = 2;     // 挚友数量
+    int32 total = 3;            // 总分
+}
+
+// 信用分特权
+message CreditScorePrivilegeDetail {
+    string privilege_detail = 1;// 特权描述
+}
+
+// 信用分等级
+message CreditScoreLevelCfg {
+    int32 bad_score = 1; //较差的分数的上限
+    int32 general_score = 2;//一般的分数的上限
+    int32 good_score = 3; //良好的分数的上限
+    int32 very_good_score = 4; //优秀的分数的上限
+    int32 excellent_score = 5; // 极好的分数的上限
+}
+
+message CreditScoreInfoReq {
+}
+
+// 信用分数据
+message CreditScoreInfoRes {
+    CreditScoreStatus status = 1;           // 激活状态
+    int32 total_score = 2;                  // 总分
+    CreditScorePlayer player = 3;           // 用户信息
+    CreditScoreIdentity identity = 4;       // 身份证明
+    CreditScoreActive active = 5;           // 行为累计
+    CreditScoreConsumeStrength strength = 6;// 消费实力
+    CreditScorePunish publish = 7;          // 违规记录
+    CreditScoreIntimate intimate = 8;       // 人脉关系
+    CreditScorePrivilegeDetail privilege = 9; // 特权描述
+    CreditScoreLevelCfg level_cfg = 10;     // 信用分等级配置
+}
+
+message ActiveCreditScoreReq {
+}
+
+message ActiveCreditScoreRes {
+    CreditScoreStatus status = 1;           // 激活状态
+}
+
+message CreditHistoryReq{
+    // 分页
+    int32 page = 1;
+    int32 pageSize = 2;
+}
+
+message CreditHistoryRes{
+    repeated CreditHistory history = 1;
+    int32 total = 2;
+}
+
+message CreditHistory{
+    int64 timestamp = 1; //时间戳
+    int64 final_score = 2;//最终分数
+    string desc = 3; //变动描述
+    bool is_red = 4; //是否标红
+}
+
+message CreditScoreRankRateReq {
+}
+
+message CreditScoreRankRateRes {
+    int32 rate = 1;  // 比例
+}
+
+service MissionExtObj {
+    // 获取信用分
+    rpc CreditScoreInfo (CreditScoreInfoReq) returns (CreditScoreInfoRes);
+    // 激活信用分
+    rpc ActiveCreditScore (ActiveCreditScoreReq) returns (ActiveCreditScoreRes);
+    // 信用分流水
+    rpc CreditHistoryInfo (CreditHistoryReq) returns(CreditHistoryRes);
+    // 获取信用分排名比例
+    rpc CreditScoreRankRate(CreditScoreRankRateReq) returns(CreditScoreRankRateRes);
+}

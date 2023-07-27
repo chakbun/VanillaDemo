@@ -1,5 +1,5 @@
 syntax = "proto3";
-option objc_class_prefix = "PB4";
+option objc_class_prefix = "PB3";
 package plugin_pb;
 
 import "plugin_pb/plugin.ext.proto";
@@ -8,158 +8,197 @@ import "plugin_pb/community.int.proto";
 import "plugin_pb/community.ext.proto";
 
 message PHomeIntRoom {
-  int64    id = 1;
-  int64    id2 = 2;
-  string    name = 3;
-  string    icon = 4;
-  int32    room_type = 5;
-  int32    online = 6;
-  bool    has_pass = 7;
-  int32   is_show = 8;
-  int32   category = 9;
-  int32   pattern = 10;
-  string   details_img = 11;
-  int32   flags = 12;
-  int32   rank = 13;
-  bool   is_top = 14;
-  string   tj_word = 15;
-  int64   fans = 16;
-  int64   room_id = 17;
-  int32  high_quality_online = 18;
-  PluginHomeTips  tip = 19;
-  int32  online_display = 20;
-  int32  weight = 21;
-  int32  consume_hourly = 22;
-  int32  online_weight = 23;
-  int64  last_in_room_time = 24;
-  int64  last_ower_in_room_time = 25;
-  int32  shield = 26;
-  int32  room_whare_house_weight = 27;
-  int64  self_enter_time = 28;
-  int32  sex = 29;
-  repeated int64  chairs = 30;
-  int32  heat = 31;
-  bool   is_ban = 32;
-  repeated RoomDecorate room_decorate = 33;
-  PlayerBaseInfo host = 34; //主持
-  int32  nobility_consume = 35;    //爵位消费
-  PhomeRoomGameInfo game = 36;  //游戏信息
-  string brief_introduction = 37; // 房间简介
-  map<int32, int64> chair_player = 38; // 1-8麦的用户ID
-  int32 ting_type = 39; // 厅类型
-  bool is_clan = 40; // 是否公会
-  string owner_name = 41; // 房主名
-  string action_talk = 42; // 房间行为对白
-  map<int32, ChairPlayerInfo> chair_player_info = 43; // 1-8麦的用户ID和头像
-  map<int32, string> extend = 44; // 额外信息 PHomeEntryRoomExtendKey
+   int64    id                      = 1;
+   int64    id2                     = 2;
+   string    name                   = 3;
+   string    icon                   = 4;
+   int32    room_type               = 5;
+   int32    online                  = 6;
+   bool    has_pass                 = 7;
+   int32   is_show                  = 8;
+   int32   category                 = 9;
+   int32   pattern                  = 10;
+   string   details_img             = 11;
+   int32   flags                    = 12;
+   int32   rank                     = 13;
+   bool   is_top                    = 14;
+   string   tj_word                 = 15;
+   int64   fans                     = 16;
+   int64   room_id                  = 17;
+   int32  high_quality_online       = 18;
+   PluginHomeTips  tip              = 19;
+   int32  online_display            = 20;
+   int32  weight                    = 21;
+   int32  consume_hourly            = 22;
+   int32  online_weight             = 23;
+   int64  last_in_room_time         = 24;
+   int64  last_ower_in_room_time    = 25;
+   int32  shield                    = 26;
+   int32  room_whare_house_weight   = 27;
+   int64  self_enter_time           = 28;
+   int32  sex                       = 29;
+   repeated int64  chairs              = 30;
+   int32  heat                       = 31;
+   bool   is_ban                    = 32;
+   repeated RoomDecorate room_decorate = 33;
+   PlayerBaseInfo host = 34; //主持
+   int32  nobility_consume = 35;    //爵位消费
+   PhomeRoomGameInfo game = 36;  //游戏信息
+   string brief_introduction = 37; // 房间简介
+   map<int32, int64> chair_player = 38; // 1-8麦的用户ID
+   int32 ting_type = 39; // 厅类型
+   bool is_clan = 40; // 是否公会
+   string owner_name = 41; // 房主名
+   string action_talk = 42; // 房间行为对白
+   map<int32, ChairPlayerInfo> chair_player_info = 43; // 1-8麦的用户ID和头像
+   map<int32, string> extend = 44; // 额外信息 PHomeEntryRoomExtendKey
+   repeated string labels = 45;                // 标签列表
+   int64 convert_rate = 46; // 新用户转化系数
+   PHomeEntryRoomStatus status = 47; // 房间状态类型
+   bool is_new_ting = 48; // 是否新厅
+   bool is_exclusive = 49; // 是否独家公会
+   repeated int32 heat_arr = 50;  // 指定版本营收热度值(只针对特定版本,非指定版本该字段为空,第一个为旧热度值,第二个为新热度值)
+   bool empty_chair_sediment = 52; // 空坑沉底
+   string cubism_model_name = 53; // 临时字段 提审使用
+   PluginGenderPattern ting_gender_pattern = 54; // 厅的归属类型
+   PluginGenderPattern my_clan_gender_pattern = 55; // 所在公会的归属类型
+   int64 my_clan_id = 56; // 所在公会的公会ID
+   RoomStatus room_status = 57; // 房间状态
 }
 
 message PHomeIntPlayer {
-  int64          id = 1;
-  int64          id2 = 2;
-  string         name = 3;
-  string         icon = 4;
-  bool           has_pass = 5;
-  bool           is_top = 6;
-  string         recommend_word = 7;
-  int32          fans = 8;
-  int64          room_id = 9;
-  int32          charm_level = 10;
-  int32          wealth_level = 11;
-  int64          create_at = 12;
-  int64          last_time = 13;
-  int32          online_state = 14;
-  int32          whare_house_weight = 15;
-  bool           is_chair = 16;
-  int32          sex = 17;
-  int32          room_type = 18;
-  bool           isBillPlayer = 19;
-  repeated BillPlayerInfo bill_info = 20;
-  int64    flags = 21;
-  string   signature = 22;
-  bool     is_high_quality = 23;
-  bool     is_singer = 24;
-  repeated BillPlayerInfo all_bill_info = 25;
-  repeated PlayerImageInfo   image_list = 26; // 相册
-  string   voice_url = 27; // 语音
-  int32    voice_time = 28; // 语音时长
-  UserVoiceTag user_voice_tag = 29; // 用户声鉴卡标签
-  repeated string capacity_tags = 30; // 身份类型icon 歌手，优质
-  int32 admin_type = 31; // 用户当前所在房间的管理员类型
-  bool chair_speak_on_off = 32; // 是否开麦
-  int32 age = 33;//年龄
-  string constellation = 34;  //星座
-  int32  nobility_id = 35; //爵位id
-  int64  nobility_create_at = 36; //加入爵位时间
+   int64          id                   = 1;
+   int64          id2                  = 2;
+   string         name                 = 3;
+   string         icon                 = 4;
+   bool           has_pass             = 5;
+   bool           is_top               = 6;
+   string         recommend_word       = 7;
+   int32          fans                 = 8;
+   int64          room_id              = 9;
+   int32          charm_level          = 10;
+   int32          wealth_level         = 11;
+   int64          create_at            = 12;
+   int64          last_time            = 13;
+   int32          online_state         = 14;
+   int32          whare_house_weight   = 15;
+   bool           is_chair             = 16;
+   int32          sex                  = 17;
+   int32          room_type            = 18;
+   bool           isBillPlayer         = 19;
+   repeated BillPlayerInfo bill_info   = 20;
+   int64    flags                      = 21;
+   string   signature                  = 22;
+   bool     is_high_quality            = 23;
+   bool     is_singer                  = 24;
+   repeated BillPlayerInfo all_bill_info   = 25;
+   repeated PlayerImageInfo   image_list   = 26; // 相册
+   string   voice_url               = 27; // 语音
+   int32    voice_time              = 28; // 语音时长
+   UserVoiceTag user_voice_tag      = 29; // 用户声鉴卡标签
+   repeated string capacity_tags    = 30; // 身份类型icon 歌手，优质
+   int32 admin_type                 = 31; // 用户当前所在房间的管理员类型
+   bool chair_speak_on_off          = 32; // 是否开麦
+   int32 age = 33;//年龄
+   string constellation = 34;  //星座
+   int32  nobility_id = 35; //爵位id
+   int64  nobility_create_at = 36; //加入爵位时间
+  int64 user_behaviors = 37; // 用户最近活跃时间(时间戳)
+   CPPlayerInfo cp_info = 38;
+   string mind = 39; //心声
 }
 
 message BillPlayerIconVisible {
-  int32 rule_id = 1;
-  int32 val = 2;
-  string str = 3;
+   int32 rule_id           = 1;
+   int32 val               = 2;
+   string str              = 3;
 }
 
 message BillPlayerIcon {
-  string                              url = 1;
-  repeated BillPlayerIconVisible      visible_rule = 2;
-  FilterDimensionType filter_dimension = 3;
-  IconLocationType icon_location = 4;
+   string                              url                           = 1;
+   repeated BillPlayerIconVisible      visible_rule                  = 2;
+   FilterDimensionType filter_dimension = 3;
+   IconLocationType icon_location = 4;
 }
 
 message BillPlayerInfo {
-  int32          bill_num = 1;  // 接单量
-  string         voice_url = 2;  // 声音地址
-  string         brief_introduction = 3;  // 接单简介
-  int32          bill_level = 4;  // 接单等级
-  string         bill_level_picture = 5;  // 等级图标
-  int64          price_id = 6;  // 价格ID
-  int32          price_num = 7;  // 价格数量
-  string         unit = 8;  // 单位
-  int32          voice_time = 9;  // 声音时长：s
-  int32          bill_skill_id = 10; // 配置的点单类型ID
-  bool           isAcceptNew = 11; // 是否开启接新手单
-  repeated       BillPlayerIcon bill_icon = 12; // 点单图标
-  string         bill_player_icon = 13;    //主播接单头像
-  int32          gold = 14;    //金币价格
-  int32          skill_level_id = 15;    //技能等级id
-  int32          new_gold = 16;    // 新手价
-  string         new_unit = 17;    // 新手价单位
-  int64          create_time_unix = 18;    // 创建的unix时间戳
-  string         skill_level_name = 19;    // 技能等级名称
-  string         text_color = 20;    // 技能等级文字颜色
-  string         border_color = 21;    // 技能等级边框颜色
+   int32          bill_num             = 1;  // 接单量
+   string         voice_url            = 2;  // 声音地址
+   string         brief_introduction   = 3;  // 接单简介
+   int32          bill_level           = 4;  // 接单等级
+   string         bill_level_picture   = 5;  // 等级图标
+   int64          price_id             = 6;  // 价格ID
+   int32          price_num            = 7;  // 价格数量
+   string         unit                 = 8;  // 单位
+   int32          voice_time           = 9;  // 声音时长：s
+   int32          bill_skill_id        = 10; // 配置的点单类型ID
+   bool           isAcceptNew          = 11; // 是否开启接新手单
+   repeated       BillPlayerIcon bill_icon            = 12; // 点单图标
+   string         bill_player_icon     = 13;    //主播接单头像
+   int32          gold                 = 14;    //金币价格
+   int32          skill_level_id       = 15;    //技能等级id
+   int32          new_gold             = 16;    // 新手价
+   string         new_unit             = 17;    // 新手价单位
+   int64          create_time_unix     = 18;    // 创建的unix时间戳
+   string         skill_level_name     = 19;    // 技能等级名称
+   string         text_color           = 20;    // 技能等级文字颜色
+   string         border_color         = 21;    // 技能等级边框颜色
 }
 
 message PHomeIntBcFriend {
-  int64    player_id = 1;
-  int64    id2 = 2;
-  string   name = 3;
-  string   icon = 4;
-  int32    sex = 5;
-  int32    charm_level = 6;
-  int32    wealth_level = 7;
-  string   content = 8;
-  int64    show_time = 9;
-  int64    protect_time = 10;
-  int32    gold = 11;
-  int32    info_type = 12;
-  string   id = 13;
-  BF_RECORD_TYPE record_type = 14;             // 0 广播交友信息, 1 跳跳，2礼物
-  int32 on_chair_num = 15;                     //发送广播时，麦上的人数
-  string room_pattern_bc_name = 16;            //房间模式文案
-  string room_pattern_bc_name_color = 17;      //房间模式文案颜色
-  string room_pattern_bc_border_color = 18;    //房间模式文案边框颜色
-  int32  room_pattern = 19;                    //房间模式
-  int32 room_type = 20;                        // 房间类型，-1 普通房，>0厅
-  int64 create_time = 21;                      // 创建时间
-  map<int32, string> extend = 22;
-  repeated string labels = 23;                 // 标签列表
-  PHomeEntryRoomLabel room_label = 24; // 房间标签
+   int64    player_id               = 1;
+   int64    id2                     = 2;
+   string   name                    = 3;
+   string   icon                    = 4;
+   int32    sex                     = 5;
+   int32    charm_level             = 6;
+   int32    wealth_level            = 7;
+   string   content                 = 8;
+   int64    show_time               = 9;
+   int64    protect_time            = 10;
+   int32    gold                    = 11;
+   int32    info_type               = 12;
+   string   id                      = 13;
+   BF_RECORD_TYPE record_type = 14;             // 0 广播交友信息, 1 跳跳，2礼物
+   int32 on_chair_num = 15;                     //发送广播时，麦上的人数
+   string room_pattern_bc_name = 16;            //房间模式文案
+   string room_pattern_bc_name_color = 17;      //房间模式文案颜色
+   string room_pattern_bc_border_color = 18;    //房间模式文案边框颜色
+   int32  room_pattern = 19;                    //房间模式
+   int32 room_type = 20;                        // 房间类型，-1 普通房，>0厅
+   int64 create_time = 21;                      // 创建时间
+   map<int32, string> extend = 22;
+   repeated string labels = 23;                 // 标签列表
+}
+
+message PHomeIntBcGift {
+  sint64 send_id = 1; // 赠送者ID
+  string send_name = 2; // 赠送者昵称
+  string send_icon = 3; // 赠送者头像
+  PluginSexType send_sex = 4; // 赠送者性别
+  sint64 recv_id = 5; // 接收者ID
+  string recv_name = 6; // 接收者昵称
+  string recv_icon = 7; // 接收者头像
+  PluginSexType recv_sex = 8; // 接收者性别
+  sint64 room_id = 9; // 房间ID
+  string room_pwd = 10; // 房间密码
+  sint32 gift_id = 11; // 礼物ID
+  sint32 gift_num = 12; // 礼物数量
+  sint64 create_time = 13; // 送礼时间unix时间，单位: s
+  sint32 Gold = 14; // 价值
+  sint64 room_id2 = 15; // 房间靓号
+  bool   is_world = 16; // 是否全服礼物
+  string gift_icon = 17; // 礼物图片
+  int32 gift_type = 18; // 礼物类型
+  string from_id_cubism_icon = 19; // 送礼者的虚拟形象静态图
+  string to_id_cubism_icon = 20; // 收礼者的虚拟形象静态图
+  string room_name = 21; // 房间名字
+  string message = 22; // 输入信息
 }
 
 message UpdateHomeRoomReq {
-  PHomeIntRoom   room = 1;
-  int32          update_type = 2;
+   PHomeIntRoom   room                     = 1;
+   int32          update_type              = 2;
 }
 
 message UpdateHomeRoomRes {
@@ -167,8 +206,8 @@ message UpdateHomeRoomRes {
 
 
 message UpdateHomePlayerReq {
-  PHomeIntPlayer   player = 1;
-  int32          update_type = 2;
+   PHomeIntPlayer   player                 = 1;
+   int32          update_type              = 2;
 }
 
 message UpdateHomePlayerRes {
@@ -176,22 +215,28 @@ message UpdateHomePlayerRes {
 
 
 message UpdateHomeBcFriendReq {
-  PHomeIntBcFriend                    push = 1;
-  repeated   PHomeIntBcFriend         list = 2;
-  repeated   PHomeIntBcFriend         list_game = 3;
-  repeated   PHomeIntBcFriend         list_moba = 4;
-  string region = 5; // 区服
+   PHomeIntBcFriend                    push                  = 1;
+   repeated   PHomeIntBcFriend         list                  = 2;
+   repeated   PHomeIntBcFriend         list_game             = 3;
+   repeated   PHomeIntBcFriend         list_moba             = 4;
 }
 
 message UpdateHomeBcFriendRes {
 }
 
+message UpdateHomeBcGiftReq {
+  PHomeIntBcGift                      push                  = 1;
+  repeated   PHomeIntBcGift           list                  = 2;
+}
+
+message UpdateHomeBcGiftRes {
+}
 
 message UpdateFriendFollowNumReq {
-  int64    from_id = 1;
-  int64    player_id = 2;
-  string    update_type = 3;
-  int32    fans_num = 4;         // 粉丝数
+   int64    from_id                 = 1;
+   int64    player_id               = 2;
+   string    update_type             = 3;
+   int32    fans_num                = 4;         // 粉丝数
 }
 
 message UpdateFriendFollowNumRes {
@@ -199,80 +244,80 @@ message UpdateFriendFollowNumRes {
 
 
 message HomeConfOnlineWeight {
-  int32    lev = 1;                // 等级
-  int32    weight = 2;                // weight
+   int32    lev          = 1;                // 等级
+   int32    weight       = 2;                // weight
 }
 
 message HomeConfNobilityWeight {
-  int32    nobility_id = 1;    //爵位id
-  int32    online_nobility_weight = 2;    //爵位额外系数
-  int32    buy_nobility_weight = 3;    //购买(续费)爵位额外系数
+   int32    nobility_id                 = 1;    //爵位id
+   int32    online_nobility_weight      = 2;    //爵位额外系数
+   int32    buy_nobility_weight         = 3;    //购买(续费)爵位额外系数
 }
 
 message GetHomeConfCdWeightReq {
 }
 
 message GetHomeConfCdWeightRes {
-  int32   update_time_cd = 1; //cd更新时间
-  int32   online_new_user_weight = 2; //每名新玩家
-  repeated HomeConfOnlineWeight   online_wealth_weight = 3; //财富等级权重，记得写入时按照Lv从大到小排序
-  repeated HomeConfOnlineWeight   online_charm_weight = 4; //魅力等级权重，记得写入时按照Lv从大到小排序
-  int64   consume_weight = 5; //
-  int32   base_weight = 6; //热门门槛系数
-  string   md5 = 7; //
-  map<int32, HomeConfNobilityWeight>  nobility_weight_map = 8;   //爵位额外系数, key: 爵位id
-  int32 user_extra = 9; //人数系数放大系数
-  int32 consume_extra = 10; //消费系数放大系数
-  int32 nobility_extra = 11; //爵位系数放大系数
+    int32   update_time_cd                                           = 1; //cd更新时间
+    int32   online_new_user_weight                                   = 2; //每名新玩家
+    repeated HomeConfOnlineWeight   online_wealth_weight             = 3; //财富等级权重，记得写入时按照Lv从大到小排序
+    repeated HomeConfOnlineWeight   online_charm_weight              = 4; //魅力等级权重，记得写入时按照Lv从大到小排序
+    int64   consume_weight                                           = 5; //
+    int32   base_weight                                              = 6; //热门门槛系数
+    string   md5                                                      = 7; //
+    map<int32, HomeConfNobilityWeight>  nobility_weight_map          = 8;   //爵位额外系数, key: 爵位id
+    int32 user_extra                                                 = 9; //人数系数放大系数
+    int32 consume_extra                                                 = 10; //消费系数放大系数
+    int32 nobility_extra                                                 = 11; //爵位系数放大系数
 }
 
 message CheckBcFriendDispearReq {
-  int64    room_id = 1;
+   int64    room_id                 = 1;
 }
 
 message CheckBcFriendDispearRes {
-  bool     flag = 1;
+   bool     flag                    = 1;
 }
 
 message HomeAdminReq {
-  string     obj = 1;
-  string     func_name = 2;
-  bytes     params = 3;
+    string     obj                         = 1;
+    string     func_name                   = 2;
+    bytes     params                      = 3;
 }
 
 message HomeAdminRes {
-  bytes data = 1;
+   bytes data = 1;
 }
 
 message GetHomeRoomReq {
 }
 
 message GetHomeRoomRes {
-  repeated PHomeIntRoom rooms = 1;
+   repeated PHomeIntRoom rooms = 1;
 }
 
 message UpdateOrderPlayerReq {
-  sint64 player_id = 1;
-  int32 order_num = 2; // 接单量
-  string voice_url = 3; // 声音地址
-  string brief_introduction = 4; // 接单简介
-  int32 order_level = 5; // 接单等级
-  string order_level_picture = 6; // 等级图标
-  int64 price_id = 7; // 价格ID
-  int32 price_num = 8; // 价格数量
-  string unit = 9; // 单位
+   sint64 player_id =  1;
+   int32 order_num = 2; // 接单量
+   string voice_url = 3; // 声音地址
+   string brief_introduction = 4; // 接单简介
+   int32 order_level = 5; // 接单等级
+   string order_level_picture = 6; // 等级图标
+   int64 price_id = 7; // 价格ID
+   int32 price_num = 8; // 价格数量
+   string unit = 9; // 单位
 }
 message UpdateOrderPlayerRes {
 }
 
 message UpdateRank {
-  repeated PHomeRankItem rank_list = 1;
-  PluginRankType type = 2;
-  string describe = 3;
+   repeated PHomeRankItem rank_list = 1;
+   PluginRankType type = 2;
+   string describe = 3;
 }
 
 message UpdateRankReq {
-  repeated UpdateRank ranks = 1;
+   repeated UpdateRank ranks = 1;
 }
 
 message UpdateRankRes {
@@ -282,13 +327,13 @@ message UpdateRankRes {
 
 
 message HomeDataConf {
-  sint32 id = 1;
-  sint32 data_type = 2;
-  string data_name = 3;
+   sint32 id            = 1;
+   sint32 data_type     = 2;
+   string data_name     = 3;
 }
 
 message HomeReloadConfReq {
-  int32  plan_id = 1;
+   int32  plan_id  = 1;
 }
 
 message HomeReloadConfRes {
@@ -309,78 +354,79 @@ message ScheduleEveryDay4hRes {
 
 // 隐私设置
 message PrivacyOnOffReq {
-  int64 player_id = 1;
+   int64 player_id = 1;
 }
 message PrivacyOnOffRes {
-  repeated PHomePrivacyTypeVal on_off_list = 1; // 开关列表
+   repeated PHomePrivacyTypeVal on_off_list = 1; // 开关列表
 }
 
 // 改变隐私设置
 message ChangePrivacyOnOffReq {
-  int64 player_id = 1;
-  PHomePrivacyTypeVal on_off = 2; // 开关
+   int64 player_id = 1;
+   PHomePrivacyTypeVal on_off = 2; // 开关
 }
 message ChangePrivacyOnOffRes {
-  PHomePrivacyTypeVal on_off = 1; // 开关
+    PHomePrivacyTypeVal on_off = 1; // 开关
 }
 
 message PHomePrivacyTypeVal {
-  PHomePrivacyType on_off_type = 1; // 开关类型
-  int32 on_off_val = 2; // 0关1开
+    PHomePrivacyType on_off_type = 1; // 开关类型
+    int32 on_off_val = 2; // 0关1开
 }
 enum PHomePrivacyType {
-  PrivacyZero = 0; // 占位不使用
-  HideRoom = 11; // 隐藏我的个人房间
-  ShowPosition = 12; // 显示我的位置
-  ShowAllTrends = 13; // 展示全部动态，默认显示最近6个月
-  UpdateTrendNotice = 14; // 动态更新提醒
-  // 氧吧互动 后台推送开关
-  PushTrendLike = 20; // 点赞
-  PushTrendComment = 21; // 评论
-  PushTrendAt = 22; // @
-  PushTrendNoticeNew = 23; // 关注的人发动态
+    PrivacyZero = 0; // 占位不使用
+    HideRoom = 11; // 隐藏我的个人房间
+    ShowPosition = 12; // 显示我的位置
+    ShowAllTrends = 13; // 展示全部动态，默认显示最近6个月
+    UpdateTrendNotice = 14; // 动态更新提醒
+    // 氧吧互动 后台推送开关
+    PushTrendLike = 20; // 点赞
+    PushTrendComment = 21; // 评论
+    PushTrendAt = 22; // @
+    PushTrendNoticeNew = 23; // 关注的人发动态
+    PersonalizationSwitch = 31; // 个性化开关
 }
 
 enum FocusOpt {
-  FOpt_Focus_None = 0;
-  FOpt_Focus = 1;
-  FOpt_Not_Focus = 2;
+    FOpt_Focus_None = 0;
+    FOpt_Focus      = 1;
+    FOpt_Not_Focus  = 2;
 }
 message NoticeFocusReq {
-  int64 player_id = 1;
-  int64 target_id = 2;
-  FocusOpt opt = 3;
+    int64 player_id = 1;
+    int64 target_id = 2;
+    FocusOpt opt    = 3;
 }
 message NoticeFocusRes {
 
 }
 
 message UpdateVideoReq {
-  int64 id = 1;              // 房间id
-  string title = 2;          // 影片名称
-  repeated string tags = 3;  // 标签
-  string image = 4;          // 海报
+   int64 id = 1;              // 房间id
+   string title = 2;          // 影片名称
+   repeated string tags = 3;  // 标签
+   string image = 4;          // 海报
 }
 
 message PHomeIntBubble {
-  int64 player_id = 1;
-  string nick_name = 2;
-  PluginSexType sex = 3;
-  string icon = 4;
-  string content = 5;
-  string label_name = 6;
-  int32 heat = 7;
-  int64 room_id = 8;
-  int32 label_id = 9;
-  int64 id = 10;
+    int64 player_id = 1;
+    string nick_name = 2;
+    PluginSexType sex = 3;
+    string icon = 4;
+    string content = 5;
+    string label_name = 6;
+    int32 heat = 7;
+    int64 room_id = 8;
+    int32 label_id = 9;
+    int64 id = 10;
 }
 
 message UpdateVideoRes {
 }
 
 message UpdateBubbleReq {
-  PHomeIntBubble push = 1; // 若非nil则推送客户端
-  repeated PHomeIntBubble list = 2;
+    PHomeIntBubble push = 1; // 若非nil则推送客户端
+    repeated PHomeIntBubble list = 2;
 }
 
 message UpdateBubbleRes {
@@ -388,55 +434,55 @@ message UpdateBubbleRes {
 }
 
 message CheckBubbleDispearReq {
-  int64 room_id = 1;
-  int32 label_id = 2; // 查哪个标签的屏蔽
+   int64 room_id = 1;
+   int32 label_id = 2; // 查哪个标签的屏蔽
 }
 
 message CheckBubbleDispearRes {
-  bool flag = 1;
+    bool flag = 1;
 }
 
 message PhomeRoomGameInfo {
-  int32 game_id = 1;  //游戏id
-  string name = 2;            //游戏名称
-  PGameRoomStatusType status = 3;
-  repeated PGamePlayerStatus player_status = 4;  //玩家状态
-  string room_game_icon = 5;//房间游戏图标
+    int32 game_id = 1;  //游戏id
+    string name = 2;            //游戏名称
+    PGameRoomStatusType status = 3;
+    repeated PGamePlayerStatus player_status = 4;  //玩家状态
+    string room_game_icon = 5;//房间游戏图标
 }
 
 //游戏用户状态, 与 go_tech/game_protocol 仓库里面的 GamePlayerStatusType 一致
 enum PGamePlayerStatusType{
-  PGPST_None = 0;
-  PGPST_UnReady = 1;//未准备
-  PGPST_Ready = 2;//已准备
-  PGPST_Start = 3;//游戏中
+    PGPST_None = 0;
+    PGPST_UnReady = 1;//未准备
+    PGPST_Ready = 2;//已准备
+    PGPST_Start = 3;//游戏中
 }
 
 //游戏房间状态   与go_tech/game_protocol 仓库里面的 GameRoomStatusType 一致
 enum PGameRoomStatusType{
-  PGRST_None = 0;
-  PGRST_Wait = 1;//未开始
-  PGRST_Playing = 2;//已开始
+    PGRST_None = 0;
+    PGRST_Wait = 1;//未开始
+    PGRST_Playing = 2;//已开始
 }
 
 message PGamePlayerStatus {
-  int64 player_id = 1;
-  PGamePlayerStatusType status = 2;
+    int64 player_id = 1;
+    PGamePlayerStatusType status = 2;
 }
 
 // 用户声鉴卡标签
 message UserVoiceTag {
-  string tone_tag = 1;
-  int32  tone_tag_num = 2;
-  string style_tag = 3;
+  string tone_tag      = 1;
+  int32  tone_tag_num  = 2;
+  string style_tag     = 3;
   int32  style_tag_num = 4;
 }
 
 message IsSelectInterestReq {
-  int64 player_id = 1;
+    int64 player_id = 1;
 }
 message IsSelectInterestRes {
-  bool is_pop = 1;
+    bool is_pop = 1;
 }
 
 message UpdateConfConsortiaCategoryReq {
@@ -460,7 +506,7 @@ message ChannelIds {
 }
 
 message UpdateHomePlanConfReq {
-  map<int32, ChannelIds> channel_label_ids = 1;
+  map<int32,ChannelIds> channel_label_ids = 1;
 }
 
 message UpdateHomePlanConfRes {
@@ -468,27 +514,27 @@ message UpdateHomePlanConfRes {
 }
 
 message UpdatePHomeMatchReq {
-
+  
 }
 
 message UpdatePHomeMatchRes {
-
+  
 }
 
 message AddTrendMsgReq {
-  int64 player_id = 1; // 玩家id
-  int64 from_id = 2; // 来自哪个 玩家id
-  CommunityPlayerMsgType msg_type = 3; // 消息类型
+    int64 player_id = 1; // 玩家id
+    int64 from_id = 2; // 来自哪个 玩家id
+    CommunityPlayerMsgType msg_type = 3; // 消息类型
 }
 message AddTrendMsgRes {
 }
 
 message ClanTypeHomeRoomListReq {
-  map<int32, bool> clan_type = 1; // 厅类型
+   map<int32,bool> clan_type = 1; // 厅类型
 }
 
 message ClanTypeHomeRoomListRes {
-  repeated PHomeIntRoom rooms = 1;
+   repeated PHomeIntRoom rooms = 1;
 }
 
 // 定时发布视频动态
@@ -519,12 +565,12 @@ message UpdateBillConfReq {}
 message UpdateBillConfRes {}
 
 message GetHomeRoomListByIdsReq {
-  repeated int64 room_ids = 1;  // 房间ID
-  map<int32, bool> clan_type = 2; // 厅类型
+   repeated int64 room_ids = 1;  // 房间ID
+   map<int32,bool> clan_type = 2; // 厅类型
 }
 
 message GetHomeRoomListByIdsRes {
-  map<int64, PHomeIntRoom> rooms = 1;
+   map<int64,PHomeIntRoom> rooms = 1;
 }
 
 enum RedisConType{
@@ -535,10 +581,10 @@ enum RedisConType{
 }
 
 message DelPhomeRedisCacheReq{
-  RedisConType con_type = 1; // Redis连接类型
-  string key = 2; // Redis key
-  bool is_hash = 3; // 是否哈希
-  string field = 4; // 哈希field
+    RedisConType con_type = 1; // Redis连接类型
+    string key = 2; // Redis key
+    bool is_hash = 3; // 是否哈希
+    string field = 4; // 哈希field
 }
 
 message DelPhomeRedisCacheRes{
@@ -553,44 +599,112 @@ message UpdateVideoSourceRateRes{
 
 }
 
-message UpdateGamePlayNumReq {
-  int64 game_id = 1; // 游戏id
-  int64 play_users = 2;
-}
-message UpdateGamePlayNumRes {}
-
-message PublishTrendReq {
-  string content = 1;    //文本内容
-  ContentType content_type = 2;   // 不传，后端固定游戏类型
-  int64 game_id = 3; // 游戏id
-  string game_icon = 4; //
-  Effort effort = 5; // 成就信息
-  int64 player_id = 6; // 用户信息
-  string region = 7; // 区服编号
-}
-message PublishTrendRes {
-  int64 trends_id = 1;    //动态id
-  int64 create_at = 2;    //动态创建时间
+// 维护节目单
+message ReloadPHomeRoomProgramShowReq{
+  repeated int64 room_ids = 1; // 批量更新
 }
 
-message GetLastTrendImgsReq {
+message ReloadPHomeRoomProgramShowRes{
+}
+
+// 获取动态ID
+message GetCommunityTrendIdReq{
   int64 player_id = 1;
-  int64 ctx_player_id = 2;// 当前登录用户id
-}
-message GetLastTrendImgsRes {
-  repeated MediaResource media = 1;
-}
-
-message TimerPublishTrendReq {}
-message TimerPublishTrendRes {}
-
-message GetRoomCoefficientReq {
-  int64 room_id = 1;
-  bool is_refresh = 2; // 是否强制刷新热度依赖的<房间数据>
+  int64 push_time = 2;
+  repeated MediaResource media_url   = 3; // 资源
+  string content = 4;
+  string content_response = 5;
 }
 
-message GetRoomCoefficientRes {
-  int64 rank = 1;
+
+
+message GetCommunityTrendIdRes{
+  int64 trend_id = 1; // 动态ID
+}
+
+message PHomeEntryHotPointInt {
+  int64 hot_point_id = 1; // 热点ID
+  int64 player_id = 2; // 用户ID
+  int64 player_id2 = 3; // 用户靓号
+  int64 player_id3 = 4; // 半糖靓号
+  string name = 5; // 用户昵称
+  string icon = 6; // 用户头像
+  PluginSexType sex = 7; // 用户性别
+  int32 wealth_level = 8; // 财富等级
+  int32 charm_level = 9; // 魅力等级
+  int32 wealth_level_fish = 10; // 财富等级(半糖)
+  int32 charm_level_fish = 11; // 魅力等级(半糖)
+  string content = 12; // 热点内容
+  string content_response = 13; // 热点回应内容
+  int32 rank = 14; // 排名
+  PluginHotPointType hot_point_type = 15; // 热点类型
+  int32 gold = 16; // 金币
+  int32 heat = 17; // 热度值
+  int32 watch_num = 18; // 围观人数
+  string jump_url = 19; // 跳转地址
+  int64 begin_time = 20; // 开始时间
+  int64 end_time = 21; // 结束时间
+  int64 change_time = 22; // 状态变更时间
+  int64 enter_rank_time = 23; // 进榜时间
+  repeated int64 update_hot_point_ids = 24; // 批量更新操作热点
+  repeated int64 reset_hot_point_ids = 25; // 批量重置操作热点
+  int32 status = 26; // 热点状态:0正常;1:被撤;2:过期;3:后台删除
+  PHomeHotPointIntUpdateType update_type = 27; // 热点更新类型
+}
+
+enum PHomeHotPointIntUpdateType{
+  PHEHPIUT_NONE = 0; // 占位
+  PHEHPIUT_Remove = 1; // 热点下架
+  PHEHPIUT_TimeOut = 2; // 热点过期
+  PHEHPIUT_Delete = 3; // 热点删除
+  PHEHPIUT_Add  = 4; // 热点进池
+  PHEHPIUT_HeatChange  = 5; // 火力值变化
+  PHEHPIUT_ContentResponseChange  = 6; // 回应变化
+  PHEHPIUT_SecKillRank  = 7; // 热点秒榜
+  PHEHPIUT_LabelChange  = 8; // 热点标签变化
+  PHEHPIUT_ViewNum  = 9; // 热点浏览
+  PHEHPIUT_EnterRank  = 10; // 热点进榜
+}
+
+message UpdateHotPointReq{
+  PHomeEntryHotPointInt hot_point = 1;
+}
+
+message UpdateHotPointRes{
+
+}
+
+message DelCommentReq{
+  int64 player_id = 1;
+  int64 trends_id = 2;
+  int32 comment_id = 3;
+}
+
+message DelCommentRes{}
+
+
+message HandleDispatchHomeRoomModReq{}
+
+message HandleDispatchHomeRoomModRes{}
+
+// 手动设置房间数据源
+message HandleHSetPHomeDataSrcReq{
+  int64 room_id = 1; // 房间ID
+  int64 data_src_id = 2; // 数据库ID
+}
+
+message HandleHSetPHomeDataSrcRes{}
+
+message FillHotPointIdToPoolReq{}
+
+message FillHotPointIdToPoolRes{}
+
+message CPPlayerInfo {
+    string pic_url = 1; // 卡片大图
+    string voice_url = 2; // 语音地址
+    int32 voice_time = 3; // 语音时长
+    repeated string labels = 4; // 标签
+    bool is_cp_card = 5;      // 是否推送至心动划卡
 }
 
 enum PHomeDataSrcRegexType {
@@ -602,46 +716,43 @@ message CheckDataSrcReq{
 }
 message CheckDataSrcRes {}
 
-
 service PHomeIntObj {
-  rpc PublishTrend(PublishTrendReq) returns (PublishTrendRes); // 发布动态
-  rpc GetLastTrendImgs (GetLastTrendImgsReq) returns (GetLastTrendImgsRes); // 获取最近动态图片
-  rpc UpdateGamePlayNum(UpdateGamePlayNumReq) returns(UpdateGamePlayNumRes);
-  rpc UpdateRoom (UpdateHomeRoomReq) returns (UpdateHomeRoomRes); // 更新房间
-  rpc UpdatePlayer (UpdateHomePlayerReq) returns (UpdateHomePlayerRes); // 更新玩家
-  rpc UpdateBcFriend (UpdateHomeBcFriendReq) returns (UpdateHomeBcFriendRes); // 更新广播交友
-  rpc UpdateFriendFollow (UpdateFriendFollowNumReq) returns (UpdateFriendFollowNumRes); // 更新好友
-  rpc GetHomeConfCdWeight (GetHomeConfCdWeightReq) returns (GetHomeConfCdWeightRes); // 获取首页权重
-  rpc CheckBcFriendDispear (CheckBcFriendDispearReq) returns (CheckBcFriendDispearRes); // 获取广播交友屏蔽
-  rpc HomeAdmin (HomeAdminReq) returns (HomeAdminRes); // 后台
-  rpc GetHomeRoomList (GetHomeRoomReq) returns (GetHomeRoomRes); //获取所有在线的房间信息
-  rpc UpdateRank(UpdateRankReq) returns (UpdateRankRes); // 上报排行榜
-  rpc ReloadConf(HomeReloadConfReq) returns (HomeReloadConfRes); // 重载配置
-  rpc ScheduleEveryDay4h(ScheduleEveryDay4hReq) returns (ScheduleEveryDay4hRes); // 每天4点执行
+    rpc UpdateRoom (UpdateHomeRoomReq) returns (UpdateHomeRoomRes); // 更新房间
+    rpc UpdatePlayer (UpdateHomePlayerReq) returns (UpdateHomePlayerRes); // 更新玩家
+    rpc UpdateBcFriend (UpdateHomeBcFriendReq) returns (UpdateHomeBcFriendRes); // 更新广播交友
+    rpc UpdateBcGift (UpdateHomeBcGiftReq) returns (UpdateHomeBcGiftRes); // 更新礼物广播
+    rpc UpdateFriendFollow (UpdateFriendFollowNumReq) returns (UpdateFriendFollowNumRes); // 更新好友
+    rpc GetHomeConfCdWeight (GetHomeConfCdWeightReq) returns (GetHomeConfCdWeightRes); // 获取首页权重
+    rpc CheckBcFriendDispear (CheckBcFriendDispearReq) returns (CheckBcFriendDispearRes); // 获取广播交友屏蔽
+    rpc HomeAdmin (HomeAdminReq) returns (HomeAdminRes); // 后台
+    rpc GetHomeRoomList (GetHomeRoomReq) returns (GetHomeRoomRes); //获取所有在线的房间信息
+    rpc UpdateRank(UpdateRankReq) returns (UpdateRankRes); // 上报排行榜
+    rpc ReloadConf(HomeReloadConfReq) returns (HomeReloadConfRes); // 重载配置
+    rpc ScheduleEveryDay4h(ScheduleEveryDay4hReq) returns (ScheduleEveryDay4hRes); // 每天4点执行
 
-  rpc ReloadPlanConf(ReloadPlanConfReq) returns (ReloadPlanConfRes); // 重载渠道配置
+    rpc ReloadPlanConf(ReloadPlanConfReq) returns (ReloadPlanConfRes); // 重载渠道配置
 
-  // 上传Oss回调
-  rpc UresOssCallback (PluginUresOssCallbackReq) returns (PluginUresOssCallbackRes);
-  //公会圈子相关
-  rpc ClanCreateGroup(ClanCreateGroupReq) returns (ClanCreateGroupRes);
-  rpc ClanAddGroupMember(ClanAddGroupMemberReq) returns (ClanAddGroupMemberRes);
-  rpc ClanDelGroupMember(ClanDelGroupMemberReq) returns (ClanDelGroupMemberRes);
+    // 上传Oss回调
+    rpc UresOssCallback (PluginUresOssCallbackReq) returns (PluginUresOssCallbackRes);
+    //公会圈子相关
+    rpc ClanCreateGroup(ClanCreateGroupReq) returns (ClanCreateGroupRes);
+    rpc ClanAddGroupMember(ClanAddGroupMemberReq) returns (ClanAddGroupMemberRes);
+    rpc ClanDelGroupMember(ClanDelGroupMemberReq) returns (ClanDelGroupMemberRes);
 
-  // 隐私开关
-  rpc PrivacyOnOff (PrivacyOnOffReq) returns (PrivacyOnOffRes);
-  rpc ChangePrivacyOnOff (ChangePrivacyOnOffReq) returns (ChangePrivacyOnOffRes);
-  // 关注
-  rpc NoticeFocus(NoticeFocusReq) returns (NoticeFocusRes);
+    // 隐私开关
+    rpc PrivacyOnOff (PrivacyOnOffReq) returns (PrivacyOnOffRes);
+    rpc ChangePrivacyOnOff (ChangePrivacyOnOffReq) returns (ChangePrivacyOnOffRes);
+    // 关注
+    rpc NoticeFocus(NoticeFocusReq) returns (NoticeFocusRes);
 
-  rpc UpdateVideo(UpdateVideoReq) returns (UpdateVideoRes); // 上报视频信息
+    rpc UpdateVideo(UpdateVideoReq) returns (UpdateVideoRes); // 上报视频信息
 
-  rpc UpdateBubble(UpdateBubbleReq) returns (UpdateBubbleRes); // 更新泡泡数据
-  rpc CheckBubbleDispear(CheckBubbleDispearReq) returns(CheckBubbleDispearRes); // 获取广播交友屏蔽
-  // 删除账号做数据更新
-  rpc DeleteAccount (DeleteAccountReq) returns (DeleteAccountRes);
-  // 获取是否设置兴趣
-  rpc IsSelectInterest(IsSelectInterestReq) returns (IsSelectInterestRes);
+    rpc UpdateBubble(UpdateBubbleReq) returns (UpdateBubbleRes); // 更新泡泡数据
+    rpc CheckBubbleDispear(CheckBubbleDispearReq) returns(CheckBubbleDispearRes); // 获取广播交友屏蔽
+    // 删除账号做数据更新
+    rpc DeleteAccount (DeleteAccountReq) returns (DeleteAccountRes);
+    // 获取是否设置兴趣
+    rpc IsSelectInterest(IsSelectInterestReq) returns (IsSelectInterestRes);
   // 更新公会分类配置
   rpc UpdateConfConsortiaCategory(UpdateConfConsortiaCategoryReq) returns (UpdateConfConsortiaCategoryRes);
   // 更新渠道号
@@ -650,16 +761,16 @@ service PHomeIntObj {
   rpc UpdateHomePlanConf(UpdateHomePlanConfReq) returns (UpdateHomePlanConfRes);
   //匹配信息更改
   rpc UpdatePHomeMatch(UpdatePHomeMatchReq) returns (UpdatePHomeMatchRes);
-  //取消游戏匹配
-  rpc MatchUserGameCancel(MatchUserGameCancelReq) returns (MatchUserGameCancelRes);
-  //房间游戏的匹配
-  rpc MatchUserGame(MatchUserGameReq) returns (MatchUserGameRes);
-  // 互动（动态）消息添加
-  rpc AddTrendMsg(AddTrendMsgReq) returns (AddTrendMsgRes);
-  // 根据厅类型获取房间数据源
-  rpc ClanTypeHomeRoomList(ClanTypeHomeRoomListReq) returns (ClanTypeHomeRoomListRes);
-  // 定时发布视频动态
-  rpc TimerPublishTrends(TimerPublishTrendsReq) returns (TimerPublishTrendsRes);
+    //取消游戏匹配
+    rpc MatchUserGameCancel(MatchUserGameCancelReq) returns (MatchUserGameCancelRes);
+    //房间游戏的匹配
+    rpc MatchUserGame(MatchUserGameReq) returns (MatchUserGameRes);
+    // 互动（动态）消息添加
+    rpc AddTrendMsg(AddTrendMsgReq) returns (AddTrendMsgRes);
+    // 根据厅类型获取房间数据源
+    rpc ClanTypeHomeRoomList(ClanTypeHomeRoomListReq) returns (ClanTypeHomeRoomListRes);
+    // 定时发布视频动态
+    rpc TimerPublishTrends(TimerPublishTrendsReq) returns (TimerPublishTrendsRes);
   // 划卡视频人工打分
   rpc VideoManualScore(VideoManualScoreReq) returns (VideoManualScoreRes);
   // 重算视频分数
@@ -667,10 +778,10 @@ service PHomeIntObj {
   // 删除视频观看记录
   rpc VideoClearPlayRecord(VideoClearPlayRecordReq) returns (VideoClearPlayRecordRes);
 
-  // 更新点单配置
-  rpc UpdateBillConf(UpdateBillConfReq) returns (UpdateBillConfRes);
-  // 根据房间ID获取房间数据源
-  rpc GetHomeRoomListByIds(GetHomeRoomListByIdsReq) returns (GetHomeRoomListByIdsRes);
+    // 更新点单配置
+    rpc UpdateBillConf(UpdateBillConfReq) returns (UpdateBillConfRes);
+    // 根据房间ID获取房间数据源
+    rpc GetHomeRoomListByIds(GetHomeRoomListByIdsReq) returns (GetHomeRoomListByIdsRes);
   // 删除Redis
   rpc DelPhomeRedisCache(DelPhomeRedisCacheReq) returns (DelPhomeRedisCacheRes);
   // 每天0点更新转化率
@@ -678,11 +789,26 @@ service PHomeIntObj {
 
   // 风控审核回调
   rpc AdvertAuditCommunity(CommContentCheckResultReq) returns (CommContentCheckResultRes);
-  // 后台定时-发动态
-  rpc TimerPublishTrend(TimerPublishTrendReq) returns (TimerPublishTrendRes);
+  // 维护节目单
+  rpc ReloadPHomeRoomProgramShow(ReloadPHomeRoomProgramShowReq) returns (ReloadPHomeRoomProgramShowRes);
+  // 获取生成动态id
+  rpc GetCommunityTrendId(GetCommunityTrendIdReq) returns (GetCommunityTrendIdRes);
+  // 更新热点榜
+  rpc UpdateHotPoint(UpdateHotPointReq) returns (UpdateHotPointRes);
+  // 热点回复审核回调
+  rpc HotReplyAudit(CommContentCheckResultReq) returns (CommContentCheckResultRes);
+  // 获取动态列表
+  rpc GetCommunityTrendDataInt(GetCommunityTrendDataIntReq) returns (GetCommunityTrendDataIntRes);
 
-  // 房间热度获取
-  rpc GetRoomCoefficient(GetRoomCoefficientReq) returns (GetRoomCoefficientRes);
+  // 删除动态评论
+  rpc DelComment(DelCommentReq) returns(DelCommentRes);
+
+  // 手动触发组装房间数据
+  rpc HandleDispatchHomeRoomMod(HandleDispatchHomeRoomModReq) returns(HandleDispatchHomeRoomModRes);
+  // 手动设置数据源
+  rpc HandleHSetPHomeDataSrc(HandleHSetPHomeDataSrcReq) returns(HandleHSetPHomeDataSrcRes);
+  // 生产热点ID到池子
+  rpc FillHotPointIdToPool(FillHotPointIdToPoolReq) returns (FillHotPointIdToPoolRes);
   // 检查数据源数据
   rpc CheckDataSrc(CheckDataSrcReq) returns (CheckDataSrcRes);
 }

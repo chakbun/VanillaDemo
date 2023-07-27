@@ -1,0 +1,1629 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/play.ext.proto";
+import "pb/show.ext.proto";
+import "pb/acm_conf.ext.proto";
+import "pb/system.ext.proto";
+
+enum IndexErr {
+    ErrIndex_ZERO = 0;      // 占位
+}
+
+// 广播cmdId定义 // 203
+enum IndexCmdId {
+    IC_IndexZero = 0; // 占位
+    IC_ActivityRoom = 203001;   // 广播活动房间配置更新
+    IC_SearchRoom = 203002;     // 搜索房间 SearchRoom
+    IC_YoungModel = 203003;     // 青少年模式修改 YoungModel
+    IC_ExchangeCode = 203004;   // 推送兑换码入口
+    IC_AcGameConf = 203005;     // 活动游戏配置更新
+
+    IC_ThemeConfig = 203006;    // 主题配置（房间横幅）配置更新
+    IC_PendantConfig = 203007;  // 挂件配置更新
+    IC_HomePushAPPPopUP = 203008; // 应用内弹窗推送
+    IC_SubInfoCountDown = 203009; // 角标活动数据 SubInfoActivity
+    IC_ListSubInfo = 203010; // 房间角标列表 ListSubInfoRes
+    IC_RealmNameConf = 203011; // 域名配置 GetRealmNameConfRes
+    IC_ActSubInfoPush = 203012; // 房间活动角标 ActSubInfoPush
+    IC_CountDownConf = 203013; // 倒计时配置推送 CountDownConfRes
+}
+
+enum IndexTab {
+    TAB_Zore = 0;           // 占位
+    TAB_New = 1;            // 最新
+    TAB_Hot = 2;            // 最热
+    TAB_Recommend = 3;      // 推荐用户
+    TAB_KeyWord = 4;        // 关键词（男友, 女友...)
+    TAB_Call = 5;           // 派单房
+    TAB_SupperMan = 6;      // 优质个人
+    TAB_MoreHot = 7;        // 更多热门
+    TAB_UserDefine = 8;     // 用户自定义
+    TAB_TJ_KeyWord = 9;     // 推荐关键词
+    TAB_Recommend_V2 = 10;  // 新版推荐用户
+}
+
+enum IndexConfType {
+    Conf_Zore = 0;               // 占位
+    Conf_Subscript = 1;          // 房间角标
+    Conf_Ac_Game_Limit = 2;      // 活动类游戏限制
+}
+
+message GetIndexTabReq {
+}
+message GetIndexTabRes {
+    repeated string tabs = 1;   // 标签
+}
+
+message GetHotSearchWordReq {
+}
+message GetHotSearchWordRes {
+    repeated string hot_search_word = 1; // 热搜词条
+}
+
+message TabListReq {
+    IndexTab tab = 1;       // 标签
+    int32 position = 2;     // 请求对应标签内容的位置; 1 从标签请求， 2 从推荐栏请求
+    string key_word = 3;    // 关键词（男友, 女友...)
+    int32 sex = 4;          // 标签选择TAB_Recommend时传 0 全部 1男 2女
+    int32 page = 5;         // 请求的页面
+    int32 page_size = 6;    // 每页多少条数据
+    sint32 mid = 7;         // 模块id, 自定义模块是传入
+}
+
+message TabListRes {
+    repeated IndexEntry list = 1;   // 首页条目
+    sint32 mid = 2;                 // 模块id
+    string name = 3;                // 模块名|key_word
+    sint32 page = 4;                // 页面
+    int32 position = 5;
+    IndexTab tab = 6;
+    int32 sex = 7;
+}
+
+
+message Recommend {
+    sint32 mid = 1;
+    sint32 sex = 2;          // 标签选择TAB_Recommend时传 0 全部 1男 2女
+}
+
+message UserDefineReq {
+    IndexTab tab = 1;      // TAB_UserDefine 用户自定义；TAB_Recommend_V2 新版推荐用户
+    repeated Recommend recommends = 2;
+}
+message UserDefineRes {
+    repeated UserDefined user_define = 1;
+}
+
+message UserDefined {
+    sint32 mid = 1;     // 模块id
+    string name = 2;    // 模块名
+    repeated IndexEntry list = 3;
+    sint32 sex = 4;     // 性别 0 全部 1男 2女
+}
+
+
+
+message GetAppAdConfigReq {
+    string version =1; //格式为1.0.0，
+    string system =2; // ios 请传ios， 安卓请传android
+}
+
+
+message GetAppAdConfigRes {
+    string name = 1; //昵称
+    sint32 duration = 2; //时长,秒为单位
+    string url =3;//跳转url，为空时不跳转
+    string image = 4;// 启动页资源url地址
+    string title =5; //启动页的标题
+    string sound_url = 6; //启动音地址
+    string video = 7; //动态视频资源
+    string cover_url = 8; //动态视频资源第一帧
+    string mini_image = 9; //小屏手机图片URL
+    string login_image = 10; //登录页图片URL
+    string login_mini_image = 11; //登录页小屏手机图片URL
+    string login_video = 12; //登录页视频链接
+    string login_cover_url = 13; //登录页视频第一帧图片URL
+    int32 login_is_show = 14; //是否展示slogen与icon; 0：不展示；1：展示
+    int64 end_time = 15 ; //闪屏结束时间
+    int64 Login_end_time = 16; //登录页视频结束时间
+    string video_trancode = 17; //闪屏视频转码链接
+    string login_video_trancode = 18; //登录页视频转码链接
+}
+message IndexBannerReq{
+    int32 language      = 1; //语言
+}
+message IndexBanner{
+    string name                 = 1;
+    string banner_url           = 2;
+    int32 tran_type             = 3; //跳转类型
+    string tran_url              = 4; //跳转url
+    int32 share_type            = 5; //分享类型
+    string share_title          = 6; //分享标题
+    string share_content        = 7; //分享内容
+    string share_img            = 8; //分享图片
+}
+message IndexBannerRes{
+ int32  flag = 		1;// 是否成功
+ int32 language      = 2; //语言
+ repeated IndexBanner list = 3;
+}
+
+enum ClickType {
+    CLICK_BROAD_FRIEND = 0; // 广播交友点击
+    CLICK_RECOMMEND = 1;    // 首页推荐用户点击
+    CLICK_PERSONAL = 2;     // 首页优质个人点击
+    ClICK_RECOMMEND_V2 = 3; // 新推荐用户
+}
+
+message ClickCountReq {
+    ClickType click_type = 1;
+    string device_id = 2;
+    sint32 mid = 3;
+}
+message ClickCountRes {
+}
+
+message SearchRoomReq {
+    string name = 1;    // 房间名
+    sint32 page = 2;           // 页数
+}
+message SearchRoomRes {
+    repeated IndexEntry list = 1;
+}
+
+message SearchRoom {
+    string name = 1;    // 房间名
+    sint32 page = 2;           // 页数
+    repeated IndexEntry list = 3;
+}
+
+message CheckMaintainReq {
+}
+message CheckMaintainRes {
+}
+
+message GetActivityRoomReq {}
+message GetActivityRoomRes {
+    repeated int64 room_id = 1;   // 活动房间id，请求serviceName：mizhuaActivity.room.RoomExtObj
+    int32 chat_interval = 2;   // 聊天间隔
+}
+
+// 广播活动房间配置更新 cmdId = 203001
+message BroadcastActivityRoom {
+    GetActivityRoomRes info = 1;
+}
+
+message RankDetail {
+    repeated Rank rank = 1; // 排行榜单
+    Rank my = 2;    // 玩家排名
+}
+
+message GetRankReq {
+    RankType type = 1;
+    sint64 player_id = 2;
+    SexType sex = 3;
+    SexType gender_show = 4; // 显示男榜单还是女榜单 0->走原本逻辑
+}
+message GetRankRes {
+    sint32 RankType = 1;  //  0魅力(明星)；1财富(富豪); 2(礼物);
+    RankDetail day = 2;   // 日榜
+    RankDetail week = 3;  // 周榜
+    RankDetail total = 4; // 总榜
+    RankDetail man_hour = 5;  // 男小时榜  必须区分开，不然定时脚本更新到phome写不过去
+    RankDetail girl_hour = 6;  // 女小时榜
+    int64 reload_time = 7;  // 重载时间
+    RankDetail month = 8;  // 月榜
+    RankDetail year = 9;  // 年榜
+}
+
+message GetGiftRankReq {
+    sint64 gift_id = 1;
+    sint64 player_id = 2;
+}
+message GetGiftRankRes {
+    RankDetail gift_rank = 1; // 礼物次级榜单
+}
+
+message LoadClickRep {
+    LoadClickType type = 1;
+    bool is_load = 2; // true 加载，false 点击
+}
+message LoadClickRes {
+
+}
+
+// 青少年模式 信息 (客户端)
+message GetYoungModelReq {
+    sint64 player_id = 1;
+}
+message YoungModelReq {
+    sint64 player_id = 1;
+}
+
+message YoungModel {
+    string msg          = 1;                // 文案
+    bool is_pwd       = 2;                // 是否设置密码
+    bool is_open      = 3;                // 是否开启
+    int32   online_time      = 4;                // 在线时长(分钟)
+    int32   day_max_time     = 5;                // 每天最大时长(分钟)
+    string   start_time      = 6;                // 开始时间 22:00:00
+    string   end_time        = 7;                // 结束时间 06:00:00
+    bool    is_limit_time    = 8;       // 是否时间限制, 超过在线时长或禁止时段
+    AdminHandleYoungModelType admin_opt_type = 9; // 后台设置状态
+    bool show_dialog = 10; // 是否显示弹窗
+}
+message YoungModelRes {
+    YoungModel model    = 1;
+}
+
+
+enum YoungModelPwdType {
+    YoungModelPwdType_Zero = 0;           // 占位
+    YoungModelPwdType_Set       = 1;           // 设置密码
+    YoungModelPwdType_Open      = 2;           // 开启模式
+    YoungModelPwdType_Closed    = 3;           // 关闭模式
+    YoungModelPwdType_Modify    = 4;           // 修改密码
+    YoungModelPwdType_Forget    = 5;           // 忘记密码
+    YoungModelPwdType_Origin    = 6;           // 原密码
+    YoungModelPwdType_Renewal   = 7;           // 续期
+}
+
+enum YoungModelPhoneType {
+    YoungModelPhoneType_Zero        = 0;           // 占位
+    YoungModelPhoneType_Get         = 1;           // 获取手机号
+    YoungModelPwdType_SendCode      = 2;           // 获取验证码
+    YoungModelPwdType_ConfirmCode   = 3;           // 确认验证码
+}
+
+enum YoungModelPageType {
+    YoungModelPageType_Zero        = 0;           //
+    YoungModelPageType_Timeout     = 1;           // 超过时长
+    YoungModelPageType_BanNight    = 2;           // 网络宵禁
+    YoungModelPageType_WhiteList   = 3;           // 后台白名单
+}
+
+// 青少年模式 密码操作 (H5)
+message YoungModelPwdReq {
+    YoungModelPwdType type      = 1;
+    string pwd                  = 2;                // 密码
+    string original_pwd         = 3;                // 原始密码 (只有修改密码启用)
+}
+
+message YoungModelPwdRes {
+    YoungModelPwdType type      = 1;
+}
+
+// 青少年模式 密码操作 (H5)
+message YoungModelPhoneReq {
+    YoungModelPhoneType type      = 1;
+    string code                  = 2;                // 密码
+}
+
+message YoungModelPhoneRes {
+    YoungModelPhoneType type      = 1;
+    string phone 					=	2; // 手机
+}
+
+message YoungModelStatusReq {
+}
+
+message YoungModelStatusRes {
+    YoungModelPageType type = 1;
+}
+
+// ---------------------
+//      周星榜
+// ---------------------
+enum WeekStarType {
+    THIS_WEEK = 0;    // 本周
+    LAST_WEEK = 1;    // 上周
+}
+
+// 周星擂主
+message WeekStarChampion {
+    sint64 id = 1; // 玩家id
+    sint64 id2 = 2; // 靓号
+    string name = 3; //名称
+    uint32 charm = 4; //值
+    string icon = 5; //头像
+    string remark = 6; // 家族
+}
+
+message WeekStarData {
+    sint64 id = 1; // 玩家id
+    sint64 id2 = 2; // 靓号
+    string name = 3; // 名称
+    int64 charm = 4; // 值
+    string icon = 5; // 头像
+    string remark = 6; // 家族
+    SexType sex = 7;
+    sint32 level = 8;   // 财富、魅力等级
+    sint64 value = 9; // 财富或魅力值
+    int64  gap_val = 10; // 差值
+}
+message StarRank{
+    WeekStarType type = 1;
+    repeated WeekStarData rank = 2;
+    sint64 id = 3; // 玩家id
+    int64 myVal = 4; // 排名对应的数值
+    int32 myRank = 5; // 0=50之外
+    string icon = 6; // 头像
+    string name = 7; // 昵称
+    int64 timeNow = 8;  // 当前时间
+    int64 timeEnd = 9;  // 本期周星榜结束时间
+    int64 keep_no1_player_id = 10; // 连冠用户ID
+    string keep_no1_player_name = 11; // 连冠用户昵称
+    int64 keep_no1_num = 12; // 连冠次数
+    string old_keep_no1_player_name = 13; // 上一任连冠用户昵称
+    KeepNo1ShowType keep_no1_show_type = 14; // 连冠显示枚举
+}
+
+enum KeepNo1ShowType {
+    KN1ST_NONE = 0;
+    KN1ST_SHUT_DOWN = 1; // 终结
+    KN1ST_WAIT = 2; // 虚位以待
+    KN1ST_KEEP = 3; // 连冠
+}
+
+message WeekNum{
+    sint32 num = 1;
+}
+
+// 周星的特权专属礼物
+message WeekStarSpecialGift {
+    int32 gift_id = 1;
+    string gift_name = 2;
+    int32 gift_price = 3; // 价格
+    string gift_icon = 4; // 礼物图标地址
+}
+
+// 周星榜
+message WeekStarRankReq{
+    WeekStarType type = 1;
+}
+message WeekStarRankRes{
+    StarRank rank = 1;
+}
+
+// 富豪榜
+message WeekStarFansRankReq{
+    WeekStarType type = 1;
+}
+message WeekStarFansRankRes{
+    StarRank rank = 1;
+}
+// 房间榜
+message WeekStarRoomRankReq{
+    WeekStarType type = 1;
+}
+message WeekStarRoomRankRes{
+    StarRank rank = 1;
+}
+// 周星播主
+message WeekStarReq{
+}
+message WeekStarRes{
+    WeekStarData star = 1;
+}
+
+// 周星礼物名字和Id
+message WeekGiftReq{
+    WeekStarType type = 1;
+}
+message WeekGiftRes{
+    repeated int64 gift = 1;
+    repeated WeekStarSpecialGift special_gifts = 2;
+}
+
+// 第几期
+message WeekNumReq{
+}
+message WeekNumRes {
+    int32 num = 1;
+}
+
+enum SubLocation {
+    SUBL_ZERO = 0;          // 占位
+    SUBL_RIGHT_BOTTOM = 2;  // 右下
+    SUBL_RIGHT_TOP = 3;     // 右上
+    SUBL_RIGHT_MIDDLE = 4;  // 右中
+}
+
+//房间角标列表
+message SubInfo {
+    string name = 1; //名称
+    string url = 2; // 链接
+    int32 location = 3; // 入口位置 0-无入口 2-右下 3-右上 4-右中
+    string background_img = 4; //入口角标 url
+    string pc_background_img = 5; //pc入口角标 url
+    int32 weight = 6;  //权重
+    int64 start_time = 7;
+    int64 end_time = 8;
+    int32 roomsubinfo_show = 9; //1-point或者2-people，3-姻缘值 0-不请求信息
+    string player_page_url = 10; //个人页url
+    int32 slip_frequency = 11;  //单位毫秒 例如 1000就是1秒
+    int32 act_id = 12; //如果是活动，则不为0
+    string android_ver_min = 13; //
+    string android_ver_max = 14; //
+    string ios_ver_max = 15; //
+    string ios_ver_min = 16; //
+    string pc_ver_min = 17; //
+    string pc_ver_max = 18; //
+    int32 wealth_level_min = 19; //
+    int32 wealth_level_max = 20; //
+    int32 charm_level_min = 21; //
+    int32 charm_level_max = 22; //
+    int32 and_or = 23; //1-或 2-和
+    string blacklist = 24; // 黑名单
+    string register_time_limit = 25; //注册时间限制
+    int32 register_day_limit = 26; //注册天数
+    int64 open_register_time = 27; //开放时间限制
+    int32 register_time_limit_type = 28; //注册时间限制类型 0-不可见；1-可见
+    string rank_text = 29; // 当roomsubinfo_show>0时，显示的排名文案
+    string score_text = 30; // 当roomsubinfo_show>0时，显示的积分文案
+    SubInfoActivity act_data = 31; // 关联活动
+    map <int32,bool> show_pattern = 32; // 显示的房间模式，存在-1，则全部模式都显示
+    repeated string applications = 33; //应用包名
+}
+
+message SubInfoActivity {
+    SubInfoActivityType act_type = 1; // 关联活动类型
+    bytes act_data = 2;               // 活动数据 act_type=1->SubInfoCountDown；act_type=1->SubInfoPkRank;
+}
+
+message SubInfoCountDown {
+    RedEnvelopeStatus cur_status = 1;  // 当前状态
+    int64 remain_time = 2;             // 开奖或等待开奖结束时间戳
+}
+
+//房间角标列表
+message ListSubInfoReq {
+    ReqFromType req_from_type = 1; // 请求来源类型
+}
+//房间角标列表 cmdId=203010
+message ListSubInfoRes {
+    repeated SubInfo list = 1; //
+}
+
+enum AdEventType {
+    Activate = 0;   // 激活
+    Register = 1;   // 注册
+    Recharge = 2;   // 充值
+    Login    = 3;   // 长连接登录成功且或获得oaid或idfa后调用
+}
+
+message GetAdActiveReq {
+    int32 ad_channel = 1;       // 渠道号
+    int32 ad_type = 2;          // 渠道类型
+    string idfa = 3;
+    string android_id = 4;
+    string imei = 5;
+    string mac = 6;
+    AdEventType event_type = 7;
+    string device_id = 8;      // 设备id
+    string oaid = 9;
+    string ad_token = 10;
+    map<string, string> extends = 11;
+}
+message GetAdActiveRes {
+}
+
+
+
+// 上传客户端日志
+message UploadClientLogReq {
+    string url = 1; // 日志url
+    string text = 2; // 说明 如果后台拉取：auto
+    string client_info = 3; // 客户端信息
+    int64 player_id = 4; // 用户id
+    int64 app_id = 5;
+    string contact_way = 6; // 联系方式
+    string version = 7; // 版本号
+    int64 operator_id = 8; // 操作者 id
+    string operator_name = 9; // 操作者名称
+    string reason = 10; // 原因
+}
+
+message UploadClientLogRes {
+}
+
+//获得服务器时间  公共接口
+message GetTimestampReq {
+
+}
+
+message GetTimestampRes {
+    int64 current = 1; //当前服务器时间戳
+    string current_time = 2; //当前时间的字符串 2020-01-01 12:00:00
+}
+
+message HistoryWeekStarReq {
+    int32 page = 1;
+    int32 pageSize = 2;
+    WeekStarRankType week_star_rank_type = 3;
+}
+
+// 周星榜类型
+enum WeekStarRankType {
+    WSRT_WeekStar = 0;     // 魅力榜
+    WSRT_WeekStarFans = 1; // 贡献榜
+}
+
+message HistoryWeekStarRes {
+    repeated OldWeekStar week_stars = 1;
+    int64 total = 2; // 总共有多少记录
+}
+
+message HistoryTopWeekStarReq {
+
+}
+
+message HistoryTopWeekStarRes {
+    int64 week_star_top_id = 1;      // 魅力榜最强用户ID
+    string week_star_top_name = 2;   // 魅力榜最强用户名字
+    string week_star_top_icon = 3;   // 魅力榜最强用户头像
+    int32 week_star_top_player_level = 4;   // 魅力榜最强用户的魅力等级
+    int64 week_star_top_rank_charm = 5;   // 魅力榜最强用户的周星榜魅力值
+    int64 week_star_fans_top_id = 6; // 贡献榜最强用户ID
+    string week_star_fans_top_name = 7;   // 贡献榜最强用户名字
+    string week_star_fans_top_icon = 8;   // 贡献榜最强用户头像
+    int32 week_star_fans_top_player_level = 9; // 贡献榜最强用户的财富等级
+    int64 week_star_top_rank_wealth = 10;   // 贡献榜最强用户的周星榜贡献值
+}
+
+message OldWeekStar {
+    int64 phase = 1; //期数
+    string icon = 2; //头像
+    string name = 3; //名称
+    int64 star_val = 4; //周星值
+    string clan_name = 5; //家族名
+    int64 id = 6; //用户id
+    SexType sex = 7; // 用户性别
+    sint32 player_level = 8;   // 用户财富或魅力等级
+}
+
+message GetPcChargeIdReq{
+    int64 player_id = 1;
+    int32 gold = 2;
+    int64 time_stamp = 3;
+    int32 channel = 4;
+    string os = 5;
+    bytes data = 6;
+}
+message GetPcChargeIdRes{
+   int64 pay_id = 1;
+   int32 time_out = 2;
+}
+
+
+message GetPcChargeCheckReq{
+    int64 pay_id = 1;
+    int64 player_id = 2;
+    int32 gold = 3;
+    int64 time_stamp = 4;
+    int32 channel = 5;
+    string os = 6;
+}
+message GetPcChargeCheckRes{
+    bytes data = 1;
+}
+
+//敏感词库
+enum SensitiveWordLib {
+    SensitiveWordLib_None = 0;  //占位不用
+    SensitiveWordLib_Name = 1;
+}
+
+message SensitiveCheckReq {
+    string words = 1;
+    SensitiveWordLib lib = 2;
+}
+
+message SensitiveCheckRes {
+    bool pass = 1;                //false:含有敏感词
+    string toast_text = 2;        //toast 提示文案 (pass为false时有值)
+    string checked_words = 3;     //屏蔽敏感词后的内容 (pass为false时有值)
+}
+
+// 上报用户操作
+message UserActionLogReq {
+    int64 click_room = 1;       // 点击房间
+    int64 click_hall = 2;       // 点击大厅
+}
+message UserActionLogRes {
+}
+
+message FriendBackgroundConfigReq {
+
+}
+message FriendBackgroundConfigRes {
+    map<int32, BackgroundConfig> configs = 1; // key 背景ID，value 对应资源
+}
+
+message BackgroundConfig {
+    int32 background_id = 1;
+    string background_name = 2;
+    string background_img = 3; // 背景 对应之前的 /upload/resources/friend/bg/id/bg_id.png
+    string bg_heart_img = 4; // 背景心 对应之前的 /upload/resources/friend/bg/id/bg_heart_id.png
+    string bg_heart_show_img = 5; // 背景心，展示 对应之前的 /upload/resources/friend/bg/id/show_static_id.png
+    string bg_name_left_img = 6; // 左侧名字 对应之前的 /upload/resources/friend/bg/id/bg_name_left_id.png
+    string bg_name_right_img = 7; // 右侧名字 对应之前的 /upload/resources/friend/bg/id/bg_name_right_id.png
+    string bg_store_show_img = 8; // 兑换商城预览图 对应之前的 /upload/resources/friend/bg/id/show_id.png
+    string bg_show_min_img = 9; // 小预览图 对应之前的 /upload/resources/friend/bg/id/show_min_id.png
+}
+
+// 用户举报
+enum ReportType {
+    POLITICS = 0;               // 政治敏感
+    SEXY = 1;                   // 色情低俗
+    ADVERT = 2;                 // 广告骚扰
+    OTHER = 3;                  // 其他
+    CHILD = 4;                  // 未成年
+    PROTECTION = 5;             // 个人信息安全保护
+    SONG = 6;                   // 歌曲不符合歌曲内容
+    HISTORY = 7;                // 涉历史虚无有害信息
+    ABUSE_INDECENT = 8;         // 辱骂不雅
+    ABUSE_ASSAULT = 9;          // 辱骂/人身攻击
+    INCITEMENT_SUICIDE = 10;    // 唆使自残自杀
+    FALSE_INFORMATION = 11;     //网络谣言/虚假信息
+}
+
+// 举报来源
+enum ReportFrom{
+    REPORT_FROM_ZERO = 0; // 占位
+    GENERAL = 1; // 通用举报
+    HARASS  = 2; // IM骚扰举报
+}
+
+message UserReportReq {
+    int64 target_id = 1;          //被举报人的
+    repeated ReportType type = 2; //举报类型
+    string remark = 3;            //举报内容
+    repeated string pic_ids = 4;  //举报多张图片
+    string tips_text = 5;         //触发IM骚扰提示文字
+    ReportFrom report_from = 6;   //举报来源
+}
+
+message UserReportRes {
+    int32 code = 1;             //0 失败　1成功
+}
+
+// 兑换码入口状态
+message ExchangeCodeStatusReq {
+}
+message ExchangeCodeStatusRes {
+    int32 status = 1;           // 状态值, 0:表示隐藏, 1:表示显示
+}
+
+// 兑换码奖励
+message ExchangeCodeReward {
+    int64 reward_id = 1;        // 奖励ID
+    int64 reward_num = 2;       // 奖励数量
+}
+
+// 获取兑换码奖励信息
+message ExchangeCodeInfoReq {
+    string code = 1;            // 兑换码
+}
+message ExchangeCodeInfoRes {
+    string name = 1;                         // 奖励名称
+    string icon_url = 2;                     // 奖励图标
+    string desc = 3;                         // 奖励描述
+    int64 room_id = 4;                       // 房间ID
+    repeated ExchangeCodeReward rewards = 5; // 兑换码奖励
+}
+
+// 领取兑换码奖励
+message ExchangeCodeRewardReq {
+    string code = 1;            // 兑换码
+}
+message ExchangeCodeRewardRes {
+}
+
+message FocusBubbleConfReq {
+
+}
+message FocusBubbleConfRes {
+    int32 first_pop_time = 1; // 第一次显示，进房多少秒显示
+    int32 first_pop_last_time = 2; // 第一次显示持续时间
+    int32 second_pop_time = 3; // 第二次显示，进房多少秒显示
+    int32 second_pop_last_time = 4; // 第二次显示持续时间
+    repeated string pop_msg = 5; // 文案，$sex性别占位符号，前端自己替换小哥哥小姐姐
+}
+
+message GetSongInfoReq {
+    int32 song_id = 1;
+}
+message GetSongInfoRes {
+    Song song = 1;
+}
+
+// 公众号消息通知类型
+enum WechatNotifyType {
+    WNT_NONE = 0;               // 占位, 不使用
+    WNT_VISIT = 1;              // 新浏览通知
+    WNT_ORDER = 2;              // 新订单通知
+    WNT_MSG = 3;                // 新咨询通知
+    WNT_BILL = 4;               // 派单消息通知
+}
+
+// 公众号消息通知开关设置
+message WechatNotifyConf {
+    WechatNotifyType type = 1;  // 通知类型
+    int32 switch = 2;           // 开关状态(开:1, 关:0)
+}
+
+// 获取公众号消息通知开关设置
+message WechatNotifyConfReq {
+}
+message WechatNotifyConfRes {
+    repeated WechatNotifyConf configs = 1; // 开关配置列表
+}
+
+// 设置公众号消息通知开关
+message WechatNotifySwitchReq {
+    WechatNotifyType type = 1;  // 通知类型
+    int32 switch = 2;           // 开关状态(开:1, 关:0)
+}
+message WechatNotifySwitchRes {
+}
+
+enum TaxConfType {
+    TAX_CONF_TYPE_NONE = 0; // 默认梯度
+    TAX_CONF_TYPE_WHITE_LIST = 1; // 梯度和白名单
+}
+
+// 佣金提现税率
+message TaxConfReq{
+    TaxConfType type = 1;
+}
+
+message TaxConf{
+    sint32 min_value = 1;  // 大于该值
+    sint32 max_value = 2;  // 小于等于该值
+    sint32 tax = 3;  // 税率 0% - 100%
+}
+
+message TaxConfRes{
+    repeated TaxConf tax = 1;
+}
+
+message LevelLimitConfIOSRes{
+    sint32 charm_level = 1;  // 魅力等级
+    sint32 wealth_level = 2; // 财富等级
+    sint32 open_and_or = 3;  // 0 为或，1 为与
+}
+
+message LevelLimitConfIOSReq{
+}
+
+//活动类游戏列表
+enum IndexAcGameType{ //与后台、plugin统一
+    IAGT_NONE = 0;
+    IAGT_CLIMBING_TOWER = 1; //爬塔
+    IAGT_UFO = 2; //飞碟大战
+    IAGT_H5_ALL = 3;//h5全屏
+    IAGT_H5_HALF = 4;//h5半屏
+}
+message AcGameConf{
+    int32 game_id = 1;
+    IndexAcGameType game_type = 2;//游戏类型
+    string game_name = 3;//游戏名
+    string game_icon = 4;//游戏图标
+    string game_pc_icon = 5;//pc游戏图标
+    string source_url = 6;//跳转链接
+    string game_version = 7;//当前游戏版本
+    string min_sdk_version = 8;//最低sdk版本
+    int32 weight = 9;//权重
+    int32 game_type_int = 10;//游戏类型
+    string router = 11;//路由
+}
+message AcGameConfListReq{
+}
+
+message AcGameConfListRes{
+    repeated AcGameConf conf_list = 1;
+    string icon = 2; //白底入口图
+    string pc_icon = 3;//入口图
+    string pc_icon_flow = 4;//pc入口图悬浮
+    string pc_icon_click = 5;//pc入口图点击
+    string black_icon = 6; // 黑底入口图
+}
+// 挂件状态
+enum PendantState {
+    PENDANT_DEFAULT = 0;    // 占位
+    PENDANT_STATIC = 1;     // 静态
+    PENDANT_MOVE = 2;       // 动态
+}
+
+// 挂件类型
+enum PendantType {
+    PT_ZERO = 0; //  占位
+    PT_MUSIC = 1; // 音乐播放器
+    PT_H5 = 2; // H5
+    PT_SHENGDIAN = 3; // 活动盛典
+    PT_ORDER = 4; // 命令
+    PT_CHAT_CP = 5; // 首充CP
+}
+
+// 首页挂件配置
+message PendantConfig {
+    int32 id = 1;           // id
+    string name = 2;        // 名称
+    PendantState state = 3; // 挂件状态
+    string bg_url = 4;      // 移动端背景
+    string btn_url = 5;     // 缩略按钮图片
+    string half_url = 6;    // 侧边缩略状态图片
+    string pc_bg_url = 7;   // PC端背景
+    string pc_btn_url = 8;  // PC缩略按钮图片
+    string pc_half_url = 9; // PC侧边缩略状态图片
+    string router_url = 10; // 跳转链接
+    string router_title = 11;// 跳转标题,H5顶部标题文字
+    bool thumbnail_btn = 12; // 是否显示缩略图按钮
+    PendantType pd_type = 13; // 挂件类型
+    int32 spinning_speed = 14; // 挂件旋转速度，0:表示静止；最大值：100
+    string cp_url = 15;   // 挂件图片,和首页挂件状态一致，要么都是动态图，要么都是静态图
+    int64 end_time = 16;  // 结束时间戳
+}
+
+message PendantConfigReq {
+}
+
+message PendantConfigRes {
+    repeated PendantConfig pendant_conf_list = 1;
+    repeated PendantConfig pendant_conf_list_sort = 2;  // 按权重排序
+}
+
+// 常驻横幅默认状态
+enum BannerState {
+    BANNER_DEFAULT = 0;    // 占位
+    BANNER_OPEN = 1;       // 展开
+    BANNER_HIDE = 2;       // 缩略
+}
+
+// 横幅主题类型
+enum BannerType {
+    BANNER_TYPE_BOX_AWARD = 0;    // 横幅类型-游戏宝箱
+    BANNER_TYPE_NORMAL = 1;       // 横幅类型-普通
+}
+
+// 主题配置
+message ThemeConfig {
+    int32 id = 1;          // id
+    string name = 2;       // 名称
+    int64 begin_at = 3;    // 开始时间
+    int64 end_at = 4;      // 结束时间
+    BannerState state = 5; // 常驻横幅默认状态
+    string content_url = 6;// 文案文件地址
+    string url = 7;        // 动效压缩包地址
+    string btn_url = 8;    // 未参赛房间，点击跳转主会场的按钮图片
+    string router_url = 9; // 跳转主会场的链接
+    string flag = 10;      // 主题唯一标识
+    string router_h5_url = 11; // 横幅点击跳转路由
+    string h5_head_url = 12;   // 横幅头像跳转路由
+    string h5_head_nil_url = 13; // 横幅按钮跳转路由（头像空态显示）
+    string router_draw =14;      // 抽奖获得弹窗跳转路由
+    string pc_btn_url = 15;      // PC未参赛房间，点击跳转主会场的按钮图片
+    BannerType show_type = 16;   // 横幅类型
+}
+
+message ThemeConfigReq {
+}
+
+message ThemeConfigRes {
+    repeated ThemeConfig theme_conf_list = 1;
+}
+
+// 倒计时配置
+message CountDownConfReq {
+}
+message CountDownConfRes {
+    string url = 1; // 倒计时资源url
+    int64 start_at = 2; // 倒计时开始时间戳
+    bool is_open = 3; // 是否开启倒计时
+}
+
+// 埋点参数事件类型
+enum EventTrackingArgType {
+  ETAT_Unknow = 0;              // 占位不用
+  ETAT_Int = 1;                 // 数字
+  ETAT_Str = 2;                 // 字符串
+  ETAT_Float = 3;               // 浮点
+}
+
+// 埋点事件参数
+message EventTrackingArgs {
+  string key = 1;                    // 参照名称
+  string value = 2;                  // 参数值
+  EventTrackingArgType arg_type = 3; // 参数类型
+}
+
+// 埋点事件
+message EventTracking{
+  string event = 1;                    // 事件标识
+  repeated EventTrackingArgs args = 2; // 事件参数
+}
+
+// 客户端通用埋点事件上报接口
+message ReportEventTrackingReq{
+  repeated EventTracking events = 1; // 事件列表
+}
+message ReportEventTrackingRes{
+}
+
+message ReportLoginReq {
+    string oaid = 1;            // 暂时用不到（可为空）
+    string reyun_device_id = 2; // 热云ID
+    DeviceType deviceType = 3;  // 设备类型
+    string device_id = 4;       // 设备ID
+    string u_meng_device_id = 5;// 友盟deviceId
+}
+
+message ReportLoginRes {}
+
+// 触控区域枚举
+enum TouchAreaType{
+    TAT_NONE = 0; // 占位不用
+    TAT_BUTTON = 1; // 通过按钮跳转
+    TAT_PICTURE = 2; // 通过图片跳转
+    TAT_ALL = 3; // 都可以跳转
+}
+
+// 目标用户类型枚举
+enum TargetType{
+    TT_NONE = 0; // 占位不用
+    TT_CUSTOMIZE_ID = 1; // 自定义ID (对应AppPushPopup中的字段target_id)
+    TT_ONLINE = 2; // 全网在线
+    TT_INSTALL_IN = 3; // 注册时间:新注册用户、昨天、3天、7天(对应AppPushPopup中的字段install_in_begin,install_in_end)
+    TT_CHARGE = 4; // 全网付费用户
+}
+
+// 生效界面枚举
+enum AppearArea{
+    AA_NONE = 0; // 占位
+    AA_ALL_AREA = 1; // 全部界面
+    AA_ROOM_AREA = 2; // 房间界面
+    AA_INDEX_AREA = 3; // 首页界面
+}
+
+// 应用内推送弹窗 cmdId = 203008
+message AppPushPopup{
+    string popup_img = 1; // 弹窗资源
+    string but_img = 2; // 按钮资源
+    TouchAreaType touch_area = 3; // 触控区域
+    TargetType target_type = 4; // 目标用户类型
+    int64 target_id = 5; // 目标用户类型为自定义ID时，对应的用户ID
+    int64 install_in_begin = 6; // 目标用户类型为注册时间类型，对应的注册时间开始时间
+    int64 install_in_end = 7; // 目标用户类型为注册时间类型，对应的注册时间结算时间
+    AppearArea appear_area = 8; // 生效界面
+    string jump_url = 9; // 跳转地址
+    int64 expire_time = 10; // 持续显示时间（秒）
+    int32 wealth_level = 11; // 财富等级
+    int32 charm_level = 12; // 魅力等级
+    bool is_and = 13; // 财富等级魅力等级逻辑关系(true:且,false:或)
+    int64 msg_id = 14; // 消息ID
+}
+
+message PullAppPushPopupReq{
+
+}
+
+message PullAppPushPopupRes{
+    repeated AppPushPopup list = 1; // 弹窗列表
+}
+
+// pc上传歌曲，标记处曲库没有的返回给pc
+message UploadExitSongReq {
+    repeated UploadSongInfo song_list = 1; // 上传列表
+}
+message UploadExitSongRes {
+    repeated UploadSongInfo song_list = 1; // 服务器曲库没有的歌曲列表
+}
+// pc上传歌曲
+message UploadSongReq {
+    repeated UploadSongInfo song_list = 1; // 上传列表
+}
+message UploadSongRes {
+}
+message UploadSongInfo {
+    int64 id = 1; // 歌曲id，上传时不填
+    string name = 2; // 歌曲名
+    string singer_name = 3; // 原唱歌手名
+    bool is_recommend = 4; // 是否今日推荐
+    bool is_exist = 5; // 服务器曲库是否已经拥有（第一次上传时用到该字段）
+}
+
+// 获取歌单列表
+message MySongListReq {
+    bool is_top_recommend = 1; // 今日推荐是否置顶
+}
+message MySongListRes {
+    repeated UploadSongInfo song_list = 1; // 歌曲列表
+}
+
+// 删除歌单歌曲
+message RemoveSongReq {
+    int64 id = 1; // 歌曲id
+}
+message RemoveSongRes {
+}
+
+// 更新歌单歌曲
+message UpdateSongReq {
+    int64 id = 1; // 歌曲id
+    bool is_recommend = 2; // 是否今日推荐
+}
+message UpdateSongRes {
+}
+
+// 歌名搜索歌单歌曲
+message SearchSongReq {
+    string name = 1; // 歌曲名，可以为空
+    int64 player_id = 2; // 歌手id，搜索该主播的歌单
+}
+message SearchSongRes {
+    repeated UploadSongInfo song_list = 1;
+    repeated SingerInfo singer_list = 2; // 如果搜个人的歌单，为空
+}
+message SingerInfo {
+    int64 player_id = 1; // 歌手id
+    int64 room_id = 2; // 当前所在房间
+    int32 chair_id = 3; // 所在麦位id，如果不在麦上则为0
+    bool is_online = 4; // 是否在线
+    string name = 5; // 昵称
+    string icon = 6; // 头像
+    SexType sex = 7; // 性别
+}
+
+// 文本鉴黄
+message CheckContentReq {
+    string content = 1; //
+}
+message CheckContentRes {
+    bool is_pass = 1; // 是否通过
+}
+
+message SyncPlayerOptReq {
+    SyncOpt opt = 1;
+}
+
+message SyncPlayerOptRes {
+}
+
+// 首充有礼基本配置
+message FirstPayGiftBaseCfgReq {
+}
+message FirstPayGiftBaseCfgRes {
+    string most_value_desc = 1;   // 最高奖励描述
+    string most_value_url = 2;    // 最高奖励资源url
+    string most_value_h5_url = 3; // 最高奖励H5资源url
+}
+
+// 首充有礼奖励配置
+message FirstPayGiftRewardCfg{
+    int64 id = 1;                               // 配置id
+    int64 reward_id = 2;                        // 奖励id
+    FirstPayGiftRewardType reward_type = 3;     // 奖励类型
+    int64 expired_time = 4;                     // 有效时长（秒）
+    FirstPayGiftRewardLimitType limit_type = 5; // 奖励数量限定类型
+    int64 limit_num = 6;                        // 限定数量
+    FirstPayGiftBoxType box_type = 7;           // 宝箱类型
+    int32 box_sort = 8;                         // 排序
+    int64 worth = 9;                            // 金币价值
+    string reward_name = 10;                    // 奖励名称
+    int32 reward_num  = 11;                     // 奖励数量
+    string reward_unit = 12;                    // 奖励单位
+    bool is_worth = 13;                         // 是否限定奖励
+}
+
+// 获取首充有礼奖励配置
+message FirstPayGiftRewardCfgReq {
+}
+message FirstPayGiftRewardCfgRes {
+    repeated FirstPayGiftRewardCfg cfg_list = 1;
+}
+
+// 首充有礼宝盒状态
+enum FirstPayGiftBoxStatus{
+    FPGBS_NONE = 0;             // 不可领取
+    FPGBS_REWARD = 1;           // 可领取
+    FPGBS_GAIN = 2;             // 已领取
+}
+
+// 首充有礼信息
+message FirstPayGiftInfoReq{
+}
+message FirstPayGiftInfoRes{
+    FirstPayGiftBoxType box_type = 1;     // 宝箱类型
+    FirstPayGiftBoxStatus box_status = 2; // 宝箱状态
+    bool is_pay_today = 3;                // 今日是否充值
+}
+
+// 首充有礼幸运儿信息
+message FirstPayGiftLucky{
+    FirstPayGiftBoxType box_type = 1;       // 宝箱类型
+    int64 player_id = 2;                    // 用户id
+    int64 player_sid = 3;                   // 用户靓号id
+    string nick_name = 4;                   // 用户昵称
+    string icon = 5;                        // 用户头像
+    FirstPayGiftRewardType reward_type = 6; // 奖励类型
+    int64 reward_id = 7;                    // 奖励Id
+    int64 reward_num = 8;                   // 奖励数量
+    string reward_name = 9;                 // 奖励名称
+}
+
+// 获取首充有礼幸运儿
+message FirstPayGiftLuckyReq{
+}
+message FirstPayGiftLuckyRes{
+    string lucky_day = 1;                       // 幸运日0点
+    repeated FirstPayGiftLucky player_list = 2; // 幸运儿
+}
+
+// 首充有礼开启记录
+message FirstPayGiftLog{
+    int64 log_id = 1;                       // 记录id
+    FirstPayGiftRewardType reward_type = 2; // 奖励类型
+    int64 reward_id = 3;                    // 奖励Id
+    int64 expired_time = 4;                 // 奖励时效
+    int64 player_id = 5;                    // 用户id
+    int64 player_sid = 6;                   // 用户靓号id
+    string nick_name = 7;                   // 用户昵称
+    string icon = 8;                        // 用户头像
+    string created_at = 9;                  // 开启时间
+    int64 reward_num = 10;                  // 奖励数量
+    string reward_unit = 11;                // 奖励单位
+    string reward_name = 12;                // 奖励名称
+}
+
+message FirstPayGiftLogReq{
+}
+message FirstPayGiftLogRes{
+    repeated FirstPayGiftLog log_list = 1; // 记录列表
+}
+
+// 首充有礼开启宝箱
+message FirstPayGiftOpenBoxReq{
+    FirstPayGiftBoxType box_type = 1; // 宝箱类型
+}
+message FirstPayGiftOpenBoxRes{
+    FirstPayGiftRewardType reward_type = 1; // 奖励类型
+    int64 reward_id = 2;                    // 奖励Id
+    int64 expired_time = 3;                 // 奖励时效（秒）
+    string desc = 4;                        // 奖励描述
+    int32 reward_num = 5;                   // 奖励数量
+    string reward_unit = 6;                 // 奖励单位
+    string reward_name = 7;                 // 奖励名称
+}
+
+// 首充有礼进房弹窗
+message FirstPayGiftPopupRoomWindowReq{
+}
+message FirstPayGiftPopupRoomWindowRes{
+    bool is_popup = 1;          // 是否满足弹窗条件，true弹窗，false不弹窗
+    int32 window_stay = 2;      // 用户在房间停留X秒后弹出提示
+    string window_jump = 3;     // 跳转url
+}
+
+// 首充有礼进房弹窗次数上报
+message FirstPayGiftPopupRoomWindowTimesReq{
+}
+message FirstPayGiftPopupRoomWindowTimesRes{
+}
+
+// 用户活动行为上报
+message ReportUserBehaviorsReq {
+    UserBehaviorsType behaviors_type = 1;  // 用户行为
+    int64 timestamp = 2;                   // 时间戳，精确到毫秒
+}
+
+enum UserBehaviorsType {
+    UBT_ZERO = 0;                      // 占位
+    UBT_APP_OPERATION_SCREEN = 1;      // APP:APP操作屏幕（如果APP在前台，只要用户触摸屏幕，或者滑动屏幕）
+    UBT_APP_CUT_BACK_RECEPTION = 2;    // APP:回到前台（如果APP在后台，回到前台的动作）
+    UBT_PC_OPERATION_MOUSE = 3;        // PC:操作鼠标（应用在前台：鼠标在应用内划过）
+    UBT_PC_OPERATION_KEYBOARD = 4;     // PC:键盘输入（应用在前台：键盘对应用进行输入）
+    UBT_PC_CUT_BACK_RECEPTION = 5;     // PC:回到前台（应用回到前台）
+    UBT_APP_TURN_BACK = 6;             // APP:切到后台（APP从前台切到后台）
+    UBT_GME_VOICE_BACK = 7;            // GME光圈回调，已实现
+}
+
+message ReportUserBehaviorsRes {
+}
+
+// 用户访问完首充页面回调
+message ViewChargePageReq{}
+
+message ViewChargePageRes{}
+
+// 生成微信JSSDK签名
+message GetGenWechatJSSDKSignatureReq {
+  string app_id = 1;
+  string url = 2;
+}
+
+message GetGenWechatJSSDKSignatureRes {
+  int64 timestamp = 1; // 生成签名的时间戳
+  string nonce_str = 2; // 生成签名的随机串
+  string signature = 3; // 签名
+}
+
+// 异常登录发送验证码
+message AnomalyLoginSendCodeReq{
+    sint64 user_id = 1; //用户ID
+}
+
+message AnomalyLoginSendCodeRes{}
+
+// 异常登录校验验证码
+message AnomalyLoginConfirmCodeReq{
+    string code = 1;
+    sint64 user_id = 2; //用户ID
+}
+
+message AnomalyLoginConfirmCodeRes{
+    string login_token = 1; // login token
+    bool is_new = 2;        // 是否新账号
+    sint64 user_id = 3;
+    map<string, string> extends = 4;      // 扩展字段
+    ClientLoginType login_type = 5;      // 登录类型
+}
+
+enum CompositeSearchType {
+    CST_NONE = 0; // 占位
+    CST_ROOM = 1; // 房间
+    CST_PLAYER = 2; // 用户
+}
+
+message CompositeSearchReq {
+    repeated CompositeSearchType search_types = 1; // 搜索类型
+    string name = 2;    // 搜索关键字
+    sint32 page = 3;    // 页数
+}
+
+message CompositeSearchRes {
+    repeated IndexEntry room_list = 1; // 房间列表
+    repeated SearchPlayerEntry player_list = 2; // 用户列表
+}
+
+message ProxyInvokeIntServerFuncReq{
+    string obj_name = 1;  //服务端实例名
+    string func_name = 2; //服务端内部接口名
+    bytes req_data = 3; //func传入数据
+}
+
+message ProxyInvokeIntServerFuncRes{
+
+}
+
+message GetSysConfUrlReq{
+    SysConfType sys_type = 1; // 系统配置类型
+}
+
+message GetSysConfUrlRes{
+    string url = 1; // 配置url地址
+}
+
+message RankShowCfgReq{}
+
+
+enum ReqCustomerType {
+    RCT_NONE = 0; // 占位
+    RCT_BLACK_WHALE = 1; // 黑鲸客服
+}
+
+
+//客服类型请求
+message CustomerTypeReq{
+    ReqCustomerType customer_type = 1;
+}
+
+message CustomerTypeRes{
+    ReqCustomerType customer_type = 1;
+    CustomerState customer_state =2;
+}
+
+message CustomerState{
+    bool business_state=1;    //在线状态
+    string prompts_text=2;  //非营业时间提示语
+    string user_copy_text=3; //用户复制文本
+}
+
+
+//定义黑鲸客服配置数据结构
+message BlackWhaleCustomerCfgData{
+    string monday=1;  //周一
+    string tuesday=2;
+    string wednesday=3;
+    string thursday=4;
+    string friday=5;
+    string saturday =6;
+    string sunday =7;
+    string prompts_text=8;  //非营业时间提示语
+    string user_copy_text=9; //用户复制文本
+}
+
+message GetRealmNameConfReq{}
+
+message GetRealmNameConfRes{
+    string version = 1;                    // 页面全局版本
+    repeated string realm_name_list = 2;   // 域名列表
+}
+
+message PullOxygenCarGiftReq{}
+
+message PullOxygenCarGiftRes{
+    XcmOxygenCarGiftCfgData cfg = 1;
+}
+
+//房间角标列表
+message ActSubInfo {
+    int64 id = 1;                       // 角标ID
+    string name = 2;                    // 名称
+    string router_url = 3;              // 跳转链接
+    int64 start_time = 4;               // 开始时间
+    int64 end_time = 5;                 // 结束时间
+    string bg_url = 6;                  // 移动端入口背景图
+    string pc_bg_url = 7;               // PC端入口背景图
+    map <int32,bool> show_pattern = 8;  // 显示的房间模式，存在-1，则全部模式都显示
+    bool is_show = 9;                   // 是否显示活动图标
+    string icon = 10;                   // 活动图标
+    string pc_icon = 11;                // PC活动图标
+}
+
+message ListActSubInfoReq {
+    int64 room_id = 1;              // 当前房间ID
+    ReqFromType req_from_type = 2;  // 请求来源类型
+}
+
+message ListActSubInfoRes {
+    bool is_click = 1;              // 是否点击过角标
+    repeated ActSubInfo list = 2;   // 活动角标
+}
+
+// cmdid=203012 房间角标异步推送
+message ActSubInfoPush {
+    int64 room_id = 1;              // 所在的房间ID
+    ListActSubInfoRes info = 2;     // 角标数据
+}
+
+// 点击活动角标
+message ClickActSubInfoReq {
+    int64 id = 1;                   // 角标ID
+}
+
+message ClickActSubInfoRes {
+
+}
+
+enum AdminHandleYoungModelType{
+    AHYMT_NONE = 0; // 占位
+    AHYMT_OPEN = 1; // 后台开启青少年模式
+    AHYMT_CLOSE = 2; // 后台关闭青少年模式
+}
+
+message CallbackAdminHandleYoungModelReq{}
+
+message CallbackAdminHandleYoungModelRes{}
+
+service IndexExtObj {
+    rpc GetIndexTab (GetIndexTabReq) returns (GetIndexTabRes); // 获取首页tab标签     0x000034
+    rpc GetHotSearchWord (GetHotSearchWordReq) returns (GetHotSearchWordRes); // 获取首页热搜词条     0x000035
+    rpc TabList (TabListReq) returns (TabListRes); // 获取对应标签列表     0x00002B 0x000033 0x000052 0x000053 0x000054 0x000056
+    rpc UserDefine (UserDefineReq) returns (UserDefineRes); // 0x000055
+    rpc GetAppAdConfig (GetAppAdConfigReq) returns (GetAppAdConfigRes); //用于客户端拉取App广告页配置数据
+    rpc GetIndexBanner (IndexBannerReq) returns (IndexBannerRes); //获取banner
+    rpc ClickCount (ClickCountReq) returns (ClickCountRes); // 统计点击量
+    rpc SearchRoom (SearchRoomReq) returns (SearchRoomRes); // 搜房间
+    rpc CheckMaintain (CheckMaintainReq) returns (CheckMaintainRes); // 检查是否维护
+    rpc GetSong (SongHotReq) returns (SongHotRes); //热门歌曲＆搜索歌曲
+    rpc GetPlayerSong (GetPlayerSongReq) returns (GetPlayerSongRes); //我的曲库
+    rpc AddPlayerSong (AddPlayerSongReq) returns (AddPlayerSongRes); //更新我的曲库
+    rpc DelPlayerSong (DelPlayerSongReq) returns (DelPlayerSongRes); // 删除我的曲库
+    rpc ReportSong (ReportSongReq) returns (ReportSongRes); //举报
+
+    // 请求活动房间，
+    rpc GetActivityRoom (GetActivityRoomReq) returns (GetActivityRoomRes);
+
+    // 首页排行榜
+    rpc GetRank (GetRankReq) returns (GetRankRes);
+    // 礼物榜次级榜单
+    rpc GetGiftRank (GetGiftRankReq) returns (GetGiftRankRes);
+    // 客户端埋点统计
+    rpc LoadClick (LoadClickRep) returns (LoadClickRes);
+
+    // 青少年模式
+    rpc GetYoungModel (YoungModelReq) returns (YoungModelRes);
+    rpc YoungModel (YoungModelReq) returns (YoungModelRes);
+    rpc YoungModelPwd (YoungModelPwdReq) returns (YoungModelPwdRes);
+    rpc YoungModelPhone (YoungModelPhoneReq) returns (YoungModelPhoneRes);
+    rpc YoungModelStatus (YoungModelStatusReq) returns (YoungModelStatusRes);
+
+    // 周星榜
+    rpc WeekStarRank (WeekStarRankReq) returns (WeekStarRankRes);
+    // 富豪榜
+    rpc WeekStarFansRank (WeekStarFansRankReq) returns (WeekStarFansRankRes);
+    // 房间榜
+    rpc WeekStarRoomRank (WeekStarRoomRankReq) returns (WeekStarRoomRankRes);
+    // 周星擂主
+    rpc WeekStar (WeekStarReq) returns (WeekStarRes);
+    // 获取周星礼物
+    rpc WeekGift (WeekGiftReq) returns (WeekGiftRes);
+    // 获取第几期
+    rpc WeekNum (WeekNumReq) returns (WeekNumRes);
+    //  角标列表
+    rpc ListSubInfo (ListSubInfoReq) returns (ListSubInfoRes);
+    // app访问统计, （首次安装请求一次）
+    rpc GetAdActive (GetAdActiveReq) returns (GetAdActiveRes);
+
+    rpc GetTimestamp(GetTimestampReq) returns (GetTimestampRes);
+    // 历届周星
+    rpc HistoryWeekStar(HistoryWeekStarReq) returns (HistoryWeekStarRes);
+    // 最强周星
+    rpc HistoryTopWeekStar(HistoryTopWeekStarReq) returns (HistoryTopWeekStarRes);
+
+    //支付校验
+    rpc GetPcChargeId (GetPcChargeIdReq) returns (GetPcChargeIdRes);
+
+    rpc GetPcChargeCheck (GetPcChargeCheckReq) returns (GetPcChargeCheckRes);
+
+    //敏感词检查
+    rpc SensitiveCheck (SensitiveCheckReq) returns (SensitiveCheckRes);
+
+    // 上报用户操作
+    rpc UserActionLog (UserActionLogReq) returns (UserActionLogRes);
+
+    // 获取挚友背景资源配置
+    rpc FriendBackgroundConfig(FriendBackgroundConfigReq) returns (FriendBackgroundConfigRes);
+
+    // 用户举报
+    rpc UserReport(UserReportReq) returns (UserReportRes);
+
+    // 歌曲收藏｜解除收藏
+    rpc LikeSong(LikeSongReq) returns (LikeSongRes);
+
+    // 获取兑换码入口状态
+    rpc ExchangeCodeStatusRpc(ExchangeCodeStatusReq) returns (ExchangeCodeStatusRes);
+
+    // 获取兑换码奖励信息
+    rpc ExchangeCodeInfoRpc(ExchangeCodeInfoReq) returns (ExchangeCodeInfoRes);
+
+    // 领取兑换码奖励
+    rpc ExchangeCodeRewardRpc(ExchangeCodeRewardReq) returns (ExchangeCodeRewardRes);
+
+    // 关注房间气泡
+    rpc FocusBubbleConf (FocusBubbleConfReq) returns (FocusBubbleConfRes);
+    // 根据id获取歌曲信息
+    rpc GetSongInfo(GetSongInfoReq) returns (GetSongInfoRes);
+
+    // 获取公众号消息通知开关设置
+    rpc WechatNotifyConfRpc(WechatNotifyConfReq) returns (WechatNotifyConfRes);
+    // 设置公众号消息通知开关
+    rpc WechatNotifySwitchRpc(WechatNotifySwitchReq) returns (WechatNotifySwitchRes);
+
+    // 表演模式歌曲和互动协议
+    rpc ShowInfo(ShowInfoReq) returns (ShowInfoRes); // 获取表演模式互动信息
+    rpc ShowInteraction(ShowInteractionReq) returns (ShowInteractionRes); // 设置表演模式互动信息
+    rpc ShowSearchSong(ShowSearchSongReq) returns (ShowSearchSongRes); // 获取搜索歌曲URL
+    rpc ShowParseSongList(ShowParseSongListReq) returns (ShowParseSongListRes); // 请求解析歌曲列表信息
+    rpc ShowGetLyricUrl(ShowGetLyricUrlReq) returns (ShowGetLyricUrlRes); // 获取歌词URL
+    rpc ShowParseLyric(ShowParseLyricReq) returns (ShowParseLyricRes);    // 请求解析歌词内容
+    rpc ShowPlayLyric(ShowPlayLyricReq) returns (ShowPlayLyricRes);       // 第一次播放操作歌词
+    rpc ShowLyricCtrl(ShowLyricCtrlReq) returns (ShowLyricCtrlRes);       // 操作歌词
+
+    // 获取提现税收
+    rpc TaxConf (TaxConfReq) returns (TaxConfRes);
+
+    // IOS 提现财富魅力等级限制
+    rpc LevelLimitConfIOS (LevelLimitConfIOSReq) returns (LevelLimitConfIOSRes);
+
+    //获取活动游戏列表
+    rpc AcGameConfList (AcGameConfListReq) returns(AcGameConfListRes);
+    // 获取首页挂件配置
+    rpc GetPendantConfig (PendantConfigReq) returns (PendantConfigRes);
+    // 获取主题配置（房间横幅）
+    rpc GetThemeConfig (ThemeConfigReq) returns (ThemeConfigRes);
+    // 倒计时配置
+    rpc CountDownConf (CountDownConfReq) returns (CountDownConfRes);
+
+    // 客户端埋点通用上报
+    rpc ReportEventTracking(ReportEventTrackingReq) returns (ReportEventTrackingRes);
+    // 登录上报
+    rpc ReportLogin (ReportLoginReq) returns (ReportLoginRes);
+    // 拉取弹窗列表
+    rpc PullAppPushPopup(PullAppPushPopupReq) returns (PullAppPushPopupRes);
+
+    // ------歌单------
+    // pc上传曲库已有部分歌曲，曲库没有的返回给pc
+    rpc UploadExitSong (UploadExitSongReq) returns (UploadExitSongRes);
+    // pc上传歌曲
+    rpc UploadSong (UploadSongReq) returns (UploadSongRes);
+    // 获取我的歌单列表
+    rpc MySongList (MySongListReq) returns (MySongListRes);
+    // 删除歌单歌曲
+    rpc RemoveSong (RemoveSongReq) returns (RemoveSongRes);
+    // 更新歌单歌曲
+    rpc UpdateSong (UpdateSongReq) returns (UpdateSongRes);
+    // 歌名搜索歌单歌曲
+    rpc SearchSong (SearchSongReq) returns (SearchSongRes);
+    // ------歌单------
+    // 文本鉴黄
+    rpc CheckContent (CheckContentReq) returns (CheckContentRes);
+
+    // 同步客户端操作
+    rpc SyncPlayerOpt(SyncPlayerOptReq) returns (SyncPlayerOptRes);
+
+
+    // ------首充有礼------
+    // 首充有礼基本配置
+    rpc FirstPayGiftBaseCfg(FirstPayGiftBaseCfgReq) returns (FirstPayGiftBaseCfgRes);
+    // 获取首充有礼奖励配置
+    rpc FirstPayGiftRewardCfg(FirstPayGiftRewardCfgReq) returns (FirstPayGiftRewardCfgRes);
+    // 首充有礼信息
+    rpc FirstPayGiftInfo(FirstPayGiftInfoReq) returns (FirstPayGiftInfoRes);
+    // 获取首充有礼幸运儿
+    rpc FirstPayGiftLucky(FirstPayGiftLuckyReq) returns (FirstPayGiftLuckyRes);
+    // 获取首充有礼记录
+    rpc FirstPayGiftLog(FirstPayGiftLogReq) returns (FirstPayGiftLogRes);
+    // 首充有礼开启宝箱
+    rpc FirstPayGiftOpenBox(FirstPayGiftOpenBoxReq) returns (FirstPayGiftOpenBoxRes);
+    // 首充有礼进房弹窗信息
+    rpc FirstPayGiftPopupRoomWindow(FirstPayGiftPopupRoomWindowReq) returns (FirstPayGiftPopupRoomWindowRes);
+    // 首充有礼进房弹窗次数上报
+    rpc FirstPayGiftPopupRoomWindowTimes(FirstPayGiftPopupRoomWindowTimesReq) returns (FirstPayGiftPopupRoomWindowTimesRes);
+
+    // ------首充有礼------
+
+    // 上报用户活动行为
+    rpc ReportUserBehaviors(ReportUserBehaviorsReq) returns (ReportUserBehaviorsRes);
+
+    rpc ViewChargePage(ViewChargePageReq) returns (ViewChargePageRes);  // 用户访问完首充页面回调
+
+    // 获取歌曲
+    rpc FetchSongsOnWebsite (FetchSongsOnWebsiteReq) returns (FetchSongsOnWebsiteRes);
+    // 添加歌曲
+    rpc UploadSongOnWebsite (UploadSongOnWebsiteReq) returns (UploadSongOnWebsiteRes);
+    // 编辑歌曲
+    rpc UpdateSongOnWebsite (UpdateSongOnWebsiteReq) returns (UpdateSongOnWebsiteRes);
+    // 删除歌曲
+    rpc DeleteSongOnWebsite (DeleteSongOnWebsiteReq) returns (DeleteSongOnWebsiteRes);
+    // 获取信息
+    rpc FetchUploadSongMsgOnWebsite (FetchUploadSongMsgOnWebsiteReq) returns (FetchUploadSongMsgOnWebsiteRes);
+    // 清除未读消息
+    rpc ReadUploadSongMsgOnWebsite (ReadUploadSongMsgOnWebsiteReq) returns (ReadUploadSongMsgOnWebsiteRes);
+
+    // 生成微信JSSDK签名
+    rpc GetGenWechatJSSDKSignature(GetGenWechatJSSDKSignatureReq) returns(GetGenWechatJSSDKSignatureRes);
+    //异常登录发送验证码
+    rpc GetAnomalyLoginSendCode(AnomalyLoginSendCodeReq) returns (AnomalyLoginSendCodeRes);
+    // 异常登录校验验证码
+    rpc GetAnomalyLoginConfirmCode(AnomalyLoginConfirmCodeReq) returns(AnomalyLoginConfirmCodeRes);
+
+    // 获取系统配置URL
+    rpc GetSysConfUrl(GetSysConfUrlReq) returns(GetSysConfUrlRes);
+    // 综合搜索
+    rpc CompositeSearch(CompositeSearchReq) returns(CompositeSearchRes);
+    // 代理调用服务器内部接口
+    rpc ProxyInvokeIntServerFunc(ProxyInvokeIntServerFuncReq) returns(ProxyInvokeIntServerFuncRes);
+    //获取排行榜展示配置
+    rpc GetRankShowCfg(RankShowCfgReq) returns (RankShowInfo);
+
+    //获取黑鲸客服营业状态
+    rpc BlackWhaleCustomerBusinessState(CustomerTypeReq) returns(CustomerTypeRes);
+    // 获取氧气车载礼物配置
+    rpc PullOxygenCarGift(PullOxygenCarGiftReq) returns(PullOxygenCarGiftRes);
+
+    // 页面版本和域名配置
+    rpc GetRealmNameConf(GetRealmNameConfReq) returns (GetRealmNameConfRes);
+
+    // 获取活动角标
+    rpc ListActSubInfo(ListActSubInfoReq) returns (ListActSubInfoRes);
+    // 点击活动角标
+    rpc ClickActSubInfo(ClickActSubInfoReq) returns (ClickActSubInfoRes);
+
+    // 后台设置青少年模式回调
+    rpc CallbackAdminHandleYoungModel(CallbackAdminHandleYoungModelReq) returns(CallbackAdminHandleYoungModelRes);
+}

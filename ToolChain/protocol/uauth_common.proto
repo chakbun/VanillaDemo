@@ -1,0 +1,73 @@
+syntax = "proto3";
+option objc_class_prefix = "PROTO";
+package uauth_pb;
+
+ 
+enum UauthWeightType {
+    UWT_H5 = 0;  
+    UWT_INNER = 1;  
+    UWT_ALL = 2; 
+}
+ 
+enum UauthPayType {
+    UPT_WX = 0;
+    UPT_ALI = 1;
+    UPT_ALL = 2; 
+}
+
+
+
+enum UauthAccountType {
+    AT_DEV = 0;
+    AT_NATIVE = 1;
+    AT_QQ = 2;
+    AT_WEIXIN = 3;
+    AT_CHINA_MOBILE = 10;
+    AT_CHINA_TELECOM = 11;
+    AT_GOOGLE = 100;
+    AT_FACEBOOK = 101;
+    AT_CAIJI = 102;   
+    AT_APPLE = 103;
+    AT_ROBOT = 200;
+}
+
+enum UauthLoginType {
+    LT_DEV = 0;
+    LT_NATIVE = 1;    
+    LT_QQ = 2;
+    LT_WEIXIN = 3;
+    LT_SMS = 4;    
+    LT_QUICK = 5;  
+    LT_APPLE = 6;  
+    LT_FACEBOOK = 7;   
+    LT_PHONE_PASSWORD = 8;   
+}
+
+ 
+enum UauthDeviceType {
+    DT_UNKNOWN = 0;
+    DT_FLASHPLAYER = 1;
+
+    DT_IOS_PHONE = 40;
+    DT_WINDOWS_ASSISTANT = 80;  
+    DT_WINDOWS_PC = 90;         
+    DT_ROBOT = 100;
+}
+
+enum UauthSexType {
+    UNKNOWN = 0;
+    MAIL = 1;
+    FEMAIL = 2;
+}
+
+enum UauthAccountFlags {
+    AF_ZERO = 0;
+    AF_PHONE_VERIFIED = 1;  
+    AF_BIND_DEVICE = 2;  
+}
+
+message UauthLoginPassword {
+    string password = 1;
+    int64 time = 2;
+    int32 rand = 3;
+}

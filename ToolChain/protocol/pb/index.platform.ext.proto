@@ -1,0 +1,24 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/index.int.proto";
+
+message ProxyInvokeReq {
+  string              obj  = 1;
+  string              func = 2;
+  bytes               req  = 3; // 请求的接口转成二进制
+  map<string, string> opt = 4;
+}
+
+message ProxyInvokeRes {
+  bytes        rsp = 1;       // 返回接口根据二进制，转成对于结构
+  map<string, string> opt = 2;
+}
+
+service IndexPlatformExtObj{
+  //审核
+  rpc AdvertReply(AdvertReplyReq) returns (AdvertReplyRes);
+  // 代理调用
+  rpc ProxyInvoke(ProxyInvokeReq) returns (ProxyInvokeRes);
+}

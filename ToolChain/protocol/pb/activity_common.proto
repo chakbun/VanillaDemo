@@ -1,0 +1,628 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+//##########结构定义
+
+
+//活动奖励类型
+enum ActivityAwardType {
+    Award_Type_None = 0;
+    Award_Type_Gold = 1; //金币
+    Award_Type_Tick = 2; //钻石
+    Award_Type_Gift = 3; //礼物
+    Award_Type_BONUS_POOL = 4; //奖金池
+    Award_Type_Effect = 6; //特效
+    Award_Type_Background = 7; //背景
+    Award_Type_Special = 8; //特殊
+}
+
+//个人信息卡的积分或礼物数量统计类型
+enum CountType {
+    CountType_None = 0;
+    CountType_Get = 1; //获得
+    CountType_Send = 2; //赠送
+}
+
+//状态
+enum WelfareSataus {
+    Status_No_Start = 0; //未开始
+    Status_Doing = 1; //执行中
+    Status_Wait_Receive = 2; //待领取
+    Status_Completed = 3; //已完成
+    Status_Past = 4; //当循环累计不为0，此状态表示周期内已完成过
+    Status_Over = 5; //已结束
+}
+
+// 抽奖意图类型
+enum LotteryPurposeType {
+    NULL_LOTTERY_PURPOSE = 0;   //无意图
+    GAME_LOLM = 1; //英雄联盟手游
+    GAME_PUBGM = 2; //和平精英
+    GAME_ARENA_OF_VALOR = 3; //王者荣耀
+    SECOND_RELATE_AWARD = 4; //单抽第二次触发而外奖励
+}
+
+// 破冰游戏奖品等级
+enum IceBrokenAward {
+    NULL_ICE_AWARD = 0;  //未中奖
+    ICE_SMALL_AWARD = 1; //小奖
+    ICE_MID_AWARD = 2;   //中奖
+    ICE_BIG_AWARD = 3;   //大奖
+}
+
+message SortParam {
+    int64 player_id = 1; //个人id
+    int32 activity_id = 2; //活动id
+    int32 rel_activity_id = 3; //子活动id
+    int32 page = 4; //第几页
+    int64 page_size = 5; //每页数量
+}
+
+//获取个人福利信息
+message ListWelfareReq {
+    int32 relative_id = 1; //关联id 不用填，用于兼容旧逻辑
+    int32 act_id = 2; //活动id
+    int32 rel_id = 3; //子活动id  如果获取活动的所有数据，则填写0
+    int64 player_id = 4; // 站外接口传入用户ID
+}
+
+message ListWelfareRes {
+    repeated WelfareInfo list = 1;
+}
+
+//排行榜通用返回结果
+message SortResult {
+    int64 sort = 1;
+    int64 id = 2; //按请求 roomid或playerid
+    int64 id2 = 3; //靓号 //如果靓号不为空则显示靓号
+    string name = 4; //同上
+    string icon = 5;
+    int64 gold = 6; //金币
+    int64 point = 7; //积分
+    int64 num = 8; //礼物总数
+    int64 room_id = 9; //房间id
+    string room_name = 10; //房间名字
+    int32 like_num = 11; //点赞数
+    bool is_like = 12; //是否已经点赞
+    string msg = 13; //祝福语
+    int64 last_player_id = 14;
+    string resource = 15; //资源  可以是图片，音频或视频  www.shenzhen.alyun.com/alpha/voice/abedfagadsdfgsa.mp3
+    int32 top_range_type=16;//4当日，1当周，2当月，3当年
+    int32 my_top_num=17;//本用户当日/周/月/年该榜单的top1次数
+    int64 created_at=22;//排名创建的时间戳，秒，只有提取的是top排名时才有值
+    int64 gap_to_top=23;//距离榜一的差分
+    string award_img=24;//奖励图
+    string cubism_icon = 25; // 虚拟形象
+    bool is_online = 26; // 是否在线
+    int64 to_room_id = 27; // 跳转房间id
+    bool is_clan_member=28; //是否是公会成员
+    int64 gap_to_rank=29;//距离上榜的差分
+}
+
+message RankInfo {
+  int32 sort = 1; //排名
+  int64 player_id = 2; //人员id
+  string name = 3; //人员名称
+  string icon = 4; //头像
+  int64 id2 = 5; //靓号
+  int64 point = 6; //积分
+  string room_name = 7; //房间名 （房间榜时有值）
+  string clan_name = 8; //公会名
+  int64 gap_to_top = 9; //距离榜一积分
+}
+
+//单人的信息
+message PlayerSortMsg {
+    int64 id = 1; //按请求 roomid或playerid
+    int64 id2 = 2; //靓号 //如果靓号不为空则显示靓号
+    string name = 3; //同上
+    string icon = 4;
+    int32 gender = 5; //性别 1-男 2-女
+    int64 point = 6; //积分
+    int64 sort = 7; //排名
+}
+
+//多人排行榜通用返回结果
+message ManySortResult {
+    repeated PlayerSortMsg list = 1; //
+    int64 sort = 2;
+    int64 gold = 3; //金币
+    int64 point = 4; //积分
+    int64 num = 5; //礼物总数
+    int64 room_id = 6; //房间id
+    string room_name = 7; //房间名字
+    int32 like_num = 8; //点赞数
+    bool is_like = 9; //是否已经点赞
+    string msg = 10; //祝福语
+    string resource = 11; //资源  可以是图片，音频或视频
+}
+
+//主题结构
+message Theme {
+    int32 id = 1;
+    string name = 2; //主题名字
+    int32 type = 3; //主题类型 1- 砸蛋 2-pc砸蛋
+    bool status = 4; //状态
+    int64 start_time = 5; //开始时间
+    int64 end_time = 6; //结束时间
+    string extend = 7; //扩展，json格式
+    string key = 8; // 唯一标志
+}
+
+//评论
+message Comment {
+    int64 player_id = 1;
+    string player_name = 2;
+    string player_icon = 3;
+    string content = 4;
+    int64 created = 5;
+}
+
+message NameList {
+    int64 player_id = 1; //人员id
+    string player_name = 2; //人员名称
+    string player_icon = 3; //人员icon
+    string union = 4; //公会
+    int32 group_type = 5; //分组类型
+    uint32 group = 6; //分组
+    int64 point = 7; //积分
+    string remark = 8; //备注
+}
+
+message NameListResult {
+    string name = 1; //名称
+    repeated NameList list = 2; //名单列表
+}
+
+//福利信息
+message WelfareInfo {
+    int32 welfare_id = 1;
+    int32 type = 2; //1-普通 2-分享
+    WelfareSataus status = 3; //0-未开始 1-执行中 2-待领取 3-已完成 4-已错过 5-已结束
+    int64 created = 4; //完成的时间，未完成时为0
+    int64 trigger_num = 5; //当前达到的数量  最高等于配置中的触发数量
+    int32 complete_num = 6; //完成次数
+    repeated int32 bill_type = 7; //订单类型
+    int32 count_num = 8; //累计次数
+    int32 day_or_week_finish_num = 9; // 每周或每日完成次数
+    map<int64, int64> finish_id = 10; // 完成的Id和数量
+    int64 trigger_limit = 11; //完成条件
+}
+
+//签到信息
+message SignInfo {
+    int64 day = 1; //某天签到
+    int64 created = 2; //签到时间
+}
+
+//礼物展示
+message ListGiftShow {
+    int32 gift_id = 1; //礼物id
+    string gift_name = 2; //礼物名字
+    int32 gift_category = 3; //礼物类型 0-普通 1-稀有
+    int32 can_buy = 4; //能否购买 0-不能 1-可以
+}
+
+//抽奖码
+message Number {
+    int32 number = 1;
+    int32 cate = 2; //1-分享 2-邀请
+    int64 created = 3; //获取时间
+}
+
+//中奖人
+message NumberAwardPlayer {
+    int64 player_id = 1;
+    int64 id2 = 2; //靓号
+    string player_name = 3;
+    string player_icon = 4;
+    int32 number = 5; //中奖号码
+    int32 level = 6; //获取等级
+}
+
+message SpecialAward {
+    int32 type = 1; //1-抽奖码 2-新贵 3-抽奖次数
+    int32 num = 2; //已用数量
+    int32 count = 3; //总数量
+}
+
+//人员时间信息
+message PlayerTime {
+    int64 player_id = 1;
+    int64 id2 = 2; //靓号
+    string player_name = 3;
+    string player_icon = 4;
+    int32 time = 5; //时长
+    int32 rate = 6; //时长所占比例
+    int32 cate = 7; //2000-亲密 2001-长情 2002-不渝 2003-永恒 2004-天使 2005-唯一 2006-三生 2007-金兰 2008-琉璃 2009-锦瑟 2010-比翼
+    int32 company_time = 8; //陪伴时长  分钟
+}
+
+//message PuzzleLine {
+//    repeated int32 num = 1;
+//}
+
+//通知记录
+message NoticeRecord {
+    int32 msg_id = 1; //通知记录id
+    int32 rel_id = 2; //子活动id
+    int32 player_id = 3; //人员id 允许为空
+    string msg = 4; //通知信息
+    int64 created = 5;
+    string player_name = 7;
+    int64 room_id = 8; //房间id
+    string room_name = 9;
+    string player_icon = 10; // 用户头像URL
+}
+
+message ConfGift {
+    int32 gift_id = 1; //礼物id
+    string gift_name = 2; //礼物名称
+    int32 weight = 3; //礼物等级
+}
+
+message LotteryRecord {
+    int32 rel_id = 1; //子活动id
+    int32 player_id = 2; //人员id
+    int32 player_id2 = 3; //人员靓号
+    string player_name = 4; //人员名称
+    int32 award_pool_id = 5; //奖励id
+    string gift_name = 6; //
+    int64 created = 7;
+    int32 consume_id = 8; // 消耗物品id
+    int32 consume_num = 9; // 消耗物品数量6
+    int32 point = 10; // 当前积分
+    int32 conf_id = 11; //抽奖配置id
+    string room_name = 12; //房间名
+    LotteryPurposeType purpose_type = 13; //抽奖意图
+    int32 award_weight = 14; //奖品等级1小奖 2中奖 3大奖
+    string player_icon = 15; //用户头像
+    repeated ActNewAwardInfo awards = 16; // 新奖励
+}
+
+message RelateLotteryRecord {
+    int32 draw_id = 1;
+    int32 rel_id = 2; //子活动id
+    int32 award_pool_id = 3; //奖励id
+    int32 conf_id = 4; //抽奖配置id
+    int32 rel_draw_id = 5; // 互相关联的抽奖ID
+    int32 flag = 6; // 0表示源抽奖，1表示2次抽奖
+    int64 created = 7; // 记录时间
+    repeated RelateLotteryAward awards = 8; //奖励
+}
+
+message RelateLotteryAward {
+    int32 award_id = 1;
+    int32 num = 2;
+}
+
+//投票记录
+message VoteRecord {
+    int64 voter_id = 1;
+    int64 voter_id2 = 2; //靓号
+    string voter_name = 3;
+    string voter_icon = 4;
+    int64 by_voter_id = 5;
+    int64 by_voter_id2 = 6; //靓号
+    string by_voter_name = 7;
+    string by_voter_icon = 8;
+    int32 num = 9; //投票数
+    int64 created = 10; //
+}
+
+//投票结果
+message VoteResult {
+    int32 rel_id = 1;
+    int64 player_id = 2;
+    int64 id2 = 3; //靓号
+    string player_name = 4;
+    string player_icon = 5;
+    int32 num = 6; //投票数
+    int32 ranking = 7; //排行
+    int64 created = 8; //
+}
+
+//新的奖励
+message NewAward {
+    int32 award_id = 1; //自定义奖励id
+    int32 type = 2; //奖励类型 1金币，2钻石，3礼物 4奖金池 5特效 6背景 7-特殊 8-红包（非礼物服可发的东西）
+    int32 prize_id = 3; //物品id
+    int32 num = 4; //奖励数量
+    int32 relate_id = 5; //关联id
+    int32 relate_state = 6; //关联阶段 抽卡的时候，为卡牌id
+    string asset_name = 7;
+    string asset_image_url = 8;
+    int32 times = 9; // 抽奖时表示抽中的次数（单次奖励数量*times=num)
+}
+
+message NewAwards {
+    repeated NewAward list = 1;
+}
+
+
+//养成物
+message Cultivate {
+    string name = 1; //养成物自定义名称
+    int32 level = 2; //等级
+    int32 cycle_level = 3; //循环等级
+    repeated int32 has_award_id = 4; //已经领取过的养成奖励的id
+}
+
+message LogCultivate {
+    int32 rel_id = 1; //
+    int64 player_id = 2;
+    int32 upgrade_type = 3;
+    int32 gift_id = 4;
+    int32 gift_num = 5;
+    int32 num = 6;
+    int32 level = 7;
+    int32 cycle_level = 8;
+    int64 created = 9;
+}
+
+//返现
+message GoldBackData {
+    int32 cate = 1; //1-排行榜 2-充值
+    int64 player_id = 2;
+    int64 count = 3; //充值总额  10000
+    int64 use_num = 4; //已使用的充值金额  10000
+    int64 rate = 5; //比例
+    int64 gold = 6; //接口为ReadPlayerGoldBack时，表示可返金币;　接口为ReceivePlayerGoldBack时，表示返利金币
+    int32 sort = 7; //排行榜名次
+}
+
+//抽卡记录
+message LogDrawCard {
+    int32 rel_id = 1; //子活动
+    int32 conf_draw_card_id = 2; //
+    string select_nums = 5; //选择号码
+    int32 award_num = 6; //中奖号码
+    int32 award_status = 7; //中奖状态 0-未中奖 1-已中奖
+    int64 gold = 8; //中奖金币
+    int64 created = 9; //时间
+}
+
+// 提现记录结构
+message TakeGoldLog {
+    int32 take_num = 1; // 提现数量
+    repeated TakeGoldGift gifts = 2; // 提现兑换物品信息
+    int32 status = 3; // 状态  0提现中 1已到账
+    int64 created = 4; // 创建时间
+}
+// 返现记录结构
+message GoldBackLog {
+    int64 pay_gold = 1; // 充值金额
+    int64 back_gold = 2; // 返现金额
+    int32 status = 3; // 状态  0-未领取，1-已领取
+    int64 created = 4; // 创建时间
+}
+// 提现兑换物品信息
+message TakeGoldGift {
+    int32 id = 1; // 物品id
+    string name = 2; // 物品名称
+    int32 num = 3; // 物品数量
+}
+
+// 提现礼物配置信息
+message TakeGoldGiftConf {
+    repeated TakeGoldGift take_gold_gift_list = 1; // 礼物列表
+    int32 limit_cycle = 2; // 重复类型 1循环(不限制次数) 2每日 3每周 4长期
+    int32 repeated_num = 3; // 可提现次数
+}
+
+
+message TemPointRecord {
+    string bill_id = 1; //订单id
+    int64 point = 2; //订单积分
+    int64 created = 3; //创建时间
+    int32 status = 4; //0-未返现 1-已经返现 2-已取消
+}
+
+message BlindAwardInfo {
+    int32 blind_num = 1; //盲盒序号
+    string award_name = 2; //奖励名
+    int32 award_id = 3; //奖励ID
+    int64 player_id = 4; //用户长号
+    int64 player_id2 = 5; //用户短号
+    string player_name = 6; //用户名
+    string player_icon = 7; //用户头像
+}
+
+message ActivityAwardInfo {
+    int32 prize_id = 1; //物品id
+    int32 num = 2; //奖励数量
+    int32 type = 3; //奖励类型
+    string Unit = 4; //单位
+    int32 award_id = 5; //自定义奖励ID，不是活动服奖励，可能该ID为0
+}
+
+message BlindRoomInfo {
+    int32 luck_num = 1; //房间幸运值
+    int64 room_id = 2; //房间ID
+    string unusual_giftName = 3; //稀有礼物名 为空时没有稀有
+    string room_icon = 4; //房间图标
+    string room_name = 5; //房间名
+    int32 gender = 6; //性别
+
+}
+
+// 宠物类型定义
+enum PetAttrType {
+    Pet_Attr_Zero = 0; // 占位
+    Pet_Attr_Water = 1; // 水
+    Pet_Attr_Fire = 2; // 火
+    Pet_Attr_Grass = 3; // 草
+}
+
+// 活动奖励结构
+message ActPlayerRecvAward {
+    int32 award_id = 1; //奖励ID
+    int32 purpose_type = 2; //意图类型
+    int32 pool_id = 3;  //奖池ID
+}
+
+message TreasureMarketPublishRecord {
+    int32 id = 1;
+    int32 goods_id = 2;   // 商品ID
+    string goods_name = 3;   // 商品名称
+    int32 num = 4;   // 商品数量
+    int64 total_amount = 5;   // 总价
+    int32 goods_type = 6;   // 标签，即商品类别
+    int32 status = 7;   // 状态 1-已发布  2-已成交  3-已下架
+    int32 heat = 8;   // 热度
+    int64 player_id = 9;   // 发布用户 ID
+    int32 create_time = 10;   // 创建时间
+}
+
+message TreasureMarketOrder {
+    int32     id = 1;
+    int32     order_no = 2;     // 订单号
+    int32     goods_id = 3;     // 商品ID
+    string    goods_name = 4;   // 商品名称
+    int32     num = 5;          // 商品数量
+    int64     total_amount = 6; // 总价
+    int32     goods_type = 7;   // 标签，即商品类别
+    int32     status = 8;       // 状态 1-已发布  2-已成交  3-已下架
+    int64     fee = 9;          // 平台扣除的手续费
+    int64     saler_id = 10;    // 发布用户 ID
+    int64     buyer_id = 11;     // 购买用户ID
+    int64     create_time = 12;   // 创建时间
+    string    remark = 13;       // 备注
+}
+
+message DigTreasureGridData {
+    string location = 1;                // 位置
+    int32 dig_num = 2;                  // 被挖总次数
+    int64 player_id = 3;                // 用户ID
+    string player_icon_url = 4;        // 用户头像URL
+    string gift_icon_url = 5;     // 礼物图片URL
+    int32 if_mysterious_award = 6; // 是否神秘宝藏奖励
+    int32 gift_type = 7; //挖宝礼物类型
+}
+
+message DigTreasureAward {
+    int32 gift_id = 1; // 礼物id
+    int32 num = 2; // 礼物数量
+    int32 type = 3; // 礼物类型
+    int32 expire_time = 4;// 礼物有效期
+}
+
+message DigTreasureRankRecord {
+    int64  player_id = 1;
+    string player_name = 2;
+    string player_icon_url = 3; // 用户头像URL
+    string dateTime = 4; // 获奖时间
+    string gift_name = 5; // 礼物名称
+    string location = 6; // 宝藏位置
+}
+
+message DigTreasurePlayerRecord {
+    string dateTime = 1; // 获奖时间
+    string gift_name = 2; // 礼物名称
+    string location = 3; // 宝藏位置
+}
+
+message DigTreasureAwardInfo {
+    int32 gift_id = 1;
+    int32 type = 2; // 礼物类型
+    int32 gift_gold = 3; // 礼物金币价值
+}
+
+// 挖宝奖励类型
+enum DigTreasureAwardType {
+    Nomal   = 0; // 普通的
+    Precious = 1; // 珍贵的
+    Mysterious = 2; // 神秘的
+}
+
+message DigTreasureGridDataMap {
+    map<string, string> grid_data_map = 1; // 格子数据map<位置, data>
+}
+
+message DigTreasureLocationAwardList {
+    repeated DigTreasureLocationAward locationAwardList = 1;
+}
+
+message DigTreasureLocationAward {
+    int32  gift_id = 1;
+    string gift_icon_url = 2;
+    int32  dig_treasure_award_type = 3;
+    string player_icon_url = 4;
+    string location = 5;
+}
+
+// 排行榜统计时间范围类型
+enum RankStatistTimeRangeType {
+    RankType_None = 0 ;  // 无
+    Weekly = 1;          // 每周
+    Monthly = 2;         // 每月
+    Duration = 3;        // 时间段
+}
+
+// 阵营PK日志
+message RankPKLog {
+  int32 rel_act_id = 1; //胜出的子活动
+  string statist_start_time = 2; // 统计开始时间 格式（HH:mm:ss)
+  string statist_end_time = 3; // 统计结束时间，格式同上
+  string camp_name = 4; //阵营名字
+  int64 mvp_player_id = 5;
+  int64 mvp_player_id2 = 6;
+  string mvp_name = 7;
+  string mvp_icon = 8;
+  repeated ActNewAwardInfo awards = 9; // 奖励内容
+  int64 created = 10; // 日志时间戳 
+}
+
+// 阵营PK奖励日志
+message RankAwardLog {
+    int32 rel_act_id = 1; //胜出的子活动
+    int64 player_id = 2; //人员id
+    int64 player_id2 = 3; //人员靓号
+    string player_name = 4; //人员名称
+    string player_icon = 5; //用户头像
+    ActNewAwardInfo award = 6; // 奖励
+    int64 created = 7; // 获奖时间戳
+}
+
+message IconDataReq {
+    //活动id
+    int32 act_id=1;
+    //子活动id
+    int32 rel_id=2;
+    //类型
+    RoomTopRightCornerLabelType type=3;
+    IconDataExtend ext = 4; // 角标扩展
+}
+
+message IconDataExtend {
+    int64 room_id = 1;
+    string event_name = 2;
+    int32 sub_type = 3; // 角标子类型
+    int64 item_id = 4; // 关联物品id
+    int64 ext_number = 5; //扩展数字字段
+    int64 sub_item_id = 6; //关联子id
+}
+
+message IconDataRes {
+    string player_icon1 = 1; // 用户头像1
+    int64 player_id1 = 2 ; // 用户id1
+    string player_icon2 = 3; // 用户头像2
+    int64 player_id2 = 4 ; // 用户id2
+    int64 remaining_time = 7; // 活动剩余时间
+    int32 number = 8; // 数值，可以是参与人数、送礼数、收礼数等
+    SystemNoticeEvent event = 9; //角标事件
+    map<int64, IconDataInfo> IconData = 10; // map<int64, IconDataInfo>
+}
+
+message IconDataInfo {
+    string player_icon1 = 1; // 用户头像1
+    int64 player_id1 = 2 ; // 用户id1
+    string player_icon2 = 3; // 用户头像2
+    int64 player_id2 = 4 ; // 用户id2
+    int64 remaining_time = 5; // 活动剩余时间
+    int32 number = 6; // 数值，可以是参与人数、送礼数、收礼数等
+    SystemNoticeEvent event = 7; //角标事件
+    int32 number2 = 8; // 数值2，进度条配置数量
+}

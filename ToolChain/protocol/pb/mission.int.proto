@@ -1,0 +1,16 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+message RecomputeCreditScoreReq{
+    int64 player_id = 1;
+}
+
+message RecomputeCreditScoreRes {
+    
+}
+
+service MissionIntObj {
+    // 重算信用分
+    rpc RecomputeCreditScore(RecomputeCreditScoreReq) returns(RecomputeCreditScoreRes);
+}

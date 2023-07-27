@@ -1,0 +1,118 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+// 优惠券外部协议
+
+enum CouponCmdId {
+    PushNone = 0;               // 占位
+    CouponListCmdId = 80001;      // 推送优惠券列表 PushCouponList （不推车载的优惠券）
+    CouPonListCarCmdId = 80002;   // 推送优惠券列表（全部优惠券 包括车载）
+}
+
+// 错误码
+enum CouponErrCode {
+	CODE_SUCCESS = 0;           // 成功
+}
+
+// 获取优惠券配置Url 推送cmdid SysConfType.TypeCouponCfg（system.ext.proto）, 配置结构为acm.ext.proto的CouponCliCfg
+message CouponCfgUrlReq{
+    string cfg_url = 1;        // CDN的URL
+}
+message CouponCfgUrlRes{
+    string cfg_url = 1;        // CDN的URL（当为空时，表示当前为最新配置）
+}
+
+// 获取优惠券配置
+message CouponCfgReq{
+}
+message CouponCfgRes{
+    repeated CouponCliCfg cfg_list = 1; // 客户端配置
+}
+
+// 优惠券信息
+message CouponInfo{
+    int64 id = 1;               // 优惠券id
+    int64 cfg_id = 2;           // 优惠券配置id
+    int32 num = 3;              // 优惠券数量
+    int64 valid_time = 4;       // 生效时间（unix时间戳，单位：秒）
+    int64 invalid_time = 5;     // 失效时间（unix时间戳，单位：秒）
+    bool is_new = 6;            // 是否新获得(新获得为true，否则为false)
+}
+
+// 获取优惠券券包信息
+message CouponBagReq{
+    bool is_read = 1;     // 是否设置已读，打开券包面板时设为true，否则设为false
+}
+message CouponBagRes{
+    repeated CouponInfo coupon_list = 1; // 优惠券信息列表
+}
+
+// 优惠券列表推送
+message PushCouponList{
+    repeated CouponInfo coupon_list = 1; // 优惠券信息列表
+}
+
+// 优惠券基础配置
+message CouponBaseCfg{
+    int64 id = 1;                         // 优惠券ID
+    string name = 2;                      // 优惠券名称
+    CouponDiscountType discount_type = 3; // 优惠方式
+    int32 full_money = 4;                 // 最低满足金额(元)(-1无限制)
+    int32 sub_money = 5;                  // 减金额(元)
+    int32 discount = 6;                   // 折扣(百位数)
+    CouponJumpType jump_type = 7;         // 跳转场景类型
+    string jump_url = 8;                  // 跳转路由
+    string usage_remark = 9;              // 使用说明
+    int32 sort = 10;                      // 排序
+    string discount_unit = 11;            // 折扣单位（元，折）
+}
+
+// 获取优惠券礼包信息
+message CouponPackageInfoReq{
+}
+message CouponPackageInfoRes{
+    int64 package_id = 1;                // 礼包id
+    string package_name = 2;             // 礼包名称
+    CouponPackageType package_type = 3;  // 优惠券礼包类型
+    repeated CouponBaseCfg cfg_list = 4; // 优惠券基础配置
+}
+
+// 领取优惠券礼包
+message GainCouponPackageReq{
+    int64 package_id = 1;       // 礼包id
+}
+message GainCouponPackageRes{
+}
+
+// 优惠券曝光
+message ShowCouponReq{
+    repeated int64 id_list = 1; // 优惠券id
+}
+message ShowCouponRes{}
+
+message ExchangeCouponReq{
+    string code = 1; // 兑换码
+}
+
+message ExchangeCouponRes{}
+
+// 外部接口
+service CouponExtObj {
+    // 获取优惠券配置
+    rpc CouponCfgUrl(CouponCfgUrlReq) returns (CouponCfgUrlRes);
+    // 获取优惠券配置
+    rpc CouponCfg(CouponCfgReq) returns (CouponCfgRes);
+    // 获取优惠券券包信息
+    rpc CouponBag(CouponBagReq) returns (CouponBagRes);
+    // 获取优惠券礼包信息
+    rpc CouponPackageInfo(CouponPackageInfoReq) returns (CouponPackageInfoRes);
+    // 领取优惠券礼包
+    rpc GainCouponPackage(GainCouponPackageReq) returns (GainCouponPackageRes);
+    // 优惠券曝光
+    rpc ShowCoupon(ShowCouponReq) returns (ShowCouponRes);
+    // 兑换码兑换优惠券
+    rpc ExchangeCoupon(ExchangeCouponReq) returns(ExchangeCouponRes);
+}

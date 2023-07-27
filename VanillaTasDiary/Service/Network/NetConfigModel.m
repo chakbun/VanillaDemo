@@ -16,8 +16,7 @@
 #import <ZygoteFoundation/KiwiSDKMacro.h>
 #import <ZygoteFoundation/DYTestModeDef.h>
 
-NSString *const kNetApiServicePrefix = @"breathinglove";
-static NSString * const kNetApiActivityServicePrefix = @"mizhuaActivity";   //活动房间专用
+NSString *const kNetApiServicePrefix = @"hydrogen";
 NSString *const kNetApiConfigurationServicePrefix = @"appcommon";  //动态配置专用
 
 NSString *kNetApiActivityExtService;
@@ -41,8 +40,6 @@ NSString *kNetApiRoomPatternExtService;
 NSString *kNetApiCouponExtService;
 NSString *kNetApiKtvExtService;
 
-//活动房间专用
-static NSString *kNetApiActivityRoomExtService;
 //动态配置专用
 NSString *kNetApiConfigurationExtService;
 
@@ -333,8 +330,6 @@ N_Def(kNotificationNetworkReachableChanged);
     kNetApiChatExtService = [kNetApiServicePrefix stringByAppendingFormat:@".chat.ChatExtObj"];
     // kNetApiEggExtService  = [kNetApiServicePrefix stringByAppendingString:@".crackegg.CrackEggExtObj"];
     kNetApiPluginHomeExtService = [kNetApiServicePrefix stringByAppendingString:@".phome.PHomeExtObj"];
-    //活动房间专用
-    kNetApiActivityRoomExtService = [kNetApiActivityServicePrefix stringByAppendingString:roomExt];
     //动态配置专用
     kNetApiConfigurationExtService = [kNetApiConfigurationServicePrefix stringByAppendingString:@".dynconf.DynconfExtObj"];
     kNetApiBillExtService = [kNetApiServicePrefix stringByAppendingString:@".index.BillExt.pbobjc"];
@@ -686,11 +681,6 @@ N_Def(kNotificationNetworkReachableChanged);
 - (NSString *)roomExtService
 {
     return kNetApiRoomExtService;
-}
-
-- (NSString *)activityRoomExtService
-{
-    return kNetApiActivityRoomExtService;
 }
 
 #pragma mark - Host for long|short link

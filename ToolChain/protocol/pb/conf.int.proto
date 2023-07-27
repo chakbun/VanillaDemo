@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "pb/conf.ext.proto";
+
+package pb;
+
+message UpdateConfReq {
+    repeated string services_name = 1; //服务名数组，给后台调用
+}
+
+message UpdateConfRes {
+}
+
+message MysqlConf {
+    string host = 1;
+    string db = 2;   
+    int64 max_con = 3;   
+}
+message RedisConf {
+    string host = 1;
+    string password = 2;  
+    sint32 db = 3;  
+}
+
+message DbConf {
+    MysqlConf mysql = 1;
+    MysqlConf mysql_log = 2;
+    RedisConf redis = 3;
+}
+
+
+service ConfIntObj {
+    rpc GetConf (ConfReq) returns (ConfRes);
+    rpc UpdateConf(UpdateConfReq) returns (UpdateConfRes);
+}

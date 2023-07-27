@@ -1,0 +1,141 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+
+package pb;
+
+
+
+message AddRobotReq {
+    sint64 room_id = 1;
+    sint64 robot_num = 2;
+}
+
+message AddRobotRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+
+message RemoveRobotReq {
+    sint64 robot_id = 1;
+}
+
+message RemoveRobotRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message RemoveRoomReq {
+    sint64 room_id = 1;
+    sint64 id = 2;
+}
+
+message RemoveRoomRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message RoomExistReq {
+    sint64 room_id = 1;
+}
+
+message RoomExistRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message RoomEditNumReq {
+    sint64 room_id = 1;
+    sint64 robot_num = 2;
+}
+
+message RoomEditNumRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message RoomFixNumReq {
+    int64 room_id = 1;
+    int64 max_player_num = 2;  // 最大人数
+    int64 player_num = 3; // 当前用户数
+}
+
+message RoomFixNumRes {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message GetRoomListReq {
+    sint64 page = 1;
+    string room_id = 2;
+}
+
+message GetRoomListRes {
+    int32 total = 1;
+    repeated RoomOperation room_operations = 2;
+}
+
+message GetRobotListReq {
+    sint64 page = 1;
+    string robot_name = 2;
+}
+
+message GetRobotListRes {
+    int32 total = 1;
+    repeated Robot robots = 2;
+}
+
+
+message RoomOperation {
+    sint64 id = 1; //
+    sint64 roomid = 2;
+    string created =3;
+    sint32 num = 4; // 设置机器人数量
+    sint32 totals = 5; // 当前房间在线人数
+}
+
+message Robot{
+    sint64 id = 1; //
+    string name = 2;//姓名
+    string image =3;//头像
+    string sex = 4;//性别
+    string signature = 5; // 签名
+    string birthday = 6; // 生日
+    string area = 7;//地区
+    uint32 state =8;//在线状态，设置后即在线，可等还未登录
+    string created =9;//
+    string login_key =10;//登录key
+    sint64 uid = 11;//用户id
+    sint64 roomid = 12;//该机器人对应房间id
+
+}
+
+enum ConfOptType {
+    OT_Zero = 0;
+    OT_Add = 1;
+    OT_Update = 2;
+    OT_Delete = 3;
+}
+
+message UpdateRobotConfReq {
+    int64 room_id = 1;
+    int64 conf_id = 2;
+    ConfOptType opt_type = 3;
+}
+message UpdateRobotConfRes {
+}
+
+service RobotIntObj {
+    //新增机器人
+    rpc AddRobot(AddRobotReq) returns(AddRobotRes);
+    rpc RemoveRobot(RemoveRobotReq) returns (RemoveRobotRes);
+    rpc RemoveRoom(RemoveRoomReq) returns (RemoveRoomRes);
+    rpc RoomExist(RoomExistReq) returns (RoomExistRes);
+    rpc RoomEditNum(RoomEditNumReq) returns (RoomEditNumRes);
+    rpc RoomFixNum(RoomFixNumReq) returns (RoomFixNumRes);
+    rpc GetRoomList(GetRoomListReq) returns (GetRoomListRes);
+    rpc GetRobotList(GetRobotListReq) returns(GetRobotListRes);
+
+    // 后台规则变更
+    rpc UpdateRobotConf(UpdateRobotConfReq) returns (UpdateRobotConfRes);
+}

@@ -1,0 +1,1719 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/room.ext.proto";
+import "pb/common.ext.proto";
+import "pb/acm_conf.ext.proto";
+import "pb/user.ext.proto";
+
+// chat错误码
+enum ChatErr {
+    ERRCHAT_ZERO = 0;               // 占位
+    ERRCHAT_CANCEL_ONCHAT = 48500;  // 通话超过60秒不能取消
+}
+
+// 聊天广播cmdId定义 // 900
+enum ChatCmdId {
+    CC_ZERO = 0;  // 占位
+    CC_ANONYMOUS = 900101;              // 传闻聊天广播 BroadcastChat
+    CC_CLAN = 900102;                   // 家族聊天广播 BroadcastChat
+    CC_ANONYMOUS_CD = 900103;           // 传闻频道发言CD时间更改推送 ChatAnonymousCdRes
+    CC_CHAT_CP = 900104;                // CP语音  ChatFirstPayCP
+    CC_CHAT_CP_DAIL = 900105;           // CP拨号  ChatCPDial
+    CC_CHAT_CP_END = 900106;            // CP挂断  ChatCPEnd
+    CC_CHAT_CP_CONF = 900107;           // CP配置  ChatCPConf
+    CC_CHAT_CP_TIPS = 900108;           // 房间公屏私信，主持人、管理员、房主才显示   NewSystemNotice
+    CC_CHAT_CP_CANCEL = 900109;         // 异常取消推送 CPChatCannel
+    CC_IM_GIFT_CHANGE = 900110;         // IM礼物配置变更 IMGiftConfRes
+    CC_CHAT_CP_BOSS_CANCEL = 900111;    // 老板取消拨打电话 ChatCPBossCancel
+    CC_IM_INTERACTIVE_CHANGE = 900112;  // IM互动技能配置变更 IMGiftConfRes
+    CC_CHAT_CP_EMOJI         = 900113;  // 1v1表情包推送 ChatEmoji
+    CC_CHAT_CP_DAIL_DISAPPEAR = 900114; // 来电弹窗消失 ChatCPDialDisappear
+    CC_WEEK_CP_INVITE_PUSH = 900115;    // 一周CP邀请推送 WeekCPInvitePush
+    CC_WEEK_CP_TASK = 900116; // 一周CP任务完成推送 BroadcastWeeklyCPTask
+    CC_BIND_BISTRO_SUCCESS = 900117; // 小酒馆CP结成成功  BroadcastBindBistroSuccess
+    CC_BISTRO_INVITE = 900118; // 8分钟场景下的陪陪小酒馆邀请  BroadcastInviteBistro
+    CC_BISTRO_REJECT = 900119; // 8分钟场景下拒绝陪陪小酒馆邀请  BistroRejectMsg
+    CC_SEND_CP_CHAT = 900120; // 两个/几个人的公屏聊天 BroadcastCPChat
+    CC_CHAT_CP_MICRO_STATUS = 900121;   // CP通话麦克风状态推送 BroadcastChatCPMicroStatus
+    CC_BroadcastMatchWeekPlayerPush = 900124; // 速配一周CP、一周旅行 BroadcastMatchWeekPlayerPush
+    CC_CP_GUIDE_INVITE = 900125;//新人接待官邀请  CPGuideInvitePush
+    CC_CP_GUIDE_ACCEPT = 900126;//新人接待官接受邀请  CPGuideAcceptPush
+    CC_CP_GUIDE_MISSION_FINISH = 900127; //新人接待官任务完成 CPGuideFinishPush
+    CC_CP_GUIDE_REBATE = 900128; //新人接待官开始返利 CPGuideRebatePush
+    CC_CP_GUIDE_REJECT = 900129;//新人接待官拒绝  CPGuideRejectPush
+    CC_CP_GUIDE_LOGIN = 900130;//新人接待官老板登陆  CPGuideLoginPush
+}
+
+message ChatEmoji{
+    int64 fid = 1; // 发送者ID
+    int64 tid = 2; // 接收者ID
+    int64 emojiId = 3; // 表情包ID
+}
+
+message EmojiConfReq {
+}
+message EmojiConfRes {
+    repeated Emoji emojis = 1;
+}
+message EmojiConfCDNReq {
+}
+message EmojiConfCDNRes {
+    string conf_url = 1; // CND 的URL
+}
+message EmojiIdsReq{}
+message EmojiIdsRes{
+    repeated sint64 lists = 1;
+}
+
+message Emoji {
+    int64 id = 1; // 图片id
+    string name = 2; // 名称
+    string img = 3; // 略缩图
+    string dynamic_img = 4; // 动态图
+    int32 cycle_times = 5; // 麦上表情循环次数
+    int32 sort = 6; // 排序权重，越大排越前
+    string remark = 7; // 备注
+    string game_dynamic_img = 8; // 游戏动态图资源包
+    string additional_resource = 9; // 附加资源包
+    int32 emoji_type = 10; // 0.普通表情；1.随机表情
+}
+
+message CleanSendChatReq{}
+message CleanSendChatRes{}
+
+message ChatAnonymousCdReq{}
+message ChatAnonymousCdRes {
+    int32 cd_time = 1;  //传闻频道发言CD时间
+    repeated ChannelType channels = 2 [deprecated=true]; // 头条置顶的频道列表
+    repeated AllChatCfg conf = 3; // 频道配置
+}
+
+// CP结束通话方式
+enum FirstPayCPEndType {
+    FPET_ZERO = 0;       // 占位
+    FPET_PLAYER_END = 1; // 用户挂断
+    FPET_CP_END = 2;     // 主播挂断
+    FPET_CHANGE = 3;     // 更换主播
+    FPET_SYSTEM_END = 4; // 系统自动结束，通话满10分钟
+    FPET_COLSE = 5;      // 暂不体验，关闭三选一弹窗
+    FPET_REFUSE = 6;     // 陪玩拒绝接听
+}
+
+message ChatCPCustom {
+    int32 custom_type = 1;         // 自定义类型
+}
+
+message PlayerCP {
+    int64 player_id = 1; // 用户ID
+    string name = 2;     // 用户名称
+    string icon = 3;     // 头像
+    SexType sex = 4;     // 性别
+    bytes gme_auth = 5;  // GME key值
+    repeated string tips = 6; // 提示文案
+    int32 icon_effect_id = 7; // 头像框特效id
+    ChatCPTMicroStatus micro_status = 8; // 麦克风状态
+}
+
+// cmdid=900105
+message ChatCPDial {
+    string id = 1;          // id,唯一标识
+    int64 player_id = 2;    // 用户ID
+    string name = 3;        // 用户名称
+    string icon = 4;        // 头像
+    SexType sex = 5;        // 性别
+    string condition = 6;   // 要求
+    int64 end_time = 7;     // 结束时间
+    int32 diamonds = 8;     // 获取钻石数
+    ChatCPType cp_type = 9 [deprecated=true]; // CP语音通话类型，只返回1/2类型
+    ChatCPType chat_type = 10; // CP语音通话类型
+    string chat_profit = 11;   // 通话收益
+    ChatCPCustom custom = 12;  // 自定义类型结构
+    Application dial_app = 13; // 拨打语音的应用
+    string content = 14; //抢单文案 乙女：问答
+}
+
+// cmdid=900104
+message ChatFirstPayCP {
+    string id = 1;                   // id,唯一标识
+    PlayerCP player = 2;             // 用户ID
+    PlayerCP cp = 3;                 // 主播ID
+    int64 chat_time = 4;             // 通话时长
+    DeviceType device_type = 5;      // 设备类型
+    repeated uint32 gift_id_list = 6;// 虚拟房间礼物ID列表
+    bool is_change = 7;              // 用户是否更换过主播
+    int32 time_long = 8;             // 总通话时长
+    int64 end_time = 9;              // 结束时间戳
+    ChatCPType cp_type = 10 [deprecated=true]; // CP语音通话类型，只返回1/2类型
+    ChatCPType chat_type = 11;       // CP语音通话类型
+    string chat_page_url = 12;       // 通话页标题图片
+    CPChatInfo chat_info = 13;       // CP通话信息
+    ChatCPCustom custom = 14;        // 自定义类型结构
+    VoiceSdkType sdk_type = 15;      // 1v1语音SDK类型，只会下发1(腾讯)或4(网易)
+    string same_city = 16;           // 同城
+    int32 surplus_change_times = 17; // 剩余换一位次数
+    Application dial_app = 18;       // 拨打语音的应用
+    int32 week_cp_show_time = 19;    // 显示一周CP入口的时间，如:180->通话180秒后出现入口；<=0则不出现入口
+    WeekCPInfo week_player = 20;     // 老板一周CP数据
+    WeekCPInfo week_cp = 21;         // 主播一周CP数据
+    string week_cp_invite_content = 22 [deprecated=true];   // 一周CP邀请弹窗文案 新的使用invite_conf的invite_content
+    int32 trigger_bistro_time = 23;  //小酒馆弹窗触发时间
+    int64 start_time = 24;           // 开始通话时间戳
+    int64 less_chat_time = 25;       // 剩余通话时长
+    int32 default_bistro_gift_cure_time = 26; // 默认小酒馆聊天包时间
+    SendACGNQuizAns quiz_ans = 27;  //主播端显示的乙女问答游戏答案
+    WeekCPGuideWindowConf guide_conf = 28; // 一周CP引导弹窗
+    WeekCPInviteConf invite_conf = 29;     // 一周CP邀请配置
+}
+
+message WeekCPGuideWindowConf {
+    string content = 1;       // 文案内容
+    int64 show_time = 2;      // 展示时间(秒)
+    string title = 3;         // 标题
+    int64 pop_up_time = 4;    // 弹出时间(秒) 通话X秒之后弹出
+    string btn_content = 5;   // 按钮内容
+}
+
+// CP通话麦克风状态
+enum ChatCPTMicroStatus {
+    CHAT_CPMS_NONE = 0; // 占位
+    CHAT_CPMS_OPEN = 1; // 开启
+    CHAT_CPMS_CLOSE = 2; // 关闭
+}
+
+// cmdid=900106
+message ChatCPEnd {
+    string id = 1;               // id,唯一标识
+    FirstPayCPEndType type = 2;  // 结束通话方式
+    string btn_text = 3;         // 按钮文案
+    string btn_url = 4;          // 按钮跳转路由
+    int64 end_time = 5;          // 结束时间戳
+    string text = 6;             // 结束通话文案(老板端)
+    Player player = 7;           // 老板信息
+    Player cp = 8;               // 主播信息
+    repeated CPGainGift list = 9;// 主播获得的收益(不包括6元CP收益)
+    int32 gold = 10;             // 6元CP消费金币数
+    int64 total_gold = 11;       // 消费的总金币数
+    string cp_text = 12;         // 结束通话文案(主播端)
+    ChatCPType cp_type = 13 [deprecated=true]; // CP语音通话类型，只返回1/2类型
+    ChatCPType chat_type = 14;   // CP语音通话类型
+    CPChatInfo chat_info = 15;   // CP通话信息
+    ChatCPCustom custom = 16;    // 自定义类型结构
+    string cp_guideline = 17;    // 引导语(主播端)
+    int64 less_chat_time = 18;  // 剩余通话时长
+    int32 cure_time = 19;//深夜小酒馆剩余时间（s），结合CP语音通话类型给前端判断显示入口
+}
+
+// CP通话信息
+message CPChatInfo {
+    int32 original_gold = 1;    // 原价
+    string condition = 2;       // 要求
+    ChatCPType cp_type = 3;     // CP语音通话类型
+    int32 voice_id = 4;         // 声鉴卡ID
+    int64 coupon_id = 5;        // 优惠券ID
+    int32 chat_im_gold = 6;     // IM通话价格
+    ChatCPCustom custom = 7;    // 自定义类型结构
+    SexType sex = 8;            // 性别
+}
+
+// cmdid=900111
+message ChatCPBossCancel {
+    string id = 1;               // id,唯一标识
+    ChatCPType cp_type = 2;      // CP语音通话类型
+}
+
+// 主播获得的礼物
+message CPGainGift {
+    int32 gift_id = 1;      // 礼物ID
+    int32 gift_num = 2;     // 礼物数量
+}
+
+// cmdid=900107
+message ChatCPConf {
+    int64 end_time = 1;               // 结束时间 cp_type不等于CCPT_DEFAUL值为0
+    repeated CPInfo cp_list = 2;      // CP类型
+    repeated ChargeFirstWelfareItem list = 3;   //礼物列表
+    int32 gold = 4;                   // 金币数，安卓:600；IOS:400
+    ChatCPType cp_type = 5;           // CP语音通话类型
+    int32 original_gold = 6;          // 原价，cp_type等于CCPT_DEFAULT才显示
+    string bg_url = 7;                // 点击约会的背景图
+    string btn_text = 8;              // 点击约会的按钮文案
+    string window_page_url = 9;       // 弹窗标题图片
+    string window_page_coupon_url = 10; // 弹窗标题图片(6元那张)
+    string choice_page_name = 11;     // 选妃标题文案
+    string black_whale_tab_name = 12; // 黑鲸版tab名称
+    repeated CpBlackWhaleCfg black_whale_list = 13; // 黑鲸1v1资源配置
+    ChatCPCustom custom = 14;         // 自定义类型结构
+    repeated CPInfo same_sex_list = 15; // CP类型 同性的
+    repeated CPDialWindow window_info = 16; // 打电话弹窗
+    PopWindowMode dial_pop_window = 17; // 拨打接线员电话，弹窗方式
+    int32 im_gold = 18; //IM通话金币
+    CPDialWindow blind_box_window = 19; // 心动盲盒二次弹窗
+}
+
+// 黑鲸资源配置
+message CpBlackWhaleCfg {
+    ChatCPType cp_type = 1;          // CP语音通话类型
+    string chatting_title_url = 2;   // 通话中标题图片
+    int32 original_gold = 3;         // 价格
+    bool is_open = 4;                // 是否开启
+    int64 start_time = 5;            // 开始时间(秒)
+    int64 end_time = 6;              // 结束时间(秒)
+    string bg_url = 7;               // 弹窗背景图
+    string voice_url = 8;            // 弹窗音频
+    int32 voice_time = 9;            // 音频时长
+    string btn_bg_url = 10;          // 黑鲸版点击约会按钮的背景图
+    string btn_text = 11;            // 黑鲸版点击约会按钮的文案
+    string btn_bg_url_not_open = 12; // 黑鲸版点击约会按钮的背景图（未开放图片，is_open=false显示该图片）
+    string voice_start_color = 13;   // 语音条渐变色-开始颜色
+    string voice_end_color = 14;     // 语音条渐变色-结束颜色
+    string early_taste_price = 15;   // 尝鲜价，为空则不显示
+    ChatCPCustom custom = 16;        // 自定义类型结构
+    int32 sort = 17;                 // 排序权重
+}
+
+message CPInfo {
+    string image_url = 1;  // 图片
+    string voice_url = 2;  // 语音条
+    string condition = 3;  // 要求
+    int32 voice_time = 4;  // 音频时长
+    int32 voice_id = 5;    // 声鉴卡ID
+    SexType sex = 6;       // 性别
+    int32 id = 7;          // 配置唯一ID
+}
+
+enum CPClickSource {
+    CPCS_DEFAULT = 0;       // 占位
+    CPCS_HOME = 1;          // 首页划卡(盲盒页)
+    CPCS_HOME_DIALOG = 2;   // 首页弹窗
+    CPCS_IM = 3;            // im互动面板
+    CPCS_IM_CARD = 4;       // im引导卡片
+    CPCS_IM_TOP_DIALOG = 5; // im引导浮窗
+    CPCS_CALL_AGAIN = 6;    // 再打一次
+    CPCS_COUPON_SYSTEM_END = 7; // CP优惠券弹窗(系统弹窗)
+    CPCS_COUPON_BOSS_END = 8;   // CP优惠券弹窗(老板挂断)
+    CPCS_HOME_CP_CARD = 9;      // 首页心动划卡
+    CPCS_DIAL_LOG = 10;         // 通话记录
+    CPCS_BISTRO_INTRODUCE = 11; // 小酒馆套餐详情页
+    CPCS_CP_END = 12; // CP8分钟结算页
+    CPCS_BISTRO_END = 13; // 小酒馆聊天结算页
+    CPCS_ACGN_Quiz = 14;//  乙女问答游戏
+    CPCS_WEEK_CP_H5 = 15;         // 一周CP落地页
+}
+
+message ChoiceCPReq{
+    string condition = 1;       // 要求
+    ChatCPType cp_type = 2;     // CP语音通话类型
+    repeated int64 cp_ids = 3;  // 通话对象ID
+    int32 voice_id = 4;         // 声鉴卡ID
+    CouponUsedData coupon = 5;  // 优惠券ID
+    ChatCPCustom custom = 6;    // 自定义类型结构
+    SexType sex = 7;            // 要求性别类型，不传默认异性
+    CPClickSource source = 8;   // 点击来源
+}
+
+message ChoiceCPRes {
+    string id = 1;         // id,唯一标识
+}
+
+message IsCPReq{
+    int64 cp_id = 1;  // 通话对象ID
+}
+
+message IsCPRes {
+    bool is_cp = 1;         // 是否能拨打
+}
+
+message GrabbingOrderReq {
+    string id = 1;         // id,唯一标识
+    ChatCPType cp_type = 2;// CP语音通话类型
+}
+
+message GrabbingOrderRes {
+}
+
+// CP语音操作类型
+enum CPChatOptType {
+    CPO_ZERO = 0;       // 占位
+    CPO_CANCEL = 1;     // 用户拨打语音时主动取消通话
+    CPO_CONTINUE = 2;   // 用户拨打语音15秒后主播未接单，点继续等待，服务端重新推送订单给主播
+    CPO_CHANGE = 3;     // 通话未满5分钟，换一位操作
+    CPO_END = 4;        // 结束CP语音
+    CPO_CLOSE = 5;      // 未接通时，关闭三选一窗口
+    CPO_REFUSE = 6;     // 陪玩拒绝接听来电
+}
+
+message CPChatOptReq {
+    CPChatOptType type = 1;// 操作类型
+    string id = 2;         // id,唯一标识
+    ChatCPType cp_type = 3;// CP语音通话类型
+}
+
+message CPChatOptRes {
+    string id = 1;          // id,唯一标识（type=CPO_CHANGE时，返回下个通话的ID）
+    bool is_end = 2;        // 是否已结束  只用在 （换一换）CPO_CHANGE和（挂断）CPO_END
+    ChatCPEnd end_info = 3; // 已结束的数据返回
+}
+
+message CPChatIsEndReq {
+    string id = 1;          // id,唯一标识
+    ChatCPType cp_type = 2; // CP语音通话类型
+}
+
+message CPChatIsEndRes {
+    bool is_end = 1;        // 是否已结束
+    ChatCPEnd end_info = 2; // 已结束的数据返回
+}
+
+message CPChatNotDisturbReq {
+    ChatCPType cp_type = 1; // CP语音通话类型
+    string id = 2;          // id,唯一标识
+}
+
+message CPChatNotDisturbRes {
+}
+
+message GetCPChatStatusReq {
+}
+
+// 通话状态
+enum CPChatStatus {
+    CPCS_ZERO = 0;          // 占位
+    CPCS_NOT_CONNECTED = 1; // 未接通
+    CPCS_ON_CHAT = 2;       // 通话中
+    CPCS_ACCOMPLISH = 3;    // 已完成
+}
+
+message GetCPChatStatusRes {
+    ChatFirstPayCP cp = 1 ;     // 唯一ID
+    CPChatStatus status = 2;    // 状态
+}
+
+message CPChatCannel {
+    string id = 1; // 通话ID
+}
+
+message IMGiftConfReq {
+}
+
+message IMGiftConfRes {
+    repeated uint32 gift_id_list = 1; // IM礼物ID列表
+    repeated IMInteractionConfList interaction_list = 2;  // IM互动面板配置
+}
+
+message GetIMGiftRecordReq {
+}
+
+message GetIMGiftRecordRes {
+    repeated int64 player_list = 1;
+}
+
+message GetChatCPConfReq {
+    int32 contain_cp_info_id = 1;   // 返回的cp_list 需要包含该id
+}
+
+
+message ReceiveChatCPDialReq {
+    string id = 1;              // 通话id,唯一标识（id可以不传）
+    ChatCPType chat_type = 2;   // 通话类型
+    ChatCPCustom custom = 3;    // 自定义类型结构
+}
+
+message ReceiveChatCPDialRes {
+    repeated ChatCPDial dial_list = 1;    // 来电弹窗消息
+    bool is_toast = 2;                    // 是否提示订单已被抢
+}
+
+message IgnoreChatCPDialReq {
+    string id = 1;              // id,唯一标识
+    ChatCPType chat_type = 2;   // CP语音通话类型
+}
+
+message IgnoreChatCPDialRes {}
+
+message ConfirmReceivedPushReq {
+    int32 cmd_id = 1;   // 推送cmdId
+    string id = 2;      // 唯一ID
+}
+
+message ConfirmReceivedPushRes {}
+
+enum ChatShowType {
+    CST_ZERO = 0;       //占位
+    CST_PAGE = 1;       //进入页面展示
+    CST_KEYBOARD= 2;    //拉起键盘后展示
+}
+message QuickChatConfReq {
+    int64 to_id = 1;            //对方用户ID
+}
+message QuickChatConfRes {
+    int32 current_limit = 1;            // IM展示条数上限
+    ChatShowType show = 2;              // 展示时机
+    repeated QuickChat quick_chats = 3; // 快捷语列表
+    QuickChatUserType user_type = 4;    // 用户类型
+}
+
+enum EmojiChatType {
+    EMOJI_CT_ZERO = 0;        // 占位
+    EMOJI_CT_CP = 1;          // 首充cp
+    EMOJI_CT_IM = 2;          // IM语音聊天
+    EMOJI_CT_HOME = 3;        // 首页1v1
+    EMOJI_BLACK_WHALE = 4;    // 黑鲸1V1
+    EMOJI_TOP_MODEL = 5;      // 名模1v1
+}
+
+message SendEmojiReq{
+    EmojiChatType chat_type = 1; // 发送功能
+    int64 fid = 2;          // 发送者ID
+    int64 tid = 3;          // 接收者ID
+    int64 emojiId = 4;      // 表情ID
+}
+
+message SendEmojiRes{}
+
+message CpPayRecord {
+    string time = 1;    // 时间
+    string username = 2;// 用户昵称
+    int64 userid = 3;  // 用户id
+    int64 gain = 4;     // 收益
+}
+
+message CpPayRecordReq {
+    int32 page = 1;
+    int32 pageSize = 2;
+    int64 id = 3;
+}
+
+message CpPayRecordRes{
+    repeated CpPayRecord record = 1; // 收益记录数组
+    int32 total = 2;                 // 记录条数
+    int64 gain  = 3;                 // 总收益
+}
+
+message ChatCPDialDisappear {
+    string id = 1;              // 通话ID
+}
+
+enum CPChatEvaluateType {
+    CPCET_ZERO = 0;         // 占位
+    CPCET_JUST_SO_SO = 1;   // 一般般
+    CPCET_SATISFACTORY = 2; // 满意
+}
+
+message CPChatEvaluateReq {
+    string id = 1;                    // 通话ID
+    CPChatEvaluateType evaluate = 2;  // 评价
+}
+
+message CPChatEvaluateRes{}
+
+message IsShowCPRecordReq{}
+
+message IsShowCPRecordRes{
+    bool is_show = 1; // 是否显示
+}
+
+enum PopWindowMode {
+    PWM_NONE = 0; // 占位
+    PWM_ONCE = 1; // 只弹一次
+    PWM_EVERY_TIME = 2; // 每次都弹
+}
+
+message CPDialWindow {
+    string title = 1;
+    string text = 2;
+    string pic_url = 3;
+}
+message HomeCPCardReq {
+    repeated int64 player_ids = 1; // 曝光卡片的用户ID
+}
+
+message CPCard {
+    int64 player_id = 1;             // 用户ID
+    string name = 2;                 // 用户名称
+    SexType sex = 3;                 // 性别
+    string tags = 4;                 // 音色标签
+    string bg_url = 5;               // 卡片图
+    uint32 width = 6;                // 图片宽度
+	uint32 height = 7;               // 图片高度
+    string voice_url = 8;            // 声音条
+    int32 voice_time = 9;            // 音频时长
+    string mind = 10;                // 心声
+    string city = 11;                // 城市
+    string constellation_url = 12;   // 星座图片
+    bool is_follow = 13;             // 是否已关注
+    int64 origin_price = 14;         // IM CP的原价
+    repeated ImageInfo pics = 15;    // 图片列表
+    int32 age = 16;                  // 年龄
+}
+
+enum DialogShowType {
+    DST_ZERO = 0;           // 占位
+    DST_EVERY_TIME = 1;     // 每次弹出
+    DST_SHOW_ONCE = 2;      // 只弹一次
+}
+
+message CPCardDialogCfg {
+    DialogShowType show = 1; // 弹出类型
+    string half_content = 2; // 半窗文案
+    string btn_content = 3;  // 按钮文案
+    string title = 4;        // 弹窗标题文案
+}
+
+message HomeCPCardRes {
+    repeated CPCard cards = 1;   // 首页CP划卡
+    CPCardDialogCfg cfg = 2;     // 弹窗配置
+}
+
+message UploadCPCardReq {
+    string image_url = 1;        // 图片地址
+    string voice_url = 2;        // 声音地址
+    int32 voice_time = 3;        // 声音时长
+}
+
+enum CPCardAuditStatus {
+    CPCAS_ZERO = 0;       // 占位
+    CPCAS_AUDITING = 1;   // 审核中
+    CPCAS_PASS = 2;       // 审核通过
+    CPCAS_REFUSE = 3;     // 拒绝
+    CPCAS_CHECKING = 4;   // 心网审核中
+    CPCAS_REJECT = 5;     // 心网拒绝
+}
+
+message UploadCPCardRes {
+    CPCardAuditInfo audit_info = 1;     // 审核结果
+}
+
+message CPCardAuditInfoReq {}
+
+message CPCardAuditInfo {
+    string image_url = 1;               // 图片地址
+    CPCardAuditStatus image_status = 2; // 图片审核结果
+    string voice_url = 3;               // 声音地址
+    int32 voice_time = 4;               // 声音时长
+    CPCardAuditStatus voice_status = 5; // 声音审核结果
+}
+
+message CPCardAuditInfoRes {
+    CPCardAuditInfo audit_info = 1;     // 审核结果
+}
+
+message CPDialLogReq {
+    int64 index = 1; // 分页索引，初始传0，之后传返回值的next_index字段
+}
+message CPDialLogRes {
+    repeated DialLogDetail dial_logs = 1;
+    int64 next_index = 2; // 分页索引，透传给服务端，返回 -1 表示没有数据了
+}
+message DialLogDetail {
+    int64 dial_time = 1; // 通话开始时间戳，秒
+    DialEndType end_type = 2; // 通话结束类型
+    ChatCPType dial_type = 3; // 通话类型
+    int64 player_id = 4; // 用户ID
+    string icon = 5; // 用户头像
+    string nickname = 6; // 用户昵称
+}
+enum DialEndType {
+    DET_NOT_CONNECT = 0; // 未接通
+    DET_RING_OFF_ING = 1; // 挂断，非正常结束
+    DET_RING_OFF_END = 2; // 正常结束
+}
+
+message QueryBindBistroIntroduceReq {
+    int64 cp_id = 1;  // 对方ID
+    bool isCp = 2;    // 是否陪陪侧
+}
+
+message QueryBindBistroIntroduceRes {
+    int32 gift_id = 1; // 小酒馆礼物ID
+    int32 gift_fake_price = 2; // 虚假的价格，大于0时该价格显示成礼物原价，礼物配置价格显示为实际价格
+    int32 cure_time = 3;  // 聊愈时间 单位s
+    bool is_first = 4;     // 是否第一次购买
+    BistroPlayer cp = 5; // 对方信息
+    string meal_plate_url = 6; // 餐牌图片
+    string bottom_content = 7; // 底部宣传文案
+    string label_url = 8; // 聊愈师标签
+    string button_icon = 9; // 按钮图片
+    string button_gray_icon = 10; // 按钮置灰图片
+    int32 gift_actual_price = 11; // 礼物实际价格
+}
+
+message BistroHeartbeatReq {
+    string cp_record_id = 1;  // cp通话记录ID  对应first_pay_cp表id字段
+}
+
+message BistroHeartbeatRes {
+
+}
+
+// 推送ID  900117
+message BroadcastBindBistroSuccess {
+    string msg = 1;         //  绑定成功消息
+    string gift_icon = 2;    // 礼物图标
+    int64 less_chat_time = 3;    // 剩余cp通话时间
+    int64 end_time = 4;    // cp通话结束时间戳
+    int64 player_id = 5; // 用户ID
+    int64 cp_id = 6; // 主播ID
+    string sub_msg = 7; // msg字段的部分文案
+}
+
+message QueryBistroRelationshipReq {
+    int64 target_id = 1;
+}
+
+message QueryBistroRelationshipRes {
+    string target_name = 1;        // 对方昵称
+    string player_icon = 2;        // 自己头像
+    string target_icon = 3;        // 对方头像
+    string open_time = 4;   //深夜小酒馆开放时间
+    string context = 5;     //用户侧名片文案
+    int32  cure_time = 6; //剩余时间（s）大于0显示关系，0表示套餐已用完 不显示
+    bool is_customer = 7;//是否是用户侧
+    int32 default_bistro_gift_cure_time = 8; // 默认小酒馆聊天包时间
+}
+
+message QueryBistroRecordListReq {
+    int64 target_id = 1;
+}
+
+message QueryBistroRecordListRes {
+    BistroPlayer player = 1; // 用户
+    BistroPlayer cp = 2; // 主播
+    repeated QueryBistroRecord query_bistro_record_list= 3;
+}
+
+message QueryBistroAssignRecordListReq {
+    int64 boss_id = 1;
+    int64 cp_id = 2;
+    int32 period = 3; // 期数
+}
+
+message QueryBistroRecord {
+    string record_text = 1;//通话记录文案
+    string create_at = 2;//生成记录时间
+}
+
+// 小酒馆跳转页
+enum BistroJumpType {
+    BJT_ZERO = 0;       // 占位
+    BJT_LAND  = 1;      // 落地页
+    BJT_DETAIL = 2;     // 详情页
+    BJT_INVITE = 3;     // 邀请页
+}
+
+message IsShowBistroLogoReq {
+    int64 target_id = 1;
+}
+
+message IsShowBistroLogoRes {
+    bool is_show = 1;     // 是否展示
+    int32 jump_type = 2;  //跳转页面 1->落地页 2->详情页 3->邀请页（陪陪）
+    int32 show_time = 3;  //弹窗显示时间（s）
+    string title = 4;     //弹窗标题
+    string content = 5;   //弹窗内容
+    string url = 6;       //弹窗图标
+}
+
+
+message BistroChatBlackMICReq {
+    int32 cp_record_id = 1;  // cp通话记录ID  对应first_pay_cp表id字段
+}
+
+message BistroChatBlackMICRes {
+
+}
+
+message BistroPlayer {
+    int64 id = 1; // 玩家id
+    string icon = 2; // 图标
+    string nickname = 3; // 昵称
+}
+
+message BistroEndMsg {
+    int64 player_id = 1; // 用户
+    int64 cp_id = 2; // 主播
+    int32 period = 3; // 期数
+}
+
+message BistroCancelMsg {
+    int64 player_id = 1; // 用户
+    int64 call_time = 2; // 发起拨打的时间
+}
+
+message GetBistroConfReq{
+
+}
+
+message GetBistroConfRes{
+    string open_time = 1;   //深夜小酒馆开放时间
+}
+
+enum BistroTriggerScene {
+    BS_ZERO = 0;  //占位
+    BS_8MIM = 1; //8分钟
+    BS_IM = 2; //IM
+}
+
+// 推送ID  900118
+message BroadcastInviteBistro {
+    string content = 1;  // 文本内容
+    string title = 2;    // 标题
+}
+
+message BistroInviteMsg {
+    int64 player_id = 1; // 老板id
+    int64 cp_id = 2; // 陪陪id
+}
+
+message InviteBistroReq{
+  int64 target_id = 1;
+  BistroTriggerScene scene = 2; //触发场景
+}
+
+message InviteBistroRes{
+}
+
+message BistroRejectMsg {
+    string content = 1; //拒绝文案
+}
+
+message RejectBistroReq{
+  int64 target_id = 1;
+  BistroTriggerScene scene = 2; //触发场景
+}
+
+message RejectBistroRes{
+}
+
+message BistroCPLabel{
+    int64 player_id = 1;
+    string label_url = 2;
+}
+
+message QueryBistroCPReq{
+}
+
+message QueryBistroCPRes{
+    repeated BistroCPLabel bistro_cp_label= 1;
+}
+
+message ACGNQuizEntryReq{
+    GenderPattern gender_pattern = 1; //旧版用户默认0
+}
+
+message ACGNQuizEntryRole{
+    int64 role_id = 1; //角色id
+    string role_title = 2; //角色标题
+    string role_url = 3;//角色图
+    string title_url = 4;//角色标题图
+}
+
+message ACGNQuizEntryRes{
+    string background_url = 1;//首页背景图
+    string background_title = 2;//背景标题图
+    repeated ACGNQuizEntryRole quiz_entry_role= 3; //角色列表
+}
+
+message ACGNQuizCardReq{
+    int64 role_id = 1; //角色id 传入0为随机
+}
+
+message ACGNQuizCard{
+    int64 card_id = 1; //卡片id
+    int32 card_type = 2; //卡片类型  1问答卡 2结局卡
+    string role_url = 3;//角色图
+    string card_voice = 4; // 配音文件
+    string question = 5;//问题文案
+    repeated string answer = 6;//答案文案
+}
+
+message ACGNQuizEndCard{
+    int64 card_id = 1; //卡片id
+    int32 card_type = 2; //卡片类型 1问答卡 2结局卡
+    int32 voice_id = 4; //声鉴卡ID
+    string role_url = 5;//角色图
+    string card_voice = 6; // 配音文件
+    string question = 7;//结局文案
+    string button_context = 8;//按钮文案
+    CPInfo cp_info = 9;//choiceCP相关配置
+}
+
+message ACGNQuizCardRes{
+    int64 card_set_id = 1;     // 卡组id
+    string card_set_name = 2; //卡组名称
+    string bgm = 3; //进入问答节目的bgm
+    repeated ACGNQuizCard quiz_card= 4; //问答卡内容
+    ACGNQuizEndCard quiz_end_card= 5; //结局卡内容
+}
+
+enum CardType {
+    ZERO_CARD = 0;// 占位
+    ANS_CARD = 1; // 问答卡
+    END_CARD = 2; // 结局卡
+}
+
+message ACGNQuizCardByIDReq{
+    int64 card_set_id = 1; //卡组id
+}
+
+
+message KeepACGNQuizAns{
+    int64 card_id = 1; //卡片id
+    int64 boss_answer_index = 2;//老板答案下标
+}
+
+message ACGNQuizAns{
+    int64 card_id = 1; //卡片id
+    string question = 2;//问题文案
+    repeated Answer answer = 3;//答案
+}
+
+message Answer{
+    string answer = 1;//老板答案
+    bool boss_choice = 2;//是否是老板选择
+}
+
+message AnsACGNQuizReq{
+    int64 card_set_id = 1;     // 卡组id
+    repeated KeepACGNQuizAns keep_quiz_ans= 2; //卡内容
+}
+
+message AnsACGNQuizRes{
+}
+
+message ACGNQuizConfReq{
+}
+
+message ACGNQuizConfReqRes{
+    string acgn_quiz_button = 1;//按钮标签
+}
+
+// 发送给主播端展示的用户问答答案
+message SendACGNQuizAns{
+    string card_set_name = 1; //乙女问答卡卡组名称
+    repeated ACGNQuizAns quiz_ans= 2; //问题答案内容
+}
+
+message SendCPChatReq {
+    string content = 1;
+    repeated int64 to_ids = 2;
+}
+
+message SendCPChatRes {
+
+}
+
+// cmdid=900120
+message BroadcastCPChat {
+    string content = 1;
+    int64 send_id = 2; // 发送者id
+}
+
+// cmdid=900121
+message BroadcastChatCPMicroStatus{
+    string id = 1;               // CP通话唯一ID
+    ChatCPTMicroStatus micro_status = 2; // 麦克风状态
+    int64 player_id = 3; // 关联用户ID
+}
+
+message SetChatCPMicroStatusReq{
+    string id = 1;               // CP通话唯一ID
+    ChatCPTMicroStatus micro_status = 2; // 麦克风状态
+    int64 cp_id = 3; // 通话对方用户ID
+}
+
+message SetChatCPMicroStatusRes{}
+
+//////////////////////////////// 一周CP ///////////////////////////
+// 绑定一周CP关系 29
+message BindWeekCPMsg {
+    string id = 1;              // 唯一ID
+    PlayerWeekCP player = 2;    // 用户信息
+    PlayerWeekCP invited = 3;   // 用户信息
+    int64 expire_time = 4;      // 过期时间
+}
+
+//一周CP 任务完成推送IM消息 30
+message WeekCPTaskCompleteMsg{
+    string id = 1;                  // 唯一ID
+    PlayerWeekCP player = 2;        // 用户信息
+    PlayerWeekCP Invited = 3;       // 用户信息
+    WeeklyCPTask cp_task =4;        // CP任务
+}
+
+//一周CP 所有任务完成推送IM  31
+message WeekCPAllTaskCompleteMsg{
+    string id = 1;            // 唯一ID
+}
+
+// 拒绝邀请消息 32
+message WeekCPRefuceMsg {
+    PlayerWeekCP player = 1;        // 用户信息
+    PlayerWeekCP Invited = 2;       // 用户信息
+    string id = 3;                  // 唯一ID
+}
+
+// 任务失败 33
+message WeekCPTaskFailedMsg {
+    string id = 1;                     // 唯一ID
+    int32 invite_times = 2;            // 一周CP邀请次数
+    WeekCPInfoStatus status = 3;       // 状态
+    int32 total_mission = 4;           // 总任务数
+    repeated WeekCPReward rewards = 5; // 奖励配置
+    int32 im_invite_times = 6;         // IM总邀请次数
+}
+
+// 发出一周CP邀请 34
+message WeekCPInviteMsg {
+    PlayerWeekCP player = 1;        // 用户信息
+    PlayerWeekCP invited = 2;       // 用户信息
+    int64 expire_time = 3;          // 过期时间
+    string id = 4;                  // 唯一ID
+}
+
+// 邀请
+message InviteWeekCPReq {
+    WeekCPSource source = 1; // 来源
+    int64 invited_id = 2;    // 被邀请人ID
+}
+
+message InviteWeekCPRes {}
+
+// 邀请状态
+enum WeekCPInviteStatus {
+    WCPIS_DEFAULT = 0;       // 占位
+    WCPIS_INVITE = 1;        // 发起邀请
+    WCPIS_REFUCE_INVITE = 2; // 拒绝邀请
+    WCPIS_AGREE = 3;         // 同意邀请
+    WCPIS_EXPIRE = 4;        // 邀请过期
+}
+
+// 匹配状态
+enum ChatMatchWeekStatus {
+    CHAT_MWS_NONE = 0; // 占位
+    CHAT_MWS_START = 1; // 开始匹配
+    CHAT_MWS_ING = 2; // 匹配中
+    CHAT_MWS_CANCEL = 3; // 匹配取消
+    CHAT_MWS_TIMEOUT = 4; // 匹配超时
+    CHAT_MWS_SUCCESS = 5; // 匹配成功
+    CHAT_MWS_BE_ROBBED = 6; // 匹配被抢
+    CHAT_MWS_FAIL = 7; // 匹配失败
+}
+
+// cmdid=900115 邀请数据
+message WeekCPInvitePush {
+    string id = 1;                  // 唯一ID
+    WeekCPInviteStatus status = 2;  // 状态
+    WeekCPSource source = 3;        // 一周CP来源
+    PlayerWeekCP cp = 4;            // 对方信息
+    int64 expire_time = 5;          // 任务倒计时，确立一周CP关系后才有倒计时
+    string content = 6;             // 邀请弹窗文案
+    int32 total_mission = 7;        // 总任务数
+    int32 completed_mission = 8;    // 完成的任务数
+    string btn_content = 9;         // 按钮文案
+    repeated string url_list = 10;  // 图片URL
+}
+
+// 回应一周CP的邀请
+message RespondWeekCPInviteReq {
+    string id = 1;                   // 唯一ID
+    WeekCPInviteStatus type = 2;     // 同意/拒绝
+    WeekCPSource source = 3;         // 来源：只针对IM列表
+}
+
+message RespondWeekCPInviteRes {}
+
+enum CPTaskStatus {
+    CHAT_CPTS_NONE = 0; // 占位
+    CHAT_CPTS_ING = 1; // 进心中
+    CHAT_CPTS_FINISH = 2; // 已完成
+}
+
+enum WeeklyCPTaskType {
+    CHAT_WCPTT_NONE = 0; // 占位
+    CHAT_WCPTT_ALL  = 1;  // 所有任务
+    CHAT_WCPTT_Heart_Encounter = 2; // 心动邂逅
+    CHAT_WCPTT_Love_Letter = 3; // 纸短情长
+    CHAT_WCPTT_Romantic_Confession = 4; // 浪漫告白
+    CHAT_WCPTT_Sweet_Interaction = 5; // 甜蜜互动
+    CHAT_WCPTT_Romantic_Full_House = 6; // 浪漫满屋
+}
+
+message WeeklyCPTask{
+    WeeklyCPTaskType task_type = 1; // 任务类型
+    CPTaskStatus task_status = 2; // 任务状态
+    int32 task_current_progress = 3; // 任务当前进度
+    int32 task_finish_progress = 4; // 任务结束
+    string task_name = 5; // 任务名称
+    string task_icon = 6; // 任务图标
+    string task_intro = 7; // 任务介绍
+    int64 finish_time = 8; // 任务完成时间
+    int64 task_weight = 9; // 任务权重
+    string task_icon_bg = 10; // 任务图标（带背景）
+}
+
+enum LovelyHistoryTaskType {
+    CHAT_LHTT_NONE = 0; // 占位
+    CHAT_LHTT_Become_CP = 1; // 成为一周CP 我们恋爱啦
+    CHAT_LHTT_Send_Gift = 2; // 送礼 爱的初表达
+    CHAT_LHTT_Receive_Gift = 3; // 收礼 接收初心意
+    CHAT_LHTT_On_Chair = 4; // 1314 在麦时长  爱就是陪伴
+    CHAT_LHTT_IntimateFans = 5; // 加入守护团 彼此相守护
+    CHAT_LHTT_Become_Intimate = 6; // 成为挚友 甜蜜的羁绊
+    CHAT_LHTT_Finish_Task = 7; // 完成任务 爱来日方长
+}
+
+message LovelyHistoryTask{
+    LovelyHistoryTaskType task_type = 1; // 任务类型
+    CPTaskStatus task_status = 2; // 任务状态
+    int32 task_current_progress = 3; // 任务当前进度
+    int32 task_finish_progress = 4; // 任务结束
+    string task_name = 5; // 任务名称
+    string task_icon = 6; // 任务图标
+    string task_intro = 7; // 任务介绍
+    int64 finish_time = 8; // 完成时间（时间戳）
+}
+
+// cmdid=900116
+message BroadcastWeeklyCPTask{
+    string id = 1;                      // 唯一ID
+    WeeklyCPTask task = 2;              // 任务
+    PlayerWeekCP player = 3;            // 用户信息
+    PlayerWeekCP invited = 4;           // 用户信息
+    WeekCPInfoStatus status = 5;        // 状态
+    repeated WeekCPReward reward = 6;   // 奖励
+    int32 total_mission = 7;            // 总任务数
+    int32 completed_mission = 8;        // 完成的任务数
+    int32 invite_times = 9;             // 一周CP邀请次数
+    int32 im_invite_times = 10;         // IM总邀请次数
+}
+
+message PullWeeklyCPTaskFormReq{
+    string id = 1; // 唯一ID
+}
+
+message PullWeeklyCPTaskFormRes{
+    PlayerWeekCP self = 1;
+    PlayerWeekCP player = 2;
+    int64 expire_time = 3; // 一周CP结算时间(时间戳)
+    repeated WeeklyCPTask weekly_cp_task_list = 4; //  一周CP任务
+    repeated LovelyHistoryTask lovely_history_task_list = 5; // 爱的回忆任务
+}
+
+message WeekCPBurstCardReq {
+    string id = 1; // 唯一ID
+}
+
+message WeekCPBurstCardRes {
+    PlayerWeekCP player = 1;        // 用户信息
+    PlayerWeekCP Invited = 2;       // 用户信息
+    repeated LovelyHistoryTask lovely_history_task_list = 3; // 爱的回忆任务
+    repeated WeeklyCPTask weekly_cp_task_list = 4; //  一周CP任务
+}
+
+// 匹配一周旅行、一周CP
+enum ChatMatchWeekType {
+    CHAT_MWT_NONE = 0; // 占位
+    CHAT_MWT_TRAVEL = 1; // 匹配一周旅行
+    CHAT_MWT_CP = 2; // 匹配一周CP
+    CHAT_MWT_LOGIN = 3; // 登录请求(用户有可能在匹配中杀掉进程退出APP,重新登陆)
+}
+
+
+message MatchWeekPlayerInfo {
+    string icon = 1; // 用户头像
+    string words = 2; // 邀请语
+}
+
+message WeekCPBeInvited{
+    int64 player_id = 1;     // 邀请者ID
+    string player_name = 2; // 邀请者昵称
+    string player_icon = 3; // 邀请者头像
+    SexType sex = 4;        // 性别
+    int64 expire_time = 5; // 过期时间(时间戳秒)
+    string id = 6;         // 唯一ID
+}
+
+message PullMatchWeekShowListReq{
+    ChatMatchWeekType week_type = 1; // 匹配类型
+}
+
+message PullMatchWeekShowListRes{
+    string title = 1; // 标题 e.g."CP速配"
+    string desc = 2; // 描述 e.g."体验7天恋爱的感觉"
+    repeated MatchWeekPlayerInfo list_info = 3; // 用户列表
+    int32 online_number = 4; // 在线人数
+    int32 gold = 5; // 匹配花费金币
+    int32 match_number = 6; // 匹配次数 (-1表示无限制)
+    ChatMatchWeekStatus match_status = 7; // 匹配状态
+    int64 match_id = 8; // 匹配ID(匹配中才有值)
+    ChatMatchWeekType week_type = 9; // 匹配类型
+    bool is_free = 10;  // 是否首单免费
+    string free_tips = 11; // 免费文案
+    MatchWeekPlayerType match_player_type = 12; // 匹配者类型
+}
+
+message MatchWeekPlayerReq{
+    int64 match_id = 1; // 匹配ID(取消匹配才需要传值)
+    ChatMatchWeekType week_type = 2; // 匹配类型
+    ChatMatchWeekStatus match_status = 3; // 匹配状态
+    CouponUsedData coupon = 4;  // 优惠券使用信息
+}
+
+message MatchWeekPlayerRes{
+    int64 match_id = 1; // 匹配ID
+    ChatMatchWeekStatus match_status = 2; // 匹配状态
+}
+
+// 速配推送 cmdId = 900124
+message BroadcastMatchWeekPlayerPush{
+    int64 match_id = 1; // 唯一ID
+    ChatMatchWeekType week_type = 2; // 匹配类型
+    ChatMatchWeekStatus match_status = 3; // 匹配状态
+    int64 expire_time = 4; // 弹窗结束时间戳(秒)
+    oneof data {
+        MatchWeekPlayerCP match_cp = 5; // 一周CP匹配
+        MatchWeekPlayerTravel match_travel = 6; // 一周旅行匹配
+    }
+    MatchWeekPlayerType match_player_type = 7; // 发起匹配者类型
+    int64 gain_ticket = 8; // 钻石收益
+    bool is_free = 9; // 匹配是否免费
+}
+
+enum MatchWeekPlayerType {
+    CHAT_MWPT_NONE = 0; // 占位
+    CHAT_MWPT_NORMAL_USER = 1; // 用户侧发起匹配
+    CHAT_MWPT_SIGNMEMBER = 2; // 模侧发起匹配
+}
+
+message MatchWeekPlayerCP {
+    string cp_id = 1; // CPID
+    Player sponsor = 2; // 发起者(匹配者)
+    Player receiver = 3; // 接受者(接收匹配者)
+}
+
+message MatchWeekPlayerTravel {
+    string travel_id = 1; // 旅行ID
+    Player sponsor = 2; // 发起者(匹配者)
+    Player receiver = 3; // 接受者(接收匹配者)
+}
+
+message PullMatchWeekIngListReq{
+    ChatMatchWeekType week_type = 1; // 匹配类型
+}
+
+message PullMatchWeekIngListRes{
+    repeated MatchWeekIng list = 1;
+}
+
+message MatchWeekIng {
+    string id = 1; // 唯一ID, 一周CP则为CPID,一周旅行为旅行ID
+    Player player = 2; // 用户信息
+}
+
+
+message MatchWeekRobReq{
+    int64 match_id = 1; // 匹配ID(取消匹配才需要传值)
+    ChatMatchWeekType week_type = 2; // 匹配类型
+}
+
+message MatchWeekRobRes{
+    int64 match_id = 1; // 匹配ID
+    ChatMatchWeekStatus match_status = 2; // 匹配状态
+    ChatMatchWeekType week_type = 3; // 匹配类型
+    oneof data {
+        MatchWeekPlayerCP match_cp = 4; // 一周CP匹配
+        MatchWeekPlayerTravel match_travel = 5; // 一周旅行匹配
+    }
+}
+
+message MatchWeekCPJumpReq{
+    int64 match_id = 1; // 匹配ID
+}
+
+message MatchWeekCPJumpRes{
+}
+
+message PullWeekCPBeInvitedTotalReq{
+    WeekCPSource source = 1;
+}
+
+message PullWeekCPBeInvitedTotalRes{
+    int32 total = 1; // 受邀总数
+    string first_player_icon = 2; // 第一个用户头像
+}
+
+message PullWeekCPBeInvitedReq{
+    WeekCPSource source = 1;
+}
+
+message PullWeekCPBeInvitedRes{
+    repeated WeekCPBeInvited list = 1;
+}
+
+// 忽略当天速配
+message IgnoreMatchWeekReq{
+    ChatMatchWeekType week_type = 1; // 匹配类型
+}
+
+message IgnoreMatchWeekRes{}
+
+enum CPGuideBossType {
+    RBT_NONE = 0; // 占位
+    RBT_NOT_APPOINT = 1; // 老板未指定接待官
+    RBT_NOT_TIMEOUT = 2; // 老板指定了接待官，未超过60分钟
+}
+
+enum CPGuideSource {
+    CGS_ZERO = 0;          // 占位
+    CGS_CHAT_CP = 1;       // 8分钟
+    CGS_IM = 2;            // IM
+}
+
+// 接待官入口及半屏数据
+message CPGuideEntryReq{
+    int64 target_id = 1;
+    CPGuideSource source = 2;//点击来源
+}
+
+message CPGuideEntryRes{
+    bool is_show = 1;     // 是否展示
+    bool is_cp = 2;     // 当前用户是否是名单陪陪
+    string icon_url = 3;  //入口图标
+    int64 pop_time = 4;  //8分钟半屏自动弹出时间（min）
+    string rebate_percent = 5;//返利百分比（%）
+    CPGuideBossType boss_type = 7;//老板状态
+    int64 boss_expire_time = 8;//老板剩余时效
+    CPGuideProgress progress = 9;//进度条
+    bool is_my_boss = 10;//是否是我是该老板的接待官
+    bool is_inviting = 11;//是否是邀请中
+    bool is_show_frame = 12;//老板侧是否显示头像框
+}
+
+message CPGuideProgress{
+    CPGuideStatus status = 1;//当前状态
+    int64 mission_duration = 2;//见习任务期时间（d）
+    int64 rebate_duration = 3;//返利时间（d）
+    int64 expire_time = 4;//到期时间（时间戳）
+}
+
+message CPGuideInfoReq{
+}
+
+//仅老板更换陪陪情况信息
+message CPGuideInfoRes{
+    string name = 1;//当前接待官名称
+    string icon = 2;//当前接待官头像
+}
+enum CPGuideOpt {
+    RO_NONE = 0; // 占位
+    RO_INVITE = 1; // 邀请
+    RO_ACCEPT = 2; // 接受
+    RO_REJECT = 3; // 拒绝
+    RO_CHANGE = 4; // 更换
+}
+
+message CPGuideOptReq{
+    CPGuideOpt opt = 1;//具体操作
+    int64 target_id = 2;
+    CPGuideSource source = 3;//点击来源
+}
+
+message CPGuideOptRes{
+}
+
+message CPGuideListReq{
+    int32 index = 1;    //用于翻页, 请求第一页时传0
+}
+
+message CPGuideListRes{
+    int32 reception_limit = 1;//接待上限
+    int32 reception_num = 2;//现在接待人数
+    repeated CPGuideBoss list = 3;
+    int32 next_index = 4;        //-1代表列表没有下一页了, 否则可以用此值在CPGuideListReq中请求下一页
+}
+
+enum CPGuideStatus {
+   RS_NONE = 0;
+   RS_ACCEPT = 1;//接待中
+   RS_REBATE = 2;//返利中
+   RS_END = 3;//已结束
+   RS_FAIL = 4;//已失败
+   RS_REPLACE = 5;//已更换
+}
+
+message CPGuideBoss{
+    int64 player_id = 1;     // 老板ID
+    string player_name = 2; // 老板昵称
+    string player_icon = 3; // 老板头像
+    int32 diamond_num = 4; //钻石数量
+    CPGuideStatus status = 5;// 接待状态
+}
+
+message CPGuideProgressReq{
+    int64 target_id = 1;
+}
+
+message CPGuideProgressRes{
+    CPGuideProgress progress = 1;//进度条
+    repeated CPGuideMission mission = 2;
+    string gift_content = 3;//赠送礼物文案
+    int32 diamond_num = 4; //钻石数量
+    int32 diamond_limit = 5; //钻石数量上限
+    string rebate_percent = 6;//返利百分比（%）
+}
+
+message CPGuideMission{
+    string mission_name = 1;//任务名称
+    string unit = 2;//单位
+    int32 total_num = 3;//总完成次数
+    int32 done_num = 4;//当前完成次数
+}
+
+
+message PullCPGuideInvitedReq{
+    int64 target_id = 1;
+}
+
+message PullCPGuideInvitedRes{
+    int64 player_id = 1;     // 邀请者ID
+    string player_name = 2; // 邀请者昵称
+    string player_icon = 3; // 邀请者头像
+    int64 expire_time = 4; // 过期时间(时间戳秒)
+    string title = 5;    // 标题
+    string content = 6;  // 文本
+}
+
+enum CPGuideClanRankType {
+    CGCLT_ZERO = 0;          // 占位
+    CGCLT_Rebate = 1;       // 返利榜
+    CGCLT_Guide = 2;        // 接待榜
+}
+
+enum CPGuideClanRankScope {
+    CGCLS_ZERO = 0;                // 占位
+    CGCLS_This_Week = 1;          // 本周
+    CGCLT_Last_Week = 2;          // 上周
+    CGCLT_This_Month = 3;         // 本月
+    CGCLT_Last_Month = 4;         // 上月
+}
+
+
+message PullClanCPGuideRankReq{
+    int64 clan_id = 1; //公会id
+    CPGuideClanRankType type = 2;//榜单类型
+    CPGuideClanRankScope scope = 3;//榜单范围
+}
+
+message CPGuideRankItem {
+    SimplePlayer player = 1; //用户信息
+    int32 diamond_num = 2; //钻石数量
+    int32 guide_num = 3; //接待人数
+}
+
+message PullClanCPGuideRankRes{
+    repeated CPGuideRankItem item = 1; //榜单
+}
+
+// 发出新人接待官邀请
+message CPGuideInvitePush {
+    int64 player_id = 1;     // 邀请者ID
+    string player_name = 2; // 邀请者昵称
+    string player_icon = 3; // 邀请者头像
+    int64 expire_time = 4; // 过期时间
+    string title = 5;    // 标题
+    string content = 6;  // 文本
+    CPGuideSource source = 7;//点击来源
+}
+
+// 拒绝新人接待官邀请
+message CPGuideRejectPush {
+    int64 invite_id = 1;//邀请人id
+    int64 target_id = 2;//被邀请人id
+}
+
+// 拒绝新人接待官邀请
+message CPGuideLoginPush {
+    string boss_name = 1; //老板名称
+    int64 boss_id = 2; //老板id
+    string boss_icon = 3; //老板头像
+}
+
+// 新人接待官任务完成
+message CPGuideFinishPush {
+    int64 boss_id = 1; //老板id
+    string boss_name = 2; //老板昵称
+    string boss_icon = 3; //老板头像
+}
+
+// 新人接待官开始返利
+message CPGuideRebatePush {
+    int64 expire_time = 1;//到期时间（时间戳）
+    int64 boss_id = 2; //老板id
+    string boss_name = 3; //老板昵称
+    string boss_icon = 4; //老板头像
+}
+
+// 发出新人接待官接受邀请
+message CPGuideAcceptPush {
+    int64 boss_id = 1;     // 老板ID
+    string player_name = 2; // 邀请者昵称
+    string player_icon = 3; // 邀请者头像
+    int32 gift_id = 4; // 礼物id
+    int32 gift_num = 5;    // 礼物数量
+    CPGuideSource source = 6;//点击来源
+    string reward_desc = 7; // 结成奖励文案
+    bool is_first_couple = 8; //是否是第一次结成
+}
+
+//发出新人接待官拒绝 42
+message CPGuideRejectMsg{
+    string content = 1;
+    int64 invite_id = 2;//邀请人id
+}
+
+// 发出新人接待官取消 43
+message CPGuideCancelMsg{
+
+}
+
+// 发出新人接待官结成 43
+message CPGuideCoupleMsg{
+    int64 boss_id = 1;//老板id
+    int32 gift_id = 2; // 礼物id
+    int32 gift_num = 3; // 礼物个数
+    bool is_first_couple = 4; //是否是第一次结成
+    string reward_desc = 5; // 结成奖励文案
+}
+
+// 新人接待官邀请过期 45
+message CPGuideTimeoutMsg {
+    int64 player_id = 1;        // 邀请人的id
+    string content = 2;    //文案 接待官自荐\接待官邀请
+}
+
+// 新人接待官邀请 46
+message CPGuideInviteMsg {
+    int64 invite_id = 1;        // 邀请人的id
+}
+
+
+message GetWeekCPIconReq {}
+message GetWeekCPIconRes {
+    repeated string male_list = 1;  // 男性图片
+    repeated string female_list = 2; // 女性图片
+}
+message CPChatHealGetLevelReq {
+}
+
+message CPChatHealGetLevelRes {
+    CpChatHealLevel level = 1; // 等级
+    string level_name = 2; // 称号
+    int32 score = 3; // 当前分数
+    int32 min_score = 4; // 当前等级的最低分
+    int32 max_score = 5; // 当前等级的最高分(-1表示无上限)
+    string next_level_name = 6; // 下一级称号
+}
+
+// 分类汇总记录
+message CPChatHealScoreCategory {
+    int32 category_id = 1; // 分类id
+    string name = 2; // 加分项大类名称
+    int32 base_score = 3; // 基础分
+    int32 total_score = 4; // 总分
+    repeated CPChatHealScoreLog logs = 5;
+    bool has_more = 6; // 是否还有更多
+    string guide_text = 7; // 零分时的引导文本
+}
+
+message CPChatHealGetScoreSummaryReq {
+}
+
+message CPChatHealGetScoreSummaryRes {
+    repeated CPChatHealScoreCategory category_list = 1; // 分类记录（分类已经排好序）
+}
+
+message CPChatHealScoreLog {
+    int64 log_id = 1;
+    string name = 2; // 名称
+    int32 score = 3; // 加减分数
+    int64 create_time = 4; // 生效时间戳（秒）(0:表示不显示生效时间)
+    int64 end_time = 5; // 分数失效时间戳（秒）（-1:表示永久；0:表示不需要显示失效时间）
+}
+
+message CPChatHealFindScoreLogReq {
+    int32 category_id = 1; // 类别id
+    int32 page = 2;
+    int32 page_size = 3;
+}
+
+message CPChatHealFindScoreLogRes {
+    repeated CPChatHealScoreLog logs = 1;
+    int32 total = 2;
+}
+
+service ChatExtObj {
+    // 房间公屏聊天
+    rpc SendChat(ChatReq) returns (ChatRes);
+    // 获取聊天记录
+    rpc GetNewestSendChat(NewestSendChatReq) returns (NewestSendChatRes);
+    // 清空房间公屏聊天记录
+    rpc CleanNewestSendChat(CleanSendChatReq) returns (CleanSendChatRes);
+    // 表情包配置
+    rpc EmojiConf (EmojiConfReq) returns (EmojiConfRes);
+    // 表情包配置CDNa
+    rpc EmojiConfCDN (EmojiConfCDNReq) returns (EmojiConfCDNRes);
+    // 获取表情id列表
+    rpc EmojiIds(EmojiIdsReq) returns (EmojiIdsRes);
+    // 获取最近全部频道的聊天记录
+    rpc GetNewestAllChat(NewestAllChatReq) returns (NewestAllChatRes);
+    // 获取传闻频道发言CD时间
+    rpc GetChatAnonymousCd(ChatAnonymousCdReq) returns (ChatAnonymousCdRes);
+
+    // 选择主播并播打语音
+    rpc ChoiceCP(ChoiceCPReq) returns (ChoiceCPRes);
+    // 判断对方是否是主播能否拨打语音
+    rpc IsCP(IsCPReq) returns (IsCPRes);
+    // 主播抢单
+    rpc GrabbingOrder(GrabbingOrderReq) returns (GrabbingOrderRes);
+    // CP语音操作
+    rpc CPChatOpt(CPChatOptReq) returns (CPChatOptRes);
+    // 判断语音通话是否已结束
+    rpc CPChatIsEnd(CPChatIsEndReq) returns (CPChatIsEndRes);
+    // 今日不再接收首充CP语音
+    rpc CPChatNotDisturb(CPChatNotDisturbReq) returns (CPChatNotDisturbRes);
+    // 获取语音通话状态
+    rpc GetCPChatStatus(GetCPChatStatusReq) returns (GetCPChatStatusRes);
+    // IM礼物配置
+    rpc IMGiftConf(IMGiftConfReq) returns(IMGiftConfRes);
+    // 获取最近一个月IM送礼记录,默认返回100条
+    rpc GetIMGiftRecord(GetIMGiftRecordReq) returns (GetIMGiftRecordRes);
+    // 获取CP挂件配置信息
+    rpc GetChatCPConf(GetChatCPConfReq) returns (ChatCPConf);
+    // 获取来电弹窗
+    rpc ReceiveChatCPDial(ReceiveChatCPDialReq)returns(ReceiveChatCPDialRes);
+    // 忽略来电弹窗
+    rpc IgnoreChatCPDial(IgnoreChatCPDialReq) returns (IgnoreChatCPDialRes);
+    // 确认收到推送
+    rpc ConfirmReceivedPush(ConfirmReceivedPushReq) returns (ConfirmReceivedPushRes);
+    // 获取cp收益记录
+    rpc CpPayRecord(CpPayRecordReq) returns (CpPayRecordRes);
+    // 通话评价
+    rpc CPChatEvaluate(CPChatEvaluateReq) returns (CPChatEvaluateRes);
+
+
+    //获取快捷语及配置
+    rpc QuickChatConf(QuickChatConfReq)returns(QuickChatConfRes);
+    // 发送表情包
+    rpc SendEmoji(SendEmojiReq) returns (SendEmojiRes);
+
+    // 判断是否显示CP通话记录
+    rpc IsShowCPRecord(IsShowCPRecordReq) returns (IsShowCPRecordRes);
+
+    // 首页心动划卡
+    rpc HomeCPCard(HomeCPCardReq) returns (HomeCPCardRes);
+
+    // 心动划卡资源审核数据
+    rpc CPCardAuditInfo(CPCardAuditInfoReq) returns (CPCardAuditInfoRes);
+    // 上传心动划卡资源
+    rpc UploadCPCard(UploadCPCardReq) returns (UploadCPCardRes);
+
+    // cp通话记录
+    rpc CPDialLog(CPDialLogReq) returns (CPDialLogRes);
+
+    // ********一周CP********  start
+    // 发起邀请
+    rpc InviteWeekCP(InviteWeekCPReq) returns (InviteWeekCPRes);
+    // 接受/拒绝邀请
+    rpc RespondWeekCPInvite(RespondWeekCPInviteReq) returns (RespondWeekCPInviteRes);
+    // 获取一周CP任务单(H5)
+    rpc PullWeeklyCPTaskForm(PullWeeklyCPTaskFormReq) returns (PullWeeklyCPTaskFormRes);
+    // 获取爆卡数据(H5)
+    rpc WeekCPBurstCard(WeekCPBurstCardReq) returns (WeekCPBurstCardRes);
+    // 操作CP通话麦克风
+    rpc SetChatCPMicroStatus(SetChatCPMicroStatusReq) returns (SetChatCPMicroStatusRes);
+    // 获取一周CP有效邀请
+    rpc PullWeekCPBeInvited(PullWeekCPBeInvitedReq) returns (PullWeekCPBeInvitedRes);
+    // 获取一周CP有效邀请总数
+    rpc PullWeekCPBeInvitedTotal(PullWeekCPBeInvitedTotalReq) returns (PullWeekCPBeInvitedTotalRes);
+    // 拉取速配列表数据
+    rpc PullMatchWeekShowList(PullMatchWeekShowListReq) returns (PullMatchWeekShowListRes);
+    // 开始速配、取消速配
+    rpc MatchWeekPlayer(MatchWeekPlayerReq) returns (MatchWeekPlayerRes);
+    // 抢匹配
+    rpc MatchWeekRob(MatchWeekRobReq) returns (MatchWeekRobRes);
+    // 拉取进行中列表信息
+    rpc PullMatchWeekIngList(PullMatchWeekIngListReq) returns (PullMatchWeekIngListRes);
+    // 一周CP速配成功发起者跳转落地页
+    rpc MatchWeekCPJump(MatchWeekCPJumpReq) returns (MatchWeekCPJumpRes);
+    // 忽略当天速配
+    rpc IgnoreMatchWeek(IgnoreMatchWeekReq) returns (IgnoreMatchWeekRes);
+    // 一周CP图片资源
+    rpc GetWeekCPIcon (GetWeekCPIconReq) returns (GetWeekCPIconRes);
+    // ********一周CP********  end
+
+    // ********深夜小酒馆********  start
+    // 获取小酒馆结成介绍信息
+    rpc QueryBindBistroIntroduce(QueryBindBistroIntroduceReq) returns (QueryBindBistroIntroduceRes);
+    // 小酒馆通话心跳
+    rpc BistroHeartbeat(BistroHeartbeatReq) returns(BistroHeartbeatRes);
+    //  查询酒馆关系
+    rpc QueryBistroRelationship(QueryBistroRelationshipReq) returns (QueryBistroRelationshipRes);
+    //  小酒馆记录列表
+    rpc QueryBistroRecordList(QueryBistroRecordListReq) returns (QueryBistroRecordListRes);
+    //  指定关系查询小酒馆记录列表
+    rpc QueryBistroAssignRecordList(QueryBistroAssignRecordListReq) returns (QueryBistroRecordListRes);
+    //  是否展示深夜小酒馆入口图标
+    rpc IsShowBistroLogo(IsShowBistroLogoReq) returns (IsShowBistroLogoRes);
+    // 小酒馆黑麦上报接口
+    rpc BistroChatBlackMIC(BistroChatBlackMICReq) returns (BistroChatBlackMICRes);
+    // 小酒馆配置获取接口
+    rpc GetBistroConf(GetBistroConfReq) returns (GetBistroConfRes);
+    // 陪陪侧发起小酒馆邀请
+    rpc InviteBistro(InviteBistroReq) returns (InviteBistroRes);
+    // 拒绝陪陪侧小酒馆邀请
+    rpc RejectBistro(RejectBistroReq) returns (RejectBistroRes);
+    // 查询深夜小酒馆陪陪以及标签url
+    rpc QueryBistroCP(QueryBistroCPReq) returns (QueryBistroCPRes);
+    // ********深夜小酒馆********  end
+
+    // ********乙女问答********  start
+    // 乙女问答首页数据
+    rpc ACGNQuizEntry(ACGNQuizEntryReq) returns (ACGNQuizEntryRes);
+    // 根据角色id进入对应卡组
+    rpc ACGNQuizCard(ACGNQuizCardReq) returns (ACGNQuizCardRes);
+    // 根据卡组id查询卡组信息
+    rpc ACGNQuizCardByID(ACGNQuizCardByIDReq) returns (ACGNQuizCardRes);
+    // 保存用户答题信息
+    rpc AnsACGNQuiz(AnsACGNQuizReq) returns (AnsACGNQuizRes);
+    //获取首页按钮图标
+    rpc ACGNQuizConf(ACGNQuizConfReq) returns (ACGNQuizConfReqRes);
+    // ********乙女问答********  end
+
+    // 两个/几个人的公屏聊天
+    rpc SendCPChat(SendCPChatReq) returns (SendCPChatRes);
+
+    // ********新人接待官********  start
+    // 接待官入口及半屏数据
+    rpc CPGuideEntry(CPGuideEntryReq) returns (CPGuideEntryRes);
+    // 查询当前接待员信息
+    rpc CPGuideInfo(CPGuideInfoReq) returns (CPGuideInfoRes);
+    // 老板/陪陪 邀请、接受、拒绝
+    rpc CPGuideOpt(CPGuideOptReq)returns (CPGuideOptRes);
+    // 陪陪侧新人接待官进度
+    rpc CPGuideProgress(CPGuideProgressReq) returns (CPGuideProgressRes);
+    // 陪陪侧新人接待官老板列表
+    rpc CPGuideList(CPGuideListReq) returns (CPGuideListRes);
+    // 获取新人接待官有效邀请
+    rpc PullCPGuideInvited(PullCPGuideInvitedReq) returns (PullCPGuideInvitedRes);
+    // 获取公会旗下成员的接待官数据
+    rpc PullClanCPGuideRank(PullClanCPGuideRankReq)returns (PullClanCPGuideRankRes);
+    // ********新人接待官********  end
+    // 获取聊愈师等级
+    rpc CPChatHealGetLevel(CPChatHealGetLevelReq) returns(CPChatHealGetLevelRes);
+    // 获取汇总的聊愈分记录
+    rpc CPChatHealGetScoreSummary(CPChatHealGetScoreSummaryReq) returns(CPChatHealGetScoreSummaryRes);
+    // 查询单个分类的聊愈分记录（分页）
+    rpc CPChatHealFindScoreLog(CPChatHealFindScoreLogReq) returns(CPChatHealFindScoreLogRes);
+}

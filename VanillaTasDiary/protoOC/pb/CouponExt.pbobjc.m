@@ -52,12 +52,14 @@ GPBEnumDescriptor *PB3CouponCmdId_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
-        "PushNone\000CouponListCmdId\000";
+        "PushNone\000CouponListCmdId\000CouPonListCarCm"
+        "dId\000";
     static const int32_t values[] = {
         PB3CouponCmdId_PushNone,
         PB3CouponCmdId_CouponListCmdId,
+        PB3CouponCmdId_CouPonListCarCmdId,
     };
-    static const char *extraTextFormatInfo = "\002\000\010\000\001\017\000";
+    static const char *extraTextFormatInfo = "\003\000\010\000\001\017\000\002\022\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3CouponCmdId)
                                        valueNames:valueNames
@@ -77,6 +79,7 @@ BOOL PB3CouponCmdId_IsValidValue(int32_t value__) {
   switch (value__) {
     case PB3CouponCmdId_PushNone:
     case PB3CouponCmdId_CouponListCmdId:
+    case PB3CouponCmdId_CouPonListCarCmdId:
       return YES;
     default:
       return NO;
@@ -947,6 +950,79 @@ typedef struct PB3ShowCouponRes__storage_ {
                                         fields:NULL
                                     fieldCount:0
                                    storageSize:sizeof(PB3ShowCouponRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ExchangeCouponReq
+
+@implementation PB3ExchangeCouponReq
+
+@dynamic code;
+
+typedef struct PB3ExchangeCouponReq__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *code;
+} PB3ExchangeCouponReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "code",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3ExchangeCouponReq_FieldNumber_Code,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3ExchangeCouponReq__storage_, code),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ExchangeCouponReq class]
+                                     rootClass:[PB3CouponExtRoot class]
+                                          file:PB3CouponExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3ExchangeCouponReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3ExchangeCouponRes
+
+@implementation PB3ExchangeCouponRes
+
+
+typedef struct PB3ExchangeCouponRes__storage_ {
+  uint32_t _has_storage_[1];
+} PB3ExchangeCouponRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3ExchangeCouponRes class]
+                                     rootClass:[PB3CouponExtRoot class]
+                                          file:PB3CouponExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3ExchangeCouponRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

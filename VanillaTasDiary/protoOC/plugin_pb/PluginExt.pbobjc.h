@@ -27,773 +27,888 @@
 
 CF_EXTERN_C_BEGIN
 
-@class PB4PAuthInfo;
-@class PB4PluginBagItem;
-@class PB4PluginBillSkill;
-@class PB4PluginGain;
-@class PB4PluginLoss;
+@class PB3PAuthInfo;
+@class PB3PluginBagItem;
+@class PB3PluginBillSkill;
+@class PB3PluginGain;
+@class PB3PluginLoss;
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Enum PB4PluginRoomType
+#pragma mark - Enum PB3PluginRoomType
 
 /** 房间类型 */
-typedef GPB_ENUM(PB4PluginRoomType) {
+typedef GPB_ENUM(PB3PluginRoomType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginRoomType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginRoomType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 公会 */
-  PB4PluginRoomType_RtGuild = 0,
+  PB3PluginRoomType_RtGuild = 0,
 
   /** 个人 */
-  PB4PluginRoomType_RtPersonal = 1,
+  PB3PluginRoomType_RtPersonal = 1,
 
   /** 返利房 */
-  PB4PluginRoomType_RtReward = 2,
+  PB3PluginRoomType_RtReward = 2,
 };
 
-GPBEnumDescriptor *PB4PluginRoomType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginRoomType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginRoomType_IsValidValue(int32_t value);
+BOOL PB3PluginRoomType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4FilterDimensionType
+#pragma mark - Enum PB3FilterDimensionType
 
 /** 筛选应用维度 */
-typedef GPB_ENUM(PB4FilterDimensionType) {
+typedef GPB_ENUM(PB3FilterDimensionType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4FilterDimensionType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3FilterDimensionType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 默认 */
-  PB4FilterDimensionType_FilterDimensionDefault = 0,
+  PB3FilterDimensionType_FilterDimensionDefault = 0,
 
   /** 主播维度 */
-  PB4FilterDimensionType_FilterDimensionPlayer = 1,
+  PB3FilterDimensionType_FilterDimensionPlayer = 1,
 
   /** 主播应用维度 */
-  PB4FilterDimensionType_FilterDimensionPlayerSkill = 2,
+  PB3FilterDimensionType_FilterDimensionPlayerSkill = 2,
 };
 
-GPBEnumDescriptor *PB4FilterDimensionType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3FilterDimensionType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4FilterDimensionType_IsValidValue(int32_t value);
+BOOL PB3FilterDimensionType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4IconLocationType
+#pragma mark - Enum PB3IconLocationType
 
 /** 角标位置 */
-typedef GPB_ENUM(PB4IconLocationType) {
+typedef GPB_ENUM(PB3IconLocationType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4IconLocationType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3IconLocationType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 默认 */
-  PB4IconLocationType_IconLocationDefault = 0,
+  PB3IconLocationType_IconLocationDefault = 0,
 
   /** 左上角 */
-  PB4IconLocationType_IconLocationUp = 1,
+  PB3IconLocationType_IconLocationUp = 1,
 
   /** 左下角 */
-  PB4IconLocationType_IconLocationDown = 2,
+  PB3IconLocationType_IconLocationDown = 2,
 };
 
-GPBEnumDescriptor *PB4IconLocationType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3IconLocationType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4IconLocationType_IsValidValue(int32_t value);
+BOOL PB3IconLocationType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginSwitchType
+#pragma mark - Enum PB3PluginSwitchType
 
 /** 开关 */
-typedef GPB_ENUM(PB4PluginSwitchType) {
+typedef GPB_ENUM(PB3PluginSwitchType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginSwitchType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginSwitchType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不使用 */
-  PB4PluginSwitchType_StZero = 0,
+  PB3PluginSwitchType_StZero = 0,
 
   /** 用户行为记忆 */
-  PB4PluginSwitchType_StUserRemember = 1,
+  PB3PluginSwitchType_StUserRemember = 1,
 
   /** 首页模块开关 */
-  PB4PluginSwitchType_StIndex = 2,
+  PB3PluginSwitchType_StIndex = 2,
 
   /** 好友动态消息提醒 */
-  PB4PluginSwitchType_StFocusMessage = 3,
+  PB3PluginSwitchType_StFocusMessage = 3,
 };
 
-GPBEnumDescriptor *PB4PluginSwitchType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginSwitchType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginSwitchType_IsValidValue(int32_t value);
+BOOL PB3PluginSwitchType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginSwitchStatus
+#pragma mark - Enum PB3PluginSwitchStatus
 
-typedef GPB_ENUM(PB4PluginSwitchStatus) {
+typedef GPB_ENUM(PB3PluginSwitchStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginSwitchStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginSwitchStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不使用 */
-  PB4PluginSwitchStatus_SwitchZero = 0,
+  PB3PluginSwitchStatus_SwitchZero = 0,
 
   /** 开 */
-  PB4PluginSwitchStatus_SwitchOn = 1,
+  PB3PluginSwitchStatus_SwitchOn = 1,
 
   /** 关 */
-  PB4PluginSwitchStatus_SwitchOff = 2,
+  PB3PluginSwitchStatus_SwitchOff = 2,
 
   /** 白名单模式 */
-  PB4PluginSwitchStatus_SwitchWhitelist = 3,
+  PB3PluginSwitchStatus_SwitchWhitelist = 3,
 };
 
-GPBEnumDescriptor *PB4PluginSwitchStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginSwitchStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginSwitchStatus_IsValidValue(int32_t value);
+BOOL PB3PluginSwitchStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginSexType
+#pragma mark - Enum PB3PluginSexType
 
-typedef GPB_ENUM(PB4PluginSexType) {
+typedef GPB_ENUM(PB3PluginSexType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginSexType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PluginSexType_Unknown = 0,
-  PB4PluginSexType_Mail = 1,
-  PB4PluginSexType_Femail = 2,
+  PB3PluginSexType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginSexType_Unknown = 0,
+  PB3PluginSexType_Mail = 1,
+  PB3PluginSexType_Femail = 2,
 };
 
-GPBEnumDescriptor *PB4PluginSexType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginSexType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginSexType_IsValidValue(int32_t value);
+BOOL PB3PluginSexType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginBcFriendType
+#pragma mark - Enum PB3PluginBcFriendType
 
-typedef GPB_ENUM(PB4PluginBcFriendType) {
+typedef GPB_ENUM(PB3PluginBcFriendType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginBcFriendType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PluginBcFriendType_BcFriendTypeNone = 0,
+  PB3PluginBcFriendType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginBcFriendType_BcFriendTypeNone = 0,
 
   /** 头条 */
-  PB4PluginBcFriendType_BcFriendTypeHead = 1,
+  PB3PluginBcFriendType_BcFriendTypeHead = 1,
 
   /** 普通 */
-  PB4PluginBcFriendType_BcFriendTypeNormal = 2,
+  PB3PluginBcFriendType_BcFriendTypeNormal = 2,
 };
 
-GPBEnumDescriptor *PB4PluginBcFriendType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginBcFriendType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginBcFriendType_IsValidValue(int32_t value);
+BOOL PB3PluginBcFriendType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4StatusType
+#pragma mark - Enum PB3StatusType
 
 /** 是否有效 */
-typedef GPB_ENUM(PB4StatusType) {
+typedef GPB_ENUM(PB3StatusType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4StatusType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4StatusType_StatusInvalid = 0,
-  PB4StatusType_StatusValid = 1,
+  PB3StatusType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3StatusType_StatusInvalid = 0,
+  PB3StatusType_StatusValid = 1,
 };
 
-GPBEnumDescriptor *PB4StatusType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3StatusType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4StatusType_IsValidValue(int32_t value);
+BOOL PB3StatusType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PhomeDecorateType
+#pragma mark - Enum PB3PhomeDecorateType
 
 /** 房间装饰类型 */
-typedef GPB_ENUM(PB4PhomeDecorateType) {
+typedef GPB_ENUM(PB3PhomeDecorateType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PhomeDecorateType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PhomeDecorateType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PhomeDecorateType_PdtNone = 0,
-  PB4PhomeDecorateType_PdtRoomBackdrop = 1,
-  PB4PhomeDecorateType_PdtRoomSign = 2,
-  PB4PhomeDecorateType_PdtRoomFrame = 3,
+  PB3PhomeDecorateType_PdtNone = 0,
+  PB3PhomeDecorateType_PdtRoomBackdrop = 1,
+  PB3PhomeDecorateType_PdtRoomSign = 2,
+  PB3PhomeDecorateType_PdtRoomFrame = 3,
 };
 
-GPBEnumDescriptor *PB4PhomeDecorateType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PhomeDecorateType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PhomeDecorateType_IsValidValue(int32_t value);
+BOOL PB3PhomeDecorateType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginUploadType
+#pragma mark - Enum PB3PluginUploadType
 
 /** 上传类型 */
-typedef GPB_ENUM(PB4PluginUploadType) {
+typedef GPB_ENUM(PB3PluginUploadType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginUploadType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PluginUploadType_TypeZero = 0,
+  PB3PluginUploadType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginUploadType_TypeZero = 0,
 
   /** 房间头像 (不用，只是为兼容咪呀) */
-  PB4PluginUploadType_HeadAlbumImg = 1,
+  PB3PluginUploadType_HeadAlbumImg = 1,
 
   /** 用户头像 */
-  PB4PluginUploadType_HeadIconImg = 2,
+  PB3PluginUploadType_HeadIconImg = 2,
 
   /** 咪窝(动态)图片 */
-  PB4PluginUploadType_DynamicsImg = 3,
+  PB3PluginUploadType_DynamicsImg = 3,
 
   /** 客户端日志 */
-  PB4PluginUploadType_ClientLog = 4,
+  PB3PluginUploadType_ClientLog = 4,
 
   /** 举报 */
-  PB4PluginUploadType_TipOffsImg = 5,
+  PB3PluginUploadType_TipOffsImg = 5,
 
   /** 身份证 */
-  PB4PluginUploadType_Indetity = 6,
+  PB3PluginUploadType_Indetity = 6,
 
   /** 私聊/公屏图片，(有生命周期，私聊消息需要前端保存在本地) */
-  PB4PluginUploadType_Pmmedia = 7,
+  PB3PluginUploadType_Pmmedia = 7,
 
   /** 声音 */
-  PB4PluginUploadType_Voice = 8,
+  PB3PluginUploadType_Voice = 8,
 
   /** 接单声音 */
-  PB4PluginUploadType_BillVoice = 9,
+  PB3PluginUploadType_BillVoice = 9,
 
   /** 接单图片 */
-  PB4PluginUploadType_BillPicture = 10,
+  PB3PluginUploadType_BillPicture = 10,
 
   /** 安利与吐槽单张图片 */
-  PB4PluginUploadType_CmsSingleImg = 11,
+  PB3PluginUploadType_CmsSingleImg = 11,
 
   /** 安利与吐槽多张图片 */
-  PB4PluginUploadType_CmsCombineImg = 12,
+  PB3PluginUploadType_CmsCombineImg = 12,
 
   /** 社区动态图片 */
-  PB4PluginUploadType_CommunityImg = 13,
+  PB3PluginUploadType_CommunityImg = 13,
 
   /** 社区动态视频 */
-  PB4PluginUploadType_CommunityVideo = 14,
+  PB3PluginUploadType_CommunityVideo = 14,
 
   /** 社区动态声音 */
-  PB4PluginUploadType_CommunityAudio = 15,
+  PB3PluginUploadType_CommunityAudio = 15,
 
   /** 社区圈子相片 */
-  PB4PluginUploadType_CommunityGroupImg = 16,
+  PB3PluginUploadType_CommunityGroupImg = 16,
 
   /** 打招呼语音 */
-  PB4PluginUploadType_GreetVoice = 26,
+  PB3PluginUploadType_GreetVoice = 26,
 };
 
-GPBEnumDescriptor *PB4PluginUploadType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginUploadType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginUploadType_IsValidValue(int32_t value);
+BOOL PB3PluginUploadType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityGroupType
+#pragma mark - Enum PB3CommunityGroupType
 
 /** 圈子类型 */
-typedef GPB_ENUM(PB4CommunityGroupType) {
+typedef GPB_ENUM(PB3CommunityGroupType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 普通 */
-  PB4CommunityGroupType_CgtNormal = 0,
+  PB3CommunityGroupType_CgtNormal = 0,
 
   /** 公会 */
-  PB4CommunityGroupType_CgtClan = 1,
+  PB3CommunityGroupType_CgtClan = 1,
 
   /** 后台创建 */
-  PB4CommunityGroupType_CgtAdmin = 2,
+  PB3CommunityGroupType_CgtAdmin = 2,
 };
 
-GPBEnumDescriptor *PB4CommunityGroupType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityGroupType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityGroupType_IsValidValue(int32_t value);
+BOOL PB3CommunityGroupType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityGroupOpt
+#pragma mark - Enum PB3CommunityGroupOpt
 
 /** 圈子审核操作类型 */
-typedef GPB_ENUM(PB4CommunityGroupOpt) {
+typedef GPB_ENUM(PB3CommunityGroupOpt) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityGroupOpt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityGroupOpt_CgoNone = 0,
-  PB4CommunityGroupOpt_CgoReject = 1,
-  PB4CommunityGroupOpt_CgoAllow = 2,
-  PB4CommunityGroupOpt_CgoAllReject = 3,
+  PB3CommunityGroupOpt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityGroupOpt_CgoNone = 0,
+  PB3CommunityGroupOpt_CgoReject = 1,
+  PB3CommunityGroupOpt_CgoAllow = 2,
+  PB3CommunityGroupOpt_CgoAllReject = 3,
 };
 
-GPBEnumDescriptor *PB4CommunityGroupOpt_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityGroupOpt_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityGroupOpt_IsValidValue(int32_t value);
+BOOL PB3CommunityGroupOpt_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityGroupLeaveOpt
+#pragma mark - Enum PB3CommunityGroupLeaveOpt
 
-typedef GPB_ENUM(PB4CommunityGroupLeaveOpt) {
+typedef GPB_ENUM(PB3CommunityGroupLeaveOpt) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityGroupLeaveOpt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityGroupLeaveOpt_GloNone = 0,
-  PB4CommunityGroupLeaveOpt_GloLeave = 1,
-  PB4CommunityGroupLeaveOpt_GloKick = 2,
-  PB4CommunityGroupLeaveOpt_GloDisband = 3,
+  PB3CommunityGroupLeaveOpt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityGroupLeaveOpt_GloNone = 0,
+  PB3CommunityGroupLeaveOpt_GloLeave = 1,
+  PB3CommunityGroupLeaveOpt_GloKick = 2,
+  PB3CommunityGroupLeaveOpt_GloDisband = 3,
 };
 
-GPBEnumDescriptor *PB4CommunityGroupLeaveOpt_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityGroupLeaveOpt_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityGroupLeaveOpt_IsValidValue(int32_t value);
+BOOL PB3CommunityGroupLeaveOpt_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityPlayerGroupType
+#pragma mark - Enum PB3CommunityPlayerGroupType
 
-typedef GPB_ENUM(PB4CommunityPlayerGroupType) {
+typedef GPB_ENUM(PB3CommunityPlayerGroupType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityPlayerGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityPlayerGroupType_PgtNone = 0,
-  PB4CommunityPlayerGroupType_PgtJoin = 1,
-  PB4CommunityPlayerGroupType_PgtStore = 2,
+  PB3CommunityPlayerGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityPlayerGroupType_PgtNone = 0,
+  PB3CommunityPlayerGroupType_PgtJoin = 1,
+  PB3CommunityPlayerGroupType_PgtStore = 2,
 };
 
-GPBEnumDescriptor *PB4CommunityPlayerGroupType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityPlayerGroupType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityPlayerGroupType_IsValidValue(int32_t value);
+BOOL PB3CommunityPlayerGroupType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginBillPlayerStatus
+#pragma mark - Enum PB3PluginBillPlayerStatus
 
-typedef GPB_ENUM(PB4PluginBillPlayerStatus) {
+typedef GPB_ENUM(PB3PluginBillPlayerStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginBillPlayerStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginBillPlayerStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 默认 (也显示关闭，点进去，提示完善资料才能开启) */
-  PB4PluginBillPlayerStatus_BpNone = 0,
+  PB3PluginBillPlayerStatus_BpNone = 0,
 
   /** 开启 */
-  PB4PluginBillPlayerStatus_BpOpen = 1,
+  PB3PluginBillPlayerStatus_BpOpen = 1,
 
   /** 关闭 */
-  PB4PluginBillPlayerStatus_BpClose = 2,
+  PB3PluginBillPlayerStatus_BpClose = 2,
 
   /** 冻结 */
-  PB4PluginBillPlayerStatus_BpFreeze = 3,
+  PB3PluginBillPlayerStatus_BpFreeze = 3,
 };
 
-GPBEnumDescriptor *PB4PluginBillPlayerStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginBillPlayerStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginBillPlayerStatus_IsValidValue(int32_t value);
+BOOL PB3PluginBillPlayerStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginBillPlayerCheckStatus
+#pragma mark - Enum PB3PluginBillPlayerCheckStatus
 
 /** 审核状态 */
-typedef GPB_ENUM(PB4PluginBillPlayerCheckStatus) {
+typedef GPB_ENUM(PB3PluginBillPlayerCheckStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginBillPlayerCheckStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginBillPlayerCheckStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 默认 */
-  PB4PluginBillPlayerCheckStatus_BpcNone = 0,
+  PB3PluginBillPlayerCheckStatus_BpcNone = 0,
 
   /** 审核中 （不可提交）(管理后台显示：审核类型为新传) */
-  PB4PluginBillPlayerCheckStatus_BpcChecking = 1,
+  PB3PluginBillPlayerCheckStatus_BpcChecking = 1,
 
   /** 审核通过 (可以提交新资料) */
-  PB4PluginBillPlayerCheckStatus_BpcCheckedSucc = 2,
+  PB3PluginBillPlayerCheckStatus_BpcCheckedSucc = 2,
 
   /** 审核失败 (可以提交新资料) */
-  PB4PluginBillPlayerCheckStatus_BpcCheckedFail = 3,
+  PB3PluginBillPlayerCheckStatus_BpcCheckedFail = 3,
 
   /** 重新审核中 （不可提交） (管理后台显示：审核类型为修改) */
-  PB4PluginBillPlayerCheckStatus_BpcReChecking = 4,
+  PB3PluginBillPlayerCheckStatus_BpcReChecking = 4,
 
   /** 重新审核失败 (可以提交新资料) */
-  PB4PluginBillPlayerCheckStatus_BpcReCheckedFail = 5,
+  PB3PluginBillPlayerCheckStatus_BpcReCheckedFail = 5,
 };
 
-GPBEnumDescriptor *PB4PluginBillPlayerCheckStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginBillPlayerCheckStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginBillPlayerCheckStatus_IsValidValue(int32_t value);
+BOOL PB3PluginBillPlayerCheckStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginBillSkillType
+#pragma mark - Enum PB3PluginBillSkillType
 
-typedef GPB_ENUM(PB4PluginBillSkillType) {
+typedef GPB_ENUM(PB3PluginBillSkillType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginBillSkillType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginBillSkillType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PluginBillSkillType_BstNone = 0,
+  PB3PluginBillSkillType_BstNone = 0,
 
   /** 主技能 */
-  PB4PluginBillSkillType_BstFirst = 1,
+  PB3PluginBillSkillType_BstFirst = 1,
 
   /** 副技能 */
-  PB4PluginBillSkillType_BstSecond = 2,
+  PB3PluginBillSkillType_BstSecond = 2,
 };
 
-GPBEnumDescriptor *PB4PluginBillSkillType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginBillSkillType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginBillSkillType_IsValidValue(int32_t value);
+BOOL PB3PluginBillSkillType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginOnOffType
+#pragma mark - Enum PB3PluginOnOffType
 
 /** KG类型 */
-typedef GPB_ENUM(PB4PluginOnOffType) {
+typedef GPB_ENUM(PB3PluginOnOffType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginOnOffType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginOnOffType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4PluginOnOffType_PootZero = 0,
+  PB3PluginOnOffType_PootZero = 0,
 
   /** 氧吧gif动态开关 */
-  PB4PluginOnOffType_OxygenBarTrendGif = 1,
+  PB3PluginOnOffType_OxygenBarTrendGif = 1,
 
   /** 氧吧文字动态限制开关 */
-  PB4PluginOnOffType_OxygenBarCommunityPicture = 2,
+  PB3PluginOnOffType_OxygenBarCommunityPicture = 2,
 
   /** 视频划卡底部按钮开关 */
-  PB4PluginOnOffType_OxygenVideoButton = 3,
+  PB3PluginOnOffType_OxygenVideoButton = 3,
 
   /** phome上传洞察事件开关 */
-  PB4PluginOnOffType_OxygenPhomeReport = 4,
+  PB3PluginOnOffType_OxygenPhomeReport = 4,
 };
 
-GPBEnumDescriptor *PB4PluginOnOffType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginOnOffType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginOnOffType_IsValidValue(int32_t value);
+BOOL PB3PluginOnOffType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PlayerAction
+#pragma mark - Enum PB3PlayerAction
 
-typedef GPB_ENUM(PB4PlayerAction) {
+typedef GPB_ENUM(PB3PlayerAction) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PlayerAction_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PlayerAction_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PlayerAction_PaNone = 0,
+  PB3PlayerAction_PaNone = 0,
 
   /** 无行为,不在线或不在房间 */
-  PB4PlayerAction_PaNoAction = 1,
+  PB3PlayerAction_PaNoAction = 1,
 
   /** 在自己的房间 */
-  PB4PlayerAction_PaSelfRoom = 2,
+  PB3PlayerAction_PaSelfRoom = 2,
 
   /** 在公会房麦下 */
-  PB4PlayerAction_PaClanNoChair = 3,
+  PB3PlayerAction_PaClanNoChair = 3,
 
   /** 麦上 */
-  PB4PlayerAction_PaChair = 4,
+  PB3PlayerAction_PaChair = 4,
 
   /** 在玩游戏 */
-  PB4PlayerAction_PaGaming = 5,
+  PB3PlayerAction_PaGaming = 5,
 
   /** 在播歌-使用PC端酷狗播放歌曲/ 增加APP播放器播歌逻辑 */
-  PB4PlayerAction_PaSinging = 6,
+  PB3PlayerAction_PaSinging = 6,
 
   /** 语音互动-用户在开启麦克风 */
-  PB4PlayerAction_PaOpenChair = 7,
+  PB3PlayerAction_PaOpenChair = 7,
 
   /** 收礼-用户收到礼物 */
-  PB4PlayerAction_PaReceiveGift = 8,
+  PB3PlayerAction_PaReceiveGift = 8,
 
   /** 在唱歌-用户播放歌曲，同时开启麦克风，（仅酷狗播放器，读取到歌曲名有伴奏关键字的歌曲） */
-  PB4PlayerAction_PaSingingChair = 9,
+  PB3PlayerAction_PaSingingChair = 9,
 
   /** 可接单-当前处于可接单的陪玩用户 */
-  PB4PlayerAction_PaOrder = 10,
+  PB3PlayerAction_PaOrder = 10,
 
   /** 在聊天-用户回复IM消息 */
-  PB4PlayerAction_PaChating = 11,
+  PB3PlayerAction_PaChating = 11,
 };
 
-GPBEnumDescriptor *PB4PlayerAction_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PlayerAction_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PlayerAction_IsValidValue(int32_t value);
+BOOL PB3PlayerAction_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PhomeRoomPattern
+#pragma mark - Enum PB3PhomeRoomPattern
 
-typedef GPB_ENUM(PB4PhomeRoomPattern) {
+typedef GPB_ENUM(PB3PhomeRoomPattern) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PhomeRoomPattern_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PhomeRoomPattern_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 开黑 */
-  PB4PhomeRoomPattern_PrpGame = 0,
+  PB3PhomeRoomPattern_PrpGame = 0,
 
   /** 常规模式 */
-  PB4PhomeRoomPattern_PrpStandard = 1,
+  PB3PhomeRoomPattern_PrpStandard = 1,
 
   /** 个人模式 */
-  PB4PhomeRoomPattern_PrpPersonal = 20,
+  PB3PhomeRoomPattern_PrpPersonal = 20,
 
   /** 陪伴模式 (挚友模式) */
-  PB4PhomeRoomPattern_PrpIntimate = 21,
+  PB3PhomeRoomPattern_PrpIntimate = 21,
 
   /** 表演模式 */
-  PB4PhomeRoomPattern_PrpShow = 22,
+  PB3PhomeRoomPattern_PrpShow = 22,
 
   /** 交友 */
-  PB4PhomeRoomPattern_PrpMate = 60,
+  PB3PhomeRoomPattern_PrpMate = 60,
 
   /** 派单模式 */
-  PB4PhomeRoomPattern_PrpSendOrder = 80,
+  PB3PhomeRoomPattern_PrpSendOrder = 80,
 
   /** 游戏模式 */
-  PB4PhomeRoomPattern_PrpGamePlatform = 81,
+  PB3PhomeRoomPattern_PrpGamePlatform = 81,
 
   /** 游戏开黑模式 */
-  PB4PhomeRoomPattern_PnrpMobaTeam = 85,
+  PB3PhomeRoomPattern_PnrpMobaTeam = 85,
 
   /** 游戏开黑派单模式 */
-  PB4PhomeRoomPattern_PnrpOrganizeMobaTeam = 86,
+  PB3PhomeRoomPattern_PnrpOrganizeMobaTeam = 86,
+
+  /** 个播2.0 */
+  PB3PhomeRoomPattern_PnrpSingleLiveVsn2 = 89,
 };
 
-GPBEnumDescriptor *PB4PhomeRoomPattern_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PhomeRoomPattern_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PhomeRoomPattern_IsValidValue(int32_t value);
+BOOL PB3PhomeRoomPattern_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4UserSongType
+#pragma mark - Enum PB3UserSongType
 
-typedef GPB_ENUM(PB4UserSongType) {
+typedef GPB_ENUM(PB3UserSongType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4UserSongType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4UserSongType_UstNone = 0,
+  PB3UserSongType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3UserSongType_UstNone = 0,
 
   /** 播放 */
-  PB4UserSongType_UstPlay = 1,
+  PB3UserSongType_UstPlay = 1,
 
   /** 停止 */
-  PB4UserSongType_UstStop = 2,
+  PB3UserSongType_UstStop = 2,
 };
 
-GPBEnumDescriptor *PB4UserSongType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3UserSongType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4UserSongType_IsValidValue(int32_t value);
+BOOL PB3UserSongType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4VideoRecmdSource
+#pragma mark - Enum PB3VideoRecmdSource
 
 /** 视频推荐来源 */
-typedef GPB_ENUM(PB4VideoRecmdSource) {
+typedef GPB_ENUM(PB3VideoRecmdSource) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4VideoRecmdSource_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3VideoRecmdSource_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4VideoRecmdSource_VstZero = 0,
+  PB3VideoRecmdSource_VstZero = 0,
 
   /** 服务端规则 */
-  PB4VideoRecmdSource_VstRules = 1,
+  PB3VideoRecmdSource_VstRules = 1,
 
   /** 算法推荐 */
-  PB4VideoRecmdSource_VstAlgorithm = 2,
+  PB3VideoRecmdSource_VstAlgorithm = 2,
 };
 
-GPBEnumDescriptor *PB4VideoRecmdSource_EnumDescriptor(void);
+GPBEnumDescriptor *PB3VideoRecmdSource_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4VideoRecmdSource_IsValidValue(int32_t value);
+BOOL PB3VideoRecmdSource_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PAuthType
+#pragma mark - Enum PB3PAuthType
 
 /** 歌手、声优认证类型 */
-typedef GPB_ENUM(PB4PAuthType) {
+typedef GPB_ENUM(PB3PAuthType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PAuthType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PAuthType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 无认证 */
-  PB4PAuthType_AuthTypeNone = 0,
+  PB3PAuthType_AuthTypeNone = 0,
 
   /** 歌手认证 */
-  PB4PAuthType_AuthTypeSinger = 1,
+  PB3PAuthType_AuthTypeSinger = 1,
 
   /** 声优认证 */
-  PB4PAuthType_AuthTypeVoicer = 2,
+  PB3PAuthType_AuthTypeVoicer = 2,
 
   /** 颜值认证 */
-  PB4PAuthType_AuthTypeSurface = 3,
+  PB3PAuthType_AuthTypeSurface = 3,
 
   /** 是否拥有歌单 */
-  PB4PAuthType_AuthTypeHaveSong = 4,
+  PB3PAuthType_AuthTypeHaveSong = 4,
 
   /** 明星认证 */
-  PB4PAuthType_AuthTypeStar = 5,
+  PB3PAuthType_AuthTypeStar = 5,
 };
 
-GPBEnumDescriptor *PB4PAuthType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PAuthType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PAuthType_IsValidValue(int32_t value);
+BOOL PB3PAuthType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PAuthStatus
+#pragma mark - Enum PB3PAuthStatus
 
 /** 认证状态 */
-typedef GPB_ENUM(PB4PAuthStatus) {
+typedef GPB_ENUM(PB3PAuthStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PAuthStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PAuthStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 未认证 */
-  PB4PAuthStatus_AosNone = 0,
+  PB3PAuthStatus_AosNone = 0,
 
   /** 已认证 */
-  PB4PAuthStatus_AosActivate = 1,
+  PB3PAuthStatus_AosActivate = 1,
 
   /** 冻结 */
-  PB4PAuthStatus_AosBlock = 2,
+  PB3PAuthStatus_AosBlock = 2,
 };
 
-GPBEnumDescriptor *PB4PAuthStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PAuthStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PAuthStatus_IsValidValue(int32_t value);
+BOOL PB3PAuthStatus_IsValidValue(int32_t value);
 
-#pragma mark - PB4PluginExtRoot
+#pragma mark - Enum PB3PluginHotPointType
+
+/** 热点榜 */
+typedef GPB_ENUM(PB3PluginHotPointType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PluginHotPointType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3PluginHotPointType_PhptNone = 0,
+
+  /** 官方 */
+  PB3PluginHotPointType_PhptOfficial = 1,
+
+  /** 热 */
+  PB3PluginHotPointType_PhptHot = 2,
+
+  /** 新 */
+  PB3PluginHotPointType_PhptNew = 3,
+};
+
+GPBEnumDescriptor *PB3PluginHotPointType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PluginHotPointType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3HotPointStatus
+
+typedef GPB_ENUM(PB3HotPointStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3HotPointStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 正常 */
+  PB3HotPointStatus_PhptNormal = 0,
+
+  /** 被撤 */
+  PB3HotPointStatus_PhptUnShelve = 1,
+
+  /** 过期 */
+  PB3HotPointStatus_PhptExpire = 2,
+
+  /** 后台删除 */
+  PB3HotPointStatus_PhptDelete = 3,
+};
+
+GPBEnumDescriptor *PB3HotPointStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3HotPointStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3HotHide
+
+typedef GPB_ENUM(PB3HotHide) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3HotHide_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 可见 */
+  PB3HotHide_Visible = 0,
+
+  /** 不可见 */
+  PB3HotHide_Invisible = 1,
+};
+
+GPBEnumDescriptor *PB3HotHide_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3HotHide_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PluginGenderPattern
+
+/** 男声女声版 */
+typedef GPB_ENUM(PB3PluginGenderPattern) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PluginGenderPattern_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginGenderPattern_GvZero = 0,
+
+  /** 男声 */
+  PB3PluginGenderPattern_GvMale = 1,
+
+  /** 女声 */
+  PB3PluginGenderPattern_GvFemale = 2,
+};
+
+GPBEnumDescriptor *PB3PluginGenderPattern_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PluginGenderPattern_IsValidValue(int32_t value);
+
+#pragma mark - PB3PluginExtRoot
 
 /**
  * Exposes the extension registry for this file.
@@ -805,20 +920,20 @@ BOOL PB4PAuthStatus_IsValidValue(int32_t value);
  * which is a @c GPBExtensionRegistry that includes all the extensions defined by
  * this file and all files that it depends on.
  **/
-@interface PB4PluginExtRoot : GPBRootObject
+@interface PB3PluginExtRoot : GPBRootObject
 @end
 
-#pragma mark - PB4PluginHomeTips
+#pragma mark - PB3PluginHomeTips
 
-typedef GPB_ENUM(PB4PluginHomeTips_FieldNumber) {
-  PB4PluginHomeTips_FieldNumber_Id_p = 1,
-  PB4PluginHomeTips_FieldNumber_Color = 2,
-  PB4PluginHomeTips_FieldNumber_URL = 3,
-  PB4PluginHomeTips_FieldNumber_Msg = 4,
-  PB4PluginHomeTips_FieldNumber_RoomDisplay = 5,
+typedef GPB_ENUM(PB3PluginHomeTips_FieldNumber) {
+  PB3PluginHomeTips_FieldNumber_Id_p = 1,
+  PB3PluginHomeTips_FieldNumber_Color = 2,
+  PB3PluginHomeTips_FieldNumber_URL = 3,
+  PB3PluginHomeTips_FieldNumber_Msg = 4,
+  PB3PluginHomeTips_FieldNumber_RoomDisplay = 5,
 };
 
-@interface PB4PluginHomeTips : GPBMessage
+@interface PB3PluginHomeTips : GPBMessage
 
 /** id */
 @property(nonatomic, readwrite) int32_t id_p;
@@ -837,56 +952,56 @@ typedef GPB_ENUM(PB4PluginHomeTips_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginSwitch
+#pragma mark - PB3PluginSwitch
 
-typedef GPB_ENUM(PB4PluginSwitch_FieldNumber) {
-  PB4PluginSwitch_FieldNumber_Switch_p = 1,
-  PB4PluginSwitch_FieldNumber_Status = 2,
+typedef GPB_ENUM(PB3PluginSwitch_FieldNumber) {
+  PB3PluginSwitch_FieldNumber_Switch_p = 1,
+  PB3PluginSwitch_FieldNumber_Status = 2,
 };
 
-@interface PB4PluginSwitch : GPBMessage
+@interface PB3PluginSwitch : GPBMessage
 
-@property(nonatomic, readwrite) PB4PluginSwitchType switch_p;
+@property(nonatomic, readwrite) PB3PluginSwitchType switch_p;
 
-@property(nonatomic, readwrite) PB4PluginSwitchStatus status;
+@property(nonatomic, readwrite) PB3PluginSwitchStatus status;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PluginSwitch's @c switch_p property, even
+ * Fetches the raw value of a @c PB3PluginSwitch's @c switch_p property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginSwitch_Switch_p_RawValue(PB4PluginSwitch *message);
+int32_t PB3PluginSwitch_Switch_p_RawValue(PB3PluginSwitch *message);
 /**
- * Sets the raw value of an @c PB4PluginSwitch's @c switch_p property, allowing
+ * Sets the raw value of an @c PB3PluginSwitch's @c switch_p property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginSwitch_Switch_p_RawValue(PB4PluginSwitch *message, int32_t value);
+void SetPB3PluginSwitch_Switch_p_RawValue(PB3PluginSwitch *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PluginSwitch's @c status property, even
+ * Fetches the raw value of a @c PB3PluginSwitch's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginSwitch_Status_RawValue(PB4PluginSwitch *message);
+int32_t PB3PluginSwitch_Status_RawValue(PB3PluginSwitch *message);
 /**
- * Sets the raw value of an @c PB4PluginSwitch's @c status property, allowing
+ * Sets the raw value of an @c PB3PluginSwitch's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginSwitch_Status_RawValue(PB4PluginSwitch *message, int32_t value);
+void SetPB3PluginSwitch_Status_RawValue(PB3PluginSwitch *message, int32_t value);
 
-#pragma mark - PB4PlayerImageInfo
+#pragma mark - PB3PlayerImageInfo
 
-typedef GPB_ENUM(PB4PlayerImageInfo_FieldNumber) {
-  PB4PlayerImageInfo_FieldNumber_Id_p = 1,
-  PB4PlayerImageInfo_FieldNumber_Width = 2,
-  PB4PlayerImageInfo_FieldNumber_Height = 3,
-  PB4PlayerImageInfo_FieldNumber_IsVideo = 4,
-  PB4PlayerImageInfo_FieldNumber_URL = 5,
+typedef GPB_ENUM(PB3PlayerImageInfo_FieldNumber) {
+  PB3PlayerImageInfo_FieldNumber_Id_p = 1,
+  PB3PlayerImageInfo_FieldNumber_Width = 2,
+  PB3PlayerImageInfo_FieldNumber_Height = 3,
+  PB3PlayerImageInfo_FieldNumber_IsVideo = 4,
+  PB3PlayerImageInfo_FieldNumber_URL = 5,
 };
 
-@interface PB4PlayerImageInfo : GPBMessage
+@interface PB3PlayerImageInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -900,24 +1015,24 @@ typedef GPB_ENUM(PB4PlayerImageInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4RoomDecorate
+#pragma mark - PB3RoomDecorate
 
-typedef GPB_ENUM(PB4RoomDecorate_FieldNumber) {
-  PB4RoomDecorate_FieldNumber_DecorateId = 1,
-  PB4RoomDecorate_FieldNumber_DecorateType = 2,
-  PB4RoomDecorate_FieldNumber_PicURL = 3,
-  PB4RoomDecorate_FieldNumber_PcPicURL = 4,
-  PB4RoomDecorate_FieldNumber_Weight = 5,
-  PB4RoomDecorate_FieldNumber_ShelterURL = 6,
-  PB4RoomDecorate_FieldNumber_PcShelterURL = 7,
-  PB4RoomDecorate_FieldNumber_StretchableURL = 8,
+typedef GPB_ENUM(PB3RoomDecorate_FieldNumber) {
+  PB3RoomDecorate_FieldNumber_DecorateId = 1,
+  PB3RoomDecorate_FieldNumber_DecorateType = 2,
+  PB3RoomDecorate_FieldNumber_PicURL = 3,
+  PB3RoomDecorate_FieldNumber_PcPicURL = 4,
+  PB3RoomDecorate_FieldNumber_Weight = 5,
+  PB3RoomDecorate_FieldNumber_ShelterURL = 6,
+  PB3RoomDecorate_FieldNumber_PcShelterURL = 7,
+  PB3RoomDecorate_FieldNumber_StretchableURL = 8,
 };
 
-@interface PB4RoomDecorate : GPBMessage
+@interface PB3RoomDecorate : GPBMessage
 
 @property(nonatomic, readwrite) int64_t decorateId;
 
-@property(nonatomic, readwrite) PB4PhomeDecorateType decorateType;
+@property(nonatomic, readwrite) PB3PhomeDecorateType decorateType;
 
 /** 9.0版本后弃用 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *picURL;
@@ -937,84 +1052,85 @@ typedef GPB_ENUM(PB4RoomDecorate_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4RoomDecorate's @c decorateType property, even
+ * Fetches the raw value of a @c PB3RoomDecorate's @c decorateType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4RoomDecorate_DecorateType_RawValue(PB4RoomDecorate *message);
+int32_t PB3RoomDecorate_DecorateType_RawValue(PB3RoomDecorate *message);
 /**
- * Sets the raw value of an @c PB4RoomDecorate's @c decorateType property, allowing
+ * Sets the raw value of an @c PB3RoomDecorate's @c decorateType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4RoomDecorate_DecorateType_RawValue(PB4RoomDecorate *message, int32_t value);
+void SetPB3RoomDecorate_DecorateType_RawValue(PB3RoomDecorate *message, int32_t value);
 
-#pragma mark - PB4PluginUresOssCallbackReq
+#pragma mark - PB3PluginUresOssCallbackReq
 
-typedef GPB_ENUM(PB4PluginUresOssCallbackReq_FieldNumber) {
-  PB4PluginUresOssCallbackReq_FieldNumber_Type = 1,
+typedef GPB_ENUM(PB3PluginUresOssCallbackReq_FieldNumber) {
+  PB3PluginUresOssCallbackReq_FieldNumber_Type = 1,
 };
 
 /**
  *  oss上传回调:  Obj=xxx.phome.PHomeIntObj, Func=UresOssCallback
  **/
-@interface PB4PluginUresOssCallbackReq : GPBMessage
+@interface PB3PluginUresOssCallbackReq : GPBMessage
 
-@property(nonatomic, readwrite) PB4PluginUploadType type;
+@property(nonatomic, readwrite) PB3PluginUploadType type;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PluginUresOssCallbackReq's @c type property, even
+ * Fetches the raw value of a @c PB3PluginUresOssCallbackReq's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginUresOssCallbackReq_Type_RawValue(PB4PluginUresOssCallbackReq *message);
+int32_t PB3PluginUresOssCallbackReq_Type_RawValue(PB3PluginUresOssCallbackReq *message);
 /**
- * Sets the raw value of an @c PB4PluginUresOssCallbackReq's @c type property, allowing
+ * Sets the raw value of an @c PB3PluginUresOssCallbackReq's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginUresOssCallbackReq_Type_RawValue(PB4PluginUresOssCallbackReq *message, int32_t value);
+void SetPB3PluginUresOssCallbackReq_Type_RawValue(PB3PluginUresOssCallbackReq *message, int32_t value);
 
-#pragma mark - PB4PluginUresOssCallbackRes
+#pragma mark - PB3PluginUresOssCallbackRes
 
-@interface PB4PluginUresOssCallbackRes : GPBMessage
+@interface PB3PluginUresOssCallbackRes : GPBMessage
 
 @end
 
-#pragma mark - PB4PluginPlayer
+#pragma mark - PB3PluginPlayer
 
-typedef GPB_ENUM(PB4PluginPlayer_FieldNumber) {
-  PB4PluginPlayer_FieldNumber_Id_p = 1,
-  PB4PluginPlayer_FieldNumber_Nickname = 2,
-  PB4PluginPlayer_FieldNumber_Sex = 3,
-  PB4PluginPlayer_FieldNumber_Id2 = 4,
-  PB4PluginPlayer_FieldNumber_Icon = 5,
-  PB4PluginPlayer_FieldNumber_Flags = 6,
-  PB4PluginPlayer_FieldNumber_Charm = 8,
-  PB4PluginPlayer_FieldNumber_Wealth = 9,
-  PB4PluginPlayer_FieldNumber_OnlineExp = 10,
-  PB4PluginPlayer_FieldNumber_CreateAt = 11,
-  PB4PluginPlayer_FieldNumber_HasPasswd = 12,
-  PB4PluginPlayer_FieldNumber_IsPhone = 13,
-  PB4PluginPlayer_FieldNumber_CharmLevel = 15,
-  PB4PluginPlayer_FieldNumber_Flags2 = 30,
-  PB4PluginPlayer_FieldNumber_WealthLevel = 32,
-  PB4PluginPlayer_FieldNumber_FlowerLevel = 33,
-  PB4PluginPlayer_FieldNumber_Flower = 34,
-  PB4PluginPlayer_FieldNumber_IsOnline = 35,
-  PB4PluginPlayer_FieldNumber_FlagsKv = 36,
-  PB4PluginPlayer_FieldNumber_NewWealth = 37,
-  PB4PluginPlayer_FieldNumber_AuthInfoArray = 39,
+typedef GPB_ENUM(PB3PluginPlayer_FieldNumber) {
+  PB3PluginPlayer_FieldNumber_Id_p = 1,
+  PB3PluginPlayer_FieldNumber_Nickname = 2,
+  PB3PluginPlayer_FieldNumber_Sex = 3,
+  PB3PluginPlayer_FieldNumber_Id2 = 4,
+  PB3PluginPlayer_FieldNumber_Icon = 5,
+  PB3PluginPlayer_FieldNumber_Flags = 6,
+  PB3PluginPlayer_FieldNumber_Charm = 8,
+  PB3PluginPlayer_FieldNumber_Wealth = 9,
+  PB3PluginPlayer_FieldNumber_OnlineExp = 10,
+  PB3PluginPlayer_FieldNumber_CreateAt = 11,
+  PB3PluginPlayer_FieldNumber_HasPasswd = 12,
+  PB3PluginPlayer_FieldNumber_IsPhone = 13,
+  PB3PluginPlayer_FieldNumber_CharmLevel = 15,
+  PB3PluginPlayer_FieldNumber_Flags2 = 30,
+  PB3PluginPlayer_FieldNumber_WealthLevel = 32,
+  PB3PluginPlayer_FieldNumber_FlowerLevel = 33,
+  PB3PluginPlayer_FieldNumber_Flower = 34,
+  PB3PluginPlayer_FieldNumber_IsOnline = 35,
+  PB3PluginPlayer_FieldNumber_FlagsKv = 36,
+  PB3PluginPlayer_FieldNumber_NewWealth = 37,
+  PB3PluginPlayer_FieldNumber_AuthInfoArray = 39,
+  PB3PluginPlayer_FieldNumber_IsDeleted = 40,
 };
 
-@interface PB4PluginPlayer : GPBMessage
+@interface PB3PluginPlayer : GPBMessage
 
 /** 游客ID<=0 */
 @property(nonatomic, readwrite) int64_t id_p;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
 
-@property(nonatomic, readwrite) PB4PluginSexType sex;
+@property(nonatomic, readwrite) PB3PluginSexType sex;
 
 /** 靓号. ==0时没有 */
 @property(nonatomic, readwrite) int64_t id2;
@@ -1069,37 +1185,40 @@ typedef GPB_ENUM(PB4PluginPlayer_FieldNumber) {
 @property(nonatomic, readwrite) int64_t newWealth;
 
 /** 歌手、声优认证信息 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PAuthInfo*> *authInfoArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PAuthInfo*> *authInfoArray;
 /** The number of items in @c authInfoArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger authInfoArray_Count;
+
+/** 是否注销 */
+@property(nonatomic, readwrite) BOOL isDeleted;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PluginPlayer's @c sex property, even
+ * Fetches the raw value of a @c PB3PluginPlayer's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginPlayer_Sex_RawValue(PB4PluginPlayer *message);
+int32_t PB3PluginPlayer_Sex_RawValue(PB3PluginPlayer *message);
 /**
- * Sets the raw value of an @c PB4PluginPlayer's @c sex property, allowing
+ * Sets the raw value of an @c PB3PluginPlayer's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginPlayer_Sex_RawValue(PB4PluginPlayer *message, int32_t value);
+void SetPB3PluginPlayer_Sex_RawValue(PB3PluginPlayer *message, int32_t value);
 
-#pragma mark - PB4PluginUserInfo
+#pragma mark - PB3PluginUserInfo
 
-typedef GPB_ENUM(PB4PluginUserInfo_FieldNumber) {
-  PB4PluginUserInfo_FieldNumber_UserId = 1,
-  PB4PluginUserInfo_FieldNumber_City = 2,
-  PB4PluginUserInfo_FieldNumber_Signature = 3,
-  PB4PluginUserInfo_FieldNumber_Birthday = 4,
-  PB4PluginUserInfo_FieldNumber_IntimateSlot = 5,
-  PB4PluginUserInfo_FieldNumber_Mind = 6,
-  PB4PluginUserInfo_FieldNumber_ShortIdSlot = 7,
+typedef GPB_ENUM(PB3PluginUserInfo_FieldNumber) {
+  PB3PluginUserInfo_FieldNumber_UserId = 1,
+  PB3PluginUserInfo_FieldNumber_City = 2,
+  PB3PluginUserInfo_FieldNumber_Signature = 3,
+  PB3PluginUserInfo_FieldNumber_Birthday = 4,
+  PB3PluginUserInfo_FieldNumber_IntimateSlot = 5,
+  PB3PluginUserInfo_FieldNumber_Mind = 6,
+  PB3PluginUserInfo_FieldNumber_ShortIdSlot = 7,
 };
 
-@interface PB4PluginUserInfo : GPBMessage
+@interface PB3PluginUserInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t userId;
 
@@ -1122,22 +1241,22 @@ typedef GPB_ENUM(PB4PluginUserInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginRoomInfo
+#pragma mark - PB3PluginRoomInfo
 
-typedef GPB_ENUM(PB4PluginRoomInfo_FieldNumber) {
-  PB4PluginRoomInfo_FieldNumber_RoomId = 1,
-  PB4PluginRoomInfo_FieldNumber_Name = 2,
-  PB4PluginRoomInfo_FieldNumber_Greeting = 3,
-  PB4PluginRoomInfo_FieldNumber_Category = 4,
-  PB4PluginRoomInfo_FieldNumber_Pattern = 5,
-  PB4PluginRoomInfo_FieldNumber_Password = 6,
-  PB4PluginRoomInfo_FieldNumber_Online = 7,
-  PB4PluginRoomInfo_FieldNumber_NewPatter = 8,
-  PB4PluginRoomInfo_FieldNumber_Voice = 9,
-  PB4PluginRoomInfo_FieldNumber_IsRewardRoom = 10,
+typedef GPB_ENUM(PB3PluginRoomInfo_FieldNumber) {
+  PB3PluginRoomInfo_FieldNumber_RoomId = 1,
+  PB3PluginRoomInfo_FieldNumber_Name = 2,
+  PB3PluginRoomInfo_FieldNumber_Greeting = 3,
+  PB3PluginRoomInfo_FieldNumber_Category = 4,
+  PB3PluginRoomInfo_FieldNumber_Pattern = 5,
+  PB3PluginRoomInfo_FieldNumber_Password = 6,
+  PB3PluginRoomInfo_FieldNumber_Online = 7,
+  PB3PluginRoomInfo_FieldNumber_NewPatter = 8,
+  PB3PluginRoomInfo_FieldNumber_Voice = 9,
+  PB3PluginRoomInfo_FieldNumber_IsRewardRoom = 10,
 };
 
-@interface PB4PluginRoomInfo : GPBMessage
+@interface PB3PluginRoomInfo : GPBMessage
 
 /** 房间Id */
 @property(nonatomic, readwrite) int64_t roomId;
@@ -1171,20 +1290,20 @@ typedef GPB_ENUM(PB4PluginRoomInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginBillSkill
+#pragma mark - PB3PluginBillSkill
 
-typedef GPB_ENUM(PB4PluginBillSkill_FieldNumber) {
-  PB4PluginBillSkill_FieldNumber_Type = 1,
-  PB4PluginBillSkill_FieldNumber_Skill = 2,
-  PB4PluginBillSkill_FieldNumber_SkillCreateAt = 3,
-  PB4PluginBillSkill_FieldNumber_OrderNum = 4,
-  PB4PluginBillSkill_FieldNumber_IntroText = 5,
-  PB4PluginBillSkill_FieldNumber_Price = 6,
+typedef GPB_ENUM(PB3PluginBillSkill_FieldNumber) {
+  PB3PluginBillSkill_FieldNumber_Type = 1,
+  PB3PluginBillSkill_FieldNumber_Skill = 2,
+  PB3PluginBillSkill_FieldNumber_SkillCreateAt = 3,
+  PB3PluginBillSkill_FieldNumber_OrderNum = 4,
+  PB3PluginBillSkill_FieldNumber_IntroText = 5,
+  PB3PluginBillSkill_FieldNumber_Price = 6,
 };
 
-@interface PB4PluginBillSkill : GPBMessage
+@interface PB3PluginBillSkill : GPBMessage
 
-@property(nonatomic, readwrite) PB4PluginBillSkillType type;
+@property(nonatomic, readwrite) PB3PluginBillSkillType type;
 
 /** 技能列表 */
 @property(nonatomic, readwrite) int32_t skill;
@@ -1204,31 +1323,31 @@ typedef GPB_ENUM(PB4PluginBillSkill_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PluginBillSkill's @c type property, even
+ * Fetches the raw value of a @c PB3PluginBillSkill's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginBillSkill_Type_RawValue(PB4PluginBillSkill *message);
+int32_t PB3PluginBillSkill_Type_RawValue(PB3PluginBillSkill *message);
 /**
- * Sets the raw value of an @c PB4PluginBillSkill's @c type property, allowing
+ * Sets the raw value of an @c PB3PluginBillSkill's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginBillSkill_Type_RawValue(PB4PluginBillSkill *message, int32_t value);
+void SetPB3PluginBillSkill_Type_RawValue(PB3PluginBillSkill *message, int32_t value);
 
-#pragma mark - PB4PluginBillPlayerCard
+#pragma mark - PB3PluginBillPlayerCard
 
-typedef GPB_ENUM(PB4PluginBillPlayerCard_FieldNumber) {
-  PB4PluginBillPlayerCard_FieldNumber_Level = 1,
-  PB4PluginBillPlayerCard_FieldNumber_SkillsArray = 2,
-  PB4PluginBillPlayerCard_FieldNumber_Status = 3,
-  PB4PluginBillPlayerCard_FieldNumber_CheckStatus = 4,
-  PB4PluginBillPlayerCard_FieldNumber_BillSkillsArray = 5,
+typedef GPB_ENUM(PB3PluginBillPlayerCard_FieldNumber) {
+  PB3PluginBillPlayerCard_FieldNumber_Level = 1,
+  PB3PluginBillPlayerCard_FieldNumber_SkillsArray = 2,
+  PB3PluginBillPlayerCard_FieldNumber_Status = 3,
+  PB3PluginBillPlayerCard_FieldNumber_CheckStatus = 4,
+  PB3PluginBillPlayerCard_FieldNumber_BillSkillsArray = 5,
 };
 
 /**
  * 接单玩家名片
  **/
-@interface PB4PluginBillPlayerCard : GPBMessage
+@interface PB3PluginBillPlayerCard : GPBMessage
 
 /** 等级 */
 @property(nonatomic, readwrite) int32_t level;
@@ -1239,63 +1358,63 @@ typedef GPB_ENUM(PB4PluginBillPlayerCard_FieldNumber) {
 @property(nonatomic, readonly) NSUInteger skillsArray_Count;
 
 /** 接单状态 */
-@property(nonatomic, readwrite) PB4PluginBillPlayerStatus status;
+@property(nonatomic, readwrite) PB3PluginBillPlayerStatus status;
 
 /**  getPlayer方法才有值，审核状态 */
-@property(nonatomic, readwrite) PB4PluginBillPlayerCheckStatus checkStatus;
+@property(nonatomic, readwrite) PB3PluginBillPlayerCheckStatus checkStatus;
 
 /** 技能列表(分类) */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PluginBillSkill*> *billSkillsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PluginBillSkill*> *billSkillsArray;
 /** The number of items in @c billSkillsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger billSkillsArray_Count;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PluginBillPlayerCard's @c status property, even
+ * Fetches the raw value of a @c PB3PluginBillPlayerCard's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginBillPlayerCard_Status_RawValue(PB4PluginBillPlayerCard *message);
+int32_t PB3PluginBillPlayerCard_Status_RawValue(PB3PluginBillPlayerCard *message);
 /**
- * Sets the raw value of an @c PB4PluginBillPlayerCard's @c status property, allowing
+ * Sets the raw value of an @c PB3PluginBillPlayerCard's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginBillPlayerCard_Status_RawValue(PB4PluginBillPlayerCard *message, int32_t value);
+void SetPB3PluginBillPlayerCard_Status_RawValue(PB3PluginBillPlayerCard *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PluginBillPlayerCard's @c checkStatus property, even
+ * Fetches the raw value of a @c PB3PluginBillPlayerCard's @c checkStatus property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PluginBillPlayerCard_CheckStatus_RawValue(PB4PluginBillPlayerCard *message);
+int32_t PB3PluginBillPlayerCard_CheckStatus_RawValue(PB3PluginBillPlayerCard *message);
 /**
- * Sets the raw value of an @c PB4PluginBillPlayerCard's @c checkStatus property, allowing
+ * Sets the raw value of an @c PB3PluginBillPlayerCard's @c checkStatus property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PluginBillPlayerCard_CheckStatus_RawValue(PB4PluginBillPlayerCard *message, int32_t value);
+void SetPB3PluginBillPlayerCard_CheckStatus_RawValue(PB3PluginBillPlayerCard *message, int32_t value);
 
-#pragma mark - PB4PluginSystemMsgNotice
+#pragma mark - PB3PluginSystemMsgNotice
 
-typedef GPB_ENUM(PB4PluginSystemMsgNotice_FieldNumber) {
-  PB4PluginSystemMsgNotice_FieldNumber_Msg = 1,
-  PB4PluginSystemMsgNotice_FieldNumber_SendTime = 2,
-  PB4PluginSystemMsgNotice_FieldNumber_Language = 3,
-  PB4PluginSystemMsgNotice_FieldNumber_RouterURL = 4,
-  PB4PluginSystemMsgNotice_FieldNumber_Picture = 5,
-  PB4PluginSystemMsgNotice_FieldNumber_PictureRouter = 6,
-  PB4PluginSystemMsgNotice_FieldNumber_MaskText = 7,
-  PB4PluginSystemMsgNotice_FieldNumber_BottomText = 8,
-  PB4PluginSystemMsgNotice_FieldNumber_BottomRouter = 9,
-  PB4PluginSystemMsgNotice_FieldNumber_MsgTitle = 10,
-  PB4PluginSystemMsgNotice_FieldNumber_RoomId = 11,
-  PB4PluginSystemMsgNotice_FieldNumber_Status = 12,
-  PB4PluginSystemMsgNotice_FieldNumber_OverdueTime = 13,
-  PB4PluginSystemMsgNotice_FieldNumber_Hyperlink = 14,
-  PB4PluginSystemMsgNotice_FieldNumber_MsgType = 15,
+typedef GPB_ENUM(PB3PluginSystemMsgNotice_FieldNumber) {
+  PB3PluginSystemMsgNotice_FieldNumber_Msg = 1,
+  PB3PluginSystemMsgNotice_FieldNumber_SendTime = 2,
+  PB3PluginSystemMsgNotice_FieldNumber_Language = 3,
+  PB3PluginSystemMsgNotice_FieldNumber_RouterURL = 4,
+  PB3PluginSystemMsgNotice_FieldNumber_Picture = 5,
+  PB3PluginSystemMsgNotice_FieldNumber_PictureRouter = 6,
+  PB3PluginSystemMsgNotice_FieldNumber_MaskText = 7,
+  PB3PluginSystemMsgNotice_FieldNumber_BottomText = 8,
+  PB3PluginSystemMsgNotice_FieldNumber_BottomRouter = 9,
+  PB3PluginSystemMsgNotice_FieldNumber_MsgTitle = 10,
+  PB3PluginSystemMsgNotice_FieldNumber_RoomId = 11,
+  PB3PluginSystemMsgNotice_FieldNumber_Status = 12,
+  PB3PluginSystemMsgNotice_FieldNumber_OverdueTime = 13,
+  PB3PluginSystemMsgNotice_FieldNumber_Hyperlink = 14,
+  PB3PluginSystemMsgNotice_FieldNumber_MsgType = 15,
 };
 
-@interface PB4PluginSystemMsgNotice : GPBMessage
+@interface PB3PluginSystemMsgNotice : GPBMessage
 
 /** 发送内容 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
@@ -1343,16 +1462,16 @@ typedef GPB_ENUM(PB4PluginSystemMsgNotice_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PlayerBaseInfo
+#pragma mark - PB3PlayerBaseInfo
 
-typedef GPB_ENUM(PB4PlayerBaseInfo_FieldNumber) {
-  PB4PlayerBaseInfo_FieldNumber_Id_p = 1,
-  PB4PlayerBaseInfo_FieldNumber_Id2 = 2,
-  PB4PlayerBaseInfo_FieldNumber_NickName = 3,
-  PB4PlayerBaseInfo_FieldNumber_Icon = 4,
+typedef GPB_ENUM(PB3PlayerBaseInfo_FieldNumber) {
+  PB3PlayerBaseInfo_FieldNumber_Id_p = 1,
+  PB3PlayerBaseInfo_FieldNumber_Id2 = 2,
+  PB3PlayerBaseInfo_FieldNumber_NickName = 3,
+  PB3PlayerBaseInfo_FieldNumber_Icon = 4,
 };
 
-@interface PB4PlayerBaseInfo : GPBMessage
+@interface PB3PlayerBaseInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -1364,41 +1483,41 @@ typedef GPB_ENUM(PB4PlayerBaseInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PlayerActMsg
+#pragma mark - PB3PlayerActMsg
 
-typedef GPB_ENUM(PB4PlayerActMsg_FieldNumber) {
-  PB4PlayerActMsg_FieldNumber_Action = 1,
-  PB4PlayerActMsg_FieldNumber_Msg = 2,
+typedef GPB_ENUM(PB3PlayerActMsg_FieldNumber) {
+  PB3PlayerActMsg_FieldNumber_Action = 1,
+  PB3PlayerActMsg_FieldNumber_Msg = 2,
 };
 
-@interface PB4PlayerActMsg : GPBMessage
+@interface PB3PlayerActMsg : GPBMessage
 
-@property(nonatomic, readwrite) PB4PlayerAction action;
+@property(nonatomic, readwrite) PB3PlayerAction action;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PlayerActMsg's @c action property, even
+ * Fetches the raw value of a @c PB3PlayerActMsg's @c action property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PlayerActMsg_Action_RawValue(PB4PlayerActMsg *message);
+int32_t PB3PlayerActMsg_Action_RawValue(PB3PlayerActMsg *message);
 /**
- * Sets the raw value of an @c PB4PlayerActMsg's @c action property, allowing
+ * Sets the raw value of an @c PB3PlayerActMsg's @c action property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PlayerActMsg_Action_RawValue(PB4PlayerActMsg *message, int32_t value);
+void SetPB3PlayerActMsg_Action_RawValue(PB3PlayerActMsg *message, int32_t value);
 
-#pragma mark - PB4MatchUserGameReq
+#pragma mark - PB3MatchUserGameReq
 
-typedef GPB_ENUM(PB4MatchUserGameReq_FieldNumber) {
-  PB4MatchUserGameReq_FieldNumber_RoomId = 1,
-  PB4MatchUserGameReq_FieldNumber_GameId = 2,
+typedef GPB_ENUM(PB3MatchUserGameReq_FieldNumber) {
+  PB3MatchUserGameReq_FieldNumber_RoomId = 1,
+  PB3MatchUserGameReq_FieldNumber_GameId = 2,
 };
 
-@interface PB4MatchUserGameReq : GPBMessage
+@interface PB3MatchUserGameReq : GPBMessage
 
 /** 房间id */
 @property(nonatomic, readwrite) int32_t roomId;
@@ -1408,21 +1527,21 @@ typedef GPB_ENUM(PB4MatchUserGameReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchUserGameRes
+#pragma mark - PB3MatchUserGameRes
 
-@interface PB4MatchUserGameRes : GPBMessage
+@interface PB3MatchUserGameRes : GPBMessage
 
 @end
 
-#pragma mark - PB4MatchUserGameCancelReq
+#pragma mark - PB3MatchUserGameCancelReq
 
-typedef GPB_ENUM(PB4MatchUserGameCancelReq_FieldNumber) {
-  PB4MatchUserGameCancelReq_FieldNumber_RoomId = 1,
-  PB4MatchUserGameCancelReq_FieldNumber_GameId = 2,
-  PB4MatchUserGameCancelReq_FieldNumber_PlayerId = 3,
+typedef GPB_ENUM(PB3MatchUserGameCancelReq_FieldNumber) {
+  PB3MatchUserGameCancelReq_FieldNumber_RoomId = 1,
+  PB3MatchUserGameCancelReq_FieldNumber_GameId = 2,
+  PB3MatchUserGameCancelReq_FieldNumber_PlayerId = 3,
 };
 
-@interface PB4MatchUserGameCancelReq : GPBMessage
+@interface PB3MatchUserGameCancelReq : GPBMessage
 
 /** 房间id */
 @property(nonatomic, readwrite) int32_t roomId;
@@ -1435,24 +1554,24 @@ typedef GPB_ENUM(PB4MatchUserGameCancelReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchUserGameCancelRes
+#pragma mark - PB3MatchUserGameCancelRes
 
-@interface PB4MatchUserGameCancelRes : GPBMessage
+@interface PB3MatchUserGameCancelRes : GPBMessage
 
 @end
 
-#pragma mark - PB4PluginGain
+#pragma mark - PB3PluginGain
 
-typedef GPB_ENUM(PB4PluginGain_FieldNumber) {
-  PB4PluginGain_FieldNumber_Type = 1,
-  PB4PluginGain_FieldNumber_GiftId = 2,
-  PB4PluginGain_FieldNumber_Num = 3,
+typedef GPB_ENUM(PB3PluginGain_FieldNumber) {
+  PB3PluginGain_FieldNumber_Type = 1,
+  PB3PluginGain_FieldNumber_GiftId = 2,
+  PB3PluginGain_FieldNumber_Num = 3,
 };
 
 /**
  * 增加资产
  **/
-@interface PB4PluginGain : GPBMessage
+@interface PB3PluginGain : GPBMessage
 
 /** 类型，1金币，2钻石，3礼物 */
 @property(nonatomic, readwrite) uint64_t type;
@@ -1465,18 +1584,18 @@ typedef GPB_ENUM(PB4PluginGain_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginLoss
+#pragma mark - PB3PluginLoss
 
-typedef GPB_ENUM(PB4PluginLoss_FieldNumber) {
-  PB4PluginLoss_FieldNumber_Type = 1,
-  PB4PluginLoss_FieldNumber_GiftId = 2,
-  PB4PluginLoss_FieldNumber_Num = 3,
+typedef GPB_ENUM(PB3PluginLoss_FieldNumber) {
+  PB3PluginLoss_FieldNumber_Type = 1,
+  PB3PluginLoss_FieldNumber_GiftId = 2,
+  PB3PluginLoss_FieldNumber_Num = 3,
 };
 
 /**
  * 扣除物品
  **/
-@interface PB4PluginLoss : GPBMessage
+@interface PB3PluginLoss : GPBMessage
 
 /** 类型，1金币，2钻石，3礼物 */
 @property(nonatomic, readwrite) uint64_t type;
@@ -1489,36 +1608,36 @@ typedef GPB_ENUM(PB4PluginLoss_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginAssetsGainReq
+#pragma mark - PB3PluginAssetsGainReq
 
-typedef GPB_ENUM(PB4PluginAssetsGainReq_FieldNumber) {
-  PB4PluginAssetsGainReq_FieldNumber_PlayerId = 1,
-  PB4PluginAssetsGainReq_FieldNumber_GainsArray = 2,
-  PB4PluginAssetsGainReq_FieldNumber_LossArray = 3,
-  PB4PluginAssetsGainReq_FieldNumber_Type = 4,
-  PB4PluginAssetsGainReq_FieldNumber_ReMark = 5,
-  PB4PluginAssetsGainReq_FieldNumber_GiftType = 6,
-  PB4PluginAssetsGainReq_FieldNumber_GiftReMark = 7,
-  PB4PluginAssetsGainReq_FieldNumber_LossGiftType = 8,
-  PB4PluginAssetsGainReq_FieldNumber_LossGiftReMark = 9,
-  PB4PluginAssetsGainReq_FieldNumber_IsSuperAdmin = 10,
+typedef GPB_ENUM(PB3PluginAssetsGainReq_FieldNumber) {
+  PB3PluginAssetsGainReq_FieldNumber_PlayerId = 1,
+  PB3PluginAssetsGainReq_FieldNumber_GainsArray = 2,
+  PB3PluginAssetsGainReq_FieldNumber_LossArray = 3,
+  PB3PluginAssetsGainReq_FieldNumber_Type = 4,
+  PB3PluginAssetsGainReq_FieldNumber_ReMark = 5,
+  PB3PluginAssetsGainReq_FieldNumber_GiftType = 6,
+  PB3PluginAssetsGainReq_FieldNumber_GiftReMark = 7,
+  PB3PluginAssetsGainReq_FieldNumber_LossGiftType = 8,
+  PB3PluginAssetsGainReq_FieldNumber_LossGiftReMark = 9,
+  PB3PluginAssetsGainReq_FieldNumber_IsSuperAdmin = 10,
 };
 
 /**
  * 单人增损请求
  **/
-@interface PB4PluginAssetsGainReq : GPBMessage
+@interface PB3PluginAssetsGainReq : GPBMessage
 
 /** 发起者 */
 @property(nonatomic, readwrite) uint64_t playerId;
 
 /** 发起者收益 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PluginGain*> *gainsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PluginGain*> *gainsArray;
 /** The number of items in @c gainsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger gainsArray_Count;
 
 /** 发起者扣除 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PluginLoss*> *lossArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PluginLoss*> *lossArray;
 /** The number of items in @c lossArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger lossArray_Count;
 
@@ -1545,15 +1664,15 @@ typedef GPB_ENUM(PB4PluginAssetsGainReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginBagItem
+#pragma mark - PB3PluginBagItem
 
-typedef GPB_ENUM(PB4PluginBagItem_FieldNumber) {
-  PB4PluginBagItem_FieldNumber_GiftId = 1,
-  PB4PluginBagItem_FieldNumber_Amount = 2,
-  PB4PluginBagItem_FieldNumber_CteateAt = 3,
+typedef GPB_ENUM(PB3PluginBagItem_FieldNumber) {
+  PB3PluginBagItem_FieldNumber_GiftId = 1,
+  PB3PluginBagItem_FieldNumber_Amount = 2,
+  PB3PluginBagItem_FieldNumber_CteateAt = 3,
 };
 
-@interface PB4PluginBagItem : GPBMessage
+@interface PB3PluginBagItem : GPBMessage
 
 /** 礼物id */
 @property(nonatomic, readwrite) uint32_t giftId;
@@ -1566,23 +1685,23 @@ typedef GPB_ENUM(PB4PluginBagItem_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PluginAssetsGetRes
+#pragma mark - PB3PluginAssetsGetRes
 
-typedef GPB_ENUM(PB4PluginAssetsGetRes_FieldNumber) {
-  PB4PluginAssetsGetRes_FieldNumber_ItemsArray = 1,
-  PB4PluginAssetsGetRes_FieldNumber_Gold = 2,
-  PB4PluginAssetsGetRes_FieldNumber_Silver = 3,
-  PB4PluginAssetsGetRes_FieldNumber_GiftTicket = 4,
-  PB4PluginAssetsGetRes_FieldNumber_Charge = 5,
+typedef GPB_ENUM(PB3PluginAssetsGetRes_FieldNumber) {
+  PB3PluginAssetsGetRes_FieldNumber_ItemsArray = 1,
+  PB3PluginAssetsGetRes_FieldNumber_Gold = 2,
+  PB3PluginAssetsGetRes_FieldNumber_Silver = 3,
+  PB3PluginAssetsGetRes_FieldNumber_GiftTicket = 4,
+  PB3PluginAssetsGetRes_FieldNumber_Charge = 5,
 };
 
 /**
  * 单人增损返回
  **/
-@interface PB4PluginAssetsGetRes : GPBMessage
+@interface PB3PluginAssetsGetRes : GPBMessage
 
 /** 背包道具列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PluginBagItem*> *itemsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PluginBagItem*> *itemsArray;
 /** The number of items in @c itemsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemsArray_Count;
 
@@ -1600,27 +1719,27 @@ typedef GPB_ENUM(PB4PluginAssetsGetRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PAuthInfo
+#pragma mark - PB3PAuthInfo
 
-typedef GPB_ENUM(PB4PAuthInfo_FieldNumber) {
-  PB4PAuthInfo_FieldNumber_AuthType = 1,
-  PB4PAuthInfo_FieldNumber_Level = 2,
-  PB4PAuthInfo_FieldNumber_LevExp = 3,
-  PB4PAuthInfo_FieldNumber_URL = 4,
-  PB4PAuthInfo_FieldNumber_Status = 5,
-  PB4PAuthInfo_FieldNumber_SongNum = 6,
-  PB4PAuthInfo_FieldNumber_Name = 7,
-  PB4PAuthInfo_FieldNumber_StartColor = 8,
-  PB4PAuthInfo_FieldNumber_EndColor = 9,
+typedef GPB_ENUM(PB3PAuthInfo_FieldNumber) {
+  PB3PAuthInfo_FieldNumber_AuthType = 1,
+  PB3PAuthInfo_FieldNumber_Level = 2,
+  PB3PAuthInfo_FieldNumber_LevExp = 3,
+  PB3PAuthInfo_FieldNumber_URL = 4,
+  PB3PAuthInfo_FieldNumber_Status = 5,
+  PB3PAuthInfo_FieldNumber_SongNum = 6,
+  PB3PAuthInfo_FieldNumber_Name = 7,
+  PB3PAuthInfo_FieldNumber_StartColor = 8,
+  PB3PAuthInfo_FieldNumber_EndColor = 9,
 };
 
 /**
  * 歌手、声优认证信息
  **/
-@interface PB4PAuthInfo : GPBMessage
+@interface PB3PAuthInfo : GPBMessage
 
 /** 认证类型 */
-@property(nonatomic, readwrite) PB4PAuthType authType;
+@property(nonatomic, readwrite) PB3PAuthType authType;
 
 /** 等级 */
 @property(nonatomic, readwrite) int32_t level;
@@ -1632,7 +1751,7 @@ typedef GPB_ENUM(PB4PAuthInfo_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
 
 /** 认证状态 */
-@property(nonatomic, readwrite) PB4PAuthStatus status;
+@property(nonatomic, readwrite) PB3PAuthStatus status;
 
 /** 电子歌单可上传歌曲数量（-1为不限制） */
 @property(nonatomic, readwrite) int64_t songNum;
@@ -1649,28 +1768,205 @@ typedef GPB_ENUM(PB4PAuthInfo_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PAuthInfo's @c authType property, even
+ * Fetches the raw value of a @c PB3PAuthInfo's @c authType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PAuthInfo_AuthType_RawValue(PB4PAuthInfo *message);
+int32_t PB3PAuthInfo_AuthType_RawValue(PB3PAuthInfo *message);
 /**
- * Sets the raw value of an @c PB4PAuthInfo's @c authType property, allowing
+ * Sets the raw value of an @c PB3PAuthInfo's @c authType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PAuthInfo_AuthType_RawValue(PB4PAuthInfo *message, int32_t value);
+void SetPB3PAuthInfo_AuthType_RawValue(PB3PAuthInfo *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PAuthInfo's @c status property, even
+ * Fetches the raw value of a @c PB3PAuthInfo's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PAuthInfo_Status_RawValue(PB4PAuthInfo *message);
+int32_t PB3PAuthInfo_Status_RawValue(PB3PAuthInfo *message);
 /**
- * Sets the raw value of an @c PB4PAuthInfo's @c status property, allowing
+ * Sets the raw value of an @c PB3PAuthInfo's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PAuthInfo_Status_RawValue(PB4PAuthInfo *message, int32_t value);
+void SetPB3PAuthInfo_Status_RawValue(PB3PAuthInfo *message, int32_t value);
+
+#pragma mark - PB3PHomeEntryHotPoint
+
+typedef GPB_ENUM(PB3PHomeEntryHotPoint_FieldNumber) {
+  PB3PHomeEntryHotPoint_FieldNumber_HotPointId = 1,
+  PB3PHomeEntryHotPoint_FieldNumber_PlayerId = 2,
+  PB3PHomeEntryHotPoint_FieldNumber_PlayerId2 = 3,
+  PB3PHomeEntryHotPoint_FieldNumber_PlayerId3 = 4,
+  PB3PHomeEntryHotPoint_FieldNumber_Name = 5,
+  PB3PHomeEntryHotPoint_FieldNumber_Icon = 6,
+  PB3PHomeEntryHotPoint_FieldNumber_Sex = 7,
+  PB3PHomeEntryHotPoint_FieldNumber_WealthLevel = 8,
+  PB3PHomeEntryHotPoint_FieldNumber_CharmLevel = 9,
+  PB3PHomeEntryHotPoint_FieldNumber_WealthLevelFish = 10,
+  PB3PHomeEntryHotPoint_FieldNumber_CharmLevelFish = 11,
+  PB3PHomeEntryHotPoint_FieldNumber_Content = 12,
+  PB3PHomeEntryHotPoint_FieldNumber_ContentResponse = 13,
+  PB3PHomeEntryHotPoint_FieldNumber_Rank = 14,
+  PB3PHomeEntryHotPoint_FieldNumber_Type = 15,
+  PB3PHomeEntryHotPoint_FieldNumber_Gold = 16,
+  PB3PHomeEntryHotPoint_FieldNumber_Heat = 17,
+  PB3PHomeEntryHotPoint_FieldNumber_WatchNum = 18,
+  PB3PHomeEntryHotPoint_FieldNumber_JumpURL = 19,
+  PB3PHomeEntryHotPoint_FieldNumber_PushTime = 20,
+  PB3PHomeEntryHotPoint_FieldNumber_RoomId = 21,
+  PB3PHomeEntryHotPoint_FieldNumber_Status = 22,
+  PB3PHomeEntryHotPoint_FieldNumber_IsHide = 23,
+};
+
+@interface PB3PHomeEntryHotPoint : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户靓号 */
+@property(nonatomic, readwrite) int64_t playerId2;
+
+/** 半糖靓号 */
+@property(nonatomic, readwrite) int64_t playerId3;
+
+/** 用户昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 用户性别 */
+@property(nonatomic, readwrite) PB3PluginSexType sex;
+
+/** 财富等级 */
+@property(nonatomic, readwrite) int32_t wealthLevel;
+
+/** 魅力等级 */
+@property(nonatomic, readwrite) int32_t charmLevel;
+
+/** 财富等级(半糖) */
+@property(nonatomic, readwrite) int32_t wealthLevelFish;
+
+/** 魅力等级(半糖) */
+@property(nonatomic, readwrite) int32_t charmLevelFish;
+
+/** 热点内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 热点回应内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *contentResponse;
+
+/** 排名 */
+@property(nonatomic, readwrite) int32_t rank;
+
+/** 热点类型 */
+@property(nonatomic, readwrite) PB3PluginHotPointType type;
+
+/** 金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+/** 热度值 */
+@property(nonatomic, readwrite) int32_t heat;
+
+/** 围观人数 */
+@property(nonatomic, readwrite) int32_t watchNum;
+
+/** 跳转地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *jumpURL;
+
+/** 发布时间(时间戳:秒) */
+@property(nonatomic, readwrite) int64_t pushTime;
+
+/** player所在房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 热点状态 */
+@property(nonatomic, readwrite) PB3HotPointStatus status;
+
+/** 是否仅自己可见 */
+@property(nonatomic, readwrite) PB3HotHide isHide;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryHotPoint's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryHotPoint_Sex_RawValue(PB3PHomeEntryHotPoint *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryHotPoint's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryHotPoint_Sex_RawValue(PB3PHomeEntryHotPoint *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryHotPoint's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryHotPoint_Type_RawValue(PB3PHomeEntryHotPoint *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryHotPoint's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryHotPoint_Type_RawValue(PB3PHomeEntryHotPoint *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryHotPoint's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryHotPoint_Status_RawValue(PB3PHomeEntryHotPoint *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryHotPoint's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryHotPoint_Status_RawValue(PB3PHomeEntryHotPoint *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryHotPoint's @c isHide property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryHotPoint_IsHide_RawValue(PB3PHomeEntryHotPoint *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryHotPoint's @c isHide property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryHotPoint_IsHide_RawValue(PB3PHomeEntryHotPoint *message, int32_t value);
+
+#pragma mark - PB3FirepowerRank
+
+typedef GPB_ENUM(PB3FirepowerRank_FieldNumber) {
+  PB3FirepowerRank_FieldNumber_PlayerId = 1,
+  PB3FirepowerRank_FieldNumber_PlayerImage = 2,
+  PB3FirepowerRank_FieldNumber_PlayerName = 3,
+  PB3FirepowerRank_FieldNumber_Firepower = 4,
+};
+
+/**
+ * 火力值排行榜
+ **/
+@interface PB3FirepowerRank : GPBMessage
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerImage;
+
+/** 用户名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 火力值 */
+@property(nonatomic, readwrite) int64_t firepower;
+
+@end
 
 NS_ASSUME_NONNULL_END
 

@@ -1,0 +1,104 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/evt.int.proto";
+import "pb/common.int.proto";
+import "pb/assets.int.proto";
+
+// 触发事件
+message FireEvtList {
+    repeated FireEvtReq evt_list = 1; // 事件类型
+    reserved "mission","EvtConsume";
+}
+
+// 兑换佣金（钻石兑换佣金）
+message ExchangeToDepositConsumeReq{
+    int64 player_id = 1;
+    reserved "user","ExchangeToDepositConsume";
+}
+
+// 个人提现钻石
+
+
+// 房间钻石兑换佣金（钻石兑换佣金）
+message RoomExchangeToDepositConsumeReq{
+    int64 player_id = 1;
+    reserved "user","RoomExchangeToDepositConsume";
+}
+
+// 房间申请提现钻石
+
+
+// 注册cp心跳
+message RegisterCpHeartBeatConsumeReq {
+    string cp_record_id = 1;
+    reserved "chat","RegisterCpHeartBeatConsume";
+}
+
+// 删除cp心跳
+message RemoveCpHeartBeatConsumeReq {
+    string cp_record_id = 1;
+    reserved "chat","RemoveCpHeartBeatConsume";
+}
+
+// 接线员完成行为触发分数增减
+message CpChatHealFinishActionReq {
+    int64 id = 1; // 本次请求的唯一id(对应cp_chat_heal_action的id)
+    int64 player_id = 2;
+    CpChatHealAction action_id = 3;
+    reserved "chat","CpChatHealFinishAction";
+}
+
+// 新人接待官返利
+message CPGuideRewardReq {
+    int64 player_id = 1; // 玩家ID
+    int64 loss_charge_gold = 2; // 消耗的充值金币
+    AssetsMoneyLogType type = 3; // 操作类型
+    reserved "chat","CPGuideReward","PlayerId";
+}
+
+// 新人接待官任务统计
+message CPGuideMissionStatReq {
+    enum Opt {
+        NONE = 0;
+        IN_ROOM = 1; // 次日同时在厅
+        IM = 2; // 收到老板私信
+        GIFT = 3; // 送礼
+    }
+    message Msg {
+        int64 from_id = 1;
+        int64 to_id = 2;
+    }
+    message Gift {
+        int64 gift_id = 1;
+        int32 gift_num = 2;
+        int64 from_id = 3;
+        int64 room_id = 7;
+    }
+    int64 player_id = 1;
+    Opt mission = 2;
+    Msg msg = 3;
+    Gift gift = 4;
+    reserved "chat","CPGuideMissionStat","PlayerId";
+}
+
+// 宝盒礼物2.0随机礼物赠送
+message GiftBoxNewRandGiftConsumeReq {
+    int64 sender_id = 1;
+    int64 receiver_id = 2;
+    int64 room_id = 3;
+    int32 gift_id = 4;
+    int32 gift_num = 5;
+    reserved "gift","GiftBoxNewRandGiftConsume";
+}
+
+//活动服回调事件//////////////////////开始////////////////////////
+// 新人接待官事件回调
+message WelcomeNewPlayerActConsumeReq {
+    int64 cp_id = 1;        // 接待官主播ID
+    int64 boss_id = 2;      // 老板ID
+    reserved "activity","WelcomeNewPlayer";
+}
+//活动服回调事件//////////////////////结束////////////////////////
+

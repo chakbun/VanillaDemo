@@ -1,0 +1,342 @@
+syntax = "proto3";
+option objc_class_prefix = "PROTO";
+
+package uauth_pb;
+import "uauth_common.proto";
+ 
+
+enum ErrorUAuthCode {
+    ErrorUAuth_Zero             = 0;
+    ErrorUAuthRegisterParam     = 39001;   
+    ErrorUAuthAccountExist      = 39002;   
+    ErrorUAuthSessionTimeOut    = 39003;   
+    ErrorUAuthSessionNotFound   = 39004;   
+    ErrorUAuthUserNotFound      = 39005;   
+    ErrorUAuthAccountNotExist   = 39006;   
+    ErrorUAuthPassWordNoCorrect = 39007;   
+    ErrorUAuthCodeIncorrect     = 39008;   
+    ErrorUAuthPhoneNotExist     = 39009;   
+    ErrorUAuthUserNoRight       = 39010;   
+    ErrorUAuthInvalidWay        = 39011;   
+    ErrorUAuthNeedLogin         = 39012;   
+    ErrorUAuthGetToken          = 39013;   
+    ErrorUAuthAccessToken       = 39014;   
+    ErrorUAuthWrongPhoneNum	= 39015;   
+    ErrorUAuthServerOffLine     = 39016;   
+    ErrorUAuthPhoneAlreadyExist = 39017;   
+
+     
+    ErrorIAPHasNoOrder         = 239018;   
+    ErrorCheckIAPOrder         = 239019;   
+    ErrorCheckIAPBundleID      = 239020;   
+
+
+    ErrorTooFrequent = 239030;    
+    Error3rd         = 239031;    
+    ErrorPasswordInvalid          = 239032;     
+    ErrorWrongOldPassword         = 239033;    
+
+    ErrorLoginBlack               = 239034;  
+}
+
+message VerifyIAPReq {
+    int64 accountId = 1;        
+    string receipt = 2;         
+    string transactionId = 3;   
+    string order_no = 4;        
+}
+
+message VerifyIAPRes {
+
+}
+
+message GoldCard {
+    int32 id = 1;                       
+    int32 amount = 2;                   
+    int32 golds = 3;                    
+    int32 giveaway_golds = 4;           
+    string identifier = 5;              
+}
+
+ 
+message GetGoodListReq {
+}
+
+message GetGoodListRes {
+    repeated GoldCard good_list = 1;       
+    int32  version = 2;                    
+}
+
+ 
+message OrderIAPReq {
+    int32 id = 1;             
+    int64 accountId = 2;      
+}
+
+message OrderIAPRes {
+    string order_no = 1;     
+}
+
+
+enum IAPStatusType {
+    IAP_NONE = 0;
+    IAP_STATUS_FAIL = 1;     
+    IAP_STATUS_CANCEL = 2;   
+}
+
+message CloseOrderIAPReq {
+    string order_no = 1;        
+    IAPStatusType status = 2;   
+}
+
+message CloseOrderIAPRes {
+
+}
+
+message VIPChargeAccountInfoReq {
+    int64 id = 1;
+}
+message VIPChargeAccountInfoRes {
+    string due_bank       = 1;  
+    string payee          = 2;  
+    string account_number = 3;  
+    string deposit_bank   = 4;  
+    string nickname       = 5;  
+    int64  player_id      = 6;  
+}
+
+enum ChargeStatus {
+    CS_CHARGING = 0;    
+    CS_FINISH   = 1;    
+    CS_REFUND   = 2;    
+}
+
+message VIPChargeLogReq {
+}
+message VIPChargeLogRes {
+    repeated VIPChargeLogs list = 1;
+}
+
+message VIPChargeLogs {
+    string day = 1;
+    repeated VIPChargeItem list = 2;
+}
+
+message VIPChargeItem {
+    int64        charge_at = 1;  
+    int64        finish_at = 2;  
+    int64        rmb       = 3;  
+    int64        gold      = 4;  
+    ChargeStatus status    = 5;  
+}
+
+enum ReportDataType {
+    RDT_Null = 0;  
+    RDT_CMB_VIP_Expedited = 1;  
+}
+
+message ReportDataReq {
+    ReportDataType type = 1;
+    bytes data = 2;  
+}
+message ReportDataRes {
+
+}
+
+ 
+message GetChargeReq {
+    string order_id = 1;
+    int64  account_id = 2;
+
+    int64 gold = 4;
+    string remark = 5;
+    map<string, string> extends = 6;       
+}
+
+message GetChargeRes {
+    int32  code = 1;
+    string detail = 2;
+    string data = 3;
+    string redirect_url = 4;
+}
+
+ 
+
+ 
+message GetSmsCodeReq {
+    int32 country = 1;       
+    string phone_no = 2;     
+}
+message GetSmsCodeRes {
+}
+
+ 
+message GetSmsTokenReq {
+    int32 country = 1;       
+    string phone_no = 2;     
+    string sms_code = 3;     
+}
+message GetSmsTokenRes {
+    string sms_token = 1;    
+}
+
+ 
+message CommonSignInRes {
+    string login_token = 1;  
+    bool is_new = 2;         
+    sint64 user_id = 3;
+    map<string, string> extends = 4;       
+    UauthLoginType login_type = 5;       
+}
+
+ 
+message SignInWithAppleReq {
+    string identity_token = 1;
+    string authorization_code = 2;
+    string full_name = 3;  
+    string device_id = 4;  
+}
+
+ 
+message IdOrPhoneLoginReq {
+    int32 country = 1;        
+    string value = 2;         
+    string password = 3;
+    string sign = 4;          
+}
+
+ 
+message LoginWithPhoneSMSReq {
+    string phone = 1;        
+    string sms_token = 2;    
+    string device_id = 3;    
+    int32 device_type = 4;   
+    int32 channel = 5;       
+    string sms_code = 6;     
+}
+
+ 
+message ThirdLoginReq {
+    string code = 1;         
+    string access_token = 2;
+    string app_id = 3;
+    string device_id = 4;    
+    int32 device_type = 5;   
+    int32 channel = 6;       
+    UauthLoginType login_type = 7;       
+}
+
+ 
+message ChinaMobileQuickLoginReq {
+    string app_id = 1;       
+    string token = 2;
+    string device_id = 3;    
+    int32 device_type = 4;   
+    int32 channel = 5;       
+}
+
+ 
+message ChinaTelecomAuthReq{
+    string access_token = 1;
+    string device_id = 3;    
+    int32 device_type = 4;   
+    int32 channel = 5;       
+}
+
+ 
+message DevLoginReq {
+    string name = 1;  
+    string device_id = 3;    
+    int32 device_type = 4;   
+    int32 channel = 5;       
+}
+
+ 
+message ResetPasswordReq {
+    int32 country = 1;       
+    string phone_no = 2;     
+    string sms_token = 3;    
+    string password = 4;     
+    string sign = 5;          
+}
+message ResetPasswordRes {
+}
+
+message LoginSecretReq {
+}
+message LoginSecretRes {
+    string key = 1;
+}
+
+message UpdatePasswdReq {
+    string old_passwd = 1;  
+    string new_passwd = 2;  
+    string sign = 3;          
+    bool is_new = 4;         
+}
+message UpdatePasswdRes {
+}
+
+ 
+message InviteReq {
+    int64 player_id = 1;
+    int32 type = 2;           
+    string extend = 3;        
+}
+message InviteRes {
+}
+
+message GetSyncTimeReq {
+}
+message GetSyncTimeRes {
+}
+
+ 
+service UauthExtObj {
+    rpc VerifyIAP(VerifyIAPReq) returns(VerifyIAPRes);   
+    rpc GetGoodList (GetGoodListReq) returns (GetGoodListRes);  
+    rpc OrderIAP (OrderIAPReq) returns (OrderIAPRes);  
+    rpc CloseOrderIAP (CloseOrderIAPReq) returns (CloseOrderIAPRes);  
+     
+    rpc GetVIPChargeAccountInfo(VIPChargeAccountInfoReq) returns (VIPChargeAccountInfoRes);
+     
+    rpc VIPChargeLog(VIPChargeLogReq) returns (VIPChargeLogRes);
+     
+    rpc ReportData(ReportDataReq) returns (ReportDataRes);
+
+     
+    rpc GetCharge(GetChargeReq) returns (GetChargeRes);
+
+     
+    rpc GetSignInWithApple(SignInWithAppleReq) returns (CommonSignInRes);
+
+     
+    rpc GetSmsCode(GetSmsCodeReq) returns (GetSmsCodeRes);
+     
+    rpc GetSmsToken(GetSmsTokenReq) returns (GetSmsTokenRes);
+     
+    rpc GetDevLogin(DevLoginReq) returns (CommonSignInRes);
+
+     
+    rpc GetIdOrPhoneLogin(IdOrPhoneLoginReq) returns (CommonSignInRes);
+     
+    rpc GetThirdLogin(ThirdLoginReq) returns (CommonSignInRes);
+
+     
+    rpc GetLoginWithPhoneSMS(LoginWithPhoneSMSReq) returns (CommonSignInRes);
+     
+    rpc GetChinaMobileQuickLogin(ChinaMobileQuickLoginReq) returns (CommonSignInRes);
+     
+    rpc GetChinaTelecomAuth(ChinaTelecomAuthReq) returns (CommonSignInRes);
+     
+    rpc GetResetPassword(ResetPasswordReq) returns (ResetPasswordRes);
+     
+    rpc UpdatePasswd(UpdatePasswdReq) returns (UpdatePasswdRes);
+
+
+     
+    rpc GetInvite(InviteReq) returns (InviteRes);
+     
+    rpc GetSyncTime(GetSyncTimeReq) returns (GetSyncTimeRes);
+}
+

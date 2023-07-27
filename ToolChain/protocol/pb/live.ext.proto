@@ -1,0 +1,380 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+import "pb/common.ext.proto";
+package pb;
+
+enum LiveCmdId {
+    LC_NONE = 0;
+    LC_Live_CHANNEL = 702001; // 连麦channel信息
+    LC_LIVE_IM_CALL = 702002; // 连麦IM呼叫
+    LC_LIVE_TALK = 702003; // 连麦通话同步
+    LC_PLAYER_LIVE_DATA_UPDATE = 702004; // 用户连麦相关数据更新
+    LC_PLAYER_MATCH_TELEPATHY = 702005; // 用户匹配心电感应
+}
+
+enum LiveStickerType {
+    LST_NONE = 0;
+    LST_CLOTH = 1; // 衣服
+    LST_ALL = 1000;
+}
+
+enum LiveSnapshotLayer {
+    LSL_NONE = 0;
+    LSL_FRONT_HAIR = 1; // 裸模前发
+    LSL_NAKED_MODEL = 2; // 裸模后发
+    LSL_BACK_HAIR = 3; // 裸模
+    LSL_CLOTH = 4; // 衣服
+}
+
+enum LiveChannelScene {
+    SC_NONE = 0;
+    SC_IM_CALL = 1; // 由IM呼叫进入的连麦
+    SC_MATCH = 2; // 由匹配进入的连麦
+}
+
+
+// 两个数据不会同时更新
+message PlayerLiveDataPush {
+    enum PushType {
+        None = 0;
+        Hearts = 1;
+        FreeMatchTimes = 2;
+    }
+    PushType type = 1;
+    int64 hearts = 2; // 自己的爱心数量
+    int64 free_match_times = 3; // 今日剩余免费匹配次数
+}
+
+message LiveSnapshot {
+   string url = 1;
+   LiveSnapshotLayer layer = 2;
+}
+
+// live2d 裸模
+message LiveModel {
+    int64 model_id = 1;
+    string model_name = 2;
+    string zip_name = 3;
+    string res_url = 4; // 资源oss链接
+    string md5sum = 6; // 资源md5校验
+    repeated LiveSnapshot snapshots = 7; // 裸模三张静态图
+}
+
+// 虚拟形象资产
+message LiveSticker {
+    int64 sticker_id = 1;
+    string name = 2;
+    LiveStickerType sticker_type = 3;
+    string res_url = 4; // 切图资源
+    LiveSnapshot snapshot = 5; // 名片卡静态图
+}
+
+// 0. 连麦
+message LiveTalkReq {
+    int64 channel_id = 1;
+}
+message LiveTalkRes {
+    PlayerInfo target_player = 1; // 对方信息
+    bool self_show_code_name = 2; // 自己是否显示代号
+    bool target_show_code_name = 3; // 对方是否显示代号
+    int64 time_out = 4; // -1代表无限时间
+    LiveChannelScene scene = 5;
+    repeated string match_tips = 6; // 连麦场景下显示双方共同点的tips
+//    int64 delay_cost_gold = 7; // 匹配连麦延时消耗金币
+//    int64 delay_timeout = 8; // 延长时间
+    bool like_target = 9; // 是否给对方点赞了
+    int64 talk_time = 10; // 重连时,该字段返回已通话时间
+}
+// 1. 获取声鉴配置
+message GetVoiceIdentifyConfReq {
+}
+message GetVoiceIdentifyConfRes {
+    message Prompt {
+        string title = 1;
+        string text = 2;
+    }
+    int64 cost_gold = 1; // 鉴定花费金币
+    string desc_url = 2; // 玩法描述url
+    int64 free_times = 3; // 剩余免费次数
+    repeated Prompt prompts = 4; //录音朗读文案
+    string qr_code_url = 5; // 鉴定成功后分享二维码的链接
+}
+// 2. 鉴定声音
+message VoiceIdentifyReq {
+    SexType gender = 1; // 性别
+    string voice_url = 2; // 声音
+}
+message VoiceIdentifyRes {
+    VoiceFeature voice_feature = 1; // 声音特征
+    LiveCharacter character = 2; // 虚拟形象
+    int64 free_times = 3; // 剩余免费鉴定次数
+    int64 cost_gold = 4; // 再次鉴定花费
+}
+// 3. 获取匹配配置
+message GetLiveMatchConfReq {
+}
+message GetLiveMatchConfRes {
+//    VoiceFeature voice_feature = 1;
+    int64 free_times = 2; // 剩余匹配次数
+    int64 match_cost_gold = 3; // 匹配花费金币
+    int64 delay_cost_gold = 4; // 延时花费金币
+    int64 time_out = 5; // 最长匹配时间
+    int64 delay_cost_gift = 6; // 延时花费礼物价值(后台配置的是 xxx价值的礼物延迟xxx秒)
+    int64 gold_delay_time = 7; // 金币延迟时间
+    int64 gift_delay_time = 8; // 礼物延迟时间
+}
+// 4. 随机匹配
+message LiveMatchReq {
+    enum MatchOper {
+        NONE = 0;
+        APPLY = 1; // 申请匹配
+        CANCEL = 2;
+    }
+    //    string code_name = 1; // 昵称
+    MatchOper oper = 2;
+}
+// 匹配结果异步返回
+message LiveMatchRes {
+    message LiveRecommend {
+        int64 player_id = 1;
+        string icon = 2;
+        string router = 3;
+    }
+    repeated string feedback_tips = 1; // 反馈标签
+    repeated LiveRecommend recommend = 9; // 如果匹配失败,客户端轮换显示推荐用户
+}
+// 5. IM主叫
+message LiveCallInviteReq {
+    enum InviteOper {
+        NONE = 0;
+        APPLY = 1; // 呼叫
+        CANCEL = 2;
+    }
+    int64 target_player_id = 1;
+    InviteOper oper = 2;
+}
+message LiveCallInviteRes {
+    PlayerInfo target_player_info = 1; // 对方信息(包含live2d形象)
+}
+// 6. IM被叫
+message LiveCallReplyReq {
+    enum ReplyOper {
+        NONE = 0;
+        RECEIVE = 1;
+        DENY = 2;
+        IGNORE = 3;
+    }
+    ReplyOper oper = 1;
+    int64 target_player_id = 2;
+}
+message LiveCallReplyRes {
+}
+// 7. 连麦操作(同步状态相关)
+message LiveTalkSyncReq {
+    enum SyncOper {
+        NONE = 0;
+        LIKE = 1; // 点赞
+        INVITE_SHOW = 2; // 邀请对方公开
+        SHOW_SELF = 3; // 自己公开
+        HANGUP = 4; // 挂断
+        TOUCH_SELF_HEAD = 5; // 摸自己的头
+        TOUCH_TARGET_HEAD = 6;
+        TOUCH_SELF_BODY = 7; // 摸对方的头
+        TOUCH_TARGET_BODY = 8;
+    }
+    SyncOper oper = 1;
+    int64 action_idx = 2; // 模型中动作组的下标,用以双方同步动作
+}
+message LiveTalkSyncRes {
+    int64 talk_Time = 1; // 通话了多久
+}
+// 8. 花费金币延长时间
+message LiveTalkDelayReq {
+}
+message LiveTalkDelayRes {
+    int64 time_out = 1;
+    int64 cost_gold = 2; // 延长花费金币,如果中途配置有变更,该字段为最新的值
+}
+// 9. 匹配连麦反馈
+message ReportFeedbackReq {
+    enum Feedback {
+        None = 0;
+        Satisfy = 1;
+        UnSatisfy = 2;
+    }
+    string content = 1;
+    repeated string tips = 2; // 反馈标签
+    int64 target_id = 3; // 对方id
+    Feedback feed_back = 4; // 满意、不满意
+}
+message ReportFeedbackRes{}
+
+// 10. 清除形象(清除后可重新鉴定)
+message ClearCharacterReq {
+}
+message ClearCharacterRes{}
+
+// 11. 换一个代号
+message ResetCodenameReq {
+}
+message ResetCodenameRes {
+    string code_name = 1;
+}
+// 12. 获取声音特征
+message GetVoiceFeatureReq {
+}
+message GetVoiceFeatureRes {
+    VoiceFeature feature = 1;
+    int64 free_clear_times = 2; // 剩余免费清除形象的次数
+    int64 clear_cost_gold = 3; // 清除形象需要的金币
+    string qr_code_url = 5; // 分享二维码的链接
+}
+// 13. 预判能否call对方
+message CanLiveCallInviteReq {
+    int64 target_id = 1; // 对方用户id
+}
+message CanLiveCallInviteRes { // 该接口没有返回,看err是否空
+}
+// ------------推送相关------------
+// 0. 建立连接前，推送channelID
+message LiveChannelPush {
+    int64 channel_id = 1;
+    string token = 2;
+    LiveChannelScene scene = 3;
+    int64 caller = 4; // 主叫方(im场景下有值)
+}
+// 1. IM拨号相关推送
+message LiveIMPush {
+    enum PushType {
+        NONE = 0;
+        SOMEONE_CALL_ME = 1; // 有人call我
+        TARGET_CANCEL = 2; // 被call时,对方取消了
+        TARGET_RECEIVE = 3; // call别人,对方同意了
+        TARGET_DENY = 4; // call比人,对方拒绝了
+    }
+    PushType type = 1;
+    PlayerInfo target_player_info = 2; //如果是SOMEONE_CALL_ME，则该字段返回对方信息
+    int64 caller = 4; // 主叫方
+}
+// 2. 连麦相关推送
+message LiveTalkPush {
+    enum PushType {
+        NONE = 0;
+        TARGET_CONN_SUCC = 1; // 对方连接成功
+        TARGET_CONN_FAIL = 2; // 对方连接失败
+        TARGET_EXPOSED = 3; // 对方身份公开
+        TARGET_LIKE_YOU = 4; // 对方给你点赞
+        TARGET_HANGUP = 5; // 对方挂断
+        TIMEOUT = 6; // 通话时间到了
+        TARGET_HEAD_TOUCHED = 7; // 对方摸了他自己的头
+        TARGET_BODY_TOUCHED = 8;
+        SELF_HEAD_TOUCHED = 9; // 对方摸了你的头
+        SELF_BODY_TOUCHED = 10;
+        DUAL_EXPOSED = 11; // 双方身份公开
+        TARGET_INVITE_SHOW = 12; // 对方邀请你公开
+        TIMEOUT_DELAYED = 13; // 通话时间延长了
+    }
+    PushType type = 1;
+    int64 time_out = 2; // 剩余时间; 通话时间延长时,该字段返回最新的时间
+    int64 action_idx = 3; // 同步动作时,该字段为模型动作组的下标
+    int64 talk_time = 4; // 通话的多久
+    PlayerInfo target_player = 5; // 当收到TARGET_CONN_SUCC时，该字段返回对方信息
+}
+
+// ------------------------------------------------------- 获取资源 -------------------------------------------------------
+message GetLiveAssetsConfReq {
+}
+message GetLiveAssetsConfRes {
+    map<int64, LiveModel> models = 1;
+    map<int64, LiveSticker> stickers = 2;
+}
+message RestoreLiveStatusReq {
+}
+message RestoreLiveStatusRes {
+    LiveChannelPush talk = 1; // 连麦中状态
+    LiveIMPush im = 2; // 被叫状态
+}
+
+// -----------心电感应相关-----------
+// 打开和关闭心电感应
+message SwitchTelepathyReq {
+    bool telepathic = 1; // true:打开  false:关闭
+}
+message SwitchTelepathyRes{}
+
+// 点击私聊上报
+message ReportClickChatTelepathyReq {
+    int64 telepathy_id = 1; // 推送ID
+}
+message ReportClickChatTelepathyRes{}
+
+message PushTelepathyPopupData {
+    int64 player_id = 1; // 用户ID
+    string icon = 2; // 头像
+    string nickname = 3; // 昵称
+    string constellation = 4; // 星座
+    string matching_degree = 5; // 匹配度
+    int64 telepathy_id = 6; // 推送ID
+    SexType gender = 7; // 性别
+    bool switch = 8; //功能样式开关
+    int64 greetings_id = 9; //问候语ID
+    string greetings= 10;   //问候语
+    repeated string label = 11;   //个性标签
+}
+
+//上报问候语使用次数
+message ReportGreetingsUsedReq {
+    int64 greetings_id = 1;  //问候语ID
+}
+message ReportGreetingsUsedRes {
+}
+message GetPlayerLiveCharacterReq {
+    int64 player_id = 1;
+}
+message GetPlayerLiveCharacterRes {
+    LiveCharacter character = 1;
+}
+
+service LiveExtObj {
+    // 获取资源配置
+    rpc GetLiveAssetsConf (GetLiveAssetsConfReq) returns (GetLiveAssetsConfRes);
+
+    // 连麦匹配-连麦
+    rpc LiveTalk (LiveTalkReq) returns (LiveTalkRes);
+    // 连麦匹配-获取声鉴配置
+    rpc GetVoiceIdentifyConf (GetVoiceIdentifyConfReq) returns (GetVoiceIdentifyConfRes);
+    // 连麦匹配-鉴定声音
+    rpc VoiceIdentify (VoiceIdentifyReq) returns (VoiceIdentifyRes);
+    // 连麦匹配-获取随机匹配配置
+    rpc GetLiveMatchConf (GetLiveMatchConfReq) returns (GetLiveMatchConfRes);
+    // 连麦匹配-随机匹配
+    rpc LiveMatch (LiveMatchReq) returns (LiveMatchRes);
+    // 连麦匹配-IM呼叫连麦
+    rpc LiveCallInvite (LiveCallInviteReq) returns (LiveCallInviteRes);
+    // 连麦匹配-IM回应呼叫
+    rpc LiveCallReply (LiveCallReplyReq) returns (LiveCallReplyRes);
+    // 连麦匹配-连麦时操作同步(点赞、公开、触摸..)
+    rpc LiveTalkSync (LiveTalkSyncReq) returns (LiveTalkSyncRes);
+    // 连麦匹配-花费金币延长时间
+    rpc LiveTalkDelay (LiveTalkDelayReq) returns (LiveTalkDelayRes);
+    // 恢复正在进行的通话或者是否有人正在呼叫自己
+    rpc RestoreLiveStatus (RestoreLiveStatusReq) returns (RestoreLiveStatusRes);
+    // 连麦反馈
+    rpc ReportFeedback(ReportFeedbackReq) returns (ReportFeedbackRes);
+    // 清除形象(清除后可重新鉴定)
+    rpc ClearCharacter(ClearCharacterReq) returns (ClearCharacterRes);
+    // 重置匹配代号
+    rpc ResetCodename(ResetCodenameReq) returns (ResetCodenameRes);
+    // 获取自己的声音特征
+    rpc GetVoiceFeature (GetVoiceFeatureReq) returns (GetVoiceFeatureRes);
+    // 预判能否呼叫对方
+    rpc  CanLiveCallInvite( CanLiveCallInviteReq) returns ( CanLiveCallInviteRes);
+    // 心电感应 打开和关闭
+    rpc  SwitchTelepathy( SwitchTelepathyReq) returns ( SwitchTelepathyRes);
+    // 心电感应 点击私聊上报
+    rpc  ReportClickChatTelepathy( ReportClickChatTelepathyReq) returns ( ReportClickChatTelepathyRes);
+    // 获取用户形象
+    rpc GetPlayerLiveCharacter(GetPlayerLiveCharacterReq) returns (GetPlayerLiveCharacterRes);
+    //心电感应 问候语使用次数上报
+    rpc ReportGreetingsUsed( ReportGreetingsUsedReq) returns (ReportGreetingsUsedRes);
+}

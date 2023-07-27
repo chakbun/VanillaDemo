@@ -1,0 +1,1360 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/nobility.ext.proto";
+import "pb/teacher.ext.proto";
+import "pb/acm_conf.ext.proto";
+
+
+enum FriendErr {
+    ErrNone = 0; //占位
+    ErrCodeAlready = 30001;
+    ErrCodePushFail = 30002;
+    ErrCodeFollowLimit = 30003;
+    ErrCodeNoPlayer = 30004;
+    ErrTheyHasIntimate = 30009; //对方已有唯一挚友
+    ErrIntimateVersionToLow = 30010; // 对方版本过低，不能申请挚友
+    ErrCustomMax = 30020;  // 超过最大自定限制
+    ErrGreetDirty = 30021; // 输入的内容包含非法字符
+    ErrRequestTimeOut = 30022; //请求超时
+    ErrFriendImImgLevel = 31065; // 发送图片等级
+}
+
+//#########常量定义
+enum IntimateErr {
+    Intimate_SUCCESS = 0; // 成功
+    ErrIntimateFull = 38001; // 您的挚友位置不足
+    ErrTargetIntimateFull = 38002; // 对方挚友位置不足
+    ErrGenstoneNotEnough = 38003; // 宝石不足
+    ErrTargetOffline = 38004; // 对方不在线
+    ErrIntimateAlready = 38005; // 已是挚友，请先发放解除
+    ErrNoCard = 38006; //拓展卡不足
+    ErrApplyGenstoneNotEnough = 38007; //申请方宝石不足
+    ErrUpdateRelFail = 38008; //扣除宝石，但更新关系失败，请联系客服解决
+    // ------ 挚友商城 -------
+    ErrIS_SUCCESS = 38030; // 购买成功
+    ErrIS_EXP_LACK = 38031; // 陪伴值不够哦
+    ErrIS_GOLD_LACK = 38032; // 金币不够哦
+    ErrIS_EXP_OR_GOLD_LACK = 38033; // 金币或陪伴值不够哦
+    ErrIS_INTIMATE_TYPE = 38034; // 挚友类型不符合要求
+    ErrIS_NOT_INTIMATE = 38035;  // 不是挚友关系
+    ErrIS_NOT_GOODS = 38036;    // 商品已下架，请刷新页面重新选择商品
+    // ------ 挚友商城 -------
+    ErrIntimateValNotEnough = 38010; // 陪伴值不足
+    ErrIntimateExpNotEnough = 38011; // 经验值不足
+    ErrIntimateTitleDirty = 38012;   // 挚友头衔含违规字
+    ErrIntimateTitleLength = 38013;  // 挚友头衔长度不符合
+    ErrIntimateTitleSame = 38014;    // 挚友头衔修改前后一致
+    ErrIntimateTitleExpLevel = 38015;   // 挚友等级不够
+    ErrIntimateTypeTitleCannotChange = 38016;   //该挚友类型的头衔不可修改
+    // ------ 挚友回馈 -------
+    // ErrNotIsIntimate = 38020;  // 双方不是挚友
+    // 用户未实名
+    // 用户未成年
+}
+
+
+// 挚友广播cmdId定义 600
+enum IntimateCmdId {
+    IC_Zero = 0;
+    IC_IntimateApply = 600001; // IntimateApplyNotice 收到挚友请求申请
+    IC_IntimateApplyResult = 600002; // IntimateApplyNotice 通知申请结果（申请人收到）
+    IC_IntimateFriend = 600003; // IntimateFriendBC 广播结为了xxx挚友
+    IC_IntimateDismiss = 600005; //IntimateApplyNotice 解除挚友关系
+    IC_IntimateExpVal = 600006; // 您与小A的挚友陪伴值增加了10，挚友经验值增加了10（仅双方可见）
+    IC_IntimateUpLevel = 600007; // 广播：小A与小B的挚友等级已提升到6级~（所有人可见）
+    IC_IMAutoChatStatus = 600008; // IM代聊状态变更 IMAutoChatPush
+}
+
+enum FriendCmdId {//200
+    NONE200 = 0; //占位
+    OPER_CMD_ID = 200103; //Friender 推送操作通知 如关注
+    ONLINE_CMD_ID = 200104; //Friender 用户上下线
+    ENTER_ROOM = 200105; //RoomNotice
+    OPER_NEW_CMD_ID = 200106; //Friender 新版本推送操作通知 如关注、取消关注
+
+    GreetNovice = 200200;  // 广播打招呼推送（接引人收到）--废弃
+    GreetNotice = 200201;  // 收到接待 （新手收到）
+    FansList = 200202; //粉丝列表 FansListRes
+    SearchFriend = 200203; //好友,关注,粉丝搜索结果 SearchFriendRes
+    FollowIm = 200204; //关注推送FollowImMessage
+    TeacherStudentRelationship = 200205; // 拜师收徒结果推送 BroadcastTeacherStudentRelationship
+    GraduateApprenticePush_CMD_ID = 200206; // 出师推送 GraduateApprenticePush
+    TeacherLevelUpPush_CMD_ID = 200207; // 升级推送 TeacherLevelUpPush
+    TeacherStudentSendGift_CMD_ID = 200208; // 成为师徒 BroadcastTeacherStudentSendGift
+    GreetNoviceSysPush = 200209; // 广播打招呼推送（接引人收到）
+    BroadcastIMCloudCustomDataSafetyTips_CMD_ID = 200210; // 私聊发送方消息推送 BroadcastIMCloudCustomDataSafetyTips
+}
+
+enum OperType {
+    NONE2001 = 0; //占位
+    FOLLOW = 1; // 关注
+    UNFOLLOW = 2; //取消关注
+    BLOCK = 3; //屏蔽用户
+    UNBLOCK = 4; //取消屏蔽
+    Move    = 5; // 移除注销账号
+}
+// 好友类型
+enum FriendType {
+    FT_STRANGER = 0; // 陌生人
+    FT_BAN = -1; // 屏蔽
+    FT_FOLLOW = 1; // 关注
+    FT_FRIEND = 2; // 互粉
+    FT_FOLLOW_FRIEND = 3; //关注加互粉
+    FT_MYSELF = 4; //自己
+    FT_FANS = 5; //粉丝
+}
+
+// 消息类型
+enum PrivateMessageType {
+    PMT_ZERO = 0;
+    PMT_TEXT = 1; // 文本消息
+    PMT_PICTURE = 2; // 图片
+    PMT_VOICE = 3; // 语音
+    PMT_VIDEO = 4; // 小视频
+}
+
+enum PrivateMessageRecordType {
+    PMR_ZERO = 0;
+    PMR_SEND = 1; // 自己发送
+    PMR_RECEIVE = 2; // 收到
+    PMR_DELETE = 3; // 删除单条-- attachment：额外信息, 删除时记录消息ID
+    PMR_DELETE_PLAYER = 4;//删除个人  --attachment：playerId(玩家id)
+}
+
+
+//挚友类型
+enum IntimateType {
+    Initmate_None = 0;
+    Initmate = 2000;
+    Love = 2001;
+    Loyal = 2002;
+    Honor = 2003;
+    Angel = 2004;
+    Only = 2005; //唯一挚友
+    Sansei = 2006; //三生挚友
+    All = 3000; // 挚友商城购买无限制
+}
+
+// 接待语
+enum GreetContentStatus {
+    GCStatus_Checking      = 0; // 审核中
+    GCStatus_Pass          = 1; // 通过
+    GCStatus_Refuse        = 2; // 拒绝
+}
+
+// 接待语默认使用
+enum GreetContentChecked {
+    GCCheck_None            = 0; // 占位
+    GCCheck_Unused          = 1; // 不是默认
+    GCCheck_Used            = 2; // 默认使用
+}
+
+// 设置接待语类型
+enum GreetContentType {
+    GCType_None            = 0; // 占位
+    GCType_User            = 1; // 用户自定义
+    GCType_System          = 2; // 系统
+}
+
+// 用户接待语类型
+enum UserGreetContentType {
+    UGCType_Text = 0; // 文本类型
+    UGCType_Voice = 1; // 语音类型
+}
+
+// 私聊消息, 有[S]标志的字段由发送端提供
+message PrivateMessage {
+    PrivateMessageType type = 1; // [S]
+    uint32 sent_at = 2; // 发送时间
+
+    sint64 from = 5; // 发送者ID
+    string from_name = 6;
+
+    sint64 to = 10; // [S]目标ID
+
+    string content = 15; // [S] 内容，非文本时可以存文件地址
+    string addon = 16; // [S] 附加数据，各种消息类型根据需要写入，如语音消息的音频长度
+}
+
+message PrivateMessageRecord {
+    PrivateMessage message = 1;
+    PrivateMessageRecordType type = 2;
+    string attachment = 3;
+}
+
+//在线状态
+message Online {
+    uint64 id = 1;
+    bool online = 2;
+}
+
+// 好友
+message Friender {
+    uint64 id = 1;
+    int32 type = 2; // 好友类型 FriendType [default=FT_STRANGER];
+    string alias = 3; // 备注名
+    string name = 4;
+    int32 sex = 5;
+    string icon = 6;
+    sint64 created = 8; // unix time
+    sint64 flag = 9; // PlayerFlags
+    bool online = 10;
+    int32 oper_type = 11;  //操作类型
+    int32 room_id = 12; //好友所在房间
+    string signature = 13; //签名
+    uint64 id2 = 14; // 靓号
+    AppId  app_id = 15; // 应用Id
+    int32 wealth_level = 16; //财富等级
+    int32 charm_level = 17; //魅力等级
+    string room_name = 18; //好友所在房间名
+    bool is_delete = 19;//账号是否已经注销
+    bool is_category = 20; // 是否星标、是否特别关注
+    bool is_block_user=21;  //是否是被封号用户
+    string bistro_label = 22;//小酒馆标签
+}
+
+message RoomNotice {
+    uint64 player_id = 1;
+    int32 room_id = 2;  //推送房间传0
+    string room_name = 3; //房间名
+    int32 friend_type = 4; // 好友类型，FriendType
+    bool is_intimate = 5; // 是否是挚友，如果为真，表示为挚友且上一字段friend_type为0
+}
+
+//好友数量统计
+message FriendCount {
+    int64 id = 1;
+    int64 count = 2;
+}
+
+//##########结构定义
+message IntimateFriend {
+    int64 player_id = 1; // 用户ID
+    int64 friend_id = 2; // 挚友ID
+    string friend_name = 3; // 挚友昵称
+    string friend_icon = 4; // 挚友头像
+    IntimateType type = 5; // 2000亲密;2001长情;2002不渝, 此字段之后的版本不用
+    int64 room_time = 6; // 秒
+    int64 created = 7; // utc秒
+    int32 type2 = 8; //给新版使用的挚友类型2000，2001...2005
+    SexType friend_sex = 9;  // 好友性别
+    int32 intimate_val = 10; // 陪伴值
+    int32 exp_level = 11;  // 经验等级
+    int32 exp = 12;  // 经验值
+    int32 curr_level_exp = 13;  // 当前等级经验
+    int32 next_level_exp = 14;  // 下一级等级经验， 当=0时，已达最高级
+    string intimate_title = 15; // 挚友头衔
+    bool is_delete = 16; // 该账号是否已经注销
+    int64 room_id = 17;  // 房间ID
+    string room_name = 18; // 房间名称
+    string signature = 19; // 挚友签名
+    int64 open_at = 20; // 公开时间
+    int64 day_gift_exp_max = 21; // 日挚友经验上限
+    int64 effect_id = 22; // 特效ID
+    int64 cur_day_gift_exp = 23; // 日挚友经验当前值
+    int32 sort = 24; // 宝石等级，挚友排序
+    string player_name = 25; // 用户昵称
+    string player_icon = 26; // 用户头像
+    int64 friend_id2 = 27; // 挚友靓号
+}
+
+message IntimateMsg {
+    int64 player_id = 1; //
+    string player_name = 2; //
+    string player_icon = 3;
+    int64 friend_id = 4;
+    string friend_name = 5;
+    IntimateType type = 6;
+    int64 room_id = 7;
+    int64 room_id2 = 8;
+    int32 type2 = 9; //给新版使用的挚友类型2000，2001...2005
+    string intimate_text = 10; //挚友弹窗
+    string public_text = 11; //公屏提示
+    string room_name = 12;
+    RoomNobilityInfo player_nobility_info = 13; // player爵位信息
+    RoomNobilityInfo friend_nobility_info = 14; // friend爵位信息
+    bool is_push_all = 15; //全服推送
+}
+
+//挚友记录
+message IntimateLog {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    string friend_name = 3;
+    string friend_icon = 4;
+    int32 type = 5;
+    int64 apply_id = 6;
+    int64 apply_at = 7;
+    int64 dismiss_id = 8;
+    int64 dismiss_at = 9;
+    int64 room_time = 10;
+    int32 lev = 11; // 挚友等级 -1为未记录
+}
+
+// cmdId=600006 广播：您与小A的挚友陪伴值增加了10，挚友经验值增加了10（仅双方可见）
+message BroadcastIntimateVal {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    string friend_name = 5;
+    int32 intimate_val = 3; // 陪伴值
+    int32 exp = 4;  // 经验值
+    string content = 6; // 提示内容
+}
+
+// cmdId=600007 广播：小A与小B的挚友等级已提升到6级~（所有人可见）
+message BroadcastIntimateLevel {
+    int64 player_id = 1; //
+    string player_name = 2; //
+    int64 friend_id = 3;
+    string friend_name = 4;
+    int32 type = 5;     // 挚友类型
+    int32 exp_level = 6;  // 等级
+    RoomNobilityInfo player_nobility_info = 7; // player爵位信息
+    RoomNobilityInfo friend_nobility_info = 8; // friend爵位信息
+}
+
+// 收到挚友请求申请 cmdid＝ 600001
+// 通知申请结果（申请人收到） cmdid=600002
+// 解除挚友通知 cmdid=600005 type = 0
+message IntimateApplyNotice {
+    int64 player_id = 1; // 申请人/回复人id
+    int64 player_id2 = 2; //
+    string player_name = 3; //
+    IntimateType type = 4; //挚友类型
+    bool agree = 5; //是否同意
+    string msg = 6; //当宝石不足或其他错误时提示
+    int32 type2 = 7; //给新版使用的挚友类型2000，2001...2005
+    int32 intimate_type = 8; //给新版使用的挚友类型, 替换type, type2
+    string player_icon = 9; // 玩家头像
+    string to_dismiss_tips = 10; // 需要去解绑提示文案
+}
+
+// 广播：xxxx 和 xxxx 结为了亲密挚友，以后天高地厚，携手闯荡，肝胆相照~  cmdid=600003
+message IntimateFriendBC {
+    IntimateMsg msg = 1;
+}
+
+
+//################################
+
+////无返回，错误在error中返回,error为空则表示发送成功
+message FriendCommonRes {
+}
+
+//好友列表
+message FriendListReq {
+    FriendType type = 1; //
+}
+
+message FriendListRes {
+    repeated Friender list = 1;
+}
+
+//设置备注
+message FriendAliasReq {
+    uint64 id = 1;
+    string name = 2;
+}
+
+//关注 屏蔽等操作
+message FriendOperReq {
+    uint64 id = 1;
+    OperType oper = 2;
+}
+
+message FriendOperRes {
+    Friender friend = 1; // 旧版im操作返回数据（7.0.10版本之前）
+    Friender oper_friend = 2; // 新版im操作返回数据（7.0.10版本及以后）
+}
+
+//批量关注 屏蔽等操作
+message FriendBatchOperReq {
+    repeated int64 player_id = 1;
+    OperType oper = 2;
+}
+
+message FriendBatchOperRes {
+    repeated Friender friend = 1; // 旧版im操作返回数据（7.0.10版本之前）
+    repeated Friender oper_friend = 2; // 新版im操作返回数据（7.0.10版本及以后）
+}
+
+//获取用户的验证sig
+message UserSigReq {
+
+}
+
+message UserSigRes {
+    string sig = 1;
+}
+
+//好友操作
+message FriendsOperReq {
+
+}
+
+message FriendsOperRes {
+
+}
+
+//好友批量取消关注
+message FriendsUnFollowReq {
+    repeated int64 id = 1;
+}
+
+message FriendsUnFollowRes {
+
+}
+
+//获取用户历史消息
+message PrivateMessageListReq {
+    int64 time = 1; //时间戳
+}
+
+message PrivateMessageListRes {
+    repeated PrivateMessageRecord record = 1;
+}
+
+
+//请求挚友列表
+message IntimateListReq {
+    int64 player_id = 1;
+}
+
+message IntimateListRes {
+    repeated IntimateFriend data = 1;
+    int32 slot = 2; // 拥有的槽位数
+    int32 available_slot = 3;   //所有可得的槽位数(包括拥有和还可以购买的)
+    IntimateFriend top_data = 4; // 顶部挚友
+    repeated XcmIntimateBackgroundIconCfgData icon_list = 5; // 图标列表
+}
+
+// 申请挚友 已是挚友发不同类型来表示更换挚友类型
+message ApplyIntimateReq {
+    sint64 player_id = 1;
+    IntimateType type = 2;
+    int32 type2 = 3;    //给新版使用的挚友类型
+}
+
+message ApplyIntimateRes {
+}
+
+// 回复申请
+message ReplyIntimateReq {
+    int64 player_id = 1; // 申请人id
+    IntimateType type = 2; //挚友类型
+    bool agree = 3; // 是否同意
+    int32 type2 = 4;    //给新版使用的挚友类型
+}
+
+message ReplyIntimateRes {
+}
+
+//解除挚友
+message DismissIntimateReq {
+    int64 player_id = 1; // 挚友id
+}
+
+message DismissIntimateRes {
+}
+
+//添加挚友槽位  第一次需要扩展卡1张，第二次2张，第三次3张
+message AddIntimateSlotReq {
+
+}
+
+message AddIntimateSlotRes {
+
+}
+
+//获取挚友记录
+message GetIntimateRecordReq {
+    int32 page = 1;
+    int32 page_size = 2;
+}
+
+message GetIntimateRecordRes {
+    repeated IntimateLog list = 1;
+}
+
+// --------------- 打招呼 --------------------
+// 新手
+message Novice {
+    int64 player_id = 1;
+    string player_name = 2;
+    SexType sex = 3;
+    string icon = 4;
+    string ad_label = 5; // 用户渠道标签
+    string start_color = 6; // 标签开始颜色
+    string end_color = 7;   // 标签结算颜色
+}
+
+// cmdId=200200 广播打招呼推送
+message BroadcastNovice {
+    repeated Novice list = 1;
+    int32 expire_time = 2;  // 此次推送的消息过期时间，unix时间截，跟服务器心跳时间对比
+    string default_greet_content = 3; // 默认接待语
+    GreetContent content = 4; // 默认接待语结构体
+}
+
+// cmdId=200201 收到接待
+message BroadcastGreet {
+    string content = 1;
+    int64 player_id = 2; // 接待人
+    string player_name = 3;
+    int64 room_id = 4;  // 所在房间
+}
+
+
+message AcceptGreetReq {
+    string content = 1;  // 聊天内容
+    UserGreetContentType user_greet_content_type = 2; // 用户接待语类型
+    int32 accept_num = 3; // 打招呼数量 --传BroadcastNovice结构list的长度
+}
+message AcceptGreetRes {
+    repeated int64 ids = 1; // 打招呼的目标用户
+}
+
+message CancelGreetReq {
+}
+message CancelGreetRes {
+}
+
+message GreetContentListReq {
+}
+message GreetContentListRes {
+    map<int32, string> list = 1;  // key=id；value=content
+    repeated string system_content = 2 [deprecated=true];  // 快捷语
+    int32 custom_size = 3; // 自定义数量
+    repeated GreetContent contents = 4; // 文本接待语列表
+    repeated GreetContent new_system_contents = 5; // 系统快捷语列表
+    repeated GreetContent voice_contents = 6; // 语音接待语列表
+}
+
+message GreetContent {
+    int32   id          = 1;
+    string  content     = 2;
+    GreetContentStatus status = 3;
+    GreetContentChecked checked = 4; // 接待语是否默认使用 
+    GreetContentType  greet_content_type = 5; // 设置接待语类型
+    UserGreetContentType user_greet_content_type = 6; // 用户接待语类型
+    string url = 7; // 语音地址
+    string addon = 8; // 语音时长（秒）
+    string remark = 9; // 语音备注（pc用到）
+}
+
+
+message SetDefaultGreetContentReq {
+    int32   id          = 1; // 接待语ID
+    GreetContentType  greet_content_type = 2; // 接待语类型
+}
+
+message SetDefaultGreetContentRes {
+    int32 id = 1;     // 成功的id
+}
+
+
+message AddGreetContentReq {
+    int32 id = 1;       // id > 0时修改
+    string content = 2;
+    UserGreetContentType greet_content_type = 3; // 用户接待语类型
+    string addon = 4; // 语音时长（秒）
+    string remark = 5; // 语音备注（pc用到）
+}
+message AddGreetContentRes {
+    int32 id = 1;     // 成功的id
+}
+
+message DelGreetContentReq {
+    int32 id = 1;
+}
+message DelGreetContentRes {
+}
+
+message ReplyGreetReq {
+    int64 player_id = 1; // 接待人id
+    UserGreetContentType user_greet_content_type = 2; // 用户接待语类型
+}
+
+message ReplyGreetRes {
+}
+
+// --------------- 打招呼 end --------------------
+
+// ***************  挚友商城 begin  ****************
+message Goods {
+    sint64 goods_id = 1;   // 商品id
+    sint64 goods_buy_id = 2; // 商品配置ID 对应后台配置的每一条数据
+    string goods_name = 3; // 商品名称
+    IntimateType type = 4;         // 至少满足挚友类型
+    sint32 goods_num = 5;         // 数量
+    uint32 gold_price = 6; // 金币价值
+    uint32 exp_price = 7;  // 需要的陪伴值
+    bool is_index = 8;   // 是否在商城首页显示 false 商城首页不显示，true 商城首页显示
+    bool is_background = 9 [deprecated=true]; // 是否是背景 true 背景，false 道具
+    string unit = 10; // 单位, 展示时 goods_num + unit，如：goods_num = 7, unit = "天"，展示：7天; goods_num = 15, unit = "个"，展示：15个
+    int32 type2 = 11; //给新版使用的挚友类型
+    string background_light_color = 12; //私密商店-房间背景-背景渐变浅色
+    string background_dark_color = 13;  //私密商店-房间背景-背景渐变深色
+    string button_back_color = 14;      //私密商店-房间背景-购买按钮背景色
+    string button_title_color = 15;     //私密商店-房间背景-购买按钮字体色
+    GoodsType good_type = 16;           //商品类型
+    string rule = 17;                   //规则，有规则才显示右上角问号
+    string icon = 18;                   //物品图标
+    string rule_rate = 19;              //分成规则
+    int32 min_level = 20;               //最低挚友等级，-1无限制
+    int32 rate = 21;                    //手续费
+    bool is_white_repo_send = 22;       //是否挚友白名单可见
+    string toast_tips = 23;             //白名单不可购买toast
+    map<int64, int64> black_player_map = 24; //用户黑名单
+    map<int64, PairInt64Num> white_player_map = 25; //用户白名单
+}
+
+enum GoodsType {
+    GPT_ZERO = 0;       // 占位
+    GPT_GIFT = 1;       // 物品（礼物）
+    GPT_BACKGROUND = 2; // 背景
+    GPT_TICKET = 3;     // 钻石
+}
+
+message IntimateStoreGoods {
+    sint64 goods_id = 1; // 商品ID
+    repeated Goods goods = 2; // 商品列表
+}
+
+message InitmateStoreBanner {
+    int32 id = 1; // bannerid
+    string img_url = 2; // 客户端banner图
+    string pc_img_url = 3; // PC banner图
+    string redirect_url = 4; // 跳转地址
+}
+
+message IntimateStoreReq {
+    sint64 player_id = 1; //用户ID
+    sint64 intimate_id = 2; // 挚友ID
+}
+message IntimateStoreRes {
+    sint64 player_id = 1;     // 用户id
+    string player_name = 2;   // 用户昵称
+    string player_icon = 3;   // 用户头像
+    SexType player_sex = 4;   // 用户性别
+    sint64 intimate_id = 5;   // 挚友ID
+    string intimate_name = 6; // 挚友昵称
+    string intimate_icon = 7; // 挚友头像
+    SexType intimate_sex = 8; // 挚友性别
+    sint64 exp_value = 9;     // 陪伴值
+    repeated IntimateStoreGoods background = 10; // 背景
+    repeated IntimateStoreGoods goods = 11; // 道具
+    sint32 intimate_level = 12; // 挚友等级
+    IntimateType type = 13; // 挚友类型
+    sint64 gold = 14; // 个人金币
+    int32 type2 = 15; //给新版使用的挚友类型
+    sint64 ticket = 16; // 个人钻石
+    repeated InitmateStoreBanner banners = 17; // banner
+}
+
+message BuyIntimateGoodsReq {
+    sint64 player_id = 1; // 用户ID
+    sint64 intimate_id = 2; // 挚友ID
+    sint64 goods_id = 3; // 商品ID
+    sint64 goods_buy_id = 4; // 商品配置ID
+    uint32 exp_price = 5; // 陪伴值消耗
+    uint32 gold_price = 6; // 金币消耗
+    GoodsType good_type = 7; // 价格类型
+}
+message BuyIntimateGoodsRes {
+    // ErrIS_SUCCESS = 38030; // 购买成功
+    // ErrIS_EXP_LACK= 38031; // 陪伴值不够哦
+    // ErrIS_GOLD_LACK = 38032; // 金币不够哦
+    // ErrIS_EXP_OR_GOLD_LACK = 38033; // 金币或陪伴值不够哦
+    // ErrIS_INTIMATE_TYPE = 38034; // 挚友类型不符合要求
+}
+
+message IntimateHeartbeatReq{
+    //string key = 1;  //心跳位置的redis哈希key
+}
+message IntimateHeartbeatRes{
+    string heartbeat_man = 1;   //男的心跳位置
+    string heartbeat_woman = 2; //女的心跳位置
+}
+
+//获取关注信息
+message FriendIdType{
+    int64 friendId = 1; // 好友id
+    FriendType type = 2;
+}
+
+message CheckFReq{
+    repeated int64 friendId = 1;
+}
+
+message CheckFRes {
+    repeated FriendIdType idType = 1;
+}
+
+message ClearFollowerCacheReq {
+    int64 player_id = 1; // 玩家Id
+}
+
+message ClearFollowerCacheRes {
+}
+
+message GetFriendRelReq {
+    int64 player_id = 1; // 玩家Id
+    int64 target_id = 2; // 对象Id
+}
+
+message GetFriendRelRes {
+    FriendType friend_type = 1; // 好友关系
+}
+
+message IntimateConfExt {
+    int32 intimate_type = 1;   //挚友类型id
+    string name = 2;  //挚友类型名称
+    string on_chair_back_image_url = 3;         //上坑特效背景图片
+    string on_chair_back_image_url_pc = 4;      //上坑特效背景图片(pc)
+    string on_chair_content_color = 5;          //上坑特效普通文案颜色
+    string on_chair_name_color = 6;             //上坑特效昵称颜色
+    string animation_source_url = 7;            //心跳动画资源
+    string animation_source_url_pc = 8;         //心跳动画资源(pc)
+    string zone_back_image_url = 9;             //咪窝挚友背景图片
+    string zone_back_image_url_pc = 10;         //咪窝挚友背景图片(pc)
+    string zone_head_image_frame_url = 11;      //咪窝挚友头像框图片
+    string zone_head_image_frame_url_pc = 12;   //咪窝挚友头像框图片(pc)
+    string zone_theme_color = 13;               //咪窝挚友主题色
+    string zone_values_text_color = 14;         //咪窝挚友具体值字体色（2019.11.6、已陪伴）
+    string zone_player_name_color = 15;         //咪窝挚友玩家昵称字体色
+    string list_back_image_url = 16;            //挚友列表背景图片
+    string list_back_image_url_pc = 17;         //挚友列表背景图片(pc)
+    string list_head_image_frame_url = 18;      //挚友列表头像框图片
+    string list_head_image_frame_url_pc = 19;   //挚友列表头像框图片(pc)
+    string list_title_text_color = 20;          //挚友列表标签字体色（陪伴等级、陪伴时长、陪伴值）
+    string list_values_text_color = 21;         //挚友列表具体值字体色（LV3、0天0时11分、16520）
+    string list_progress_light_color = 22;      //挚友列表进度条浅色
+    string list_theme_color = 23;               //挚友列表主题色（挚友名称背景、进度条深色、兑换按钮背景色）
+    string ever_back_image_url = 24;            //挚友曾经背景图
+    string ever_back_image_url_pc = 25;         //挚友曾经背景图(pc)
+    bool show_room_banner = 26;                 //是否显示全服跑道
+    string zone_back_image_url_pc_large = 27;   //咪窝挚友背景图片(pc大图)
+    bool title_can_change = 28;                 //挚友头衔是否可修改
+    string enter_room_effect = 29;              //挚友进房横幅特效app
+    string enter_room_effect_pc = 30;           //挚友进房横幅特效pc
+    string effect_name_color = 31;              //挚友进房横幅特效名字颜色
+    string effect_text_color = 32;              //挚友进房横幅特效文字颜色
+    string effect_text = 33;                    //挚友进房横幅后面文字内容
+    string friend_icon_url = 34;                //好友列表里挚友图标
+}
+message IntimateConfExtReq {
+}
+message IntimateConfExtRes {
+    map<int32, IntimateConfExt> list = 1;  // key=挚友类型id；value=content
+    int32 change_title_min_level = 2;      // 修改头衔所需最低等级
+    int32 change_title_gold = 3;           // 修改头衔所需金币
+    int32 title_max_len = 4;               // 头衔最大字符数
+    repeated IntimateSlotInfo slot_info = 5;    //槽位信息
+}
+
+message FansListReq {
+    int32 index = 1; //请求第一页时传0
+}
+message FansListRes {
+    repeated Friender list = 1; //一次最多返回50条记录
+    int32 current_index = 2; //客户端请求的 index
+    int32 next_index = 3; //-1代表列表没有下一页了, 否则可以用此值在FansListReq中请求下一页
+}
+
+enum SearchFriendType {
+    SFT_NONE = 0; //占位不用
+    SFT_ALL = 1; //所有分类
+    SFT_FRIEND = 2; //好友
+    SFT_FOLLOW = 3; //关注
+    SFT_FANS = 4; //粉丝
+}
+enum SearchFriendResultOption {
+    SFRO_NONE = 0; //占位不用
+    SFRO_FIRST_PART = 1; //返回第一部分搜索结果
+    SFRO_ALL_RESULT = 2; //返回所有搜索结果
+}
+message SearchFriendResult {
+    SearchFriendType search_type = 1;   //好友,关注,粉丝
+    repeated Friender friend_list = 2;
+    bool has_more = 3; //还有更多
+}
+message SearchFriendReq {
+    SearchFriendType search_type = 1;
+    SearchFriendResultOption option = 2;
+    string keyword = 3;  // 搜索关键词
+}
+message SearchFriendRes {
+    SearchFriendType search_type = 1;   //客户端请求的 SearchFriendType
+    repeated SearchFriendResult list = 2;
+}
+
+message FansNumReq {
+}
+message FansNumRes {
+    int32 fans_num = 1;         // 粉丝数
+}
+
+message FollowImMessage{
+    FriendIMType msg_type = 1;
+    string msg = 2;
+    int64 to_player_id = 3;
+}
+
+message IntimateTitleReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    string title = 3;       //挚友头衔
+}
+message IntimateTitleRes {
+}
+
+message FriendStensitiveReq {
+}
+message FriendStensitiveRes {
+}
+
+message IntimateSlotInfo {
+    int32 pos = 1;
+    int32 expand_cards = 2;     //开通槽位所需拓展卡数
+}
+
+message ContactListReq {
+    ContactType contact_type = 1; //联系人类型
+    int32 page = 2; //第1页开始（增量不做分页）
+    int64 begin_time = 3; //时间戳，全量查询时为0，增量查询时为对应的时间戳
+    bool force_full_sync = 4; //强制获取全量联系人
+}
+message ContactListRes {
+    repeated Friender list = 1; //联系人列表
+    int64 total = 2;
+    int64 sync_time = 3; //服务器当前时间
+}
+
+message ContactOnlineListReq {
+    ContactType contact_type = 1; //联系人类型
+    int32 page = 2; //第1页开始
+}
+message ContactOnlineListRes {
+    repeated ContactOnline list = 1;
+    int64 total = 2;
+}
+
+message ContactOnline {
+    uint64 player_id = 1;
+    uint64 room_id = 2;
+    string room_name = 3;
+    bool   is_block_user=4; //是否被封号用户
+}
+
+message ContactListMD5Req {
+    ContactType contact_type = 1;
+}
+message ContactListMD5Res {
+    ContactType contact_type = 1;
+    string md5 = 2;
+}
+
+//封号联系人列表请求
+message ContactBlockedListReq {
+    ContactType contact_type = 1; //联系人类型
+}
+
+//封号联系人列表返回
+message ContactBlockedListRes{
+    repeated ContactBlocked list = 1;
+    int64 total = 2;
+}
+
+message ContactBlocked {
+    uint64 player_id = 1;
+}
+
+
+enum ContactType {
+    CT_NONE = 0; //占位不用
+    CT_ALL = 1; //所有分类
+    CT_FRIEND = 2; //好友
+    CT_FOLLOW = 3; //关注
+    CT_FANS = 4; //粉丝
+    CT_BAN = 5; //屏蔽
+}
+
+// 挚友回馈信息
+message IntimateGiveBackReq{
+    sint64 id = 1;  // 挚友ID
+}
+
+message IntimateGiveBackRes {
+    SimplePlayer player = 1;
+    sint32 lv = 2;  // 挚友等级
+    string type = 3;  // 挚友类型,显示的是iconUrl
+    sint64 give_back_limit = 4;  // 可回馈额度
+    repeated sint64 give_back = 5;  // 回馈额度
+    sint32 fee = 6;  // 回馈手续费 0% - 100%
+    bool is_certify = 7;  // 是否实名
+    sint32 valid_days = 8;  // 可回馈的天数
+    sint64 user_debt = 9;  // 用户负债，0 为不负债
+}
+
+// 挚友回馈
+message GiveBackReq{
+    sint64 id = 1;  // 挚友ID
+    sint64 value = 2;  // 回馈额度
+}
+
+message GiveBackRes{
+    sint64 give_back_limit = 1;  // 可回馈额度
+}
+
+message ClearPmMsgListReq {
+    int64 friend_id = 1;
+}
+message ClearPmMsgListRes {}
+
+// 联系人分类操作类型
+enum FriendCategoryOper {
+    FCO_UNSET = 0; // 取消设置
+    FCO_SET = 1;   // 设置
+}
+
+// 设置为标星（特别关注）/ 取消设置标星（特别关注）
+message FriendCategoryReq {
+    int64 player_id = 1;
+    FriendCategoryOper oper = 2;  // 操作类型
+}
+message FriendCategoryRes {
+    Friender friend = 1;
+}
+
+// 获取IM发送图片限制配置
+message FriendImImgLimitReq {
+}
+message FriendImImgLimitRes {
+    int32 charm_lev = 1;  // 魅力等级
+    int32 cond = 2;       // 0：或，1：与
+    int32 wealth_lev = 3; // 财富等级
+}
+
+// 视频划卡私聊自动发送消息
+message VideoIMMessageReq {
+    int64 from_id = 1; // 消息发送者ID(视频作者)
+    int64 to_id = 2; // 消息接收者ID(视频观看者)
+    int32 button_type = 3; // 按钮类型（对应phome的EIButtonType）
+    int64 trend_id = 4; // 视频ID
+}
+
+message VideoIMMessageRes {
+
+}
+
+enum TeacherStudentOptType {
+    TSOT_NONE = 0; // 占位
+    TSOT_APPRENTICE = 1; // 拜师
+    TOST_STUDENT = 2; // 收徒
+    TSOT_ACCEPT = 3; // 接受
+    TSOT_REFUSE = 4; // 拒绝
+    TSOT_RELIEVE = 5; // 解除
+    TSOT_ASK = 6; // 询问
+}
+
+// cmdId = 200205
+message BroadcastTeacherStudentRelationship {
+    int64 teacher_id = 1; // 师傅ID
+    int64 teacher_id2 = 2; // 师傅靓号
+    string teacher_name = 3; // 师傅名称
+    string teacher_icon = 4; // 师傅头像
+    int64 student_id = 5; // 徒弟ID
+    int64 student_id2 = 6; // 徒弟靓号
+    string student_name = 7; // 徒弟名称
+    string student_icon = 8; // 徒弟头像
+    TeacherStudentOptType opt = 9; // 师徒操作
+    string title = 10; // 标题
+    string content = 11; // 内容 %name% 用户名称 %id% 用户ID
+    int64 time_out = 12; // 过期时间(时间戳)
+    string relation_id = 13; // 关系ID
+    int32 gift_id = 14;  // 礼物ID
+}
+
+// 师徒关系操作
+message TeacherStudentOptReq {
+    int64 player_id = 1; // 对方ID
+    TeacherStudentOptType opt = 2; // 师徒操作
+    string relation_id = 3; // 关系ID
+    int32 gift_id = 4; // 礼物ID
+}
+
+message TeacherStudentOptRes {
+
+}
+
+message TeacherStudentSendGiftReq {
+    int64 to_id = 1; // 收礼者ID
+    int32 gift_id = 2; // 礼物ID
+}
+
+message TeacherStudentSendGiftRes {
+    TeacherStudentOptType opt = 1; // 师徒操作
+    int64 to_id = 2; // 收礼者ID
+    int64 to_id2 = 3; // 收礼者靓号
+    string to_name = 4; // 收礼者名称
+    string to_icon = 5; // 收礼者头像
+    string title = 6; // 弹窗标题
+    string content = 7; // 弹窗内容 %name% 用户名称 %id% 用户ID
+    int64 expired = 8; // 弹窗过期时间时间戳(秒)
+    int32 gift_id = 9; // 礼物ID
+}
+
+message BroadcastTeacherStudentSendGift {
+    int64 from_id = 1; // 送礼者ID
+    string from_name = 2; // 送礼者名称
+    string from_icon = 3; // 送礼者头像
+    int64 to_id = 4; // 收礼者ID
+    string to_name = 5; // 收礼者名称
+    string to_icon = 6; // 收礼者头像
+    int32 gift_id = 7; // 礼物ID
+    int32 gift_num = 8; // 礼物数量
+    int64 room_id = 9;
+    int64 room_id2 = 10;
+    string room_name = 11;
+    string public_text = 12; //公屏提示
+    RoomNobilityInfo from_nobility_info = 13; // 送礼者爵位信息
+    RoomNobilityInfo to_nobility_info = 14; // 收礼者爵位信息
+    bool is_push_all = 15; //全服推送
+}
+
+enum FromType {
+    FROM_TYPE_NONE = 0; // 占位位置 无用
+    FROM_TYPE_IM_AUTO = 1; //来源于im代聊
+    FROM_TYPE_HUMAN_REVIEW = 2; // 后台私聊人工审核
+}
+
+// CloudCustomData 字段结构
+message IMCloudCustomData {
+    SessionShowType session_show_type = 1;   // 对话隐藏方式
+    IMListShowType cur_type = 2;             // 当前IM列表显示方式
+    int64 end_time = 3;                      // 结束时间戳
+    IMListShowType end_type = 4;             // 结束时间后,IM列表显示方式
+    FromType from_type = 5;                  // 来源类型
+    int64 self_last = 6;                     // 时间戳（秒）,自己的上一条发送时间
+    int64 target_last = 7;                   // 时间戳（秒）,对方的上一条发送时间
+    IMListTagType tag = 8 [deprecated=true]; // IM列表显示标签类型
+    int64 tag_end_time = 9 [deprecated=true];// IM列表显示标签结束时间
+    IMCloudCustomDataSafetyTips sender_tips = 10;   // 发送者提示
+    IMCloudCustomDataSafetyTips receiver_tips = 11;   // 接收者提示
+    string application = 12;                    //应用标识  如oxygen、oxygenpc
+    repeated IMListTag tag_list = 13;           // 标签类型
+}
+
+message IMListTag {
+    IMListTagType tag = 1[deprecated=true];  // IM列表显示标签类型 （废弃）
+    int64 tag_end_time = 2; // IM列表显示标签结束时间
+    bool is_show = 4; // 是否显示标签 IMListTagType IMLTT_BISTRO 使用
+    int64 target_id = 5; // target_id=本人则该tag起作用 (默认为0都起作用）（如IM红包图标针对有未打开红包的用户才需要显示）
+    string msg_content = 6; // 消息摘要 （富文本）
+    NewIMListTagType tag_type = 7; // IM列表显示标签类型 (IM红包之后用该类型)
+    int64 boss_id = 8; // 老板id IMListTagType IMLTT_CP_GUIDE_CP 使用
+}
+
+// IM列表 标签
+enum NewIMListTagType {
+    NIMLTT_ZERO = 0;             // 占位
+    NIMLTT_CP = 1;               // 心动标签
+    NIMLTT_WEEK_CP = 2;          // 一周CP标签
+    NIMLTT_RED_ENVELOPE = 3;     // IM红包
+    NIMLTT_WEEK_TRAVEL = 4;      // 一周旅行标签
+    NIMLTT_MASK_DATE = 5;        // 蒙面约会标签
+}
+
+enum IMCloudCustomDataStyle{
+    IMCCDS_NONE = 0; // 占位
+    IMCCDS_NORMAL = 1; // 无底版
+    IMCCDS_WARNING = 2; // 警告样式
+}
+
+enum IMCloudCustomDataMsgType{
+    IMCCDMT_NONE    = 0; // 占位
+    IMCCDMT_NORMAL  = 1; // 占位
+    IMCCDMT_APPEAL  = 2; // 申诉 客户端特殊处理，自己做申诉路由和已审诉
+}
+
+message BroadcastIMCloudCustomDataSafetyTips{
+    string msg_key = 1; // 消息ID
+    IMCloudCustomDataSafetyTips sender_tips = 2;   // 发送者提示
+}
+
+message IMCloudCustomDataSafetyTips {
+    IMCloudCustomDataStyle tips_style = 1; // 样式
+    string msg = 2; // 富文本内容
+    IMCloudCustomDataMsgType msg_type = 3; //内容类型，用于客户端是否做特殊处理拼接
+}
+
+// 对话隐藏方式
+enum SessionShowType {
+    SESSION_SHOW_BOTH = 0;      // 发送者接受者都显示
+    SESSION_NOT_SHOW = 1;       // 发送者接受者都隐藏
+    SESSION_SHOW_SEND = 2;      // 显示发送者，隐藏接受者
+    SESSION_SHOW_RECEIVE = 3;   // 隐藏发送者，显示接受者
+}
+
+// IM列表显示方式
+enum IMListShowType {
+    IMLST_ZERO = 0;             // 占位
+    IMLST_LIST_SHOW_BOTH = 1;   // 显示在AB的聊天界面
+    IMLST_SEND_SHOW = 2;        // 发送者在列表显示，接收者在打招呼显示
+    IMLST_SAY_HELLO_BOTH = 3;   // 显示在AB打招呼
+    IMLST_RECEIVE_SHOW = 4;     // 接收者在列表显示，发送者在打招呼显示
+}
+
+// IM列表 标签
+enum IMListTagType {
+    IMLTT_ZERO = 0;             // 占位
+    IMLTT_CP = 1;               // 心动标签
+    IMLTT_WEEK_CP = 2;          // 一周CP标签
+    IMLTT_BISTRO = 3;           // 深夜小酒馆
+    IMLTT_CP_GUIDE_CP = 6;      //新人接待官老板侧显示陪陪标签
+    IMLTT_CP_GUIDE_ACCEPT = 7;  //新人接待官陪陪侧显示接待中老板标签
+    IMLTT_CP_GUIDE_REBATE = 8;  //新人接待官陪陪侧显示返利中老板标签
+}
+
+enum IMAutoChatMsgType {
+    IM_AUTO_CHAT_MSG_TYPE_NONE = 0; //占位不用
+    IM_AUTO_CHAT_MSG_TYPE_TEXT = 1; //文字
+    IM_AUTO_CHAT_MSG_TYPE_VOICE = 2; //语音
+    IM_AUTO_CHAT_MSG_TYPE_PIC = 3; //图片
+}
+
+enum IMAutoChatMsgAuditStatus {
+    IM_AUTO_CHAT_MSG_AUDIT_NONE = 0;            // 占位不用
+    IM_AUTO_CHAT_MSG_AUDIT_PASS = 1;            // 默认 审核通过
+    IM_AUTO_CHAT_MSG_AUDIT_AUDITING = 2;        // 审核中
+    IM_AUTO_CHAT_MSG_AUDIT_AUDIT_REFUSE = 3;    // 审核拒绝
+}
+
+message IMAutoChatMsg {
+    IMAutoChatMsgType type = 1;
+    int32 index = 2; //序号
+    string content = 3; //内容
+    IMAutoChatMsgAuditStatus status = 4; //审核状态
+    string reason = 5; //拒绝理由
+    int32 voice_time = 6; //语音时长，单位：秒。
+    int32 voice_size = 7; //语音数据大小，单位：字节。
+    int32 img_width = 8; //图片宽度
+    int32 img_height = 9; //图片高度
+}
+
+message AddIMAutoChatMsgReq {
+    repeated IMAutoChatMsg msgs = 1;
+}
+
+message AddIMAutoChatMsgRes {
+}
+
+message IMAutoChatMsgListReq {
+}
+
+message IMAutoChatMsgListRes {
+    repeated IMAutoChatMsg msgs = 1;
+}
+
+// IM代聊状态变更 cmdid=600008
+message IMAutoChatPush {
+    IMAutoChatStatus status = 1;
+    int32 gift_id = 2;  // status=2时，显示该礼物送礼弹窗
+    int64 target_id = 3; //对象id 例：主播Id
+}
+
+//房间节目通知用户 一个小时只能推一次
+message RoomProgramNoticeReq {
+    int64 room_program_show_id = 1; // 节目单项目id
+}
+message RoomProgramNoticeRes {
+}
+
+message IntimateTicketRecordReq {
+    int32 page = 1;         // 页 从1开始，每页20条
+	int32 page_size = 2;    // 每页多少条数据
+}
+
+message IntimateTicketRecordRes {
+    repeated TicketTotal total = 1;
+    repeated IntimateTicketInfo info = 2;
+    bool record_on_off = 3; // 灰度开关
+}
+
+message TicketTotal {
+	int64 time_stamp = 1;
+	int64 income_total = 2;  // 每日收入合计
+    int64 consume_total = 3; // 每日消费合计
+}
+
+enum IntimateTicketType {
+	ITT_ZERO = 0;    // 占位
+	ITT_INCOME = 1;  // 收入
+	ITT_CONSUME = 2; // 消费
+}
+
+message IntimateTicketInfo {
+    IntimateTicketType type = 1;    // 类型
+	int64 fans_id = 2;      // 粉丝id
+	string fans_name = 3;   // 粉丝名称
+	string fans_icon = 4;   // 粉丝头像
+	string icon = 5;        // 物品图标
+	uint32 num = 6;         // 物品数量
+	sint32 price = 7;       // 钻石
+	int64  create_at = 8;   // 创建时间
+}
+
+// 违规消息误报申诉
+message IllegalMsgAppealReq {
+    string msg_key = 1;      // 消息唯一ID，对应腾讯IM SDK的MsgKey
+    string msg_content = 2;  // 消息内容
+    int64 to_player_id = 3;  // 接收消息的用户ID
+}
+
+message IllegalMsgAppealRes {
+
+}
+
+message PullIntimateBackgroundCfgDataReq{}
+
+message PullIntimateBackgroundCfgDataRes{
+    repeated XcmIntimateBackgroundCfgData list = 1;
+}
+message QueryImOnlineStatusReq{}
+
+message QueryImOnlineStatusRes{
+    bool online = 1; // TRUE在线；FALSE离线
+}
+
+// ***************  挚友商城  end   ****************
+service FriendExtObj {
+    rpc FriendOper (FriendOperReq) returns (FriendOperRes); //好友操作 关注 屏蔽等
+    rpc FriendBatchOper (FriendBatchOperReq) returns (FriendBatchOperRes); //好友操作 关注 屏蔽等
+    rpc UserSig (UserSigReq) returns (UserSigRes); //获取用户的sig
+    rpc FriendAlias (FriendAliasReq) returns (FriendCommonRes); //修改好友备注
+    rpc FriendList (FriendListReq) returns (FriendListRes); //好友列表（后续版本不在使用，使用 ContactList 接口查询）
+    rpc PrivateMessageList (PrivateMessageListReq) returns (PrivateMessageListRes); //获取私聊记录
+    rpc FriendsUnFollow (FriendsUnFollowReq) returns (FriendsUnFollowRes); //批量删除关系
+
+    // 请求挚友列表
+    rpc IntimateList (IntimateListReq) returns (IntimateListRes);
+    // 申请挚友
+    rpc ApplyIntimate (ApplyIntimateReq) returns (ApplyIntimateRes);
+    // 回复挚友请求申请
+    rpc ReplyIntimate (ReplyIntimateReq) returns (ReplyIntimateRes);
+    // 解除挚友
+    rpc DismissIntimate (DismissIntimateReq) returns (DismissIntimateRes);
+    // 添加挚友槽位
+    rpc AddIntimateSlot (AddIntimateSlotReq) returns (AddIntimateSlotRes);
+    // 获取挚友记录
+    rpc GetIntimateRecord (GetIntimateRecordReq) returns (GetIntimateRecordRes);
+
+    // 打招呼
+    rpc AcceptGreet (AcceptGreetReq) returns (AcceptGreetRes);
+    // 忽略打招呼
+    rpc CancelGreet (CancelGreetReq) returns (CancelGreetRes);
+    // 新人回复打招呼
+    rpc ReplyGreet (ReplyGreetReq) returns (ReplyGreetRes);
+    // 获取接待语
+    rpc GreetContentList (GreetContentListReq) returns (GreetContentListRes);
+    // 添加接待语
+    rpc AddGreetContent (AddGreetContentReq) returns (AddGreetContentRes);
+    // 删除接待语
+    rpc DelGreetContent (DelGreetContentReq) returns (DelGreetContentRes);
+    // 设置默认接待语
+    rpc SetDefaultGreetContent (SetDefaultGreetContentReq) returns (SetDefaultGreetContentRes);
+    // ***************  挚友商城 begin  ****************
+    // 挚友商城
+    rpc IntimateStore (IntimateStoreReq) returns (IntimateStoreRes);
+    // 购买背景、道具
+    rpc BuyIntimateGoods (BuyIntimateGoodsReq) returns (BuyIntimateGoodsRes);
+    //挚友心跳位置
+    rpc GetIntimateHeartbeat (IntimateHeartbeatReq) returns (IntimateHeartbeatRes);
+    //挚友钻石消费记录
+    rpc IntimateTicketRecord (IntimateTicketRecordReq) returns (IntimateTicketRecordRes);
+    // ***************  挚友商城  end   ****************
+
+    // 获取好友关系
+    rpc GetFriendRel(GetFriendRelReq) returns (GetFriendRelRes);
+    //获取关注信息
+    rpc CheckFriend(CheckFReq) returns (CheckFRes);
+    //挚友配置
+    rpc IntimateConfExt (IntimateConfExtReq) returns (IntimateConfExtRes);
+    //粉丝列表（后续版本不在使用，使用 ContactList 接口查询）
+    rpc FansList (FansListReq) returns (FansListRes);
+    //好友,关注,粉丝搜索
+    rpc SearchFriend (SearchFriendReq) returns (SearchFriendRes);
+    //粉丝数量（后续版本不在使用，使用 ContactList 接口查询）
+    rpc FansNum (FansNumReq) returns (FansNumRes);
+    // 设置挚友头衔
+    rpc IntimateTitle (IntimateTitleReq) returns (IntimateTitleRes);
+    // 触发腾讯云敏感词上报 80001
+    rpc FriendStensitive (FriendStensitiveReq) returns (FriendStensitiveRes);
+
+    //好友、关注、粉丝、屏蔽人员列表
+    rpc ContactList (ContactListReq) returns (ContactListRes);
+    //好友、关注、粉丝、屏蔽 在线人员列表
+    rpc ContactOnlineList (ContactOnlineListReq) returns (ContactOnlineListRes);
+    //获取全量MD5
+    rpc ContactListMD5 (ContactListMD5Req) returns (ContactListMD5Res);
+    //好友、关注、粉丝、屏蔽 封号人员列表
+    rpc ContactBlockedList(ContactBlockedListReq) returns (ContactBlockedListRes);
+
+    // 挚友回馈信息
+    rpc IntimateGiveBackInfo (IntimateGiveBackReq) returns (IntimateGiveBackRes);
+    // 回馈挚友
+    rpc GiveBack (GiveBackReq) returns (GiveBackRes);
+
+    // 清空私聊消息记录
+    rpc ClearPmMsgList (ClearPmMsgListReq) returns (ClearPmMsgListRes);
+
+    // 联系人分类操作类型
+    rpc FriendCategory (FriendCategoryReq) returns (FriendCategoryRes);
+
+    // 获取IM发送图片限制配置
+    rpc FriendImImgLimit (FriendImImgLimitReq) returns (FriendImImgLimitRes);
+
+    // 视频划卡私聊自动发送消息
+    rpc VideoIMMessage (VideoIMMessageReq) returns (VideoIMMessageRes);
+
+    // ------ 师徒系统
+    // 师徒礼物送礼触发拜师、收徒
+    rpc TeacherStudentSendGift(TeacherStudentSendGiftReq) returns (TeacherStudentSendGiftRes);
+    // 师徒关系
+    rpc TeacherStudentOpt(TeacherStudentOptReq) returns (TeacherStudentOptRes);
+    // 师徒关系列表
+    rpc TeacherStudentList(TeacherStudentListReq) returns (TeacherStudentListRes);
+    // 师徒我的曾经列表
+    rpc TeacherStudentEverList(TeacherStudentEverListReq) returns (TeacherStudentEverListRes);
+    // 出师列表
+    rpc GraduateList(GraduateListReq) returns (GraduateListRes);
+    // 师徒签到
+    rpc TeacherSign(TeacherSignReq) returns (TeacherSignRes);
+    // 师徒等级配置
+    rpc TeacherStudentLevCfg(TeacherStudentLevCfgReq) returns (TeacherStudentLevCfgRes);
+    // 师徒关系详情
+    rpc TeacherStudentDetail(TeacherStudentDetailReq) returns (TeacherStudentDetailRes);
+    // 师徒宗谱
+    rpc TeacherStudentGenealogy(TeacherStudentGenealogyReq) returns (TeacherStudentGenealogyRes);
+    // ------ 师徒系统
+    // 添加话术
+    rpc AddIMAutoChatMsg(AddIMAutoChatMsgReq) returns(AddIMAutoChatMsgRes);
+    // 返回话术列表
+    rpc IMAutoChatMsgList(IMAutoChatMsgListReq) returns(IMAutoChatMsgListRes);
+    // 房间节目预告通知用户 一个小时只能推一次
+    rpc RoomProgramNotice(RoomProgramNoticeReq) returns (RoomProgramNoticeRes);
+
+    // 违规消息误报申诉-风控
+    rpc IllegalMsgAppeal(IllegalMsgAppealReq) returns (IllegalMsgAppealRes);
+
+    // 获取挚友特殊展示页面配置
+    rpc PullIntimateBackgroundCfgData(PullIntimateBackgroundCfgDataReq) returns (PullIntimateBackgroundCfgDataRes);
+
+    // 检测IM是否在线
+    rpc QueryImOnlineStatus(QueryImOnlineStatusReq) returns (QueryImOnlineStatusRes);
+}

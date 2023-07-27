@@ -1,0 +1,561 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+// 商城广播cmdId定义 301
+enum StoreCmdId {
+    Store_Zero = 0;
+    Store_Buy_Gift = 301001; //购买赠送礼物领取通知  BuyGiftNotice
+    Store_Buy_Gift_Reward = 301002; //购买已领取礼物通知  BuyGiftNotice
+    STORE_POINT_BUY_LIMIT = 301003; //积分商城限购数量变化推送  PointStoreLimit
+}
+
+enum StoreCode {
+    ErrStoreZero = 0;
+    ErrStoreBuyEntryOff = 45010;
+}
+
+message Store {
+    int32 id = 1; // 商城商品id
+    int32 asset_id = 2; //礼物id
+    int32 asset_type = 3;
+    int32 price_type = 4; //价格类型，就是用哪种物品或货币进行兑换 100001-金币，其他为各自物品id；10：积分兑换
+    int64 price = 5;
+    int32 active = 6; //是否出售 1-出售 2-不出售  如果不出售显示原因asset_explain
+    string asset_name = 7;
+    string asset_image = 8;
+    string background_image = 9;
+    string asset_explain = 10;
+    int32 sort = 11; //排序
+    string remark = 12; //备注 子活动id用户前端绑定过滤对应商品
+    string num_color = 13; //颜色
+    int32 status = 14; //1-显示 2-不显示
+    int64 num = 15; //数量
+    string unit = 16; //单位
+    int32 buy_num = 17; //允许购买次数 0-不限制 1-代表1次
+    int32 gift_category = 18; //礼物类型 0-普通 1-打折 2-稀有 3-限时
+
+    int32 classify_id = 19; // 分类id
+    string dynamic_image = 20; // 动图，为空则没有
+    string description = 21; // 描述(例如：皇帝爵位专属)
+    int32 star_num = 22; // 爵位物品星数
+    string router = 23; // 爵位物品点击购买跳转路由，跳转到H5开通爵位
+    string explain = 24; // 选中物品后，底部显示的说明
+    int32 nobility_level = 25; // 爵位等级 子爵<侯爵<公爵<国王<皇帝
+    EffectStatus effect_status = 26; // 特效商品的状态，0：玩家没有这个特效
+
+    int32 get_point = 27; // 购买获得积分
+    LimitData limit = 28; // 购买限制类型
+    string extra_gift_str = 29; //购买物品额外奖励文案
+    string detail_link = 30; // 礼物详情链接
+    repeated string application = 31; // 应用包名
+    int32 unlock_days = 32; //解锁天数
+}
+
+enum EffectStatus {
+    ES_ZERO = 0;
+    ES_OWNED = 1; // 已拥有
+    ES_USING = 2; // 使用中
+}
+
+//礼物
+message ExchangeGoods {
+    int32 gift_id = 1; //礼物id
+    int64 num = 2; //礼物数量
+    string unit = 3; //礼物单位
+    string name = 4; //礼物名字
+    string image_url = 5; //图片路径
+    int64 original_price = 6; //原价
+    int32 gift_type = 7; //兑换类型　0-物品 1-房间背景 2-特效 3-金币 4-爵位 5-皮肤
+    int32 price = 8; //单价
+    int32 gift_value = 9; //兑换物品价值
+}
+
+message ExchangeExtend {
+    int32 exchange_type = 1; //兑换类型 0普通 1按价值比例兑换 2拼手气兑换 3榜首奖励标签兑换
+    int32 price_limit_type = 2; //价值范围类型 0-普通 1-物品价值范围
+    int32 min_price = 3; //价值区间
+    int32 max_price = 4; //价值区间
+    int32 min_num = 5; //最小兑换数量
+    int32 max_num = 6; //最大兑换数量
+}
+
+message Exchange {
+    int32 id = 1; //兑换id
+    repeated ExchangeGoods goods = 2; //兑换物品
+    repeated ExchangeGoods price = 3; //兑换价格
+    int32 limit = 4; //限制次数
+    int64 created = 5;
+    string flag = 6; //这是用于h5匹配活动，填活动的名称或id
+    int32 exchange_num = 7; //兑换次数
+    int32 limit_range = 8; //1-全服 2-个人
+    int32 limit_cycle = 9; //每隔一段时间重置 1-每周 2-每月 3-每天 4-不重置
+    int64 gold = 10; //价值多少钱
+    int32 gift_category = 11; //礼物类型 0-普通 1-打折
+    int64 start_time = 12;
+    int64 end_time = 13;
+    repeated LimitData limits = 14; //限制
+    string remark = 15; //备注
+    ExchangeExtend extend = 16; //扩展
+    int32 rel_act_id = 17; //子活动ID
+    int64 show_start_time = 18;
+    int64 show_end_time = 19;
+    int32 can_buy_status = 20; //是否能购买
+}
+
+message LimitData {
+    int32 limit_num = 1; //限制数量
+    int32 limit_range = 2; //1-全服 2-个人
+    int32 use_num = 3; //已兑换数量
+    int32 limit_cycle = 4; //每隔一段时间重置 1-每周 2-每月 3-每天 4-不重置
+}
+
+//兑换记录
+message LogExchange {
+    int32 id = 1;
+    int32 exchange_id = 2;
+    int64 player_id = 3;
+    int64 player_id2 = 7; //
+    string player_name = 8;
+    repeated ExchangeGoods goods = 4; //兑换物品
+    repeated ExchangeGoods price = 5; //兑换价格
+    int64 created = 6;
+}
+
+//购买限制记录
+message BuyRecord {
+    int32 id = 1; // 兑换id 或者物品id
+    int64 num = 2;
+}
+
+//购买购买赠送礼物通知
+message BuyGiftNotice {
+    int32 id = 1; //购买的物品id
+    string msg = 2; //详细通知（目前只需要把此字符串显示）
+    string reward_flag = 3; //领取标识
+    int64 created = 4; //创建时间
+}
+
+//购买已领取礼物通知
+message BuyGiftRewardNotice {
+    string msg = 1; //通知信息
+}
+//##########请求################################
+
+//购物
+message BuyReq {
+    int32 id = 1; //商品id，不是物品id，即不是asset_id
+    int32 num = 2;
+    int32 type = 3; //0-购买 1-兑换 2-积分商城兑换
+    int32 remark = 4; //备注，购买不填，活动兑换填子活动id 或者活动id
+    bool use_addr = 5; // 使用地址
+}
+
+message BuyRes {
+    int64 gold = 1; //扣除的金币数
+    int32 num = 2; //购买的数量
+}
+
+//获取商城配置
+message GetStoreConfReq {
+    bool is_html = 1; //判断是否h5请求 如果是则不判断版本
+    int64 player_id = 2; //人员id
+}
+
+message GetStoreConfRes {
+    repeated Store store = 1;
+}
+
+// 根据商城id获取商城配置
+message StoreConfByIdReq {
+    int32 id = 1; //商城id
+}
+message StoreConfByIdRes {
+    Store store = 1;
+}
+
+//获取兑换配置
+message GetExchangeConfReq {
+    int64 player_id = 1;
+    repeated int32 rel_act_ids = 2; //筛选的子活动列表 （[]空数组表示返回所有）
+}
+
+message GetExchangeConfRes {
+    repeated Exchange store = 1; // 兑换配置
+}
+
+//获取购买记录列表
+message ListBuyRecordReq {
+    repeated int32 id = 1; //兑换的配置id 如[1, 2, 3]
+    int32 buyType = 2; //0-购买 1-兑换
+}
+
+message ListBuyRecordRes {
+    repeated BuyRecord list = 1;
+}
+
+//兑换记录
+message ExchangeRecordReq {
+    int64 start_time = 1; //开始时间
+    int64 end_time = 2; //结束时间
+    string flag = 3; //这是后台兑换物品配置的标识符
+    int32 page = 4; //第几页
+    int64 page_size = 5; //每页数量
+    int64 player_id = 6; //指定用户 如果为0，则获取自己id
+    bool all = 7; //是否获取所有人的记录
+    int32 rel_act_id = 8; // 默认为0（表示不以子活动来筛选）
+}
+
+message ExchangeRecordRes {
+    repeated LogExchange list = 1;
+}
+
+//领取礼物
+message RewardBuyReq {
+    string reward_flag = 1; //领取标识
+}
+
+message RewardBuyRes {
+    string reward = 1; //奖励 二维数据的字符串格式
+}
+
+// 更新、新增兑换地址
+message PlayerAddrReq {
+    int32 player_id = 1; // 用户id
+    PlayerAddr player_addr = 2; // 更新数据
+}
+
+message PlayerAddrRes {
+}
+
+// 获取兑换地址
+message FindPlayerAddrReq {
+    int32 player_id = 1; // 用户id
+}
+
+message FindPlayerAddrRes {
+    repeated PlayerAddr addressList = 1; // 用户地址列表
+}
+
+message SaleGiftReq {
+    int32 exchange_id = 1; // 兑换配置id
+    repeated SaleGiftInfo gift_info_list = 2; // 要兑换的礼物
+    int32 num = 3; // 兑换个数
+    int32 remark = 4; //备注，活动兑换填子活动id 或者活动id
+}
+
+message SaleGiftInfo {
+    int32 gift_id = 1; // 要兑换的礼物id
+    int64 gift_num = 2; // 要兑换的礼物数量
+    uint32 price = 3; // 物品单价
+}
+
+message SaleGiftRes {
+    repeated SaleGiftInfo gain_gift_list = 1; // 换到的物品列表
+}
+
+message PlayerAddr {
+    int32 id = 1;
+    string addr = 2;
+    string name = 3;
+    string email = 4;
+}
+
+message StoreClassifyConf {
+    StoreClassify super_classify = 1;
+    repeated StoreClassify sub_classify = 2; // 可能为空，为空则没有子级
+}
+
+message StoreClassify {
+    int32 id = 1; // 类别id
+    int32 super_id = 2; // 父类id，是不是属于某个父类下的，0则不是
+    string name = 3; // 类别名称
+    int32 sort = 4; // 权重
+    bool is_show = 5; // 是否显示
+    bool is_default = 6; // 是否默认显示的分类
+    bool have_red = 7; // 第一次打开前是否有红点
+    StoreStyle style = 8; // 样式
+    int32 effect_type = 9;  //特效类型
+}
+
+enum StoreStyle {
+    StoreStyle_Zero = 0;
+    StoreStyle_Gem = 1; // 宝石
+    StoreStyle_Effects_Auto_Play = 2; // 特效，自动播放(包含只有静态的特特效)
+    StoreStyle_Effects_Button = 3; // 特效，带按钮播放
+    StoreStyle_Nobility = 4; // 爵位
+    StoreStyle_Point = 5; // 积分
+}
+
+//获取商城分类栏配置
+message StoreClassifyConfReq {
+    ClassifyTabType tab_type = 1; //一级分栏类型
+}
+message StoreClassifyConfRes {
+    repeated StoreClassifyConf classify = 1;
+    ClassifyTabType tab_type = 2; //一级分栏类型
+}
+
+enum ClassifyTabType {
+    Null = 0;
+    TabStore = 1; // 商城
+    TabBackPack = 2; // 背包
+}
+
+message ClassifyTabInfo {
+    ClassifyTabType tab_type = 1; //一级分栏类型
+    string tab_name = 2;  //一级分栏类型名
+}
+
+//获取商城分类tab
+message ListClassifyTabConfReq {
+
+}
+
+//获取商城分类tab
+message ListClassifyTabConfRes {
+    repeated ClassifyTabInfo tabInfo = 1; //tab类型
+}
+
+// 获取积分商城兑换记录
+message LogPointExchangeReq {
+}
+message LogPointExchangeRes {
+    repeated LogPointExchange log_point = 1;
+}
+
+// 积分商城兑换记录
+message LogPointExchange {
+    int32 exchange_id = 1; // 兑换的商品id
+    string exchange_name = 2; // 兑换的商品名字
+    int32 exchange_num = 3; // 兑换数量
+    int64 cost_point = 4; // 消耗积分
+    int64 create_at = 5; // 时间
+}
+
+// 积分商城限购数量变化推送 301003
+message PointStoreLimit {
+    int32 id = 1; // 商品id
+    int32 use_num = 2; // 目前已被使用的数量
+}
+
+message StoreCfgReq {
+    bool is_html = 1; //判断是否h5请求 如果是则不判断版本
+    int64 player_id = 2; //人员id
+}
+
+message StoreCfgRes {
+    repeated Store store = 1;
+}
+
+// 黑鲸商城
+message BlackWhaleStoreReq {}
+
+message BlackWhaleStoreRes {
+    bool is_vip = 1;                        // 是否为黑鲸VIP
+    int64 score = 2;                        // 积分
+    repeated BlackWhaleModule module = 3;   // 模块列表
+}
+
+// 黑鲸商城兑换模块
+message BlackWhaleModule {
+    string name = 1;                        // 模块名称
+    BlackWhaleModuleStyle style = 2;        // 样式
+    repeated BlackWhaleStoreItem items = 3; // 兑换物品列表
+}
+
+// 黑鲸商城兑换物品
+message BlackWhaleStoreItem {
+    int64 id = 1;                       // 唯一ID
+    BlackWhaleItemType item_type = 2;   // 物品类型
+    int64 item_id = 3;                  // 物品ID
+    string desc = 4;                    // 简介
+    string content = 5;                 // 详情介绍
+    BlackWhaleLimitType limit_type = 6; // 限制类型
+    int32 limit_num = 7;                // 限制兑换次数
+    int32 num = 8;                      // 已兑换次数
+    int32 exchange_score = 9;           // 兑换分数
+    int32 exchange_num = 10;            // 单次兑换个数
+    oneof data {
+        BlackWhaleExpCard exp_card = 11;// 经验卡
+        BlackWhaleGift gift = 12;       // 礼物
+        BlackWhaleEffect effect = 13;   // 特效
+    }
+}
+
+// 兑换经验清除卡片
+message BlackWhaleExpCard {
+    string small_icon = 1;              // 小图
+    string big_icon = 2;                // 大图
+    string name = 3;                    // 经验卡名称
+    int32 min_level = 4;                // 最低等级
+    int32 max_level = 5;                // 最高等级
+}
+
+// 兑换礼物
+message BlackWhaleGift {
+}
+
+// 兑换特效
+message BlackWhaleEffect {
+    int64 validity_time = 1;            // 有效期，-1表示永久
+    int64 add_type = 2; // 添加类型 0:指定时间延长,1:覆盖,2:叠加,3:永不过期,4:计数覆盖
+}
+
+// 黑鲸商城积分明细
+message BlackWhaleScoreReq {
+    int64 start_time = 1;               // 查询的开始时间
+    int64 end_time = 2;                 // 查询的结束时间
+    int32 page = 3;                     // 页码
+    int32 page_size = 4;                // 页数
+}
+
+message BlackWhaleScoreRes {
+    repeated BlackWhaleScoreLog list = 1; // 积分明细
+    int32 total = 2; //page为1时才返回total
+}
+
+// 黑鲸积分流水
+message BlackWhaleScoreLog {
+    string remark = 1;                  // 积分说明
+    int64 change_score = 2;             // 变更的分数
+    int64 score = 3;                    // 最终分数
+    int64 create_at = 4;                // 时间
+}
+
+// 黑鲸积分流水(后台)
+message BlackWhaleScoreLogDetail {
+    int64 player_id = 1;
+    BlackWhaleScoreLog log = 2;
+    string name = 3;
+}
+
+// 黑鲸商城兑换记录
+message BlackWhaleExchangeRecordReq {
+    int64 start_time = 1;               // 查询的开始时间
+    int64 end_time = 2;                 // 查询的结束时间
+    int32 page = 3;                     // 页码
+    int32 page_size = 4;                // 页数
+}
+
+message BlackWhaleExchangeRecordRes {
+    repeated BlackWhaleExchangeLog list = 1;
+    int32 total = 2; //page为1时才返回total
+}
+
+// 黑鲸积分兑换记录
+message BlackWhaleExchangeLog {
+    string item_name = 1;               // 兑换的物品名称
+    int64 exchange_score = 2;           // 兑换分数
+    int32 exchange_num = 3;             // 兑换数量
+    string icon = 4;                    // 物品图标
+    int64 create_at = 5;                // 时间
+    int64 target_id = 6;                // 目标ID
+    BlackWhaleItemType item_type = 7;   // 物品类型
+}
+
+// 黑鲸积分兑换记录 (后台)
+message BlackWhaleExchangeLogDetail {
+    int64 player_id = 1;
+    int64 item_id = 2; //物品ID
+    BlackWhaleExchangeLog log = 3;
+    string name = 4; //昵称
+}
+
+// 后台使用 黑鲸商城兑换记录
+message BlackWhaleExchangerLogAdminReq{
+    int64 player_id = 1;
+    BlackWhaleExchangeRecordReq filter = 2;
+}
+
+// 后台使用 黑鲸积分兑换记录
+message BlackWhaleExchangerLogAdmin{
+    repeated BlackWhaleExchangeLogDetail log = 1;
+    int32 total = 2;
+}
+
+// 后台使用 黑鲸积分明细
+message BlackWhaleScoreLogAdmin{
+    repeated BlackWhaleScoreLogDetail log = 1;
+    int32 total = 2;
+}
+
+// 兑换物品
+message BlackWhaleExchangeReq {
+    int64 id = 1;                       // 唯一ID
+    int64 player_id = 2;                // 需要清除经验的用户ID
+}
+
+message BlackWhaleExchangeRes {
+}
+
+enum PointsMallGoodsType {
+    PMGT_ZERO = 0;
+    PMGT_GIFT = 1; // 礼物
+    PMGT_EFFECT = 2; // 特效
+}
+message PointsMallReq {}
+message PointsMallRes {
+    repeated PointsMallGoods goods = 1;
+}
+
+message PointsMallGoods {
+    int64 id = 1;                   // 商品ID
+    PointsMallGoodsType type = 2;   // 商品类型
+    string name = 3;                // 名称
+    string img = 4;                 // 图片
+    int64 point_num = 5;            // 兑换所需积分数
+    int64 valid_day = 6;            // 兑换天数
+    int64 remained_num = 7;         // 剩余数量
+    int64 exchanged_num = 8;        // 已兑换数量
+    int64 exchange_limit = 9;       // 限制兑换额度
+    int64 gift_gold = 10;           // 礼物所需的金币
+}
+
+message PointsMallExchangeReq {
+    int64 goods_id = 1; // 商品ID
+    int32 num = 2; // 数量
+}
+message PointsMallExchangeRes {}
+
+service StoreExtObj {
+    rpc Buy (BuyReq) returns (BuyRes);
+    //配置
+    rpc GetStoreConf (GetStoreConfReq) returns (GetStoreConfRes);
+    // 获取商城配置，推送时使用该接口获取配置
+    rpc StoreCfg (StoreCfgReq) returns (StoreCfgRes);
+    rpc GetExchangeConf (GetExchangeConfReq) returns (GetExchangeConfRes);
+    //记录
+    rpc ListBuyRecord (ListBuyRecordReq) returns (ListBuyRecordRes);
+    rpc ExchangeRecord (ExchangeRecordReq) returns (ExchangeRecordRes);
+    rpc RewardBuy (RewardBuyReq) returns (RewardBuyRes);
+    // 兑换地址更新/新增
+    rpc SaveOrUpdatePlayerAddr (PlayerAddrReq) returns (PlayerAddrRes);
+    // 兑换地址获取
+    rpc FindPlayerAddrList (FindPlayerAddrReq) returns (FindPlayerAddrRes);
+    // 卖道具
+    rpc SaleGift (SaleGiftReq) returns (SaleGiftRes);
+    rpc StoreClassifyConf (StoreClassifyConfReq) returns (StoreClassifyConfRes);
+    rpc StoreConfById (StoreConfByIdReq) returns (StoreConfByIdRes);
+    // 获取积分商城兑换记录
+    rpc LogPointExchange (LogPointExchangeReq) returns (LogPointExchangeRes);
+    // 获取商城一级分栏
+    rpc ListClassifyTabConf (ListClassifyTabConfReq) returns (ListClassifyTabConfRes);
+
+    // 黑鲸商城
+    rpc BlackWhaleStore (BlackWhaleStoreReq) returns (BlackWhaleStoreRes);
+    // 黑鲸商城积分明细
+    rpc BlackWhaleScore (BlackWhaleScoreReq) returns (BlackWhaleScoreRes);
+    // 黑鲸商城兑换记录
+    rpc BlackWhaleExchangeRecord (BlackWhaleExchangeRecordReq) returns (BlackWhaleExchangeRecordRes);
+    // 黑鲸商城兑换物品
+    rpc BlackWhaleExchange (BlackWhaleExchangeReq) returns (BlackWhaleExchangeRes);
+    // 积分商城
+    rpc PointsMall(PointsMallReq) returns(PointsMallRes);
+    // 积分商城兑换
+    rpc PointsMallExchange(PointsMallExchangeReq) returns(PointsMallExchangeRes);
+}
+

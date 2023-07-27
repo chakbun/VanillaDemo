@@ -2076,33 +2076,6 @@ WF_DEF_SINGLETION(LoginManager)
     }];
 }
 
-- (void)checkExistUserWithName:(NSString *)name successBlock:(void (^)(BOOL))successBlock failBlock:(void (^)(NSString *))failBlock {
-    PB3GetUserIsExistByNicknameReq *req = [PB3GetUserIsExistByNicknameReq message];
-    req.nickname = name;
-    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:[PB3GetUserIsExistByNicknameRes class] ServiceName:kNetApiUserExtService functionName:@"GetUserIsExistByNickname" completion:^(PB3GetUserIsExistByNicknameRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
-        DYLogInfo(@"PB3GetUserIsExistByNicknameRes = %@,error = %@", rsp, error);
-        NSLog(@"PB3GetUserIsExistByNicknameRes = %@,error = %@", rsp, error);
-        if (error) {
-            if (failBlock) {
-                failBlock(error.errorMessage);
-            }
-            return;
-        }
-        if (!rsp) {
-            if (failBlock) {
-                failBlock(@"检查失败");
-            }
-            return;
-        }
-        
-        DYLogInfo(@"检查成功");
-        if (successBlock) {
-            BOOL result = rsp.isExist ? rsp.isExist : false;
-            successBlock(rsp.isExist);
-        }
-    }];
-}
-
 //检查手机号是否已经注册
 - (void)checkExistUserWithPhone:(NSString *)phone
                countryPhoneCode:(NSString *)countryPhoneCode
@@ -2802,16 +2775,16 @@ WF_DEF_SINGLETION(LoginManager)
 }
 
 - (void)appLaunchWithIP:(NSString *)ipaddr completion:(void(^)(NSString *errMsg))completion {
-    PB3ReportActivateAppInfoReq *req = [PB3ReportActivateAppInfoReq message];
-    req.ip = ipaddr;
-    req.action = @"App Launch";
-    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:[PB3ReportActivateAppInfoRes class] ServiceName:kNetApiIndexExtService functionName:@"GetActivateAppInfo" completion:^(PB3ReportActivateAppInfoRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
-        DYLogInfo(@"appLaunchWithIP = %@,error = %@", rsp, error);
-        NSLog(@"appLaunchWithIP = %@,error = %@", rsp, error);
-        if (completion) {
-            completion(error.errorMessage);
-        }
-    }];
+//    PB3ReportActivateAppInfoReq *req = [PB3ReportActivateAppInfoReq message];
+//    req.ip = ipaddr;
+//    req.action = @"App Launch";
+//    [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:nil channelType:ZYGChannelType_ShortConn rspClass:[PB3ReportActivateAppInfoRes class] ServiceName:kNetApiIndexExtService functionName:@"GetActivateAppInfo" completion:^(PB3ReportActivateAppInfoRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
+//        DYLogInfo(@"appLaunchWithIP = %@,error = %@", rsp, error);
+//        NSLog(@"appLaunchWithIP = %@,error = %@", rsp, error);
+//        if (completion) {
+//            completion(error.errorMessage);
+//        }
+//    }];
 }
 
 @end

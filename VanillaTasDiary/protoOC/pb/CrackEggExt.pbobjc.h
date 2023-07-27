@@ -28,13 +28,10 @@
 CF_EXTERN_C_BEGIN
 
 @class PB3Award;
-@class PB3CrackDetailRecord;
 @class PB3CrackEggLuck;
 @class PB3CrackEggRank;
-@class PB3CrackEggReward;
 @class PB3CrackEggShift;
 @class PB3CrackTheme;
-@class PB3TopNoticeAward;
 GPB_ENUM_FWD_DECLARE(PB3DeviceType);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -81,12 +78,6 @@ typedef GPB_ENUM(PB3CrackEggCmdId) {
 
   /** 砸蛋 广播砸蛋幸运值达到 85% 和 100% 提示  LuckyValueNotice */
   PB3CrackEggCmdId_CrackLuckValue = 401112,
-
-  /** 砸蛋 配置变更 */
-  PB3CrackEggCmdId_CrackConfUpdate = 401113,
-
-  /** 砸蛋中奖横幅 CrackEggTopNotice */
-  PB3CrackEggCmdId_CrackTopNotice = 401114,
 };
 
 GPBEnumDescriptor *PB3CrackEggCmdId_EnumDescriptor(void);
@@ -158,67 +149,12 @@ BOOL PB3NoticeShiftRes_Status_IsValidValue(int32_t value);
 @interface PB3CrackEggExtRoot : GPBRootObject
 @end
 
-#pragma mark - PB3CrackEggTopNotice
-
-typedef GPB_ENUM(PB3CrackEggTopNotice_FieldNumber) {
-  PB3CrackEggTopNotice_FieldNumber_PlayerId = 1,
-  PB3CrackEggTopNotice_FieldNumber_PlayerNickname = 2,
-  PB3CrackEggTopNotice_FieldNumber_RoomId = 3,
-  PB3CrackEggTopNotice_FieldNumber_AwardsArray = 4,
-};
-
-/**
- * CRACK_TOP_NOTICE = 401114; //砸蛋中奖横幅
- **/
-@interface PB3CrackEggTopNotice : GPBMessage
-
-/** 玩家 */
-@property(nonatomic, readwrite) uint64_t playerId;
-
-/** 玩家昵称 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *playerNickname;
-
-/** 房间ID */
-@property(nonatomic, readwrite) int64_t roomId;
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TopNoticeAward*> *awardsArray;
-/** The number of items in @c awardsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger awardsArray_Count;
-
-@end
-
-#pragma mark - PB3TopNoticeAward
-
-typedef GPB_ENUM(PB3TopNoticeAward_FieldNumber) {
-  PB3TopNoticeAward_FieldNumber_AwardId = 1,
-  PB3TopNoticeAward_FieldNumber_Msg = 2,
-  PB3TopNoticeAward_FieldNumber_BcURL = 3,
-  PB3TopNoticeAward_FieldNumber_ShowTime = 4,
-};
-
-@interface PB3TopNoticeAward : GPBMessage
-
-/** 物品id */
-@property(nonatomic, readwrite) uint32_t awardId;
-
-/** 广播文案 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
-
-/** 横幅背景 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *bcURL;
-
-/** 展示时间 */
-@property(nonatomic, readwrite) int64_t showTime;
-
-@end
-
 #pragma mark - PB3Award
 
 typedef GPB_ENUM(PB3Award_FieldNumber) {
   PB3Award_FieldNumber_GiftId = 1,
   PB3Award_FieldNumber_GiftNum = 2,
   PB3Award_FieldNumber_IsFree = 3,
-  PB3Award_FieldNumber_GiftPrice = 4,
 };
 
 @interface PB3Award : GPBMessage
@@ -228,9 +164,6 @@ typedef GPB_ENUM(PB3Award_FieldNumber) {
 @property(nonatomic, readwrite) uint32_t giftNum;
 
 @property(nonatomic, readwrite) BOOL isFree;
-
-/** 礼物单价 */
-@property(nonatomic, readwrite) uint32_t giftPrice;
 
 @end
 
@@ -248,7 +181,6 @@ typedef GPB_ENUM(PB3CrackEggRecord_FieldNumber) {
   PB3CrackEggRecord_FieldNumber_ShowMe = 9,
   PB3CrackEggRecord_FieldNumber_DeviceType = 10,
   PB3CrackEggRecord_FieldNumber_MsgSignArray = 11,
-  PB3CrackEggRecord_FieldNumber_Price = 12,
 };
 
 @interface PB3CrackEggRecord : GPBMessage
@@ -288,9 +220,6 @@ typedef GPB_ENUM(PB3CrackEggRecord_FieldNumber) {
 /** The number of items in @c msgSignArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger msgSignArray_Count;
 
-/** 礼物价值 */
-@property(nonatomic, readwrite) int64_t price;
-
 @end
 
 /**
@@ -325,15 +254,6 @@ typedef GPB_ENUM(PB3CrackEggNotice_FieldNumber) {
 
 @end
 
-#pragma mark - PB3CrackConfUpdateNotice
-
-/**
- * 砸蛋配置变更通知
- **/
-@interface PB3CrackConfUpdateNotice : GPBMessage
-
-@end
-
 #pragma mark - PB3CrackTime
 
 typedef GPB_ENUM(PB3CrackTime_FieldNumber) {
@@ -352,7 +272,6 @@ typedef GPB_ENUM(PB3CrackTime_FieldNumber) {
 typedef GPB_ENUM(PB3CrackEggReq_FieldNumber) {
   PB3CrackEggReq_FieldNumber_Open = 1,
   PB3CrackEggReq_FieldNumber_AssetsType = 2,
-  PB3CrackEggReq_FieldNumber_Times = 3,
 };
 
 /**
@@ -363,11 +282,8 @@ typedef GPB_ENUM(PB3CrackEggReq_FieldNumber) {
 /** 是否公开砸蛋 */
 @property(nonatomic, readwrite) BOOL open;
 
-/** 新加字段，默认0普通锤子, 3为黄金水滴 查看AssetsType */
+/** 新加字段，默认0普通锤子, 3为黄金水滴 4钻石水滴 5黑金水滴 查看AssetsType */
 @property(nonatomic, readwrite) int32_t assetsType;
-
-/** 次数 (支持 1/20/50 次数) */
-@property(nonatomic, readwrite) int32_t times;
 
 @end
 
@@ -920,115 +836,6 @@ typedef GPB_ENUM(PB3LuckyValueNotice_FieldNumber) {
 
 /** 有就弹 幸运星点亮必有惊喜， 再来一次必有惊喜 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
-
-@end
-
-#pragma mark - PB3CrackDetailRecordReq
-
-typedef GPB_ENUM(PB3CrackDetailRecordReq_FieldNumber) {
-  PB3CrackDetailRecordReq_FieldNumber_Page = 1,
-};
-
-@interface PB3CrackDetailRecordReq : GPBMessage
-
-/** 从1开始 */
-@property(nonatomic, readwrite) int32_t page;
-
-@end
-
-#pragma mark - PB3CrackDetailRecord
-
-typedef GPB_ENUM(PB3CrackDetailRecord_FieldNumber) {
-  PB3CrackDetailRecord_FieldNumber_FreeItemId = 1,
-  PB3CrackDetailRecord_FieldNumber_FreeItemNum = 2,
-  PB3CrackDetailRecord_FieldNumber_BonusItemId = 3,
-  PB3CrackDetailRecord_FieldNumber_BonusItemNum = 4,
-  PB3CrackDetailRecord_FieldNumber_CreatedAt = 5,
-};
-
-@interface PB3CrackDetailRecord : GPBMessage
-
-/** 固定礼物id (固定礼物不再返回，暂时保留字段) */
-@property(nonatomic, readwrite) uint32_t freeItemId;
-
-/** 固定礼物数量 (固定礼物不再返回，暂时保留字段) */
-@property(nonatomic, readwrite) int64_t freeItemNum;
-
-/** 赠送礼物id */
-@property(nonatomic, readwrite) uint32_t bonusItemId;
-
-/** 赠送礼物数量 */
-@property(nonatomic, readwrite) int64_t bonusItemNum;
-
-/** 创建时间 */
-@property(nonatomic, readwrite) int64_t createdAt;
-
-@end
-
-#pragma mark - PB3CrackDetailRecordRes
-
-typedef GPB_ENUM(PB3CrackDetailRecordRes_FieldNumber) {
-  PB3CrackDetailRecordRes_FieldNumber_RecordArray = 1,
-  PB3CrackDetailRecordRes_FieldNumber_Total = 2,
-};
-
-@interface PB3CrackDetailRecordRes : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CrackDetailRecord*> *recordArray;
-/** The number of items in @c recordArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger recordArray_Count;
-
-@property(nonatomic, readwrite) int32_t total;
-
-@end
-
-#pragma mark - PB3GetRewardListReq
-
-@interface PB3GetRewardListReq : GPBMessage
-
-@end
-
-#pragma mark - PB3CrackEggReward
-
-typedef GPB_ENUM(PB3CrackEggReward_FieldNumber) {
-  PB3CrackEggReward_FieldNumber_AwardId = 1,
-  PB3CrackEggReward_FieldNumber_ShowWeight = 2,
-};
-
-@interface PB3CrackEggReward : GPBMessage
-
-/** 礼物id */
-@property(nonatomic, readwrite) uint32_t awardId;
-
-/** 排序权重 */
-@property(nonatomic, readwrite) int32_t showWeight;
-
-@end
-
-#pragma mark - PB3GetRewardListRes
-
-typedef GPB_ENUM(PB3GetRewardListRes_FieldNumber) {
-  PB3GetRewardListRes_FieldNumber_NormalListArray = 1,
-  PB3GetRewardListRes_FieldNumber_ShiftListArray = 2,
-  PB3GetRewardListRes_FieldNumber_LuckValListArray = 3,
-};
-
-@interface PB3GetRewardListRes : GPBMessage
-
-/** 普通 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CrackEggReward*> *normalListArray;
-/** The number of items in @c normalListArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger normalListArray_Count;
-
-/** 变身 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CrackEggReward*> *shiftListArray;
-/** The number of items in @c shiftListArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger shiftListArray_Count;
-
-/** 幸运值 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CrackEggReward*> *luckValListArray;
-/** The number of items in @c luckValListArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger luckValListArray_Count;
 
 @end
 

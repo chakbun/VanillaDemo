@@ -1,0 +1,434 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+// 表演模式节目类型
+enum ShowType {
+    ShowTypeNone = 0;           // 无
+    ShowTypeSinger = 1;         // 歌曲
+    ShowTypeInteraction = 2;    // 互动
+}
+
+// 歌词展示状态
+enum ShowSongStatus {
+  SSS_End = 0;   // 结束状态
+  SSS_Play = 1;  // 播放状态
+  SSS_Pause = 2; // 暂停状态
+}
+
+// 获取表演模式节目信息
+message ShowInfoReq {
+}
+message ShowInfoRes {
+    ShowType show_type = 1;                  // 节目类型
+    ShowSongInfo song_info = 2;              // 歌曲信息
+    ShowInteractionRes interaction_info = 3; // 互动信息
+}
+
+// 获取表演模式歌曲信息
+message ShowSongInfo {
+    string song = 1;            // 歌曲名
+    string singer = 2;          // 歌手名
+    string lyric = 3;           // 歌词
+    sint64 play_time = 4;       // 歌曲开始播放的时间戳(unix timestamp)(秒)
+    ShowSongStatus status = 5;  // 播放状态
+    sint64 song_time = 6;       // 歌曲时间
+}
+
+// 设定表演模式互动信息
+message ShowInteractionReq {
+    string title = 1;           // 标题
+    string desc = 2;            // 简介
+}
+
+// 获取表演模式互动信息
+message ShowInteractionRes {
+    string title = 1;           // 标题
+    string desc = 2;            // 简介
+}
+
+// 搜索歌曲
+message ShowSearchSongUrl {
+    string method = 1;                 // HTTP 请求方法
+    string url = 2;                    // 歌曲列表URL
+    map<string, string> args_kv = 3;   // HTTP 请求参数
+    map<string, string> header_kv = 4; // HTTP Header(如:"referer":"xxx.xxx.com", "user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2)")
+    string platform = 5;               // 歌词平台标识
+}
+message ShowSearchSongReq {
+    string song = 1;            // 歌曲名
+    string singer = 2;          // 歌手名
+}
+message ShowSearchSongRes {
+    repeated ShowSearchSongUrl songs_url = 1;
+}
+
+// 歌曲列表信息
+message ShowSongListInfo {
+    string song_id = 1;         // 歌曲ID
+    string song_mid = 2;        // 歌曲Mid
+    string song = 3;            // 歌曲名
+    string singer = 4;          // 歌手
+    string platform = 5;        // 平台
+    sint32 song_time = 6;       // 歌曲时间
+}
+
+// 将搜歌返回的HTTP Body返回给服务端解析
+message ShowParseSongList {
+  string platform = 1;            // 歌词平台标识
+  string song_list_http_body = 2; // 歌曲列表的HTTP Body
+}
+message ShowParseSongListReq {
+  repeated ShowParseSongList song_body_list = 1;
+}
+message ShowParseSongListRes {
+    repeated ShowSongListInfo song_list = 1; // 歌曲信息列表
+}
+
+// 获取歌词Url
+message ShowGetLyricUrlReq {
+    string song_id = 1;         // 歌曲ID
+    string song_mid = 2;        // 歌曲Mid
+    string platform = 3;        // 歌词平台标识
+}
+message ShowGetLyricUrlRes {
+  ShowSearchSongUrl lyric_url = 1;
+}
+
+// 将获取歌词返回的HTTP Body返回给服务端解析
+message ShowParseLyricReq {
+    string platform = 1;        // 歌词平台标识
+    string lyric_http_body = 2; // 歌词的HTTP Body
+}
+message ShowParseLyricRes {
+    string lyric = 1;           // 返回解析后的歌词
+    sint32 song_time = 2;       // 歌曲时长
+}
+
+// 第一次播放歌词操作
+message ShowPlayLyricReq {
+    sint32 song_time = 1;       // 歌曲总时长
+    string lyric = 2;           // 歌词内容
+    string song = 3;            // 歌曲名
+    string singer = 4;          // 歌手
+}
+message ShowPlayLyricRes {
+}
+
+// 表演模式歌词操作类型
+enum ShowLyricActType {
+    ShowStop = 0;               // 停止
+    ShowPlay = 1;               // 播放
+    ShowPause = 2;              // 暂停
+    ShowPrev = 3;               // 上一句
+    ShowNext = 4;               // 下一句
+}
+
+// 表演模式歌词操作
+message ShowLyricCtrlReq {
+    ShowLyricActType act = 1;   // 操作类型
+    sint32 song_play_time = 2;  // 上/下一句歌词的播放时间
+}
+message ShowLyricCtrlRes {
+    ShowLyricActType act = 1;   // 操作类型
+    sint64 play_time = 2;       // 歌曲开始播放的时间戳(unix timestamp)(秒)
+    ShowSongStatus status = 3;  // 播放状态
+}
+
+// 表演模式配置
+message ShowConfig {
+    int32          default_speak        = 1;  // 默认爆音
+    int32          default_song         = 2;  // 默认点歌
+    int32          default_song_double  = 3;  // 默认点歌双费
+    int32          default_bomb         = 4;  // 默认炸弹
+    int32          default_bomb_double  = 5;  // 默认炸档双费
+    repeated int32 speak_gift_ids       = 6;  // 爆音
+    repeated int32 song_gift_ids        = 7;  // 点歌
+    repeated int32 song_double_gift_ids = 8;  // 点歌双费
+    repeated int32 bomb_gift_ids        = 9;  // 炸档
+    repeated int32 bomb_double_gift_ids = 10; // 炸档双费
+    string         bomb_animation_url   = 11; // 炸档动画资源
+    bool           can_cancel           = 12; // 允许取消排档，开启后主播才可以在排档后取消
+    int32          bomb_animation_time  = 13; // 炸档动画时间，毫秒
+    int32          default_all_chair    = 14; // 默认全麦双费
+    repeated int32 all_chair_gift_ids   = 15; // 全麦双费
+    int32          default_chorus       = 16; // 默认合唱
+    int32          default_chorus_double = 17; // 默认合唱双费
+    repeated int32 chorus_gift_ids        = 18;  // 合唱
+    repeated int32 chorus_double_gift_ids = 19;  // 合唱双费
+}
+
+// 表演模式配置
+message ShowInteractionConfig {
+    int32          default_speak             = 1;  // 默认爆音
+    int32          default_bomb              = 2;  // 默认炸弹
+    int32          default_bomb_double       = 3;  // 默认炸档双费
+    repeated int32 speak_gift_ids            = 4;  // 爆音
+    repeated int32 single_gift_ids           = 5;  // 单人互动单价
+    repeated int32 single_double_gift_ids    = 6;  // 单人互动双费
+    repeated int32 single_all_chair_gift_ids = 7;  // 单人互动全麦赞助
+    repeated int32 more_gift_ids             = 8;  // 多人互动单价
+    repeated int32 more_double_gift_ids      = 9;  // 多人互动双费
+    repeated int32 bomb_gift_ids             = 10; // 炸档
+    repeated int32 bomb_double_gift_ids      = 11; // 炸档双费
+    string         bomb_animation_url        = 12; // 炸档动画资源
+    int32          bomb_animation_time       = 13; // 炸档动画时间，毫秒
+}
+
+message ShowConfigReq {
+
+}
+message ShowConfigRes {
+    ShowConfig configs = 1; // 旧的配置，新的点歌配置
+    ShowInteractionConfig interaction_config = 2; // 新的互动配置
+}
+
+enum ShowDoubleTarget {
+    SDT_Room_Player = 0; // 默认双费房主主持
+    SDT_Room        = 1; // 双费房主
+    SDT_Player      = 2; // 双费主持
+}
+
+message RequestingSong {
+    ShowType         show_type           = 1;
+    int32            speak_gift_id       = 2; // 爆音
+    int32            song_gift_id        = 3; // 点歌｜互动
+    int32            song_double_gift_id = 4; // 点歌｜互动双费
+    int32            bomb_gift_id        = 5; // 炸档
+    int32            bomb_double_gift_id = 6; // 炸档双费
+    int32            bomb_clear_chair    = 7; // 1 炸档时全麦清空麦序, 2 炸档时全麦减去特定数量
+    int32            bomb_task_num       = 8; // bomb_clear_chair=2时填写的数量
+    ShowDoubleTarget double_target       = 9; // 双费对象
+    int32            all_double_gift_id  = 10; // 全麦点歌｜互动双费
+    InteractionConfig price_list         = 11; // 互动费用
+    int32            chorus_gift_id      = 12; // 合唱
+    int32            chorus_double_gift_id = 13; // 合唱双费
+}
+
+message InteractionConfig {
+    repeated InteractionPrice single_list    = 1; // 单人互动
+    repeated InteractionPrice all_chair_list = 2; // 全麦互动
+}
+
+message InteractionPrice {
+    int32 time_min     = 1; // 时长
+    int32 single_gift  = 2; // 单价
+    int32 double_gift  = 3; // 双费
+    int32 all_chair    = 4; // 全麦|赞助全麦
+    bool  is_all_chair = 5; // 是否全麦互动
+}
+
+// 点歌费用设置
+message SetRequestingSongReq {
+    RequestingSong data = 1;
+}
+message SetRequestingSongRes {
+
+}
+
+// 获取房间点歌费用设置
+message RequestingSongReq {
+
+}
+message RequestingSongRes {
+    RequestingSong song        = 1; // 点歌
+    RequestingSong interaction = 2; // 互动
+}
+
+enum ShowOrderType {
+    SOT_None = 0;  // 占位
+    SOT_Bomb = 1;  // 炸档
+    SOT_Speak = 2; // 爆音
+    SOT_Song = 3;  // 点歌
+    SOT_Chorus = 4; // 合唱
+    SOT_Confession = 5; // 表白
+    SOT_Interaction = 6; // 互动
+    SOT_Coquetry = 7; // 撒娇
+}
+
+
+message ShowOrderReq {
+    ShowOrderType        order_type = 1; // 下单类型
+    repeated int64       ids        = 2; // 主播ID列表
+    int32                single_id  = 3; // 单价ID
+    int32                double_id  = 4; // 双费ID
+    bool                 is_all_chair = 5; // 是否全麦
+    int32                support_id   = 6; // 赞助全麦
+}
+message ShowOrderRes {
+
+}
+
+// 老板任务
+message BossItem {
+    int64             id          = 1;
+    string            name        = 2;
+    string            icon        = 3;
+    int64             create_time = 4; // unix时间戳, 单位：秒
+    repeated ShowTask tasks       = 5;
+}
+message ShowTask {
+    string id = 1; // 任务ID
+    ShowType show_type = 2; // 表演类型 点歌|互动
+    ShowOrderType order_type = 3; // 下单类型 爆音，点歌|互动，炸档
+    int64 player_id = 4; // 主播ID
+    string name = 5; // 主播名称
+    bool is_all_chair = 6; // 是否全麦
+    int32 time_min = 7; // 时长
+    int32 gift_id = 8; // 礼物ID
+    string order_type_icon = 9; // 下单类型图标
+    string order_type_name = 10; // 下单类型名称
+}
+
+// 老板任务列表
+message ShowBossListReq {
+    int32 index = 1;
+}
+message ShowBossListRes {
+    repeated BossItem list = 1;
+    int32    next_index    = 2; // 下一页索引
+}
+
+// 管理员添加老板
+message AdminAddShowBossReq {
+    int64          boss_id    = 1; // 老板ID
+    ShowOrderType  order_type = 2; // 类型
+    int32          num        = 3; // 数量
+    repeated int64 ids        = 4; // 主播列表
+}
+message AdminAddShowBossRes {
+
+}
+
+enum OptBossTaskType {
+    OBTT_None = 0; // 占位不用
+    OBTT_Delete = 1; // 删除
+    OBTT_Upper = 2; // 上移
+    OBTT_Top = 3; // 置顶
+}
+
+message OptBossTaskReq {
+    string task_id = 1;
+    OptBossTaskType opt_type = 2;
+    int64  boss_id = 3; // 老板ID
+}
+message OptBossTaskRes {
+
+}
+
+message BombNotice {
+    ShowType show_type = 1;
+}
+
+// 获取排档设置
+message PlanTaskInfoReq {
+}
+message PlanTaskInfoRes {
+  int32 start_time = 1;   // 排档设置开始时间
+  int32 end_time = 2;     // 排档设置结束时间
+  int32 artist_num = 3;   // 排档数量
+  int32 min_task_num = 4; // 最低任务数
+  int32 top_num = 5;      // 置顶档数量
+  int32 manual_num = 6;   // 手动档数量
+}
+
+// 保存排档设置
+message SavePlanTaskReq {
+  int64 room_id = 1;      // 房间Id
+  int32 start_time = 2;   // 排档设置开始时间
+  int32 end_time = 3;     // 排档设置结束时间
+  int32 artist_num = 4;   // 排档数量
+  int32 min_task_num = 5; // 最低任务数
+  int32 top_num = 6;      // 置顶档数量
+  int32 manual_num = 7;   // 手动档数量
+}
+message SavePlanTaskRes {
+}
+
+// 获取排档麦序
+message ShowOrderInfoReq {
+}
+message ShowOrderInfoRes {
+  int64 start_time = 1;            // 排档开始时间
+  int64 end_time = 2;              // 排档结束时间
+  repeated PlayTaskInfo info = 3;  // 排档信息
+  int32 min_task_num = 4;          // 最少任务数量
+  int32 top_num = 5;               // 置顶任务配置数量
+  bool is_cancel = 6;              // 是否可取消
+}
+
+message PlayTaskInfo {
+  int32 order = 1;         // 排序
+  int64 player_id = 2;     // 用户ID
+  string name = 3;         // 用户名
+  string icon_url = 4;     // 头像URL
+  int32 task_num = 5;      // 剩余任务数量
+  bool is_prev_order = 6; // 是否是前档
+  int32 done_task_num = 7; // 已完成任务数量
+  bool is_top = 8;        // 是否置顶
+  bool is_manual = 9;    // 是否手速
+}
+
+// 获取当前麦序
+message PlayOrderReq {
+}
+message PlayOrderRes {
+  repeated PlayTaskInfo task_list = 1; // 未完成列表
+  repeated PlayTaskInfo done_list = 2; // 已完成列表
+}
+
+// 手动减少麦序任务数量
+message SubTaskReq {
+  int64 player_id = 1; // 用户ID
+}
+message SubTaskRes {
+}
+
+// 获取排档麦序
+message PlanOrderReq {
+}
+message PlanOrderRes {
+  repeated PlayTaskInfo task_list = 1; // 排序列表
+  int32 min_task_num = 2;  // 最少任务数量
+  bool is_cancel = 3;      // 是否可取消
+}
+
+// 排档
+message ArrangeOrderReq {
+  int32 task_num = 1; // 任务数量
+}
+message ArrangeOrderRes {
+}
+
+// 添加置顶
+message ArrangeTopOrderReq {
+  int64 player_id = 1; // 用户ID
+}
+message ArrangeTopOrderRes {
+}
+
+// 取消任务
+message CancelPlanOrderReq {
+}
+message CancelPlanOrderRes {
+}
+
+// 发送麦序公屏
+message RoomSpeakReq {
+}
+message RoomSpeakRes {
+}
+
+// 推送老板变更
+message ShowNewBoss {
+    BossItem new_boss_task = 1; // new_index=-1时使用，新的老板任务顺序，任务列表为0清除老板
+    int32    new_index     = 2; // -1 更新对应的老板任务顺序，如果停留在老板列表页>=0 为接口ShowBossList新的index, 清除这个位置后面的数据，从这个位置拉新的数据
+}
+
+// 获取房间表演老板
+message RoomShowBossListReq {
+    int64 room_id = 1;
+}
+message RoomShowBossListRes {
+    repeated BossItem boss_list = 1;
+}

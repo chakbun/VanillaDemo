@@ -1,0 +1,540 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+import "pb/assets.ext.proto";
+
+enum IssueMoneyStatus {
+    Issued = 0; //已发放
+    System = 1; //系统原因
+    WaitVerify = 2; //待审核
+    Refused = 3;//已拒绝
+    Cancelled = 4;//已撤销
+    DealIng = 5;//处理中
+}
+
+enum AssetsGiftLogType {
+    //-------------------------礼物-----------------------------------
+    //获得
+    AssetsGiftLogNone = 0; //无背景
+    LTGCrackEgg = 1; //砸蛋获得
+    LTGAdmin = 2; //后台发送
+    LTGGemStore = 3; //购买获得
+    LTGTransfer = 4; //新手奖励
+    LTG520Act = 5; //520获得
+    LTGNoviceReward = 6; //新手奖励
+    LTG1111Act = 7; //1111获得
+    LTGActivity = 8; //活动获取
+    LTGDeferGift = 9; //延迟礼物获得
+    LTGGActivity = 10; //活动奖励
+    LTGBINDPHONEREWARD = 11; // 绑定手机号奖励
+    LTGISSUEHAMMER = 12; // 发放锤子获得
+    LTGBillBACK = 13; //点单回退
+    LTGYunGameGain = 14; //云游戏获得
+    LTGBuyGift = 15; //购买礼物获得
+    LTGExchangeCode = 16; // 兑换码
+    LTGStoreExtraGift = 17;//商城额外礼物
+    LTGClimbingGameGift = 18;//爬塔游戏礼物
+    LTGUfoGameGift = 19;//飞碟大战礼物
+    LTGBoxNewReceiveGift = 20; // 宝盒2.0开出礼物获得
+    LTGAuctionGift = 21;  // 拍卖获得
+    LTGAuctionReceiveGift = 22; // 竞拍收礼获得
+    LTGAuctionGiftReturn = 23; // 礼物流拍返还
+    LTGTimeLimitGiftReturn = 25; // 限时礼物过期返回
+    LTGTreasureGiftBox = 24; // 藏宝礼物奖励
+    LTGFirstPayGiftBox = 26; // 首充有礼宝箱奖励
+    LTGFirstPayGiftWorth = 27; // 首充有礼限定奖励
+    LTGTreasureMarketPublish = 28; // 珍宝市集发布商品退回
+    LTGTreasureMarketBuy = 29; // 珍宝市集购买获得
+    LTGActGameRedEnvelope = 30; // 红包接龙
+    LTGRecallPromoterGift = 31; // 推广员系统获得
+    LTGLotteryRace = 34; // 有奖活动抢占获得
+    LTGWeekCPReward = 37;//一周CP任务完成奖励
+    LTGCPGuideReward = 38;//新人接待官赠送老板礼物
+    LTGCPGuideNewPlayer = 39;//新人接待官新人礼物
+    LTGCPGuideSupplement = 40; // 更换新人接待官补齐老板礼物
+    LTGPointsMall = 41; // 积分商城兑换获得
+    LTGGiftGainPoint = 42; // 收礼获得积分
+    LTGNewerBoxReward = 43; // 新人宝箱奖励
+    LTGNewbieGift = 44; // 萌新获得礼物
+
+    //失去
+    LTLSendGift = 10001; //送出礼物
+    Use = 10002; //使用
+    LTLAdmin = 10003; //管理后台扣除
+    LTLActGift = 10004; //活动失去
+    LTGINTIMATE = 10005; //挚友商城购买
+    LTLBillGift = 10006; //点单失去
+    LTLYunGameSendGift = 10007; //云游戏送出礼物
+    LTLJoinClimbingGame = 10008;//爬塔游戏
+    LTLJoinUfoGame = 10009;//飞碟大战
+    LTLAuctionSendGift = 10010; //竞拍送礼送出
+    LTLAuctionGift     = 10011; //礼物拍卖扣除
+    LTLValidGift       = 10012; //礼物过期扣除
+    LTLTimeLimitGiftSend = 10013; // 限时礼物扣除
+    LTLActivityLottery = 10014; // 活动抽奖
+    LTLTreasureMarketPublish = 10015;   // 珍宝市集发布商品扣除
+    LTLActGameRedEnvelope = 10016; // 红包接龙
+    LTLActGameRandomId2 = 10017; // 靓号机消耗靓号卷
+    LTLPointsMall = 10018; // 积分商城兑换扣除
+}
+enum AssetsMoneyLogType {
+    AssetsMoneyLogNone = 0; //无背景
+    //-------------------------金钱-----------------------------------
+
+    //获得
+    LTGGift = 1; //礼物收益
+    LTGCallMakeDeal = 2; //陪玩收入
+    LTGCallDealShare = 3; //客服提成
+    LTGLotteryDice = 4; //抽奖
+    LTGCharge = 7; //充值
+    LTGMainTask = 11; //完成主线任务
+    LTGIssueAdmin = 13; //管理后台发放
+    LTGConvertGiftTicket = 15; //钻石兑换获得
+    LTGConvertGiftTicketRoom = 16; //房间收益钻石兑换获得
+    LTGChargeYearBag = 17; //新手充值礼包
+    LTGRoomCharge = 38; //玩家充值返币
+    LTGGiftTicketRollBack = 39; //提现回退钻石
+    LTGRegister = 40; //邀请注册奖励
+    LTGInviteCharge = 41; //邀请充值奖励
+    LTGGiftDefer = 42; //延迟礼物收益
+    LTGActMoney = 43; //活动获得
+    LTGGiftDeferCancel = 44; //延迟礼物回退
+    LTGAActivity = 45; //活动奖励
+    LTGBINDPHONE = 46; // 绑定手机号奖励
+    LTGBillTick = 47; // 点单获得钻石
+    LTGBillBack = 48; // 点单回退
+    LTGYunGameGift = 49; //云游戏礼物收益
+    LTGRedEnvelope = 50; // 抢红包获得
+    LTGRedEnvelopeRefund = 51; // 发红包退回
+
+    LTGConvertGiftTicketFamily = 53; // 家族收益钻石兑换获得
+    LTGNobilityRufund = 54; // 爵位返回
+    LTGLuckyGiftLottery = 55; // 财神礼物幸运奖励
+    IntimateFriendReceive = 56; // 挚友赠送
+    LTGClimbingGameReward = 57;//爬塔游戏礼物
+    LTGUfoGameReward = 58;//飞碟大战礼物
+    LTGAuction = 59; // 拍卖礼物获得
+    LTGIntimateFans = 60; // 开通亲密粉丝
+    LTGFirstPayCpBack = 61; // 首充CP退回
+    LTGFirstPayCpReward = 62; // 首充CP语音服务获得
+    LTGTimeLimitGiftTimeOut = 63; // 限时礼物过期退回
+    LTGTimeLimitGiftReceive = 64; // 领取限时礼物获得
+    LTGTreasureGift = 65; // 藏宝礼物
+    LTGBizSettlementRollback = 67; // 对公结算提现回退
+    LTGBizSettlementRefund = 68; // 取消对公结算回退
+
+
+
+    LTGCheatRiskRelease = 72;       // 诈骗风控钻石解冻
+    LTGCheatRiskFreeze = 73;        // 诈骗风控钻石冻结
+    LTGTreasureMarketSale =  74; // 珍宝市集 卖出商品
+    LTGIntimateTicketLoss = 75; // 挚友商城钻石回馈获得
+    LTGPkTurnBack = 76; // PK原路返回
+    LTGPkWinTicket = 77; // PK赢的钻石
+    LTGAliPayBonus = 78; // 支付宝充值买一送一
+    LTGIntimateBoxFlower = 79; // 挚友礼盒鲜花获得
+    LTGGoldFeedback = 80; // 活动消费回馈获得
+    LTGBizSettlementUnfreeze = 82; // 对公结算解冻
+    LTGBizSettlementRefundDeposit = 83; // 对公2.0结算退回佣金
+    LTGWeekofcp = 84; // 一周CP领取金币
+    LTGMatchWeekCPBack = 85; // 一周CP速配退回
+    LTGMatchWeekCP = 86; // 一周CP速配获得
+    LTGCPGuideRebate = 87; // 新人接待官服务获得
+    LTGTGameGiftBox = 101; // 游戏玩法礼盒-礼物奖励
+
+    //失去
+
+    LTLGift = 10001; //送出礼物
+    LTLGiftTicketWithDraw = 10002; //申请提现
+    LTLCallMake = 10003; //陪玩下单
+    LTLLotteryDice = 10004; //抽奖
+    LTLGiftTicket = 10023; //运营后台钻石扣除
+    LTLConvertGiftTicket = 10024; //钻石兑换减少
+    LTLGoldAdmin = 10027; //管理后台扣币
+    LTLRoomPwdTicket = 10028; //房间密码
+    LTLCrackEgg = 10030; //砸蛋
+    LTLGemStore = 10031; //购买物品
+    LTLChargeReport = 10032; //充值举报扣币
+    LTLBuyRockGoodNum = 10033; //购买摇靓号机会
+    LTLHeadline = 10034; //发布头条
+    LTLGiftDeder = 10035; //延时礼物
+    LTLActivity = 10036; //活动失去
+    LTLBill = 10037; // 点单失去
+    LTLYunGameGift = 10038; //云游戏送出礼物
+    LTLBuyGift = 10039; //购买礼物
+    LTLRedEnvelope = 10040; // 发红包失去
+    LTLBuyRoomDecorate = 10041; // 购买背景失去
+    LTLChangeIntimateTitle = 10042; // 修改挚友头衔
+    LTLBuyNobility = 10043; // 金币购买爵位
+    LTLQuitConsortia = 10044; // 退出公会扣除金币
+    IntimateFriendSend = 10045; //挚友赠送
+    LTLGiftTicketIndebted = 10046; //服务器定时器扣除负债钻石
+
+    LTLAuction = 10048; // 拍卖礼物扣除
+    LTLIntimateFans = 10049; // 开通亲密粉丝
+    LTLFirstPayCp = 10050; // 首充CP扣除
+    LTLTimeLimitSend = 10051; // 限时礼物送出
+    LTLBizSettlement = 10052; // 对公结算提现
+
+
+    LTLActivityLotteryMoney = 10055; // 活动抽奖
+    LTLCheatRiskPenalty = 10056;   // 诈骗风控钻石扣除
+    LTLTreasureMarketBuy =  10057; // 珍宝市集 购买商品
+    LTLIntimateTicketGain = 10058; // 挚友商城钻石回馈失去
+
+    LTLReleaseDeposit = 10060; // 解冻佣金
+    LTLUsedPkTuant = 10061; // 使用PK嘲讽技能扣除
+    LTLRandomUserId2 = 10062; // 随机靓号
+    LTLGiftSkinBuy = 10063; // 购买礼物皮肤
+    LTLMigrateChargeGold = 10064; // 管理后台金币转移
+    LTLIntimateBox = 10065; // 购买挚友礼盒
+    LTLHotAddHeadChargeGold = 10066; // 热点加热
+    LTLHotDownChargeGold = 10067; // 热点下架
+    LTLHotPointAddGold = 10068; // 热点上架
+    LTLHotPointSecKillGold = 10069; // 热点秒榜
+    LTLCubismShopBuy = 10070; // 虚拟商城购买
+    LTLCubismShopDyeing = 10071; // 虚拟商城染色
+    LTLMatchWeekCP = 10072; // 一周CP速配扣除
+
+    LTLPointsMallExchange = 10073; // 积分商城兑换物品
+    LTLNewerBoxSecond = 10074; // 新人宝箱二重奏
+    LTLPTGameGiftBox = 10089; // 游戏玩法礼盒扣除
+}
+
+enum AssetsCouponLogType {
+    ASSETS_COUPON_LOG_NONE = 0; // 占位
+
+    // 获得
+    LTG_CP_CHAT_BACK = 1;       // 8分钟恋爱退回
+    LTG_NOBILITY_COUPON_REFUND = 2; // 微信支付宝使用优惠券购买爵位 退回优惠券
+    LTG_LOGIN_PACKAGE = 3;          // 登录礼包优惠券
+    LTG_ADMIN_REWARD = 4;           // 后台发放
+    LTG_ROOM_PK_BOX_AWARD =5;       //pk宝箱获得
+
+    // 失去
+    LTL_CP_CHAT_SUBMIT = 10001; // 8分钟恋爱预扣
+    LTL_CP_CHAT_SUBD = 10002;   // 8分钟恋爱扣除
+    LTL_NOBILITY_COUPON_SUBMIT = 10003; //支付宝微信使用优惠券购买爵位 待支付
+    LTL_NOBILITY_COUPON_USED = 10004; //支付宝微信使用优惠券购买爵位 确认使用
+    LTL_MATCH_CP_SUBMIT = 10005; // 速配CP预扣
+    LTL_MATCH_CP_SUBD  = 10006; // 速配CP扣除
+}
+
+// 资产损益类型枚举
+enum AssetsGainLossType{
+    AGLT_NONE = 0;                // 占位
+    AGLT_GOLD = 1;                // 金币
+    AGLT_DIAMOND = 2;             // 钻石
+    AGLT_GIFT = 3;                // 礼物
+    AGLT_POINTS = 4;              // 积分
+    AGLT_COUPON = 6;              // 优惠券
+}
+
+// 优惠券业务类型
+enum AssetsCouponStatus{
+    ACS_NONE = 0;               // 占位
+    ACS_UNUSED = 1;             // 未使用
+    ACS_SUBMIT = 2;             // 待支付
+    ACS_USED = 3;               // 已使用
+}
+
+// 优惠券损益数据
+message AssetsCoupon{
+    CouponJumpType biz_type = 1;        // 业务类型
+    string biz_tag = 2;                 // 业务标识
+    AssetsCouponStatus status = 3;      // 优惠券使用状态
+    int64 id = 4;                       // 券包唯一id
+    int64 valid_time = 5;               // 生效时间
+    int64 invalid_time = 6;             // 失效时间
+    AssetsCouponLogType log_type = 7;   // 优惠券流水记录
+}
+
+enum AssetsGiftSkinLogType {
+    AGSLT_None = 0; // 占位
+    AGSLT_Buy = 1; // 购买
+    AGSLT_Expired = 2; // 过期扣除
+    AGSLT_AdminGain = 3; // 后台获得
+    AGSLT_AdminLoss = 4; // 后台扣除
+}
+
+// 礼物皮肤增损数据
+message AssetsGiftSkin{
+    int64 player_id = 1; // 用户id
+    int64 skin_id = 2; // 皮肤id
+    int64 expired_at = 3; // 结束时间(时间戳：秒)
+    string remark = 4; // 备注
+    GiftSkinTimeType time_type = 5; // 时效类型
+    string operator = 6; // 操作者
+    bool is_auto_use = 7; // 是否自动使用
+    int64 issue_at = 8;  // 发放时间(时间戳：秒)
+    uint64 num = 9; // 数量
+    AssetsGiftSkinLogType log_type = 10;   // 礼物皮肤流水记录
+    int64 add_time = 11;   // 增加时间（秒）
+}
+
+// 增加资产
+message Gain {
+    uint64 type = 1; // 类型，1金币，2钻石，3礼物，5.积分，6.优惠券
+    uint64 gift_id = 2; // 礼物ID or 积分类型id（assets.ext.proto -> PointType）/优惠券配置id
+    uint64 num = 3; // 数量
+    uint64 valid_date = 4; // 有效期（过期礼物）
+    AssetsCoupon coupon_data = 5; // 优惠券损益数据
+    int64 cheat_risk_freeze_id = 8; // 诈骗风控钻石冻结记录id
+    AssetsGiftSkin gift_skin = 9; // 礼物皮肤增益数据
+}
+// 扣除物品
+message Loss {
+    uint64 type = 1; // 类型，1金币，2钻石，3礼物，5.积分, 6.优惠券
+    uint64 gift_id = 2; // 礼物ID / 积分类型id（assets.ext.proto -> PointType）/优惠券配置id
+    uint64 num = 3; // 数量
+    AssetsCoupon coupon_data = 4; // 优惠券损益数据
+    int64 cheat_risk_freeze_id = 5; // 诈骗风控钻石冻结记录id
+    AssetsGiftSkin gift_skin = 6; // 礼物皮肤损益数据
+}
+
+// 两个人增损请求
+message AssetsGainDoubleReq {
+    uint64 from_id = 1; // 发起者
+    repeated Loss from_loss = 2; // 发起者扣除
+    uint64 to_id = 3; // 接受者
+    repeated Gain to_gains = 4; // 接收者收益
+    AssetsMoneyLogType loss_gold_type = 5; // 操作类型
+    string loss_gold_reMark = 6; // 操作描述
+    AssetsGiftLogType loss_gift_type = 7; // 操作类型
+    string loss_gift_reMark = 8; // 操作描述
+    AssetsMoneyLogType gain_gift_ticket_type = 9; // 操作类型
+    string gain_gift_ticket_remark = 10; // 操作描述
+    AssetsMoneyLogType type = 11; // 操作类型
+    string reMark = 12; // 操作描述
+    bool is_cheat_risk_freeze = 13;  // 是否诈骗风控冻结钻石
+}
+
+// 两个人增损返回
+message AssetsGainDoubleRes {
+    uint32 flag = 1; //0失败，1成功
+    AssetsAllocateLossGold alt_loss_gold = 2; // 金币扣除分配
+}
+
+// 资产金币扣除
+message AssetsAllocateLossGold {
+    int64 Gold = 1; // 金币券
+    int64 NobleGold = 2; // 贵族金币
+    int64 ChargeGold = 3; // 充值金币
+}
+
+// 单人增损请求
+message AssetsGainReq {
+    uint64 player_id = 1; // 发起者
+    repeated Gain gains = 2; // 发起者收益
+    repeated Loss loss = 3; // 发起者扣除
+    AssetsMoneyLogType type = 4; // 操作类型
+    string reMark = 5; // 操作描述
+    AssetsGiftLogType gift_type = 6; // 物品获得类型
+    string gift_reMark = 7; // 物品获得描述
+    AssetsGiftLogType loss_gift_type = 8; // 物品失去类型
+    string loss_gift_reMark = 9; // 物品失去描述
+    bool is_super_admin = 10;   // 是否是超级管理
+    bool is_cheat_risk_freeze = 11;  // 是否诈骗风控冻结钻石
+}
+
+// 单人增损返回
+message AssetsGainRes {
+    uint32 flag = 1; //0失败，1成功
+    AssetsAllocateLossGold alt_loss_gold = 2; // 金币扣除分配
+}
+
+// 充值请求
+message AssetsPayReq {
+    uint64 player_id = 1; // 发起者
+    repeated Gain gains = 2; // 发起者收益
+    AssetsMoneyLogType type = 3; // 操作类型
+    string reMark = 4; // 操作描述
+
+}
+// 单人增损返回
+message AssetsPayRes {
+    uint32 flag = 1; //0失败，1成功
+}
+
+// 单人增损请求
+message AssetsGetReq {
+    uint64 player_id = 1; // 发起者
+
+}
+
+// 单人增损返回
+message AssetsGetRes {
+    repeated BagItem items = 1; // 背包道具列表
+    int64 gold = 2; //金币
+    uint32 silver = 3; //银币，暂时没有用
+    uint32 gift_ticket = 4; //钻石
+    uint32 charge = 5; //累计金额
+    map<int32, AssetsPoint> point = 6; // 积分map,key为 pb/assets.ext.proto -> PointType
+    map<int64, PlayerAssets> assets_map = 7; // 个人资产map, key为PlayerAssetsType
+}
+
+// 两个人增损请求
+message AssetsGainTranReq {
+    uint64 from_id = 1; // 发起者
+    repeated Loss from_loss = 2; // 发起者扣除
+    uint64 to_id = 3; // 接受者
+    repeated Gain to_gains = 4; // 接收者收益
+    AssetsGiftLogType loss_gift_type = 5; // 操作类型
+    string loss_gift_reMark = 6; // 操作描述
+    AssetsGiftLogType gain_gift_type = 7; // 操作类型
+    string gain_gift_reMark = 8; // 操作描述
+}
+
+// 两个人增损返回
+message AssetsGainTranRes {
+    uint32 flag = 1; //0失败，1成功
+}
+
+// 单人增损请求
+message DelEffectReq {
+    uint64 player_id = 1; // 发起者
+    sint32 effect_id = 2; // 特效
+}
+message DelEffectRes {
+    uint32 flag = 1; //0失败，1成功
+    uint64 player_id = 2; // 发起者
+}
+message GetUserEffectReq {
+    uint64 player_id = 2; // 发起者
+}
+message GetUserEffectRes {
+    int32 flag = 1; //
+    repeated Effect effect = 2; //
+}
+
+// 单人增损请求
+message AddEffectReq {
+    uint64 player_id = 1; // 发起者
+    sint32 effect_id = 2; // 特效
+    sint64 timeout = 3; // 结束时间
+    string remark = 4; // 备注
+    sint32 add_type = 5; // 增加特效类型 0-指定时间叠加 1-覆盖 2-叠加
+    string operator = 6; // 操作者
+    bool is_not_auto_use = 7; // 是否非自动使用
+    string effect_dec_own = 8; //用户自定义荣耀宣言 /荣耀
+    int64 get_at = 9;  //发放时间
+    uint64 num = 10; // 数量
+    int32 add_cover_type = 11; //增加特效覆盖类型
+}
+message AddEffectRes {
+    uint32 flag = 1; //0失败，1成功
+    uint64 player_id = 2; // 发起者
+}
+
+message EffectConfigSerReq {
+}
+message EffectConfigSerRes {
+    map<int32, EffectConfig> list = 1;
+}
+
+enum EffectConfUpdateType {
+    EffectConfNull = 0;
+    EffectConf = 1;
+    EffectConfLimit = 2;
+}
+
+message PushEffectConfReq {
+    EffectConfUpdateType confType = 1; //配置类型
+}
+
+message PushEffectConfRes {
+}
+
+message RechargeNoticeReq {
+    int64 player_id = 1;
+    string order_id = 2;
+    string order_id_3 = 3;
+
+
+    int64 amount = 5;
+    int64 gold = 6; // amount == gold
+    string remark = 7;
+    bytes extra_data = 8; //ChargeExtraData类型转成bytes
+    ChargeCateType Cate = 9; // 充值类型，0 普通充值金币，1 活动抽卡无金币充值
+    AccountRes account = 10;
+    string create_at = 11; // 创建时间
+    string ip = 12; // IP
+    string area = 13; // 地区
+    string device_id = 14; // 设备ID
+    string application = 16; // app应用名称
+    map<string, string> meta = 17;
+}
+
+message RechargeNoticeRes {
+
+}
+
+// 添加收益日志记录
+message AddPlayerGainLogReq{
+    int64 player_id = 1; // 用户id
+    int64 gold = 2; // 金币
+    int64 ticket = 3; // 钻石
+    int32 profit_channel = 4; // 获益渠道
+    string remark = 5; // 备注
+    string created_at = 6; // 创建时间
+}
+message AddPlayerGainLogRes{
+}
+
+message PersonPublicSettleTicketByOp {
+    int64 player_id = 1; //用户id
+    int64 ticket = 2; //钻石
+    string operator = 3; //操作人
+    string remark = 4; //备注
+}
+// 运营人工减少个人对公结算钻石
+message SubPersonPublicSettleTicketByOpReq {
+    PersonPublicSettleTicketByOp ticket_data = 1;
+}
+message SubPersonPublicSettleTicketByOpRes {}
+
+// 礼物皮肤时效类型
+enum GiftSkinTimeType {
+    AGSTT_None = 0; // 占位不使用
+    // 永久
+    AGSTT_Forever = 1;
+    // 过期时间叠加
+    AGSTT_Append = 2;
+    // 覆盖
+    AGSTT_Overlay = 3;
+    // 增加指定时长
+    AGSTT_AddTime = 4;
+}
+
+message GetUserFirstChargeReq {
+    int64 player_id = 1; //用户id
+}
+message GetUserFirstChargeRes {
+    int64 at_time = 1;
+    int64 gold = 2;
+}
+
+service AssetsIntObj {
+    rpc gainDouble (AssetsGainDoubleReq) returns (AssetsGainDoubleRes); // 两个人
+    rpc gainSingle (AssetsGainReq) returns (AssetsGainRes); // 单人
+    rpc pay (AssetsPayReq) returns (AssetsPayRes); // 充值
+    rpc getAssets (AssetsGetReq) returns (AssetsGetRes); // 获取资产
+    rpc gainTran (AssetsGainTranReq) returns (AssetsGainTranRes); // 转赠
+    rpc delEffect (DelEffectReq) returns (DelEffectRes); // 删除特效
+    rpc getEffect (GetUserEffectReq) returns (GetUserEffectRes); // 获取个人特效
+    rpc addEffect (AddEffectReq) returns (AddEffectRes); // 增加特效，后台
+    rpc getEffectConf (EffectConfigSerReq) returns (EffectConfigSerRes); // 获取配置
+    rpc pushEffectConf (PushEffectConfReq) returns (PushEffectConfRes); // 推送特效配置
+    // 充值回调
+    rpc rechargeNotice (RechargeNoticeReq) returns (RechargeNoticeRes);
+    // 添加收益日志记录
+    rpc addPlayerGainLog(AddPlayerGainLogReq) returns (AddPlayerGainLogRes);
+    // 运营人工减少个人对公结算钻石
+    rpc SubPersonPublicSettleTicketByOp(SubPersonPublicSettleTicketByOpReq) returns (SubPersonPublicSettleTicketByOpRes);
+    // 首充查询
+    rpc GetUserFirstCharge(GetUserFirstChargeReq) returns(GetUserFirstChargeRes);
+}
+
+

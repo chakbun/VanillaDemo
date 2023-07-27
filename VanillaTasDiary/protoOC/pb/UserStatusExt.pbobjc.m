@@ -56,7 +56,9 @@ GPBEnumDescriptor *PB3UserStatusErr_EnumDescriptor(void) {
         "d\000ErrUserStatusBanAccount\000ErrUserStatusB"
         "anIp\000ErrUserStatusRelogin\000ErrUserStatusT"
         "akeLeave\000ErrUserStatusBanDevice\000ErrUserS"
-        "tatusBanPhone\000ErrUserStatusBanIdCard\000";
+        "tatusBanPhone\000ErrUserStatusBanIdCard\000Err"
+        "UserStatusLimitLogin\000ErrUserStatusTimeOu"
+        "t\000";
     static const int32_t values[] = {
         PB3UserStatusErr_UserStatusSuccess,
         PB3UserStatusErr_ErrUserStatusKeyExpired,
@@ -67,8 +69,10 @@ GPBEnumDescriptor *PB3UserStatusErr_EnumDescriptor(void) {
         PB3UserStatusErr_ErrUserStatusBanDevice,
         PB3UserStatusErr_ErrUserStatusBanPhone,
         PB3UserStatusErr_ErrUserStatusBanIdCard,
+        PB3UserStatusErr_ErrUserStatusLimitLogin,
+        PB3UserStatusErr_ErrUserStatusTimeOut,
     };
-    static const char *extraTextFormatInfo = "\t\000\013f\000\001\027\000\002\027\000\003\022\000\004\024\000\005\026\000\006\026\000\007\025\000\010\026\000";
+    static const char *extraTextFormatInfo = "\013\000\013f\000\001\027\000\002\027\000\003\022\000\004\024\000\005\026\000\006\026\000\007\025\000\010\026\000\t\027\000\n\024\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UserStatusErr)
                                        valueNames:valueNames
@@ -95,6 +99,8 @@ BOOL PB3UserStatusErr_IsValidValue(int32_t value__) {
     case PB3UserStatusErr_ErrUserStatusBanDevice:
     case PB3UserStatusErr_ErrUserStatusBanPhone:
     case PB3UserStatusErr_ErrUserStatusBanIdCard:
+    case PB3UserStatusErr_ErrUserStatusLimitLogin:
+    case PB3UserStatusErr_ErrUserStatusTimeOut:
       return YES;
     default:
       return NO;
@@ -109,14 +115,15 @@ GPBEnumDescriptor *PB3UserStatusCmdId_EnumDescriptor(void) {
     static const char *valueNames =
         "UcUserStatusZero\000UcUserStatusRelogin\000UcU"
         "serStatusTakeLeave\000UcUserStatusDeviceDis"
-        "connected\000";
+        "connected\000UcUserStatusRemote\000";
     static const int32_t values[] = {
         PB3UserStatusCmdId_UcUserStatusZero,
         PB3UserStatusCmdId_UcUserStatusRelogin,
         PB3UserStatusCmdId_UcUserStatusTakeLeave,
         PB3UserStatusCmdId_UcUserStatusDeviceDisconnected,
+        PB3UserStatusCmdId_UcUserStatusRemote,
     };
-    static const char *extraTextFormatInfo = "\004\000b\216\000\001b\221\000\002b\223\000\003b\234\000";
+    static const char *extraTextFormatInfo = "\005\000b\216\000\001b\221\000\002b\223\000\003b\234\000\004b\220\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3UserStatusCmdId)
                                        valueNames:valueNames
@@ -138,6 +145,86 @@ BOOL PB3UserStatusCmdId_IsValidValue(int32_t value__) {
     case PB3UserStatusCmdId_UcUserStatusRelogin:
     case PB3UserStatusCmdId_UcUserStatusTakeLeave:
     case PB3UserStatusCmdId_UcUserStatusDeviceDisconnected:
+    case PB3UserStatusCmdId_UcUserStatusRemote:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3ExpandType
+
+GPBEnumDescriptor *PB3ExpandType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "UnknownZero\000Umengpushid\000Umengmsgid\000Destt"
+        "ype\000Pushtype\000";
+    static const int32_t values[] = {
+        PB3ExpandType_UnknownZero,
+        PB3ExpandType_Umengpushid,
+        PB3ExpandType_Umengmsgid,
+        PB3ExpandType_Desttype,
+        PB3ExpandType_Pushtype,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3ExpandType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3ExpandType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3ExpandType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3ExpandType_UnknownZero:
+    case PB3ExpandType_Umengpushid:
+    case PB3ExpandType_Umengmsgid:
+    case PB3ExpandType_Desttype:
+    case PB3ExpandType_Pushtype:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PB3LogoutType
+
+GPBEnumDescriptor *PB3LogoutType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "LtNone\000LtDeleteAccount\000";
+    static const int32_t values[] = {
+        PB3LogoutType_LtNone,
+        PB3LogoutType_LtDeleteAccount,
+    };
+    static const char *extraTextFormatInfo = "\002\000b\204\000\001b\215\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3LogoutType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3LogoutType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3LogoutType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3LogoutType_LtNone:
+    case PB3LogoutType_LtDeleteAccount:
       return YES;
     default:
       return NO;
@@ -154,6 +241,7 @@ BOOL PB3UserStatusCmdId_IsValidValue(int32_t value__) {
 @dynamic pushToken;
 @dynamic reyunDeviceId;
 @dynamic uMengDeviceId;
+@dynamic expand, expand_Count;
 
 typedef struct PB3LoginReq__storage_ {
   uint32_t _has_storage_[1];
@@ -163,6 +251,7 @@ typedef struct PB3LoginReq__storage_ {
   NSString *pushToken;
   NSString *reyunDeviceId;
   NSString *uMengDeviceId;
+  GPBInt32ObjectDictionary *expand;
 } PB3LoginReq__storage_;
 
 // This method is threadsafe because it is initially called
@@ -225,6 +314,15 @@ typedef struct PB3LoginReq__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "expand",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LoginReq_FieldNumber_Expand,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3LoginReq__storage_, expand),
+        .flags = GPBFieldMapKeyInt32,
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3LoginReq class]
@@ -264,9 +362,11 @@ void SetPB3LoginReq_DeviceType_RawValue(PB3LoginReq *message, int32_t value) {
 @implementation PB3LoginRes
 
 @dynamic accountId;
+@dynamic extends, extends_Count;
 
 typedef struct PB3LoginRes__storage_ {
   uint32_t _has_storage_[1];
+  NSMutableDictionary *extends;
   int64_t accountId;
 } PB3LoginRes__storage_;
 
@@ -284,6 +384,15 @@ typedef struct PB3LoginRes__storage_ {
         .offset = (uint32_t)offsetof(PB3LoginRes__storage_, accountId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeSInt64,
+      },
+      {
+        .name = "extends",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3LoginRes_FieldNumber_Extends,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3LoginRes__storage_, extends),
+        .flags = GPBFieldMapKeyString,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -309,11 +418,19 @@ typedef struct PB3LoginRes__storage_ {
 @dynamic deviceId;
 @dynamic deviceType;
 @dynamic multiClient;
+@dynamic loginAt;
+@dynamic loginType;
+@dynamic deviceName;
+@dynamic application;
 
 typedef struct PB3BroadcastRelogin__storage_ {
   uint32_t _has_storage_[1];
   PB3DeviceType deviceType;
+  PB3ClientLoginType loginType;
   NSString *deviceId;
+  NSString *deviceName;
+  NSString *application;
+  int64_t loginAt;
 } PB3BroadcastRelogin__storage_;
 
 // This method is threadsafe because it is initially called
@@ -349,6 +466,42 @@ typedef struct PB3BroadcastRelogin__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
+      {
+        .name = "loginAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BroadcastRelogin_FieldNumber_LoginAt,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3BroadcastRelogin__storage_, loginAt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "loginType",
+        .dataTypeSpecific.enumDescFunc = PB3ClientLoginType_EnumDescriptor,
+        .number = PB3BroadcastRelogin_FieldNumber_LoginType,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3BroadcastRelogin__storage_, loginType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "deviceName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BroadcastRelogin_FieldNumber_DeviceName,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3BroadcastRelogin__storage_, deviceName),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "application",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BroadcastRelogin_FieldNumber_Application,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3BroadcastRelogin__storage_, application),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3BroadcastRelogin class]
@@ -360,7 +513,7 @@ typedef struct PB3BroadcastRelogin__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\001\001\010\000";
+        "\004\001\010\000\004\007\000\006J\000\007K\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -380,6 +533,18 @@ int32_t PB3BroadcastRelogin_DeviceType_RawValue(PB3BroadcastRelogin *message) {
 void SetPB3BroadcastRelogin_DeviceType_RawValue(PB3BroadcastRelogin *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3BroadcastRelogin descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BroadcastRelogin_FieldNumber_DeviceType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3BroadcastRelogin_LoginType_RawValue(PB3BroadcastRelogin *message) {
+  GPBDescriptor *descriptor = [PB3BroadcastRelogin descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BroadcastRelogin_FieldNumber_LoginType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3BroadcastRelogin_LoginType_RawValue(PB3BroadcastRelogin *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3BroadcastRelogin descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3BroadcastRelogin_FieldNumber_LoginType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -508,9 +673,11 @@ void SetPB3BroadcastDeviceDisconnected_DeviceType_RawValue(PB3BroadcastDeviceDis
 @implementation PB3LogoutReq
 
 @dynamic key;
+@dynamic logoutType;
 
 typedef struct PB3LogoutReq__storage_ {
   uint32_t _has_storage_[1];
+  PB3LogoutType logoutType;
   NSString *key;
 } PB3LogoutReq__storage_;
 
@@ -529,6 +696,15 @@ typedef struct PB3LogoutReq__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "logoutType",
+        .dataTypeSpecific.enumDescFunc = PB3LogoutType_EnumDescriptor,
+        .number = PB3LogoutReq_FieldNumber_LogoutType,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3LogoutReq__storage_, logoutType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3LogoutReq class]
@@ -545,6 +721,18 @@ typedef struct PB3LogoutReq__storage_ {
 }
 
 @end
+
+int32_t PB3LogoutReq_LogoutType_RawValue(PB3LogoutReq *message) {
+  GPBDescriptor *descriptor = [PB3LogoutReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3LogoutReq_FieldNumber_LogoutType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3LogoutReq_LogoutType_RawValue(PB3LogoutReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3LogoutReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3LogoutReq_FieldNumber_LogoutType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - PB3LogoutRes
 
@@ -584,7 +772,6 @@ typedef struct PB3LogoutRes__storage_ {
 @dynamic userId;
 @dynamic deviceType;
 @dynamic deviceId;
-@dynamic timeout;
 
 typedef struct PB3DisconnectReq__storage_ {
   uint32_t _has_storage_[1];
@@ -635,15 +822,6 @@ typedef struct PB3DisconnectReq__storage_ {
         .offset = (uint32_t)offsetof(PB3DisconnectReq__storage_, deviceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "timeout",
-        .dataTypeSpecific.className = NULL,
-        .number = PB3DisconnectReq_FieldNumber_Timeout,
-        .hasIndex = 4,
-        .offset = 5,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -1143,6 +1321,138 @@ typedef struct PB3UserDeviceDisconnectedRes__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(PB3UserDeviceDisconnectedRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3GetStateReq
+
+@implementation PB3GetStateReq
+
+
+typedef struct PB3GetStateReq__storage_ {
+  uint32_t _has_storage_[1];
+} PB3GetStateReq__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3GetStateReq class]
+                                     rootClass:[PB3UserStatusExtRoot class]
+                                          file:PB3UserStatusExtRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(PB3GetStateReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3GetStateRes
+
+@implementation PB3GetStateRes
+
+@dynamic msg;
+
+typedef struct PB3GetStateRes__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *msg;
+} PB3GetStateRes__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "msg",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3GetStateRes_FieldNumber_Msg,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3GetStateRes__storage_, msg),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3GetStateRes class]
+                                     rootClass:[PB3UserStatusExtRoot class]
+                                          file:PB3UserStatusExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3GetStateRes__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3RemoteLogin
+
+@implementation PB3RemoteLogin
+
+@dynamic timeAt;
+@dynamic deviceId;
+
+typedef struct PB3RemoteLogin__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *timeAt;
+  NSString *deviceId;
+} PB3RemoteLogin__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "timeAt",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3RemoteLogin_FieldNumber_TimeAt,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3RemoteLogin__storage_, timeAt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "deviceId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3RemoteLogin_FieldNumber_DeviceId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3RemoteLogin__storage_, deviceId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3RemoteLogin class]
+                                     rootClass:[PB3UserStatusExtRoot class]
+                                          file:PB3UserStatusExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3RemoteLogin__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\006\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }

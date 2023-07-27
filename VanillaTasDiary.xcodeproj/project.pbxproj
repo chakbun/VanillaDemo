@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		491AF75C2A6FD8D0003B3B65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 491AF74F2A6FD8D0003B3B65 /* Assets.xcassets */; };
 		491AF75D2A6FD8D0003B3B65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 491AF7502A6FD8D0003B3B65 /* LaunchScreen.storyboard */; };
-		491AF75E2A6FD8D0003B3B65 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF7552A6FD8D0003B3B65 /* ViewController.m */; };
 		491AF75F2A6FD8D0003B3B65 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF7562A6FD8D0003B3B65 /* main.m */; };
 		491AF7602A6FD8D0003B3B65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF7572A6FD8D0003B3B65 /* AppDelegate.m */; };
 		491AF7642A6FDE88003B3B65 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491AF7632A6FDE88003B3B65 /* AdSupport.framework */; };
@@ -96,6 +95,16 @@
 		491AF8782A70EB4D003B3B65 /* UserProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8762A70EB4D003B3B65 /* UserProtocol.m */; };
 		491AF87E2A70EB7D003B3B65 /* DYAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8792A70EB7C003B3B65 /* DYAlert.m */; };
 		491AF87F2A70EB7D003B3B65 /* DYAlertConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF87A2A70EB7C003B3B65 /* DYAlertConfigModel.m */; };
+		491AF8842A710E4C003B3B65 /* CubismExt.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8812A710E4C003B3B65 /* CubismExt.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		491AF8852A710E4C003B3B65 /* MissionExt.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8822A710E4C003B3B65 /* MissionExt.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		491AF8892A7110AF003B3B65 /* VTDLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8882A7110AF003B3B65 /* VTDLoginViewController.m */; };
+		491AF88F2A711EEE003B3B65 /* VTDLoginWithIDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF88E2A711EEE003B3B65 /* VTDLoginWithIDController.m */; };
+		491AF8912A7203A7003B3B65 /* ZYGServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 491AF8902A7203A6003B3B65 /* ZYGServices.plist */; };
+		491AF8952A720DB7003B3B65 /* VTDHomeTabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491AF8942A720DB7003B3B65 /* VTDHomeTabbarController.m */; };
+		4947CB302A72475900946307 /* VTDNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB2F2A72475900946307 /* VTDNoteController.m */; };
+		4947CB352A7247AE00946307 /* VTDCommunityNotesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB342A7247AE00946307 /* VTDCommunityNotesController.m */; };
+		4947CB382A7247CD00946307 /* VTDNoteListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB372A7247CD00946307 /* VTDNoteListController.m */; };
+		4947CB3C2A72482300946307 /* VTDProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB3B2A72482300946307 /* VTDProfileController.m */; };
 		C171CF3A442CE5D56DBE7645 /* libPods-VanillaTasDiary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */; };
 /* End PBXBuildFile section */
 
@@ -104,11 +113,9 @@
 		491AF74F2A6FD8D0003B3B65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		491AF7512A6FD8D0003B3B65 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		491AF7542A6FD8D0003B3B65 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		491AF7552A6FD8D0003B3B65 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		491AF7562A6FD8D0003B3B65 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		491AF7572A6FD8D0003B3B65 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		491AF7582A6FD8D0003B3B65 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		491AF7592A6FD8D0003B3B65 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		491AF7632A6FDE88003B3B65 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		491AF7652A6FDE8E003B3B65 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		491AF7692A70B1B8003B3B65 /* base_url.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = base_url.plist; sourceTree = "<group>"; };
@@ -273,6 +280,25 @@
 		491AF87B2A70EB7D003B3B65 /* DYAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYAlert.h; sourceTree = "<group>"; };
 		491AF87C2A70EB7D003B3B65 /* DYAlertHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYAlertHelper.h; sourceTree = "<group>"; };
 		491AF87D2A70EB7D003B3B65 /* DYAlertConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYAlertConfigModel.h; sourceTree = "<group>"; };
+		491AF8802A710E4C003B3B65 /* MissionExt.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissionExt.pbobjc.h; sourceTree = "<group>"; };
+		491AF8812A710E4C003B3B65 /* CubismExt.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CubismExt.pbobjc.m; sourceTree = "<group>"; };
+		491AF8822A710E4C003B3B65 /* MissionExt.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissionExt.pbobjc.m; sourceTree = "<group>"; };
+		491AF8832A710E4C003B3B65 /* CubismExt.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubismExt.pbobjc.h; sourceTree = "<group>"; };
+		491AF8872A7110AF003B3B65 /* VTDLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDLoginViewController.h; sourceTree = "<group>"; };
+		491AF8882A7110AF003B3B65 /* VTDLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDLoginViewController.m; sourceTree = "<group>"; };
+		491AF88D2A711EEE003B3B65 /* VTDLoginWithIDController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDLoginWithIDController.h; sourceTree = "<group>"; };
+		491AF88E2A711EEE003B3B65 /* VTDLoginWithIDController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDLoginWithIDController.m; sourceTree = "<group>"; };
+		491AF8902A7203A6003B3B65 /* ZYGServices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ZYGServices.plist; sourceTree = "<group>"; };
+		491AF8932A720DB7003B3B65 /* VTDHomeTabbarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDHomeTabbarController.h; sourceTree = "<group>"; };
+		491AF8942A720DB7003B3B65 /* VTDHomeTabbarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDHomeTabbarController.m; sourceTree = "<group>"; };
+		4947CB2E2A72475900946307 /* VTDNoteController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDNoteController.h; sourceTree = "<group>"; };
+		4947CB2F2A72475900946307 /* VTDNoteController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteController.m; sourceTree = "<group>"; };
+		4947CB332A7247AE00946307 /* VTDCommunityNotesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDCommunityNotesController.h; sourceTree = "<group>"; };
+		4947CB342A7247AE00946307 /* VTDCommunityNotesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDCommunityNotesController.m; sourceTree = "<group>"; };
+		4947CB362A7247CD00946307 /* VTDNoteListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDNoteListController.h; sourceTree = "<group>"; };
+		4947CB372A7247CD00946307 /* VTDNoteListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteListController.m; sourceTree = "<group>"; };
+		4947CB3A2A72482300946307 /* VTDProfileController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDProfileController.h; sourceTree = "<group>"; };
+		4947CB3B2A72482300946307 /* VTDProfileController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDProfileController.m; sourceTree = "<group>"; };
 		543F62DD3DC93CC3B185C61B /* Pods-VanillaTasDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.debug.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		7225A02B88AF3F719E1AFCEC /* Pods-VanillaTasDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.release.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.release.xcconfig"; sourceTree = "<group>"; };
 		F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VanillaTasDiary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +340,8 @@
 		491AF7342A6FCF50003B3B65 /* VanillaTasDiary */ = {
 			isa = PBXGroup;
 			children = (
+				4947CB312A72476A00946307 /* Community */,
+				491AF8962A720DEB003B3B65 /* Note */,
 				491AF7892A70CBBD003B3B65 /* protoOC */,
 				491AF76E2A70B240003B3B65 /* Utils */,
 				491AF7672A70B1B8003B3B65 /* Service */,
@@ -338,6 +366,7 @@
 		491AF7522A6FD8D0003B3B65 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				4947CB392A7247DA00946307 /* Controller */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -348,8 +377,6 @@
 				491AF77A2A70C4DB003B3B65 /* VanillaTasDiary-PrefixHeader.pch */,
 				491AF7542A6FD8D0003B3B65 /* AppDelegate.h */,
 				491AF7572A6FD8D0003B3B65 /* AppDelegate.m */,
-				491AF7592A6FD8D0003B3B65 /* ViewController.h */,
-				491AF7552A6FD8D0003B3B65 /* ViewController.m */,
 				491AF7562A6FD8D0003B3B65 /* main.m */,
 				491AF7582A6FD8D0003B3B65 /* Info.plist */,
 			);
@@ -359,6 +386,7 @@
 		491AF75A2A6FD8D0003B3B65 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				491AF8922A720D20003B3B65 /* Controller */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -366,6 +394,7 @@
 		491AF75B2A6FD8D0003B3B65 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				491AF8862A711084003B3B65 /* Controller */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -373,6 +402,7 @@
 		491AF7672A70B1B8003B3B65 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				491AF8902A7203A6003B3B65 /* ZYGServices.plist */,
 				491AF8712A70EB4D003B3B65 /* UserService */,
 				491AF85C2A70D023003B3B65 /* AssetsExtraService */,
 				491AF8622A70D023003B3B65 /* AssetsService */,
@@ -448,6 +478,10 @@
 		491AF7932A70CBBD003B3B65 /* pb */ = {
 			isa = PBXGroup;
 			children = (
+				491AF8832A710E4C003B3B65 /* CubismExt.pbobjc.h */,
+				491AF8812A710E4C003B3B65 /* CubismExt.pbobjc.m */,
+				491AF8802A710E4C003B3B65 /* MissionExt.pbobjc.h */,
+				491AF8822A710E4C003B3B65 /* MissionExt.pbobjc.m */,
 				491AF7942A70CBBD003B3B65 /* StoreExt.pbobjc.h */,
 				491AF7952A70CBBD003B3B65 /* CouponExt.pbobjc.h */,
 				491AF7962A70CBBD003B3B65 /* KtvExt.pbobjc.m */,
@@ -703,6 +737,71 @@
 			path = impl;
 			sourceTree = "<group>";
 		};
+		491AF8862A711084003B3B65 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				491AF8872A7110AF003B3B65 /* VTDLoginViewController.h */,
+				491AF8882A7110AF003B3B65 /* VTDLoginViewController.m */,
+				491AF88D2A711EEE003B3B65 /* VTDLoginWithIDController.h */,
+				491AF88E2A711EEE003B3B65 /* VTDLoginWithIDController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		491AF8922A720D20003B3B65 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				491AF8932A720DB7003B3B65 /* VTDHomeTabbarController.h */,
+				491AF8942A720DB7003B3B65 /* VTDHomeTabbarController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		491AF8962A720DEB003B3B65 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				491AF8972A720E09003B3B65 /* Controller */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		491AF8972A720E09003B3B65 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB2E2A72475900946307 /* VTDNoteController.h */,
+				4947CB2F2A72475900946307 /* VTDNoteController.m */,
+				4947CB362A7247CD00946307 /* VTDNoteListController.h */,
+				4947CB372A7247CD00946307 /* VTDNoteListController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4947CB312A72476A00946307 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB322A72477B00946307 /* Controller */,
+			);
+			path = Community;
+			sourceTree = "<group>";
+		};
+		4947CB322A72477B00946307 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB332A7247AE00946307 /* VTDCommunityNotesController.h */,
+				4947CB342A7247AE00946307 /* VTDCommunityNotesController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4947CB392A7247DA00946307 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB3A2A72482300946307 /* VTDProfileController.h */,
+				4947CB3B2A72482300946307 /* VTDProfileController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		6FF2E8819996CE394FFC30B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -786,6 +885,7 @@
 				491AF75C2A6FD8D0003B3B65 /* Assets.xcassets in Resources */,
 				491AF7882A70CB62003B3B65 /* config_appkey.json in Resources */,
 				491AF75D2A6FD8D0003B3B65 /* LaunchScreen.storyboard in Resources */,
+				491AF8912A7203A7003B3B65 /* ZYGServices.plist in Resources */,
 				491AF8282A70CBBD003B3B65 /* cleanComments.py in Resources */,
 				491AF76C2A70B1B8003B3B65 /* base_url.plist in Resources */,
 			);
@@ -866,6 +966,8 @@
 				491AF86C2A70D023003B3B65 /* IAssetsServiceProtocol.m in Sources */,
 				491AF8062A70CBBD003B3B65 /* RoomPatternExt.pbobjc.m in Sources */,
 				491AF8222A70CBBD003B3B65 /* RedEnvelopeExt.pbobjc.m in Sources */,
+				491AF8952A720DB7003B3B65 /* VTDHomeTabbarController.m in Sources */,
+				4947CB352A7247AE00946307 /* VTDCommunityNotesController.m in Sources */,
 				491AF8192A70CBBD003B3B65 /* BillExt.pbobjc.m in Sources */,
 				491AF7FA2A70CBBD003B3B65 /* CommunityExt.pbobjc.m in Sources */,
 				491AF8182A70CBBD003B3B65 /* AcmConfExt.pbobjc.m in Sources */,
@@ -874,6 +976,7 @@
 				491AF86A2A70D023003B3B65 /* IAssetsExtraServiceProtocol.m in Sources */,
 				491AF75F2A6FD8D0003B3B65 /* main.m in Sources */,
 				491AF8452A70CF45003B3B65 /* UserIdChooseModel.m in Sources */,
+				491AF88F2A711EEE003B3B65 /* VTDLoginWithIDController.m in Sources */,
 				491AF80A2A70CBBD003B3B65 /* RoomSingleLiveExt.pbobjc.m in Sources */,
 				491AF7FD2A70CBBD003B3B65 /* KtvExt.pbobjc.m in Sources */,
 				491AF8772A70EB4D003B3B65 /* UserManager.m in Sources */,
@@ -883,7 +986,9 @@
 				491AF8132A70CBBD003B3B65 /* ActivityCommon.pbobjc.m in Sources */,
 				491AF81E2A70CBBD003B3B65 /* CloudDiscoExt.pbobjc.m in Sources */,
 				491AF8432A70CF45003B3B65 /* DYAccountPromptTool.m in Sources */,
+				491AF8852A710E4C003B3B65 /* MissionExt.pbobjc.m in Sources */,
 				491AF8212A70CBBD003B3B65 /* PlayExt.pbobjc.m in Sources */,
+				491AF8842A710E4C003B3B65 /* CubismExt.pbobjc.m in Sources */,
 				491AF82C2A70CBBD003B3B65 /* UpgradeExt.pbobjc.m in Sources */,
 				491AF85A2A70D008003B3B65 /* DYPlayerType.m in Sources */,
 				491AF8232A70CBBD003B3B65 /* RpcMessageExt.pbobjc.m in Sources */,
@@ -892,17 +997,19 @@
 				491AF8072A70CBBD003B3B65 /* MultiLangExt.pbobjc.m in Sources */,
 				491AF8252A70CBBD003B3B65 /* BaseDynconfExt.pbobjc.m in Sources */,
 				491AF8692A70D023003B3B65 /* AssetsExtraManager.m in Sources */,
-				491AF75E2A6FD8D0003B3B65 /* ViewController.m in Sources */,
 				491AF8582A70D008003B3B65 /* IPlayerProtocol.m in Sources */,
 				491AF7FB2A70CBBD003B3B65 /* PhomeExt.pbobjc.m in Sources */,
 				491AF8032A70CBBD003B3B65 /* SystemExt.pbobjc.m in Sources */,
+				491AF8892A7110AF003B3B65 /* VTDLoginViewController.m in Sources */,
 				491AF81C2A70CBBD003B3B65 /* RoomExt.pbobjc.m in Sources */,
 				491AF82B2A70CBBD003B3B65 /* UauthCommon.pbobjc.m in Sources */,
+				4947CB382A7247CD00946307 /* VTDNoteListController.m in Sources */,
 				491AF8292A70CBBD003B3B65 /* UpushExt.pbobjc.m in Sources */,
 				491AF80E2A70CBBD003B3B65 /* ChatExt.pbobjc.m in Sources */,
 				491AF8112A70CBBD003B3B65 /* CouponExt.pbobjc.m in Sources */,
 				491AF8012A70CBBD003B3B65 /* NobilityExt.pbobjc.m in Sources */,
 				491AF8162A70CBBD003B3B65 /* ConfExt.pbobjc.m in Sources */,
+				4947CB3C2A72482300946307 /* VTDProfileController.m in Sources */,
 				491AF80D2A70CBBD003B3B65 /* CollectExt.pbobjc.m in Sources */,
 				491AF80F2A70CBBD003B3B65 /* CommonExt.pbobjc.m in Sources */,
 				491AF8152A70CBBD003B3B65 /* ActivityCliExt.pbobjc.m in Sources */,
@@ -923,6 +1030,7 @@
 				491AF8422A70CF45003B3B65 /* LoginManager.m in Sources */,
 				491AF84A2A70CF45003B3B65 /* ConfigCenterComponentTypes.m in Sources */,
 				491AF80B2A70CBBD003B3B65 /* FriendExt.pbobjc.m in Sources */,
+				4947CB302A72475900946307 /* VTDNoteController.m in Sources */,
 				491AF8022A70CBBD003B3B65 /* KtvBaseExt.pbobjc.m in Sources */,
 				491AF8202A70CBBD003B3B65 /* UserExt.pbobjc.m in Sources */,
 				491AF8242A70CBBD003B3B65 /* StatCommon.pbobjc.m in Sources */,

@@ -1,0 +1,174 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+import "pb/cubism.ext.proto";
+
+message EnterCubismEffectReq {
+    int64 player_id = 1;
+}
+message EnterCubismEffectRes {
+    EnterCubismEffect cubism_effect = 1;
+}
+
+message DelAllCubismGuideReq {
+}
+
+message DelAllCubismGuideRes {
+}
+
+message ChangeCubismSexReq{
+    int64 player_id = 1;
+    SexType sex = 2;
+}
+
+message ChangeCubismSexRes{
+}
+
+message ACTCountCubismDyeingReq{
+    int64 player_id = 1;
+    string cubism_id = 2;
+}
+
+message ACTCountCubismDyeingRes{
+    int32 count = 1; // 用户总的染色次数
+    bool is_buy = 2; // 是否购买
+}
+
+message SendCubismByAdminReq{
+    int64 player_id = 1;
+    string cubism_id = 2;
+    int32 expire_type = 3;
+    int64 expire_time = 4;
+    string remark = 5;
+    int64 validity = 6;
+    string operator = 7;
+}
+
+message SendCubismByAdminInfo{
+    int64 player_id = 1;
+    string cubism_id = 2;
+    int32 expire_type = 3;
+    int64 expire_time = 4;
+    string remark = 5;
+    int64 validity = 6;
+}
+
+message SendCubismByAdminRes{
+
+}
+
+message DeleteSendCubismByAdminReq {
+    int64 player_id = 1;
+    string cubism_id = 2;
+}
+
+message DeleteSendCubismByAdminRes {
+
+}
+
+message PlayerCubismIntReq {
+    int64 player_id = 1;
+}
+
+message PlayerCubismIntRes {
+    repeated CubismItemInt cubism_list = 1;
+    CubismSetItemInt set = 2;
+}
+
+message PlayerListCubismReq {
+    repeated int64 player_id = 1;
+}
+
+message PlayerCubism {
+    int64 player_id = 1;
+    PavilionTypeEnum pavilion_type = 2; // 时装展馆类型
+    string set_card_url = 3; // 时装展馆-套装卡片
+    CubismItemLevel pavilion_level = 4;    // 时装展馆-套装等级
+}
+
+message PlayerListCubismRes {
+    repeated PlayerCubism item= 1;
+}
+
+message PlayerListCubismItem{
+    int64 player_id = 1;
+    repeated CubismItemInt cubism_list = 2;
+    CubismSetItemInt set = 3;
+}
+
+message CubismItemInt {
+    string cubism_id = 1;
+    int32 classify_id = 2;
+}
+
+message CubismSetItemInt {
+    string set_id = 1;
+    repeated CubismItemInt cubism_list = 2;
+    bool is_split = 3;
+}
+
+message CheckExpireCubismReq {
+
+}
+
+message CheckExpireCubismRes {
+
+}
+
+message GetCubismBagPlayerISSByAdminReq {
+    int64 player_id = 1;
+    string cubism_id = 2;
+}
+
+message GetCubismBagPlayerISSByAdminRes {
+    repeated CubismBagItem cubism_item_list = 1;
+}
+
+message QueryCubismInfoReq {
+    string cubism_id = 1;
+}
+
+message QueryCubismInfoRes {
+    CubismSet set = 1;
+    CubismClassify classify_id = 2;           // 分类ID
+    string product_name = 3;           // 物品名称
+}
+
+message CubismBagItem {
+    string product_id = 1;        // 虚拟形象商品ID（包括套装）
+    string product_name = 2;      // 虚拟形象商品名称
+    int64 valid_time = 3;        // 有效时间戳
+    int32 classify_id = 4;       // 分类ID
+    string classify_name = 5;       // 分类名称
+    int64 player_id = 6;
+    string player_name = 7;
+}
+
+message ChangePlayerCubismReq {
+    int64 player_id = 1;
+    repeated string wear_cubism_ids = 2;  // 需要替换的装扮ID
+    string cubism_icon = 3;   // 替换的虚拟形象
+    int64 cubism_icon_width = 4;  // 虚拟形象图标宽度
+    int64 cubism_icon_height = 5; // 虚拟形象图标高度
+}
+
+message ChangePlayerCubismRes {
+
+}
+
+service CubismIntObj {
+    // 进房是否有虚拟形象特效
+    rpc EnterCubismEffect(EnterCubismEffectReq) returns (EnterCubismEffectRes);
+    rpc DelAllCubismGuide(DelAllCubismGuideReq) returns (DelAllCubismGuideRes);
+    rpc ChangeCubismSex(ChangeCubismSexReq) returns (ChangeCubismSexRes);
+    rpc ACTCountCubismDyeing(ACTCountCubismDyeingReq) returns (ACTCountCubismDyeingRes); // 活动 统计虚拟装扮染色次数
+    rpc SendCubismByAdmin(SendCubismByAdminReq) returns (SendCubismByAdminRes); // 管理台虚拟物品下发
+    rpc DeleteSendCubismByAdmin(DeleteSendCubismByAdminReq) returns (DeleteSendCubismByAdminRes); // 管理台虚拟物品删除已下发
+    rpc PlayerCubismInt(PlayerCubismIntReq)returns(PlayerCubismIntRes); // 获取个人虚拟形象
+    rpc CheckExpireCubism(CheckExpireCubismReq)returns(CheckExpireCubismRes); // 检查过期虚拟装扮
+    rpc GetCubismBagPlayerISSByAdmin(GetCubismBagPlayerISSByAdminReq)returns(GetCubismBagPlayerISSByAdminRes); // 获取用户背包物品
+    rpc PlayerListCubism(PlayerListCubismReq)returns(PlayerListCubismRes); // 批量获取个人虚拟形象
+    rpc QueryCubismInfo(QueryCubismInfoReq)returns(QueryCubismInfoRes); // 根据虚拟形象id查询信息
+    rpc ChangePlayerCubism(ChangePlayerCubismReq)returns(ChangePlayerCubismRes); // 变更虚拟形象
+}

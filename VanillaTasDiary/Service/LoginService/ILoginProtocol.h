@@ -248,8 +248,6 @@ FOUNDATION_EXPORT NSString * const LoginServiceErrorDomain;
  */
 //- (void)logoutWithType:(PB3LogoutType)type;
 
-- (void)checkExistUserWithName:(NSString *)name successBlock:(void (^)(BOOL))successBlock failBlock:(void (^)(NSString *))failBlock;
-
 - (void)loginWithNickName:(NSString *)nickname successBlock:(void (^)(BOOL))successBlock failBlock:(void (^)(NSString *))failBlock;
 
 //检查活动是否还在进行

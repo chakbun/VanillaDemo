@@ -145,10 +145,7 @@ def remove_hole_message(text):
                 "RoomChangeCoinReq", "RoomChangeCoinRes", 
                 "SettingPasswdReq", "SettingPasswdRes",
                 "DiamondChangCoinReq", "DiamondChangCoinRes",
-                "Diamond", "BindBank", "Withdrawal",
-                "ChongZhi", "PayChannel", "GetPlayerPayReq", "WithdrawProtocol", "WithdrawNotice",
-                "ChargeExtraData", "WithdrawCheckReq", "WithdrawCheckRes", "WithdrawType",
-                 "ReplaceWithdraw", "WithdrawRemain", "WithdrawAssetsType"] 
+                "Diamond", "BindBank", "Withdrawal", "PayChannel", "Bank", "Withdraw"]
     i = 0
     while i < len(keywords):
         #print(keywords[i])
@@ -162,8 +159,8 @@ def remove_hole_line(text):
     keywords = ["ANDROID_PHONE", "ANDROID", 
                 "WORLDCUP_DIAMOND", "GOOGLE_PAY", 
                 "IAP_PAY", "IOS_CERTIF", "IOS_CRETIF", 
-                "payment_url", "WithdrawType", "withdraw", "Withdraw", 
-                "Diamond", "Alipay", "AliPay", "BindBank","BIND_BANK", "PayChannel"]
+                "payment_url", "Withdraw", 
+                "Diamond", "Alipay","ALIPAY", "BindBank","BIND_BANK","Bank","WXPAY","PAYPAL","UNIONPAY","PayChannel"]
     i = 0
     while i < len(keywords):
         #print(keywords[i])
@@ -203,6 +200,32 @@ if __name__ == '__main__':
                 fh.write(code_new)
                 fh.close()
 
+    for root, dirs, files in os.walk("./"):
+        for filename in files:
+            if filename.endswith('.proto'):
+                filename = os.path.join(root, filename)
+                code_original = open(filename).read()
+                code_new = remove_hole_message(code_original)
+                code_new = remove_hole_line(code_new)
+                code_new = remove_comments(code_new)
+                
+                fh = open(filename, "w")
+                fh.write(code_new)
+                fh.close()
+                
+    for root, dirs, files in os.walk("./upush_pb/"):
+        for filename in files:
+            if filename.endswith('.proto'):
+                filename = os.path.join(root, filename)
+                code_original = open(filename).read()
+                code_new = remove_hole_message(code_original)
+                code_new = remove_hole_line(code_new)
+                code_new = remove_comments(code_new)
+                
+                fh = open(filename, "w")
+                fh.write(code_new)
+                fh.close()
+
     for root, dirs, files in os.walk("./client/"):
         for filename in files:
             if filename.endswith('.proto'):
@@ -222,18 +245,6 @@ if __name__ == '__main__':
                 fh.close()
 
     for root, dirs, files in os.walk("./plugin_pb/"):
-        for filename in files:
-            if filename.endswith('.proto'):
-                filename = os.path.join(root, filename)
-                code_original = open(filename).read()
-                code_new = remove_hole_message(code_original)
-                code_new = remove_hole_line(code_new)
-                code_new = remove_comments(code_new)
-                fh = open(filename, "w")
-                fh.write(code_new)
-                fh.close()
-    
-    for root, dirs, files in os.walk("./auth_pb/"):
         for filename in files:
             if filename.endswith('.proto'):
                 filename = os.path.join(root, filename)

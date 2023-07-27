@@ -31,6 +31,8 @@ CF_EXTERN_C_BEGIN
 @class PB3AuctionGiftConf;
 @class PB3AuctionRank;
 @class PB3AuctionTarget;
+@class PB3BroadcastChair;
+@class PB3BroadcastChairMove;
 @class PB3InPkRank;
 @class PB3InPkTeam;
 @class PB3MobaTeamGameInfo;
@@ -40,6 +42,18 @@ CF_EXTERN_C_BEGIN
 @class PB3Seckill;
 @class PB3SeckillPush;
 @class PB3SimplePlayer;
+@class PB3SingleLiveChairPlayer;
+@class PB3SingleLiveInPkRank;
+@class PB3SingleLiveInPkTeam;
+@class PB3SingleLivePkPlayer;
+@class PB3SingleLivePkRoomInfo;
+@class PB3SingleLivePkSkill;
+@class PB3SingleLivePkTeam;
+@class PB3SingleLiveSeckill;
+@class PB3SingleLiveSeckillPush;
+@class PB3SingleLiveTaunt;
+@class PB3SingleLiveTauntPush;
+@class PB3SingleLiveWeekPkRank;
 @class PB3Taunt;
 @class PB3TauntPush;
 @class PB3TeamBaseInfo;
@@ -50,6 +64,10 @@ GPB_ENUM_FWD_DECLARE(PB3AuctionType);
 GPB_ENUM_FWD_DECLARE(PB3DeviceType);
 GPB_ENUM_FWD_DECLARE(PB3PkMode);
 GPB_ENUM_FWD_DECLARE(PB3PkSkillType);
+GPB_ENUM_FWD_DECLARE(PB3RoomVoice);
+GPB_ENUM_FWD_DECLARE(PB3SexType);
+GPB_ENUM_FWD_DECLARE(PB3SingleLivePkMode);
+GPB_ENUM_FWD_DECLARE(PB3SingleLivePkSkillType);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -229,6 +247,72 @@ typedef GPB_ENUM(PB3RoomPatternCmdId) {
 
   /** PK:嘲讽公屏文案 PkTauntRoomNoticePush */
   PB3RoomPatternCmdId_RpcPkTauntRoomNotice = 800134,
+
+  /** 个播权限变更 */
+  PB3RoomPatternCmdId_PrcSingleLivePerm = 800135,
+
+  /** PK:主持信息 PkHostInfo */
+  PB3RoomPatternCmdId_RpcPkHostInfo = 800136,
+
+  /** PK:静音类型 PkPushMuteType */
+  PB3RoomPatternCmdId_RpcPkPushMuteType = 800137,
+
+  /** PK:推送PK面板信息 SingleLivePkInfo */
+  PB3RoomPatternCmdId_PrcSingleLivePkTeamInfo = 800138,
+
+  /** PK:推送队伍信息变更 SingleLivePkTeamPush */
+  PB3RoomPatternCmdId_RpcSingleLivePkTeamPush = 800139,
+
+  /** PK:使用技能 SingleLivePkSkillPush */
+  PB3RoomPatternCmdId_RpcSingleLivePkUseSkill = 800140,
+
+  /** PK:推送宝箱 SingleLivePkTreasureBox */
+  PB3RoomPatternCmdId_RpcSingleLivePkTreasureBox = 800141,
+
+  /** PK 邀请推送 SingleLivePkInviteInfo */
+  PB3RoomPatternCmdId_RpcSingleLivePkInvite = 800142,
+
+  /** PK 匹配推送 SingleLivePkMatchInfo */
+  PB3RoomPatternCmdId_RpcSingleLivePkMatch = 800143,
+
+  /** PK:保护机制 SingleLivePkProtectPush */
+  PB3RoomPatternCmdId_RpcSingleLivePkProtectPush = 800144,
+
+  /** PK:MVP全服横幅推送 SingleLivePkMvpGlobalPush */
+  PB3RoomPatternCmdId_RpcSingleLivePkMvpGlobalPush = 800145,
+
+  /** PK:获得钻石推送 SingleLivePkRewardTicketPush */
+  PB3RoomPatternCmdId_PrcSingleLivePkRewardTicketPush = 800146,
+
+  /** PK:嘲讽公屏文案 SingleLivePkTauntRoomNoticePush */
+  PB3RoomPatternCmdId_RpcSingleLivePkTauntRoomNotice = 800147,
+
+  /** PK:静音类型 SingleLivePkPushMuteType */
+  PB3RoomPatternCmdId_RpcSingleLivePkPushMuteType = 800149,
+
+  /** PK:个播模式PK排行角标 SubInfoPkRank */
+  PB3RoomPatternCmdId_RpcSingleLivePkSubRank = 800150,
+
+  /** PK:对方房间麦位变化推送 SingleLivePkChairChange */
+  PB3RoomPatternCmdId_RpcSingleLivePkChairChange = 800151,
+
+  /** 蹦迪模式：卡座推送 */
+  PB3RoomPatternCmdId_RpcCloudDiscoBoothSeat = 800152,
+
+  /** 云蹦迪信息广播 CloudDiscoInfo */
+  PB3RoomPatternCmdId_RpcCloudDiscoInfo = 800153,
+
+  /** 云蹦迪场景广播 PushCloudDiscoSceneInfo */
+  PB3RoomPatternCmdId_RpcCloudDiscoScene = 800154,
+
+  /** 云蹦迪进房推送 PushCloudDiscoEnterRoom */
+  PB3RoomPatternCmdId_RpcCloudDiscoEnterRoom = 800155,
+
+  /** 推送云蹦迪观众席配置（进房、切房间模式，修改配置都推送）PushCloudDiscoDancerCfg */
+  PB3RoomPatternCmdId_RpcCloudDiscoDancerCfg = 800156,
+
+  /** 推送云蹦迪狂欢时刻广播通知 PushCloudDiscoRockBroadcast */
+  PB3RoomPatternCmdId_RpcCloudDiscoRockBroadcast = 800157,
 };
 
 GPBEnumDescriptor *PB3RoomPatternCmdId_EnumDescriptor(void);
@@ -579,6 +663,9 @@ typedef GPB_ENUM(PB3PkStatus) {
 
   /** PK匹配成功 */
   PB3PkStatus_PsPkMatchSuccess = 5,
+
+  /** PK互动中 */
+  PB3PkStatus_PsPkPunishment = 6,
 };
 
 GPBEnumDescriptor *PB3PkStatus_EnumDescriptor(void);
@@ -807,6 +894,312 @@ GPBEnumDescriptor *PB3PkMatchAction_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PB3PkMatchAction_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3MuteType
+
+typedef GPB_ENUM(PB3MuteType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3MuteType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3MuteType_MutetZero = 0,
+
+  /** 接收声音 */
+  PB3MuteType_MutetStart = 1,
+
+  /** 静音 */
+  PB3MuteType_MutetStop = 2,
+};
+
+GPBEnumDescriptor *PB3MuteType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3MuteType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkStatus
+
+typedef GPB_ENUM(PB3SingleLivePkStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLivePkStatus_SlPsZero = 0,
+
+  /** PK中 */
+  PB3SingleLivePkStatus_SlPsInPk = 1,
+
+  /** PK结束 */
+  PB3SingleLivePkStatus_SlPsPkEnd = 2,
+
+  /** PK邀请中 */
+  PB3SingleLivePkStatus_SlPsPkInviting = 3,
+
+  /** PK匹配中 */
+  PB3SingleLivePkStatus_SlPsPkMatching = 4,
+
+  /** PK匹配成功 */
+  PB3SingleLivePkStatus_SlPsPkMatchSuccess = 5,
+
+  /** PK互动中 */
+  PB3SingleLivePkStatus_SlPsPkPunishment = 6,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkResult
+
+typedef GPB_ENUM(PB3SingleLivePkResult) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkResult_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLivePkResult_SlPkrZero = 0,
+
+  /** 获胜方 */
+  PB3SingleLivePkResult_SlPkrWinner = 1,
+
+  /** 失败方 */
+  PB3SingleLivePkResult_SlPkrLoser = 2,
+
+  /** 平局 */
+  PB3SingleLivePkResult_SlPkrDraw = 3,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkResult_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkResult_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLiveSeckillStatus
+
+typedef GPB_ENUM(PB3SingleLiveSeckillStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLiveSeckillStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLiveSeckillStatus_SlSksZero = 0,
+
+  /** 开始 */
+  PB3SingleLiveSeckillStatus_SlSksStart = 1,
+
+  /** 取消 */
+  PB3SingleLiveSeckillStatus_SlSksCancel = 2,
+};
+
+GPBEnumDescriptor *PB3SingleLiveSeckillStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLiveSeckillStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLiveWeekPkRankType
+
+typedef GPB_ENUM(PB3SingleLiveWeekPkRankType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLiveWeekPkRankType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLiveWeekPkRankType_SlWprtZero = 0,
+
+  /** 本周 */
+  PB3SingleLiveWeekPkRankType_SlWprtThisWeek = 1,
+
+  /** 上周 */
+  PB3SingleLiveWeekPkRankType_SlWprtLastWeek = 2,
+};
+
+GPBEnumDescriptor *PB3SingleLiveWeekPkRankType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLiveWeekPkRankType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkInviteAction
+
+typedef GPB_ENUM(PB3SingleLivePkInviteAction) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkInviteAction_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位不用 */
+  PB3SingleLivePkInviteAction_SlPkiaZero = 0,
+
+  /** 被邀请 */
+  PB3SingleLivePkInviteAction_SlPkiaInvited = 1,
+
+  /** 取消邀请 */
+  PB3SingleLivePkInviteAction_SlPkiaInviteCancel = 2,
+
+  /** 拒绝邀请 */
+  PB3SingleLivePkInviteAction_SlPkiaInviteReject = 3,
+
+  /** 邀请超时 */
+  PB3SingleLivePkInviteAction_SlPkiaInviteTimeout = 4,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkInviteAction_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkInviteAction_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkInviteRejectType
+
+typedef GPB_ENUM(PB3SingleLivePkInviteRejectType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkInviteRejectType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位不用 */
+  PB3SingleLivePkInviteRejectType_SlPkirtZero = 0,
+
+  /** 本次拒绝Ta的邀请PK */
+  PB3SingleLivePkInviteRejectType_SlPkirtOncePerson = 1,
+
+  /** 今日不接受Ta的邀请PK */
+  PB3SingleLivePkInviteRejectType_SlPkirtTodayPerson = 2,
+
+  /** 今日不接受邀请PK */
+  PB3SingleLivePkInviteRejectType_SlPkirtTodayForbid = 3,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkInviteRejectType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkInviteRejectType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkMatchAction
+
+typedef GPB_ENUM(PB3SingleLivePkMatchAction) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkMatchAction_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位不用 */
+  PB3SingleLivePkMatchAction_SlPkmaZero = 0,
+
+  /** 匹配超时 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchTimeout = 1,
+
+  /** 匹配成功 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchSuccess = 2,
+
+  /** 匹配成功后准备开始 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchStart = 3,
+
+  /** 匹配成功后准备开始超时 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchStartTimeout = 4,
+
+  /** 匹配成功后对方房间退房 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchStartFail = 5,
+
+  /** 取消匹配 */
+  PB3SingleLivePkMatchAction_SlPkmaMatchCancel = 6,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkMatchAction_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkMatchAction_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLiveMuteType
+
+typedef GPB_ENUM(PB3SingleLiveMuteType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLiveMuteType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLiveMuteType_SlMutetZero = 0,
+
+  /** 接收声音 */
+  PB3SingleLiveMuteType_SlMutetStart = 1,
+
+  /** 静音 */
+  PB3SingleLiveMuteType_SlMutetStop = 2,
+};
+
+GPBEnumDescriptor *PB3SingleLiveMuteType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLiveMuteType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePkChairChangeType
+
+typedef GPB_ENUM(PB3SingleLivePkChairChangeType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePkChairChangeType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3SingleLivePkChairChangeType_SlPkCctZero = 0,
+
+  /** 换麦 */
+  PB3SingleLivePkChairChangeType_SlPkCctMove = 1,
+
+  /** 上、下麦 */
+  PB3SingleLivePkChairChangeType_SlPkCctSit = 2,
+};
+
+GPBEnumDescriptor *PB3SingleLivePkChairChangeType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePkChairChangeType_IsValidValue(int32_t value);
 
 #pragma mark - PB3RoomPatternExtRoot
 
@@ -2097,6 +2490,10 @@ typedef GPB_ENUM(PB3PkInfo_FieldNumber) {
   PB3PkInfo_FieldNumber_CancelScore = 12,
   PB3PkInfo_FieldNumber_IsBeginPk = 13,
   PB3PkInfo_FieldNumber_DeviceType = 14,
+  PB3PkInfo_FieldNumber_OpenTime = 15,
+  PB3PkInfo_FieldNumber_PkStatus = 16,
+  PB3PkInfo_FieldNumber_PunishContent = 17,
+  PB3PkInfo_FieldNumber_IsEndPk = 18,
 };
 
 /**
@@ -2122,8 +2519,8 @@ typedef GPB_ENUM(PB3PkInfo_FieldNumber) {
 /** 时间戳(毫秒) */
 @property(nonatomic, readwrite) int64_t timestamp;
 
-/** PK状态 */
-@property(nonatomic, readwrite) PB3PkStatus status;
+/** PK状态(兼容旧版本，惩罚状态返回已结束) */
+@property(nonatomic, readwrite) PB3PkStatus status DEPRECATED_ATTRIBUTE;
 
 /** 赏金比例(如：10%，则传10；该值大于0，才显示赏金池及胜利后分金币动画) */
 @property(nonatomic, readwrite) int32_t rewardRate;
@@ -2150,6 +2547,18 @@ typedef GPB_ENUM(PB3PkInfo_FieldNumber) {
 
 /** 设备类型 */
 @property(nonatomic, readwrite) enum PB3DeviceType deviceType;
+
+/** 展开时长(秒)，0则一直展开 */
+@property(nonatomic, readwrite) int32_t openTime;
+
+/** PK状态 */
+@property(nonatomic, readwrite) PB3PkStatus pkStatus;
+
+/** 惩罚内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *punishContent;
+
+/** 是否结束PK的推送 */
+@property(nonatomic, readwrite) BOOL isEndPk;
 
 @end
 
@@ -2189,6 +2598,18 @@ int32_t PB3PkInfo_DeviceType_RawValue(PB3PkInfo *message);
  **/
 void SetPB3PkInfo_DeviceType_RawValue(PB3PkInfo *message, int32_t value);
 
+/**
+ * Fetches the raw value of a @c PB3PkInfo's @c pkStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkInfo_PkStatus_RawValue(PB3PkInfo *message);
+/**
+ * Sets the raw value of an @c PB3PkInfo's @c pkStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkInfo_PkStatus_RawValue(PB3PkInfo *message, int32_t value);
+
 #pragma mark - PB3PkTeam
 
 typedef GPB_ENUM(PB3PkTeam_FieldNumber) {
@@ -2199,6 +2620,7 @@ typedef GPB_ENUM(PB3PkTeam_FieldNumber) {
   PB3PkTeam_FieldNumber_Income = 5,
   PB3PkTeam_FieldNumber_PlayerListArray = 6,
   PB3PkTeam_FieldNumber_Result = 7,
+  PB3PkTeam_FieldNumber_IsPunishment = 8,
 };
 
 @interface PB3PkTeam : GPBMessage
@@ -2225,6 +2647,9 @@ typedef GPB_ENUM(PB3PkTeam_FieldNumber) {
 
 /** PK结果 */
 @property(nonatomic, readwrite) PB3PkResult result;
+
+/** 主持是否有PK互动连麦弹窗 */
+@property(nonatomic, readwrite) BOOL isPunishment;
 
 @end
 
@@ -2694,6 +3119,7 @@ typedef GPB_ENUM(PB3InPkTeam_FieldNumber) {
   PB3InPkTeam_FieldNumber_HostName = 3,
   PB3InPkTeam_FieldNumber_HostIcon = 4,
   PB3InPkTeam_FieldNumber_Income = 5,
+  PB3InPkTeam_FieldNumber_WinOrLose = 6,
 };
 
 @interface PB3InPkTeam : GPBMessage
@@ -2712,6 +3138,9 @@ typedef GPB_ENUM(PB3InPkTeam_FieldNumber) {
 
 /** 进度条的值，pk值 */
 @property(nonatomic, readwrite) int32_t income;
+
+/** 连胜或连败次数(正数为连胜，负数为连负) */
+@property(nonatomic, readwrite) int32_t winOrLose;
 
 @end
 
@@ -2773,6 +3202,7 @@ typedef GPB_ENUM(PB3WeekPkRank_FieldNumber) {
   PB3WeekPkRank_FieldNumber_MvpId = 5,
   PB3WeekPkRank_FieldNumber_MvpName = 6,
   PB3WeekPkRank_FieldNumber_MvpIcon = 7,
+  PB3WeekPkRank_FieldNumber_WinOrLose = 8,
 };
 
 @interface PB3WeekPkRank : GPBMessage
@@ -2797,6 +3227,9 @@ typedef GPB_ENUM(PB3WeekPkRank_FieldNumber) {
 
 /** mvp头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *mvpIcon;
+
+/** 连胜或连败次数(正数为连胜，负数为连负) */
+@property(nonatomic, readwrite) int32_t winOrLose;
 
 @end
 
@@ -3200,6 +3633,1491 @@ typedef GPB_ENUM(PB3PkTauntRoomNoticePush_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *tauntRoomName;
 
 @end
+
+#pragma mark - PB3PkHostInfo
+
+typedef GPB_ENUM(PB3PkHostInfo_FieldNumber) {
+  PB3PkHostInfo_FieldNumber_RoomId = 1,
+  PB3PkHostInfo_FieldNumber_HostId = 2,
+  PB3PkHostInfo_FieldNumber_Voice = 3,
+  PB3PkHostInfo_FieldNumber_IsWinner = 4,
+  PB3PkHostInfo_FieldNumber_OwnHostId = 5,
+  PB3PkHostInfo_FieldNumber_Mute = 6,
+  PB3PkHostInfo_FieldNumber_OpponentMute = 7,
+};
+
+/**
+ * cmdid=800136
+ **/
+@interface PB3PkHostInfo : GPBMessage
+
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 主持ID */
+@property(nonatomic, readwrite) int64_t hostId;
+
+/** 房间音质 */
+@property(nonatomic, readwrite) enum PB3RoomVoice voice;
+
+/** 是否为获胜方的主持 */
+@property(nonatomic, readwrite) BOOL isWinner;
+
+/** 己方主持ID */
+@property(nonatomic, readwrite) int64_t ownHostId;
+
+/** 己方静音操作类型 */
+@property(nonatomic, readwrite) PB3MuteType mute;
+
+/** 对方静音操作类型 */
+@property(nonatomic, readwrite) PB3MuteType opponentMute;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PkHostInfo's @c voice property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkHostInfo_Voice_RawValue(PB3PkHostInfo *message);
+/**
+ * Sets the raw value of an @c PB3PkHostInfo's @c voice property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkHostInfo_Voice_RawValue(PB3PkHostInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PkHostInfo's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkHostInfo_Mute_RawValue(PB3PkHostInfo *message);
+/**
+ * Sets the raw value of an @c PB3PkHostInfo's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkHostInfo_Mute_RawValue(PB3PkHostInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PkHostInfo's @c opponentMute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkHostInfo_OpponentMute_RawValue(PB3PkHostInfo *message);
+/**
+ * Sets the raw value of an @c PB3PkHostInfo's @c opponentMute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkHostInfo_OpponentMute_RawValue(PB3PkHostInfo *message, int32_t value);
+
+#pragma mark - PB3PkVoiceMuteReq
+
+typedef GPB_ENUM(PB3PkVoiceMuteReq_FieldNumber) {
+  PB3PkVoiceMuteReq_FieldNumber_Mute = 1,
+  PB3PkVoiceMuteReq_FieldNumber_PkId = 2,
+};
+
+@interface PB3PkVoiceMuteReq : GPBMessage
+
+/** 静音操作类型 */
+@property(nonatomic, readwrite) PB3MuteType mute;
+
+/** PKId */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pkId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PkVoiceMuteReq's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkVoiceMuteReq_Mute_RawValue(PB3PkVoiceMuteReq *message);
+/**
+ * Sets the raw value of an @c PB3PkVoiceMuteReq's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkVoiceMuteReq_Mute_RawValue(PB3PkVoiceMuteReq *message, int32_t value);
+
+#pragma mark - PB3PkVoiceMuteRes
+
+@interface PB3PkVoiceMuteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3PkPushMuteType
+
+typedef GPB_ENUM(PB3PkPushMuteType_FieldNumber) {
+  PB3PkPushMuteType_FieldNumber_Mute = 1,
+  PB3PkPushMuteType_FieldNumber_RoomId = 2,
+};
+
+/**
+ * cmdid=800137
+ **/
+@interface PB3PkPushMuteType : GPBMessage
+
+/** 静音操作类型 */
+@property(nonatomic, readwrite) PB3MuteType mute;
+
+/** 静音的房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PkPushMuteType's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PkPushMuteType_Mute_RawValue(PB3PkPushMuteType *message);
+/**
+ * Sets the raw value of an @c PB3PkPushMuteType's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PkPushMuteType_Mute_RawValue(PB3PkPushMuteType *message, int32_t value);
+
+#pragma mark - PB3PkStartPunishReq
+
+typedef GPB_ENUM(PB3PkStartPunishReq_FieldNumber) {
+  PB3PkStartPunishReq_FieldNumber_PkId = 1,
+};
+
+@interface PB3PkStartPunishReq : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pkId;
+
+@end
+
+#pragma mark - PB3PkStartPunishRes
+
+@interface PB3PkStartPunishRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkInfo
+
+typedef GPB_ENUM(PB3SingleLivePkInfo_FieldNumber) {
+  PB3SingleLivePkInfo_FieldNumber_Id_p = 1,
+  PB3SingleLivePkInfo_FieldNumber_PkReward = 2,
+  PB3SingleLivePkInfo_FieldNumber_TeamsArray = 3,
+  PB3SingleLivePkInfo_FieldNumber_EndTime = 4,
+  PB3SingleLivePkInfo_FieldNumber_Timestamp = 5,
+  PB3SingleLivePkInfo_FieldNumber_RewardRate = 6,
+  PB3SingleLivePkInfo_FieldNumber_TipsArray = 7,
+  PB3SingleLivePkInfo_FieldNumber_ScrollTime = 8,
+  PB3SingleLivePkInfo_FieldNumber_Mode = 9,
+  PB3SingleLivePkInfo_FieldNumber_SecKillId = 10,
+  PB3SingleLivePkInfo_FieldNumber_CancelScore = 11,
+  PB3SingleLivePkInfo_FieldNumber_IsBeginPk = 12,
+  PB3SingleLivePkInfo_FieldNumber_DeviceType = 13,
+  PB3SingleLivePkInfo_FieldNumber_OpenTime = 14,
+  PB3SingleLivePkInfo_FieldNumber_PkStatus = 15,
+  PB3SingleLivePkInfo_FieldNumber_PunishContent = 16,
+  PB3SingleLivePkInfo_FieldNumber_IsEndPk = 17,
+  PB3SingleLivePkInfo_FieldNumber_RoomInfoArray = 18,
+  PB3SingleLivePkInfo_FieldNumber_Voice = 19,
+  PB3SingleLivePkInfo_FieldNumber_RouterURL = 20,
+};
+
+/**
+ * ////////////////////////////// 个播PK //////////////////////////////////
+ * cmdid=800138
+ **/
+@interface PB3SingleLivePkInfo : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** PK赏金值 */
+@property(nonatomic, readwrite) int32_t pkReward;
+
+/** 红队 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkTeam*> *teamsArray;
+/** The number of items in @c teamsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger teamsArray_Count;
+
+/** 结束时间(秒) */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 时间戳(毫秒) */
+@property(nonatomic, readwrite) int64_t timestamp;
+
+/** 赏金比例(如：10%，则传10；该值大于0，才显示赏金池及胜利后分金币动画) */
+@property(nonatomic, readwrite) int32_t rewardRate;
+
+/** 轮播tips */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *tipsArray;
+/** The number of items in @c tipsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger tipsArray_Count;
+
+/** 轮播时间 */
+@property(nonatomic, readwrite) int32_t scrollTime;
+
+/** PK模式 */
+@property(nonatomic, readwrite) enum PB3SingleLivePkMode mode;
+
+/** 被秒杀的房间ID，ID>0，处于秒杀倒计时 */
+@property(nonatomic, readwrite) int64_t secKillId;
+
+/** 取消秒杀的分数 */
+@property(nonatomic, readwrite) int32_t cancelScore;
+
+/** 是否开始PK的推送 */
+@property(nonatomic, readwrite) BOOL isBeginPk;
+
+/** 设备类型 */
+@property(nonatomic, readwrite) enum PB3DeviceType deviceType;
+
+/** 展开时长(秒)，0则一直展开 */
+@property(nonatomic, readwrite) int32_t openTime;
+
+/** PK状态 */
+@property(nonatomic, readwrite) PB3SingleLivePkStatus pkStatus;
+
+/** 惩罚内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *punishContent;
+
+/** 是否结束PK的推送 */
+@property(nonatomic, readwrite) BOOL isEndPk;
+
+/** 个播PK房间信息房间信息 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkRoomInfo*> *roomInfoArray;
+/** The number of items in @c roomInfoArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger roomInfoArray_Count;
+
+/** 房间音质 */
+@property(nonatomic, readwrite) enum PB3RoomVoice voice;
+
+/** 规则的路由 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *routerURL;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInfo's @c mode property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInfo_Mode_RawValue(PB3SingleLivePkInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInfo's @c mode property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInfo_Mode_RawValue(PB3SingleLivePkInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInfo's @c deviceType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInfo_DeviceType_RawValue(PB3SingleLivePkInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInfo's @c deviceType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInfo_DeviceType_RawValue(PB3SingleLivePkInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInfo's @c pkStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInfo_PkStatus_RawValue(PB3SingleLivePkInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInfo's @c pkStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInfo_PkStatus_RawValue(PB3SingleLivePkInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInfo's @c voice property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInfo_Voice_RawValue(PB3SingleLivePkInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInfo's @c voice property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInfo_Voice_RawValue(PB3SingleLivePkInfo *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkRoomInfo
+
+typedef GPB_ENUM(PB3SingleLivePkRoomInfo_FieldNumber) {
+  PB3SingleLivePkRoomInfo_FieldNumber_RoomId = 1,
+  PB3SingleLivePkRoomInfo_FieldNumber_ChairPlayerArray = 2,
+  PB3SingleLivePkRoomInfo_FieldNumber_Mute = 3,
+  PB3SingleLivePkRoomInfo_FieldNumber_OpponentMute = 4,
+};
+
+@interface PB3SingleLivePkRoomInfo : GPBMessage
+
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 麦上用户 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLiveChairPlayer*> *chairPlayerArray;
+/** The number of items in @c chairPlayerArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger chairPlayerArray_Count;
+
+/** 己方静音操作类型 */
+@property(nonatomic, readwrite) PB3SingleLiveMuteType mute;
+
+/** 对方静音操作类型 */
+@property(nonatomic, readwrite) PB3SingleLiveMuteType opponentMute;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkRoomInfo's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkRoomInfo_Mute_RawValue(PB3SingleLivePkRoomInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkRoomInfo's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkRoomInfo_Mute_RawValue(PB3SingleLivePkRoomInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkRoomInfo's @c opponentMute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkRoomInfo_OpponentMute_RawValue(PB3SingleLivePkRoomInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkRoomInfo's @c opponentMute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkRoomInfo_OpponentMute_RawValue(PB3SingleLivePkRoomInfo *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkTeam
+
+typedef GPB_ENUM(PB3SingleLivePkTeam_FieldNumber) {
+  PB3SingleLivePkTeam_FieldNumber_RoomId = 1,
+  PB3SingleLivePkTeam_FieldNumber_HostId = 2,
+  PB3SingleLivePkTeam_FieldNumber_HostName = 3,
+  PB3SingleLivePkTeam_FieldNumber_HostIcon = 4,
+  PB3SingleLivePkTeam_FieldNumber_Income = 5,
+  PB3SingleLivePkTeam_FieldNumber_PlayerListArray = 6,
+  PB3SingleLivePkTeam_FieldNumber_Result = 7,
+  PB3SingleLivePkTeam_FieldNumber_IsPunishment = 8,
+};
+
+@interface PB3SingleLivePkTeam : GPBMessage
+
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 主持ID */
+@property(nonatomic, readwrite) int64_t hostId;
+
+/** 主持名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostName;
+
+/** 主持头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostIcon;
+
+/** 进度条的值，pk值 */
+@property(nonatomic, readwrite) int32_t income;
+
+/** 贡献前三的老板 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkPlayer*> *playerListArray;
+/** The number of items in @c playerListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger playerListArray_Count;
+
+/** PK结果 */
+@property(nonatomic, readwrite) PB3SingleLivePkResult result;
+
+/** 主持是否有PK互动连麦弹窗 */
+@property(nonatomic, readwrite) BOOL isPunishment;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkTeam's @c result property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkTeam_Result_RawValue(PB3SingleLivePkTeam *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkTeam's @c result property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkTeam_Result_RawValue(PB3SingleLivePkTeam *message, int32_t value);
+
+#pragma mark - PB3SingleLiveChairPlayer
+
+typedef GPB_ENUM(PB3SingleLiveChairPlayer_FieldNumber) {
+  PB3SingleLiveChairPlayer_FieldNumber_PlayerId = 1,
+  PB3SingleLiveChairPlayer_FieldNumber_Name = 2,
+  PB3SingleLiveChairPlayer_FieldNumber_Icon = 3,
+  PB3SingleLiveChairPlayer_FieldNumber_ChairId = 4,
+  PB3SingleLiveChairPlayer_FieldNumber_EffectId = 5,
+  PB3SingleLiveChairPlayer_FieldNumber_Sex = 6,
+};
+
+@interface PB3SingleLiveChairPlayer : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+@property(nonatomic, readwrite) int32_t chairId;
+
+/** 主持上麦特效ID */
+@property(nonatomic, readwrite) int32_t effectId;
+
+/** 性别 */
+@property(nonatomic, readwrite) enum PB3SexType sex;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLiveChairPlayer's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLiveChairPlayer_Sex_RawValue(PB3SingleLiveChairPlayer *message);
+/**
+ * Sets the raw value of an @c PB3SingleLiveChairPlayer's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLiveChairPlayer_Sex_RawValue(PB3SingleLiveChairPlayer *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkPlayer
+
+typedef GPB_ENUM(PB3SingleLivePkPlayer_FieldNumber) {
+  PB3SingleLivePkPlayer_FieldNumber_PlayerId = 1,
+  PB3SingleLivePkPlayer_FieldNumber_Name = 2,
+  PB3SingleLivePkPlayer_FieldNumber_Icon = 3,
+  PB3SingleLivePkPlayer_FieldNumber_Score = 4,
+  PB3SingleLivePkPlayer_FieldNumber_Rank = 5,
+  PB3SingleLivePkPlayer_FieldNumber_StartMatchTime = 6,
+  PB3SingleLivePkPlayer_FieldNumber_RoomId = 7,
+};
+
+@interface PB3SingleLivePkPlayer : GPBMessage
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 贡献值 */
+@property(nonatomic, readwrite) uint32_t score;
+
+/** 排名 */
+@property(nonatomic, readwrite) uint32_t rank;
+
+/** 当前用户开始匹配时间戳 */
+@property(nonatomic, readwrite) int64_t startMatchTime;
+
+/** 房间id */
+@property(nonatomic, readwrite) int64_t roomId;
+
+@end
+
+#pragma mark - PB3SingleLivePkTeamPush
+
+typedef GPB_ENUM(PB3SingleLivePkTeamPush_FieldNumber) {
+  PB3SingleLivePkTeamPush_FieldNumber_Id_p = 1,
+  PB3SingleLivePkTeamPush_FieldNumber_PkReward = 2,
+  PB3SingleLivePkTeamPush_FieldNumber_Team = 3,
+  PB3SingleLivePkTeamPush_FieldNumber_Timestamp = 4,
+};
+
+/**
+ * cmdid=800139
+ **/
+@interface PB3SingleLivePkTeamPush : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** PK赏金值 */
+@property(nonatomic, readwrite) int32_t pkReward;
+
+/** 红队 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLivePkTeam *team;
+/** Test to see if @c team has been set. */
+@property(nonatomic, readwrite) BOOL hasTeam;
+
+/** 时间戳(毫秒) */
+@property(nonatomic, readwrite) int64_t timestamp;
+
+@end
+
+#pragma mark - PB3SingleLivePkSkillPush
+
+typedef GPB_ENUM(PB3SingleLivePkSkillPush_FieldNumber) {
+  PB3SingleLivePkSkillPush_FieldNumber_Id_p = 1,
+  PB3SingleLivePkSkillPush_FieldNumber_Skill = 2,
+  PB3SingleLivePkSkillPush_FieldNumber_UseRoomId = 3,
+  PB3SingleLivePkSkillPush_FieldNumber_TargetRoomId = 4,
+  PB3SingleLivePkSkillPush_FieldNumber_SecKill = 5,
+  PB3SingleLivePkSkillPush_FieldNumber_Taunt = 6,
+};
+
+typedef GPB_ENUM(PB3SingleLivePkSkillPush_Data_OneOfCase) {
+  PB3SingleLivePkSkillPush_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3SingleLivePkSkillPush_Data_OneOfCase_SecKill = 5,
+  PB3SingleLivePkSkillPush_Data_OneOfCase_Taunt = 6,
+};
+
+/**
+ * cmdid=800140
+ **/
+@interface PB3SingleLivePkSkillPush : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 技能 */
+@property(nonatomic, readwrite) enum PB3SingleLivePkSkillType skill;
+
+/** 使用技能的房间ID */
+@property(nonatomic, readwrite) int64_t useRoomId;
+
+/** 对手的房间ID */
+@property(nonatomic, readwrite) int64_t targetRoomId;
+
+@property(nonatomic, readonly) PB3SingleLivePkSkillPush_Data_OneOfCase dataOneOfCase;
+
+/** 秒杀数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLiveSeckillPush *secKill;
+
+/** 嘲讽数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLiveTauntPush *taunt;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkSkillPush's @c skill property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkSkillPush_Skill_RawValue(PB3SingleLivePkSkillPush *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkSkillPush's @c skill property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkSkillPush_Skill_RawValue(PB3SingleLivePkSkillPush *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3SingleLivePkSkillPush_ClearDataOneOfCase(PB3SingleLivePkSkillPush *message);
+
+#pragma mark - PB3SingleLiveSeckillPush
+
+typedef GPB_ENUM(PB3SingleLiveSeckillPush_FieldNumber) {
+  PB3SingleLiveSeckillPush_FieldNumber_Status = 1,
+  PB3SingleLiveSeckillPush_FieldNumber_EndTime = 2,
+  PB3SingleLiveSeckillPush_FieldNumber_CancelScore = 3,
+  PB3SingleLiveSeckillPush_FieldNumber_CancelTime = 4,
+};
+
+@interface PB3SingleLiveSeckillPush : GPBMessage
+
+@property(nonatomic, readwrite) PB3SingleLiveSeckillStatus status;
+
+/** 结束时间(秒)，更新PK面板的倒计时(PkInfo的end_time) */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 阻止秒杀PK值 */
+@property(nonatomic, readwrite) int32_t cancelScore;
+
+/** 秒杀反应时间(30)秒 */
+@property(nonatomic, readwrite) int32_t cancelTime;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLiveSeckillPush's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLiveSeckillPush_Status_RawValue(PB3SingleLiveSeckillPush *message);
+/**
+ * Sets the raw value of an @c PB3SingleLiveSeckillPush's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLiveSeckillPush_Status_RawValue(PB3SingleLiveSeckillPush *message, int32_t value);
+
+#pragma mark - PB3SingleLiveTauntPush
+
+typedef GPB_ENUM(PB3SingleLiveTauntPush_FieldNumber) {
+  PB3SingleLiveTauntPush_FieldNumber_Gold = 1,
+};
+
+@interface PB3SingleLiveTauntPush : GPBMessage
+
+/** 使用后的金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+@end
+
+#pragma mark - PB3SingleLiveUsePkSkillReq
+
+typedef GPB_ENUM(PB3SingleLiveUsePkSkillReq_FieldNumber) {
+  PB3SingleLiveUsePkSkillReq_FieldNumber_Id_p = 1,
+  PB3SingleLiveUsePkSkillReq_FieldNumber_Skill = 2,
+  PB3SingleLiveUsePkSkillReq_FieldNumber_Gold = 3,
+};
+
+@interface PB3SingleLiveUsePkSkillReq : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 技能 */
+@property(nonatomic, readwrite) enum PB3SingleLivePkSkillType skill;
+
+/** 使用嘲讽的金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLiveUsePkSkillReq's @c skill property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLiveUsePkSkillReq_Skill_RawValue(PB3SingleLiveUsePkSkillReq *message);
+/**
+ * Sets the raw value of an @c PB3SingleLiveUsePkSkillReq's @c skill property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLiveUsePkSkillReq_Skill_RawValue(PB3SingleLiveUsePkSkillReq *message, int32_t value);
+
+#pragma mark - PB3SingleLiveUsePkSkillRes
+
+@interface PB3SingleLiveUsePkSkillRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkSkillListReq
+
+@interface PB3SingleLivePkSkillListReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkSkillListRes
+
+typedef GPB_ENUM(PB3SingleLivePkSkillListRes_FieldNumber) {
+  PB3SingleLivePkSkillListRes_FieldNumber_SkillsArray = 1,
+};
+
+@interface PB3SingleLivePkSkillListRes : GPBMessage
+
+/** 技能列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkSkill*> *skillsArray;
+/** The number of items in @c skillsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger skillsArray_Count;
+
+@end
+
+#pragma mark - PB3SingleLivePkSkill
+
+typedef GPB_ENUM(PB3SingleLivePkSkill_FieldNumber) {
+  PB3SingleLivePkSkill_FieldNumber_Skill = 1,
+  PB3SingleLivePkSkill_FieldNumber_Icon = 2,
+  PB3SingleLivePkSkill_FieldNumber_SecKill = 3,
+  PB3SingleLivePkSkill_FieldNumber_Taunt = 4,
+};
+
+typedef GPB_ENUM(PB3SingleLivePkSkill_Data_OneOfCase) {
+  PB3SingleLivePkSkill_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3SingleLivePkSkill_Data_OneOfCase_SecKill = 3,
+  PB3SingleLivePkSkill_Data_OneOfCase_Taunt = 4,
+};
+
+@interface PB3SingleLivePkSkill : GPBMessage
+
+/** 技能类型 */
+@property(nonatomic, readwrite) enum PB3SingleLivePkSkillType skill;
+
+/** 技能图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+@property(nonatomic, readonly) PB3SingleLivePkSkill_Data_OneOfCase dataOneOfCase;
+
+/** 秒杀数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLiveSeckill *secKill;
+
+/** 嘲讽数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLiveTaunt *taunt;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkSkill's @c skill property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkSkill_Skill_RawValue(PB3SingleLivePkSkill *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkSkill's @c skill property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkSkill_Skill_RawValue(PB3SingleLivePkSkill *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3SingleLivePkSkill_ClearDataOneOfCase(PB3SingleLivePkSkill *message);
+
+#pragma mark - PB3SingleLiveSeckill
+
+typedef GPB_ENUM(PB3SingleLiveSeckill_FieldNumber) {
+  PB3SingleLiveSeckill_FieldNumber_Score = 1,
+  PB3SingleLiveSeckill_FieldNumber_StartTime = 2,
+  PB3SingleLiveSeckill_FieldNumber_EndTime = 3,
+  PB3SingleLiveSeckill_FieldNumber_IsUsed = 4,
+};
+
+@interface PB3SingleLiveSeckill : GPBMessage
+
+/** 门槛分 */
+@property(nonatomic, readwrite) int32_t score;
+
+/** 开始显示时间(时间戳，秒) */
+@property(nonatomic, readwrite) int64_t startTime;
+
+/** 结束显示时间(时间戳，秒) */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 是否已使用 */
+@property(nonatomic, readwrite) BOOL isUsed;
+
+@end
+
+#pragma mark - PB3SingleLiveTaunt
+
+typedef GPB_ENUM(PB3SingleLiveTaunt_FieldNumber) {
+  PB3SingleLiveTaunt_FieldNumber_Gold = 1,
+  PB3SingleLiveTaunt_FieldNumber_GoldSuperposition = 2,
+};
+
+@interface PB3SingleLiveTaunt : GPBMessage
+
+/** 金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+/** 是否金币叠加 */
+@property(nonatomic, readwrite) BOOL goldSuperposition;
+
+@end
+
+#pragma mark - PB3SingleLivePkTreasureBox
+
+typedef GPB_ENUM(PB3SingleLivePkTreasureBox_FieldNumber) {
+  PB3SingleLivePkTreasureBox_FieldNumber_Id_p = 1,
+  PB3SingleLivePkTreasureBox_FieldNumber_Name = 2,
+  PB3SingleLivePkTreasureBox_FieldNumber_RoomId = 3,
+  PB3SingleLivePkTreasureBox_FieldNumber_EndTime = 4,
+};
+
+/**
+ * cmdid=800141
+ **/
+@interface PB3SingleLivePkTreasureBox : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 宝箱名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 房间Id */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 消失时间(时间戳，秒) */
+@property(nonatomic, readwrite) int64_t endTime;
+
+@end
+
+#pragma mark - PB3SingleLiveInPkRankListReq
+
+@interface PB3SingleLiveInPkRankListReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLiveInPkRankListRes
+
+typedef GPB_ENUM(PB3SingleLiveInPkRankListRes_FieldNumber) {
+  PB3SingleLiveInPkRankListRes_FieldNumber_ListArray = 1,
+};
+
+@interface PB3SingleLiveInPkRankListRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLiveInPkRank*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3SingleLiveInPkRank
+
+typedef GPB_ENUM(PB3SingleLiveInPkRank_FieldNumber) {
+  PB3SingleLiveInPkRank_FieldNumber_TeamsArray = 1,
+};
+
+@interface PB3SingleLiveInPkRank : GPBMessage
+
+/** 红色方 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLiveInPkTeam*> *teamsArray;
+/** The number of items in @c teamsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger teamsArray_Count;
+
+@end
+
+#pragma mark - PB3SingleLiveInPkTeam
+
+typedef GPB_ENUM(PB3SingleLiveInPkTeam_FieldNumber) {
+  PB3SingleLiveInPkTeam_FieldNumber_RoomId = 1,
+  PB3SingleLiveInPkTeam_FieldNumber_HostId = 2,
+  PB3SingleLiveInPkTeam_FieldNumber_HostName = 3,
+  PB3SingleLiveInPkTeam_FieldNumber_HostIcon = 4,
+  PB3SingleLiveInPkTeam_FieldNumber_Income = 5,
+  PB3SingleLiveInPkTeam_FieldNumber_WinOrLose = 6,
+};
+
+@interface PB3SingleLiveInPkTeam : GPBMessage
+
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 主持ID */
+@property(nonatomic, readwrite) int64_t hostId;
+
+/** 主持名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostName;
+
+/** 主持头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostIcon;
+
+/** 进度条的值，pk值 */
+@property(nonatomic, readwrite) int32_t income;
+
+/** 连胜或连败次数(正数为连胜，负数为连负) */
+@property(nonatomic, readwrite) int32_t winOrLose;
+
+@end
+
+#pragma mark - PB3SingleLiveWeekPkRankListReq
+
+typedef GPB_ENUM(PB3SingleLiveWeekPkRankListReq_FieldNumber) {
+  PB3SingleLiveWeekPkRankListReq_FieldNumber_Page = 1,
+  PB3SingleLiveWeekPkRankListReq_FieldNumber_PageSize = 2,
+  PB3SingleLiveWeekPkRankListReq_FieldNumber_Type = 3,
+};
+
+@interface PB3SingleLiveWeekPkRankListReq : GPBMessage
+
+/** 页数，从1开始 */
+@property(nonatomic, readwrite) int32_t page;
+
+/** 每页数量 */
+@property(nonatomic, readwrite) int32_t pageSize;
+
+/** 本周榜/上周榜 */
+@property(nonatomic, readwrite) PB3SingleLiveWeekPkRankType type;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLiveWeekPkRankListReq's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLiveWeekPkRankListReq_Type_RawValue(PB3SingleLiveWeekPkRankListReq *message);
+/**
+ * Sets the raw value of an @c PB3SingleLiveWeekPkRankListReq's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLiveWeekPkRankListReq_Type_RawValue(PB3SingleLiveWeekPkRankListReq *message, int32_t value);
+
+#pragma mark - PB3SingleLiveWeekPkRankListRes
+
+typedef GPB_ENUM(PB3SingleLiveWeekPkRankListRes_FieldNumber) {
+  PB3SingleLiveWeekPkRankListRes_FieldNumber_ListArray = 1,
+};
+
+@interface PB3SingleLiveWeekPkRankListRes : GPBMessage
+
+/** PK周榜 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLiveWeekPkRank*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3SingleLiveWeekPkRank
+
+typedef GPB_ENUM(PB3SingleLiveWeekPkRank_FieldNumber) {
+  PB3SingleLiveWeekPkRank_FieldNumber_HostId = 1,
+  PB3SingleLiveWeekPkRank_FieldNumber_HostName = 2,
+  PB3SingleLiveWeekPkRank_FieldNumber_HostIcon = 3,
+  PB3SingleLiveWeekPkRank_FieldNumber_Score = 4,
+  PB3SingleLiveWeekPkRank_FieldNumber_MvpId = 5,
+  PB3SingleLiveWeekPkRank_FieldNumber_MvpName = 6,
+  PB3SingleLiveWeekPkRank_FieldNumber_MvpIcon = 7,
+  PB3SingleLiveWeekPkRank_FieldNumber_WinOrLose = 8,
+};
+
+@interface PB3SingleLiveWeekPkRank : GPBMessage
+
+/** 主持ID */
+@property(nonatomic, readwrite) int64_t hostId;
+
+/** 主持名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostName;
+
+/** 主持头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *hostIcon;
+
+/** 分数 */
+@property(nonatomic, readwrite) int32_t score;
+
+/** MVP用户ID */
+@property(nonatomic, readwrite) int64_t mvpId;
+
+/** MVP用户名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mvpName;
+
+/** mvp头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mvpIcon;
+
+/** 连胜或连败次数(正数为连胜，负数为连负) */
+@property(nonatomic, readwrite) int32_t winOrLose;
+
+@end
+
+#pragma mark - PB3SingleLivePkRecInviteListReq
+
+typedef GPB_ENUM(PB3SingleLivePkRecInviteListReq_FieldNumber) {
+  PB3SingleLivePkRecInviteListReq_FieldNumber_IsFromMatch = 1,
+};
+
+@interface PB3SingleLivePkRecInviteListReq : GPBMessage
+
+/** 是否从匹配超时点击的 */
+@property(nonatomic, readwrite) BOOL isFromMatch;
+
+@end
+
+#pragma mark - PB3SingleLivePkRecInviteListRes
+
+typedef GPB_ENUM(PB3SingleLivePkRecInviteListRes_FieldNumber) {
+  PB3SingleLivePkRecInviteListRes_FieldNumber_PlayersArray = 1,
+};
+
+@interface PB3SingleLivePkRecInviteListRes : GPBMessage
+
+/** 推荐可邀请人 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkPlayer*> *playersArray;
+/** The number of items in @c playersArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger playersArray_Count;
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteReq
+
+typedef GPB_ENUM(PB3SingleLivePkInviteReq_FieldNumber) {
+  PB3SingleLivePkInviteReq_FieldNumber_InvitedPlayerId = 1,
+  PB3SingleLivePkInviteReq_FieldNumber_InvitedRoomId = 2,
+};
+
+@interface PB3SingleLivePkInviteReq : GPBMessage
+
+/** 被邀请人ID 支持短号 */
+@property(nonatomic, readwrite) int64_t invitedPlayerId;
+
+/** 要邀请房间ID 支持短号 */
+@property(nonatomic, readwrite) int64_t invitedRoomId;
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteRes
+
+typedef GPB_ENUM(PB3SingleLivePkInviteRes_FieldNumber) {
+  PB3SingleLivePkInviteRes_FieldNumber_InviteId = 1,
+  PB3SingleLivePkInviteRes_FieldNumber_PlayersArray = 2,
+  PB3SingleLivePkInviteRes_FieldNumber_Tip = 3,
+  PB3SingleLivePkInviteRes_FieldNumber_EndTime = 4,
+};
+
+@interface PB3SingleLivePkInviteRes : GPBMessage
+
+/** 邀请id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *inviteId;
+
+/** 邀请双方信息 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkPlayer*> *playersArray;
+/** The number of items in @c playersArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger playersArray_Count;
+
+/** 提示信息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tip;
+
+/** 邀请超时时间结束时间戳 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteInfo
+
+typedef GPB_ENUM(PB3SingleLivePkInviteInfo_FieldNumber) {
+  PB3SingleLivePkInviteInfo_FieldNumber_InviteId = 1,
+  PB3SingleLivePkInviteInfo_FieldNumber_Player = 2,
+  PB3SingleLivePkInviteInfo_FieldNumber_EndTime = 3,
+  PB3SingleLivePkInviteInfo_FieldNumber_OperatorId = 4,
+  PB3SingleLivePkInviteInfo_FieldNumber_PkInviteAction = 5,
+};
+
+/**
+ * cmdid=800142
+ **/
+@interface PB3SingleLivePkInviteInfo : GPBMessage
+
+/** 邀请id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *inviteId;
+
+/** 邀请人信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLivePkPlayer *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 邀请超时时间结束时间戳 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 取消、拒绝邀请操作人的用户id */
+@property(nonatomic, readwrite) int64_t operatorId;
+
+/** 邀请操作状态 */
+@property(nonatomic, readwrite) PB3SingleLivePkInviteAction pkInviteAction;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInviteInfo's @c pkInviteAction property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInviteInfo_PkInviteAction_RawValue(PB3SingleLivePkInviteInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInviteInfo's @c pkInviteAction property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInviteInfo_PkInviteAction_RawValue(PB3SingleLivePkInviteInfo *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkInviteCancelReq
+
+typedef GPB_ENUM(PB3SingleLivePkInviteCancelReq_FieldNumber) {
+  PB3SingleLivePkInviteCancelReq_FieldNumber_InviteId = 1,
+};
+
+@interface PB3SingleLivePkInviteCancelReq : GPBMessage
+
+/** 邀请id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *inviteId;
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteCancelRes
+
+@interface PB3SingleLivePkInviteCancelRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteRejectReq
+
+typedef GPB_ENUM(PB3SingleLivePkInviteRejectReq_FieldNumber) {
+  PB3SingleLivePkInviteRejectReq_FieldNumber_RejectType = 1,
+  PB3SingleLivePkInviteRejectReq_FieldNumber_InviteId = 2,
+};
+
+@interface PB3SingleLivePkInviteRejectReq : GPBMessage
+
+/** 拒绝类型 */
+@property(nonatomic, readwrite) PB3SingleLivePkInviteRejectType rejectType;
+
+/** 邀请id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *inviteId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkInviteRejectReq's @c rejectType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkInviteRejectReq_RejectType_RawValue(PB3SingleLivePkInviteRejectReq *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkInviteRejectReq's @c rejectType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkInviteRejectReq_RejectType_RawValue(PB3SingleLivePkInviteRejectReq *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkInviteRejectRes
+
+@interface PB3SingleLivePkInviteRejectRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteAcceptReq
+
+typedef GPB_ENUM(PB3SingleLivePkInviteAcceptReq_FieldNumber) {
+  PB3SingleLivePkInviteAcceptReq_FieldNumber_InviteId = 1,
+};
+
+@interface PB3SingleLivePkInviteAcceptReq : GPBMessage
+
+/** 邀请id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *inviteId;
+
+@end
+
+#pragma mark - PB3SingleLivePkInviteAcceptRes
+
+@interface PB3SingleLivePkInviteAcceptRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchReq
+
+@interface PB3SingleLivePkMatchReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchRes
+
+typedef GPB_ENUM(PB3SingleLivePkMatchRes_FieldNumber) {
+  PB3SingleLivePkMatchRes_FieldNumber_Player = 1,
+  PB3SingleLivePkMatchRes_FieldNumber_TimeoutAt = 2,
+  PB3SingleLivePkMatchRes_FieldNumber_Tip = 3,
+};
+
+@interface PB3SingleLivePkMatchRes : GPBMessage
+
+/** 当前用户排名分数 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingleLivePkPlayer *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 等待超时弹窗时间戳 */
+@property(nonatomic, readwrite) int64_t timeoutAt;
+
+/** 提示信息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tip;
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchCancelReq
+
+@interface PB3SingleLivePkMatchCancelReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchCancelRes
+
+@interface PB3SingleLivePkMatchCancelRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchInfo
+
+typedef GPB_ENUM(PB3SingleLivePkMatchInfo_FieldNumber) {
+  PB3SingleLivePkMatchInfo_FieldNumber_MatchId = 1,
+  PB3SingleLivePkMatchInfo_FieldNumber_PlayersArray = 2,
+  PB3SingleLivePkMatchInfo_FieldNumber_EndTime = 3,
+  PB3SingleLivePkMatchInfo_FieldNumber_Msg = 4,
+  PB3SingleLivePkMatchInfo_FieldNumber_PkMatchAction = 5,
+};
+
+/**
+ * cmdid=800143
+ **/
+@interface PB3SingleLivePkMatchInfo : GPBMessage
+
+/** 匹配id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *matchId;
+
+/** 匹配双方、点击开始的用户 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLivePkPlayer*> *playersArray;
+/** The number of items in @c playersArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger playersArray_Count;
+
+/** 匹配成功等待点击开始时间结束时间戳 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 匹配超时、 提示信息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
+
+/** 匹配操作状态 */
+@property(nonatomic, readwrite) PB3SingleLivePkMatchAction pkMatchAction;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkMatchInfo's @c pkMatchAction property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkMatchInfo_PkMatchAction_RawValue(PB3SingleLivePkMatchInfo *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkMatchInfo's @c pkMatchAction property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkMatchInfo_PkMatchAction_RawValue(PB3SingleLivePkMatchInfo *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkMatchStartReq
+
+typedef GPB_ENUM(PB3SingleLivePkMatchStartReq_FieldNumber) {
+  PB3SingleLivePkMatchStartReq_FieldNumber_MatchId = 1,
+};
+
+@interface PB3SingleLivePkMatchStartReq : GPBMessage
+
+/** 匹配id */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *matchId;
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchStartRes
+
+@interface PB3SingleLivePkMatchStartRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchKeepWaitReq
+
+@interface PB3SingleLivePkMatchKeepWaitReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkMatchKeepWaitRes
+
+@interface PB3SingleLivePkMatchKeepWaitRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkProtectPush
+
+typedef GPB_ENUM(PB3SingleLivePkProtectPush_FieldNumber) {
+  PB3SingleLivePkProtectPush_FieldNumber_EndTime = 1,
+};
+
+/**
+ * cmdid=800144
+ **/
+@interface PB3SingleLivePkProtectPush : GPBMessage
+
+/** 结束时间戳(秒) */
+@property(nonatomic, readwrite) int64_t endTime;
+
+@end
+
+#pragma mark - PB3SingleLivePkMvpGlobalPush
+
+typedef GPB_ENUM(PB3SingleLivePkMvpGlobalPush_FieldNumber) {
+  PB3SingleLivePkMvpGlobalPush_FieldNumber_MvpId = 1,
+  PB3SingleLivePkMvpGlobalPush_FieldNumber_MvpName = 2,
+  PB3SingleLivePkMvpGlobalPush_FieldNumber_RoomId = 3,
+};
+
+/**
+ * cmdid=800145
+ **/
+@interface PB3SingleLivePkMvpGlobalPush : GPBMessage
+
+/** MVP的ID */
+@property(nonatomic, readwrite) int64_t mvpId;
+
+/** MVP名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mvpName;
+
+/** 获胜房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+@end
+
+#pragma mark - PB3SingleLivePkRewardTicketPush
+
+typedef GPB_ENUM(PB3SingleLivePkRewardTicketPush_FieldNumber) {
+  PB3SingleLivePkRewardTicketPush_FieldNumber_Ticket = 1,
+  PB3SingleLivePkRewardTicketPush_FieldNumber_RoomId = 2,
+};
+
+/**
+ * cmdid=800146
+ **/
+@interface PB3SingleLivePkRewardTicketPush : GPBMessage
+
+/** 获得钻石数 */
+@property(nonatomic, readwrite) int32_t ticket;
+
+/** 当前PK的房间 */
+@property(nonatomic, readwrite) int64_t roomId;
+
+@end
+
+#pragma mark - PB3SingleLivePkTauntRoomNoticePush
+
+typedef GPB_ENUM(PB3SingleLivePkTauntRoomNoticePush_FieldNumber) {
+  PB3SingleLivePkTauntRoomNoticePush_FieldNumber_UseTauntPlayerId = 1,
+  PB3SingleLivePkTauntRoomNoticePush_FieldNumber_UseTauntPlayerName = 2,
+  PB3SingleLivePkTauntRoomNoticePush_FieldNumber_RoomId = 3,
+  PB3SingleLivePkTauntRoomNoticePush_FieldNumber_TauntHostId = 4,
+  PB3SingleLivePkTauntRoomNoticePush_FieldNumber_TauntHostName = 5,
+};
+
+/**
+ * cmdid=800147
+ **/
+@interface PB3SingleLivePkTauntRoomNoticePush : GPBMessage
+
+/** 使用嘲讽的用户ID */
+@property(nonatomic, readwrite) int64_t useTauntPlayerId;
+
+/** 使用嘲讽的用户名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *useTauntPlayerName;
+
+/** 发起嘲讽的房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 被嘲讽的达人ID */
+@property(nonatomic, readwrite) int64_t tauntHostId;
+
+/** 被嘲讽的达人名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tauntHostName;
+
+@end
+
+#pragma mark - PB3SingleLivePkVoiceMuteReq
+
+typedef GPB_ENUM(PB3SingleLivePkVoiceMuteReq_FieldNumber) {
+  PB3SingleLivePkVoiceMuteReq_FieldNumber_Mute = 1,
+  PB3SingleLivePkVoiceMuteReq_FieldNumber_PkId = 2,
+};
+
+@interface PB3SingleLivePkVoiceMuteReq : GPBMessage
+
+/** 静音操作类型 */
+@property(nonatomic, readwrite) PB3SingleLiveMuteType mute;
+
+/** PKId */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pkId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkVoiceMuteReq's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkVoiceMuteReq_Mute_RawValue(PB3SingleLivePkVoiceMuteReq *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkVoiceMuteReq's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkVoiceMuteReq_Mute_RawValue(PB3SingleLivePkVoiceMuteReq *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkVoiceMuteRes
+
+@interface PB3SingleLivePkVoiceMuteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLivePkPushMuteType
+
+typedef GPB_ENUM(PB3SingleLivePkPushMuteType_FieldNumber) {
+  PB3SingleLivePkPushMuteType_FieldNumber_Mute = 1,
+  PB3SingleLivePkPushMuteType_FieldNumber_RoomId = 2,
+};
+
+/**
+ * cmdid=800149
+ **/
+@interface PB3SingleLivePkPushMuteType : GPBMessage
+
+/** 静音操作类型 */
+@property(nonatomic, readwrite) PB3SingleLiveMuteType mute;
+
+/** 静音的房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkPushMuteType's @c mute property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkPushMuteType_Mute_RawValue(PB3SingleLivePkPushMuteType *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkPushMuteType's @c mute property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkPushMuteType_Mute_RawValue(PB3SingleLivePkPushMuteType *message, int32_t value);
+
+#pragma mark - PB3SingleLivePkChairChange
+
+typedef GPB_ENUM(PB3SingleLivePkChairChange_FieldNumber) {
+  PB3SingleLivePkChairChange_FieldNumber_ChangeType = 1,
+  PB3SingleLivePkChairChange_FieldNumber_Move = 2,
+  PB3SingleLivePkChairChange_FieldNumber_Sit = 3,
+};
+
+typedef GPB_ENUM(PB3SingleLivePkChairChange_Data_OneOfCase) {
+  PB3SingleLivePkChairChange_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3SingleLivePkChairChange_Data_OneOfCase_Move = 2,
+  PB3SingleLivePkChairChange_Data_OneOfCase_Sit = 3,
+};
+
+/**
+ * cmdid=800151
+ **/
+@interface PB3SingleLivePkChairChange : GPBMessage
+
+@property(nonatomic, readwrite) PB3SingleLivePkChairChangeType changeType;
+
+@property(nonatomic, readonly) PB3SingleLivePkChairChange_Data_OneOfCase dataOneOfCase;
+
+/** 移麦推送 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BroadcastChairMove *move;
+
+/** 上麦推送 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BroadcastChair *sit;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLivePkChairChange's @c changeType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLivePkChairChange_ChangeType_RawValue(PB3SingleLivePkChairChange *message);
+/**
+ * Sets the raw value of an @c PB3SingleLivePkChairChange's @c changeType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLivePkChairChange_ChangeType_RawValue(PB3SingleLivePkChairChange *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3SingleLivePkChairChange_ClearDataOneOfCase(PB3SingleLivePkChairChange *message);
 
 NS_ASSUME_NONNULL_END
 

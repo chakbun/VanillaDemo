@@ -6,10 +6,13 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+#import "VTDLoginViewController.h"
 #import <ZygoteNetwork/IZYGConnectorService.h>
 #import "NetConfigModel.h"
 #import "VTDSharedDefault.h"
+#import "ILoginProtocol.h"
+#import <ZygoteServiceCenter/ZYGServiceMediator.h>
+#import <ZygoteServiceCenter/ZYGServiceCenter.h>
 
 @interface AppDelegate ()<ZYGNetWorkServiceDelegate>
 
@@ -18,11 +21,40 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] init]];
+    VTDLoginViewController *loginViewController = [[VTDLoginViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.window.rootViewController = navController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    ZYGServiceConfig *config  = [[ZYGServiceConfig alloc] init];
+    config.servicesPlistPath = [[NSBundle mainBundle] pathForResource:@"ZYGServices" ofType:@"plist"];
+    [ZYGServiceMediator setupWithConfig:config];
+    
+    ZYGService(ILoginService);
+    [self relaunchNetwork];
+    [NetConfigModel shareInstance].didUpdateCDNBlock = ^(NSString *cdnHost) {
+        DYLogInfo(@"CDN host selection trigger reset network, selected cdn host: %@", cdnHost);
+        [self relaunchNetwork];
+    };
+    
+    [NetConfigModel shareInstance].didUpdateLongLinkHostBlock = ^(NSString *host) {
+        DYLogInfo(@"Long link host update for net config, selected host: %@", host);
+        [self relaunchNetwork];
+        [ZYGService(IZYGNetworkService) networkChanged];
+    };
+    
+    [NetConfigModel shareInstance].didUpdateShortLinkHostBlock = ^(NSString *host) {
+        DYLogInfo(@"Short link host update for net config, selected host: %@", host);
+        [ZYGService(IZYGNetworkService) resetShortLinkHost:host];
+    };
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *ipAddr = [self getNetworkIPAddress];
+        [ZYGService(ILoginService) appLaunchWithIP:ipAddr completion:NULL];
+    });
+    
     return YES;
 }
 
@@ -32,7 +64,7 @@
     
     //初始化网络
     ZYGNetworkServiceConfig* config = [ZYGNetworkServiceConfig new];
-    config.appId  = @"1"; //[DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
+    config.appId  = @"33"; //[DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     config.schema = [NetConfigModel shareInstance].scheme;
     config.longLinkHost = [NetConfigModel shareInstance].socketHost;
     config.longLinkPort = [NetConfigModel shareInstance].port;
@@ -112,9 +144,15 @@
 //        }
 //    }
 }
-- (bool)makesureAuthed
-{
+- (bool)makesureAuthed {
     return ZYGService(IZYGConnectorService).isLongLinkAuthed;
+}
+
+- (NSString *)getNetworkIPAddress {
+    NSURL *ipURL = [NSURL URLWithString:@"https://api64.ipify.org/"];
+    NSError *error;
+    NSString *ipAddr = [NSString stringWithContentsOfURL:ipURL encoding:NSUTF8StringEncoding error:&error];
+    return (ipAddr ? ipAddr : @"0.0.0.0");
 }
 
 @end

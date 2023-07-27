@@ -1,0 +1,284 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/acm_conf.ext.proto";
+import "pb/activity_cli.ext.proto";
+
+// 获取春节红包接龙配置
+message FindActGameConfReq {
+    ActGameCfgType confType = 1; //配置类型
+}
+
+// 红包配置数据
+message ActGameConf {
+    ConfActPage act_page = 1;           // 页面内容
+    SubInfoActivityType act_type = 2;   // 活动类型
+    repeated SolitaireTips tips = 3;    // 飘屏默认文案
+    int64 store_id = 4;                 // 投注物品ID
+    int32 inc_store_id = 5;             //  投注物品挚友商城商城ID
+    int32 exchange_id = 6;         // 兑换礼物ID
+    int32 effect_id = 7;           // 奖励特效ID，可以是空
+    int64 effect_reward_time_long = 8;  // 特效奖励时长
+    int64 start_unix = 9;   //开始时间戳
+    int64 end_unix = 10;   //结束时间戳
+    bool is_open = 11;      //是否开启
+    int64 wait_time = 12;   //开奖时间
+}
+
+// 获取春节红包接龙配置
+message FindActGameConfRes {
+  repeated ActGameConf red_envelope_conf_list = 1; //春节红包接龙配置
+  Player player = 2;    //用户信息
+  ServerTimestamp server_timestamp       = 3;                  // 服务器时间
+  ClanInfo clan                          = 4;                  // 公会信息
+  repeated CfgUserId2RandomScheme user_id2_conf = 5;    //靓号机配置
+  ConfActPage act_page = 6;           // 页面内容
+}
+
+// 红包接龙玩法状态协议
+message RedEnvelopePlayerInfo{
+  int64 player_id = 1; //用户ID
+  int64 player_id2 = 2; //用户ID
+  string player_name = 3; //用户名
+  string player_icon = 4; //用户头像
+}
+
+// 红包接龙玩法状态请求
+message FindRedEnvelopeStatusReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+}
+
+// 红包接龙玩法状态返回
+message FindRedEnvelopeStatusRes {
+  int64 remain_time = 1; //开奖或等待开奖结束时间戳
+  repeated RedEnvelopePlayerInfo join_user_list = 2; //最新的15个用户
+  int64 cur_total_user_num = 3; //当前参与人数
+  int64 cur_total_point = 4; //当前福气值
+  RedEnvelopeStatus cur_status = 5; //当前状态
+  bool is_new_turn = 6;     // 是否是新的一轮
+}
+
+// 往期手气最佳用户数据
+message RedEnvelopeBestPlayerInfo {
+  string cycle_num = 1; //期号
+  int64 player_id = 2; //用户ID
+  int64 player_id2 = 3; //用户ID
+  string player_name = 4; //用户名
+  string player_icon = 5; //用户头像
+  int64 best_num = 6;    //手气最佳值
+}
+
+// 获取往期记录请求
+message ListBeforeRedEnvelopeLogReq {
+  int32 page = 1;
+  int32 page_size = 2;
+  SubInfoActivityType type_id = 3; //请求配置类型ID
+}
+
+// 获取往期记录返回
+message ListBeforeRedEnvelopeLogRes {
+  repeated RedEnvelopeBestPlayerInfo list_info = 1; //日志记录
+}
+
+// 往期手气最佳用户数据
+message RedEnvelopePlayerLogInfo {
+  string cycle_num = 1; //期号
+  string award_name = 2; //奖励名
+  int64 award_time = 3; //记录时间,时间戳
+  int64 award_num = 4;  //奖励数
+  int32 award_type = 5; //奖励类型1礼物 2特效
+  string award_icon = 6; //奖励图标
+}
+
+// 获取个人记录请求
+message ListPlayerRedEnvelopeLogReq {
+  int32 page = 1;
+  int32 page_size = 2;
+  SubInfoActivityType type_id = 3; //请求配置类型ID
+}
+
+// 获取个人记录返回
+message ListPlayerRedEnvelopeLogRes {
+  repeated RedEnvelopePlayerLogInfo list_info = 1; //日志记录
+}
+
+// 推送开奖信息
+message RedEnvelopeAwardPlayerInfo {
+  int64 player_id = 1; //用户ID
+  int64 player_id2 = 2; //用户ID
+  string player_name = 3; //用户名
+  string player_icon = 4; //用户头像
+  int64 award_num = 5; //获得福气值
+}
+
+message LuckAwardInfo {
+  int32 type = 1; //1礼物；2特效
+  int64 luck_award_id = 2;  //幸运奖励ID
+  int64 luck_award_num = 3;  //幸运奖励数
+  string luck_award_name = 4; //幸运礼物名
+  string luck_award_icon = 5; //幸运礼物图
+}
+
+// 推送开奖信息
+message RedEnvelopeAwardInfo {
+  int64 luck_player_id = 1;         //手气最佳用户ID
+  repeated LuckAwardInfo luck_award_list = 2; //幸运奖励
+  repeated RedEnvelopeAwardPlayerInfo list_player = 3; //前10获奖用户
+  int64 total_player_num = 4;   //参与用户人数
+  int64 total_eat_score = 5;    //用户瓜分总数
+}
+
+// 请求投注
+message RedEnvelopeJoinReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+}
+
+// 请求投注返回
+message RedEnvelopeJoinRes {
+
+}
+
+// 请求开始或关闭自动投注
+message RedEnvelopeSwitchAutoJoinReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+  bool is_auto = 2;       //开启或关闭
+}
+
+// 请求开始或关闭自动投注返回
+message RedEnvelopeSwitchAutoJoinRes {
+
+}
+
+// 设置最新的flag
+message SetRedEnvelopeFlagReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+  int32 flag_id = 2; //购买的flagId
+}
+
+// 设置最新的flag返回
+message SetRedEnvelopeFlagRes {
+
+}
+
+// 获取用户自身状态
+message FindRedEnvelopeSelfStatusReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+}
+
+// 获取用户自身状态返回
+message FindRedEnvelopeSelfStatusRes {
+  bool is_auto = 1; //是否自动
+  bool is_join = 2; //是否参与
+}
+
+// 用户flag信息
+message RedEnvelopePlayerFlagInfo {
+  int64 player_id = 1; //用户ID
+  int64 player_id2 = 2; //用户ID
+  string player_name = 3; //用户名
+  string player_icon = 4; //用户头像
+  int32 flag_id = 5; //用户flagId
+}
+
+// 获取当前flag
+message FindRedEnvelopeFlagInfoReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+  int32 page = 2; //页
+  int32 pageSize = 3; //页数
+}
+
+// 获取当前flag
+message FindRedEnvelopeFlagInfoRes {
+  repeated RedEnvelopePlayerFlagInfo flag_list = 1; //请求的flag信息
+}
+
+enum PushRedEnvelopeType {
+  PRET_NULL = 0;      //占位
+  PRET_NORMAL = 1;    //普通状态推送
+  PRET_AWARD = 2;     //开奖推送
+  PRET_SELF_STATUS = 3; //自身状态推送
+}
+
+message PushRedEnvelopeStatus {
+    PushRedEnvelopeType push_type = 1; //推送类型
+    FindRedEnvelopeStatusRes normal_status = 2;    //普通状态
+    string period_num = 3;    //期号
+    FindRedEnvelopeSelfStatusRes self_status = 4;  //自身状态推送
+}
+
+message FindRedEnvelopeAwardInfoReq {
+  SubInfoActivityType type_id = 1; //请求配置类型ID
+  string period_num = 2;    //期号
+}
+
+message FindRedEnvelopeAwardInfoRes {
+    int64 self_award_num = 1; //自身中奖数
+    RedEnvelopeAwardInfo award_info = 2; //开奖信息
+}
+
+//靓号随机类型
+enum Id2RandomType {
+  Id2RandomType_None = 0;
+  Id2RandomType_Normal = 1; //普通
+  Id2RandomType_Middle = 2; //中级
+  Id2RandomType_High = 3; //高级
+  Id2RandomType_Super = 4; //特级
+}
+
+
+//靓号机随机靓号
+message RandomUserId2Req {
+  Id2RandomType random_type = 1;  //靓号随机类型；1普通 2中级 3高级 4特级
+  int32 exclude_num = 2; //排除号码
+}
+
+//获取靓号机状态
+message FindRandomUserId2StatusReq {
+}
+
+//绑定靓号
+message BindUserId2Req {
+  int64 player_id =  1;  //用户ID
+}
+
+//靓号机状态
+message RandomUserId2Res {
+  int32 id2_num = 1;   //用户当前随机到的靓号
+  int32 change_remain_time = 2;  //剩余更换时间
+  int32 remain_change_times = 3; //剩余更换次数
+  Id2RandomType rand_type = 4;  //靓号随机类型；1普通 2中级 3高级 4特级
+  bool is_covered = 5;   //是否已覆盖
+  int32 exclude_num = 6;  //排除号码
+}
+
+
+service ActGameExtObj {
+  // 获取新春红包接龙配置
+  rpc FindActGameConf(FindActGameConfReq) returns (FindActGameConfRes);
+  // 获取新春红包接龙状态
+  rpc FindRedEnvelopeStatus(FindRedEnvelopeStatusReq) returns (FindRedEnvelopeStatusRes);
+  // 获取往期记录请求
+  rpc ListBeforeRedEnvelopeLog(ListBeforeRedEnvelopeLogReq) returns (ListBeforeRedEnvelopeLogRes);
+  // 获取个人记录请求
+  rpc ListPlayerRedEnvelopeLog(ListPlayerRedEnvelopeLogReq) returns (ListPlayerRedEnvelopeLogRes);
+  // 请求投注
+  rpc RedEnvelopeJoin(RedEnvelopeJoinReq) returns (RedEnvelopeJoinRes);
+  // 开启或关闭自动投注
+  rpc RedEnvelopeSwitchAutoJoin(RedEnvelopeSwitchAutoJoinReq) returns (RedEnvelopeSwitchAutoJoinRes);
+  // 设置新的flag
+  rpc SetRedEnvelopeFlag(SetRedEnvelopeFlagReq) returns (SetRedEnvelopeFlagRes);
+  // 获取用户自身状态
+  rpc FindRedEnvelopeSelfStatus(FindRedEnvelopeSelfStatusReq) returns (FindRedEnvelopeSelfStatusRes);
+  // 获取用户flag信息
+  rpc FindRedEnvelopeFlagInfo(FindRedEnvelopeFlagInfoReq) returns (FindRedEnvelopeFlagInfoRes);
+  // 获取红包接龙开奖信息
+  rpc FindRedEnvelopeAwardInfo(FindRedEnvelopeAwardInfoReq) returns (FindRedEnvelopeAwardInfoRes);
+  // 靓号机随机靓号
+  rpc RandomUserId2(RandomUserId2Req) returns(RandomUserId2Res);
+  // 获取靓号机状态
+  rpc FindRandomUserId2Status(FindRandomUserId2StatusReq) returns(RandomUserId2Res);
+  // 绑定靓号
+  rpc BindUserId2(BindUserId2Req) returns(RandomUserId2Res);
+}

@@ -27,35 +27,95 @@
 
 CF_EXTERN_C_BEGIN
 
+@class PB3ACGNQuizAns;
+@class PB3ACGNQuizCard;
+@class PB3ACGNQuizEndCard;
+@class PB3ACGNQuizEntryRole;
 @class PB3AllChatCfg;
+@class PB3Answer;
+@class PB3BistroCPLabel;
+@class PB3BistroPlayer;
+@class PB3CPCard;
+@class PB3CPCardAuditInfo;
+@class PB3CPCardDialogCfg;
+@class PB3CPChatHealScoreCategory;
+@class PB3CPChatHealScoreLog;
 @class PB3CPChatInfo;
 @class PB3CPDialWindow;
 @class PB3CPGainGift;
+@class PB3CPGuideBoss;
+@class PB3CPGuideMission;
+@class PB3CPGuideProgress;
+@class PB3CPGuideRankItem;
 @class PB3CPInfo;
 @class PB3ChargeFirstWelfareItem;
 @class PB3ChatCPCustom;
 @class PB3ChatCPDial;
 @class PB3ChatCPEnd;
 @class PB3ChatFirstPayCP;
-@class PB3ChatMsg;
 @class PB3CouponUsedData;
 @class PB3CpBlackWhaleCfg;
 @class PB3CpPayRecord;
+@class PB3DialLogDetail;
 @class PB3Emoji;
 @class PB3IMInteractionConfList;
+@class PB3ImageInfo;
+@class PB3KeepACGNQuizAns;
+@class PB3LovelyHistoryTask;
+@class PB3MatchWeekIng;
+@class PB3MatchWeekPlayerCP;
+@class PB3MatchWeekPlayerInfo;
+@class PB3MatchWeekPlayerTravel;
 @class PB3Player;
 @class PB3PlayerCP;
+@class PB3PlayerWeekCP;
+@class PB3QueryBistroRecord;
 @class PB3QuickChat;
-@class PB3SquareChatMsg;
+@class PB3SendACGNQuizAns;
+@class PB3SimplePlayer;
+@class PB3WeekCPBeInvited;
+@class PB3WeekCPGuideWindowConf;
+@class PB3WeekCPInfo;
+@class PB3WeekCPInviteConf;
+@class PB3WeekCPReward;
+@class PB3WeeklyCPTask;
 GPB_ENUM_FWD_DECLARE(PB3Application);
-GPB_ENUM_FWD_DECLARE(PB3ChannelType);
 GPB_ENUM_FWD_DECLARE(PB3ChatCPType);
+GPB_ENUM_FWD_DECLARE(PB3CpChatHealLevel);
 GPB_ENUM_FWD_DECLARE(PB3DeviceType);
+GPB_ENUM_FWD_DECLARE(PB3GenderPattern);
 GPB_ENUM_FWD_DECLARE(PB3QuickChatUserType);
 GPB_ENUM_FWD_DECLARE(PB3SexType);
 GPB_ENUM_FWD_DECLARE(PB3VoiceSdkType);
+GPB_ENUM_FWD_DECLARE(PB3WeekCPInfoStatus);
+GPB_ENUM_FWD_DECLARE(PB3WeekCPSource);
 
 NS_ASSUME_NONNULL_BEGIN
+
+#pragma mark - Enum PB3ChatErr
+
+/** chat错误码 */
+typedef GPB_ENUM(PB3ChatErr) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ChatErr_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3ChatErr_ErrchatZero = 0,
+
+  /** 通话超过60秒不能取消 */
+  PB3ChatErr_ErrchatCancelOnchat = 48500,
+};
+
+GPBEnumDescriptor *PB3ChatErr_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ChatErr_IsValidValue(int32_t value);
 
 #pragma mark - Enum PB3ChatCmdId
 
@@ -106,17 +166,53 @@ typedef GPB_ENUM(PB3ChatCmdId) {
   /** IM互动技能配置变更 IMGiftConfRes */
   PB3ChatCmdId_CcImInteractiveChange = 900112,
 
-  /** 广场聊天推送 SquareChatMsg */
-  PB3ChatCmdId_CcChatSquareChannel = 900113,
+  /** 1v1表情包推送 ChatEmoji */
+  PB3ChatCmdId_CcChatCpEmoji = 900113,
 
-  /** 广场聊天删除 PushDelSquareChatMsg */
-  PB3ChatCmdId_CcChatDelSquareChannel = 900114,
+  /** 来电弹窗消失 ChatCPDialDisappear */
+  PB3ChatCmdId_CcChatCpDailDisappear = 900114,
 
-  /** 1v1表情包推送 ChatEmoji 注意这个值跟半糖不一样 */
-  PB3ChatCmdId_CcChatCpEmoji = 900115,
+  /** 一周CP邀请推送 WeekCPInvitePush */
+  PB3ChatCmdId_CcWeekCpInvitePush = 900115,
 
-  /** 来电弹窗消失 ChatCPDialDisappear 注意这个值跟半糖不一样 */
-  PB3ChatCmdId_CcChatCpDailDisappear = 900116,
+  /** 一周CP任务完成推送 BroadcastWeeklyCPTask */
+  PB3ChatCmdId_CcWeekCpTask = 900116,
+
+  /** 小酒馆CP结成成功  BroadcastBindBistroSuccess */
+  PB3ChatCmdId_CcBindBistroSuccess = 900117,
+
+  /** 8分钟场景下的陪陪小酒馆邀请  BroadcastInviteBistro */
+  PB3ChatCmdId_CcBistroInvite = 900118,
+
+  /** 8分钟场景下拒绝陪陪小酒馆邀请  BistroRejectMsg */
+  PB3ChatCmdId_CcBistroReject = 900119,
+
+  /** 两个/几个人的公屏聊天 BroadcastCPChat */
+  PB3ChatCmdId_CcSendCpChat = 900120,
+
+  /** CP通话麦克风状态推送 BroadcastChatCPMicroStatus */
+  PB3ChatCmdId_CcChatCpMicroStatus = 900121,
+
+  /** 速配一周CP、一周旅行 BroadcastMatchWeekPlayerPush */
+  PB3ChatCmdId_CcBroadcastMatchWeekPlayerPush = 900124,
+
+  /** 新人接待官邀请  CPGuideInvitePush */
+  PB3ChatCmdId_CcCpGuideInvite = 900125,
+
+  /** 新人接待官接受邀请  CPGuideAcceptPush */
+  PB3ChatCmdId_CcCpGuideAccept = 900126,
+
+  /** 新人接待官任务完成 CPGuideFinishPush */
+  PB3ChatCmdId_CcCpGuideMissionFinish = 900127,
+
+  /** 新人接待官开始返利 CPGuideRebatePush */
+  PB3ChatCmdId_CcCpGuideRebate = 900128,
+
+  /** 新人接待官拒绝  CPGuideRejectPush */
+  PB3ChatCmdId_CcCpGuideReject = 900129,
+
+  /** 新人接待官老板登陆  CPGuideLoginPush */
+  PB3ChatCmdId_CcCpGuideLogin = 900130,
 };
 
 GPBEnumDescriptor *PB3ChatCmdId_EnumDescriptor(void);
@@ -126,37 +222,6 @@ GPBEnumDescriptor *PB3ChatCmdId_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PB3ChatCmdId_IsValidValue(int32_t value);
-
-#pragma mark - Enum PB3ChatErr
-
-/** 聊天错误码定义 // 480 */
-typedef GPB_ENUM(PB3ChatErr) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PB3ChatErr_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** 占位 */
-  PB3ChatErr_ErrZero = 0,
-
-  /** 发言太频繁 */
-  PB3ChatErr_ErrChannelChatFrequently = 48022,
-
-  /** 禁言ChatEmoji */
-  PB3ChatErr_ErrChannelChatBan = 48023,
-
-  /** 通话超过60秒不能取消 */
-  PB3ChatErr_ErrchatCancelOnchat = 48500,
-};
-
-GPBEnumDescriptor *PB3ChatErr_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PB3ChatErr_IsValidValue(int32_t value);
 
 #pragma mark - Enum PB3FirstPayCPEndType
 
@@ -198,6 +263,34 @@ GPBEnumDescriptor *PB3FirstPayCPEndType_EnumDescriptor(void);
  **/
 BOOL PB3FirstPayCPEndType_IsValidValue(int32_t value);
 
+#pragma mark - Enum PB3ChatCPTMicroStatus
+
+/** CP通话麦克风状态 */
+typedef GPB_ENUM(PB3ChatCPTMicroStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ChatCPTMicroStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3ChatCPTMicroStatus_ChatCpmsNone = 0,
+
+  /** 开启 */
+  PB3ChatCPTMicroStatus_ChatCpmsOpen = 1,
+
+  /** 关闭 */
+  PB3ChatCPTMicroStatus_ChatCpmsClose = 2,
+};
+
+GPBEnumDescriptor *PB3ChatCPTMicroStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ChatCPTMicroStatus_IsValidValue(int32_t value);
+
 #pragma mark - Enum PB3CPClickSource
 
 typedef GPB_ENUM(PB3CPClickSource) {
@@ -233,6 +326,27 @@ typedef GPB_ENUM(PB3CPClickSource) {
 
   /** CP优惠券弹窗(老板挂断) */
   PB3CPClickSource_CpcsCouponBossEnd = 8,
+
+  /** 首页心动划卡 */
+  PB3CPClickSource_CpcsHomeCpCard = 9,
+
+  /** 通话记录 */
+  PB3CPClickSource_CpcsDialLog = 10,
+
+  /** 小酒馆套餐详情页 */
+  PB3CPClickSource_CpcsBistroIntroduce = 11,
+
+  /** CP8分钟结算页 */
+  PB3CPClickSource_CpcsCpEnd = 12,
+
+  /** 小酒馆聊天结算页 */
+  PB3CPClickSource_CpcsBistroEnd = 13,
+
+  /**  乙女问答游戏 */
+  PB3CPClickSource_CpcsAcgnQuiz = 14,
+
+  /** 一周CP落地页 */
+  PB3CPClickSource_CpcsWeekCpH5 = 15,
 };
 
 GPBEnumDescriptor *PB3CPClickSource_EnumDescriptor(void);
@@ -431,6 +545,606 @@ GPBEnumDescriptor *PB3PopWindowMode_EnumDescriptor(void);
  **/
 BOOL PB3PopWindowMode_IsValidValue(int32_t value);
 
+#pragma mark - Enum PB3DialogShowType
+
+typedef GPB_ENUM(PB3DialogShowType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3DialogShowType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3DialogShowType_DstZero = 0,
+
+  /** 每次弹出 */
+  PB3DialogShowType_DstEveryTime = 1,
+
+  /** 只弹一次 */
+  PB3DialogShowType_DstShowOnce = 2,
+};
+
+GPBEnumDescriptor *PB3DialogShowType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3DialogShowType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPCardAuditStatus
+
+typedef GPB_ENUM(PB3CPCardAuditStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPCardAuditStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPCardAuditStatus_CpcasZero = 0,
+
+  /** 审核中 */
+  PB3CPCardAuditStatus_CpcasAuditing = 1,
+
+  /** 审核通过 */
+  PB3CPCardAuditStatus_CpcasPass = 2,
+
+  /** 拒绝 */
+  PB3CPCardAuditStatus_CpcasRefuse = 3,
+
+  /** 心网审核中 */
+  PB3CPCardAuditStatus_CpcasChecking = 4,
+
+  /** 心网拒绝 */
+  PB3CPCardAuditStatus_CpcasReject = 5,
+};
+
+GPBEnumDescriptor *PB3CPCardAuditStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPCardAuditStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3DialEndType
+
+typedef GPB_ENUM(PB3DialEndType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3DialEndType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 未接通 */
+  PB3DialEndType_DetNotConnect = 0,
+
+  /** 挂断，非正常结束 */
+  PB3DialEndType_DetRingOffIng = 1,
+
+  /** 正常结束 */
+  PB3DialEndType_DetRingOffEnd = 2,
+};
+
+GPBEnumDescriptor *PB3DialEndType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3DialEndType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3BistroJumpType
+
+/** 小酒馆跳转页 */
+typedef GPB_ENUM(PB3BistroJumpType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3BistroJumpType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3BistroJumpType_BjtZero = 0,
+
+  /** 落地页 */
+  PB3BistroJumpType_BjtLand = 1,
+
+  /** 详情页 */
+  PB3BistroJumpType_BjtDetail = 2,
+
+  /** 邀请页 */
+  PB3BistroJumpType_BjtInvite = 3,
+};
+
+GPBEnumDescriptor *PB3BistroJumpType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3BistroJumpType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3BistroTriggerScene
+
+typedef GPB_ENUM(PB3BistroTriggerScene) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3BistroTriggerScene_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3BistroTriggerScene_BsZero = 0,
+
+  /** 8分钟 */
+  PB3BistroTriggerScene_Bs8Mim = 1,
+
+  /** IM */
+  PB3BistroTriggerScene_BsIm = 2,
+};
+
+GPBEnumDescriptor *PB3BistroTriggerScene_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3BistroTriggerScene_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CardType
+
+typedef GPB_ENUM(PB3CardType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CardType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CardType_ZeroCard = 0,
+
+  /** 问答卡 */
+  PB3CardType_AnsCard = 1,
+
+  /** 结局卡 */
+  PB3CardType_EndCard = 2,
+};
+
+GPBEnumDescriptor *PB3CardType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CardType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3WeekCPInviteStatus
+
+/** 邀请状态 */
+typedef GPB_ENUM(PB3WeekCPInviteStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3WeekCPInviteStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3WeekCPInviteStatus_WcpisDefault = 0,
+
+  /** 发起邀请 */
+  PB3WeekCPInviteStatus_WcpisInvite = 1,
+
+  /** 拒绝邀请 */
+  PB3WeekCPInviteStatus_WcpisRefuceInvite = 2,
+
+  /** 同意邀请 */
+  PB3WeekCPInviteStatus_WcpisAgree = 3,
+
+  /** 邀请过期 */
+  PB3WeekCPInviteStatus_WcpisExpire = 4,
+};
+
+GPBEnumDescriptor *PB3WeekCPInviteStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3WeekCPInviteStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3ChatMatchWeekStatus
+
+/** 匹配状态 */
+typedef GPB_ENUM(PB3ChatMatchWeekStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ChatMatchWeekStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3ChatMatchWeekStatus_ChatMwsNone = 0,
+
+  /** 开始匹配 */
+  PB3ChatMatchWeekStatus_ChatMwsStart = 1,
+
+  /** 匹配中 */
+  PB3ChatMatchWeekStatus_ChatMwsIng = 2,
+
+  /** 匹配取消 */
+  PB3ChatMatchWeekStatus_ChatMwsCancel = 3,
+
+  /** 匹配超时 */
+  PB3ChatMatchWeekStatus_ChatMwsTimeout = 4,
+
+  /** 匹配成功 */
+  PB3ChatMatchWeekStatus_ChatMwsSuccess = 5,
+
+  /** 匹配被抢 */
+  PB3ChatMatchWeekStatus_ChatMwsBeRobbed = 6,
+
+  /** 匹配失败 */
+  PB3ChatMatchWeekStatus_ChatMwsFail = 7,
+};
+
+GPBEnumDescriptor *PB3ChatMatchWeekStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ChatMatchWeekStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPTaskStatus
+
+typedef GPB_ENUM(PB3CPTaskStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPTaskStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPTaskStatus_ChatCptsNone = 0,
+
+  /** 进心中 */
+  PB3CPTaskStatus_ChatCptsIng = 1,
+
+  /** 已完成 */
+  PB3CPTaskStatus_ChatCptsFinish = 2,
+};
+
+GPBEnumDescriptor *PB3CPTaskStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPTaskStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3WeeklyCPTaskType
+
+typedef GPB_ENUM(PB3WeeklyCPTaskType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3WeeklyCPTaskType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3WeeklyCPTaskType_ChatWcpttNone = 0,
+
+  /** 所有任务 */
+  PB3WeeklyCPTaskType_ChatWcpttAll = 1,
+
+  /** 心动邂逅 */
+  PB3WeeklyCPTaskType_ChatWcpttHeartEncounter = 2,
+
+  /** 纸短情长 */
+  PB3WeeklyCPTaskType_ChatWcpttLoveLetter = 3,
+
+  /** 浪漫告白 */
+  PB3WeeklyCPTaskType_ChatWcpttRomanticConfession = 4,
+
+  /** 甜蜜互动 */
+  PB3WeeklyCPTaskType_ChatWcpttSweetInteraction = 5,
+
+  /** 浪漫满屋 */
+  PB3WeeklyCPTaskType_ChatWcpttRomanticFullHouse = 6,
+};
+
+GPBEnumDescriptor *PB3WeeklyCPTaskType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3WeeklyCPTaskType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3LovelyHistoryTaskType
+
+typedef GPB_ENUM(PB3LovelyHistoryTaskType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3LovelyHistoryTaskType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3LovelyHistoryTaskType_ChatLhttNone = 0,
+
+  /** 成为一周CP 我们恋爱啦 */
+  PB3LovelyHistoryTaskType_ChatLhttBecomeCp = 1,
+
+  /** 送礼 爱的初表达 */
+  PB3LovelyHistoryTaskType_ChatLhttSendGift = 2,
+
+  /** 收礼 接收初心意 */
+  PB3LovelyHistoryTaskType_ChatLhttReceiveGift = 3,
+
+  /** 1314 在麦时长  爱就是陪伴 */
+  PB3LovelyHistoryTaskType_ChatLhttOnChair = 4,
+
+  /** 加入守护团 彼此相守护 */
+  PB3LovelyHistoryTaskType_ChatLhttIntimateFans = 5,
+
+  /** 成为挚友 甜蜜的羁绊 */
+  PB3LovelyHistoryTaskType_ChatLhttBecomeIntimate = 6,
+
+  /** 完成任务 爱来日方长 */
+  PB3LovelyHistoryTaskType_ChatLhttFinishTask = 7,
+};
+
+GPBEnumDescriptor *PB3LovelyHistoryTaskType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3LovelyHistoryTaskType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3ChatMatchWeekType
+
+/** 匹配一周旅行、一周CP */
+typedef GPB_ENUM(PB3ChatMatchWeekType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ChatMatchWeekType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3ChatMatchWeekType_ChatMwtNone = 0,
+
+  /** 匹配一周旅行 */
+  PB3ChatMatchWeekType_ChatMwtTravel = 1,
+
+  /** 匹配一周CP */
+  PB3ChatMatchWeekType_ChatMwtCp = 2,
+
+  /** 登录请求(用户有可能在匹配中杀掉进程退出APP,重新登陆) */
+  PB3ChatMatchWeekType_ChatMwtLogin = 3,
+};
+
+GPBEnumDescriptor *PB3ChatMatchWeekType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ChatMatchWeekType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3MatchWeekPlayerType
+
+typedef GPB_ENUM(PB3MatchWeekPlayerType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3MatchWeekPlayerType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3MatchWeekPlayerType_ChatMwptNone = 0,
+
+  /** 用户侧发起匹配 */
+  PB3MatchWeekPlayerType_ChatMwptNormalUser = 1,
+
+  /** 模侧发起匹配 */
+  PB3MatchWeekPlayerType_ChatMwptSignmember = 2,
+};
+
+GPBEnumDescriptor *PB3MatchWeekPlayerType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3MatchWeekPlayerType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideBossType
+
+typedef GPB_ENUM(PB3CPGuideBossType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideBossType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPGuideBossType_RbtNone = 0,
+
+  /** 老板未指定接待官 */
+  PB3CPGuideBossType_RbtNotAppoint = 1,
+
+  /** 老板指定了接待官，未超过60分钟 */
+  PB3CPGuideBossType_RbtNotTimeout = 2,
+};
+
+GPBEnumDescriptor *PB3CPGuideBossType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideBossType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideSource
+
+typedef GPB_ENUM(PB3CPGuideSource) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideSource_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPGuideSource_CgsZero = 0,
+
+  /** 8分钟 */
+  PB3CPGuideSource_CgsChatCp = 1,
+
+  /** IM */
+  PB3CPGuideSource_CgsIm = 2,
+};
+
+GPBEnumDescriptor *PB3CPGuideSource_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideSource_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideOpt
+
+typedef GPB_ENUM(PB3CPGuideOpt) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideOpt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPGuideOpt_RoNone = 0,
+
+  /** 邀请 */
+  PB3CPGuideOpt_RoInvite = 1,
+
+  /** 接受 */
+  PB3CPGuideOpt_RoAccept = 2,
+
+  /** 拒绝 */
+  PB3CPGuideOpt_RoReject = 3,
+
+  /** 更换 */
+  PB3CPGuideOpt_RoChange = 4,
+};
+
+GPBEnumDescriptor *PB3CPGuideOpt_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideOpt_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideStatus
+
+typedef GPB_ENUM(PB3CPGuideStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CPGuideStatus_RsNone = 0,
+
+  /** 接待中 */
+  PB3CPGuideStatus_RsAccept = 1,
+
+  /** 返利中 */
+  PB3CPGuideStatus_RsRebate = 2,
+
+  /** 已结束 */
+  PB3CPGuideStatus_RsEnd = 3,
+
+  /** 已失败 */
+  PB3CPGuideStatus_RsFail = 4,
+
+  /** 已更换 */
+  PB3CPGuideStatus_RsReplace = 5,
+};
+
+GPBEnumDescriptor *PB3CPGuideStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideClanRankType
+
+typedef GPB_ENUM(PB3CPGuideClanRankType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideClanRankType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPGuideClanRankType_CgcltZero = 0,
+
+  /** 返利榜 */
+  PB3CPGuideClanRankType_CgcltRebate = 1,
+
+  /** 接待榜 */
+  PB3CPGuideClanRankType_CgcltGuide = 2,
+};
+
+GPBEnumDescriptor *PB3CPGuideClanRankType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideClanRankType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CPGuideClanRankScope
+
+typedef GPB_ENUM(PB3CPGuideClanRankScope) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CPGuideClanRankScope_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3CPGuideClanRankScope_CgclsZero = 0,
+
+  /** 本周 */
+  PB3CPGuideClanRankScope_CgclsThisWeek = 1,
+
+  /** 上周 */
+  PB3CPGuideClanRankScope_CgcltLastWeek = 2,
+
+  /** 本月 */
+  PB3CPGuideClanRankScope_CgcltThisMonth = 3,
+
+  /** 上月 */
+  PB3CPGuideClanRankScope_CgcltLastMonth = 4,
+};
+
+GPBEnumDescriptor *PB3CPGuideClanRankScope_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CPGuideClanRankScope_IsValidValue(int32_t value);
+
 #pragma mark - PB3ChatExtRoot
 
 /**
@@ -608,9 +1322,9 @@ typedef GPB_ENUM(PB3ChatAnonymousCdRes_FieldNumber) {
 
 /** 头条置顶的频道列表 */
 // |channelsArray| contains |PB3ChannelType|
-@property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *channelsArray;
+@property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *channelsArray DEPRECATED_ATTRIBUTE;
 /** The number of items in @c channelsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger channelsArray_Count;
+@property(nonatomic, readonly) NSUInteger channelsArray_Count DEPRECATED_ATTRIBUTE;
 
 /** 频道配置 */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AllChatCfg*> *confArray;
@@ -642,6 +1356,7 @@ typedef GPB_ENUM(PB3PlayerCP_FieldNumber) {
   PB3PlayerCP_FieldNumber_GmeAuth = 5,
   PB3PlayerCP_FieldNumber_TipsArray = 6,
   PB3PlayerCP_FieldNumber_IconEffectId = 7,
+  PB3PlayerCP_FieldNumber_MicroStatus = 8,
 };
 
 @interface PB3PlayerCP : GPBMessage
@@ -669,6 +1384,9 @@ typedef GPB_ENUM(PB3PlayerCP_FieldNumber) {
 /** 头像框特效id */
 @property(nonatomic, readwrite) int32_t iconEffectId;
 
+/** 麦克风状态 */
+@property(nonatomic, readwrite) PB3ChatCPTMicroStatus microStatus;
+
 @end
 
 /**
@@ -682,6 +1400,18 @@ int32_t PB3PlayerCP_Sex_RawValue(PB3PlayerCP *message);
  * was generated.
  **/
 void SetPB3PlayerCP_Sex_RawValue(PB3PlayerCP *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PlayerCP's @c microStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PlayerCP_MicroStatus_RawValue(PB3PlayerCP *message);
+/**
+ * Sets the raw value of an @c PB3PlayerCP's @c microStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PlayerCP_MicroStatus_RawValue(PB3PlayerCP *message, int32_t value);
 
 #pragma mark - PB3ChatCPDial
 
@@ -699,6 +1429,7 @@ typedef GPB_ENUM(PB3ChatCPDial_FieldNumber) {
   PB3ChatCPDial_FieldNumber_ChatProfit = 11,
   PB3ChatCPDial_FieldNumber_Custom = 12,
   PB3ChatCPDial_FieldNumber_DialApp = 13,
+  PB3ChatCPDial_FieldNumber_Content = 14,
 };
 
 /**
@@ -746,6 +1477,9 @@ typedef GPB_ENUM(PB3ChatCPDial_FieldNumber) {
 
 /** 拨打语音的应用 */
 @property(nonatomic, readwrite) enum PB3Application dialApp;
+
+/** 抢单文案 乙女：问答 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
 
 @end
 
@@ -818,6 +1552,17 @@ typedef GPB_ENUM(PB3ChatFirstPayCP_FieldNumber) {
   PB3ChatFirstPayCP_FieldNumber_SameCity = 16,
   PB3ChatFirstPayCP_FieldNumber_SurplusChangeTimes = 17,
   PB3ChatFirstPayCP_FieldNumber_DialApp = 18,
+  PB3ChatFirstPayCP_FieldNumber_WeekCpShowTime = 19,
+  PB3ChatFirstPayCP_FieldNumber_WeekPlayer = 20,
+  PB3ChatFirstPayCP_FieldNumber_WeekCp = 21,
+  PB3ChatFirstPayCP_FieldNumber_WeekCpInviteContent = 22,
+  PB3ChatFirstPayCP_FieldNumber_TriggerBistroTime = 23,
+  PB3ChatFirstPayCP_FieldNumber_StartTime = 24,
+  PB3ChatFirstPayCP_FieldNumber_LessChatTime = 25,
+  PB3ChatFirstPayCP_FieldNumber_DefaultBistroGiftCureTime = 26,
+  PB3ChatFirstPayCP_FieldNumber_QuizAns = 27,
+  PB3ChatFirstPayCP_FieldNumber_GuideConf = 28,
+  PB3ChatFirstPayCP_FieldNumber_InviteConf = 29,
 };
 
 /**
@@ -889,6 +1634,49 @@ typedef GPB_ENUM(PB3ChatFirstPayCP_FieldNumber) {
 /** 拨打语音的应用 */
 @property(nonatomic, readwrite) enum PB3Application dialApp;
 
+/** 显示一周CP入口的时间，如:180->通话180秒后出现入口；<=0则不出现入口 */
+@property(nonatomic, readwrite) int32_t weekCpShowTime;
+
+/** 老板一周CP数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeekCPInfo *weekPlayer;
+/** Test to see if @c weekPlayer has been set. */
+@property(nonatomic, readwrite) BOOL hasWeekPlayer;
+
+/** 主播一周CP数据 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeekCPInfo *weekCp;
+/** Test to see if @c weekCp has been set. */
+@property(nonatomic, readwrite) BOOL hasWeekCp;
+
+/** 一周CP邀请弹窗文案 新的使用invite_conf的invite_content */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *weekCpInviteContent DEPRECATED_ATTRIBUTE;
+
+/** 小酒馆弹窗触发时间 */
+@property(nonatomic, readwrite) int32_t triggerBistroTime;
+
+/** 开始通话时间戳 */
+@property(nonatomic, readwrite) int64_t startTime;
+
+/** 剩余通话时长 */
+@property(nonatomic, readwrite) int64_t lessChatTime;
+
+/** 默认小酒馆聊天包时间 */
+@property(nonatomic, readwrite) int32_t defaultBistroGiftCureTime;
+
+/** 主播端显示的乙女问答游戏答案 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SendACGNQuizAns *quizAns;
+/** Test to see if @c quizAns has been set. */
+@property(nonatomic, readwrite) BOOL hasQuizAns;
+
+/** 一周CP引导弹窗 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeekCPGuideWindowConf *guideConf;
+/** Test to see if @c guideConf has been set. */
+@property(nonatomic, readwrite) BOOL hasGuideConf;
+
+/** 一周CP邀请配置 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeekCPInviteConf *inviteConf;
+/** Test to see if @c inviteConf has been set. */
+@property(nonatomic, readwrite) BOOL hasInviteConf;
+
 @end
 
 /**
@@ -951,6 +1739,35 @@ int32_t PB3ChatFirstPayCP_DialApp_RawValue(PB3ChatFirstPayCP *message);
  **/
 void SetPB3ChatFirstPayCP_DialApp_RawValue(PB3ChatFirstPayCP *message, int32_t value);
 
+#pragma mark - PB3WeekCPGuideWindowConf
+
+typedef GPB_ENUM(PB3WeekCPGuideWindowConf_FieldNumber) {
+  PB3WeekCPGuideWindowConf_FieldNumber_Content = 1,
+  PB3WeekCPGuideWindowConf_FieldNumber_ShowTime = 2,
+  PB3WeekCPGuideWindowConf_FieldNumber_Title = 3,
+  PB3WeekCPGuideWindowConf_FieldNumber_PopUpTime = 4,
+  PB3WeekCPGuideWindowConf_FieldNumber_BtnContent = 5,
+};
+
+@interface PB3WeekCPGuideWindowConf : GPBMessage
+
+/** 文案内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 展示时间(秒) */
+@property(nonatomic, readwrite) int64_t showTime;
+
+/** 标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 弹出时间(秒) 通话X秒之后弹出 */
+@property(nonatomic, readwrite) int64_t popUpTime;
+
+/** 按钮内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *btnContent;
+
+@end
+
 #pragma mark - PB3ChatCPEnd
 
 typedef GPB_ENUM(PB3ChatCPEnd_FieldNumber) {
@@ -971,7 +1788,8 @@ typedef GPB_ENUM(PB3ChatCPEnd_FieldNumber) {
   PB3ChatCPEnd_FieldNumber_ChatInfo = 15,
   PB3ChatCPEnd_FieldNumber_Custom = 16,
   PB3ChatCPEnd_FieldNumber_CpGuideline = 17,
-  PB3ChatCPEnd_FieldNumber_ChatTime = 18,
+  PB3ChatCPEnd_FieldNumber_LessChatTime = 18,
+  PB3ChatCPEnd_FieldNumber_CureTime = 19,
 };
 
 /**
@@ -1040,8 +1858,11 @@ typedef GPB_ENUM(PB3ChatCPEnd_FieldNumber) {
 /** 引导语(主播端) */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *cpGuideline;
 
-/** 通话时长 */
-@property(nonatomic, readwrite) int64_t chatTime;
+/** 剩余通话时长 */
+@property(nonatomic, readwrite) int64_t lessChatTime;
+
+/** 深夜小酒馆剩余时间（s），结合CP语音通话类型给前端判断显示入口 */
+@property(nonatomic, readwrite) int32_t cureTime;
 
 @end
 
@@ -1183,76 +2004,6 @@ int32_t PB3ChatCPBossCancel_CpType_RawValue(PB3ChatCPBossCancel *message);
  **/
 void SetPB3ChatCPBossCancel_CpType_RawValue(PB3ChatCPBossCancel *message, int32_t value);
 
-#pragma mark - PB3SquareChatMsg
-
-typedef GPB_ENUM(PB3SquareChatMsg_FieldNumber) {
-  PB3SquareChatMsg_FieldNumber_UserId = 1,
-  PB3SquareChatMsg_FieldNumber_Name = 2,
-  PB3SquareChatMsg_FieldNumber_Avatar = 3,
-  PB3SquareChatMsg_FieldNumber_SexType = 4,
-  PB3SquareChatMsg_FieldNumber_MsgTime = 5,
-  PB3SquareChatMsg_FieldNumber_Msg = 6,
-  PB3SquareChatMsg_FieldNumber_MsgId = 7,
-};
-
-/**
- * cmdid=900113;CC_CHAT_SQUARE_CHANNEL 广场聊天推送消息
- **/
-@interface PB3SquareChatMsg : GPBMessage
-
-/** 用户id */
-@property(nonatomic, readwrite) int64_t userId;
-
-/** 用户名称 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
-
-/** 用户头像 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *avatar;
-
-/** 用户性别 */
-@property(nonatomic, readwrite) enum PB3SexType sexType;
-
-/** 消息发送unix时间戳，单位秒 */
-@property(nonatomic, readwrite) int64_t msgTime;
-
-/** 消息体 */
-@property(nonatomic, readwrite, strong, null_resettable) PB3ChatMsg *msg;
-/** Test to see if @c msg has been set. */
-@property(nonatomic, readwrite) BOOL hasMsg;
-
-/** 消息id */
-@property(nonatomic, readwrite) int64_t msgId;
-
-@end
-
-/**
- * Fetches the raw value of a @c PB3SquareChatMsg's @c sexType property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PB3SquareChatMsg_SexType_RawValue(PB3SquareChatMsg *message);
-/**
- * Sets the raw value of an @c PB3SquareChatMsg's @c sexType property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPB3SquareChatMsg_SexType_RawValue(PB3SquareChatMsg *message, int32_t value);
-
-#pragma mark - PB3PushDelSquareChatMsg
-
-typedef GPB_ENUM(PB3PushDelSquareChatMsg_FieldNumber) {
-  PB3PushDelSquareChatMsg_FieldNumber_MsgId = 1,
-};
-
-/**
- * cmdid = 900114; // 广场聊天删除推送
- **/
-@interface PB3PushDelSquareChatMsg : GPBMessage
-
-/** 消息id */
-@property(nonatomic, readwrite) int64_t msgId;
-
-@end
-
 #pragma mark - PB3CPGainGift
 
 typedef GPB_ENUM(PB3CPGainGift_FieldNumber) {
@@ -1302,7 +2053,7 @@ typedef GPB_ENUM(PB3ChatCPConf_FieldNumber) {
  **/
 @interface PB3ChatCPConf : GPBMessage
 
-/** 结束时间 */
+/** 结束时间 cp_type不等于CCPT_DEFAUL值为0 */
 @property(nonatomic, readwrite) int64_t endTime;
 
 /** CP类型 */
@@ -1503,7 +2254,6 @@ typedef GPB_ENUM(PB3CPInfo_FieldNumber) {
   PB3CPInfo_FieldNumber_VoiceId = 5,
   PB3CPInfo_FieldNumber_Sex = 6,
   PB3CPInfo_FieldNumber_Id_p = 7,
-  PB3CPInfo_FieldNumber_IsShowTone = 8,
 };
 
 @interface PB3CPInfo : GPBMessage
@@ -1528,9 +2278,6 @@ typedef GPB_ENUM(PB3CPInfo_FieldNumber) {
 
 /** 配置唯一ID */
 @property(nonatomic, readwrite) int32_t id_p;
-
-/** 是否展示音色 */
-@property(nonatomic, readwrite) BOOL isShowTone;
 
 @end
 
@@ -1639,6 +2386,32 @@ typedef GPB_ENUM(PB3ChoiceCPRes_FieldNumber) {
 
 /** id,唯一标识 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3IsCPReq
+
+typedef GPB_ENUM(PB3IsCPReq_FieldNumber) {
+  PB3IsCPReq_FieldNumber_CpId = 1,
+};
+
+@interface PB3IsCPReq : GPBMessage
+
+/** 通话对象ID */
+@property(nonatomic, readwrite) int64_t cpId;
+
+@end
+
+#pragma mark - PB3IsCPRes
+
+typedef GPB_ENUM(PB3IsCPRes_FieldNumber) {
+  PB3IsCPRes_FieldNumber_IsCp = 1,
+};
+
+@interface PB3IsCPRes : GPBMessage
+
+/** 是否能拨打 */
+@property(nonatomic, readwrite) BOOL isCp;
 
 @end
 
@@ -1935,123 +2708,6 @@ typedef GPB_ENUM(PB3GetChatCPConfReq_FieldNumber) {
 
 /** 返回的cp_list 需要包含该id */
 @property(nonatomic, readwrite) int32_t containCpInfoId;
-
-@end
-
-#pragma mark - PB3SendChannelChatReq
-
-typedef GPB_ENUM(PB3SendChannelChatReq_FieldNumber) {
-  PB3SendChannelChatReq_FieldNumber_Msg = 1,
-  PB3SendChannelChatReq_FieldNumber_Channel = 2,
-};
-
-@interface PB3SendChannelChatReq : GPBMessage
-
-/** 发送消息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB3ChatMsg *msg;
-/** Test to see if @c msg has been set. */
-@property(nonatomic, readwrite) BOOL hasMsg;
-
-/** 消息频道 */
-@property(nonatomic, readwrite) enum PB3ChannelType channel;
-
-@end
-
-/**
- * Fetches the raw value of a @c PB3SendChannelChatReq's @c channel property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PB3SendChannelChatReq_Channel_RawValue(PB3SendChannelChatReq *message);
-/**
- * Sets the raw value of an @c PB3SendChannelChatReq's @c channel property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPB3SendChannelChatReq_Channel_RawValue(PB3SendChannelChatReq *message, int32_t value);
-
-#pragma mark - PB3SendChannelChatRes
-
-@interface PB3SendChannelChatRes : GPBMessage
-
-@end
-
-#pragma mark - PB3GetChannelChatMsgReq
-
-typedef GPB_ENUM(PB3GetChannelChatMsgReq_FieldNumber) {
-  PB3GetChannelChatMsgReq_FieldNumber_Channel = 1,
-};
-
-@interface PB3GetChannelChatMsgReq : GPBMessage
-
-/** 消息频道 */
-@property(nonatomic, readwrite) enum PB3ChannelType channel;
-
-@end
-
-/**
- * Fetches the raw value of a @c PB3GetChannelChatMsgReq's @c channel property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PB3GetChannelChatMsgReq_Channel_RawValue(PB3GetChannelChatMsgReq *message);
-/**
- * Sets the raw value of an @c PB3GetChannelChatMsgReq's @c channel property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPB3GetChannelChatMsgReq_Channel_RawValue(PB3GetChannelChatMsgReq *message, int32_t value);
-
-#pragma mark - PB3GetChannelChatMsgRes
-
-typedef GPB_ENUM(PB3GetChannelChatMsgRes_FieldNumber) {
-  PB3GetChannelChatMsgRes_FieldNumber_SquareMsgArray = 1,
-};
-
-@interface PB3GetChannelChatMsgRes : GPBMessage
-
-/** 广场消息，当ChannelType为CT_SQUARE时获取 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SquareChatMsg*> *squareMsgArray;
-/** The number of items in @c squareMsgArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger squareMsgArray_Count;
-
-@end
-
-#pragma mark - PB3FetchChannelChatMsgReq
-
-typedef GPB_ENUM(PB3FetchChannelChatMsgReq_FieldNumber) {
-  PB3FetchChannelChatMsgReq_FieldNumber_Channel = 1,
-};
-
-@interface PB3FetchChannelChatMsgReq : GPBMessage
-
-/** 消息频道 */
-@property(nonatomic, readwrite) enum PB3ChannelType channel;
-
-@end
-
-/**
- * Fetches the raw value of a @c PB3FetchChannelChatMsgReq's @c channel property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PB3FetchChannelChatMsgReq_Channel_RawValue(PB3FetchChannelChatMsgReq *message);
-/**
- * Sets the raw value of an @c PB3FetchChannelChatMsgReq's @c channel property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPB3FetchChannelChatMsgReq_Channel_RawValue(PB3FetchChannelChatMsgReq *message, int32_t value);
-
-#pragma mark - PB3FetchChannelChatMsgRes
-
-typedef GPB_ENUM(PB3FetchChannelChatMsgRes_FieldNumber) {
-  PB3FetchChannelChatMsgRes_FieldNumber_SquareMsgArray = 1,
-};
-
-@interface PB3FetchChannelChatMsgRes : GPBMessage
-
-/** 广场消息，当ChannelType为CT_SQUARE时获取 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SquareChatMsg*> *squareMsgArray;
-/** The number of items in @c squareMsgArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger squareMsgArray_Count;
 
 @end
 
@@ -2422,6 +3078,3726 @@ typedef GPB_ENUM(PB3CPDialWindow_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *text;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *picURL;
+
+@end
+
+#pragma mark - PB3HomeCPCardReq
+
+typedef GPB_ENUM(PB3HomeCPCardReq_FieldNumber) {
+  PB3HomeCPCardReq_FieldNumber_PlayerIdsArray = 1,
+};
+
+@interface PB3HomeCPCardReq : GPBMessage
+
+/** 曝光卡片的用户ID */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *playerIdsArray;
+/** The number of items in @c playerIdsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger playerIdsArray_Count;
+
+@end
+
+#pragma mark - PB3CPCard
+
+typedef GPB_ENUM(PB3CPCard_FieldNumber) {
+  PB3CPCard_FieldNumber_PlayerId = 1,
+  PB3CPCard_FieldNumber_Name = 2,
+  PB3CPCard_FieldNumber_Sex = 3,
+  PB3CPCard_FieldNumber_Tags = 4,
+  PB3CPCard_FieldNumber_BgURL = 5,
+  PB3CPCard_FieldNumber_Width = 6,
+  PB3CPCard_FieldNumber_Height = 7,
+  PB3CPCard_FieldNumber_VoiceURL = 8,
+  PB3CPCard_FieldNumber_VoiceTime = 9,
+  PB3CPCard_FieldNumber_Mind = 10,
+  PB3CPCard_FieldNumber_City = 11,
+  PB3CPCard_FieldNumber_ConstellationURL = 12,
+  PB3CPCard_FieldNumber_IsFollow = 13,
+  PB3CPCard_FieldNumber_OriginPrice = 14,
+  PB3CPCard_FieldNumber_PicsArray = 15,
+  PB3CPCard_FieldNumber_Age = 16,
+};
+
+@interface PB3CPCard : GPBMessage
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 性别 */
+@property(nonatomic, readwrite) enum PB3SexType sex;
+
+/** 音色标签 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tags;
+
+/** 卡片图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgURL;
+
+/** 图片宽度 */
+@property(nonatomic, readwrite) uint32_t width;
+
+/** 图片高度 */
+@property(nonatomic, readwrite) uint32_t height;
+
+/** 声音条 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceURL;
+
+/** 音频时长 */
+@property(nonatomic, readwrite) int32_t voiceTime;
+
+/** 心声 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mind;
+
+/** 城市 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *city;
+
+/** 星座图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *constellationURL;
+
+/** 是否已关注 */
+@property(nonatomic, readwrite) BOOL isFollow;
+
+/** IM CP的原价 */
+@property(nonatomic, readwrite) int64_t originPrice;
+
+/** 图片列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ImageInfo*> *picsArray;
+/** The number of items in @c picsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger picsArray_Count;
+
+/** 年龄 */
+@property(nonatomic, readwrite) int32_t age;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPCard's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPCard_Sex_RawValue(PB3CPCard *message);
+/**
+ * Sets the raw value of an @c PB3CPCard's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPCard_Sex_RawValue(PB3CPCard *message, int32_t value);
+
+#pragma mark - PB3CPCardDialogCfg
+
+typedef GPB_ENUM(PB3CPCardDialogCfg_FieldNumber) {
+  PB3CPCardDialogCfg_FieldNumber_Show = 1,
+  PB3CPCardDialogCfg_FieldNumber_HalfContent = 2,
+  PB3CPCardDialogCfg_FieldNumber_BtnContent = 3,
+  PB3CPCardDialogCfg_FieldNumber_Title = 4,
+};
+
+@interface PB3CPCardDialogCfg : GPBMessage
+
+/** 弹出类型 */
+@property(nonatomic, readwrite) PB3DialogShowType show;
+
+/** 半窗文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *halfContent;
+
+/** 按钮文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *btnContent;
+
+/** 弹窗标题文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPCardDialogCfg's @c show property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPCardDialogCfg_Show_RawValue(PB3CPCardDialogCfg *message);
+/**
+ * Sets the raw value of an @c PB3CPCardDialogCfg's @c show property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPCardDialogCfg_Show_RawValue(PB3CPCardDialogCfg *message, int32_t value);
+
+#pragma mark - PB3HomeCPCardRes
+
+typedef GPB_ENUM(PB3HomeCPCardRes_FieldNumber) {
+  PB3HomeCPCardRes_FieldNumber_CardsArray = 1,
+  PB3HomeCPCardRes_FieldNumber_Cfg = 2,
+};
+
+@interface PB3HomeCPCardRes : GPBMessage
+
+/** 首页CP划卡 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPCard*> *cardsArray;
+/** The number of items in @c cardsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cardsArray_Count;
+
+/** 弹窗配置 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPCardDialogCfg *cfg;
+/** Test to see if @c cfg has been set. */
+@property(nonatomic, readwrite) BOOL hasCfg;
+
+@end
+
+#pragma mark - PB3UploadCPCardReq
+
+typedef GPB_ENUM(PB3UploadCPCardReq_FieldNumber) {
+  PB3UploadCPCardReq_FieldNumber_ImageURL = 1,
+  PB3UploadCPCardReq_FieldNumber_VoiceURL = 2,
+  PB3UploadCPCardReq_FieldNumber_VoiceTime = 3,
+};
+
+@interface PB3UploadCPCardReq : GPBMessage
+
+/** 图片地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *imageURL;
+
+/** 声音地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceURL;
+
+/** 声音时长 */
+@property(nonatomic, readwrite) int32_t voiceTime;
+
+@end
+
+#pragma mark - PB3UploadCPCardRes
+
+typedef GPB_ENUM(PB3UploadCPCardRes_FieldNumber) {
+  PB3UploadCPCardRes_FieldNumber_AuditInfo = 1,
+};
+
+@interface PB3UploadCPCardRes : GPBMessage
+
+/** 审核结果 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPCardAuditInfo *auditInfo;
+/** Test to see if @c auditInfo has been set. */
+@property(nonatomic, readwrite) BOOL hasAuditInfo;
+
+@end
+
+#pragma mark - PB3CPCardAuditInfoReq
+
+@interface PB3CPCardAuditInfoReq : GPBMessage
+
+@end
+
+#pragma mark - PB3CPCardAuditInfo
+
+typedef GPB_ENUM(PB3CPCardAuditInfo_FieldNumber) {
+  PB3CPCardAuditInfo_FieldNumber_ImageURL = 1,
+  PB3CPCardAuditInfo_FieldNumber_ImageStatus = 2,
+  PB3CPCardAuditInfo_FieldNumber_VoiceURL = 3,
+  PB3CPCardAuditInfo_FieldNumber_VoiceTime = 4,
+  PB3CPCardAuditInfo_FieldNumber_VoiceStatus = 5,
+};
+
+@interface PB3CPCardAuditInfo : GPBMessage
+
+/** 图片地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *imageURL;
+
+/** 图片审核结果 */
+@property(nonatomic, readwrite) PB3CPCardAuditStatus imageStatus;
+
+/** 声音地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceURL;
+
+/** 声音时长 */
+@property(nonatomic, readwrite) int32_t voiceTime;
+
+/** 声音审核结果 */
+@property(nonatomic, readwrite) PB3CPCardAuditStatus voiceStatus;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPCardAuditInfo's @c imageStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPCardAuditInfo_ImageStatus_RawValue(PB3CPCardAuditInfo *message);
+/**
+ * Sets the raw value of an @c PB3CPCardAuditInfo's @c imageStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPCardAuditInfo_ImageStatus_RawValue(PB3CPCardAuditInfo *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3CPCardAuditInfo's @c voiceStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPCardAuditInfo_VoiceStatus_RawValue(PB3CPCardAuditInfo *message);
+/**
+ * Sets the raw value of an @c PB3CPCardAuditInfo's @c voiceStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPCardAuditInfo_VoiceStatus_RawValue(PB3CPCardAuditInfo *message, int32_t value);
+
+#pragma mark - PB3CPCardAuditInfoRes
+
+typedef GPB_ENUM(PB3CPCardAuditInfoRes_FieldNumber) {
+  PB3CPCardAuditInfoRes_FieldNumber_AuditInfo = 1,
+};
+
+@interface PB3CPCardAuditInfoRes : GPBMessage
+
+/** 审核结果 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPCardAuditInfo *auditInfo;
+/** Test to see if @c auditInfo has been set. */
+@property(nonatomic, readwrite) BOOL hasAuditInfo;
+
+@end
+
+#pragma mark - PB3CPDialLogReq
+
+typedef GPB_ENUM(PB3CPDialLogReq_FieldNumber) {
+  PB3CPDialLogReq_FieldNumber_Index = 1,
+};
+
+@interface PB3CPDialLogReq : GPBMessage
+
+/** 分页索引，初始传0，之后传返回值的next_index字段 */
+@property(nonatomic, readwrite) int64_t index;
+
+@end
+
+#pragma mark - PB3CPDialLogRes
+
+typedef GPB_ENUM(PB3CPDialLogRes_FieldNumber) {
+  PB3CPDialLogRes_FieldNumber_DialLogsArray = 1,
+  PB3CPDialLogRes_FieldNumber_NextIndex = 2,
+};
+
+@interface PB3CPDialLogRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3DialLogDetail*> *dialLogsArray;
+/** The number of items in @c dialLogsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger dialLogsArray_Count;
+
+/** 分页索引，透传给服务端，返回 -1 表示没有数据了 */
+@property(nonatomic, readwrite) int64_t nextIndex;
+
+@end
+
+#pragma mark - PB3DialLogDetail
+
+typedef GPB_ENUM(PB3DialLogDetail_FieldNumber) {
+  PB3DialLogDetail_FieldNumber_DialTime = 1,
+  PB3DialLogDetail_FieldNumber_EndType = 2,
+  PB3DialLogDetail_FieldNumber_DialType = 3,
+  PB3DialLogDetail_FieldNumber_PlayerId = 4,
+  PB3DialLogDetail_FieldNumber_Icon = 5,
+  PB3DialLogDetail_FieldNumber_Nickname = 6,
+};
+
+@interface PB3DialLogDetail : GPBMessage
+
+/** 通话开始时间戳，秒 */
+@property(nonatomic, readwrite) int64_t dialTime;
+
+/** 通话结束类型 */
+@property(nonatomic, readwrite) PB3DialEndType endType;
+
+/** 通话类型 */
+@property(nonatomic, readwrite) enum PB3ChatCPType dialType;
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 用户昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3DialLogDetail's @c endType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3DialLogDetail_EndType_RawValue(PB3DialLogDetail *message);
+/**
+ * Sets the raw value of an @c PB3DialLogDetail's @c endType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3DialLogDetail_EndType_RawValue(PB3DialLogDetail *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3DialLogDetail's @c dialType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3DialLogDetail_DialType_RawValue(PB3DialLogDetail *message);
+/**
+ * Sets the raw value of an @c PB3DialLogDetail's @c dialType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3DialLogDetail_DialType_RawValue(PB3DialLogDetail *message, int32_t value);
+
+#pragma mark - PB3QueryBindBistroIntroduceReq
+
+typedef GPB_ENUM(PB3QueryBindBistroIntroduceReq_FieldNumber) {
+  PB3QueryBindBistroIntroduceReq_FieldNumber_CpId = 1,
+  PB3QueryBindBistroIntroduceReq_FieldNumber_IsCp = 2,
+};
+
+@interface PB3QueryBindBistroIntroduceReq : GPBMessage
+
+/** 对方ID */
+@property(nonatomic, readwrite) int64_t cpId;
+
+/** 是否陪陪侧 */
+@property(nonatomic, readwrite) BOOL isCp;
+
+@end
+
+#pragma mark - PB3QueryBindBistroIntroduceRes
+
+typedef GPB_ENUM(PB3QueryBindBistroIntroduceRes_FieldNumber) {
+  PB3QueryBindBistroIntroduceRes_FieldNumber_GiftId = 1,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_GiftFakePrice = 2,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_CureTime = 3,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_IsFirst = 4,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_Cp = 5,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_MealPlateURL = 6,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_BottomContent = 7,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_LabelURL = 8,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_ButtonIcon = 9,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_ButtonGrayIcon = 10,
+  PB3QueryBindBistroIntroduceRes_FieldNumber_GiftActualPrice = 11,
+};
+
+@interface PB3QueryBindBistroIntroduceRes : GPBMessage
+
+/** 小酒馆礼物ID */
+@property(nonatomic, readwrite) int32_t giftId;
+
+/** 虚假的价格，大于0时该价格显示成礼物原价，礼物配置价格显示为实际价格 */
+@property(nonatomic, readwrite) int32_t giftFakePrice;
+
+/** 聊愈时间 单位s */
+@property(nonatomic, readwrite) int32_t cureTime;
+
+/** 是否第一次购买 */
+@property(nonatomic, readwrite) BOOL isFirst;
+
+/** 对方信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BistroPlayer *cp;
+/** Test to see if @c cp has been set. */
+@property(nonatomic, readwrite) BOOL hasCp;
+
+/** 餐牌图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mealPlateURL;
+
+/** 底部宣传文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bottomContent;
+
+/** 聊愈师标签 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *labelURL;
+
+/** 按钮图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *buttonIcon;
+
+/** 按钮置灰图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *buttonGrayIcon;
+
+/** 礼物实际价格 */
+@property(nonatomic, readwrite) int32_t giftActualPrice;
+
+@end
+
+#pragma mark - PB3BistroHeartbeatReq
+
+typedef GPB_ENUM(PB3BistroHeartbeatReq_FieldNumber) {
+  PB3BistroHeartbeatReq_FieldNumber_CpRecordId = 1,
+};
+
+@interface PB3BistroHeartbeatReq : GPBMessage
+
+/** cp通话记录ID  对应first_pay_cp表id字段 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cpRecordId;
+
+@end
+
+#pragma mark - PB3BistroHeartbeatRes
+
+@interface PB3BistroHeartbeatRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BroadcastBindBistroSuccess
+
+typedef GPB_ENUM(PB3BroadcastBindBistroSuccess_FieldNumber) {
+  PB3BroadcastBindBistroSuccess_FieldNumber_Msg = 1,
+  PB3BroadcastBindBistroSuccess_FieldNumber_GiftIcon = 2,
+  PB3BroadcastBindBistroSuccess_FieldNumber_LessChatTime = 3,
+  PB3BroadcastBindBistroSuccess_FieldNumber_EndTime = 4,
+  PB3BroadcastBindBistroSuccess_FieldNumber_PlayerId = 5,
+  PB3BroadcastBindBistroSuccess_FieldNumber_CpId = 6,
+  PB3BroadcastBindBistroSuccess_FieldNumber_SubMsg = 7,
+};
+
+/**
+ * 推送ID  900117
+ **/
+@interface PB3BroadcastBindBistroSuccess : GPBMessage
+
+/**  绑定成功消息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
+
+/** 礼物图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *giftIcon;
+
+/** 剩余cp通话时间 */
+@property(nonatomic, readwrite) int64_t lessChatTime;
+
+/** cp通话结束时间戳 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 主播ID */
+@property(nonatomic, readwrite) int64_t cpId;
+
+/** msg字段的部分文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *subMsg;
+
+@end
+
+#pragma mark - PB3QueryBistroRelationshipReq
+
+typedef GPB_ENUM(PB3QueryBistroRelationshipReq_FieldNumber) {
+  PB3QueryBistroRelationshipReq_FieldNumber_TargetId = 1,
+};
+
+@interface PB3QueryBistroRelationshipReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3QueryBistroRelationshipRes
+
+typedef GPB_ENUM(PB3QueryBistroRelationshipRes_FieldNumber) {
+  PB3QueryBistroRelationshipRes_FieldNumber_TargetName = 1,
+  PB3QueryBistroRelationshipRes_FieldNumber_PlayerIcon = 2,
+  PB3QueryBistroRelationshipRes_FieldNumber_TargetIcon = 3,
+  PB3QueryBistroRelationshipRes_FieldNumber_OpenTime = 4,
+  PB3QueryBistroRelationshipRes_FieldNumber_Context = 5,
+  PB3QueryBistroRelationshipRes_FieldNumber_CureTime = 6,
+  PB3QueryBistroRelationshipRes_FieldNumber_IsCustomer = 7,
+  PB3QueryBistroRelationshipRes_FieldNumber_DefaultBistroGiftCureTime = 8,
+};
+
+@interface PB3QueryBistroRelationshipRes : GPBMessage
+
+/** 对方昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *targetName;
+
+/** 自己头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 对方头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *targetIcon;
+
+/** 深夜小酒馆开放时间 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *openTime;
+
+/** 用户侧名片文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *context;
+
+/** 剩余时间（s）大于0显示关系，0表示套餐已用完 不显示 */
+@property(nonatomic, readwrite) int32_t cureTime;
+
+/** 是否是用户侧 */
+@property(nonatomic, readwrite) BOOL isCustomer;
+
+/** 默认小酒馆聊天包时间 */
+@property(nonatomic, readwrite) int32_t defaultBistroGiftCureTime;
+
+@end
+
+#pragma mark - PB3QueryBistroRecordListReq
+
+typedef GPB_ENUM(PB3QueryBistroRecordListReq_FieldNumber) {
+  PB3QueryBistroRecordListReq_FieldNumber_TargetId = 1,
+};
+
+@interface PB3QueryBistroRecordListReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3QueryBistroRecordListRes
+
+typedef GPB_ENUM(PB3QueryBistroRecordListRes_FieldNumber) {
+  PB3QueryBistroRecordListRes_FieldNumber_Player = 1,
+  PB3QueryBistroRecordListRes_FieldNumber_Cp = 2,
+  PB3QueryBistroRecordListRes_FieldNumber_QueryBistroRecordListArray = 3,
+};
+
+@interface PB3QueryBistroRecordListRes : GPBMessage
+
+/** 用户 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BistroPlayer *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 主播 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BistroPlayer *cp;
+/** Test to see if @c cp has been set. */
+@property(nonatomic, readwrite) BOOL hasCp;
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3QueryBistroRecord*> *queryBistroRecordListArray;
+/** The number of items in @c queryBistroRecordListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger queryBistroRecordListArray_Count;
+
+@end
+
+#pragma mark - PB3QueryBistroAssignRecordListReq
+
+typedef GPB_ENUM(PB3QueryBistroAssignRecordListReq_FieldNumber) {
+  PB3QueryBistroAssignRecordListReq_FieldNumber_BossId = 1,
+  PB3QueryBistroAssignRecordListReq_FieldNumber_CpId = 2,
+  PB3QueryBistroAssignRecordListReq_FieldNumber_Period = 3,
+};
+
+@interface PB3QueryBistroAssignRecordListReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t bossId;
+
+@property(nonatomic, readwrite) int64_t cpId;
+
+/** 期数 */
+@property(nonatomic, readwrite) int32_t period;
+
+@end
+
+#pragma mark - PB3QueryBistroRecord
+
+typedef GPB_ENUM(PB3QueryBistroRecord_FieldNumber) {
+  PB3QueryBistroRecord_FieldNumber_RecordText = 1,
+  PB3QueryBistroRecord_FieldNumber_CreateAt = 2,
+};
+
+@interface PB3QueryBistroRecord : GPBMessage
+
+/** 通话记录文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *recordText;
+
+/** 生成记录时间 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *createAt;
+
+@end
+
+#pragma mark - PB3IsShowBistroLogoReq
+
+typedef GPB_ENUM(PB3IsShowBistroLogoReq_FieldNumber) {
+  PB3IsShowBistroLogoReq_FieldNumber_TargetId = 1,
+};
+
+@interface PB3IsShowBistroLogoReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3IsShowBistroLogoRes
+
+typedef GPB_ENUM(PB3IsShowBistroLogoRes_FieldNumber) {
+  PB3IsShowBistroLogoRes_FieldNumber_IsShow = 1,
+  PB3IsShowBistroLogoRes_FieldNumber_JumpType = 2,
+  PB3IsShowBistroLogoRes_FieldNumber_ShowTime = 3,
+  PB3IsShowBistroLogoRes_FieldNumber_Title = 4,
+  PB3IsShowBistroLogoRes_FieldNumber_Content = 5,
+  PB3IsShowBistroLogoRes_FieldNumber_URL = 6,
+};
+
+@interface PB3IsShowBistroLogoRes : GPBMessage
+
+/** 是否展示 */
+@property(nonatomic, readwrite) BOOL isShow;
+
+/** 跳转页面 1->落地页 2->详情页 3->邀请页（陪陪） */
+@property(nonatomic, readwrite) int32_t jumpType;
+
+/** 弹窗显示时间（s） */
+@property(nonatomic, readwrite) int32_t showTime;
+
+/** 弹窗标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 弹窗内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 弹窗图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
+
+@end
+
+#pragma mark - PB3BistroChatBlackMICReq
+
+typedef GPB_ENUM(PB3BistroChatBlackMICReq_FieldNumber) {
+  PB3BistroChatBlackMICReq_FieldNumber_CpRecordId = 1,
+};
+
+@interface PB3BistroChatBlackMICReq : GPBMessage
+
+/** cp通话记录ID  对应first_pay_cp表id字段 */
+@property(nonatomic, readwrite) int32_t cpRecordId;
+
+@end
+
+#pragma mark - PB3BistroChatBlackMICRes
+
+@interface PB3BistroChatBlackMICRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BistroPlayer
+
+typedef GPB_ENUM(PB3BistroPlayer_FieldNumber) {
+  PB3BistroPlayer_FieldNumber_Id_p = 1,
+  PB3BistroPlayer_FieldNumber_Icon = 2,
+  PB3BistroPlayer_FieldNumber_Nickname = 3,
+};
+
+@interface PB3BistroPlayer : GPBMessage
+
+/** 玩家id */
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
+
+@end
+
+#pragma mark - PB3BistroEndMsg
+
+typedef GPB_ENUM(PB3BistroEndMsg_FieldNumber) {
+  PB3BistroEndMsg_FieldNumber_PlayerId = 1,
+  PB3BistroEndMsg_FieldNumber_CpId = 2,
+  PB3BistroEndMsg_FieldNumber_Period = 3,
+};
+
+@interface PB3BistroEndMsg : GPBMessage
+
+/** 用户 */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 主播 */
+@property(nonatomic, readwrite) int64_t cpId;
+
+/** 期数 */
+@property(nonatomic, readwrite) int32_t period;
+
+@end
+
+#pragma mark - PB3BistroCancelMsg
+
+typedef GPB_ENUM(PB3BistroCancelMsg_FieldNumber) {
+  PB3BistroCancelMsg_FieldNumber_PlayerId = 1,
+  PB3BistroCancelMsg_FieldNumber_CallTime = 2,
+};
+
+@interface PB3BistroCancelMsg : GPBMessage
+
+/** 用户 */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 发起拨打的时间 */
+@property(nonatomic, readwrite) int64_t callTime;
+
+@end
+
+#pragma mark - PB3GetBistroConfReq
+
+@interface PB3GetBistroConfReq : GPBMessage
+
+@end
+
+#pragma mark - PB3GetBistroConfRes
+
+typedef GPB_ENUM(PB3GetBistroConfRes_FieldNumber) {
+  PB3GetBistroConfRes_FieldNumber_OpenTime = 1,
+};
+
+@interface PB3GetBistroConfRes : GPBMessage
+
+/** 深夜小酒馆开放时间 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *openTime;
+
+@end
+
+#pragma mark - PB3BroadcastInviteBistro
+
+typedef GPB_ENUM(PB3BroadcastInviteBistro_FieldNumber) {
+  PB3BroadcastInviteBistro_FieldNumber_Content = 1,
+  PB3BroadcastInviteBistro_FieldNumber_Title = 2,
+};
+
+/**
+ * 推送ID  900118
+ **/
+@interface PB3BroadcastInviteBistro : GPBMessage
+
+/** 文本内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+@end
+
+#pragma mark - PB3BistroInviteMsg
+
+typedef GPB_ENUM(PB3BistroInviteMsg_FieldNumber) {
+  PB3BistroInviteMsg_FieldNumber_PlayerId = 1,
+  PB3BistroInviteMsg_FieldNumber_CpId = 2,
+};
+
+@interface PB3BistroInviteMsg : GPBMessage
+
+/** 老板id */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 陪陪id */
+@property(nonatomic, readwrite) int64_t cpId;
+
+@end
+
+#pragma mark - PB3InviteBistroReq
+
+typedef GPB_ENUM(PB3InviteBistroReq_FieldNumber) {
+  PB3InviteBistroReq_FieldNumber_TargetId = 1,
+  PB3InviteBistroReq_FieldNumber_Scene = 2,
+};
+
+@interface PB3InviteBistroReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+/** 触发场景 */
+@property(nonatomic, readwrite) PB3BistroTriggerScene scene;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3InviteBistroReq's @c scene property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3InviteBistroReq_Scene_RawValue(PB3InviteBistroReq *message);
+/**
+ * Sets the raw value of an @c PB3InviteBistroReq's @c scene property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3InviteBistroReq_Scene_RawValue(PB3InviteBistroReq *message, int32_t value);
+
+#pragma mark - PB3InviteBistroRes
+
+@interface PB3InviteBistroRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BistroRejectMsg
+
+typedef GPB_ENUM(PB3BistroRejectMsg_FieldNumber) {
+  PB3BistroRejectMsg_FieldNumber_Content = 1,
+};
+
+@interface PB3BistroRejectMsg : GPBMessage
+
+/** 拒绝文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+@end
+
+#pragma mark - PB3RejectBistroReq
+
+typedef GPB_ENUM(PB3RejectBistroReq_FieldNumber) {
+  PB3RejectBistroReq_FieldNumber_TargetId = 1,
+  PB3RejectBistroReq_FieldNumber_Scene = 2,
+};
+
+@interface PB3RejectBistroReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+/** 触发场景 */
+@property(nonatomic, readwrite) PB3BistroTriggerScene scene;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3RejectBistroReq's @c scene property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3RejectBistroReq_Scene_RawValue(PB3RejectBistroReq *message);
+/**
+ * Sets the raw value of an @c PB3RejectBistroReq's @c scene property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3RejectBistroReq_Scene_RawValue(PB3RejectBistroReq *message, int32_t value);
+
+#pragma mark - PB3RejectBistroRes
+
+@interface PB3RejectBistroRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BistroCPLabel
+
+typedef GPB_ENUM(PB3BistroCPLabel_FieldNumber) {
+  PB3BistroCPLabel_FieldNumber_PlayerId = 1,
+  PB3BistroCPLabel_FieldNumber_LabelURL = 2,
+};
+
+@interface PB3BistroCPLabel : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *labelURL;
+
+@end
+
+#pragma mark - PB3QueryBistroCPReq
+
+@interface PB3QueryBistroCPReq : GPBMessage
+
+@end
+
+#pragma mark - PB3QueryBistroCPRes
+
+typedef GPB_ENUM(PB3QueryBistroCPRes_FieldNumber) {
+  PB3QueryBistroCPRes_FieldNumber_BistroCpLabelArray = 1,
+};
+
+@interface PB3QueryBistroCPRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BistroCPLabel*> *bistroCpLabelArray;
+/** The number of items in @c bistroCpLabelArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger bistroCpLabelArray_Count;
+
+@end
+
+#pragma mark - PB3ACGNQuizEntryReq
+
+typedef GPB_ENUM(PB3ACGNQuizEntryReq_FieldNumber) {
+  PB3ACGNQuizEntryReq_FieldNumber_GenderPattern = 1,
+};
+
+@interface PB3ACGNQuizEntryReq : GPBMessage
+
+/** 旧版用户默认0 */
+@property(nonatomic, readwrite) enum PB3GenderPattern genderPattern;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3ACGNQuizEntryReq's @c genderPattern property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3ACGNQuizEntryReq_GenderPattern_RawValue(PB3ACGNQuizEntryReq *message);
+/**
+ * Sets the raw value of an @c PB3ACGNQuizEntryReq's @c genderPattern property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3ACGNQuizEntryReq_GenderPattern_RawValue(PB3ACGNQuizEntryReq *message, int32_t value);
+
+#pragma mark - PB3ACGNQuizEntryRole
+
+typedef GPB_ENUM(PB3ACGNQuizEntryRole_FieldNumber) {
+  PB3ACGNQuizEntryRole_FieldNumber_RoleId = 1,
+  PB3ACGNQuizEntryRole_FieldNumber_RoleTitle = 2,
+  PB3ACGNQuizEntryRole_FieldNumber_RoleURL = 3,
+  PB3ACGNQuizEntryRole_FieldNumber_TitleURL = 4,
+};
+
+@interface PB3ACGNQuizEntryRole : GPBMessage
+
+/** 角色id */
+@property(nonatomic, readwrite) int64_t roleId;
+
+/** 角色标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roleTitle;
+
+/** 角色图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roleURL;
+
+/** 角色标题图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *titleURL;
+
+@end
+
+#pragma mark - PB3ACGNQuizEntryRes
+
+typedef GPB_ENUM(PB3ACGNQuizEntryRes_FieldNumber) {
+  PB3ACGNQuizEntryRes_FieldNumber_BackgroundURL = 1,
+  PB3ACGNQuizEntryRes_FieldNumber_BackgroundTitle = 2,
+  PB3ACGNQuizEntryRes_FieldNumber_QuizEntryRoleArray = 3,
+};
+
+@interface PB3ACGNQuizEntryRes : GPBMessage
+
+/** 首页背景图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *backgroundURL;
+
+/** 背景标题图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *backgroundTitle;
+
+/** 角色列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ACGNQuizEntryRole*> *quizEntryRoleArray;
+/** The number of items in @c quizEntryRoleArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger quizEntryRoleArray_Count;
+
+@end
+
+#pragma mark - PB3ACGNQuizCardReq
+
+typedef GPB_ENUM(PB3ACGNQuizCardReq_FieldNumber) {
+  PB3ACGNQuizCardReq_FieldNumber_RoleId = 1,
+};
+
+@interface PB3ACGNQuizCardReq : GPBMessage
+
+/** 角色id 传入0为随机 */
+@property(nonatomic, readwrite) int64_t roleId;
+
+@end
+
+#pragma mark - PB3ACGNQuizCard
+
+typedef GPB_ENUM(PB3ACGNQuizCard_FieldNumber) {
+  PB3ACGNQuizCard_FieldNumber_CardId = 1,
+  PB3ACGNQuizCard_FieldNumber_CardType = 2,
+  PB3ACGNQuizCard_FieldNumber_RoleURL = 3,
+  PB3ACGNQuizCard_FieldNumber_CardVoice = 4,
+  PB3ACGNQuizCard_FieldNumber_Question = 5,
+  PB3ACGNQuizCard_FieldNumber_AnswerArray = 6,
+};
+
+@interface PB3ACGNQuizCard : GPBMessage
+
+/** 卡片id */
+@property(nonatomic, readwrite) int64_t cardId;
+
+/** 卡片类型  1问答卡 2结局卡 */
+@property(nonatomic, readwrite) int32_t cardType;
+
+/** 角色图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roleURL;
+
+/** 配音文件 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cardVoice;
+
+/** 问题文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *question;
+
+/** 答案文案 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *answerArray;
+/** The number of items in @c answerArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger answerArray_Count;
+
+@end
+
+#pragma mark - PB3ACGNQuizEndCard
+
+typedef GPB_ENUM(PB3ACGNQuizEndCard_FieldNumber) {
+  PB3ACGNQuizEndCard_FieldNumber_CardId = 1,
+  PB3ACGNQuizEndCard_FieldNumber_CardType = 2,
+  PB3ACGNQuizEndCard_FieldNumber_VoiceId = 4,
+  PB3ACGNQuizEndCard_FieldNumber_RoleURL = 5,
+  PB3ACGNQuizEndCard_FieldNumber_CardVoice = 6,
+  PB3ACGNQuizEndCard_FieldNumber_Question = 7,
+  PB3ACGNQuizEndCard_FieldNumber_ButtonContext = 8,
+  PB3ACGNQuizEndCard_FieldNumber_CpInfo = 9,
+};
+
+@interface PB3ACGNQuizEndCard : GPBMessage
+
+/** 卡片id */
+@property(nonatomic, readwrite) int64_t cardId;
+
+/** 卡片类型 1问答卡 2结局卡 */
+@property(nonatomic, readwrite) int32_t cardType;
+
+/** 声鉴卡ID */
+@property(nonatomic, readwrite) int32_t voiceId;
+
+/** 角色图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roleURL;
+
+/** 配音文件 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cardVoice;
+
+/** 结局文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *question;
+
+/** 按钮文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *buttonContext;
+
+/** choiceCP相关配置 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPInfo *cpInfo;
+/** Test to see if @c cpInfo has been set. */
+@property(nonatomic, readwrite) BOOL hasCpInfo;
+
+@end
+
+#pragma mark - PB3ACGNQuizCardRes
+
+typedef GPB_ENUM(PB3ACGNQuizCardRes_FieldNumber) {
+  PB3ACGNQuizCardRes_FieldNumber_CardSetId = 1,
+  PB3ACGNQuizCardRes_FieldNumber_CardSetName = 2,
+  PB3ACGNQuizCardRes_FieldNumber_Bgm = 3,
+  PB3ACGNQuizCardRes_FieldNumber_QuizCardArray = 4,
+  PB3ACGNQuizCardRes_FieldNumber_QuizEndCard = 5,
+};
+
+@interface PB3ACGNQuizCardRes : GPBMessage
+
+/** 卡组id */
+@property(nonatomic, readwrite) int64_t cardSetId;
+
+/** 卡组名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cardSetName;
+
+/** 进入问答节目的bgm */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgm;
+
+/** 问答卡内容 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ACGNQuizCard*> *quizCardArray;
+/** The number of items in @c quizCardArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger quizCardArray_Count;
+
+/** 结局卡内容 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3ACGNQuizEndCard *quizEndCard;
+/** Test to see if @c quizEndCard has been set. */
+@property(nonatomic, readwrite) BOOL hasQuizEndCard;
+
+@end
+
+#pragma mark - PB3ACGNQuizCardByIDReq
+
+typedef GPB_ENUM(PB3ACGNQuizCardByIDReq_FieldNumber) {
+  PB3ACGNQuizCardByIDReq_FieldNumber_CardSetId = 1,
+};
+
+@interface PB3ACGNQuizCardByIDReq : GPBMessage
+
+/** 卡组id */
+@property(nonatomic, readwrite) int64_t cardSetId;
+
+@end
+
+#pragma mark - PB3KeepACGNQuizAns
+
+typedef GPB_ENUM(PB3KeepACGNQuizAns_FieldNumber) {
+  PB3KeepACGNQuizAns_FieldNumber_CardId = 1,
+  PB3KeepACGNQuizAns_FieldNumber_BossAnswerIndex = 2,
+};
+
+@interface PB3KeepACGNQuizAns : GPBMessage
+
+/** 卡片id */
+@property(nonatomic, readwrite) int64_t cardId;
+
+/** 老板答案下标 */
+@property(nonatomic, readwrite) int64_t bossAnswerIndex;
+
+@end
+
+#pragma mark - PB3ACGNQuizAns
+
+typedef GPB_ENUM(PB3ACGNQuizAns_FieldNumber) {
+  PB3ACGNQuizAns_FieldNumber_CardId = 1,
+  PB3ACGNQuizAns_FieldNumber_Question = 2,
+  PB3ACGNQuizAns_FieldNumber_AnswerArray = 3,
+};
+
+@interface PB3ACGNQuizAns : GPBMessage
+
+/** 卡片id */
+@property(nonatomic, readwrite) int64_t cardId;
+
+/** 问题文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *question;
+
+/** 答案 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Answer*> *answerArray;
+/** The number of items in @c answerArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger answerArray_Count;
+
+@end
+
+#pragma mark - PB3Answer
+
+typedef GPB_ENUM(PB3Answer_FieldNumber) {
+  PB3Answer_FieldNumber_Answer = 1,
+  PB3Answer_FieldNumber_BossChoice = 2,
+};
+
+@interface PB3Answer : GPBMessage
+
+/** 老板答案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *answer;
+
+/** 是否是老板选择 */
+@property(nonatomic, readwrite) BOOL bossChoice;
+
+@end
+
+#pragma mark - PB3AnsACGNQuizReq
+
+typedef GPB_ENUM(PB3AnsACGNQuizReq_FieldNumber) {
+  PB3AnsACGNQuizReq_FieldNumber_CardSetId = 1,
+  PB3AnsACGNQuizReq_FieldNumber_KeepQuizAnsArray = 2,
+};
+
+@interface PB3AnsACGNQuizReq : GPBMessage
+
+/** 卡组id */
+@property(nonatomic, readwrite) int64_t cardSetId;
+
+/** 卡内容 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3KeepACGNQuizAns*> *keepQuizAnsArray;
+/** The number of items in @c keepQuizAnsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger keepQuizAnsArray_Count;
+
+@end
+
+#pragma mark - PB3AnsACGNQuizRes
+
+@interface PB3AnsACGNQuizRes : GPBMessage
+
+@end
+
+#pragma mark - PB3ACGNQuizConfReq
+
+@interface PB3ACGNQuizConfReq : GPBMessage
+
+@end
+
+#pragma mark - PB3ACGNQuizConfReqRes
+
+typedef GPB_ENUM(PB3ACGNQuizConfReqRes_FieldNumber) {
+  PB3ACGNQuizConfReqRes_FieldNumber_AcgnQuizButton = 1,
+};
+
+@interface PB3ACGNQuizConfReqRes : GPBMessage
+
+/** 按钮标签 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *acgnQuizButton;
+
+@end
+
+#pragma mark - PB3SendACGNQuizAns
+
+typedef GPB_ENUM(PB3SendACGNQuizAns_FieldNumber) {
+  PB3SendACGNQuizAns_FieldNumber_CardSetName = 1,
+  PB3SendACGNQuizAns_FieldNumber_QuizAnsArray = 2,
+};
+
+/**
+ * 发送给主播端展示的用户问答答案
+ **/
+@interface PB3SendACGNQuizAns : GPBMessage
+
+/** 乙女问答卡卡组名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cardSetName;
+
+/** 问题答案内容 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ACGNQuizAns*> *quizAnsArray;
+/** The number of items in @c quizAnsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger quizAnsArray_Count;
+
+@end
+
+#pragma mark - PB3SendCPChatReq
+
+typedef GPB_ENUM(PB3SendCPChatReq_FieldNumber) {
+  PB3SendCPChatReq_FieldNumber_Content = 1,
+  PB3SendCPChatReq_FieldNumber_ToIdsArray = 2,
+};
+
+@interface PB3SendCPChatReq : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *toIdsArray;
+/** The number of items in @c toIdsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger toIdsArray_Count;
+
+@end
+
+#pragma mark - PB3SendCPChatRes
+
+@interface PB3SendCPChatRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BroadcastCPChat
+
+typedef GPB_ENUM(PB3BroadcastCPChat_FieldNumber) {
+  PB3BroadcastCPChat_FieldNumber_Content = 1,
+  PB3BroadcastCPChat_FieldNumber_SendId = 2,
+};
+
+/**
+ * cmdid=900120
+ **/
+@interface PB3BroadcastCPChat : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 发送者id */
+@property(nonatomic, readwrite) int64_t sendId;
+
+@end
+
+#pragma mark - PB3BroadcastChatCPMicroStatus
+
+typedef GPB_ENUM(PB3BroadcastChatCPMicroStatus_FieldNumber) {
+  PB3BroadcastChatCPMicroStatus_FieldNumber_Id_p = 1,
+  PB3BroadcastChatCPMicroStatus_FieldNumber_MicroStatus = 2,
+  PB3BroadcastChatCPMicroStatus_FieldNumber_PlayerId = 3,
+};
+
+/**
+ * cmdid=900121
+ **/
+@interface PB3BroadcastChatCPMicroStatus : GPBMessage
+
+/** CP通话唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 麦克风状态 */
+@property(nonatomic, readwrite) PB3ChatCPTMicroStatus microStatus;
+
+/** 关联用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastChatCPMicroStatus's @c microStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastChatCPMicroStatus_MicroStatus_RawValue(PB3BroadcastChatCPMicroStatus *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastChatCPMicroStatus's @c microStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastChatCPMicroStatus_MicroStatus_RawValue(PB3BroadcastChatCPMicroStatus *message, int32_t value);
+
+#pragma mark - PB3SetChatCPMicroStatusReq
+
+typedef GPB_ENUM(PB3SetChatCPMicroStatusReq_FieldNumber) {
+  PB3SetChatCPMicroStatusReq_FieldNumber_Id_p = 1,
+  PB3SetChatCPMicroStatusReq_FieldNumber_MicroStatus = 2,
+  PB3SetChatCPMicroStatusReq_FieldNumber_CpId = 3,
+};
+
+@interface PB3SetChatCPMicroStatusReq : GPBMessage
+
+/** CP通话唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 麦克风状态 */
+@property(nonatomic, readwrite) PB3ChatCPTMicroStatus microStatus;
+
+/** 通话对方用户ID */
+@property(nonatomic, readwrite) int64_t cpId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SetChatCPMicroStatusReq's @c microStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SetChatCPMicroStatusReq_MicroStatus_RawValue(PB3SetChatCPMicroStatusReq *message);
+/**
+ * Sets the raw value of an @c PB3SetChatCPMicroStatusReq's @c microStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SetChatCPMicroStatusReq_MicroStatus_RawValue(PB3SetChatCPMicroStatusReq *message, int32_t value);
+
+#pragma mark - PB3SetChatCPMicroStatusRes
+
+@interface PB3SetChatCPMicroStatusRes : GPBMessage
+
+@end
+
+#pragma mark - PB3BindWeekCPMsg
+
+typedef GPB_ENUM(PB3BindWeekCPMsg_FieldNumber) {
+  PB3BindWeekCPMsg_FieldNumber_Id_p = 1,
+  PB3BindWeekCPMsg_FieldNumber_Player = 2,
+  PB3BindWeekCPMsg_FieldNumber_Invited = 3,
+  PB3BindWeekCPMsg_FieldNumber_ExpireTime = 4,
+};
+
+/**
+ * ////////////////////////////// 一周CP ///////////////////////////
+ * 绑定一周CP关系 29
+ **/
+@interface PB3BindWeekCPMsg : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** 过期时间 */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+@end
+
+#pragma mark - PB3WeekCPTaskCompleteMsg
+
+typedef GPB_ENUM(PB3WeekCPTaskCompleteMsg_FieldNumber) {
+  PB3WeekCPTaskCompleteMsg_FieldNumber_Id_p = 1,
+  PB3WeekCPTaskCompleteMsg_FieldNumber_Player = 2,
+  PB3WeekCPTaskCompleteMsg_FieldNumber_Invited = 3,
+  PB3WeekCPTaskCompleteMsg_FieldNumber_CpTask = 4,
+};
+
+/**
+ * 一周CP 任务完成推送IM消息 30
+ **/
+@interface PB3WeekCPTaskCompleteMsg : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** CP任务 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeeklyCPTask *cpTask;
+/** Test to see if @c cpTask has been set. */
+@property(nonatomic, readwrite) BOOL hasCpTask;
+
+@end
+
+#pragma mark - PB3WeekCPAllTaskCompleteMsg
+
+typedef GPB_ENUM(PB3WeekCPAllTaskCompleteMsg_FieldNumber) {
+  PB3WeekCPAllTaskCompleteMsg_FieldNumber_Id_p = 1,
+};
+
+/**
+ * 一周CP 所有任务完成推送IM  31
+ **/
+@interface PB3WeekCPAllTaskCompleteMsg : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3WeekCPRefuceMsg
+
+typedef GPB_ENUM(PB3WeekCPRefuceMsg_FieldNumber) {
+  PB3WeekCPRefuceMsg_FieldNumber_Player = 1,
+  PB3WeekCPRefuceMsg_FieldNumber_Invited = 2,
+  PB3WeekCPRefuceMsg_FieldNumber_Id_p = 3,
+};
+
+/**
+ * 拒绝邀请消息 32
+ **/
+@interface PB3WeekCPRefuceMsg : GPBMessage
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3WeekCPTaskFailedMsg
+
+typedef GPB_ENUM(PB3WeekCPTaskFailedMsg_FieldNumber) {
+  PB3WeekCPTaskFailedMsg_FieldNumber_Id_p = 1,
+  PB3WeekCPTaskFailedMsg_FieldNumber_InviteTimes = 2,
+  PB3WeekCPTaskFailedMsg_FieldNumber_Status = 3,
+  PB3WeekCPTaskFailedMsg_FieldNumber_TotalMission = 4,
+  PB3WeekCPTaskFailedMsg_FieldNumber_RewardsArray = 5,
+  PB3WeekCPTaskFailedMsg_FieldNumber_ImInviteTimes = 6,
+};
+
+/**
+ * 任务失败 33
+ **/
+@interface PB3WeekCPTaskFailedMsg : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 一周CP邀请次数 */
+@property(nonatomic, readwrite) int32_t inviteTimes;
+
+/** 状态 */
+@property(nonatomic, readwrite) enum PB3WeekCPInfoStatus status;
+
+/** 总任务数 */
+@property(nonatomic, readwrite) int32_t totalMission;
+
+/** 奖励配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3WeekCPReward*> *rewardsArray;
+/** The number of items in @c rewardsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger rewardsArray_Count;
+
+/** IM总邀请次数 */
+@property(nonatomic, readwrite) int32_t imInviteTimes;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3WeekCPTaskFailedMsg's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeekCPTaskFailedMsg_Status_RawValue(PB3WeekCPTaskFailedMsg *message);
+/**
+ * Sets the raw value of an @c PB3WeekCPTaskFailedMsg's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeekCPTaskFailedMsg_Status_RawValue(PB3WeekCPTaskFailedMsg *message, int32_t value);
+
+#pragma mark - PB3WeekCPInviteMsg
+
+typedef GPB_ENUM(PB3WeekCPInviteMsg_FieldNumber) {
+  PB3WeekCPInviteMsg_FieldNumber_Player = 1,
+  PB3WeekCPInviteMsg_FieldNumber_Invited = 2,
+  PB3WeekCPInviteMsg_FieldNumber_ExpireTime = 3,
+  PB3WeekCPInviteMsg_FieldNumber_Id_p = 4,
+};
+
+/**
+ * 发出一周CP邀请 34
+ **/
+@interface PB3WeekCPInviteMsg : GPBMessage
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** 过期时间 */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3InviteWeekCPReq
+
+typedef GPB_ENUM(PB3InviteWeekCPReq_FieldNumber) {
+  PB3InviteWeekCPReq_FieldNumber_Source = 1,
+  PB3InviteWeekCPReq_FieldNumber_InvitedId = 2,
+};
+
+/**
+ * 邀请
+ **/
+@interface PB3InviteWeekCPReq : GPBMessage
+
+/** 来源 */
+@property(nonatomic, readwrite) enum PB3WeekCPSource source;
+
+/** 被邀请人ID */
+@property(nonatomic, readwrite) int64_t invitedId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3InviteWeekCPReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3InviteWeekCPReq_Source_RawValue(PB3InviteWeekCPReq *message);
+/**
+ * Sets the raw value of an @c PB3InviteWeekCPReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3InviteWeekCPReq_Source_RawValue(PB3InviteWeekCPReq *message, int32_t value);
+
+#pragma mark - PB3InviteWeekCPRes
+
+@interface PB3InviteWeekCPRes : GPBMessage
+
+@end
+
+#pragma mark - PB3WeekCPInvitePush
+
+typedef GPB_ENUM(PB3WeekCPInvitePush_FieldNumber) {
+  PB3WeekCPInvitePush_FieldNumber_Id_p = 1,
+  PB3WeekCPInvitePush_FieldNumber_Status = 2,
+  PB3WeekCPInvitePush_FieldNumber_Source = 3,
+  PB3WeekCPInvitePush_FieldNumber_Cp = 4,
+  PB3WeekCPInvitePush_FieldNumber_ExpireTime = 5,
+  PB3WeekCPInvitePush_FieldNumber_Content = 6,
+  PB3WeekCPInvitePush_FieldNumber_TotalMission = 7,
+  PB3WeekCPInvitePush_FieldNumber_CompletedMission = 8,
+  PB3WeekCPInvitePush_FieldNumber_BtnContent = 9,
+  PB3WeekCPInvitePush_FieldNumber_URLListArray = 10,
+};
+
+/**
+ * cmdid=900115 邀请数据
+ **/
+@interface PB3WeekCPInvitePush : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 状态 */
+@property(nonatomic, readwrite) PB3WeekCPInviteStatus status;
+
+/** 一周CP来源 */
+@property(nonatomic, readwrite) enum PB3WeekCPSource source;
+
+/** 对方信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *cp;
+/** Test to see if @c cp has been set. */
+@property(nonatomic, readwrite) BOOL hasCp;
+
+/** 任务倒计时，确立一周CP关系后才有倒计时 */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 邀请弹窗文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 总任务数 */
+@property(nonatomic, readwrite) int32_t totalMission;
+
+/** 完成的任务数 */
+@property(nonatomic, readwrite) int32_t completedMission;
+
+/** 按钮文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *btnContent;
+
+/** 图片URL */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *URLListArray;
+/** The number of items in @c URLListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger URLListArray_Count;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3WeekCPInvitePush's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeekCPInvitePush_Status_RawValue(PB3WeekCPInvitePush *message);
+/**
+ * Sets the raw value of an @c PB3WeekCPInvitePush's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeekCPInvitePush_Status_RawValue(PB3WeekCPInvitePush *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3WeekCPInvitePush's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeekCPInvitePush_Source_RawValue(PB3WeekCPInvitePush *message);
+/**
+ * Sets the raw value of an @c PB3WeekCPInvitePush's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeekCPInvitePush_Source_RawValue(PB3WeekCPInvitePush *message, int32_t value);
+
+#pragma mark - PB3RespondWeekCPInviteReq
+
+typedef GPB_ENUM(PB3RespondWeekCPInviteReq_FieldNumber) {
+  PB3RespondWeekCPInviteReq_FieldNumber_Id_p = 1,
+  PB3RespondWeekCPInviteReq_FieldNumber_Type = 2,
+  PB3RespondWeekCPInviteReq_FieldNumber_Source = 3,
+};
+
+/**
+ * 回应一周CP的邀请
+ **/
+@interface PB3RespondWeekCPInviteReq : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 同意/拒绝 */
+@property(nonatomic, readwrite) PB3WeekCPInviteStatus type;
+
+/** 来源：只针对IM列表 */
+@property(nonatomic, readwrite) enum PB3WeekCPSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3RespondWeekCPInviteReq's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3RespondWeekCPInviteReq_Type_RawValue(PB3RespondWeekCPInviteReq *message);
+/**
+ * Sets the raw value of an @c PB3RespondWeekCPInviteReq's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3RespondWeekCPInviteReq_Type_RawValue(PB3RespondWeekCPInviteReq *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3RespondWeekCPInviteReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3RespondWeekCPInviteReq_Source_RawValue(PB3RespondWeekCPInviteReq *message);
+/**
+ * Sets the raw value of an @c PB3RespondWeekCPInviteReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3RespondWeekCPInviteReq_Source_RawValue(PB3RespondWeekCPInviteReq *message, int32_t value);
+
+#pragma mark - PB3RespondWeekCPInviteRes
+
+@interface PB3RespondWeekCPInviteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3WeeklyCPTask
+
+typedef GPB_ENUM(PB3WeeklyCPTask_FieldNumber) {
+  PB3WeeklyCPTask_FieldNumber_TaskType = 1,
+  PB3WeeklyCPTask_FieldNumber_TaskStatus = 2,
+  PB3WeeklyCPTask_FieldNumber_TaskCurrentProgress = 3,
+  PB3WeeklyCPTask_FieldNumber_TaskFinishProgress = 4,
+  PB3WeeklyCPTask_FieldNumber_TaskName = 5,
+  PB3WeeklyCPTask_FieldNumber_TaskIcon = 6,
+  PB3WeeklyCPTask_FieldNumber_TaskIntro = 7,
+  PB3WeeklyCPTask_FieldNumber_FinishTime = 8,
+  PB3WeeklyCPTask_FieldNumber_TaskWeight = 9,
+  PB3WeeklyCPTask_FieldNumber_TaskIconBg = 10,
+};
+
+@interface PB3WeeklyCPTask : GPBMessage
+
+/** 任务类型 */
+@property(nonatomic, readwrite) PB3WeeklyCPTaskType taskType;
+
+/** 任务状态 */
+@property(nonatomic, readwrite) PB3CPTaskStatus taskStatus;
+
+/** 任务当前进度 */
+@property(nonatomic, readwrite) int32_t taskCurrentProgress;
+
+/** 任务结束 */
+@property(nonatomic, readwrite) int32_t taskFinishProgress;
+
+/** 任务名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskName;
+
+/** 任务图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskIcon;
+
+/** 任务介绍 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskIntro;
+
+/** 任务完成时间 */
+@property(nonatomic, readwrite) int64_t finishTime;
+
+/** 任务权重 */
+@property(nonatomic, readwrite) int64_t taskWeight;
+
+/** 任务图标（带背景） */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskIconBg;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3WeeklyCPTask's @c taskType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeeklyCPTask_TaskType_RawValue(PB3WeeklyCPTask *message);
+/**
+ * Sets the raw value of an @c PB3WeeklyCPTask's @c taskType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeeklyCPTask_TaskType_RawValue(PB3WeeklyCPTask *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3WeeklyCPTask's @c taskStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeeklyCPTask_TaskStatus_RawValue(PB3WeeklyCPTask *message);
+/**
+ * Sets the raw value of an @c PB3WeeklyCPTask's @c taskStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeeklyCPTask_TaskStatus_RawValue(PB3WeeklyCPTask *message, int32_t value);
+
+#pragma mark - PB3LovelyHistoryTask
+
+typedef GPB_ENUM(PB3LovelyHistoryTask_FieldNumber) {
+  PB3LovelyHistoryTask_FieldNumber_TaskType = 1,
+  PB3LovelyHistoryTask_FieldNumber_TaskStatus = 2,
+  PB3LovelyHistoryTask_FieldNumber_TaskCurrentProgress = 3,
+  PB3LovelyHistoryTask_FieldNumber_TaskFinishProgress = 4,
+  PB3LovelyHistoryTask_FieldNumber_TaskName = 5,
+  PB3LovelyHistoryTask_FieldNumber_TaskIcon = 6,
+  PB3LovelyHistoryTask_FieldNumber_TaskIntro = 7,
+  PB3LovelyHistoryTask_FieldNumber_FinishTime = 8,
+};
+
+@interface PB3LovelyHistoryTask : GPBMessage
+
+/** 任务类型 */
+@property(nonatomic, readwrite) PB3LovelyHistoryTaskType taskType;
+
+/** 任务状态 */
+@property(nonatomic, readwrite) PB3CPTaskStatus taskStatus;
+
+/** 任务当前进度 */
+@property(nonatomic, readwrite) int32_t taskCurrentProgress;
+
+/** 任务结束 */
+@property(nonatomic, readwrite) int32_t taskFinishProgress;
+
+/** 任务名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskName;
+
+/** 任务图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskIcon;
+
+/** 任务介绍 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *taskIntro;
+
+/** 完成时间（时间戳） */
+@property(nonatomic, readwrite) int64_t finishTime;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3LovelyHistoryTask's @c taskType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3LovelyHistoryTask_TaskType_RawValue(PB3LovelyHistoryTask *message);
+/**
+ * Sets the raw value of an @c PB3LovelyHistoryTask's @c taskType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3LovelyHistoryTask_TaskType_RawValue(PB3LovelyHistoryTask *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3LovelyHistoryTask's @c taskStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3LovelyHistoryTask_TaskStatus_RawValue(PB3LovelyHistoryTask *message);
+/**
+ * Sets the raw value of an @c PB3LovelyHistoryTask's @c taskStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3LovelyHistoryTask_TaskStatus_RawValue(PB3LovelyHistoryTask *message, int32_t value);
+
+#pragma mark - PB3BroadcastWeeklyCPTask
+
+typedef GPB_ENUM(PB3BroadcastWeeklyCPTask_FieldNumber) {
+  PB3BroadcastWeeklyCPTask_FieldNumber_Id_p = 1,
+  PB3BroadcastWeeklyCPTask_FieldNumber_Task = 2,
+  PB3BroadcastWeeklyCPTask_FieldNumber_Player = 3,
+  PB3BroadcastWeeklyCPTask_FieldNumber_Invited = 4,
+  PB3BroadcastWeeklyCPTask_FieldNumber_Status = 5,
+  PB3BroadcastWeeklyCPTask_FieldNumber_RewardArray = 6,
+  PB3BroadcastWeeklyCPTask_FieldNumber_TotalMission = 7,
+  PB3BroadcastWeeklyCPTask_FieldNumber_CompletedMission = 8,
+  PB3BroadcastWeeklyCPTask_FieldNumber_InviteTimes = 9,
+  PB3BroadcastWeeklyCPTask_FieldNumber_ImInviteTimes = 10,
+};
+
+/**
+ * cmdid=900116
+ **/
+@interface PB3BroadcastWeeklyCPTask : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 任务 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3WeeklyCPTask *task;
+/** Test to see if @c task has been set. */
+@property(nonatomic, readwrite) BOOL hasTask;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** 状态 */
+@property(nonatomic, readwrite) enum PB3WeekCPInfoStatus status;
+
+/** 奖励 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3WeekCPReward*> *rewardArray;
+/** The number of items in @c rewardArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger rewardArray_Count;
+
+/** 总任务数 */
+@property(nonatomic, readwrite) int32_t totalMission;
+
+/** 完成的任务数 */
+@property(nonatomic, readwrite) int32_t completedMission;
+
+/** 一周CP邀请次数 */
+@property(nonatomic, readwrite) int32_t inviteTimes;
+
+/** IM总邀请次数 */
+@property(nonatomic, readwrite) int32_t imInviteTimes;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastWeeklyCPTask's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastWeeklyCPTask_Status_RawValue(PB3BroadcastWeeklyCPTask *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastWeeklyCPTask's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastWeeklyCPTask_Status_RawValue(PB3BroadcastWeeklyCPTask *message, int32_t value);
+
+#pragma mark - PB3PullWeeklyCPTaskFormReq
+
+typedef GPB_ENUM(PB3PullWeeklyCPTaskFormReq_FieldNumber) {
+  PB3PullWeeklyCPTaskFormReq_FieldNumber_Id_p = 1,
+};
+
+@interface PB3PullWeeklyCPTaskFormReq : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3PullWeeklyCPTaskFormRes
+
+typedef GPB_ENUM(PB3PullWeeklyCPTaskFormRes_FieldNumber) {
+  PB3PullWeeklyCPTaskFormRes_FieldNumber_Self_p = 1,
+  PB3PullWeeklyCPTaskFormRes_FieldNumber_Player = 2,
+  PB3PullWeeklyCPTaskFormRes_FieldNumber_ExpireTime = 3,
+  PB3PullWeeklyCPTaskFormRes_FieldNumber_WeeklyCpTaskListArray = 4,
+  PB3PullWeeklyCPTaskFormRes_FieldNumber_LovelyHistoryTaskListArray = 5,
+};
+
+@interface PB3PullWeeklyCPTaskFormRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *self_p;
+/** Test to see if @c self_p has been set. */
+@property(nonatomic, readwrite) BOOL hasSelf_p;
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 一周CP结算时间(时间戳) */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/**  一周CP任务 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3WeeklyCPTask*> *weeklyCpTaskListArray;
+/** The number of items in @c weeklyCpTaskListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger weeklyCpTaskListArray_Count;
+
+/** 爱的回忆任务 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3LovelyHistoryTask*> *lovelyHistoryTaskListArray;
+/** The number of items in @c lovelyHistoryTaskListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger lovelyHistoryTaskListArray_Count;
+
+@end
+
+#pragma mark - PB3WeekCPBurstCardReq
+
+typedef GPB_ENUM(PB3WeekCPBurstCardReq_FieldNumber) {
+  PB3WeekCPBurstCardReq_FieldNumber_Id_p = 1,
+};
+
+@interface PB3WeekCPBurstCardReq : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+#pragma mark - PB3WeekCPBurstCardRes
+
+typedef GPB_ENUM(PB3WeekCPBurstCardRes_FieldNumber) {
+  PB3WeekCPBurstCardRes_FieldNumber_Player = 1,
+  PB3WeekCPBurstCardRes_FieldNumber_Invited = 2,
+  PB3WeekCPBurstCardRes_FieldNumber_LovelyHistoryTaskListArray = 3,
+  PB3WeekCPBurstCardRes_FieldNumber_WeeklyCpTaskListArray = 4,
+};
+
+@interface PB3WeekCPBurstCardRes : GPBMessage
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerWeekCP *invited;
+/** Test to see if @c invited has been set. */
+@property(nonatomic, readwrite) BOOL hasInvited;
+
+/** 爱的回忆任务 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3LovelyHistoryTask*> *lovelyHistoryTaskListArray;
+/** The number of items in @c lovelyHistoryTaskListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger lovelyHistoryTaskListArray_Count;
+
+/**  一周CP任务 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3WeeklyCPTask*> *weeklyCpTaskListArray;
+/** The number of items in @c weeklyCpTaskListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger weeklyCpTaskListArray_Count;
+
+@end
+
+#pragma mark - PB3MatchWeekPlayerInfo
+
+typedef GPB_ENUM(PB3MatchWeekPlayerInfo_FieldNumber) {
+  PB3MatchWeekPlayerInfo_FieldNumber_Icon = 1,
+  PB3MatchWeekPlayerInfo_FieldNumber_Words = 2,
+};
+
+@interface PB3MatchWeekPlayerInfo : GPBMessage
+
+/** 用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 邀请语 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *words;
+
+@end
+
+#pragma mark - PB3WeekCPBeInvited
+
+typedef GPB_ENUM(PB3WeekCPBeInvited_FieldNumber) {
+  PB3WeekCPBeInvited_FieldNumber_PlayerId = 1,
+  PB3WeekCPBeInvited_FieldNumber_PlayerName = 2,
+  PB3WeekCPBeInvited_FieldNumber_PlayerIcon = 3,
+  PB3WeekCPBeInvited_FieldNumber_Sex = 4,
+  PB3WeekCPBeInvited_FieldNumber_ExpireTime = 5,
+  PB3WeekCPBeInvited_FieldNumber_Id_p = 6,
+};
+
+@interface PB3WeekCPBeInvited : GPBMessage
+
+/** 邀请者ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 邀请者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 邀请者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 性别 */
+@property(nonatomic, readwrite) enum PB3SexType sex;
+
+/** 过期时间(时间戳秒) */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 唯一ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3WeekCPBeInvited's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3WeekCPBeInvited_Sex_RawValue(PB3WeekCPBeInvited *message);
+/**
+ * Sets the raw value of an @c PB3WeekCPBeInvited's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3WeekCPBeInvited_Sex_RawValue(PB3WeekCPBeInvited *message, int32_t value);
+
+#pragma mark - PB3PullMatchWeekShowListReq
+
+typedef GPB_ENUM(PB3PullMatchWeekShowListReq_FieldNumber) {
+  PB3PullMatchWeekShowListReq_FieldNumber_WeekType = 1,
+};
+
+@interface PB3PullMatchWeekShowListReq : GPBMessage
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullMatchWeekShowListReq's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullMatchWeekShowListReq_WeekType_RawValue(PB3PullMatchWeekShowListReq *message);
+/**
+ * Sets the raw value of an @c PB3PullMatchWeekShowListReq's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullMatchWeekShowListReq_WeekType_RawValue(PB3PullMatchWeekShowListReq *message, int32_t value);
+
+#pragma mark - PB3PullMatchWeekShowListRes
+
+typedef GPB_ENUM(PB3PullMatchWeekShowListRes_FieldNumber) {
+  PB3PullMatchWeekShowListRes_FieldNumber_Title = 1,
+  PB3PullMatchWeekShowListRes_FieldNumber_Desc = 2,
+  PB3PullMatchWeekShowListRes_FieldNumber_ListInfoArray = 3,
+  PB3PullMatchWeekShowListRes_FieldNumber_OnlineNumber = 4,
+  PB3PullMatchWeekShowListRes_FieldNumber_Gold = 5,
+  PB3PullMatchWeekShowListRes_FieldNumber_MatchNumber = 6,
+  PB3PullMatchWeekShowListRes_FieldNumber_MatchStatus = 7,
+  PB3PullMatchWeekShowListRes_FieldNumber_MatchId = 8,
+  PB3PullMatchWeekShowListRes_FieldNumber_WeekType = 9,
+  PB3PullMatchWeekShowListRes_FieldNumber_IsFree = 10,
+  PB3PullMatchWeekShowListRes_FieldNumber_FreeTips = 11,
+  PB3PullMatchWeekShowListRes_FieldNumber_MatchPlayerType = 12,
+};
+
+@interface PB3PullMatchWeekShowListRes : GPBMessage
+
+/** 标题 e.g."CP速配" */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 描述 e.g."体验7天恋爱的感觉" */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
+
+/** 用户列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MatchWeekPlayerInfo*> *listInfoArray;
+/** The number of items in @c listInfoArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listInfoArray_Count;
+
+/** 在线人数 */
+@property(nonatomic, readwrite) int32_t onlineNumber;
+
+/** 匹配花费金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+/** 匹配次数 (-1表示无限制) */
+@property(nonatomic, readwrite) int32_t matchNumber;
+
+/** 匹配状态 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekStatus matchStatus;
+
+/** 匹配ID(匹配中才有值) */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+/** 是否首单免费 */
+@property(nonatomic, readwrite) BOOL isFree;
+
+/** 免费文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *freeTips;
+
+/** 匹配者类型 */
+@property(nonatomic, readwrite) PB3MatchWeekPlayerType matchPlayerType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullMatchWeekShowListRes's @c matchStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullMatchWeekShowListRes_MatchStatus_RawValue(PB3PullMatchWeekShowListRes *message);
+/**
+ * Sets the raw value of an @c PB3PullMatchWeekShowListRes's @c matchStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullMatchWeekShowListRes_MatchStatus_RawValue(PB3PullMatchWeekShowListRes *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PullMatchWeekShowListRes's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullMatchWeekShowListRes_WeekType_RawValue(PB3PullMatchWeekShowListRes *message);
+/**
+ * Sets the raw value of an @c PB3PullMatchWeekShowListRes's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullMatchWeekShowListRes_WeekType_RawValue(PB3PullMatchWeekShowListRes *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PullMatchWeekShowListRes's @c matchPlayerType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullMatchWeekShowListRes_MatchPlayerType_RawValue(PB3PullMatchWeekShowListRes *message);
+/**
+ * Sets the raw value of an @c PB3PullMatchWeekShowListRes's @c matchPlayerType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullMatchWeekShowListRes_MatchPlayerType_RawValue(PB3PullMatchWeekShowListRes *message, int32_t value);
+
+#pragma mark - PB3MatchWeekPlayerReq
+
+typedef GPB_ENUM(PB3MatchWeekPlayerReq_FieldNumber) {
+  PB3MatchWeekPlayerReq_FieldNumber_MatchId = 1,
+  PB3MatchWeekPlayerReq_FieldNumber_WeekType = 2,
+  PB3MatchWeekPlayerReq_FieldNumber_MatchStatus = 3,
+  PB3MatchWeekPlayerReq_FieldNumber_Coupon = 4,
+};
+
+@interface PB3MatchWeekPlayerReq : GPBMessage
+
+/** 匹配ID(取消匹配才需要传值) */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+/** 匹配状态 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekStatus matchStatus;
+
+/** 优惠券使用信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CouponUsedData *coupon;
+/** Test to see if @c coupon has been set. */
+@property(nonatomic, readwrite) BOOL hasCoupon;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekPlayerReq's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekPlayerReq_WeekType_RawValue(PB3MatchWeekPlayerReq *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekPlayerReq's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekPlayerReq_WeekType_RawValue(PB3MatchWeekPlayerReq *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekPlayerReq's @c matchStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekPlayerReq_MatchStatus_RawValue(PB3MatchWeekPlayerReq *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekPlayerReq's @c matchStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekPlayerReq_MatchStatus_RawValue(PB3MatchWeekPlayerReq *message, int32_t value);
+
+#pragma mark - PB3MatchWeekPlayerRes
+
+typedef GPB_ENUM(PB3MatchWeekPlayerRes_FieldNumber) {
+  PB3MatchWeekPlayerRes_FieldNumber_MatchId = 1,
+  PB3MatchWeekPlayerRes_FieldNumber_MatchStatus = 2,
+};
+
+@interface PB3MatchWeekPlayerRes : GPBMessage
+
+/** 匹配ID */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配状态 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekStatus matchStatus;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekPlayerRes's @c matchStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekPlayerRes_MatchStatus_RawValue(PB3MatchWeekPlayerRes *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekPlayerRes's @c matchStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekPlayerRes_MatchStatus_RawValue(PB3MatchWeekPlayerRes *message, int32_t value);
+
+#pragma mark - PB3BroadcastMatchWeekPlayerPush
+
+typedef GPB_ENUM(PB3BroadcastMatchWeekPlayerPush_FieldNumber) {
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_MatchId = 1,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_WeekType = 2,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_MatchStatus = 3,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_ExpireTime = 4,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_MatchCp = 5,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_MatchTravel = 6,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_MatchPlayerType = 7,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_GainTicket = 8,
+  PB3BroadcastMatchWeekPlayerPush_FieldNumber_IsFree = 9,
+};
+
+typedef GPB_ENUM(PB3BroadcastMatchWeekPlayerPush_Data_OneOfCase) {
+  PB3BroadcastMatchWeekPlayerPush_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3BroadcastMatchWeekPlayerPush_Data_OneOfCase_MatchCp = 5,
+  PB3BroadcastMatchWeekPlayerPush_Data_OneOfCase_MatchTravel = 6,
+};
+
+/**
+ * 速配推送 cmdId = 900124
+ **/
+@interface PB3BroadcastMatchWeekPlayerPush : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+/** 匹配状态 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekStatus matchStatus;
+
+/** 弹窗结束时间戳(秒) */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+@property(nonatomic, readonly) PB3BroadcastMatchWeekPlayerPush_Data_OneOfCase dataOneOfCase;
+
+/** 一周CP匹配 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3MatchWeekPlayerCP *matchCp;
+
+/** 一周旅行匹配 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3MatchWeekPlayerTravel *matchTravel;
+
+/** 发起匹配者类型 */
+@property(nonatomic, readwrite) PB3MatchWeekPlayerType matchPlayerType;
+
+/** 钻石收益 */
+@property(nonatomic, readwrite) int64_t gainTicket;
+
+/** 匹配是否免费 */
+@property(nonatomic, readwrite) BOOL isFree;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastMatchWeekPlayerPush's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastMatchWeekPlayerPush_WeekType_RawValue(PB3BroadcastMatchWeekPlayerPush *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastMatchWeekPlayerPush's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastMatchWeekPlayerPush_WeekType_RawValue(PB3BroadcastMatchWeekPlayerPush *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastMatchWeekPlayerPush's @c matchStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastMatchWeekPlayerPush_MatchStatus_RawValue(PB3BroadcastMatchWeekPlayerPush *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastMatchWeekPlayerPush's @c matchStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastMatchWeekPlayerPush_MatchStatus_RawValue(PB3BroadcastMatchWeekPlayerPush *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastMatchWeekPlayerPush's @c matchPlayerType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastMatchWeekPlayerPush_MatchPlayerType_RawValue(PB3BroadcastMatchWeekPlayerPush *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastMatchWeekPlayerPush's @c matchPlayerType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastMatchWeekPlayerPush_MatchPlayerType_RawValue(PB3BroadcastMatchWeekPlayerPush *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3BroadcastMatchWeekPlayerPush_ClearDataOneOfCase(PB3BroadcastMatchWeekPlayerPush *message);
+
+#pragma mark - PB3MatchWeekPlayerCP
+
+typedef GPB_ENUM(PB3MatchWeekPlayerCP_FieldNumber) {
+  PB3MatchWeekPlayerCP_FieldNumber_CpId = 1,
+  PB3MatchWeekPlayerCP_FieldNumber_Sponsor = 2,
+  PB3MatchWeekPlayerCP_FieldNumber_Receiver = 3,
+};
+
+@interface PB3MatchWeekPlayerCP : GPBMessage
+
+/** CPID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cpId;
+
+/** 发起者(匹配者) */
+@property(nonatomic, readwrite, strong, null_resettable) PB3Player *sponsor;
+/** Test to see if @c sponsor has been set. */
+@property(nonatomic, readwrite) BOOL hasSponsor;
+
+/** 接受者(接收匹配者) */
+@property(nonatomic, readwrite, strong, null_resettable) PB3Player *receiver;
+/** Test to see if @c receiver has been set. */
+@property(nonatomic, readwrite) BOOL hasReceiver;
+
+@end
+
+#pragma mark - PB3MatchWeekPlayerTravel
+
+typedef GPB_ENUM(PB3MatchWeekPlayerTravel_FieldNumber) {
+  PB3MatchWeekPlayerTravel_FieldNumber_TravelId = 1,
+  PB3MatchWeekPlayerTravel_FieldNumber_Sponsor = 2,
+  PB3MatchWeekPlayerTravel_FieldNumber_Receiver = 3,
+};
+
+@interface PB3MatchWeekPlayerTravel : GPBMessage
+
+/** 旅行ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *travelId;
+
+/** 发起者(匹配者) */
+@property(nonatomic, readwrite, strong, null_resettable) PB3Player *sponsor;
+/** Test to see if @c sponsor has been set. */
+@property(nonatomic, readwrite) BOOL hasSponsor;
+
+/** 接受者(接收匹配者) */
+@property(nonatomic, readwrite, strong, null_resettable) PB3Player *receiver;
+/** Test to see if @c receiver has been set. */
+@property(nonatomic, readwrite) BOOL hasReceiver;
+
+@end
+
+#pragma mark - PB3PullMatchWeekIngListReq
+
+typedef GPB_ENUM(PB3PullMatchWeekIngListReq_FieldNumber) {
+  PB3PullMatchWeekIngListReq_FieldNumber_WeekType = 1,
+};
+
+@interface PB3PullMatchWeekIngListReq : GPBMessage
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullMatchWeekIngListReq's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullMatchWeekIngListReq_WeekType_RawValue(PB3PullMatchWeekIngListReq *message);
+/**
+ * Sets the raw value of an @c PB3PullMatchWeekIngListReq's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullMatchWeekIngListReq_WeekType_RawValue(PB3PullMatchWeekIngListReq *message, int32_t value);
+
+#pragma mark - PB3PullMatchWeekIngListRes
+
+typedef GPB_ENUM(PB3PullMatchWeekIngListRes_FieldNumber) {
+  PB3PullMatchWeekIngListRes_FieldNumber_ListArray = 1,
+};
+
+@interface PB3PullMatchWeekIngListRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MatchWeekIng*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3MatchWeekIng
+
+typedef GPB_ENUM(PB3MatchWeekIng_FieldNumber) {
+  PB3MatchWeekIng_FieldNumber_Id_p = 1,
+  PB3MatchWeekIng_FieldNumber_Player = 2,
+};
+
+@interface PB3MatchWeekIng : GPBMessage
+
+/** 唯一ID, 一周CP则为CPID,一周旅行为旅行ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3Player *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+@end
+
+#pragma mark - PB3MatchWeekRobReq
+
+typedef GPB_ENUM(PB3MatchWeekRobReq_FieldNumber) {
+  PB3MatchWeekRobReq_FieldNumber_MatchId = 1,
+  PB3MatchWeekRobReq_FieldNumber_WeekType = 2,
+};
+
+@interface PB3MatchWeekRobReq : GPBMessage
+
+/** 匹配ID(取消匹配才需要传值) */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekRobReq's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekRobReq_WeekType_RawValue(PB3MatchWeekRobReq *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekRobReq's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekRobReq_WeekType_RawValue(PB3MatchWeekRobReq *message, int32_t value);
+
+#pragma mark - PB3MatchWeekRobRes
+
+typedef GPB_ENUM(PB3MatchWeekRobRes_FieldNumber) {
+  PB3MatchWeekRobRes_FieldNumber_MatchId = 1,
+  PB3MatchWeekRobRes_FieldNumber_MatchStatus = 2,
+  PB3MatchWeekRobRes_FieldNumber_WeekType = 3,
+  PB3MatchWeekRobRes_FieldNumber_MatchCp = 4,
+  PB3MatchWeekRobRes_FieldNumber_MatchTravel = 5,
+};
+
+typedef GPB_ENUM(PB3MatchWeekRobRes_Data_OneOfCase) {
+  PB3MatchWeekRobRes_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3MatchWeekRobRes_Data_OneOfCase_MatchCp = 4,
+  PB3MatchWeekRobRes_Data_OneOfCase_MatchTravel = 5,
+};
+
+@interface PB3MatchWeekRobRes : GPBMessage
+
+/** 匹配ID */
+@property(nonatomic, readwrite) int64_t matchId;
+
+/** 匹配状态 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekStatus matchStatus;
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+@property(nonatomic, readonly) PB3MatchWeekRobRes_Data_OneOfCase dataOneOfCase;
+
+/** 一周CP匹配 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3MatchWeekPlayerCP *matchCp;
+
+/** 一周旅行匹配 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3MatchWeekPlayerTravel *matchTravel;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekRobRes's @c matchStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekRobRes_MatchStatus_RawValue(PB3MatchWeekRobRes *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekRobRes's @c matchStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekRobRes_MatchStatus_RawValue(PB3MatchWeekRobRes *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3MatchWeekRobRes's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MatchWeekRobRes_WeekType_RawValue(PB3MatchWeekRobRes *message);
+/**
+ * Sets the raw value of an @c PB3MatchWeekRobRes's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MatchWeekRobRes_WeekType_RawValue(PB3MatchWeekRobRes *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3MatchWeekRobRes_ClearDataOneOfCase(PB3MatchWeekRobRes *message);
+
+#pragma mark - PB3MatchWeekCPJumpReq
+
+typedef GPB_ENUM(PB3MatchWeekCPJumpReq_FieldNumber) {
+  PB3MatchWeekCPJumpReq_FieldNumber_MatchId = 1,
+};
+
+@interface PB3MatchWeekCPJumpReq : GPBMessage
+
+/** 匹配ID */
+@property(nonatomic, readwrite) int64_t matchId;
+
+@end
+
+#pragma mark - PB3MatchWeekCPJumpRes
+
+@interface PB3MatchWeekCPJumpRes : GPBMessage
+
+@end
+
+#pragma mark - PB3PullWeekCPBeInvitedTotalReq
+
+typedef GPB_ENUM(PB3PullWeekCPBeInvitedTotalReq_FieldNumber) {
+  PB3PullWeekCPBeInvitedTotalReq_FieldNumber_Source = 1,
+};
+
+@interface PB3PullWeekCPBeInvitedTotalReq : GPBMessage
+
+@property(nonatomic, readwrite) enum PB3WeekCPSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullWeekCPBeInvitedTotalReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullWeekCPBeInvitedTotalReq_Source_RawValue(PB3PullWeekCPBeInvitedTotalReq *message);
+/**
+ * Sets the raw value of an @c PB3PullWeekCPBeInvitedTotalReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullWeekCPBeInvitedTotalReq_Source_RawValue(PB3PullWeekCPBeInvitedTotalReq *message, int32_t value);
+
+#pragma mark - PB3PullWeekCPBeInvitedTotalRes
+
+typedef GPB_ENUM(PB3PullWeekCPBeInvitedTotalRes_FieldNumber) {
+  PB3PullWeekCPBeInvitedTotalRes_FieldNumber_Total = 1,
+  PB3PullWeekCPBeInvitedTotalRes_FieldNumber_FirstPlayerIcon = 2,
+};
+
+@interface PB3PullWeekCPBeInvitedTotalRes : GPBMessage
+
+/** 受邀总数 */
+@property(nonatomic, readwrite) int32_t total;
+
+/** 第一个用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *firstPlayerIcon;
+
+@end
+
+#pragma mark - PB3PullWeekCPBeInvitedReq
+
+typedef GPB_ENUM(PB3PullWeekCPBeInvitedReq_FieldNumber) {
+  PB3PullWeekCPBeInvitedReq_FieldNumber_Source = 1,
+};
+
+@interface PB3PullWeekCPBeInvitedReq : GPBMessage
+
+@property(nonatomic, readwrite) enum PB3WeekCPSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullWeekCPBeInvitedReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullWeekCPBeInvitedReq_Source_RawValue(PB3PullWeekCPBeInvitedReq *message);
+/**
+ * Sets the raw value of an @c PB3PullWeekCPBeInvitedReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullWeekCPBeInvitedReq_Source_RawValue(PB3PullWeekCPBeInvitedReq *message, int32_t value);
+
+#pragma mark - PB3PullWeekCPBeInvitedRes
+
+typedef GPB_ENUM(PB3PullWeekCPBeInvitedRes_FieldNumber) {
+  PB3PullWeekCPBeInvitedRes_FieldNumber_ListArray = 1,
+};
+
+@interface PB3PullWeekCPBeInvitedRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3WeekCPBeInvited*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3IgnoreMatchWeekReq
+
+typedef GPB_ENUM(PB3IgnoreMatchWeekReq_FieldNumber) {
+  PB3IgnoreMatchWeekReq_FieldNumber_WeekType = 1,
+};
+
+/**
+ * 忽略当天速配
+ **/
+@interface PB3IgnoreMatchWeekReq : GPBMessage
+
+/** 匹配类型 */
+@property(nonatomic, readwrite) PB3ChatMatchWeekType weekType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3IgnoreMatchWeekReq's @c weekType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3IgnoreMatchWeekReq_WeekType_RawValue(PB3IgnoreMatchWeekReq *message);
+/**
+ * Sets the raw value of an @c PB3IgnoreMatchWeekReq's @c weekType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3IgnoreMatchWeekReq_WeekType_RawValue(PB3IgnoreMatchWeekReq *message, int32_t value);
+
+#pragma mark - PB3IgnoreMatchWeekRes
+
+@interface PB3IgnoreMatchWeekRes : GPBMessage
+
+@end
+
+#pragma mark - PB3CPGuideEntryReq
+
+typedef GPB_ENUM(PB3CPGuideEntryReq_FieldNumber) {
+  PB3CPGuideEntryReq_FieldNumber_TargetId = 1,
+  PB3CPGuideEntryReq_FieldNumber_Source = 2,
+};
+
+/**
+ * 接待官入口及半屏数据
+ **/
+@interface PB3CPGuideEntryReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+/** 点击来源 */
+@property(nonatomic, readwrite) PB3CPGuideSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideEntryReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideEntryReq_Source_RawValue(PB3CPGuideEntryReq *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideEntryReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideEntryReq_Source_RawValue(PB3CPGuideEntryReq *message, int32_t value);
+
+#pragma mark - PB3CPGuideEntryRes
+
+typedef GPB_ENUM(PB3CPGuideEntryRes_FieldNumber) {
+  PB3CPGuideEntryRes_FieldNumber_IsShow = 1,
+  PB3CPGuideEntryRes_FieldNumber_IsCp = 2,
+  PB3CPGuideEntryRes_FieldNumber_IconURL = 3,
+  PB3CPGuideEntryRes_FieldNumber_PopTime = 4,
+  PB3CPGuideEntryRes_FieldNumber_RebatePercent = 5,
+  PB3CPGuideEntryRes_FieldNumber_BossType = 7,
+  PB3CPGuideEntryRes_FieldNumber_BossExpireTime = 8,
+  PB3CPGuideEntryRes_FieldNumber_Progress = 9,
+  PB3CPGuideEntryRes_FieldNumber_IsMyBoss = 10,
+  PB3CPGuideEntryRes_FieldNumber_IsInviting = 11,
+  PB3CPGuideEntryRes_FieldNumber_IsShowFrame = 12,
+};
+
+@interface PB3CPGuideEntryRes : GPBMessage
+
+/** 是否展示 */
+@property(nonatomic, readwrite) BOOL isShow;
+
+/** 当前用户是否是名单陪陪 */
+@property(nonatomic, readwrite) BOOL isCp;
+
+/** 入口图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iconURL;
+
+/** 8分钟半屏自动弹出时间（min） */
+@property(nonatomic, readwrite) int64_t popTime;
+
+/** 返利百分比（%） */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rebatePercent;
+
+/** 老板状态 */
+@property(nonatomic, readwrite) PB3CPGuideBossType bossType;
+
+/** 老板剩余时效 */
+@property(nonatomic, readwrite) int64_t bossExpireTime;
+
+/** 进度条 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPGuideProgress *progress;
+/** Test to see if @c progress has been set. */
+@property(nonatomic, readwrite) BOOL hasProgress;
+
+/** 是否是我是该老板的接待官 */
+@property(nonatomic, readwrite) BOOL isMyBoss;
+
+/** 是否是邀请中 */
+@property(nonatomic, readwrite) BOOL isInviting;
+
+/** 老板侧是否显示头像框 */
+@property(nonatomic, readwrite) BOOL isShowFrame;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideEntryRes's @c bossType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideEntryRes_BossType_RawValue(PB3CPGuideEntryRes *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideEntryRes's @c bossType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideEntryRes_BossType_RawValue(PB3CPGuideEntryRes *message, int32_t value);
+
+#pragma mark - PB3CPGuideProgress
+
+typedef GPB_ENUM(PB3CPGuideProgress_FieldNumber) {
+  PB3CPGuideProgress_FieldNumber_Status = 1,
+  PB3CPGuideProgress_FieldNumber_MissionDuration = 2,
+  PB3CPGuideProgress_FieldNumber_RebateDuration = 3,
+  PB3CPGuideProgress_FieldNumber_ExpireTime = 4,
+};
+
+@interface PB3CPGuideProgress : GPBMessage
+
+/** 当前状态 */
+@property(nonatomic, readwrite) PB3CPGuideStatus status;
+
+/** 见习任务期时间（d） */
+@property(nonatomic, readwrite) int64_t missionDuration;
+
+/** 返利时间（d） */
+@property(nonatomic, readwrite) int64_t rebateDuration;
+
+/** 到期时间（时间戳） */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideProgress's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideProgress_Status_RawValue(PB3CPGuideProgress *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideProgress's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideProgress_Status_RawValue(PB3CPGuideProgress *message, int32_t value);
+
+#pragma mark - PB3CPGuideInfoReq
+
+@interface PB3CPGuideInfoReq : GPBMessage
+
+@end
+
+#pragma mark - PB3CPGuideInfoRes
+
+typedef GPB_ENUM(PB3CPGuideInfoRes_FieldNumber) {
+  PB3CPGuideInfoRes_FieldNumber_Name = 1,
+  PB3CPGuideInfoRes_FieldNumber_Icon = 2,
+};
+
+/**
+ * 仅老板更换陪陪情况信息
+ **/
+@interface PB3CPGuideInfoRes : GPBMessage
+
+/** 当前接待官名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 当前接待官头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+@end
+
+#pragma mark - PB3CPGuideOptReq
+
+typedef GPB_ENUM(PB3CPGuideOptReq_FieldNumber) {
+  PB3CPGuideOptReq_FieldNumber_Opt = 1,
+  PB3CPGuideOptReq_FieldNumber_TargetId = 2,
+  PB3CPGuideOptReq_FieldNumber_Source = 3,
+};
+
+@interface PB3CPGuideOptReq : GPBMessage
+
+/** 具体操作 */
+@property(nonatomic, readwrite) PB3CPGuideOpt opt;
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+/** 点击来源 */
+@property(nonatomic, readwrite) PB3CPGuideSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideOptReq's @c opt property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideOptReq_Opt_RawValue(PB3CPGuideOptReq *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideOptReq's @c opt property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideOptReq_Opt_RawValue(PB3CPGuideOptReq *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideOptReq's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideOptReq_Source_RawValue(PB3CPGuideOptReq *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideOptReq's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideOptReq_Source_RawValue(PB3CPGuideOptReq *message, int32_t value);
+
+#pragma mark - PB3CPGuideOptRes
+
+@interface PB3CPGuideOptRes : GPBMessage
+
+@end
+
+#pragma mark - PB3CPGuideListReq
+
+typedef GPB_ENUM(PB3CPGuideListReq_FieldNumber) {
+  PB3CPGuideListReq_FieldNumber_Index = 1,
+};
+
+@interface PB3CPGuideListReq : GPBMessage
+
+/** 用于翻页, 请求第一页时传0 */
+@property(nonatomic, readwrite) int32_t index;
+
+@end
+
+#pragma mark - PB3CPGuideListRes
+
+typedef GPB_ENUM(PB3CPGuideListRes_FieldNumber) {
+  PB3CPGuideListRes_FieldNumber_ReceptionLimit = 1,
+  PB3CPGuideListRes_FieldNumber_ReceptionNum = 2,
+  PB3CPGuideListRes_FieldNumber_ListArray = 3,
+  PB3CPGuideListRes_FieldNumber_NextIndex = 4,
+};
+
+@interface PB3CPGuideListRes : GPBMessage
+
+/** 接待上限 */
+@property(nonatomic, readwrite) int32_t receptionLimit;
+
+/** 现在接待人数 */
+@property(nonatomic, readwrite) int32_t receptionNum;
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPGuideBoss*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** -1代表列表没有下一页了, 否则可以用此值在CPGuideListReq中请求下一页 */
+@property(nonatomic, readwrite) int32_t nextIndex;
+
+@end
+
+#pragma mark - PB3CPGuideBoss
+
+typedef GPB_ENUM(PB3CPGuideBoss_FieldNumber) {
+  PB3CPGuideBoss_FieldNumber_PlayerId = 1,
+  PB3CPGuideBoss_FieldNumber_PlayerName = 2,
+  PB3CPGuideBoss_FieldNumber_PlayerIcon = 3,
+  PB3CPGuideBoss_FieldNumber_DiamondNum = 4,
+  PB3CPGuideBoss_FieldNumber_Status = 5,
+};
+
+@interface PB3CPGuideBoss : GPBMessage
+
+/** 老板ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 老板昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 老板头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 钻石数量 */
+@property(nonatomic, readwrite) int32_t diamondNum;
+
+/** 接待状态 */
+@property(nonatomic, readwrite) PB3CPGuideStatus status;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideBoss's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideBoss_Status_RawValue(PB3CPGuideBoss *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideBoss's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideBoss_Status_RawValue(PB3CPGuideBoss *message, int32_t value);
+
+#pragma mark - PB3CPGuideProgressReq
+
+typedef GPB_ENUM(PB3CPGuideProgressReq_FieldNumber) {
+  PB3CPGuideProgressReq_FieldNumber_TargetId = 1,
+};
+
+@interface PB3CPGuideProgressReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3CPGuideProgressRes
+
+typedef GPB_ENUM(PB3CPGuideProgressRes_FieldNumber) {
+  PB3CPGuideProgressRes_FieldNumber_Progress = 1,
+  PB3CPGuideProgressRes_FieldNumber_MissionArray = 2,
+  PB3CPGuideProgressRes_FieldNumber_GiftContent = 3,
+  PB3CPGuideProgressRes_FieldNumber_DiamondNum = 4,
+  PB3CPGuideProgressRes_FieldNumber_DiamondLimit = 5,
+  PB3CPGuideProgressRes_FieldNumber_RebatePercent = 6,
+};
+
+@interface PB3CPGuideProgressRes : GPBMessage
+
+/** 进度条 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CPGuideProgress *progress;
+/** Test to see if @c progress has been set. */
+@property(nonatomic, readwrite) BOOL hasProgress;
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPGuideMission*> *missionArray;
+/** The number of items in @c missionArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger missionArray_Count;
+
+/** 赠送礼物文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *giftContent;
+
+/** 钻石数量 */
+@property(nonatomic, readwrite) int32_t diamondNum;
+
+/** 钻石数量上限 */
+@property(nonatomic, readwrite) int32_t diamondLimit;
+
+/** 返利百分比（%） */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rebatePercent;
+
+@end
+
+#pragma mark - PB3CPGuideMission
+
+typedef GPB_ENUM(PB3CPGuideMission_FieldNumber) {
+  PB3CPGuideMission_FieldNumber_MissionName = 1,
+  PB3CPGuideMission_FieldNumber_Unit = 2,
+  PB3CPGuideMission_FieldNumber_TotalNum = 3,
+  PB3CPGuideMission_FieldNumber_DoneNum = 4,
+};
+
+@interface PB3CPGuideMission : GPBMessage
+
+/** 任务名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *missionName;
+
+/** 单位 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *unit;
+
+/** 总完成次数 */
+@property(nonatomic, readwrite) int32_t totalNum;
+
+/** 当前完成次数 */
+@property(nonatomic, readwrite) int32_t doneNum;
+
+@end
+
+#pragma mark - PB3PullCPGuideInvitedReq
+
+typedef GPB_ENUM(PB3PullCPGuideInvitedReq_FieldNumber) {
+  PB3PullCPGuideInvitedReq_FieldNumber_TargetId = 1,
+};
+
+@interface PB3PullCPGuideInvitedReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3PullCPGuideInvitedRes
+
+typedef GPB_ENUM(PB3PullCPGuideInvitedRes_FieldNumber) {
+  PB3PullCPGuideInvitedRes_FieldNumber_PlayerId = 1,
+  PB3PullCPGuideInvitedRes_FieldNumber_PlayerName = 2,
+  PB3PullCPGuideInvitedRes_FieldNumber_PlayerIcon = 3,
+  PB3PullCPGuideInvitedRes_FieldNumber_ExpireTime = 4,
+  PB3PullCPGuideInvitedRes_FieldNumber_Title = 5,
+  PB3PullCPGuideInvitedRes_FieldNumber_Content = 6,
+};
+
+@interface PB3PullCPGuideInvitedRes : GPBMessage
+
+/** 邀请者ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 邀请者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 邀请者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 过期时间(时间戳秒) */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 文本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+@end
+
+#pragma mark - PB3PullClanCPGuideRankReq
+
+typedef GPB_ENUM(PB3PullClanCPGuideRankReq_FieldNumber) {
+  PB3PullClanCPGuideRankReq_FieldNumber_ClanId = 1,
+  PB3PullClanCPGuideRankReq_FieldNumber_Type = 2,
+  PB3PullClanCPGuideRankReq_FieldNumber_Scope = 3,
+};
+
+@interface PB3PullClanCPGuideRankReq : GPBMessage
+
+/** 公会id */
+@property(nonatomic, readwrite) int64_t clanId;
+
+/** 榜单类型 */
+@property(nonatomic, readwrite) PB3CPGuideClanRankType type;
+
+/** 榜单范围 */
+@property(nonatomic, readwrite) PB3CPGuideClanRankScope scope;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PullClanCPGuideRankReq's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullClanCPGuideRankReq_Type_RawValue(PB3PullClanCPGuideRankReq *message);
+/**
+ * Sets the raw value of an @c PB3PullClanCPGuideRankReq's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullClanCPGuideRankReq_Type_RawValue(PB3PullClanCPGuideRankReq *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PullClanCPGuideRankReq's @c scope property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PullClanCPGuideRankReq_Scope_RawValue(PB3PullClanCPGuideRankReq *message);
+/**
+ * Sets the raw value of an @c PB3PullClanCPGuideRankReq's @c scope property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PullClanCPGuideRankReq_Scope_RawValue(PB3PullClanCPGuideRankReq *message, int32_t value);
+
+#pragma mark - PB3CPGuideRankItem
+
+typedef GPB_ENUM(PB3CPGuideRankItem_FieldNumber) {
+  PB3CPGuideRankItem_FieldNumber_Player = 1,
+  PB3CPGuideRankItem_FieldNumber_DiamondNum = 2,
+  PB3CPGuideRankItem_FieldNumber_GuideNum = 3,
+};
+
+@interface PB3CPGuideRankItem : GPBMessage
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SimplePlayer *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 钻石数量 */
+@property(nonatomic, readwrite) int32_t diamondNum;
+
+/** 接待人数 */
+@property(nonatomic, readwrite) int32_t guideNum;
+
+@end
+
+#pragma mark - PB3PullClanCPGuideRankRes
+
+typedef GPB_ENUM(PB3PullClanCPGuideRankRes_FieldNumber) {
+  PB3PullClanCPGuideRankRes_FieldNumber_ItemArray = 1,
+};
+
+@interface PB3PullClanCPGuideRankRes : GPBMessage
+
+/** 榜单 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPGuideRankItem*> *itemArray;
+/** The number of items in @c itemArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger itemArray_Count;
+
+@end
+
+#pragma mark - PB3CPGuideInvitePush
+
+typedef GPB_ENUM(PB3CPGuideInvitePush_FieldNumber) {
+  PB3CPGuideInvitePush_FieldNumber_PlayerId = 1,
+  PB3CPGuideInvitePush_FieldNumber_PlayerName = 2,
+  PB3CPGuideInvitePush_FieldNumber_PlayerIcon = 3,
+  PB3CPGuideInvitePush_FieldNumber_ExpireTime = 4,
+  PB3CPGuideInvitePush_FieldNumber_Title = 5,
+  PB3CPGuideInvitePush_FieldNumber_Content = 6,
+  PB3CPGuideInvitePush_FieldNumber_Source = 7,
+};
+
+/**
+ * 发出新人接待官邀请
+ **/
+@interface PB3CPGuideInvitePush : GPBMessage
+
+/** 邀请者ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 邀请者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 邀请者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 过期时间 */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 文本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 点击来源 */
+@property(nonatomic, readwrite) PB3CPGuideSource source;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideInvitePush's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideInvitePush_Source_RawValue(PB3CPGuideInvitePush *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideInvitePush's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideInvitePush_Source_RawValue(PB3CPGuideInvitePush *message, int32_t value);
+
+#pragma mark - PB3CPGuideRejectPush
+
+typedef GPB_ENUM(PB3CPGuideRejectPush_FieldNumber) {
+  PB3CPGuideRejectPush_FieldNumber_InviteId = 1,
+  PB3CPGuideRejectPush_FieldNumber_TargetId = 2,
+};
+
+/**
+ * 拒绝新人接待官邀请
+ **/
+@interface PB3CPGuideRejectPush : GPBMessage
+
+/** 邀请人id */
+@property(nonatomic, readwrite) int64_t inviteId;
+
+/** 被邀请人id */
+@property(nonatomic, readwrite) int64_t targetId;
+
+@end
+
+#pragma mark - PB3CPGuideLoginPush
+
+typedef GPB_ENUM(PB3CPGuideLoginPush_FieldNumber) {
+  PB3CPGuideLoginPush_FieldNumber_BossName = 1,
+  PB3CPGuideLoginPush_FieldNumber_BossId = 2,
+  PB3CPGuideLoginPush_FieldNumber_BossIcon = 3,
+};
+
+/**
+ * 拒绝新人接待官邀请
+ **/
+@interface PB3CPGuideLoginPush : GPBMessage
+
+/** 老板名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossName;
+
+/** 老板id */
+@property(nonatomic, readwrite) int64_t bossId;
+
+/** 老板头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossIcon;
+
+@end
+
+#pragma mark - PB3CPGuideFinishPush
+
+typedef GPB_ENUM(PB3CPGuideFinishPush_FieldNumber) {
+  PB3CPGuideFinishPush_FieldNumber_BossId = 1,
+  PB3CPGuideFinishPush_FieldNumber_BossName = 2,
+  PB3CPGuideFinishPush_FieldNumber_BossIcon = 3,
+};
+
+/**
+ * 新人接待官任务完成
+ **/
+@interface PB3CPGuideFinishPush : GPBMessage
+
+/** 老板id */
+@property(nonatomic, readwrite) int64_t bossId;
+
+/** 老板昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossName;
+
+/** 老板头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossIcon;
+
+@end
+
+#pragma mark - PB3CPGuideRebatePush
+
+typedef GPB_ENUM(PB3CPGuideRebatePush_FieldNumber) {
+  PB3CPGuideRebatePush_FieldNumber_ExpireTime = 1,
+  PB3CPGuideRebatePush_FieldNumber_BossId = 2,
+  PB3CPGuideRebatePush_FieldNumber_BossName = 3,
+  PB3CPGuideRebatePush_FieldNumber_BossIcon = 4,
+};
+
+/**
+ * 新人接待官开始返利
+ **/
+@interface PB3CPGuideRebatePush : GPBMessage
+
+/** 到期时间（时间戳） */
+@property(nonatomic, readwrite) int64_t expireTime;
+
+/** 老板id */
+@property(nonatomic, readwrite) int64_t bossId;
+
+/** 老板昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossName;
+
+/** 老板头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bossIcon;
+
+@end
+
+#pragma mark - PB3CPGuideAcceptPush
+
+typedef GPB_ENUM(PB3CPGuideAcceptPush_FieldNumber) {
+  PB3CPGuideAcceptPush_FieldNumber_BossId = 1,
+  PB3CPGuideAcceptPush_FieldNumber_PlayerName = 2,
+  PB3CPGuideAcceptPush_FieldNumber_PlayerIcon = 3,
+  PB3CPGuideAcceptPush_FieldNumber_GiftId = 4,
+  PB3CPGuideAcceptPush_FieldNumber_GiftNum = 5,
+  PB3CPGuideAcceptPush_FieldNumber_Source = 6,
+  PB3CPGuideAcceptPush_FieldNumber_RewardDesc = 7,
+  PB3CPGuideAcceptPush_FieldNumber_IsFirstCouple = 8,
+};
+
+/**
+ * 发出新人接待官接受邀请
+ **/
+@interface PB3CPGuideAcceptPush : GPBMessage
+
+/** 老板ID */
+@property(nonatomic, readwrite) int64_t bossId;
+
+/** 邀请者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
+
+/** 邀请者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIcon;
+
+/** 礼物id */
+@property(nonatomic, readwrite) int32_t giftId;
+
+/** 礼物数量 */
+@property(nonatomic, readwrite) int32_t giftNum;
+
+/** 点击来源 */
+@property(nonatomic, readwrite) PB3CPGuideSource source;
+
+/** 结成奖励文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rewardDesc;
+
+/** 是否是第一次结成 */
+@property(nonatomic, readwrite) BOOL isFirstCouple;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPGuideAcceptPush's @c source property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPGuideAcceptPush_Source_RawValue(PB3CPGuideAcceptPush *message);
+/**
+ * Sets the raw value of an @c PB3CPGuideAcceptPush's @c source property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPGuideAcceptPush_Source_RawValue(PB3CPGuideAcceptPush *message, int32_t value);
+
+#pragma mark - PB3CPGuideRejectMsg
+
+typedef GPB_ENUM(PB3CPGuideRejectMsg_FieldNumber) {
+  PB3CPGuideRejectMsg_FieldNumber_Content = 1,
+  PB3CPGuideRejectMsg_FieldNumber_InviteId = 2,
+};
+
+/**
+ * 发出新人接待官拒绝 42
+ **/
+@interface PB3CPGuideRejectMsg : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 邀请人id */
+@property(nonatomic, readwrite) int64_t inviteId;
+
+@end
+
+#pragma mark - PB3CPGuideCancelMsg
+
+/**
+ * 发出新人接待官取消 43
+ **/
+@interface PB3CPGuideCancelMsg : GPBMessage
+
+@end
+
+#pragma mark - PB3CPGuideCoupleMsg
+
+typedef GPB_ENUM(PB3CPGuideCoupleMsg_FieldNumber) {
+  PB3CPGuideCoupleMsg_FieldNumber_BossId = 1,
+  PB3CPGuideCoupleMsg_FieldNumber_GiftId = 2,
+  PB3CPGuideCoupleMsg_FieldNumber_GiftNum = 3,
+  PB3CPGuideCoupleMsg_FieldNumber_IsFirstCouple = 4,
+  PB3CPGuideCoupleMsg_FieldNumber_RewardDesc = 5,
+};
+
+/**
+ * 发出新人接待官结成 43
+ **/
+@interface PB3CPGuideCoupleMsg : GPBMessage
+
+/** 老板id */
+@property(nonatomic, readwrite) int64_t bossId;
+
+/** 礼物id */
+@property(nonatomic, readwrite) int32_t giftId;
+
+/** 礼物个数 */
+@property(nonatomic, readwrite) int32_t giftNum;
+
+/** 是否是第一次结成 */
+@property(nonatomic, readwrite) BOOL isFirstCouple;
+
+/** 结成奖励文案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rewardDesc;
+
+@end
+
+#pragma mark - PB3CPGuideTimeoutMsg
+
+typedef GPB_ENUM(PB3CPGuideTimeoutMsg_FieldNumber) {
+  PB3CPGuideTimeoutMsg_FieldNumber_PlayerId = 1,
+  PB3CPGuideTimeoutMsg_FieldNumber_Content = 2,
+};
+
+/**
+ * 新人接待官邀请过期 45
+ **/
+@interface PB3CPGuideTimeoutMsg : GPBMessage
+
+/** 邀请人的id */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 文案 接待官自荐\\接待官邀请 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+@end
+
+#pragma mark - PB3CPGuideInviteMsg
+
+typedef GPB_ENUM(PB3CPGuideInviteMsg_FieldNumber) {
+  PB3CPGuideInviteMsg_FieldNumber_InviteId = 1,
+};
+
+/**
+ * 新人接待官邀请 46
+ **/
+@interface PB3CPGuideInviteMsg : GPBMessage
+
+/** 邀请人的id */
+@property(nonatomic, readwrite) int64_t inviteId;
+
+@end
+
+#pragma mark - PB3GetWeekCPIconReq
+
+@interface PB3GetWeekCPIconReq : GPBMessage
+
+@end
+
+#pragma mark - PB3GetWeekCPIconRes
+
+typedef GPB_ENUM(PB3GetWeekCPIconRes_FieldNumber) {
+  PB3GetWeekCPIconRes_FieldNumber_MaleListArray = 1,
+  PB3GetWeekCPIconRes_FieldNumber_FemaleListArray = 2,
+};
+
+@interface PB3GetWeekCPIconRes : GPBMessage
+
+/** 男性图片 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *maleListArray;
+/** The number of items in @c maleListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger maleListArray_Count;
+
+/** 女性图片 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *femaleListArray;
+/** The number of items in @c femaleListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger femaleListArray_Count;
+
+@end
+
+#pragma mark - PB3CPChatHealGetLevelReq
+
+@interface PB3CPChatHealGetLevelReq : GPBMessage
+
+@end
+
+#pragma mark - PB3CPChatHealGetLevelRes
+
+typedef GPB_ENUM(PB3CPChatHealGetLevelRes_FieldNumber) {
+  PB3CPChatHealGetLevelRes_FieldNumber_Level = 1,
+  PB3CPChatHealGetLevelRes_FieldNumber_LevelName = 2,
+  PB3CPChatHealGetLevelRes_FieldNumber_Score = 3,
+  PB3CPChatHealGetLevelRes_FieldNumber_MinScore = 4,
+  PB3CPChatHealGetLevelRes_FieldNumber_MaxScore = 5,
+  PB3CPChatHealGetLevelRes_FieldNumber_NextLevelName = 6,
+};
+
+@interface PB3CPChatHealGetLevelRes : GPBMessage
+
+/** 等级 */
+@property(nonatomic, readwrite) enum PB3CpChatHealLevel level;
+
+/** 称号 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *levelName;
+
+/** 当前分数 */
+@property(nonatomic, readwrite) int32_t score;
+
+/** 当前等级的最低分 */
+@property(nonatomic, readwrite) int32_t minScore;
+
+/** 当前等级的最高分(-1表示无上限) */
+@property(nonatomic, readwrite) int32_t maxScore;
+
+/** 下一级称号 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nextLevelName;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3CPChatHealGetLevelRes's @c level property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CPChatHealGetLevelRes_Level_RawValue(PB3CPChatHealGetLevelRes *message);
+/**
+ * Sets the raw value of an @c PB3CPChatHealGetLevelRes's @c level property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CPChatHealGetLevelRes_Level_RawValue(PB3CPChatHealGetLevelRes *message, int32_t value);
+
+#pragma mark - PB3CPChatHealScoreCategory
+
+typedef GPB_ENUM(PB3CPChatHealScoreCategory_FieldNumber) {
+  PB3CPChatHealScoreCategory_FieldNumber_CategoryId = 1,
+  PB3CPChatHealScoreCategory_FieldNumber_Name = 2,
+  PB3CPChatHealScoreCategory_FieldNumber_BaseScore = 3,
+  PB3CPChatHealScoreCategory_FieldNumber_TotalScore = 4,
+  PB3CPChatHealScoreCategory_FieldNumber_LogsArray = 5,
+  PB3CPChatHealScoreCategory_FieldNumber_HasMore = 6,
+  PB3CPChatHealScoreCategory_FieldNumber_GuideText = 7,
+};
+
+/**
+ * 分类汇总记录
+ **/
+@interface PB3CPChatHealScoreCategory : GPBMessage
+
+/** 分类id */
+@property(nonatomic, readwrite) int32_t categoryId;
+
+/** 加分项大类名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 基础分 */
+@property(nonatomic, readwrite) int32_t baseScore;
+
+/** 总分 */
+@property(nonatomic, readwrite) int32_t totalScore;
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPChatHealScoreLog*> *logsArray;
+/** The number of items in @c logsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger logsArray_Count;
+
+/** 是否还有更多 */
+@property(nonatomic, readwrite) BOOL hasMore;
+
+/** 零分时的引导文本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *guideText;
+
+@end
+
+#pragma mark - PB3CPChatHealGetScoreSummaryReq
+
+@interface PB3CPChatHealGetScoreSummaryReq : GPBMessage
+
+@end
+
+#pragma mark - PB3CPChatHealGetScoreSummaryRes
+
+typedef GPB_ENUM(PB3CPChatHealGetScoreSummaryRes_FieldNumber) {
+  PB3CPChatHealGetScoreSummaryRes_FieldNumber_CategoryListArray = 1,
+};
+
+@interface PB3CPChatHealGetScoreSummaryRes : GPBMessage
+
+/** 分类记录（分类已经排好序） */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPChatHealScoreCategory*> *categoryListArray;
+/** The number of items in @c categoryListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger categoryListArray_Count;
+
+@end
+
+#pragma mark - PB3CPChatHealScoreLog
+
+typedef GPB_ENUM(PB3CPChatHealScoreLog_FieldNumber) {
+  PB3CPChatHealScoreLog_FieldNumber_LogId = 1,
+  PB3CPChatHealScoreLog_FieldNumber_Name = 2,
+  PB3CPChatHealScoreLog_FieldNumber_Score = 3,
+  PB3CPChatHealScoreLog_FieldNumber_CreateTime = 4,
+  PB3CPChatHealScoreLog_FieldNumber_EndTime = 5,
+};
+
+@interface PB3CPChatHealScoreLog : GPBMessage
+
+@property(nonatomic, readwrite) int64_t logId;
+
+/** 名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 加减分数 */
+@property(nonatomic, readwrite) int32_t score;
+
+/** 生效时间戳（秒）(0:表示不显示生效时间) */
+@property(nonatomic, readwrite) int64_t createTime;
+
+/** 分数失效时间戳（秒）（-1:表示永久；0:表示不需要显示失效时间） */
+@property(nonatomic, readwrite) int64_t endTime;
+
+@end
+
+#pragma mark - PB3CPChatHealFindScoreLogReq
+
+typedef GPB_ENUM(PB3CPChatHealFindScoreLogReq_FieldNumber) {
+  PB3CPChatHealFindScoreLogReq_FieldNumber_CategoryId = 1,
+  PB3CPChatHealFindScoreLogReq_FieldNumber_Page = 2,
+  PB3CPChatHealFindScoreLogReq_FieldNumber_PageSize = 3,
+};
+
+@interface PB3CPChatHealFindScoreLogReq : GPBMessage
+
+/** 类别id */
+@property(nonatomic, readwrite) int32_t categoryId;
+
+@property(nonatomic, readwrite) int32_t page;
+
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3CPChatHealFindScoreLogRes
+
+typedef GPB_ENUM(PB3CPChatHealFindScoreLogRes_FieldNumber) {
+  PB3CPChatHealFindScoreLogRes_FieldNumber_LogsArray = 1,
+  PB3CPChatHealFindScoreLogRes_FieldNumber_Total = 2,
+};
+
+@interface PB3CPChatHealFindScoreLogRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CPChatHealScoreLog*> *logsArray;
+/** The number of items in @c logsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger logsArray_Count;
+
+@property(nonatomic, readwrite) int32_t total;
 
 @end
 

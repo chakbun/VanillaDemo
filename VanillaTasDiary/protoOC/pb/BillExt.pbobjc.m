@@ -1691,9 +1691,20 @@ BOOL PB3EvaluationStatus_IsValidValue(int32_t value__) {
 @dynamic closedIconURL;
 @dynamic cardBackgroundURL;
 @dynamic tagsArray, tagsArray_Count;
+@dynamic playerIconExample;
+@dynamic playerIconRemark;
+@dynamic billSkillIntroExample;
+@dynamic billSkillIntroRemark;
+@dynamic billSkillRankRemark;
+@dynamic billSkillPicExample;
+@dynamic billSkillPicRemark;
+@dynamic powerPicExample;
+@dynamic powerPicRemark;
+@dynamic voiceIntroRemark;
+@dynamic setDefaultLevel;
 
 typedef struct PB3BillSkillConf__storage_ {
-  uint32_t _has_storage_[1];
+  uint32_t _has_storage_[2];
   int32_t id_p;
   int32_t giftId;
   int32_t giftNum;
@@ -1716,6 +1727,16 @@ typedef struct PB3BillSkillConf__storage_ {
   NSString *closedIconURL;
   NSString *cardBackgroundURL;
   NSMutableArray *tagsArray;
+  NSString *playerIconExample;
+  NSString *playerIconRemark;
+  NSString *billSkillIntroExample;
+  NSString *billSkillIntroRemark;
+  NSString *billSkillRankRemark;
+  NSString *billSkillPicExample;
+  NSString *billSkillPicRemark;
+  NSString *powerPicExample;
+  NSString *powerPicRemark;
+  NSString *voiceIntroRemark;
 } PB3BillSkillConf__storage_;
 
 // This method is threadsafe because it is initially called
@@ -1939,6 +1960,105 @@ typedef struct PB3BillSkillConf__storage_ {
         .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, tagsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "playerIconExample",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_PlayerIconExample,
+        .hasIndex = 22,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, playerIconExample),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "playerIconRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_PlayerIconRemark,
+        .hasIndex = 23,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, playerIconRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "billSkillIntroExample",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_BillSkillIntroExample,
+        .hasIndex = 24,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, billSkillIntroExample),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "billSkillIntroRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_BillSkillIntroRemark,
+        .hasIndex = 25,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, billSkillIntroRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "billSkillRankRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_BillSkillRankRemark,
+        .hasIndex = 26,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, billSkillRankRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "billSkillPicExample",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_BillSkillPicExample,
+        .hasIndex = 27,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, billSkillPicExample),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "billSkillPicRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_BillSkillPicRemark,
+        .hasIndex = 28,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, billSkillPicRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "powerPicExample",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_PowerPicExample,
+        .hasIndex = 29,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, powerPicExample),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "powerPicRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_PowerPicRemark,
+        .hasIndex = 30,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, powerPicRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "voiceIntroRemark",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_VoiceIntroRemark,
+        .hasIndex = 31,
+        .offset = (uint32_t)offsetof(PB3BillSkillConf__storage_, voiceIntroRemark),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "setDefaultLevel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillConf_FieldNumber_SetDefaultLevel,
+        .hasIndex = 32,
+        .offset = 33,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3545,6 +3665,7 @@ typedef struct PB3BillConfRes__storage_ {
 @dynamic inService;
 @dynamic iconType;
 @dynamic isMinors;
+@dynamic isDeleted;
 
 typedef struct PB3BillPlayer__storage_ {
   uint32_t _has_storage_[1];
@@ -3828,6 +3949,15 @@ typedef struct PB3BillPlayer__storage_ {
         .number = PB3BillPlayer_FieldNumber_IsMinors,
         .hasIndex = 27,
         .offset = 28,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "isDeleted",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillPlayer_FieldNumber_IsDeleted,
+        .hasIndex = 29,
+        .offset = 30,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -8652,6 +8782,7 @@ typedef struct PB3BillPlayerSkillRes__storage_ {
 @dynamic homepagePicURL;
 @dynamic abilityPicUrlsArray, abilityPicUrlsArray_Count;
 @dynamic orderNum;
+@dynamic levelPicURL;
 
 typedef struct PB3BillPlayerSkill__storage_ {
   uint32_t _has_storage_[1];
@@ -8662,6 +8793,7 @@ typedef struct PB3BillPlayerSkill__storage_ {
   NSString *introVoiceURL;
   NSString *homepagePicURL;
   NSMutableArray *abilityPicUrlsArray;
+  NSString *levelPicURL;
 } PB3BillPlayerSkill__storage_;
 
 // This method is threadsafe because it is initially called
@@ -8733,6 +8865,15 @@ typedef struct PB3BillPlayerSkill__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "levelPicURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillPlayerSkill_FieldNumber_LevelPicURL,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3BillPlayerSkill__storage_, levelPicURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3BillPlayerSkill class]
@@ -8744,7 +8885,7 @@ typedef struct PB3BillPlayerSkill__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\003\005\245\241!!\000\005\010\243\241!!\000";
+        "\003\003\005\245\241!!\000\005\010\243\241!!\000\010\005\243\241!!\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -8942,10 +9083,12 @@ void SetPB3BillPlayerSkillCheck_Status_RawValue(PB3BillPlayerSkillCheck *message
 @dynamic name;
 @dynamic textColor;
 @dynamic borderColor;
+@dynamic sort;
 
 typedef struct PB3BillSkillLevel__storage_ {
   uint32_t _has_storage_[1];
   int32_t id_p;
+  int32_t sort;
   NSString *name;
   NSString *textColor;
   NSString *borderColor;
@@ -8992,6 +9135,15 @@ typedef struct PB3BillSkillLevel__storage_ {
         .offset = (uint32_t)offsetof(PB3BillSkillLevel__storage_, borderColor),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "sort",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3BillSkillLevel_FieldNumber_Sort,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3BillSkillLevel__storage_, sort),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =

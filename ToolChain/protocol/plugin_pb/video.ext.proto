@@ -1,5 +1,5 @@
 syntax = "proto3";
-option objc_class_prefix = "PB4";
+option objc_class_prefix = "PB3";
 package plugin_pb;
 
 import "plugin_pb/community.ext.proto";

@@ -1,0 +1,365 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+// 虚拟形象广播cmdId定义 513
+enum CubismCmdId {
+  CB_ZERO = 0;
+  CB_CUBISM_CONFIG = 513001; // 虚拟形象物品配置更新 CubismConfig
+  CB_CUBISM_SHOP = 513003; // 推送虚拟形象商城配置变化
+  CB_PLAYER_CUBISM_CHANGE = 513004; // 推送用户虚拟形象变换
+  CB_BC_CUBISM_ACTION = 513005; // 虚拟形象动作广播 BroadcastCubismAction
+  CB_PLAYER_CUBISM_DELETE = 513006; // 用户虚拟形象物品删除 推送最新的 PlayerCubismRes
+}
+// cmdid 513001
+message CubismConfig {
+  string conf_url = 1; // CDN 的URL, 对应的结构 CubismConfigItem
+}
+
+// cmdid 513003
+message BC_CubismShop {
+}
+
+// cmdid 513004
+message BC_PlayerCubismChange {
+  repeated string cubism_ids = 1; // 装扮的所有物品
+  CubismSet set = 2; // 套装
+  int64 player_id = 3;
+}
+
+// 虚拟形象物品分类
+enum CubismClassify {
+  CUC_NONE = 0;
+  CUC_EYE = 1001; // 眼睛
+  CUC_NOSE = 1002; // 鼻子
+  CUC_EYEBROW = 1003; // 眉毛
+  CUC_MOUTH = 1004; // 嘴巴
+  CUC_HAIR = 1005; // 头发
+  CUC_FACE = 1006; // 脸部
+  CUC_EAR = 1007; //耳朵
+  CUC_SET = 1008; // 套装
+  CUC_TOPS = 1009; // 上衣
+  CUC_BOTTOMS = 1010; // 下装
+  CUC_DRESS = 1011; // 连衣裙
+  CUC_SHOES = 1012; // 鞋子
+}
+
+// 虚拟形象物品等级
+enum CubismItemLevel {
+  CIL_NONE = 0;
+  CIL_CLOTHES_N = 1;      // 服饰等级 N
+  CIL_CLOTHES_R = 2;      // 服饰等级 R
+  CIL_CLOTHES_SR = 3;     // 服饰等级 SR
+  CIL_CLOTHES_SSR = 4;    // 服饰等级 SSR
+}
+
+enum CubismShopShowType {
+  CSST_NONE = 0;
+  CSST_SHOW = 1; // 显示
+  CSST_NOT_SHOW = 2; // 不显示
+}
+
+enum CubismShopQueryType {
+  CSQT_NONE = 0;
+  CSQT_ALL = 1;
+  CSQT_MY = 2;
+}
+
+message CubismConfigItem {
+  string cubism_id = 1;
+  string name = 2;
+  string resource_url = 3;     // 资源url
+  string icon_url = 4;         // 资源图标url 商城展示
+  CubismItemLevel level = 5;
+  CubismClassify classify = 6 [deprecated=true]; //分类 废弃，使用 int32 classify_id = 7 代替
+  int32 classify_id = 7; //分类 新版使用该字段代替 CubismClassify classify = 6
+}
+
+message GetCubismConfigCDNReq{
+
+}
+message GetCubismConfigCDNRes {
+  CubismConfig conf_url = 1;
+}
+
+message CheckCubismGuidePopupReq {
+
+}
+message CheckCubismGuidePopupRes {
+  bool popup = 1; // 是否弹窗
+}
+
+message AckCubismGuideReq {
+
+}
+message AckCubismGuideRes {
+
+}
+
+message PlayerCubismReq {
+  int64 player_id = 1;
+}
+message PlayerCubismRes {
+  repeated string cubism_ids = 1; // 装扮的所有物品
+  CubismSet set = 2; // 套装
+  CubismSet default_set = 3; // 默认套装
+  repeated string default_cubism_ids = 4; // 默认的装扮ID
+  PavilionTypeEnum pavilion_type = 5; // 时装展馆类型
+  string set_card_url = 6; // 时装展馆-套装卡片
+  CubismItemLevel pavilion_level = 7;    // 时装展馆-套装等级
+}
+
+// 时装展馆类型
+enum PavilionTypeEnum {
+  PTE_NONE = 0;
+  PTE_EXCLUSIVE = 1; // 专属套装
+  PTE_LIMITED = 2; // 限定套装
+}
+
+// 套装
+message CubismSet {
+  string set_id = 1;
+  repeated string cubism_ids = 2;
+  bool is_split = 3;
+}
+
+// 分类归属类型
+enum ClassifyBelongType {
+  CBT_NONE = 0;
+  CBT_FACE = 1; // 捏脸
+  CBT_DRESS = 2; // 服饰
+}
+
+enum CubismBuyLogType {
+  CBLT_NONT = 0;
+  CBLT_BUY = 1;     // 购买
+  CBLT_DYEING = 2;  // 染色
+  CBLT_DYEING_DEFAULT = 3;  // 默认组件染色
+}
+
+enum SaveCubismReqType {
+  SCRT_NONT = 0;
+  SCRT_SHOP = 1;   // 商城
+  SCRT_DYEING = 2; // 染色
+}
+
+message CubismItem {
+  string product_id = 1;         // 虚拟形象商品ID（包括套装）
+}
+
+message CubismShopItem {
+  string product_id = 1;        // 虚拟形象商品ID（包括套装）
+  int32 price = 2;              // 商品价格
+  bool is_buy = 3;             // 是否购买
+  string product_icon = 4;      // 虚拟形象商品图标
+  CubismSet set = 5;            // 套装
+  bool is_show = 6;             // 是否显示
+  string product_name = 7;      // 虚拟形象商品名称
+  bool is_wear = 8;             // 是否装扮中
+  CubismItemLevel level = 9;    // 服饰等级
+  string belong_set_id = 10;    // 归属套装ID
+  int64 valid_time = 11;        // 有效时间戳
+  int32 classify_id = 12;       // 分类ID
+}
+
+message CubismShopClassify {
+  int32 classify_id = 1;           // 分类ID
+  string classify_name = 2;           // 分类名称
+  string classify_icon = 3;           // 分类图标
+  string highlight_icon_url= 4;       // 分类高亮图标
+  repeated CubismShopItem cubism_shop_items = 5;
+}
+
+message BuyCubismReq {
+  repeated CubismItem cubism_items = 1;   // 需要购买的装扮
+  map<int32, string> wearCubismMap = 2; // 当前穿着的装扮 map<分类ID，商品ID>
+}
+
+message BuyCubismRes {
+  CubismSet set = 1;        // 随机抽取后的套装
+}
+
+message SaveCubismReq {
+  map<int32, string> wearCubismMap = 1; // 当前穿着的装扮 map<分类ID，商品ID>
+  SaveCubismReqType req_type = 2; // 请求类型
+}
+
+message SaveCubismRes {
+
+}
+
+message DyeingCubismReq {
+  string cubism_id = 1;
+}
+
+message DyeingCubismRes {
+  repeated CubismItem cubism_items = 1;
+}
+
+message QueryCubismShopReq {
+  ClassifyBelongType classify_belong_type = 1;  // 分类归属类型
+  CubismShopQueryType query_type = 2; // 查询数据类型
+}
+
+message QueryCubismShopRes {
+  repeated CubismShopClassify cubism_shop_classify_list = 1;
+}
+
+message QueryCubismSetReq {
+  string set_id = 1;
+}
+
+
+message QueryCubismSetRes {
+  repeated CubismSetItem items = 1;
+}
+
+message CubismSetItem {
+  string name = 1; //套装名称
+  string icon_url = 2; //套装展示图标
+  repeated ConfigItem cubism_configs = 4;
+}
+
+message ConfigItem {
+  string config_id = 1; //物品id
+  int32 classify_id = 2; //分类id
+}
+
+message QueryDyeingPanelInfoReq {
+
+}
+
+message QueryDyeingPanelInfoRes {
+  repeated DyeingPartsInfo dyeing_parts_info_list = 1;
+}
+
+// 染色部件信息
+message DyeingPartsInfo {
+  int32 classify_id = 1;              // 分类ID
+  string classify_name = 2;           // 分类名称
+  string classify_icon = 3;           // 分类图标
+  string highlight_icon_url= 4;       // 分类高亮图标
+  string wear_cubism_id = 5;          // 当前装扮的装饰ID
+  repeated string cubism_ids = 6;     // 可供染色选项
+  int32 dyeing_actual_price = 7;      // 染色实际价格
+  int32 dyeing_origin_price = 8;      // 染色原价格
+}
+
+enum CubismAction {
+  CA_NONE = 0;
+  CA_KISS = 1;      //亲亲
+  CA_SHY = 2;       //撒娇
+  CA_SHOW_LOVE = 3; //比心
+  CA_ANGRY = 4;     //生气
+  CA_WORDLESS = 5;  //无语
+  CA_LAUGHING = 6;  //大笑
+}
+
+message BroadcastCubismActionReq {
+  CubismAction action = 1;
+}
+message BroadcastCubismActionRes {
+}
+
+// cmdid 513005
+message BroadcastCubismAction {
+  CubismAction action = 1;
+}
+
+message QueryCubismBackgroundReq {
+}
+
+message QueryCubismBackgroundRes {
+    string cubism_room_bg_url = 1; //虚拟形象房间背景
+    string cubism_homepage_bg_url = 2; //个人主页虚拟形象背景
+    string cubism_space_bg_url = 3; //个人空间虚拟形象背景
+    string pc_cubism_room_left_bg_url = 4; //pc虚拟形象房间背景左侧
+    string pc_cubism_room_right_bg_url = 5; //pc虚拟形象房间背景右侧
+    string pc_cubism_space_bg_url = 6; //pc个人空间虚拟形象背景
+    string cubism_dressing_center_bg_url = 7; //虚拟形象装扮中心背景
+}
+
+message QueryCubismModelReq {
+}
+
+message QueryCubismModelRes {
+  string cubism_male_model_url = 1; //男性模型
+  string cubism_female_model_url = 2; //女性模型
+}
+
+message CubismPlayer {
+  sint64 id = 1;
+  sint64 id2 = 2; // 靓号. ==0时没有
+  string nickname = 3;
+  string icon = 4; // 图标
+}
+
+message CubismExclusivePavilionReq {
+  SexType sex = 1;
+  int32 index = 2;    //用于翻页, 请求第一页时传0
+}
+message CubismExclusivePavilionRes {
+  message item {
+    string name = 1;  // 服装名称
+    CubismItemLevel level = 2; // 等级
+    string pic_url = 3; // 展示图片
+    string set_card_url = 4; // 套装卡片
+    string gain_at = 5; // 获得时间
+    string produce_way = 6; // 产出途径
+    CubismPlayer player = 7; // 所属用户
+  }
+  repeated item list = 1;
+  int32 next_index = 2;        //-1代表列表没有下一页了, 否则可以用此值在CubismExclusivePavilionReq.index中请求下一页
+}
+
+message CubismLimitedPavilionReq {
+  SexType sex = 1;
+  int32 index = 2;    //用于翻页, 请求第一页时传0
+}
+
+message CubismLimitedPavilionRes {
+  message item {
+    string name = 1;  // 服装名称
+    CubismItemLevel level = 2; // 等级
+    string pic_url = 3; // 展示图片
+    string set_card_url = 4; // 套装卡片
+    string produce_way = 5; // 产出途径
+  }
+  repeated item list = 1;
+  int32 next_index = 2;        //-1代表列表没有下一页了, 否则可以用此值在CubismLimitedPavilionReq.index中请求下一页
+}
+
+service CubismExtObj {
+  // 虚拟形象物品配置CDN
+  rpc GetCubismConfigCDN(GetCubismConfigCDNReq) returns (GetCubismConfigCDNRes);
+  // 虚拟形象指引弹窗是否弹出
+  rpc CheckCubismGuidePopup(CheckCubismGuidePopupReq) returns (CheckCubismGuidePopupRes);
+  // 虚拟形象指引弹窗 - 点击"知道了"
+  rpc AckCubismGuide(AckCubismGuideReq) returns (AckCubismGuideRes);
+  // 玩家虚拟形象
+  rpc PlayerCubism(PlayerCubismReq) returns (PlayerCubismRes);
+  // 购买虚拟形象商品
+  rpc BuyCubism (BuyCubismReq) returns (BuyCubismRes);
+  // 保存虚拟形象装扮
+  rpc SaveCubism (SaveCubismReq) returns (SaveCubismRes);
+  // 染色
+  rpc DyeingCubism(DyeingCubismReq) returns (DyeingCubismRes);
+  // 获取虚拟形象商城信息
+  rpc QueryCubismShop (QueryCubismShopReq) returns (QueryCubismShopRes);
+  // 获取虚拟形象套装及其物品id
+  rpc QueryCubismSet (QueryCubismSetReq) returns (QueryCubismSetRes);
+  // 获取染色面板信息
+  rpc QueryDyeingPanelInfo(QueryDyeingPanelInfoReq) returns(QueryDyeingPanelInfoRes);
+  // 广播虚拟形象动作
+  rpc BroadcastCubismAction(BroadcastCubismActionReq) returns (BroadcastCubismActionRes);
+  // 获取虚拟形象相关背景
+  rpc QueryCubismBackground(QueryCubismBackgroundReq) returns (QueryCubismBackgroundRes);
+  // 获取虚拟形象模型
+  rpc QueryCubismModel(QueryCubismModelReq) returns (QueryCubismModelRes);
+  // 时装展馆-专属套装
+  rpc CubismExclusivePavilion(CubismExclusivePavilionReq) returns (CubismExclusivePavilionRes);
+  // 时装展馆-限定套装
+  rpc CubismLimitedPavilion(CubismLimitedPavilionReq) returns (CubismLimitedPavilionRes);
+}

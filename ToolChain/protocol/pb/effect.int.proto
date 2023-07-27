@@ -1,0 +1,86 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/assets.ext.proto";
+import "pb/assets.int.proto";
+import "pb/common.int.proto";
+import "pb/common.ext.proto";
+import "pb/room.ext.proto";
+
+// 调用类型
+enum MoodBroadcastType {
+    BROADCAST_DEFAULT = 0;     // 占位
+    BROADCAST_NORMAL = 1;      // 上下麦
+    BROADCAST_CHANGE_ROOM = 2; // 修改房间模式
+    BROADCAST_BLACKLIST = 3;   // 添加心情黑名单
+    BROADCAST_STOP_EXC_OWN = 4;// 取消心情，除房主外
+}
+
+message EffectMoodBroadcastReq {
+    int64 player_id = 1;
+    MoodBroadcastType broadcast_type = 2;
+    EffectUseType use_type = 3;//使用类型
+    int64 room_id = 4;
+}
+
+message EffectMoodBroadcastRes{
+}
+
+message EffectMoodRoomReq {
+    int64 room_id = 1;
+}
+
+message EffectMoodRoomRes {
+    BroadcastEffectMood broadcast_effect_mood = 1;
+}
+
+message EffectMoodBlacklistReq {
+}
+
+message EffectMoodBlacklistRes {
+}
+
+message ForceEffectCacheReq {
+    int64 player_id = 1;
+}
+
+message ForceEffectCacheRes {
+}
+
+message UpdateProtectEffectReq {
+    int32 change_type = 1; // 1.添加 2.删除
+    int64 player_id = 2;
+    int32 effect_id = 3;
+    int32 protect_second = 4; // 保护期秒数
+    int64 protect_start_at = 5; // 保护期开始时间戳
+}
+message UpdateProtectEffectRes {
+}
+
+service EffectIntObj {
+    // 获取个人特效
+    rpc GetPlayerEffect (GetUserEffectReq) returns (GetUserEffectRes);
+    // 推送配置
+    rpc PushEffectConf (PushEffectConfReq) returns (PushEffectConfRes);
+
+    //内容审核结果
+    rpc AdvertAuditEffect(CommContentCheckResultReq) returns(CommContentCheckResultRes);
+
+    //把assets服以下协议转到effect服
+    rpc GetEffectConf (EffectConfigReq) returns (EffectConfigRes);        // 获取特效配置
+    rpc ZoneEffect (GetEffectReq) returns (GetEffectRes);        // 获取咪爪的特效
+    rpc UseEffect (UseEffectReq) returns (UseEffectRes);        // 使用特效
+    rpc NobilityEffectConf(NobilityEffectConfReq) returns (NobilityEffectConfRes);
+    rpc GetEffect (GetEffectReq) returns (GetEffectRes);        // 获取个人特效
+    rpc ForceEffectCache(ForceEffectCacheReq) returns (ForceEffectCacheRes); //更新用户的特效，并推送给用户和房间
+
+    // 心情特效推送
+    rpc EffectMoodBroadcast(EffectMoodBroadcastReq) returns (EffectMoodBroadcastRes);
+    // 获取房间心情的特效
+    rpc EffectMoodRoom(EffectMoodRoomReq) returns (EffectMoodRoomRes);
+    // 更新心情房间黑名单
+    rpc UpdateEffectMoodBlacklist (EffectMoodBlacklistReq) returns (EffectMoodBlacklistRes);
+    // 更新保护期特效
+    rpc UpdateProtectEffect (UpdateProtectEffectReq) returns (UpdateProtectEffectRes);
+}

@@ -1,0 +1,165 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+
+
+enum UserStatusErr {
+   UserStatusSUCCESS 			= 0;	// 成功
+   ErrUserStatusKeyExpired 		= 37001;	// key失效, 请重新登录
+   ErrUserStatusBanAccount  	= 37002;	// 被封号
+   ErrUserStatusBanIp			= 37003;	// 封ip
+   ErrUserStatusRelogin			= 37004;	// 需要重新登录
+   ErrUserStatusTakeLeave       = 37005;	// 被踢下线
+   ErrUserStatusBanDevice       = 37006;    // 封设备
+   ErrUserStatusBanPhone        = 37009;    // 封手机
+   ErrUserStatusBanIdCard       = 37010;    // 封身份证
+   ErrUserStatusLimitLogin      = 37015;    // 系统维护中
+   ErrUserStatusTimeOut         = 37018;    // 异常登录验证时间过期
+}
+
+
+// 用户广播cmdId定义 501
+enum UserStatusCmdId {
+    UC_UserStatusZero = 0;
+	UC_UserStatusRelogin    = 501001;  // 广播重登陆
+    UC_UserStatusTakeLeave	= 501002;	// 广播踢下线
+    UC_UserStatusDeviceDisconnected = 501003; // 本账号设备离线, BroadcastDeviceDisconnected
+    UC_UserStatusRemote   = 501008; // 异地登录提示文案
+}
+
+// 登录
+message LoginReq {
+    string key = 1;
+    DeviceType deviceType = 2;
+    string deviceId = 3;
+    string push_token = 4; // 推送token
+    string reyun_device_id = 5; // 热云deviceId
+    string u_meng_device_id = 6; // 友盟deviceId
+    map<int32,string> expand = 7; // key使用ExpandType枚举
+}
+
+enum ExpandType {
+    UNKNOWN_ZERO = 0;
+    UMENGPUSHID = 1;
+    UMENGMSGID = 2;
+    DESTTYPE = 3;
+    PUSHTYPE = 4;
+}
+
+message LoginRes {
+    sint64 account_id = 1;
+    // 登录返回附加参数
+    // key说明如下:
+    // <li> roomid，表示房间id </li>
+    map<string,string> extends = 2;
+}
+
+// 通知设备上线
+message BroadcastRelogin {
+	string deviceId = 1;
+    DeviceType device_type = 2;
+    bool multi_client = 3;
+    int64 loginAt = 4; // 登录时间
+    ClientLoginType login_type = 5; //登录类型
+    string DeviceName = 6;   //设备名称
+    string Application = 7; //应用 氧气：oxygen 半塘 fish
+}
+
+// 广播踢下线 cmdid = 501002
+message BroadcastTakeLeave {
+    sint64 account_id = 1;
+    string msg = 2; // 踢下线提示
+}
+
+// 通知设备下线
+message BroadcastDeviceDisconnected {
+    string  device_id = 1;
+    DeviceType device_type = 2;
+}
+
+// 退出登录类型
+enum LogoutType {
+  LT_None = 0; // 占位
+  LT_DeleteAccount = 1; // 注销登录
+}
+
+message LogoutReq {
+    string key = 1;  // sessionKey
+    LogoutType logout_type = 2; // 注销登录
+}
+
+message LogoutRes {
+}
+
+// 下线
+message DisconnectReq {
+	sint64 connId           = 1;
+	sint64 userId           = 2;
+    DeviceType device_type   = 3;
+    string device_id         = 4;
+}
+
+message DisconnectRes {
+}
+
+// 心跳
+message HeartbeatReq {
+	sint64 connId = 1;
+	sint64 userId = 2;
+    sint64 roomId = 3;
+    DeviceType deviceType = 4;
+    string ip = 5;
+}
+
+message HeartbeatRes {
+	uint32 timeAt = 2;  // 返回 unix time
+}
+
+message UserConInfoListReq{}
+message UserConInfoListRes{
+	repeated UserConInfo list = 1;
+}
+message UserConInfo{
+	sint64 id = 1; // 连接ID
+	string ip = 2;
+	DeviceType device_type = 3;
+	string device_id = 4;
+	sint64 die_time = 5;
+	sint64 player_id = 6;
+	sint64 create_time = 7;
+}
+
+message UserDeviceDisconnectedReq{
+	string  device_id = 1;
+	DeviceType device_type = 2;
+}
+message UserDeviceDisconnectedRes{}
+
+message GetStateReq {}
+message GetStateRes {
+    string msg = 1; // 只返回 ok
+}
+
+//登录解除保护提示信息
+message RemoteLogin{
+  string timeAt = 1; // 触发临时保护时间戳
+  string device_id = 2;//显示的设备ID
+}
+
+service UserStatusExtObj {
+    rpc Login(LoginReq) returns (LoginRes);
+	rpc Logout(LogoutReq) returns (LogoutRes);
+
+	// goim
+	rpc NotifyDisConnect (DisconnectReq) returns (DisconnectRes);       // 通知下线
+	rpc Heartbeat (HeartbeatReq) returns (HeartbeatRes);                // 心跳 每1分钟
+
+	// 获取用户的连接列表
+	rpc UserConInfoList (UserConInfoListReq) returns (UserConInfoListRes);
+	// 通知设备下线
+	rpc UserDeviceDisconnected (UserDeviceDisconnectedReq) returns (UserDeviceDisconnectedRes);
+    // 获取服务状态
+    rpc GetState(GetStateReq) returns (GetStateRes);
+}

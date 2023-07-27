@@ -1,0 +1,3710 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+import "pb/bill.ext.proto";
+import "pb/red_envelope.ext.proto";
+import "pb/nobility.ext.proto";
+import "pb/show.ext.proto";
+import "pb/room_single_live.ext.proto";
+import "pb/acm_conf.ext.proto";
+
+// 房间错误码
+enum RoomErr {
+  RE_Success = 0;
+  ErrCodePlayerFull = 34002;     // 场景满人
+  ErrCodeRoomNotFound = 34003;   // 场景不存在
+  ErrCodeBlack = 34004;          // 黑名单
+  ErrCodeKickout = 34005;        // 被踢出
+  ErrCodeHasPassword = 34006;    // 需要密码
+  ErrCodeRoomClose = 34007;      // 房间关闭
+  ErrCodePasswordErr = 34008;    // 密码错误
+  ErrCodeRelogin = 34009;        // 需要重新登录
+  ErrCodeNoInRoom = 34010;       // 你不在房间
+  ErrCodeTargetNoInRoom = 34011; // 目标不在房间
+  ErrCodePermission = 34012;     // 没有权限
+  ErrCodeChairHasPlayer = 34013; // 座上有人了
+  ErrCodeChairQueueFull = 34014; // 队列已满
+  ErrCodeChairAlready = 34015;   // 你已在坑上
+
+  ErrCodeFlowerNotEnough = 34016; // 花数量不足
+  ErrCodeTooFrequent = 34017;     // 请求太频繁
+
+  ErrCodeLeverLow = 34018;    // 财富、在线等级不足
+  ErrCodeMicro = 34019;       // 不在麦上
+  ErrCodeBanSpeak = 34020;    // 被禁言
+  ErrCodeBanBDFriend = 34021; // 禁止广播交友
+
+  ErrCodeNotOnChair = 34022;     // 你没在坑上
+  ErrCodeChairCloseAlready = 34023;   // 无坑位可锁
+  ErrCodeChairQueueBan = 34024;   // 当前禁止排麦
+  ErrCodeChairTargetAlready = 34025;   // 该用户已在麦上或已排麦
+
+  ErrCodeSitOnlyAdmin =
+      34030; // 交友房间座位号为1的坑位只能是管理员以上的玩家才能坐
+  ErrCodeMateChoiceAlready = 34031; // 已经开始互选
+  ErrCodeMateChoiceStop = 34032;    // 互选没有开启
+
+  ErrCodeVoteAlready = 34041;   // 已经开始投票
+  ErrCodeVoteNotRun = 34042;    // 投票未开始
+  ErrCodeVoteNotEnough = 34043; // 票数不足
+  ErrCodeRoomBan = 34044;       // 房间已被封
+  ErrCodeRoomNameDirty = 34045; // 房间名称修改失败，包含违禁字眼，请重新输入
+
+
+  ErrCodeBFHeadlineLate    = 34049; // 被人抢先了，发布头条失败
+  ErrCodeBFHeadlineLackGold= 34050; // 金币不足，请充值
+  ErrCodeBFHeadlineTime    = 34051; // 头条保护时间中
+  ErrCodeBFHeadlinePubGold = 34052; // 发布金币不足
+  ErrCodeBFHeadlineLevel   = 34053;   // 发布头条财富或魅力等级不够
+
+  ErrCodeRoomPattern = 34060;      // 不能设置天籁模式
+  ErrCodeRoomCharmLevel = 34061;   // 魅力等级不够
+  ErrCodeNoInRoomRepeatEnter = 34062;   // 魅力等级不够
+  ErrCodeImageNotFound = 34065;   // 没有找到相应的背景
+  ErrCodePattenLimit = 34066;   // 当前模式不可用
+  ErrCodeImageFriendLimit = 34067;   // 当前背景不属于正在坑上的挚友
+  ErrCodeIntimateSit = 34068; // 房主的挚友才能上麦哦~
+  ErrCodeIntimateNotOpen = 34069; // 该房间为陪伴模式，无法解锁
+  ErrCodeRoomFull = 34070; // 当前房间已满
+  ErrCodeCertifyWord = 34071; // 打字，必须实名认证
+  ErrCodeCertifyOnChair = 34072; // 上麦必须实名
+  ErrCodeCertifyBroadFriend = 34073; // 广播交友实名
+  ErrCodeCertifyTiaoTiao = 34074; // 跳跳实名
+  ErrCodeCertifyHeadline = 34075; // 头条实名
+  ErrCodeRoomOwnerCertifyOldVersionMust = 34077; // 旧版本房主进房间必须实名认证
+  ErrCodeRoomOwnerCertifyNewVersionMust = 34080; // 房主进房间必须实名
+  ErrCodeRoomSitChairToQueue = 34086; // 上麦默认去排麦
+  ErrCodeRoomSitChairFull    = 34087; // 坑位已满
+  ErrCodeRoomSitLvLimit    = 34088; // 坑位等级限制，财富等级，魅力等级，弹窗提示：需要付费使用
+  ErrCodeCertifyOpenMic = 34132; // 开启麦克风需要实名认证
+  ErrCodeEffectMoodRoom = 34313; // 当前房间不支持心情特效
+  ErrCodeEffectMoodChair = 34314;// 佩戴成功，上麦后即可触发效果
+  ErrCodeEffectPriority = 34315; // 当前有优先级更高的用户在使用心情特效
+  ErrCodeRoomOptChairQueueSingle  = 34267; // 单播模式非粉丝不能排麦
+  ErrCodeRoomOptChairQueueDouble  = 34268; // 双播模式非粉丝不能排麦
+  ErrCodeRoomSetChairQueueDouble  = 34269; // 双播模式非粉丝不能上麦
+  ErrCodeLeaveRoomInReconnect = 34376; // 断线重连离开房间错误码（客户端退出房间，然后toast错误信息）
+}
+
+// 房间广播cmdId定义 // 100
+enum RoomCmdId {
+  RC_Zero = 0;
+  RC_PlayerEnter = 100001;   // 广播有人进房间
+  RC_PlayerLeave = 100002;   // 广播有人离开房间
+  RC_RoomSet = 100028;       // 广播房间设置
+  RC_ForbidSpeak = 100041;   // 广播被禁言
+  RC_Kickout = 100042;       // 广播被踢出
+  RC_RoomAdminSet = 100046;  // 广播房间管理员变更
+  RC_CloseRoom = 100050;     // 广播房间关闭
+  Rc_RoomReception = 100051; // 广播房间接待语
+
+  RC_ChairStatus = 100102;     // 广播嘉宾位状态变更
+  RC_ChairSpeak = 100104;      // 广播开麦/禁麦变更
+  RC_ChairSpeakOnOff = 100105; // 广播坑位发言开关
+  RC_AccompanyOnOff = 100106;  // 广播伴奏开关
+  RC_Chair = 100110;           // 广播坑位变动
+  RC_ChairSit = 100111;        // 通知 上座者收到上座消息
+  RC_ChairMove = 100112;       // 广播移麦
+  RC_ChairLeaveData = 100113;  // 通知 下座者收到下座消息
+  RC_ChairQueueOpt = 100115;   // 广播加入/退出排麦队列
+  RC_QueueJump = 100117;       // 广播排麦插队
+  RC_ChairAdminOpt = 100118;   // 广播管理员操作麦
+  RC_ChairQeueuStatus = 100114;   // 广播排麦状态
+  RC_ChairQeueuClear = 100116;   // 广播排麦队列被清空
+  RC_ChairQeueuAddOrDel = 100119;    // 你已被添加/移除排麦队伍中
+
+
+  RC_OnlineFlower = 100120;  // 通知鲜花变更
+  RC_PresentFlower = 100121; // 广播送鲜花
+
+  RC_Chat = 100125;     // 广播聊天
+  RC_PlayDice = 100126; // 广播举牌
+
+  RC_MakeFriend = 100127; // 广播交友 SSC000118
+
+  RC_IntimateSitChair = 100128;  // 广播挚友一起上麦通知
+  RC_IntimateListChair = 100129; // 广播挚友列表更新
+
+  RC_StartMateChoice = 100130;     // 广播互选开始
+  RC_MateChoiceNum = 100131;       // 广播互选确定人数
+  RC_MateChoiceResult = 100132;    // 广播互选结果
+  RC_MateMatch = 100133;           // 广播匹配成功公告
+  RC_MateNotMatch = 100134;        // 广播没有匹配
+  RC_MateChairGoldStream = 100135; // 广播累计金币
+  RC_BroadcastDragonBall = 100136; //龙珠广播
+  RC_MateMatchMsg = 100137;        // 广播匹配成功系统消息
+
+  RC_BroadcastStartVote = 100138;   // 广播投票开始
+  RC_BroadcastPublishVote = 100139; // 广播投票公布结果
+
+  RC_BF_Headline = 100140;    // 广播广播交友头条信息
+  RC_MakeFriend_NEW = 100141;    // 新广播交友类型与 RC_MakeFriend = 100127 相同
+  RC_MateMatch_NEW = 100142;    //广播匹配成功公告与RC_MateMatch = 100133 相同
+  RC_PcaChangeUser = 100150; // 切换到PCA推流模式, PcaChangeUser
+  RC_PcaStartPush = 100151; // PC助手可以开始推流, BroadcastPcaStartPush
+  RC_PcaStopPush = 100152;  // PC助手停止推流
+  
+  RC_RoomImageChange = 100155; // 广播房间背景变更
+
+  RC_RoomOwnerCert = 100156; // 通知房主实名认 证
+
+  RC_LuckyDrawBroadcast = 100157; //发起报名抽奖时,通知玩家报名.
+  RC_LuckyDrawCount = 100158; //摇号抽奖报名人数
+  RC_LuckyDrawCancelled = 100159; //摇号抽奖被取消
+  RC_LuckyDrawParticipator = 100160; //参与抽奖的玩家列表
+  RC_LuckyDrawResult = 100161; //摇号结果
+  RC_LuckyDrawWinner = 100162; //摇号抽奖要公布的获奖名单
+  RC_RoomHeat = 100163; // 关闭通知房间热度 BroadcastRoomHeat
+  RC_Change_Show_chair_Button = 100164; // BroadcastChairButton 推送是否显示排麦按钮
+  RC_RoomSwitchVoiceSdk = 100165; //切换声音sdk
+
+  RC_SendBillTime = 100166; // 推送派单计时
+  RC_Presenter = 100167; // BroadcastPresenter 广播主持人变更
+  RC_ChairCharm = 100168;      // 广播麦序魅力值
+  RC_ReceiveWindow = 100169;      // 接待弹窗推送
+  RC_RoomSitLvLimit = 100170;      // 排队上8麦时，如果上麦条件不符合，则推送
+  RC_RoomOnOffStatus = 100172;  // 房间类型开关更新推送 RoomOnOffStatus
+  RC_ClanChairLimit = 100173;   // 限制上麦状态推送 BroadcastChairLimit
+  RC_RoomUpdateDecorateBg = 100174;//广播更新房间装饰背景
+  RC_RoomBuyDecorateBg = 100175;//广播购买房间装饰背景
+  RC_RoomRedEnvelope = 100176; // 是否显示吐泡泡入口
+  RC_RoomSkillResult = 100177;// 广播房间技能结果
+  RC_RoomUseSkill = 100178;// 广播房间使用技能
+  RC_EnterRoomByReceiveWindow = 100179; // 新用户通过首页接引弹窗进入房间通知，房主和主持才能收到
+  RC_DeviceOpenMicNoticeMyself = 100180; // 多端登录，设备开麦通知自己 BroadcastDeviceOpenMic
+  RC_BroadcastEnterToMyself = 100181; // 多端登录，进入房间推送给自己 BroadcastEnterToMyself
+  RC_PlayOrder = 100190; // 表演模式：麦序在档 PlayOrderRes
+  RC_PlanOrder = 100191; // 表演模式：麦序排档 PlanOrderRes
+  RC_ProgramFee = 100192; // 表演模式：节目设置费用
+  RC_ShowLyricCtrl = 100194; // 表演模式: 歌词操作 ShowLyricCtrlRes
+  RC_RoomShow = 100195; // 设置表演模式推送 BroadcastSetShow
+  RC_ShowInfo = 100196; // 表演模式: 节目信息 ShowInfoRes
+  RC_OnlineNotice = 100197; // 上线全服通知
+
+  RC_BroadcastStopVote = 100198;   // 广播停止投票 Vote
+  RC_BroadcastEffectMood = 100199; // 广播心情特效
+  RC_BroadcastCleanPublicScreen = 100200; // 广播清空公屏 CleanPublicScreen
+  RC_BroadcastRoomPattern = 100201; //推送房间模式
+  RC_BroadcastRoomBanSpeak = 100202; // 房间禁言 RoomBanSpeakNotice
+  RC_BroadcastCountDownStart = 100203; // 广播房间开始新年倒计时 BroadcastCountDownStart
+  RC_BroadcastChorus = 100204; // 合唱推送 ChorusNotice
+  RC_BroadcastChorusNew = 100205; // 新合唱推送 ChorusNotice
+  RC_BroadcastFansRecall = 100206; //  粉丝召唤推送 BroadcastFansRecall
+  RC_BroadcastFansRecallSend = 100207; // 发起粉丝召唤提示推送 BroadcastFansRecallSend
+  RC_BroadcastFansRecallEnterRoom = 100208; // 发起粉丝召唤进房推送 BroadcastFansRecallEnterRoom
+  RC_BroadcastLeaveRoomRecommend = 100209; // 退房推荐 BroadcastLeaveRoomRecommend
+  RC_BroadcastFansRecallCancel = 100210; // 房间加密取消粉丝召唤推送 BroadcastFansRecallCancel
+  RC_BroadcastAgodaList = 100211; // 推送AgodaKey BroadcastAgoda
+  RC_PersonalKickout = 100212;  //踢出房告知个人
+  RC_BroadcastTeacherStudentSitChair = 100213; // 师徒上麦特效推送 BroadcastTeacherStudent
+  RC_BroadcastTeacherStudentChairList = 100214; // 师徒麦上特效推送 BroadcastTeacherStudentChairList
+  RC_BroadcastTeacherStudentEnterRoom = 100215; // 师徒进房公屏推送 BroadcastTeacherStudentEnterRoom
+  RC_BroadcastMobaTeamSitChair = 100216; // 开黑组队发车上麦推送 MobaTeamSitChairBroadcast
+
+  RC_BroadcastAddVote = 100217; // 广播投票项投票数更改
+  RC_BroadcastLive  = 100218; //广播房间直播url
+  RC_PK_Entry = 100219; // 进房成功，推送pk入口 PkEntryPush
+  RC_CLAN_HOUR_RANK_FIRST = 100220 ;//小时榜结算推送
+  RC_CLAN_HOUR_RANK = 100222 ;//小时榜信息推送
+  RC_SINGLE_LIVE_PK_ENTRY = 100223; // 进房成功，推送达人pk入口 SingleLivePkEntryPush
+  RC_RoomPatternCfg = 100224; // 推送客户端房间模式配置 XcmRoomPatternCliCfgData (acm_conf.ext.proto)
+
+  RC_Clan_Task = 100225;//公会任务入口推送
+  RC_Clan_Task_Done = 100226;//公会任务完成更新推送
+  RC_Wish_Gift = 100227;//心愿礼物推送
+  RC_Wish_Gift_Task_Done_Num = 100228;//心愿礼物数量推送
+
+  RC_EnterFossaRoom = 100235; // 进入小窝 EnterFossaRoom
+  RC_LeaveFossaRoom = 100236; // 退出小窝 LeaveFossaRoom
+  RC_OtherRejectFossa = 100237; // 对方拒绝开启小窝 OtherRejectFossa
+  RC_OtherLeaveFossaEarly = 100238; // 对方提前离开小窝 OtherLeaveFossaEarly
+
+  // 交友2.0推送
+  RC_MateChoice2ChairCharm = 100241;                // 广播个人魅力值    推送内容：BroadMateChairCharm
+  RC_MateChoice2Result = 100242;                    // 广播互选结果      推送内容：BroadcastMateRoomMatch
+  RC_MateChoiceHatOwner = 100243;                   // 广播帽子获得者  推送内容：BroadcastMateChoiceHatOwner
+  RC_MateChoiceChangeStatusSuccess = 100244;        // 广播交友流程切换成功通知    推送内容：BroadcastMateChoiceChangeStatusSuccess
+  RC_MateChoiceSelectChairNumber = 100245;          // 广播心动选择阶段 选择麦位序号    推送内容：BroadcastMateChoiceSelectChairNumber
+  RC_MateChoice2Pairs = 100246;                     // 广播所有匹配结果    推送内容：BroadcastMateChoice2Pairs
+  RC_MateChoice2ChangeStatusToReady = 100247;       // 广播交友流程切换到准备状态    推送内容：BroadcastMateChoice2ChangeStatusToReady
+  RC_MateRoomGoldStat = 100248;                     // 相亲房流水统计 MateRoomGoldStatRes
+
+  RC_Bgm_Player_Switch = 100229;//播放器入口权限推送
+  RC_BroadcastVoteInfo = 100230; // 广播投票信息 BroadcastVoteInfo
+
+  RC_BroadcastRoomCubism = 100250; // 推送虚拟形象开关 BroadcastRoomCubism
+  RC_RoomTopRightCornerLabel = 100251; // 推送房间右上角角标数据 BroadcastRoomTopRightCornerLabel
+  RC_RoomDayRankChange = 100252; // 房间日榜贡献榜单更改（不过滤鲜花） NotifyRankPush
+  RC_RoomTopRightCornerLabelChange = 100253; // 房间右上角角标数据增量数据 BroadcastRoomTopRightCornerLabelChange
+
+  RC_RoomEffectConf = 100254; // 房间特效推送 QueryRoomEffectConfRes
+  RC_HOST_ENTER_ROOM_GAME_MATCH = 100255; //主场进房 弹幕游戏匹配状态推送 BarrageGameMatchInfo
+  RC_BARRAGE_GAME_ENTRY = 100256; // 弹幕游戏配置推送,推送时机：进房或配置有变动时 BarrageGameEntryPush
+}
+
+//房间日榜贡献榜单更改（不过滤鲜花） CmdId=100252
+message NotifyRankPush{
+  repeated Rank room_rank_list = 1; //排行榜
+}
+
+//小时榜结算推送 CmdId=100220
+message HourRankPush{
+  bool is_hour_rank_first = 1; //是否为上一小时榜第一名
+  int64 expire = 2;//过期时间 (单位秒)
+  string first_image = 3;//显示图片
+}
+
+enum HourRankRoomPushType{
+  HRRPY_None = 0;//占位
+  HRRPY_EnterRoom = 1;//进房
+  HRRPY_First = 2;//结算
+  HRRPY_RankNum = 3;//实时排名
+  HRRPY_Charm = 4;//魅力值
+}
+
+message SendBillTime {
+  sint32 send_time = 1; // 派单计时 为-1时不计时
+}
+
+// 场景玩家信息
+message ScenePlayer {
+  sint64 id = 1;
+  string name = 2;
+  string icon = 3;        // 资源版本号
+  int32 wealth_level = 4; // 财富等级
+  int32 charm_level = 5;  // 魅力等级
+  sint64 id2 = 6;         // 靓号
+  OnlineStateType online_state = 7;
+  RoomAdminType admin_type = 8;
+  uint32 create_at = 9; // 注册时间
+  sint64 flags = 10; // 标志，按位存储。各位表示意思参考PlayerFlags
+  sint64 flags2 = 11; // 标志，按位存储。各位表示意思参考PlayerFlags2
+  bool is_charge = 13;
+  sint64 forbid_speak_time = 14; //禁言时间
+
+  bool chair_ban_speak = 15; // 坑位发言状态，0开麦/1禁麦 （房主/管理员设置）
+  bool chair_speak_onoff = 16; // 玩家坑位发言开关 0关/1开
+  bool accompany_onoff = 17;   // 伴奏开关 0关/1开
+  bool sound_onoff = 18;       // 声音开关 0关/1开
+  SexType sex = 19;            // 性别
+  repeated Effect effect = 20; //特效
+  int32 activity_adchannel = 21;  // (前端不用)
+  uint32 online_exp = 22; // 在线经验
+
+  // 菜鸡id
+  int64 caiji_id = 30;  // 菜鸡用户id，大于0表示菜鸡用户
+  bool is_presenter = 31; // 是否是主持人
+  RoomNobilityInfo nobility_info = 34; // 爵位信息
+  IntimateEffect intimate_effect = 35; // 挚友横幅信息
+  bool is_show = 36; // 是否表演
+  bool show_intimate_banners = 37; // 是否显示挚友进房横幅 true显示 false不显示
+  bool is_intimate_fans_authority = 38; // 是否有亲密粉丝权限
+  bool have_playlist = 39; // 是否拥有歌单
+  repeated AuthInfo auth_info = 40; // 歌手、声优认证信息
+  string chair_speak_client_type = 41; // 设置玩家坑位发言的客户端类型
+  TeacherStudentEffect teacher_student_effect = 42; // 师徒横幅信息
+  bool show_teacher_student_banners = 43; // 是否显示师徒进房横幅 true显示 false不显示
+  int32 fish_wealth_level = 44; // 财富等级
+  int32 fish_charm_level = 45;  // 魅力等级
+  IntimateEffect intimate_effect_private = 46; // 挚友横幅信息(私密的) 客户端根据当前玩家的id 和 ScenePlayer.id, intimate_effect.player_id, intimate_effect_private.player_id 判断如何显示挚友横幅
+  EnterCubismEffect cubism_effect = 47; // 虚拟形象特效
+}
+
+message IntimateEffect {
+  int32 intimate_conf_id = 1; //挚友配置ID
+  int64 player_id = 2; // 用户ID
+  int64 player_id2 = 3; // 靓号
+  string name = 4; // 昵称
+  string icon = 5; // 头像
+}
+
+message TeacherStudentEffect {
+  int32 effect_id = 1; // 师徒配置ID
+  int64 player_id = 2; // 用户ID
+  int64 player_id2 = 3; // 靓号
+  string name = 4; // 昵称
+  string icon = 5; // 头像
+  string public_text = 6; // 师徒公屏文案 %s 替换昵称
+  bool is_show_icon = 7; // 是否显示头像
+}
+
+enum NewFollowType {
+  NFT_DEFAULT = 0; // 原来跟随进来
+  NFT_TEXT = 1; // 文字接待语进房
+  NFT_BROADCAST = 2; // xxx在广播交友跟随xxx的脚步进入
+  NFT_OTHER = 3; // 第三方
+  NFT_INDEX = 4; // 首页引导进房
+  NFT_VOICE = 5; // 语音接待语进房
+  NFT_VIDEO = 7; // 划卡视频进房
+  NFT_LEAVE = 8; // 退房推荐进房
+}
+
+// 进房间
+message EnterRoomReq {
+  sint64 room_id = 1;
+  string password = 2;        //密码
+  DeviceType device_type = 3; // 设备类型
+  int64 follow_id = 4;        //跟随id
+  string follow_name = 5;     //跟随昵称
+  int32 follow_type = 6 [deprecated=true];  // 跟随类型，默认为0=原来跟随进来，1=xxx被xxx接引进来, 2=xxx在广播交友跟随xxx的脚步进入房间 3=第三方
+  string follow_msg = 7;  // 跟随语 %enter_name%-进入者  %follow_name%-被跟随者 %mod_name%-模块名 %enter_name%被%follow_name%接引进来,
+  string mod_name = 8;
+
+  // 菜鸡用户信息
+  CaijiPlayer caiji = 9;
+
+  EnterRoomOpt enter_room_opt = 10; // 进房间后的操作
+  EnterRoomWay enter_room_way = 11; // 如何进入房间
+
+  NewRoomPattern new_pattern = 12; //房间模式
+  NewFollowType new_follow_type = 13; // 新跟随类型
+  string content = 14; // 输入框内容(口令)，当来源是游戏开黑派单模式发车进房时：传入队伍id
+  int64 fans_recall_id = 15 [deprecated=true]; // 粉丝召唤语ID
+  int64 extra_data = 16; // 通用数据
+  string recmd_source_id = 17; // 视频划卡推荐算法ID
+  int32 flow_support_type = 18; // 流量扶持类型
+  bool is_reconnect = 19; // 是否是断线重连
+}
+
+enum EnterRoomOpt {
+  ERO_ZERO = 0; // 占位不用
+  ERO_LIGHTNING_ORDER = 1; // 抢单
+  RoomQuickGamePre = 2; // 快速准备游戏，1表示快速游戏，0表示忽略
+  SetChairIng      = 3; //执行上麦
+  ERO_MOBA_TEAM = 4; // 开黑广播进厅
+}
+
+enum EnterRoomWay {
+  ERO_WAY_ZERO = 0; // 占位不用
+  ERO_WAY_RECEIVE_WIN = 1; // 通过首页接引弹窗进入
+  ERO_WAY_SEARCH = 2; //搜索进房
+  ERO_WAY_FANS_RECALL = 3; // 粉丝召唤进房
+  ERO_WAY_MOBA_TEAM_DEPARTURE = 4; // 游戏开黑派单模式发车进房
+
+  ERO_WAY_HOME_LIST = 5; // 首页列表进房
+  ERO_WAY_PLAYER_CARD = 6; // 个人卡片进房
+  ERO_WAY_HOME_ROOM = 7; // 首页我的房间进房
+  ERO_WAY_PLAYER_PAGE = 8; // 个人主页我的房间进房
+  ERO_WAY_GAME_LIST = 9; // 游戏列表进房
+  ERO_WAY_RADAR = 10; // 房间雷达进房  雷达-雷达详情列表
+  ERO_WAY_MATCH = 11; // 匹配进房
+  ERO_WAY_RANK= 12; // 排行榜进房
+  ERO_WAY_FOOTPRINT = 13; // 足迹进房
+  ERO_WAY_IM = 14; // IM进房
+  ERO_WAY_OXYGEN_BAR = 15; // 氧吧进房
+  ERO_WAY_TOP_HEADLINE = 16; // 顶流头条进房
+  ERO_WAY_RADAR_GIFT = 17; // 雷达-礼物详情广播 进房
+  ERO_WAY_ROOM_WORLD_GIFT = 18; // 房间-全服礼物
+  ERO_WAY_OTHER_ZONE = 19; // 他人空间-进房
+  ERO_WAY_NOTICE = 20; // 通知推送
+  ERO_WAY_NAME_CLAN = 21; // 名字-公会
+  ERO_WAY_MESSAGE_NOTICE = 22; // 消息-通知
+  ERO_WAY_IM_SHARE = 23; // im分享-进房
+  ERO_WAY_CP_END = 24; // cp结束-进房
+  ERO_WAY_PK = 25; // pk进度条头像-进房
+  ERO_WAY_HOTPOINT = 26; // 空间热点-进房
+  ERO_WAY_HEADLINE = 27; // 头条
+  ERO_WAY_IM_PAGE = 28; // IM对话页
+  ERO_INDEX_CLICK_ENTER = 29; // 首页引导弹窗点击【进房玩玩】
+}
+
+message EnterRoomRes {
+  sint64 room_id = 2;
+  string name = 3;         // 房间名字
+  string greeting = 4;     // 欢迎语
+  uint32 viewer_num = 5;   // 房间总人数
+  ScenePlayer master = 6;  // 房主 9.2.0更加麦位列表是否有房主信息返回，有不返回，没有返回
+  sint32 category = 7;     // 房间标签
+  sint64 id2 = 8;          // 靓号
+  RoomPattern pattern = 9 [deprecated=true]; //房间模式 9.2.0不再返回
+  string password = 10;
+
+  // 进房者数据
+  RoomAdminType admin_type = 11;
+
+  repeated Chair chairs = 12;            // 嘉宾位列表
+  repeated IntimateChair intimates = 15; // 麦上挚友特效
+
+  RoomType type = 13;
+
+  AgodaKey agoda_key = 14; // 声网key
+  string reception = 16;   // 房间接待语
+  string notice = 17;      // 房间公告
+  string label_url = 18; // 房间标签url， 不为空时，显示：http://cdn+label_url
+  int64 image_id = 19;  // 房间背景图id eg:背景ID：200014 背景图：/upload/resources/friend/bg/200014/bg_200014.png 预览图：/upload/resources/friend/bg/200014/show_200014.png
+  OwnerInRoom owner_in_room = 20; // 房主是否在自己的房间 1在 0不在
+  string max_online_notice = 21;     // 最大人数限制公告
+  int32 heat = 22;                   // 房间热度
+  bool is_mizhua = 23;  // 是否咪爪房间
+  bool is_show_chair_button = 24; // 是否显示排麦按钮
+  VoiceSdkType sdk_type = 25;     // 声音sdk类型
+  NewRoomPattern new_pattern = 26; // 新房间模式
+  RoomVoice voice = 27; // 音质
+  sint32 chair_charm_status = 28;   // 麦序魅力值状态，0为关闭，1为开启
+  int32 owner_chair_charm = 29;  // 房主麦序魅力值
+  bool is_presenter = 30; // 是否是主持
+  repeated RoomOnOffStatus on_off_status_list = 34; //房间类型开关的状态
+  bool clan_chair_limit_status = 35;  // 麦位限制状态
+  string room_bg_url = 36 [deprecated=true];  // 房间装饰背景图 9.2.0不再返回
+  bool is_show_red_envelope = 37; // 是否显示吐泡泡入口
+  map<int32, UsingDecorateList> decorate_list = 38; //使用中的房间装饰
+  ScenePlayer my_scene_info = 39; // 进房者的场景玩家信息
+  int32 under_chair_num = 40;   //麦下人数
+  bool is_first_time = 41;      // 是否第一次进入房间
+  ShowType show_type = 42; // 表演模式类型
+  BroadcastEffectMood effect_mood = 43; // 心情特效
+  bool is_clan = 44; // 是否公会房
+  SingleLiveInfo single_live_info = 45; // 个播模式信息
+  IntimateFansInfo intimate_fans_info = 46; // 亲密粉丝信息
+  repeated bytes gme_auth_list = 47; // gme token 0:普通房频道 1:狼人杀
+  repeated AgodaKey agoda_key_list = 48 [deprecated=true]; // 声网key 0:普通房频道 1:狼人杀 9.2.0不再返回
+  sint32 clan_category = 49; // 公会类型ID is_clan为true时有值(包括0)
+  bool is_referral_traffic = 50; // 是否是引流房
+  RoomClanType room_clan_type = 51; // 房间的厅类型
+  repeated TeacherStudentChair teacher_student_chair = 52; // 麦上师徒特效
+  SingleLiveTplType single_live_tpl_type = 53;             // 当前个播模式2.0房间使用的模版（个播2.0模式才有）
+  repeated RoomChairStatus pattern_chair = 54;  // 房间模式对应的默认麦位状态
+  HourRankRoomInfo hourRankRoomInfo = 55;//小时榜信息
+  bool cubism_enable = 56;  // 虚拟形象开关
+  GenderPattern gender_pattern = 57;//男声女声版
+  BarrageGameInfo game_info= 61; // 弹幕游戏结构体
+}
+
+message BarrageGameTeam {
+  int64 room_id = 1;                 // 房间ID
+  string room_name = 2;                 // 房间名字
+  string room_icon = 3;                 // 房间头像
+  int64 host_id = 4;                 // 主持ID
+  string host_name = 5;              // 主持名称
+  string host_icon = 6;              // 主持头像
+}
+
+// 游戏状态
+enum BarrageGameStatus {
+  BGS_NONE = 0; // 占位
+  BGS_START = 1; // 游戏开始
+  BGS_END = 2; // 游戏结束
+  BGS_ABORT = 3; // 游戏中断
+}
+
+message BarrageGameInfo{
+  int64 game_id = 1; // 游戏ID
+  string session_id = 2; // 唯一ID
+  BarrageGameTeam red_team = 3; // 红队
+  BarrageGameTeam blue_team = 4; // 蓝队
+  BarrageGameStatus status = 5; // 游戏状态 ---fix
+  string app_pull_live_url = 6; // app拉流链接
+  string pc_pull_live_url = 7; // pc 拉流链接
+}
+
+enum BarrageGameMatchConfirmStatus{
+  BGMCS_NONE = 0; // 占位
+  BGMCS_AGREE = 1; // 同意
+  BGMCS_REFUSE = 2; // 拒绝
+}
+
+message BarrageGameMatchConfirmData{
+  string session_id = 1; // 匹配记录唯一ID
+  int64 the_other_id = 2; // 对方的ID
+  string the_other_icon = 3; // 对方的头像
+  BarrageGameMatchConfirmStatus the_other_status = 4; // 对方确认状态
+  BarrageGameMatchConfirmStatus self_status = 5; // 自己的确认状态
+  int64 count_down = 6; //倒计时 秒
+}
+
+enum BarrageGameMatchStatus {
+  BGMS_NONE = 0; // 占位
+  BGMS_SUCCESS = 1; // 匹配成功
+  BGMS_TIME_OUT = 2; // 匹配超时
+  BGMS_MATCHING = 3; // 匹配中
+  BGMS_REMATCH = 4; // 重新匹配
+  BGMS_NOT_CONFIRM = 5; //  匹配成功 超时未确认
+  BGMS_CANCEL = 6; // 匹配取消
+  BGMS_REFUSE_MATCH = 7; // 匹配成功，拒绝了
+  BGMS_WAIT_RECALL = 8; // 匹配成功 等待内部回调 服务端内部用状态
+}
+
+// cmdid=100255
+message BarrageGameMatchInfo{
+  BarrageGameMatchStatus status = 1; // 匹配状态
+  int64 start_at = 2; //匹配开始时间戳 秒
+  BarrageGameMatchConfirmData data = 3; // 状态为匹配成功(GMS_SUCCESS)时用
+  int64 game_id = 4; // 游戏ID
+}
+
+//小时榜信息推送 CmdId=100222
+message HourRankRoomInfo{
+  bool is_hour_rank_first = 1; //是否获得上小时推荐位
+  int64 is_hour_rank_first_expire = 2; //上小时推荐位过期时间（单位秒）
+  int64 rank_num = 3;//排名
+  string rank_name = 4;//榜单名称
+  string first_gap_text = 5;//距第一名差距
+  string first_image = 6;//推荐位图片
+  string rank_num_text = 7;//榜单排名文案
+  HourRankRoomPushType push_type = 8;//推送类型
+}
+
+// 房间厅类型枚举
+enum RoomClanType {
+  RCT_ZERO = 0; // 占位不用
+  RCT_SINGING = 1; // 歌厅
+}
+
+// 广播有人进房间
+// cmdId=100001
+message BroadcastPlayerEnter {
+  ScenePlayer player = 1;
+  uint32 viewer_num = 2;  // 房间总人数
+  int64 follow_id = 3;    //跟随id
+  string follow_name = 4; //跟随昵称
+  int32 follow_type = 5;  // 跟随类型，默认为0=原来跟随进来，1=xxx被xxx接引进来, 2=xxx在广播交友跟随xxx的脚步进入房间
+  string follow_msg = 6;  // 跟随语 %enter_name%-进入者  %follow_name%-被跟随者 %mod_name%-模块名 %enter_name%被%follow_name%接引进来,
+  string mod_name = 7;
+  RoomNobilityInfo follow_nobility = 8; // 被跟随者爵位信息，跟随进入才有值
+  int32 under_chair_num = 9;   //麦下人数
+  SexType follow_sex = 10;     // 性别
+  DeviceType device_type = 11; // 设备类型
+  IntimateFansInfo intimate_fans_info = 12; // 亲密粉丝信息
+  bool is_robot = 13; //是否是机器人
+  int32 flow_support_type = 14; // 流量扶持类型
+}
+
+// 进房间，广播给自己，多端登录
+// cmdId=100181
+message BroadcastEnterToMyself {
+  int64 room_id = 1;
+  string room_pwd = 2; // 房间密码，空则不需要密码
+  string device_id = 3; // 设备id
+  DeviceType device_type = 4; // 设备类型
+  bool is_entering = 5; // 是否进房前通知其他端做退房操作
+  string room_name = 6; // 房间名
+  int64 timestamp = 7; // 每一次进房操作，都会推两个BroadcastEnterToMyself推送，一个 is_entering=true,一个 is_entering=false，这两个推送的timestamp会相同
+}
+
+// 离开房间
+message LeaveRoomReq {
+  sint64 player_id = 1;
+}
+message LeaveRoomRes {}
+
+// 广播有人离开房间
+// cmdId=100002 LongVO 玩家Id
+message BroadcastPlayerLeave {
+  sint64 room_id = 1;
+  sint64 player_id = 2;
+  string name = 3;
+  int32 viewer_num = 4; // 房间总人数
+  int32 under_chair_num = 5;   //麦下人数
+}
+
+message BroadcastRoomHeat {
+  sint64 room_id = 1;
+  int32 heat = 2; // 热度
+}
+
+// cmdId = 100164
+message BroadcastChairButton {
+  sint64 room_id = 1;
+  bool is_show_chair_button = 2;
+}
+
+// cmdId = 100167
+message BroadcastPresenter {
+  sint64 room_id = 1;
+  sint64 player_id = 2;    // 玩家ID
+  string player_name = 3;  // 玩家名
+  SetPresenterOpt opt = 4; // 主持类型
+}
+
+enum PrivilegePreventOpt {
+  ZERO = 0; // 占位不用
+  BAN_SPEAK = 1; // 防禁言
+  KICKOUT = 2; // 防踢出
+}
+
+// 玩家列表
+message PlayerListRes {
+  repeated ScenePlayer value = 1;
+  int32 next_index = 2;
+  int32 nobility_num = 3; // 贵宾人数（进入贵宾总人数）
+  int32 stealth_num = 4; // 贵宾人数（隐身进入人数)
+}
+
+//房间设置
+message SetRoomReq {
+  string name = 3;         //房间名称
+  string password = 4;     //房间密码
+  string greeting = 5;     //房间问候语
+  sint32 category = 6;     //房间标签
+  RoomPattern pattern = 7; //房间模式 6.3.5及之后版本不再使用
+  NewRoomPattern new_pattern = 8; // 新房间模式 6.3.5及之后版本使用
+  RoomVoice voice = 9; // 音质
+  sint32 chair_charm_status = 10;     // 麦序魅力值状态，0为关闭，1为开启
+  bool clan_chair_limit_status = 11;  // 麦位限制状态
+  bool pwd_enable = 12;   //房间密码开关
+}
+message SetRoomRes {
+  AuditStatus name_greet_status = 1;
+  string old_name = 2;
+  string new_name = 3;
+  string old_greeting = 4;
+  string new_greeting = 5;
+  bool   is_modify = 6;
+}
+
+// cmdId=100028 广播房间设置
+message BroadcastRoomSet {
+  sint64 room_id = 1;
+  sint64 player_id = 2;
+  string name = 3;
+  string password = 4;
+  string greeting = 5;
+  sint32 category = 6;
+  RoomPattern pattern = 7; // 旧房间模式 6.3.5及之后版本不再使用
+  NewRoomPattern new_pattern = 8; // 新房间模式 6.3.5及之后版本使用
+  RoomVoice voice = 9;  // 音质
+  sint32 chair_charm_status = 10;     // 麦序魅力值状态，0为关闭，1为开启
+  SingleLiveTplType single_live_tpl = 11; // 个播2.0模版类型
+  repeated RoomChairStatus pattern_chair = 12;  // 房间模式对应的默认麦位状态
+  bool is_cloud_disco_room_shake = 13;  // 云蹦迪房间震动开关
+  bool is_cloud_disco_chair_shake = 14; // 云蹦迪房间麦位抖动开关
+}
+
+message BroadcastChairLimit {
+  bool clan_chair_limit_status = 1;  // 麦位限制状态
+}
+
+// RC_RoomRedEnvelope = 100176
+message BroadcastRedEnvelope {
+  bool is_show_red_envelope = 1; // 是否显示吐泡泡入口
+}
+
+// 设置接待语
+message SetReceptionReq { string value = 1; }
+
+message SetReceptionRes {
+  AuditStatus reception_status = 1;
+  string old_value = 2;
+  string new_value = 3;
+}
+
+// cmdId=100051 广播房间接待语
+message BroadcastReception {
+  string value = 1;
+  sint64 player_id = 2; // 操作者id
+
+  RoomNobilityInfo nobility_info = 3; // 爵位信息
+}
+
+// cmdId=100050 广播房间房间关闭
+message BroadcastCloseRoom { sint64 room_id = 1; }
+
+//管理员设置
+message SetRoomAdminReq {
+  sint64 to_player_id = 3; //
+  RoomAdminType admin_type =
+      4; // 设置管理员的类型(想要成什么身份就传什么身份的值)
+}
+
+message SetRoomAdminRes {
+  sint64 player_id = 2;
+  RoomAdminType admin_type = 3;
+}
+
+// 获取房间密码
+message RoomPasswordReq {}
+
+message RoomPasswordRes {
+  string password = 1;
+  bool enable = 2;  //密码开关
+}
+
+//通知管理员变更（房间广播，前端根据策划按要求提示）
+// 100046
+message BroadcastSetRoomAdmin {
+  sint64 room_id = 1;
+  sint64 manager_id = 2;   // 管理员ID
+  string manager_name = 3; // 管理员名称
+  sint64 player_id = 4;    // 玩家ID
+  string player_name = 5;  // 玩家名
+  RoomAdminType admin_type = 6; // 设置管理员的类型(想要成什么身份就传什么身份的值)
+}
+
+// 房间禁言
+message ForbidSpeakReq {
+  sint64 to_player_id = 3;
+  sint32 forbid_speak_time = 4; // 单位：秒
+}
+
+message ForbidSpeakRes {
+  int32 nobility_id = 1; // 爵位ID
+}
+
+// 场景广播 被禁言 SSC100041
+message BroadcastForbidSpeak {
+  sint64 room_id = 1;      // SceneID
+  sint64 player_id = 4;    // 玩家ID
+  string player_name = 5;  // 玩家名
+  sint64 manager_id = 2;   // 管理员ID
+  string manager_name = 3; // 管理员名称
+  uint32 times = 6;        // 禁言时间：秒
+}
+
+// 踢出房间
+message KickoutRoomReq {
+  sint64 to_player_id = 3;
+  int32 cfg_id = 4; // 配置ID
+  int64 expired_time = 5; // 过期时间
+  XcmKickOutRoomType unit_time = 6; // 时间单位
+}
+
+message KickoutRoomRes {
+  int32 nobility_id = 1; // 爵位ID
+}
+
+message GetKickOutRoomCfgReq{
+
+}
+
+message GetKickOutRoomCfgRes{
+  repeated XcmKickOutRoomCfg list = 1; // 配置列表
+}
+
+// 场景广播被踢出 SSC100042
+message BroadcastKickout {
+  sint64 room_id = 1;      // 被踢出 SceneID
+  sint64 player_id = 4;    // 玩家ID
+  string player_name = 5;  // 玩家名
+  sint64 manager_id = 2;   // 管理员ID
+  string manager_name = 3; // 管理员名称
+}
+
+//房间黑名单请求
+message RoomPlayerListReq {
+  int32 index = 1;
+}
+
+message GetRoomRankReq {
+  sint32 type = 1; //请求类型，1：财富，2：魅力
+  sint32 rank_flag = 2; //请求的周期榜标识，1：日榜，2：周榜，3：所有时间的累计榜, 4 年榜，5 月榜
+}
+
+message GetRoomRankRes {
+  sint64 room_id = 1;
+  sint32 type = 2; //请求类型，1：财富，2：魅力
+  sint32 rank_flag = 3; //请求的周期榜标识，1：日榜，2：周榜，3：所以时间的累计榜
+  repeated Rank room_rank_list = 4; //排行榜
+  uint64 total_value = 5;           //总的房间贡献值
+  Rank1 my_rank = 6; //我的排行榜
+  repeated Rank room_rank_list_not_flower = 7; //剔除鲜花的排行榜
+}
+//PC问候语操作
+enum PCRoomGreetingOperationType {
+  PC_ADD = 0;    //增加
+  PC_MODIFY= 1;  //修改
+  PC_DEL = 2;    //删除
+}
+
+message Greeting {
+  int64 index = 1;   //问候语序号
+  string content = 2;   //问候语内容
+}
+
+//PC房间问候语操作操作
+message PCRoomGreetingOperationReq {
+  PCRoomGreetingOperationType Type = 2; //操作类型
+  Greeting item = 3;
+}
+message PCRoomGreetingOperationRes {}
+
+//获取问候语列表
+message GetPCRoomGreetingsReq {
+}
+message GetPCRoomGreetingsRes {
+  repeated Greeting items = 1;
+  int32 display_time = 2;   //
+  bool is_display = 3;
+}
+// ---------------------
+//      嘉宾位
+// ---------------------
+
+// 嘉宾位状态
+enum ChairStatus {
+  CS_OPEN = 0;  // 空闲
+  CS_CLOSE = 1; // 关闭
+}
+
+// 嘉宾位
+message Chair {
+  sint32 id = 1; // 座位ID, 0到8， 0是房主位
+  ChairStatus status = 2;
+  ScenePlayer player = 3; // 位置上的玩家
+  sint64 operator = 4;    // 操作者ID
+  int32 gold_level = 5;   // 帽子等级
+  int32 chair_charm = 6;  // 麦序魅力值
+  int32 mate_chair_charm = 7;  // 麦序交友2.0魅力值
+  InteractTopicEffect topic_effect = 8; // 互动话题特效
+}
+
+// 设置嘉宾位状态
+message ChairStatusReq {
+  sint32 chair_id = 2; // 座位ID, 0到8， 0是房主位
+  ChairStatus status = 3;
+}
+message ChairStatusRes {}
+
+// 请求禁麦/开麦
+message ChairSpeakReq {
+  sint64 target_id = 2;     // 目标id
+  bool chair_ban_speak = 3; // 坑位发言状态，0开麦/1禁麦
+}
+
+message ChairSpeakRes {}
+
+// cmdId=100104, 广播禁麦/开麦
+message BroadcastChairSpeak {
+  sint64 target_id = 1;     // 目标id
+  bool chair_ban_speak = 2; // 坑位发言状态，0开麦/1禁麦
+  string target_name = 3;   // 目标名字
+  int64 operator_id = 4;    // 操作者Id
+  string operator_name = 5; // 操作者名字
+}
+
+// 设置坑位发言开关
+message ChairSpeakOnOffReq {
+  bool chair_speak_onoff = 1; // 坑位发言状态，
+}
+
+message ChairSpeakOnOffRes {}
+
+// cmdId=100105, 广播设置坑位发言开关
+message BroadcastChairSpeakOnOff {
+  sint64 target_id = 1; // 目标id
+  bool chair_speak_onoff = 2;
+  string device_id = 3; // 开麦设备id
+  DeviceType device_type = 4; // 设备类型
+}
+
+// 设置伴奏开关
+message AccompanyOnOffReq { bool accompany_onoff = 1; }
+
+message AccompanyOnOffRes {}
+
+// cmdId=100106, 广播伴奏开关
+message BroadcastAccompanyOnOff {
+  sint64 target_id = 1; // 目标id
+  bool accompany_onoff = 2;
+}
+
+// cmdId=100102, 广播嘉宾位状态变更
+message BroadcastChairStatus {
+  sint32 chair_id = 1; // 座位ID
+  ChairStatus status = 2;
+}
+
+// cmdId=100110, 广播嘉宾位玩家变更
+message BroadcastChair {
+  sint32 chair_id = 1; // 座位ID
+  Chair chair = 2;
+  int32 under_chair_num = 3;   //麦下人数
+}
+
+enum SitChairType {
+  SCT_NormalSit = 0; // 普通上麦
+  SCT_MaskSit   = 1; // 匿名上麦
+  SCT_FollowLast = 2; // 遵循上一次，后台用
+}
+
+// 请求上座
+message ChairSitReq {
+  sint64 target_id = 2; // 上座目标id
+  sint32 chair_id = 3;  // 座位ID
+  SitChairType sit_type = 4; // 上坐类型
+}
+message ChairSitRes {
+  AgodaKey agoda_key = 2; // 声网key
+}
+
+// 通知 上座者收到 cmdId=100111,
+message BroadcastChairSit {
+  sint64 operator_id = 1; // 操作者id
+  sint64 target_id = 2;   // 上座目标id
+  sint32 chair_id = 3;    // 座位ID
+}
+
+// 移麦
+message ChairMoveReq {
+  sint32 from_chair_id = 2;
+  sint32 to_chair_id = 3; // 移到位置
+}
+message ChairMoveRes {}
+
+// cmdId=100112 广播移麦
+message BroadcastChairMove {
+  sint64 player_id = 1;
+  sint32 from_chair_id = 2;
+  sint32 to_chair_id = 3; // 移到位置
+  int32 chair_charm = 4;  // 麦序魅力值
+  int32 mate_chair_charm = 5;  // 麦序交友2.0魅力值
+}
+
+// 请求下座
+message ChairLeaveReq {
+  sint64 target_id = 2; // 下座目标id
+  sint32 chair_id = 3;  // 座位ID
+  ClearChairType opt_type = 4;
+}
+
+enum ClearChairType {
+  CCT_ZERO = 0; // 占位不用
+  CCT_CLEAR_CHAIR = 1; // 清空座位
+}
+
+message ChairLeaveRes {
+  AgodaKey agoda_key = 2; // 声网key
+}
+
+// cmdId=100113 通知 下座者收到
+message BroadcastChairLeave {
+  sint64 operator_id = 1; // 操作者id
+  sint64 target_id = 2;   // 下座目标id
+  sint32 chair_id = 3;    // 座位ID
+}
+
+// cmdId=100118 广播管理员抱麦/移麦
+message BroadcastChairAdminOpt {
+  sint64 operator_id = 1; // 操作者id
+  string operator_name = 2;
+  sint64 target_id = 3; // 下座目标id
+  string target_name = 4;
+  int32 opt_type = 5; // 操作类型，0抱麦，1移麦,
+}
+
+// 加入/退出排麦
+message ChairQueueOptReq {
+  uint32 type = 2; // 0加入，1退出
+  int64 target_id = 3;    // 被添加/移除排麦的目标id， 当!=0时，被管理员插入队列
+  SitChairType sit_type = 4; // 排麦类型
+}
+message ChairQueueOptRes {}
+
+// cmdId=100115, 广播加入/退出/插队排麦队列
+message BroadcastChairQueueOpt {
+  uint32 type = 1; // 0加入，1退出, 2插队
+  repeated ScenePlayer queue = 3; // 排麦列表 （注：此ScenePlayer只有id，id2, name, icon 4个字段可用）
+}
+
+// 排麦插队
+message ChairQueueJumpReq {
+  sint64 target_id = 2; // 目标用户id
+}
+message ChairQueueJumpRes {}
+
+// 请求排麦列表
+message ChairQueueReq {}
+
+message ChairQueueRes {
+  repeated ScenePlayer queue = 14; // 排麦列表 （注：此ScenePlayer只有id，name, icon 3个字段可用）
+  bool ban_queue_status = 1;  // 队列状态； false可排麦，true不可排麦
+}
+
+// ---------------------
+//      在线鲜花
+// ---------------------
+
+// 在线鲜花
+message OnlineFlower {
+  sint64 id = 1;
+  int32 giveTime = 2;   // 领取时间
+  int32 currCount = 3;  // 当前数量
+  int32 nextTime = 4;   // 下次领取倒计时,秒
+  int32 periodTime = 5; // 周期时间,500秒
+  int32 maxCount = 6;   // 最大数量
+}
+
+// 获取花数量信息
+message FlowerInfoReq {}
+
+message FlowerInfoRes { OnlineFlower info = 1; }
+
+// 通知花数量变更，(新手礼物领取成功时会通知)
+message BroadcastOnlineFlower { OnlineFlower info = 1; }
+
+// 给主播送花
+message PresentFlowerReq {
+  repeated sint64 target_ids = 1; // 目标id
+}
+
+message PresentFlowerRes {}
+
+// 广播送花
+message BroadcastPresentFlower {
+  sint64 id = 1;   // 发送者id
+  string name = 2; // 发送者名称
+  string icon = 3; // 头像
+  uint32 wealth_level = 4;
+  string receive_name = 5; // 接收者名称
+  sint64 receive_id = 6;   // 接收者id
+  RoomNobilityInfo send_nobility = 7; // 发送者爵位信息
+  RoomNobilityInfo receive_nobility = 8; // 发送者爵位信息
+}
+
+// ---------------------
+//      聊天
+// ---------------------
+
+// [M] 发送聊天
+message ChatReq {
+  string content = 1;
+  bytes options = 2; // 附加属性，客户端自己处理性别、昵称、VIP。。。。。
+  sint64 to_id = 3;    // 目标player_id
+  bool is_private = 4; // 是否悄悄话
+  ChannelType channel = 5; // 发送的聊天频道
+  int64 fast_speak_id = 6; // 快速发言ID
+}
+
+message ChatRes {}
+
+// 广播聊天
+message BroadcastChat {
+  ChatReq chat = 2;
+  sint32 at_time = 3; // 发送时间
+
+  // 发送者信息
+  sint64 player_id = 1;
+  string name = 4;
+  int32 wealth_level = 5;
+  int32 charm_level = 6;
+  sint64 flags = 7;
+  sint64 flags2 = 8;
+  bool is_charge = 9;
+  repeated Effect effect = 10; //特效
+  bool is_new_user = 11;       // 是否新人
+  sint64 id2      = 12;        // 靓号
+  sint64 caiji_id = 13;        // 菜鸡id
+  ChatNobilityInfo nobility_info = 14;
+  ChatShowSiteType chat_show = 15;
+  DeviceType device_type = 16; // 设备类型
+  bool is_exposure = 17;  // 是否匿名曝光
+  IntimateFansInfo intimate_fans_info = 18; // 亲密粉丝信息
+  string nickname = 19; //用户昵称
+  ChatEffect chat_effect = 20; // 聊天特效
+  int32 fish_wealth_level = 21; // 半糖财富等级
+  int32 fish_charm_level = 22;  // 半糖魅力等级
+}
+
+ enum ChatShowSiteType {
+  CSST_None = 0; // 默认显示规则
+  CSST_OnlyPublicScreen = 1; // 只显示公屏
+}
+
+message ChatNobilityInfo {
+  int32 nobility_id = 1; // 爵位ID
+  string nobility_prefix = 2; // 爵位前缀，爵位的icon
+  string nobility_color = 3; // 爵位公屏字体颜色
+  MaskInfo mask_info = 4; // 马甲信息
+  int32 chair_id = 5; // 所在麦位id，如果在是匿名上麦，且在麦上，才有值
+}
+
+// 举牌
+message PlayDiceReq {
+  int64 emoji_id = 1;
+}
+
+message PlayDiceRes {}
+
+// 广播举牌
+message BroadcastPlayDice {
+  sint64 player_id = 1;
+  int32 point = 2; // 0到9
+  MaskInfo mask_info = 3;
+  int32 chair_id = 4; // 所在麦位id
+  BroadcastChat chats = 5;
+  int64 emoji_id = 6;
+}
+
+// --------------------
+//     广播交友
+// --------------------
+
+enum UserSpeakOrigin {
+  USO_NONE = 0; //  占位
+  USO_DEFAULT = 1; // 默认
+  USO_MOBA = 2; // 开黑
+}
+
+//用户发言 SCC000119
+message UserSpeakReq {
+  string content = 1; //消息内容
+  sint32 tiaotiao = 2; // 1 跳单信息
+}
+
+// SSC000119 IntegerVO is_ok = 1; 是否成功； 1=成功
+// ；2=财富、在线等级不足；3=不在麦上；4=不在房间;
+message UserSpeakRes {
+  sint32 next_time = 1; // 下次发广播间隔时间，单位: s
+  // errCode 34018=财富、在线等级不足；34019=不在麦上；34010=不在房间;
+  // 34020=被禁言; 34021=禁止广播交友
+}
+
+enum ExtendKey {
+  EK_NONE = 0;                    // 占位
+  EK_GAME_BG_BRO = 1;             // 开黑广播(世界广播)背景图
+  EK_GAME_FRAME_BRO = 2;          // 开黑广播边框图
+  EK_GAME_FRAME_COLOR = 3;        // 世界广播-边框颜色
+  EK_CAR_ID = 4;                  // 车队ID
+  EK_GAME_BG_BRO_PC = 5;          // PC开黑广播(世界广播)背景图
+}
+
+//广播交友的消息列表信息  SSC000118   RC_MakeFriend = 100127;  广播交友
+message BroadcastMakeFriend {
+  sint64 player_id = 1;                     //用户id
+  string icon = 2;                          // 头像
+  SexType sex = 3;                          //性别
+  sint32 wealth_level = 4;                  //财富等级
+  string name = 5;                          //用户昵称
+  string broadcast_content = 6;             //广告内容
+  sint64 id2 = 7;
+  sint64 room_id = 8;
+  sint32 charm_level = 9;
+  sint32 pos = 10;                          // 1　广播交友首页不显示
+  sint64 time = 11;                         // 发言时间
+  sint32 info_type = 12;                    // 1 跳跳，2礼物
+  GiveGift gift = 13;                       // 赠送礼物
+  sint32 clicks = 14;                       // 用户点击次数，只有info_type为 1跳跳 的时候才记录
+  string id = 15;                           // 信息id
+  int64 room_online_num = 16;               //房间人数
+  string left_icon_bg_color = 17;
+  string left_text = 18;
+  string left_text_color = 19;
+  NewRoomPattern pattern = 20;
+  int32 room_type = 21;                       // 房间类型 -1 普通房，>0厅
+  map<int32, string> extends = 22;            // 扩展字段ExtendKey
+  repeated string labels = 23;                // 标签列表
+  sint32 fish_wealth_level = 24;                  //半糖财富等级
+  sint32 fish_charm_level = 25;               // 半糖魅力等级
+}
+
+message GiveGift {
+  sint64 send_id = 1; // 赠送者ID
+  string send_name = 2; // 赠送者昵称
+  string send_icon = 3; // 赠送者头像
+  SexType send_sex = 4; // 赠送者性别
+  sint64 recv_id = 5; // 接收者ID
+  string recv_name = 6; // 接收者昵称
+  string recv_icon = 7; // 接收者头像
+  SexType recv_sex = 8; // 接收者性别
+  sint64 room_id = 9; // 房间ID
+  string room_pwd = 10; // 房间密码
+  sint32 gift_id = 11; // 礼物ID
+  sint32 gift_num = 12; // 礼物数量
+  sint64 create_time = 13; // 送礼时间unix时间，单位: s
+  sint32 Gold = 14; // 价值
+  sint64 room_id2 = 15; // 房间靓号
+  RoomNobilityInfo send_nobility_info = 16; // 送礼者爵位信息
+  RoomNobilityInfo rev_nobility_info = 17; // 收礼者爵位信息
+  bool is_world = 18; // 是否全服礼物
+  string gift_icon = 19; // 礼物图片
+  int32 gift_type = 20; // 礼物类型
+  string from_id_cubism_icon = 21; // 送礼者的虚拟形象静态图
+  string to_id_cubism_icon = 22; // 收礼者的虚拟形象静态图
+  string room_name = 23; // 房间名字
+  string message = 24; // 输入信息
+}
+
+message GetBroadcastListReq {
+  sint32 pos = 1; // 1 首页过滤，０默认
+}
+message GetBroadcastListRes {
+  repeated BroadcastMakeFriend list = 1;
+  sint32 status = 2;
+  sint64 time = 3;
+  sint32 survival_time = 4; // 跳跳存在时长，以发布时间为准，发布之后survival_time秒跳跳即失效，单位: s
+}
+
+// 用户点击发布的跳跳
+message ClickTiaoTiaoReq {
+  sint64 player_id = 1; // 跳跳发布者id
+  sint64 create_time = 2; // 跳跳发布的时间
+}
+message ClickTiaoTiaoRes {
+}
+
+// --------------------
+//     挚友
+// --------------------
+
+// 广播：xxx 与亲密挚友 xxxx一起上麦 cmdId=100128
+message BroadcastIntimateSitChair {
+  int64 player_id = 1;    //
+  string player_name = 2; //
+  string player_icon = 3;
+  int64 friend_id = 4;
+  string friend_name = 5;
+  string friend_icon = 6;
+  int32 type = 7; // 挚友类型
+  string public_text = 8; //公屏提示文本，已转换过的
+  string public_text_config = 9; // 公屏提示原配置
+}
+
+// 坑上挚友
+message IntimateChair {
+  int64 player_id = 1;
+  int32 type = 2; // 挚友类型
+  int32 sort = 3; // 挚友排序
+  int64 private_friend_id = 4; // 私密(还没公开)的挚友的id
+  int32 private_type = 5; // 私密(还没公开)的挚友的挚友类型
+  int32 private_sort = 6; // 私密(还没公开)的挚友的挚友排序
+}
+
+// 广播 挚友列表变更 cmdId=100129
+message BroadcastIntimateChairList {
+  repeated IntimateChair intimates = 1; // 挚友列表
+}
+
+// --------------------
+//     交友
+// --------------------
+
+// 开始互选
+message StartMateChoiceReq {}
+
+message StartMateChoiceRes {}
+
+// 广播 互选开始 cmdId=100130
+message BroadcastStartMateChoice {}
+
+message MateChoiceChairReq { int64 player_id = 1; }
+
+message MateChoiceChairRes {}
+
+// 广播 已确定人数 cmdId=100131
+message BroadcastMateChoiceNum { int32 num = 1; }
+
+message MateChoiceResultReq {}
+
+message MateChoiceResultRes {}
+
+message ChangeMateChoiceStatusReq {
+  int32 status = 1; // 状态
+}
+
+message ChangeMateChoiceStatusRes {
+
+}
+
+message QueryMateChoiceInfoReq {
+}
+
+message QueryMateChoiceInfoRes {
+  int32 status = 1; // 状态
+  int64 choice_end_unix = 2; // 心动选择结束时间戳
+  map<int64, int64> pairs = 3; // playerId->target playerId, 0表示没选
+  int64 hat_owner_id = 4;
+  string hat_icon = 5;
+}
+
+message MateChoicePublishResultReq {
+  int64 player_id = 1; // 被公布人的ID
+}
+
+message MateChoicePublishResultRes {
+}
+
+// 广播公布结果 cmdId=100132
+message BroadcastMateChoiceResult {
+  map<int64, int64> pairs = 1; // playerId->target playerId, 0表示没选
+}
+
+// 交友模板
+message MateRoomMatch {
+  int32 gold_stream = 1; // 流水
+  int64 room_id = 2;
+  string card_key =
+      3; // 卡片
+         // /upload/date_room/cards/{key[0,2]}/{key[0,4]}/{key}_{index}.webp
+         // index: 0大图,1小图
+  int32 card_type = 4; // 1真诚之心卡, 2比翼双飞卡, 3海誓山盟卡
+
+  int64 player1_id = 10;
+  string player1_name = 11;
+  string player1_icon = 12;
+
+  int64 player2_id = 20;
+  string player2_name = 21;
+  string player2_icon = 22;
+  bool is_world_broadcast = 23; // 是否全服广播
+
+  RoomNobilityInfo nobility_info1 = 24; // 爵位信息  交友1.0才用
+  RoomNobilityInfo nobility_info2 = 25; // 爵位信息  交友1.0才用
+
+  bool is_match = 26; // 是否互选
+  string broadcast_msg = 27; // 公屏消息
+  string room_name = 28; // 房间名称
+}
+
+// 广播匹配成功公告 cmdId=100133
+message BroadcastMateRoomMatch {
+  MateRoomMatch match = 1;
+}
+
+
+
+// 广播匹配成功系统消息 cmdId=100137
+//  恭喜你与[xxxxx]成功牵手，请查收你们的浪漫时刻纪念卡片~[点击查看]
+message BroadcastMateMatchMsg {
+  int64 target_id = 1;
+  string target_name = 2;
+  string card_path = 3; // http://cdn + card_path
+  string tip =
+      4; // 恭喜你与[xxxx]成功牵手，请查收你们的浪漫时刻纪念卡片~ [点击查看];
+}
+
+// 广播没有匹配 cmdId=100134
+message BroadcastMateNotMatch {}
+
+// 广播累计金币更新 cmdId=100135
+message BroadMateChairGoldStream {
+  int64 player_id = 1;
+  int32 gold_level = 2; // 0~6
+  SexType sex = 3;      //
+}
+
+message BroadMateChairCharm {
+  int64 player_id = 1;
+  int32 chair_charm = 4;
+  int32 chair_id = 5;
+}
+
+// --------------------
+//     龙珠
+// --------------------
+
+//龙珠
+message DragonBallReq { int32 type = 1; }
+
+message DragonBallRes {
+  sint64 id = 1;                  // playerId
+  repeated sint32 dragonBall = 2; // 0 数字一  1 数字二  2 数字三
+  sint32 type = 3;                // 0 第一次  1 第二次
+  string name = 4;                //昵称
+}
+
+message BroadcastDragonBall {
+  sint64 id = 1;                  // playerId
+  repeated sint32 dragonBall = 2; // 0 数字一  1 数字二  2 数字三
+  sint32 type = 3;                // 0 第一次  1 第二次
+  string name = 4;                //昵称
+}
+
+// --------------------
+//     投票
+// --------------------
+
+enum VoteType {
+  VoteType_Default = 0; // 麦上投票
+  VoteType_Defined = 1; // 自定义投票
+}
+
+//  投票信息
+message Vote {
+  int32 vote_id = 1;            //投票Id
+  string vote_name = 2;         //投票名称
+  int64 begin_at = 4;           // 服务器当前时间 秒
+  int64 end_at = 5;             //结束时间 秒
+  int32 ret = 6;                // 0投票没有开启,1发起投票中, 2 投票结束
+  int64 player_id = 7;          //发起人
+  string player_name = 8;       //发起人昵称
+  repeated VotePlayer vote = 9; //投票人信息
+  RoomNobilityInfo nobility_info = 10; // 发起人爵位信息
+  VoteType type = 11;                 // 投票类型
+}
+
+//投票玩家信息
+message VotePlayer {
+  int64 option_index = 1;  // playerId或序号id
+  string option_name = 2; // 昵称或投票项名称
+  string icon = 3;      //头像
+  int32 vote = 4;       //票数
+  RoomNobilityInfo nobility_info = 34; // 爵位信息
+  VoteType type = 5; // 投票类型
+}
+
+message VoteOption {
+  int64 index = 1; // 投票选项序号
+  string name = 2; // 投票选项名称
+}
+
+//发起投票
+message StartVoteReq {
+  string vote_name = 1;   // 投票名称
+  int32 limit_at = 2;     // 限时： 分
+  repeated int64 ids = 3; // 投票人
+  VoteType type = 4; // 投票类型
+  repeated VoteOption options = 5; // 投票项
+}
+
+message StartVoteRes {}
+
+// 广播投票开始 cmdId=100138
+message BroadcastStartVote { Vote vote = 1; }
+
+// 获取投票配置
+message GetVoteConfReq {}
+
+message GetVoteConfRes {
+    int32 max_vote_option_count = 1; // 最大限制投票项数量
+}
+
+// 获取投票信息
+message GetVoteInfoReq {}
+
+message GetVoteInfoRes {Vote vote = 1;}
+
+// cmdId=100230
+message BroadcastVoteInfo {
+  Vote vote = 1;
+}
+
+// 投票
+message VoteReq {
+  int64 target_id = 2; // 目标id
+}
+
+message VoteRes {}
+
+// 公布结果
+message PublishVoteReq {}
+
+message PublishVoteRes {}
+
+// 广播投票结束, cmdId=100139, 收到了请求http 000347结果
+message BroadcastPublishVote {
+  repeated VotePlayer vote = 9; //投票人信息
+}
+
+message BroadcastAddVote {
+  repeated VotePlayer vote = 1; // 更改投票数量的投票项
+}
+
+message VoteLog {
+    int64 option_index = 1;  // playerId或序号id
+    string option_name = 2; // 昵称或投票项名称
+    string icon = 3; // 头像
+    int32 vote = 4; // 得票数
+    RoomNobilityInfo nobility_info = 5; // 爵位信息
+    VoteType type = 6; //投票类型
+}
+message RoomVoteLog {
+    int64 time = 1; // 开启时间戳
+    string name = 2; // 投票名称
+    int32 count = 3; // 总票数
+    repeated VoteLog logs = 4; // 投票记录
+}
+//房间投票记录
+message RoomVoteLogReq {
+    int64 room_id = 1;   // 房间id
+    int32 page = 2;
+    int32 page_size = 3;
+}
+message RoomVoteLogRes {
+    repeated RoomVoteLog vote_logs = 4; // 投票记录
+}
+
+message UserVoteLog {
+    int64 option_index = 1;  // playerId或序号id
+    string option_name = 2; // 昵称或投票项名称
+    string vote_name = 3; // 投票名称
+    int64 time = 4; // 开启时间戳
+    RoomNobilityInfo nobility_info = 5; // 爵位信息
+    VoteType type = 6; // 投票类型
+}
+//个人投票记录
+message UserVoteLogReq {
+    int32 page = 1;
+    int32 page_size = 2;
+}
+message UserVoteLogRes {
+    repeated UserVoteLog vote_logs = 1; // 投票记录
+}
+
+
+// 广播广播交友头条信息 cmdId=100140
+message BroadcastHeadline {
+  Headline headline = 1;
+}
+
+message BroadFriendRoomIdReq {
+  int64 player_id = 1; // 广播交友发言用户ID，全服礼物赠送者ID
+  int64 to_id = 2;  // 全服礼物接受者ID
+  int64 gift_room_id = 3; // 全服礼物房间ID
+}
+
+message BroadFriendRoomIdRes {
+  int64 room_id = 1;
+  bool is_in_room = 2;
+}
+
+
+// 防跟随检查
+message FollowCheckReq {
+  int64 follow_id = 1; // 被跟随者id
+}
+message FollowCheckRes {
+  int64 room_id = 1; // 请求中 follow_id 所在房间
+  int32 nobility_id = 2; // 爵位id，不能被跟随时该值不为零；其他情况为零
+  string room_name = 3; // 房间名称
+}
+
+// PC助手
+
+// 通知切换到PC Assistant推流模式
+message PcaChangeUser {
+  string user_id = 1; // GME小号ID
+}
+
+message PcaStartPushReq {}
+message PcaStartPushRes {
+  sint32 result = 1; // 0成功，1需要先跳房间
+  // 返回1时，先跳到指定房间再重发这个请求
+  sint64 room_id = 2;
+}
+message BroadcastPcaStartPush {
+  string user_id = 1; // GME大号ID
+}
+
+message PcaStopPushReq {}
+message PcaStopPushRes {}
+
+message PcaChangeUserAckReq {}
+message PcaChangeUserAckRes {}
+
+
+message Headline {
+  sint64 player_id = 1;
+  string name = 2;
+  string icon = 3;
+  SexType sex = 4;
+  sint32 wealth_level = 5;
+  sint32 charm_level = 6;
+  string content = 7;
+  sint32 show_time = 8; // 头条显示时间，单位s
+  sint32 protect_time = 9; // 头条保护时间，单位s
+  sint32 gold = 10; // 头条花费的金币
+  int64 room_online_num = 11;       //房间人数
+  string left_icon_bg = 12;
+  string left_text = 13;
+  string left_text_color = 14;
+  NewRoomPattern pattern = 15;
+  bool grab_status = 16; // TRUE:抢; FALSE:不抢
+  HeadLineStyle style = 17; // 头条样式
+}
+
+enum HeadLineStyle {
+  HLS_NONE = 0; // 默认头条样式
+  HLS_NORMAL = 1; // 普通头条样式
+  HLS_LUXURY = 2; // 豪华头条样式
+  HLS_SUPER = 3; // 超级头条样式
+}
+
+message GetBFHeadlineReq {
+}
+message GetBFHeadlineRes {
+  Headline headline = 1;
+}
+
+enum PushHeadlineType {
+  PHT_NORMAL = 0; // 正常头条
+  PHT_SECKILL = 1; // 秒榜
+  PHT_HOT = 2; // 热榜
+}
+
+message PushHeadlineReq {
+  string content = 1;
+  sint32 gold = 2;
+  PushHeadlineType push_type = 3; // 发布类型
+}
+message PushHeadlineRes {
+  sint32 base_gold = 1; // 基础金币
+  sint32 add_gold = 2;  // 金币步长
+  string tip = 3;       // 提示语
+  //errcode  34046 被人抢先了，发布头条失败; 34047 金币不足，请充值; 34048 头条保护时间中; 34049 头条发布金币不足; 34050 发布头条财富或魅力等级不够
+}
+
+message GetBFHeadlineBaseReq {
+  PushHeadlineType push_type = 1; // 发布类型
+}
+message GetBFHeadlineBaseRes {
+  sint32 base_gold = 1; // 基础金币
+  sint32 add_gold = 2;  // 金币步长
+  string tip = 3;       // 提示语
+}
+
+message GetWorldGiftReq {
+  sint32 opType = 1;  // 0 默认获取全服；1 获取个人按日期；2 获取个人按价值; 3 按日期 所有; 4 按价值 所有; 5 个人最新一条
+  int64 player_id = 2;
+}
+message GetWorldGiftRes {
+  repeated GiveGift gift_info = 1;
+  GiveGift top = 2;
+}
+
+message GetBFInfoReq {
+  sint32 onType = 1; // 1 首页过滤，０默认, 2 跳跳 3雷达
+}
+message GetBFInfoRes {
+  repeated BroadcastMakeFriend list = 1;
+  sint32 status = 2;
+  sint64 time = 3;
+  sint32 limit_charm = 4;
+  sint32 survival_time = 5; // 跳跳存在时长，以发布时间为准，发布之后survival_time秒跳跳即失效，单位: s
+}
+
+message DelHeadlineReq {
+}
+message DelHeadlineRes {
+  // ErrCode 34012 没有权限
+}
+
+
+message MyChairInfoReq {}
+message MyChairInfoRes {
+  sint64 room_id = 1; // 所在房间, 0没在房间
+  bool on_chair = 2; // 是否在坑上
+}
+
+message GetScenePlayerReq {
+  int64 player_id = 1;
+}
+
+message GetScenePlayerRes {
+  int64 room_id = 1;           // 等于0时不在房间
+  int32 chair_id = 2;          // 所在坑位
+  ScenePlayer player = 3;
+}
+
+message LockAllChairReq {
+  int32 opt_type = 1;     // 操作类型 0=全开；1=全锁
+}
+
+message LockAllChairRes {
+  int32 opt_type = 1;     // 操作类型 0=全开；1=全锁
+}
+
+message SetChairBanQueueReq {
+  bool ban_queue_status = 1;  // 队列状态； false可排麦，true不可排麦
+}
+message SetChairBanQueueRes {
+}
+
+// 广播排麦队列状态 cmdId=100114
+message BroadcastChairBanQueue {
+  bool ban_queue_status = 1;  // 队列状态； false可排麦，true不可排麦
+}
+
+message ClearChairQueueReq {
+}
+message ClearChairQueueRes {
+}
+
+// 广播排麦队列被清空 cmdId=100116 (排麦中的用户收到)
+message BroadcastClearChairQueue {
+}
+
+// 通知你已被添加/移除当前排麦队伍 cmdId=100119， 只有目标收到
+message BroadcastAddChairQueue {
+  uint32 type = 2; // 0添加，1移除
+}
+
+message GetRoomConfReq {
+
+}
+message GetRoomConfRes {
+  bool is_high_quality = 1;  // 是否有天籁模式选项
+  bool is_intimate = 2;   // 是否有陪伴模式
+  repeated RoomImage images = 3;  // 背景图片列表
+  bool is_send_bill = 4; // 是否有派单模式
+  bool is_show_presenter = 5; //  是否显示主持人
+
+  string room_name = 6;
+  string greet = 7;
+  AuditStatus name_greet_status = 8;
+  string reception = 9;
+  AuditStatus reception_status = 10;
+  repeated RoomPatternInfo patterns = 11;   //模式列表
+  bool game_auto_bf = 12;//游戏自动广播开关
+  bool single_live_notify = 13; // 个播通知开关
+  SingleLiveTplType single_live_tpl = 14; // 个播2.0模版类型
+  ShowSingleLiveTplType show_single_live_tpl = 15; // 个播2.0模板显示单播双播类型
+  bool is_room_shake = 16;       // 房间震动开关
+  bool is_room_chair_shake = 17; // 房间麦位抖动开关
+}
+
+message RoomPatternInfo {
+  NewRoomPattern pattern = 1; //房间模式
+  string name = 2;  //模式名称
+  string intro = 3; //模式介绍
+}
+
+// 房间背景图片
+// 背景图地址
+// /upload/resources/friend/bg/id/bg_id.jpg // 背景图
+// /upload/resources/friend/bg/id/bg_heart_id.png // 心图片
+// /upload/resources/friend/bg/id/bg_name_right_id.png // 名称图片
+// /upload/resources/friend/bg/id/bg_name_left_id.png // 名称图片
+// /upload/resources/friend/bg/id/show_id.png // 大预览图
+// /upload/resources/friend/bg/id/show_min_id.png // 小预览图
+// 如： id = 108713
+// /upload/resources/friend/bg/108713/bg_108713.jpg // 背景图
+// /upload/resources/friend/bg/108713/bg_heart_108713.png // 心图片
+// /upload/resources/friend/bg/108713/bg_name_right_108713.png // 名称图片
+// /upload/resources/friend/bg/108713/bg_name_left_108713.png // 名称图片
+// /upload/resources/friend/bg/108713/show_108713.png // 大预览图
+// /upload/resources/friend/bg/108713/show_min_108713.png // 小预览图
+message RoomImage {
+  int64 image_id = 1; // eg:背景ID：200014 背景图：/upload/resources/friend/bg/200014/bg_200014.png 预览图：/upload/resources/friend/bg/200014/show_200014.png
+  string image_name = 2;
+  int32 expire_at = 4;  // 到期时间，秒
+  int64 friend_id = 5;  // 好友id
+  string friend_name = 6;
+}
+
+message RoomImageListReq {
+  int64 friend_id = 1;
+}
+
+message RoomImageListRes {
+  repeated RoomImage images = 1;
+}
+
+message ChangeRoomImageReq {
+  int64 image_id = 1;
+  int64 friend_id = 2;
+}
+
+message ChangeRoomImageRes {
+}
+
+// cmdId=100155 广播房间背景变更
+message BroadcastRoomImage {
+  int64 image_id = 1;
+  int64 friend_id = 2;
+}
+
+// cmdId=100156 通知房主实名认证
+message BroadcastRoomOwnerCert {
+  string msg = 1;
+}
+
+message RoomInfoExt {
+  sint64 room_id = 1;        // 房间Id
+  string name  = 2;          // 房间名称
+  string greeting = 3;       // 欢迎语
+  sint32 pattern = 4;        // 房间模式
+  bool is_enter_pwd = 5;     // 是否加锁
+}
+
+//获取房间房间信息请求
+message RoomInfoExtReq {
+  repeated sint64 room_id = 1;
+}
+
+//返回对应房间Id的房间信息
+message RoomInfoExtRes {
+  repeated RoomInfoExt room = 1;
+}
+
+//摇号抽奖：类型
+enum LuckyDrawType {
+  LDT_NONE = 0;         //占位不使用
+  LDT_IMMEDIATELY = 1;  //直接抽奖
+  LDT_SIGN_UP = 2;      //报名抽奖
+}
+
+//摇号抽奖：设置选项类型
+enum SettingOptionType {
+  SOT_NONE = 0;             //占位不使用
+  SOT_ON_CHAIR_ONLY = 1;    //只抽麦上
+  SOT_EXCLUDE_OWNER = 2;    //不抽房主
+  SOT_WEALTH_LEVEL = 3;      //财富等级不低于(..)
+}
+
+//摇号抽奖：阶段
+enum LuckyDrawStage {
+  LDS_NONE = 0;         //占位不使用
+  LDS_SIGN_UP = 1;      //报名阶段
+  LDS_RESULT = 2;       //结果阶段
+}
+
+//摇号抽奖：公布结果选项
+enum ConfirmWinnerOption {
+  CWO_NONE = 0;        //占位不使用
+  CWO_NO_WINNER = 1;   //无人中奖
+  CWO_ANNOUNCE_WINNER = 2;  //公布结果
+}
+
+//摇号抽奖：设置选项
+message SettingOption {
+  SettingOptionType type = 1;   //选项类型
+  string value = 2;             //选项附属信息
+}
+
+//摇号抽奖：开始，设置
+message LuckyDrawStartReq {
+  LuckyDrawType type = 1;   //抽奖类型
+  repeated SettingOption options = 2; //抽奖设置勾选的选项
+}
+
+message LuckyDrawStartRes {
+}
+
+//摇号抽奖：抽奖滚动和出中奖名单
+message LuckyDrawMakeResultReq {
+}
+message LuckyDrawMakeResultRes {
+}
+
+//摇号抽奖：确认抽奖结果
+message LuckyDrawEndReq {
+  ConfirmWinnerOption option = 1;
+}
+message LuckyDrawEndRes {
+}
+
+//摇号抽奖：玩家报名
+message LuckyDrawSignUpReq {
+}
+message LuckyDrawSignUpRes {
+}
+
+//摇号抽奖：报名阶段房主取消抽奖活动
+message LuckyDrawCancelReq {
+}
+message LuckyDrawCancelRes {
+}
+
+//摇号抽奖：抽奖活动阶段
+message LuckyDrawStageReq {
+}
+message LuckyDrawStageRes {
+  bool is_auth = 1;         //发起抽奖活动权限
+}
+
+//摇号抽奖：房主发起报名抽奖，通知玩家.
+message LuckyDrawBroadcast {
+  repeated sint64 exclude_player_id = 1;    //客户端负责屏蔽名单里面的玩家
+}
+
+//摇号抽奖：报名人数
+message LuckyDrawCount {
+  int32 participator_count = 1; //参与抽奖的人数
+  sint64 end_time = 2; //倒计时结束时间，unix时间戳
+}
+
+//摇号抽奖：抽奖活动被取消，通知玩家
+message LuckyDrawCancelled {
+}
+
+//摇号抽奖：参与抽奖的玩家名单列表
+message LuckyDrawParticipator {
+  repeated ScenePlayer players = 1;  //（注：此ScenePlayer只有id，name, icon 3个字段可用）
+  sint64 owner_id = 2;               //抽奖发起人
+}
+
+//摇号抽奖：摇号结果
+message LuckyDrawResult {
+  repeated ScenePlayer players = 1; //（注：此ScenePlayer只有id，name, icon 3个字段可用）
+  sint64 end_time = 2; //倒计时结束时间，unix时间戳
+}
+
+//摇号抽奖：公布获奖者名单
+message LuckyDrawWinner {
+  repeated ScenePlayer winners = 1; //（注：此ScenePlayer只有id，name, icon 3个字段可用）
+}
+
+//声音sdk类型
+enum VoiceSdkType {
+  VST_NONE = 0;        //占位不使用
+  VST_TENCENT = 1;     //腾讯sdk
+  VST_AGORA = 2;       //声网sdk
+  VST_NETEASE = 4;     // 网易sdk
+}
+
+message RoomSwitchVoiceSdk {
+  VoiceSdkType sdk_type = 1;
+}
+
+message ChangeChairReq {
+}
+message ChangeChairRes {
+
+}
+
+message AcceptSendBillReq {
+  RoomOptType opt_type = 1;
+}
+message AcceptSendBillRes {
+  string tip = 1;
+}
+enum RoomOptType {
+  ROT_Zero = 0; // 占位不用
+  ROT_AcceptSendBill = 1; // 抢单
+}
+
+enum SetPresenterOpt {
+  SPT_ZERO = 0; // 占位不用
+  SPT_ADD = 1; // 设置主持
+  SPT_DEL = 2; // 删除主持
+}
+
+message SetPresenterReq {
+  int64 player_id = 1; // 被设置的主持人ID
+  SetPresenterOpt opt = 2; // 操作类型
+}
+message SetPresenterRes {
+}
+
+message PresenterWelcomeInfoReq {
+
+}
+message PresenterWelcomeInfoRes {
+  string male = 1; // 男性：小哥哥~
+  string female = 2; // 女性：小姐姐~
+  string welcome_text = 3; // 欢迎语
+  string welcome_function = 4; // 欢迎语功能
+  int32  wealth_level = 5; // 财富等级条件<=
+  string interval_str = 6; // 间隔
+  int32  interval = 7; // 间隔（分钟）
+  bool   auto_welcome = 8; // 公屏自动欢迎
+}
+
+message SetPresenterWelcomeInfoReq {
+  string male = 1; // 男性：小哥哥~
+  string female = 2; // 女性：小姐姐~
+  string welcome_text = 3; // 欢迎语
+  bool   auto_welcome = 4; // 公屏自动欢迎
+}
+message SetPresenterWelcomeInfoRes {
+
+}
+// 广播麦序魅力值变更 cmdId=100168
+message BroadcastChairCharm {
+  sint32 id = 1; // 座位ID, 0到8， 0是房主位
+  sint64 player_id = 2; // 目标玩家id
+  int32 chair_charm = 3;  // 麦序魅力值
+}
+
+message ClearChairCharmReq {
+  int32 chair_id = 1;
+  sint64 player_id = 2; // 目标玩家id
+}
+message ClearChairCharmRes {
+}
+
+// 频道最近聊天记录
+message NewestSendChatReq {
+  ChannelType channel = 1; // 频道
+}
+
+message NewestSendChatRes{
+  repeated BroadcastChat chats = 1; // 广播聊天列表
+}
+
+// 全部频道最近聊天记录
+message NewestAllChannelChat {
+  ChannelType type = 1;   // 频道类型(根据这个频道类型读取下面不同的结构)
+  BroadcastChat chat = 2; // 房间、传闻、家族聊天记录列表
+  BroadcastMakeFriend global = 3; // 世界聊天记录列表
+}
+
+// 最新全部频道发言
+message NewestAllChatReq {}
+
+message NewestAllChatRes {
+  repeated NewestAllChannelChat chats = 1;  // 全部频道最近聊天记录列表
+}
+
+// 公屏多频道配置
+message AllChatCfg {
+  ChannelType type = 1;         // 频道类型(根据这个频道类型读取下面不同的结构)
+  string name = 2;              // 频道名称
+  bool is_show = 3;             // 频道是否显示
+  bool is_default = 4;          // 频道是否默认
+  bool is_show_headline = 5;    // 频道是否显示头条
+  repeated string applications = 6; // 应用包名
+}
+
+message ReceiveChair {
+  int64 chair_id = 1; // 主持id
+  string image = 2; // 图片
+  string chair_name = 3; // 名字
+  int32 sex = 4;
+  sint64 flags = 5; // 标志，按位存储。各位表示意思参考common.ext.proto:PlayerFlags
+  string chair_sign = 6; // 个人签名
+}
+
+// cmdId=100169 接待弹窗推送协议
+message ReceiveWindow {
+  sint64 room_id = 1; // 房间id
+  ReceiveChair chair = 2;
+  string receive_content = 3; // 接待语
+  ReceiveRoomType room_type = 4; // 房间类型
+  ReceiveWindowStyle style = 5;  // 样式
+  bytes data = 6;   // 接引弹窗数据-推荐 ReceiveWindowOpt
+}
+
+enum ReceiveRoomType {
+  RECEIVE_ROOM_ZERO = 0;
+  RECEIVE_ROOM_INTERACT = 1; // 互动
+  RECEIVE_ROOM_SING = 2; // 点唱
+  RECEIVE_ROOM_MAKE_FRIEND = 3; // 处对象
+  RECEIVE_ROOM_EXPANSION = 4; // 扩列
+  RECEIVE_ROOM_RADIO = 5; // 电台
+  RECEIVE_ROOM_ACCOMPANY = 6; // 陪伴
+  RECEIVE_ROOM_BILL = 7; // 派单
+  RECEIVE_ROOM_GAME = 8; // 游戏
+  RECEIVE_ROOM_FATE = 9; // 缘分
+}
+
+//ame:  cmdId=100179 新用户通过首页接引弹窗进入房间通知，房主和主持才能收到
+message EnterRoomByReceiveWindow {
+  int64 player_id = 1; // 用户id
+  string nickname = 2; // 用户昵称
+  SexType sex = 3; // 用户性别
+  string enter_room_msg = 4; // 进房通知内容
+}
+
+// 接引弹窗关闭方式
+enum CancelReceiveWindowType {
+  CRWT_ZERO = 0;       // 占位
+  CRWT_BUTTON = 1;     // 点关闭按钮
+  CRWT_TOP_TAB = 2;    // 切换顶部导航关闭
+  CRWT_ICON = 3;       // 点头像进空间关闭
+  CRWT_ENTER_ROOM = 4; // 点击按钮-进房关闭
+  CRWT_ROOM_OTHER = 5; // 进其他房间关闭
+  CRWT_BOTTOM_TAB = 6; // 切换底部导航关闭
+  CRWT_OTHER = 7;      // 其他关闭方式
+}
+
+// 接引弹窗丢弃类型
+enum DiscardReceiveWindowType {
+  DRWT_DEFAULT = 0;    // 占位
+  DRWT_OTHER = 1;      // 其他
+}
+
+// 用户点击接引弹窗的取消
+message CancelReceiveWindowReq {
+  ReceiveWindow window_data = 1;  // 接引弹窗数据
+}
+
+message CancelReceiveWindowRes {
+}
+
+// 显示位置
+enum ReceiveWindowPosition {
+  RWP_ZERO = 0;    // 占位
+  RWP_TOP = 1;     // 顶部位置
+  RWP_MIDDLE = 2;  // 中间位置
+  RWP_BOTTOM = 3;  // 底部位置
+}
+
+// 接引弹窗样式
+enum ReceiveWindowStyle {
+  RWS_DEFAULT = 0;    // 旧样式
+  RWS_HORIZONTAL = 1; // 横版样式
+  RWS_VERTICAL = 2;   // 竖版样式
+}
+
+// 接引弹窗-推荐
+message ReceiveWindowOpt {
+  int64 player_id = 1;                        // 用户ID
+  int64 room_id = 2;                          // 房间ID
+  string name = 3;                            // 房间名称
+  SexType sex = 4;                            // 性别
+  string icon = 5;                            // 图标路径
+  string recommend_word = 6;                  // 推荐语
+  string voice_url = 7;                       // 声音地址
+  int32 voice_time = 8;                       // 声音时长
+  string voice_tag_text = 9;                  // 主音色文字
+  string url = 10;                            // 跳转URL
+  string btn = 11;                            // 按钮文案
+  string algorithm_id = 12;                   // 算法编号
+  ReceiveWindowStyle style = 13;              // 接引弹窗样式
+  ReceiveWindowPosition position = 14;        // 显示位置
+  int32 people_num = 15;                      // 当前房间人数
+  NewRoomPattern pattern = 16;                // 房间类型
+  int32 room_type = 17;                       // 公会厅类型
+  int32 stay_time = 18;                       // 弹窗停留时长 上报
+  bool is_click = 19;                         // 点击    上报
+  CancelReceiveWindowType close_type = 20;    // 关闭类型 上报
+  bool is_play_voice = 21;                    // 是否播放声音条 上报
+  DiscardReceiveWindowType discard_type = 22; // 丢弃类型 上报
+  int32 home_stay_time = 23;                  // 首页停留时长 上报
+  string ab_group_id = 24;                    // ab对照组id 回传阿里云 trace_id
+  int32 player_sex = 25;                      // 用户性别
+  map<int32,int64> chair_player = 26;         // 麦上用户
+}
+
+// 房间弹窗询问
+message OpenWindowReq {
+  WinType win_type = 1;
+}
+message OpenWindowRes {
+}
+enum WinType {
+  WIN_ZERO = 0; // 占位
+  WIN_RECEIVE = 1; // 首页接引弹窗
+  WIN_NEW_GIFT = 2; // 新手礼包弹窗
+}
+
+// cmdId=100170 排队上8麦时，如果上麦条件不符合，则推送
+message RoomSitLvLimit {
+  RoomErr error_code = 1; // 错误码
+  string error_msg = 2; // 错误描述
+}
+
+//房间类型的开关
+enum RoomOnOffType {
+  ROOT_NONE = 0; //占位不使用
+  ROOT_CHAIR_CHARM = 1; //麦序魅力值开关
+  ROOT_CHAIR_SER = 2;//麦序序号开关
+  ROOT_CLAN_CHAIR_LIMIT = 3; // 公会房间麦序开关
+  ROOT_RED_ENVELOPE = 4; // 红包开关
+  ROOT_ROOM_DECORATE = 5;//房间装饰开关
+  ROOT_ACTIVITY_ROOM_DECORATE = 6;//活动房间装饰屏蔽开关
+  ROOT_AUTO_CLAN_CHAIR_LIMIT = 7; // 房间设置里是否自主公会房间上麦限制
+  ROOT_AC_ROOM_CHARGE_NOTICE = 8;//活动房间首充提示开关
+  ROOT_AUDIT_ROOM = 9;//房间资料审核开关
+  ROOT_RED_ENVELOPE_LEVEL = 10; // 鲸鱼图泡泡等级限制开关
+  TEXT_FILTER_ROOM_SCREEN_ENCRYPTED = 11; // 房间公屏文字过滤开关 （加密房）
+  TEXT_FILTER_ROOM_SCREEN_UNENCRYPTED = 12; // 房间公屏文字过滤开关 （非加密房）
+  ROOT_ENTRY_EFFECT_SWITCH = 13; // 大型活动房房间进场特效开关
+  CONSORTIA_QUIT_PUNISH = 14; //公会退会费开关
+  ROOT_NO_NOBILITY = 15; // 房间无爵位
+  ROOT_RANDOM_RED_ENVELOPE_LEVEL = 16; // 随机 鲸鱼吐泡泡等级限制开关
+  ROOT_RANDOM_RED_ENVELOPE = 17; // 随机 红包开关
+  ROOT_ACTIVITY_ROOM_EFFECT = 18;//大型活动房特效开关
+  ROOT_GAME_AUTO_BF = 20;//游戏自动广播
+  ROOT_CHANGE_GAME_PATTERN_BUTTON = 21;//切换游戏模式按钮显示
+  ROOT_ACTIVITY_ROOM_EMOJI = 22;//大型活动房表情开关，开了所有人可见，关闭后不显示表情给其他人看
+  ROOT_ACTIVITY_ROOM_EFFECT_GIFT = 23;//大型活动房礼物动效开关，开了后需设置礼物价值阈值，只有价值达到阈值后的礼物动效才全部广播显示。关闭后不显示给其他人看，仅自己可见
+  ROOT_ACTIVITY_ROOM_SCENE_EFFECT = 24;//大型活动房动效(scene_player里的effect)开关，开了后需设置等级阈值，只有等级达到阈值后的用户，动效才全部广播显示。开关关闭后动效所有人不可见。
+  ROOT_EFFECT_MOOD = 26; // 房间心情特效面板显示开关
+  ROOT_AC_GAME_LIST = 27;//房间活动游戏入口显示开关
+  ROOM_WELFARE = 28;     // 房间福利助手开关
+  ROOM_SHOW_MODE_PLAN_SIGN = 29; // 表演模式排挡灰度开关(控制签约成员)
+  ROOT_CLEAN_PUBLiC_SCREEN = 30; // 清空房间公屏聊天记录开关
+  ROOM_SHOW_MODE_PLAN = 31; // 排挡隐藏开关
+  ROOM_GAME_AUTO_INVITE = 32;//自动开始开关
+  ROOM_BAN_SPEAK = 33; // 房间禁言
+  CHORUS = 35; // 合唱开关
+  CHORUS_CLIENT = 36; // 跨端合唱开关，打开APP和PC可以合唱，关闭只能各自端合唱
+  CHORUS_APP = 37; // 移动端合唱入口开关
+  ROOT_MULTI_CHANNEL = 38; // 公屏多频道开关
+  ROOM_RANK_DAY = 39; // 房间实时排行榜
+  PC_ROOM_GREETING = 40; //PC 房间欢迎语
+  ROOM_PRESENT_WELCOME = 41; // 房间主持欢迎语
+  ROOM_CHANNEL_FILTER = 43; // 频道信息过滤开关
+  ROOM_LEAVE_RECOMMEND = 44; // 退房推荐显示总开关
+  ROOM_LEAVE_RECOMMEND_BLACK_LIST = 45; // 退房推荐黑名单控制开关
+  ROOM_USER_WEIGHT_RANK_New = 46; //房间用户权重新规则开关
+  SONG_WAIT_LIST = 47; //待唱列表开关
+  ROOM_BAN_SCREEN_SHOT = 48; // 加密房禁止截屏和录屏
+  CHAT_EFFECT = 49; // 聊天特效开关
+  ROOM_VOTE_WHITELIST = 50; // 房间投票白名单
+  ROOM_MOBA_TEAM_OPEN_GAME = 51; // 个人开黑房间打开游戏开关
+  ROOM_CP_PUBLIC_NOTICE = 52; // 全服告白位开关
+  ROOM_AUDIO_PLAYER = 53;    // 房间播放器入口开关
+  CLAN_HOUR_RANK_BLACKLIST = 54;   //公会小时榜黑名单
+  ROOM_PK_PUNISHMENT = 55;   // PK互动开关
+  CLAN_HOUR_RANK_INLET = 56;       // 公会小时榜入口开关
+  ROOM_SINGLE_LIVE_PK_PUNISHMENT = 57; // 个播PK互动开关
+  ROOM_EMPTY_CHAIR_SEDIMENT = 58;            // 空坑沉底开关
+  ROOM_CLOUD_DISCO_ROCK = 59; // 云蹦迪狂欢时刻开关
+  ROOM_CLOUD_DISCO_ROBOT = 60; // 云蹦迪机器人开关
+  ROOM_Wish_Gift_Switch = 62;//心愿礼物入口灰度开关
+  ROOM_Clan_Task_Switch = 63;//公会任务入口灰度开关
+  CLAN_SIT_CHAIR_LIMIT = 65;       // 公会房上麦限制
+  NOT_SAME_CLAN_SIT_CHAIR_LIMIT = 66;       // 不受同一公会上麦限制名单
+  ROOM_Audit_Apply_Limit_People_Num_Switch = 67;// 审核房间人数上限开关
+  ROOM_BGM_Player_Switch = 68;//麦上用户播放器入口开关
+  ROOM_BARRAGE_GAME_ENTRY = 70; // 弹幕游戏入口开关
+}
+
+message RoomOnOffStatus {
+  RoomOnOffType type = 1;
+  sint32 status = 2;    //0关，1开
+}
+
+// 首充提示配置请求
+message FirstChargeReq {
+}
+message FirstChargeRes {
+  int32 gift_tip_time = 1; // 房间礼包文案提示时长(秒)，0则不提示
+  string gift_tip = 2; // 房间礼包提示文案
+  int32 window_stay = 3; // 用户在房间停留X秒后弹出提示，0则不弹出
+  string gift_jump = 4; // 房间礼包 跳转地址
+  string window_jump = 5; // 房间弹窗 跳转地址
+  int32 is_charge = 6; // 今天是否充值过，0没有，1有
+  int32 gift_icon = 7; // 房间礼包图标是否显示 0否1是
+}
+
+// 首充提示 房间弹窗询问
+message FirstChargeWindowReq {
+}
+message FirstChargeWindowRes {
+}
+
+message AllDecorateConfReq{
+  DecorateType decorate_type = 1;
+}
+message AllDecorateConfRes{
+  repeated RoomAllDecorateItem item = 1;
+}
+
+message UsingDecorateList{
+  repeated int64 decorate_id = 1;
+}
+
+//购买房间装饰
+message BuyDecorateReq{
+  int64 shop_id = 1;
+  int64 decorate_id = 2;
+}
+message BuyDecorateRes{
+}
+//使用房间装饰
+message UseDecorateReq{
+  int64 decorate_id = 1;
+}
+message UseDecorateRes{
+}
+
+message BroadcastUseDecorate {
+  string room_bg_url = 1;  // 房间装饰背景图
+  string Pc_room_bg_url = 2;  // pc房间装饰背景图
+  int64  decorate_id = 3;//装饰id 6.4.5后优化 只根据装饰ID获取
+}
+
+message BroadcastBuyDecorate {
+  int64 decorate_id = 1;
+}
+//////////////新装饰配置/////////////////////
+//6.4.5之后优化独立出装饰配置
+message BaseDecorateConfItem{
+  int64 decorate_id = 1;
+  DecorateType decorate_type = 2;
+  string name = 3;
+  string bg_url = 4;
+  string small_bg_url = 5;
+  string pc_url = 6;
+  string small_pc_url = 7;
+  string describe = 8;
+  string shelter_url = 9;     // 方形庇护图片地址
+  string pc_shelter_url = 10; // 方形庇护PC图片地址
+  string stretchable_url = 11; // 拉伸图地址
+  string bg_video_url = 12;
+  string bg_video_pc_url = 13;
+}
+
+message BaseDecorateConfReq{
+  string md5 = 1;
+}
+message BaseDecorateConfRes{
+  int32 status = 1; //0获取成功 1已是最新 2获取失败
+  string md5 = 2;
+  repeated BaseDecorateConfItem item = 3;
+}
+
+// 装饰基础配置url
+message BaseDecorateConfUrlReq{}
+message BaseDecorateConfUrlRes{
+  string url = 1;
+}
+
+message PlayersRoomsReq{
+  int32 flag_room_name = 1; // 是否返回房间名
+  repeated int64 player_ids = 2; // 要查询的玩家id列表，最多50个
+}
+message PlayersRoomsRes{
+  map<int64, RoomIdName> room_map = 1;
+}
+message RoomIdName{
+  int64 room_id = 1; //玩家所在房间，0表示不在房间
+  string room_name = 2; // 房间名，请求中 flag_room_name 为0，则该字段为 ""
+}
+
+// 广播交友信息类型, 与广播交友信息里的info_type 字段对应的
+enum BF_RECORD_KIND {
+  BFRK_NORMAL = 0; // 广播交友信息
+  BFRK_TIAO_TIAO = 1; // 跳跳
+  BFRK_WORLD_GIFT = 2; // 全副礼物
+}
+
+message DelBroadcastFriendRecordReq {
+  string id = 1;  // 广播交友信息id
+  string content = 2; // 广播交友内容
+  int64 player_id = 3; // 发送者id
+  BF_RECORD_KIND info_type = 12; // 0 广播交友信息, 1 跳跳，2礼物
+}
+message DelBroadcastFriendRecordRes {
+}
+
+message NextRewardRoomReq {
+}
+message NextRewardRoomRes {
+  sint64 room_id = 1;
+}
+//////房间技能
+enum ROOM_SKILL_TYPE {
+  RST_NORMAL = 0;
+  RST_FRUIT = 1; //水果机
+  RST_THUNDER = 2;//打雷
+}
+
+enum ROOM_SKILL_DATA{
+  RSD_NORMAL =0;
+  RSD_PLAYER = 1;//SkillPlayer
+  RSD_CHAIR = 2;//SkillChair
+}
+
+message RoomSkillReq{
+
+}
+message RoomSkillRes{
+  repeated PlayerRoomSkill skill = 1;
+}
+
+message PlayerRoomSkill{
+  int64 skill_id = 1;
+  ROOM_SKILL_TYPE skill_type = 2;
+  string skill_icon = 3;
+  int32 has_times = 4;//剩余次数
+  string skill_name = 5;
+  string skill_des = 6;
+  int32 total_times = 7;
+}
+
+message UseSkillReq{
+  int64 skill_id = 1;
+}
+
+message UseSkillRes{
+  int64 skill_id = 1;
+  ROOM_SKILL_TYPE skill_type = 2;
+  ROOM_SKILL_DATA data_type = 3;
+  bytes data_byte = 4; // 内容结构
+  bool has_privilege = 5; //是否有特权
+  int64 min_nobility_id = 6; //最低爵位要求
+}
+
+message SkillInfo{
+  int64 user_id = 1;
+  int64 skill_id = 2;
+  int32 skill_play_time = 3;
+  ROOM_SKILL_TYPE skill_type = 4;
+}
+
+message BroadCastUseSkill{
+  SkillInfo skill_info = 1;
+}
+
+message BroadCastSkillResult{
+  SkillInfo skill_info = 1;
+  ROOM_SKILL_DATA data_type = 2;
+  bytes data_byte = 3; // 内容结构
+}
+
+message SkillPlayer{
+  int64 player_id = 1;
+  int32 chair = 2;
+  string icon = 3;
+  string name = 4;
+}
+message SkillChair{
+  int32 chair = 1;
+}
+
+message UpdateAnonymousSitReq {
+  bool flag = 1; // true 匿名， false 不匿名
+}
+message UpdateAnonymousSitRes {
+
+}
+
+message ClanMember {
+  int64 id = 1;
+  int64 id2 = 2;
+  string icon = 3;
+  string name = 4;
+  SexType sex = 5;
+  int64 clan_id = 6; // 公会ID
+}
+
+message RoomClanMembersOnChairReq {
+
+}
+message RoomClanMembersOnChairRes {
+  repeated ClanMember list = 1;
+  int64 clan_id = 6; // 公会ID
+}
+
+message RoomClanInfoReq {
+
+}
+message RoomClanInfoRes {
+  int64 room_id = 1; // 房间ID
+  string name = 2; // 房间名
+}
+
+message PreCheckRoomPatternSetReq {
+  NewRoomPattern pattern = 1;
+}
+message PreCheckRoomPatternSetRes {}
+
+// 根据首页接引弹窗的规则，获取一个房间
+message ReceiveWindowRoomIdReq {
+}
+message ReceiveWindowRoomIdRes {
+  int64 room_id = 1; // 房间ID
+}
+
+// 获取节目设置
+message ProgramInfoReq {
+  int64 ProgramType = 1; // 节目类型, 1：点歌；2：互动
+}
+message ProgramInfoRes {
+  int64 room_id = 1;        // 房间ID
+  int32 ProgramType = 2;    // 节目类型, 1：点歌；2：互动
+  int32 boom_item_id = 3;   // 爆音礼物ID
+  int32 order_item_id = 4;  // 点歌礼物ID
+  int32 order_double_item_id = 5; // 点歌双费
+  int32 bomb_item_id = 6;         // 炸档全麦
+  int32 bomb_double_item_id = 7;  // 炸档双费
+  int32 bomb_task_type = 8;       // 麦序任务类型 1: 清空麦序， 2：清空指定数量
+  int32 bomb_task_num = 9;        // 炸档清空数量
+  int32 target_fee = 10;          // 双费目标
+}
+
+// 保存节目设置
+message SaveProgramReq {
+  int64 room_id = 1;  // 房间ID
+  int32 ProgramType = 2;    // 节目类型, 1：点歌；2：互动
+  int32 boom_item_id = 3;   // 爆音礼物ID
+  int32 order_item_id = 4;  // 点歌礼物ID
+  int32 order_double_item_id = 5; // 点歌双费
+  int32 bomb_item_id = 6;   // 炸档全麦
+  int32 bomb_double_item_id = 7; // 炸档双费
+  int32 bomb_task_type = 8;  // 麦序任务类型 1: 清空麦序， 2：清空指定数量
+  int32 bomb_task_num = 9;   // 炸档清空数量
+}
+message SaveProgramRes {
+}
+
+// 节目设置费用
+message ProgramFeeItem { // 费用道具
+  int32 item_id = 1;   // 道具id
+  string name = 2;     // 道具名称
+}
+message ProgramFeeCfg {
+  int32 mod = 1;  // 功能： 爆音、点歌、互动、炸档
+  int32 type = 2; // 费用类型: 单价、双费、全麦
+  repeated ProgramFeeItem items = 3; // 费用道具
+}
+message ProgramFeeCfgList {
+  repeated ProgramFeeCfg cfg_list = 1;
+}
+
+message SetShowReq {
+  int64 target_id = 1; // 需要设为或解除表演的用户ID
+  bool  is_show   = 2; // 是否设为表演
+}
+message SetShowRes {
+  // 推送 RC_Chair = 100110;           // 广播坑位变动
+}
+
+message HallHourBossReq {
+  int32 index = 1; // 初始传0
+}
+message HallHourBossRes {
+  int32                 next_index = 1; // -1 没有了，请求下一页，传给服务端
+  repeated HallHourBoss list       = 2;
+}
+message HallHourBoss {
+  int64   player_id = 1;
+  string  name = 2;
+  string  icon = 3;
+  SexType sex = 4;
+}
+
+// cmdId=100180, 多端登录，设备开麦通知自己
+message BroadcastDeviceOpenMic {
+  string device_id = 1; // 开麦设备id
+  DeviceType device_type = 2; // 设备类型
+}
+
+// cmdId=100195
+message BroadcastSetShow {
+  int64 old_id = 1; // 旧的表演ID
+  int64 new_id = 2; // 新的表演ID
+}
+enum ChangeRoomSetType {
+  CRST_NONE = 0;
+  CRST_ROOM_INFO = 1;//房间信息 （name，password，greeting）
+  CRST_PATTERN = 5;//切换房间模式
+  CRST_VOICE = 6;//切换房间音质
+  CRST_CHARM = 7;//麦序魅力值状态
+  CRST_CHAIR_LIMIT = 8;//麦序魅力值状态
+  CRST_PWD_ENABLE = 9;//麦序魅力值状态
+  CRST_GAME_AUTO_BF = 10; //游戏自动广播开关 0,1
+  CRST_SINGLE_LIVE_NOTIFY = 11; // 个播通知开关
+  CRST_SINGLE_LIVE_TPL = 12; // 切换个播2.0模版类型
+  CRST_CLOUD_DISCO_ROOM_SHAKE = 13; // 云蹦迪震动开关
+  CRST_CUBISM = 14; // 虚拟形象开关
+}
+
+message ChangeRoomSetReq{
+  ChangeRoomSetType change_type = 1;
+  string name = 2;         //房间名称
+  string password = 3;     //房间密码
+  string greeting = 4;     //房间问候语
+  NewRoomPattern new_pattern = 5;
+  RoomVoice voice = 6; // 音质
+  sint32 chair_charm_status = 7;     // 麦序魅力值状态，0为关闭，1为开启
+  bool clan_chair_limit_status = 8;  // 麦位限制状态
+  bool pwd_enable = 9;   //房间密码开关
+  bool auto_game_bf = 10; //游戏自动广播
+  bool single_live_notify = 11; // 个播开播通知
+  MobaTeamGameInfo game_info = 12; // 游戏信息
+  SingleLiveTplType single_live_tpl = 13; // 个播2.0模版类型
+  bool is_cloud_disco_room_shake = 14;  // 云蹦迪房间震动开关
+  bool is_cloud_disco_chair_shake = 15; // 云蹦迪房间麦位抖动开关
+  bool cubism_enable = 16;  // 虚拟形象开关
+}
+message ChangeRoomSetRes{
+  ChangeRoomSetType change_type = 1;
+  AuditStatus name_greet_status = 2;
+  string old_name = 3;
+  string new_name = 4;
+  string old_greeting = 5;
+  string new_greeting = 6;
+  bool   is_modify = 7;
+}
+
+// 特权信息
+message PrivilegeInfo {
+  string name = 1;          // 特权名称
+  string style_url = 2;     // 安卓通知样式
+  string pc_url = 3;        // pc通知样式头图
+  string pc_draw_url = 4;   // pc通知样式拉伸图
+  string pc_tail_url = 5;   // pc通知样式拉尾图
+  string content = 6;       // 上线通知文案
+  string name_color = 7;    // 用户名称颜色
+  string content_color = 8; // 通知文案颜色
+  string ios_url = 9;       // ios通知样式
+}
+
+// cmdid=100197 广播上线全服通知
+message BroadcastOnlineNotice {
+  SimplePlayer simple_player = 1;   // 用户信息
+  PrivilegeInfo privilege_info = 2; // 特权信息
+}
+
+message StopVoteReq {
+
+}
+message StopVoteRes {
+
+}
+
+// 获取房间个人相关信息
+message RoomPlayerInfoReq {
+}
+message RoomPlayerInfoRes {
+  bool is_sign_member = 1; // 是否是房间所在公会的签约成员
+  bool is_single_live_host = 2; // 是否是个播模式主播
+  bool is_sign_member_master = 3; // 是否是签约成员(公会ID不一定是用户所在房间id)
+}
+
+message EnterRoomSuccessReq {
+  sint64 room_id = 1;
+  EnterRoomOpt enter_room_opt = 2; // 进房间后的操作
+  int32 game_id = 3;//game_id回传
+  string content = 4; // 车队ID
+  EnterRoomWay enter_room_way = 5; // 如何进入房间
+}
+
+message EnterRoomSuccessRes {
+}
+
+// cmdId=100241 进房成功 推送弹幕游戏配置
+message BarrageGameEntryPush {
+  repeated BarrageGameEntryItem items = 1; // 入口配置
+}
+
+message BarrageGameEntryItem {
+  message RoomTag {
+    string tag_icon = 1; // 标识图标
+    int32  tag_type = 2; // 标识类型 0-无 1-方形
+  }
+  int64 game_id = 1; // 游戏id
+  string game_name = 2; // 游戏名称
+  string game_ent_icon = 3; // 游戏入口图标
+  string game_addr = 4; // 游戏地址
+  int64 single_game_minute = 5; // 单局游戏时长 (分钟)
+  string classify_name = 6; // 游戏分栏名称
+  int64 weight = 7; // 游戏权重
+  int32 start_hour = 8; // 开放时间 (钟点)
+  int32 end_hour = 9; // 结束时间 (钟点)
+  repeated int64 clan_cates = 10; // 有效的公会分类id
+  repeated int64 room_pattern_list = 11; // 有效的房间模式
+  repeated int64 gift_ids = 12; // 关联的礼物id
+  repeated RoomTag room_tags = 13; // 房间标识
+  string status_bar_color = 14; // 状态栏颜色
+}
+
+message PkEntryItem {
+    PkMode pk_mode = 1; // 开放模式
+    int64 start_second = 2; // 开始时间 秒数
+    int64 end_second = 3; // 结束时间 秒数
+    int32 reward_rate = 4; // 赏金比例
+    int64 new_start_second = 5; //  新的开始时间 秒数 (包含跨天的时间范围)
+    int64 new_end_second = 6; //  新的结束时间 秒数 (包含跨天的时间范围)
+}
+
+// cmdId=100219 进房成功 推送pk入口
+message PkEntryPush  {
+  repeated PkEntryItem pk_entry_items = 1; // pk模式项
+}
+
+message SingleLivePkEntryItem {
+  SingleLivePkMode pk_mode = 1; // 开放模式
+  int64 start_second = 2; // 开始时间 秒数
+  int64 end_second = 3; // 结束时间 秒数
+}
+
+// cmdId=100221 进房成功 推送pk入口
+message SingleLivePkEntryPush  {
+  repeated SingleLivePkEntryItem pk_entry_items = 1; // pk模式项
+  string router_url = 2;      // 规则的路由
+}
+
+// cmdId=100199 广播用户心情
+message BroadcastEffectMood {
+  ScenePlayer player = 1; // 用户信息
+  int32 effect_id  = 2; // 心情特效ID
+  bool is_show     = 3; // 是否显示，true:显示; false:不显示
+  int64 time_stamp = 4; // 时间戳，用于处理网络延迟导致推送到达顺序错乱的问题
+}
+
+// cmdId=100200 广播清空公屏
+message CleanPublicScreen {}
+
+// cmdId=100201 推送房间模式
+message BroadcastRoomPattern {
+  NewRoomPattern new_pattern = 1; // 房间模式
+  RoomVoice voice = 2;            // 房间音质
+}
+
+// cmdId=100203 合唱推送
+message ChorusNotice {
+  ChorusOptType opt       = 1;
+  string        chorus_id = 2; // 合唱ID
+  Chorus        invitor   = 3; // 邀请者
+  Chorus        acceptor  = 4; // 接受者
+  DeviceType    device_type = 5; // 操作者设备类型
+}
+
+message Chorus {
+  int32 chair_id  = 1; // 麦位ID
+  int64 player_id = 2; // 用户ID
+  int64 id2       = 3; // 靓号
+  string name     = 4; // 昵称
+  int64 open_id   = 5; // sdk open_id
+}
+
+enum ChorusOptType {
+  COT_NONE   = 0; // 占位不用
+  COT_INVITE = 1; // 发起合唱邀请
+  COT_REFUSE = 2; // 拒绝合唱
+  COT_ACCEPT = 3; // 接受合唱
+  COT_STOP   = 4; // 结束合唱
+  COT_START  = 5; // 开始合唱
+  COT_SDK_ERROR = 6; // sdk连接失败
+}
+
+message ChorusOptReq {
+  ChorusOptType opt        = 1; // 操作类型
+  string        chorus_id  = 2; // 合唱ID，拒绝，接受，结束需要传入
+  int64         invited_id = 3; // 被邀请人ID，邀请时需要传入
+}
+message ChorusOptRes {
+}
+
+message NeteaseIMTokenReq {
+}
+
+message NeteaseIMTokenRes {
+  string netease_im_token = 1; // 网易IMtoken
+  int64  id = 2; // imToken 的ID
+}
+
+// cmdid=100202
+message RoomBanSpeakNotice {
+  RoomBanSpeakType opt = 1;
+}
+
+enum RoomBanSpeakType {
+  RBST_NONE    = 0; // 占位不用
+  RBST_BAN     = 1; // 禁言
+  RBST_RELEASE = 2; // 解除
+}
+
+message RoomBanSpeakReq {
+  RoomBanSpeakType opt = 1;
+}
+message RoomBanSpeakRes {
+
+}
+
+// cmdId=100203 广播房间开始新年倒计时
+message BroadcastCountDownStart {
+}
+
+message InteractionConf {
+  int64 id = 1; // 互动id
+  InteractionType ia_type = 2; // 互动类型
+  string name = 3; // 互动名称
+  string describe = 4; // 互动描述
+  int32 single_id = 5; // 单价 礼物id
+  int32 double_id = 6; // 双费ID
+  int32 all_chair_id = 7; // 全麦双费id
+  int32 double_target = 8; // 双费目标：1.房主加主持 2.房主 3.主持
+  bool status = 9; // 是否启用
+  string icon = 10; // 图标url
+  bool is_all_chair = 11; // 是否需要全麦
+  int32 inter_num = 12; // 互动需要的人数 -1：全麦；0：任意；n：必须n人
+  int32 max_num = 13; // 每次最大互动次数 -1：无限制
+}
+// 获取房间互动面板配置
+message InteractionConfReq {
+  int64 room_id = 1;
+}
+message InteractionConfRes {
+  repeated InteractionConf conf_list = 1; // 旧版互动配置
+  repeated InteractionConf gift_conf_list = 2; // 新版关联点歌礼物的互动配置
+}
+
+// 设置房间互动面板配置 pc用
+message SetInteractionConfReq {
+  int64 room_id = 1;
+  InteractionConf conf = 2; // icon 字段不填，不支持用户自定义
+}
+message SetInteractionConfRes {
+}
+
+// 设置房间互动面板配置 单价礼物、双费礼物、全麦双费礼物选择列表 pc用
+message InteractionConfGiftListReq {
+  int64 ia_id = 1; // 互动id
+}
+message InteractionConfGiftListRes {
+  repeated int32 single_ids = 1; // 单价 礼物id列表
+  repeated int32 double_ids = 2; // 双费 礼物id列表
+  repeated int32 all_chair_ids = 3; // 全麦双费 礼物id列表
+}
+
+// 公屏快速发言
+message PublicScreenFastSpeakReq{
+  int64 room_id = 1; // 房间ID
+  NewRoomPattern pattern = 2; // 房间模式
+}
+
+message PublicScreenFastSpeakRes{
+  int64 expire_time = 1; // 关闭时间（秒）
+  repeated FastSpeak list = 2; // 快捷语列表
+}
+
+message FastSpeak{
+  int64 fast_speak_id = 1; // 快捷语ID
+  string fast_speak_content = 2; // 快捷语内容
+}
+
+// (用户进房成功后推送)退房推荐cmdId = 100209
+message BroadcastLeaveRoomRecommend{
+  bool is_recommend = 1; // true:推荐; false:不推荐
+}
+
+// 粉丝召唤配置
+message FansRecallConfReq{
+
+}
+
+message FansRecallConfRes{
+  bool is_show = 1; // true 显示粉丝召唤入口; false 不显示
+  string remark = 2; // 底部文字
+}
+
+// 粉丝召唤弹窗
+message FansRecallPopupReq{
+
+}
+
+message FansRecallPopupRes{
+  repeated string rule_list = 1; // 粉丝召唤说明
+  int64 recall_history_id = 2; // 召唤历史ID
+  string recall_history_content = 3;// 召唤历史内容
+  int32 recall_person = 4; // 召唤人数
+  int64 recall_time = 5; // 召唤倒计时;0:可召唤;(秒)
+  int64 begin_recall_time = 6; // 客户端发起召唤倒计时(秒)
+  int64 end_recall_time = 7; // 客户端结束召唤倒计时(秒)
+}
+
+enum RecallContentStatus{ // 召唤语审核状态
+  RCS_NONE = 0; // 占位不用
+  RCS_PASS = 1; // 通过
+  RCS_CHECKING = 2; // 审核中
+  RCS_REFUSE = 3; //  拒绝
+}
+
+// 发起粉丝召唤
+message FansRecallSendReq{
+  int64 id = 1; // 召唤语ID
+  string content = 2; // 召唤语内容
+  int64 room_id = 3; // 房间ID
+}
+
+message FansRecallSendRes{
+  int64 id = 1; // 召唤语ID
+  string content = 2; // 召唤语内容
+  RecallContentStatus status = 3; // 召唤语审核状态
+}
+
+// 获取已召唤用户列表
+message GetFansRecallListReq{
+  int64 id = 1; // 召唤语ID
+}
+
+message GetFansRecallListRes{
+  repeated FansRecallList list = 1; // 已召唤用户列表
+  int32 count = 2; // 已召唤总数
+}
+
+message FansRecallList{
+  int64 id = 1; // 用户ID
+  string nick_name = 2; // 用户昵称
+  string icon = 3; // 用户头像
+  int64 id2 = 4; // 靓号
+}
+
+// cmdId = 100206
+message BroadcastFansRecall{
+  string icon = 1; // 用户头像
+  string nick_name = 2; // 用户昵称
+  string title = 3; // 召唤标题
+  string content = 4; // 召唤内容
+  string url = 5; // 跳转路由
+  int64 expire_time = 6; // 弹窗关闭时间(秒)
+  int64 room_id = 7; // 房间ID
+}
+
+// cmdId = 100207 (发起召唤提示)
+message BroadcastFansRecallSend{
+  int64 id = 1; // 发起召唤人ID
+  string nick_name = 2; // 发起人昵称
+  string content = 3; // 内容：%nick_name% 发起了粉丝召唤
+}
+
+// cmdId = 100208 (发起召唤进房提示)
+message BroadcastFansRecallEnterRoom{
+  int64 id = 1; // 发起召唤人ID
+  string nick_name = 2; // 发起人昵称
+  int64 fans_id = 3; // 粉丝ID
+  string fans_nick_name = 4; // 粉丝昵称
+  string content = 5; // 内容 : %fans_nick_name% 被 %nick_name% 召唤进入本房间
+  string fans_icon = 6; // 粉丝头像
+  int64 fans_id2 = 7; // 粉丝靓号
+  int64 fans_recall_id = 8; // 召唤语ID
+}
+
+message FansRecallCancelReq{
+  int64 id = 1; // 召唤语ID
+}
+
+message FansRecallCancelRes{
+
+}
+
+// cmdId = 100210(加密房间)
+message BroadcastFansRecallCancel{
+  int64 room_id = 1; // 房间ID
+  string content = 2; // 当前房间已上锁,粉丝召唤取消
+}
+
+// cmdId = 100211
+message BroadcastAgoda {
+  repeated AgodaKey agoda_key_list = 1;
+}
+
+message ReportVoiceStatusReq {
+}
+
+message ReportVoiceStatusRes {
+}
+//  cmdId = 100212
+message PersonalKickout {
+  int64 room_id = 1;
+}
+
+// 聊天特效
+message ChatEffect {
+  string version = 1; // 动画版本
+  string app_animation_url = 2; // 客户端动画
+  string pc_animation_url = 3; // PC端动画
+  int32 duration = 4; // 持续时间(毫秒)
+  int32 weight = 5; // 权重
+  string pc_svga_url = 6; //PC端SVGA
+}
+
+// cmdId = 100213
+message BroadcastTeacherStudent {
+  int32 effect_id = 1; // 上麦特效ID
+  int64 teacher_id = 2; // 用户ID
+  int64 teacher_id2 = 3; // 靓号
+  string teacher_name = 4; // 昵称
+  string teacher_icon = 5; // 头像
+  int64 student_player_id = 6; // 用户ID
+  int64 student_player_id2 = 7; // 靓号
+  string student_name = 8; // 昵称
+  string student_icon = 9; // 头像
+  string public_text = 10; // 文案
+}
+
+// 师徒上麦心跳
+message TeacherStudentChair {
+  int64 player_id = 1; // 用户ID
+  int32 level_id = 2; // 等级ID（特效ID）
+}
+
+// 广播 师徒列表变更 cmdId=100214
+message BroadcastTeacherStudentChairList {
+  repeated TeacherStudentChair teacher_student = 1; // 师徒列表
+}
+
+// 个播 师徒进房公屏推送 cmdId= 100215
+message BroadcastTeacherStudentEnterRoom {
+  int64 player_id = 1; // 用户ID
+  int64 player_id2 = 2; // 靓号
+  string player_name = 3; // 昵称
+  string player_icon = 4; // 头像
+  string public_text = 5; // 文案
+}
+
+// 开黑组队发车推送麦位列表 cmdId = 100216
+message MobaTeamSitChairBroadcast{
+  int64 room_id = 1;         // 房间id
+  repeated Chair chairs = 2; // 麦位列表
+  int32 under_chair_num = 3; //麦下人数
+}
+
+// 广播房间直播url cmdId = 100218
+message LiveBroadcast {
+  int64 room_id = 1;               //房间ID
+  string url = 2;                  //直播流url,PC端
+  string low_bit_rate_url = 3;     //低码率url
+}
+
+// 获取视频直播url
+message GetLiveUrlReq {}
+message GetLiveUrlRes {
+  int64 room_id = 1;              //房间ID
+  string url = 2;                 //直播流url
+  string low_bit_rate_url = 3;    //低码率url
+}
+//快捷语
+message QuickChat {
+  int64 quick_chat_id = 1; //id
+  int32 index = 2;  //序号
+  string content = 3; //内容
+  int64 content_id = 4; //文案ID
+}
+
+enum ChatClassify {
+  CHAT_ZERO = 0;
+  CHAT_IM = 1;   //IM
+  CHAT_ROOM = 2; //Room
+}
+// 快捷语管理
+message AddQuickChatReq {
+  repeated QuickChat quick_chats = 1;
+  ChatClassify classify = 2;
+}
+message AddQuickChatRes {
+
+}
+enum RoomChatShowType {
+  RCST_ZERO = 0;       //占位
+  RCST_ROOM = 1;       //进入房间展示
+  RCST_KEYBOARD= 2;    //拉起键盘后展示
+}
+message RoomQuickChatConfReq {
+}
+message RoomQuickChatConfRes {
+  int32 current_limit = 1;              // IM展示条数上限
+  RoomChatShowType show = 2;            // 展示时机
+  repeated QuickChat quick_chats = 3;   // 快捷语列表
+  repeated NewRoomPattern  pattern = 4; // 房间模式
+  QuickChatUserType user_type = 5;      // 用户类型
+}
+
+message CheckQuickChatContentReq {
+  string content = 1;
+}
+message CheckQuickChatContentRes{
+}
+
+// 房间多频道配置
+message GetAllChatCfgReq{}
+
+message GetAllChatCfgRes{
+  repeated AllChatCfg conf = 1; // 频道配置
+}
+
+message RoomChairStatus {
+  sint32 chair_id = 1; // 座位ID
+  ChairStatus status = 2;
+}
+
+enum PkRewardType {
+  PKRT_ZERO = 0;         // 占位
+  PKRT_HOST = 1;         // 主持PK
+  PKRT_SINGLE_LIVE = 2;  // 个播PK
+}
+
+// 在房间内断线重连请求枚举
+enum AsyncReconnectedInRoomType {
+  ARIRT_None = 0; // 占位
+  ARIRT_CloudDisco = 1; // 云蹦迪
+}
+
+// 在房间内断线重连请求，异步推送
+message AsyncReconnectedInRoomReq{
+  AsyncReconnectedInRoomType typ = 1; // 请求数据类型
+  bytes extra_data = 2;               // 根据type，使用对应结构体
+}
+message AsyncReconnectedInRoomRes{}
+
+// 异步获取房间模式配置
+message AsyncRoomPatternCfgReq{
+}
+message AsyncRoomPatternCfgRes{// 推送cmdId=100224 XcmRoomPatternCliCfgData (acm_conf.ext.proto)
+}
+
+// 请求类型-心愿礼物
+enum WishGiftType{
+  WGT_NONE = 0; // 占位
+  WGT_UPDATE = 1;//修改
+  WGT_GET = 2;//查询
+}
+
+// 请求类型-置顶任务
+enum ClanTaskType{
+  CTT_ZERO = 0;//占位
+  CTT_SAVE = 1;//生成
+  CTT_GET = 2;//查询
+  CTT_TASK_DONE = 3;//任务完成数+1
+  CTT_GET_USER = 4;//查询返回用户视角数据
+}
+
+//公会房 置顶任务
+message ClanTaskReq{
+  int64 begin_time = 1;//任务开始时间 绝对时间 type=CTT_SAVE 时使用
+  int64 end_time = 2;//任务结束时间 绝对时间 type=CTT_SAVE 时使用
+  repeated PlayerTask players = 3;//任务玩家列表 type=CTT_SAVE 时使用
+  ClanTaskType type = 4;//请求类型
+  int64 done_player_id = 5;//任务完成数+1用户ID type=CTT_TASK_DONE 时使用
+}
+
+//cmdId=100225
+message ClanTaskRes{
+  int64 begin_time = 1;//任务开始时间 绝对时间
+  int64 end_time = 2;//任务结束时间 绝对时间
+  repeated PlayerTask players = 3;//任务玩家列表
+  PlayerTask current_player = 4;//当前任务玩家
+}
+
+//cmdId=100226
+message PlayerTask{
+  string image = 1;//头像
+  string nick = 2;//昵称
+  int64 player_id = 3;//用户ID
+  int32 task_done_num = 4;//置顶任务完成数量
+  int32 task_total_num = 5;//置顶任务总数数量
+  int32 chairs_num = 6;//麦位
+}
+
+//惩罚榜
+message PunishmentRankReq{
+}
+message PunishmentRankRes{
+  repeated PunishmentRank rank = 1;//排行列表
+  PunishmentRank current_rank = 2;//当前用户排名
+}
+message PunishmentRank{
+  int64 rank_num = 1;//排名
+  string image = 2; //头像
+  string nick = 3;//昵称
+  int32 wealth_level = 4; // 财富等级
+  int32 charm_level = 5; // 魅力等级
+  int64 player_id = 6;//用户ID
+  int64 gift_num = 7;//送礼数量
+  sint32 gift_id = 8;//惩罚礼物ID
+}
+//获取惩罚礼物配置
+message PunishmentGiftConfReq{
+
+}
+message PunishmentGiftConfRes{
+  sint32 gift_id = 1;
+}
+
+//达人房 心愿礼物
+message WishGiftReq{
+  repeated GiftTask gifts = 1;//礼物列表
+  WishGiftType type = 2;//请求类型
+}
+
+//cmdId=100227
+message WishGiftRes{
+  int64 end_time = 1;//任务结束时间
+  repeated GiftTask gifts = 2;//心愿礼物列表
+}
+
+//cmdId=100228
+message GiftTask{
+  sint32 gift_id = 2; // 礼物id
+  int32 task_done_num = 3;//任务完成数量
+  int32 task_total_num = 4;//任务总数数量
+  sint64 update_time = 5; //更新任务完成数量时间戳 纳秒
+}
+
+//获取心愿礼物配置墙
+message WishGiftConfReq{
+
+}
+message WishGiftConfRes{
+  repeated sint32 gift_ids = 1;
+}
+// 收到推送进入小窝 cmdid = 100235
+message EnterFossaRoom {
+  int64 room_id = 1;  // 进房ID
+
+}
+
+// 收到退出小窝 cmdid = 100236
+message LeaveFossaRoom {
+}
+
+// 对方拒绝开启小窝 cmdid = 100237
+message OtherRejectFossa {
+  string toast = 1;
+}
+
+// 对方提前离开小窝 cmdid = 100238
+message OtherLeaveFossaEarly {
+  string toast = 1;
+}
+
+// 退出小窝房的时间
+message LeaveFossaRoomTimeReq {
+}
+
+message LeaveFossaRoomTimeRes {
+  int64 leave_at = 1; // 退房时间戳
+}
+
+message OpenFossaRoomReq {
+  bool open = 1; // 开启小窝房：false-不开启，true-开启
+}
+message OpenFossaRoomRes {}
+
+message BroadcastMateChoiceHatOwner {
+  int64 hat_owner_id = 1; // 帽子获得者ID
+  int32 hat_level = 2;   // 帽子等级
+  string hat_icon = 3;   // 帽子icon
+}
+
+message BroadcastMateChoiceChangeStatusSuccess{
+  int32 status =1; // 状态  对应MateChoiceStatus枚举
+  int64 choice_end_unix = 2; //  心动选择结束时间戳  精确到秒
+}
+
+message BroadcastMateChoiceSelectChairNumber {
+  int64 player_id = 1;             // 选择方 用户ID
+  int64 select_player_id = 2;      // 被选择方 用户ID
+}
+
+message MateChoiceSelectChairNumberReq {
+  int64 select_player_id = 1;     // 被选择方 用户ID
+}
+
+message MateChoiceSelectChairNumberRes {
+
+}
+
+message BroadcastMateChoice2Pairs {
+  map<int64, int64> pairs = 1; // 心动选择结果
+}
+
+message BroadcastMateChoice2ChangeStatusToReady {
+
+}
+
+message InitMateRoomGoldStatReq {
+
+}
+message InitMateRoomGoldStatRes {
+
+}
+
+message MateRoomGoldStatReq {
+
+}
+message MateRoomGoldStatRes {
+  int64 room_id = 1;
+  int64 total_gold = 2;
+}
+
+// 官方考核结果
+enum EnumOfficialExamResult {
+    OER_NONE = 0;
+    OER_NOT_PASS = 1;  // 1-考核不通过
+    OER_PASS = 2;      // 2-考核通过
+    OER_WAIT_PASS = 3; // 3-待考核
+}
+
+// cmdId=100229
+message BgmPlayerSwitch{
+  bool is_switch = 1; //播放器入口是否显示
+}
+
+message FullChairRoomReq{}
+
+message FullChairRoomRes{
+  int64 room_id = 1;
+}
+// cmdid 100250
+message BroadcastRoomCubism {
+  bool enable = 1;
+}
+
+message NewUserRandomRoomReq {
+
+}
+
+message NewUserRandomRoomRes {
+  bool is_open = 1; // 是否满足条件开启
+  int64 male_room_id = 2; // 男厅
+  int64 female_room_id = 3; // 女厅
+}
+
+message QueryRoomTopRightCornerLabelReq {
+
+}
+
+message QueryRoomTopRightCornerLabelRes {
+  repeated RoomTopRightCornerLabelInfo infoList = 1;
+}
+
+message BroadcastRoomTopRightCornerLabel {
+  repeated RoomTopRightCornerLabelInfo infoList = 1;
+}
+
+message QueryRoomEffectConfReq {
+  int64 room_id = 1;
+}
+
+message BroadcastRoomTopRightCornerLabelChange {
+  message Act {
+    //活动id
+    int32 act_id=1;
+    //子活动id
+    int32 rel_id=2;
+    //变更字段信息
+    repeated RoomTopRightCornerLabelChangeField list =3;
+  }
+
+  repeated Act list = 1;
+}
+
+message QueryRoomEffectConfRes {
+  string room_effect_url = 1;	 // 特效资源
+  string room_pc_effect_url = 2;	 // pc特效资源
+  int64 effect_end_time = 3;	 // 特效结束时间
+}
+
+message RoomTopRightCornerLabelInfo {
+  RoomTopRightCornerLabelType label_type = 1; // 角标类型   对应枚举  RoomTopRightCornerLabelType
+  int32 act_id = 2;   // 主活动
+  int32 rel_act_id = 3;   // 子活动
+  string router = 4; // 路由地址
+  string player_icon1 = 5; // 用户头像1
+  string player_icon2 = 6; // 用户头像2
+  int64 remaining_time = 7; // 活动剩余时间
+  string app_label_icon = 8; // app角标图片资源
+  string app_label_effect = 9; // app角标特效
+  string pc_label_icon = 10; // pc角标图片资源
+  string pc_label_effect = 11; // pc角标特效
+  string countdown_color = 12; // 倒计时色值
+  string number_content = 14; // 数值文案
+  string number_background_image = 15; // 数值背景图
+  string number_color = 16; // 数值色值
+  string countdown_background_image = 17; // 倒计时背景图
+  string pc_number_background_image = 18; // PC数值背景图
+  string pc_countdown_background_image = 19; // PC倒计时背景图
+  int64 wealth_min = 21; // 最低财富值
+  int64 wealth_max = 22; // 最大财富值
+  int64 charm_min = 23; // 最低魅力值
+  int64 charm_max = 24; // 最大魅力值
+  bool logic_type = 25; // 等级逻辑关系 false: "或", true "且"
+  SystemNoticeEvent event = 26; //公屏事件
+  int64 room_id = 27; // 房间ID
+  string progress_bar_color = 28; // 进度颜色色值
+  string progress_bar_background_color = 29; // 进度条底色色值
+  string progress_bar_number_color = 30; // 进度条数字色值
+  int32 current_num = 31; // 当前数量
+  int32 goal_num = 32; // 目标数量
+  bool  show_countdown = 33; // 是否显示倒计时
+  bool  show_number = 35; // 是否显示数值
+}
+
+
+service RoomExtObj {
+  // 备注：（客户端进/出房间，才发define.SubscribeRoom）
+  rpc EnterRoom(EnterRoomReq) returns (EnterRoomRes); // 进房间
+  rpc EnterRoomCJ(EnterRoomReq) returns (EnterRoomRes); // 菜鸡用户进房间
+  rpc LeaveRoom(LeaveRoomReq) returns (LeaveRoomRes); // 离开房间
+  rpc LeaveRoomCJ(LeaveRoomReq) returns (LeaveRoomRes); // 离开房间
+
+  rpc SetRoom(SetRoomReq) returns (SetRoomRes);                // 房间设置
+  rpc SetReception(SetReceptionReq) returns (SetReceptionRes); // 房间接待语设置
+  rpc GetRoomConf(GetRoomConfReq) returns (GetRoomConfRes);  // 得到房间配置
+
+  rpc SetRoomAdmin(SetRoomAdminReq) returns (SetRoomAdminRes); // 房间管理员设置
+  rpc GetRoomPassword(RoomPasswordReq) returns (RoomPasswordRes); // 房间密码
+  rpc ForbidSpeak(ForbidSpeakReq) returns (ForbidSpeakRes); // 房间禁言
+  rpc KickoutRoom(KickoutRoomReq) returns (KickoutRoomRes); // 踢出房间
+
+  rpc GetBlackList(RoomPlayerListReq)
+      returns (PlayerListRes); // 黑名单 (不用，只有好友黑名单)
+  rpc GetAdminList(RoomPlayerListReq) returns (PlayerListRes); // 管理员名单
+  rpc GetPlayerList(RoomPlayerListReq)
+      returns (PlayerListRes); // 房间玩家列表，前50人
+
+  rpc GetRoomRankList(GetRoomRankReq)
+      returns (GetRoomRankRes); // 房间排行榜，财富或魅力榜
+                                // （暂时不提供，使用原来的http接口）
+
+  // 获取我的上麦状态
+  rpc MyChairInfo(MyChairInfoReq) returns (MyChairInfoRes);
+
+  rpc SetChairStatus(ChairStatusReq) returns (ChairStatusRes); // 设置嘉宾位状态
+  rpc SetChairSpeak(ChairSpeakReq)
+      returns (ChairSpeakRes); // (房主/管理员) 设置开麦/1禁麦
+  rpc SetChairSpeakOnOff(ChairSpeakOnOffReq)
+      returns (ChairSpeakOnOffRes); // （个人） 设置麦开关
+  rpc SetAccompanyOnOff(AccompanyOnOffReq)
+      returns (AccompanyOnOffRes);                       // 伴奏开关
+  rpc SitChair(ChairSitReq) returns (ChairSitRes);       // 请求上座
+  rpc MoveChair(ChairMoveReq) returns (ChairMoveRes);    // 移麦
+  rpc LeaveChair(ChairLeaveReq) returns (ChairLeaveRes); // 请求下座
+
+  rpc GetChairQueue(ChairQueueReq) returns (ChairQueueRes); // 请求排麦列表
+  rpc OptChairQueue(ChairQueueOptReq)
+      returns (ChairQueueOptRes); // 加入/退出排麦
+  rpc JumpChairQueue(ChairQueueJumpReq) returns (ChairQueueJumpRes); // 排麦插队
+
+  rpc GetFlowerInfo(FlowerInfoReq) returns (FlowerInfoRes); // 获取在线鲜花信息
+  rpc PresentFlower(PresentFlowerReq) returns (PresentFlowerRes); // 送鲜花
+
+  rpc SendChat(ChatReq) returns (ChatRes); // 聊天
+
+  rpc PlayDice(PlayDiceReq) returns (PlayDiceRes); // 举牌
+
+  rpc UserSpeak(UserSpeakReq) returns (UserSpeakRes); // 用户发言
+  rpc GetBroadcastList(GetBroadcastListReq)
+      returns (GetBroadcastListRes); // 获取广播交友列表
+
+  rpc StartMateChoice(StartMateChoiceReq)
+      returns (StartMateChoiceRes); // 开始互选
+  rpc MateChoiceChair(MateChoiceChairReq)
+      returns (MateChoiceChairRes); // 选择坑位
+  rpc MateChoiceResult(MateChoiceResultReq)
+      returns (MateChoiceResultRes);                     // 公布结果
+  rpc ChangeMateChoiceStatus(ChangeMateChoiceStatusReq) returns (ChangeMateChoiceStatusRes); // 切换相亲回合状态
+  rpc MateChoicePublishResult(MateChoicePublishResultReq) returns(MateChoicePublishResultRes); // 公布相亲结果
+  rpc QueryMateChoiceInfo(QueryMateChoiceInfoReq) returns(QueryMateChoiceInfoRes); // 获取当前相亲回合信息
+  rpc MateChoiceSelectChairNumber(MateChoiceSelectChairNumberReq) returns(MateChoiceSelectChairNumberRes); // 心动选择阶段 选择麦位序号
+  rpc DragonBall(DragonBallReq) returns (DragonBallRes); // 龙珠
+
+  rpc GetVoteConf(GetVoteConfReq) returns (GetVoteConfRes); // 获取投票配置
+  rpc GetVoteInfo(GetVoteInfoReq) returns (GetVoteInfoRes); // 得到投票信息
+  rpc StartVote(StartVoteReq) returns (StartVoteRes);       //发起投票
+  rpc Vote(VoteReq) returns (VoteRes);                      // 投票
+  rpc PublishVote(PublishVoteReq) returns (PublishVoteRes); // 公布结果
+  // 获取广播交友用户跳转房间ID
+  rpc BroadFriendRoomId(BroadFriendRoomIdReq) returns (BroadFriendRoomIdRes);
+
+  // PC Assistant请求开始推流
+  rpc PcaStartPush(PcaStartPushReq) returns (PcaStartPushRes);
+  // PC Assistant请求停止推流
+  rpc PcaStopPush(PcaStopPushReq) returns (PcaStopPushRes);
+  // App确认账号切换成功
+  rpc PcaChangeUserAck(PcaChangeUserAckReq) returns (PcaChangeUserAckRes);
+
+
+  // 获取头条信息
+  rpc GetBFHeadline(GetBFHeadlineReq) returns (GetBFHeadlineRes);
+  // 获取发布头条基础信息(基础金币，金币步长，提示语)
+  rpc GetBFHeadlineBase(GetBFHeadlineBaseReq) returns (GetBFHeadlineBaseRes);
+  // 广播交友发布头条信息
+  rpc PushHeadline(PushHeadlineReq) returns (PushHeadlineRes);
+  // 获取全服礼物信息
+  rpc GetWorldGift(GetWorldGiftReq) returns (GetWorldGiftRes);
+  // 新版广播交友信息获取接口
+  rpc GetBFInfo(GetBFInfoReq) returns (GetBFInfoRes);
+  // 删除头条信息
+  rpc DelHeadline(DelHeadlineReq) returns (DelHeadlineRes);
+
+  // 获取场景玩家
+  rpc GetScenePlayer(GetScenePlayerReq) returns (GetScenePlayerRes);
+  // 一键锁坑/开坑
+  rpc LockAllChair(LockAllChairReq) returns (LockAllChairRes);
+  // 设置是否可排麦
+  rpc SetChairBanQueue(SetChairBanQueueReq) returns (SetChairBanQueueRes);
+  // 清空排麦队列
+  rpc ClearChairQueue(ClearChairQueueReq) returns (ClearChairQueueRes);
+
+  // 请求房间背景列表(上坑时快捷列表，房主请求)
+  rpc RoomImageList (RoomImageListReq) returns (RoomImageListRes);
+  // 更改房间背景
+  rpc ChangeRoomImage (ChangeRoomImageReq) returns (ChangeRoomImageRes);
+
+  //获取房间基本信息
+  rpc GetRoomInfoList (RoomInfoExtReq) returns (RoomInfoExtRes);
+
+  //摇号抽奖：活动开始,设置
+  rpc LuckyDrawStart (LuckyDrawStartReq) returns (LuckyDrawStartRes);
+  //摇号抽奖：抽奖滚动和获取报名抽奖的摇号结果
+  rpc LuckyDrawMakeResult (LuckyDrawMakeResultReq) returns (LuckyDrawMakeResultRes);
+  //摇号抽奖：公布结果
+  rpc LuckyDrawEnd (LuckyDrawEndReq) returns (LuckyDrawEndRes);
+  //摇号抽奖：报名
+  rpc LuckyDrawSignUp (LuckyDrawSignUpReq) returns (LuckyDrawSignUpRes);
+  //摇号抽奖：报名阶段房主取消抽奖活动
+  rpc LuckyDrawCancel (LuckyDrawCancelReq) returns (LuckyDrawCancelRes);
+  //摇号抽奖：当前房间抽奖阶段,发起抽奖权限
+  rpc LuckyDrawStage (LuckyDrawStageReq) returns (LuckyDrawStageRes);
+  // 点击跳跳
+  rpc ClickTiaoTiao(ClickTiaoTiaoReq) returns (ClickTiaoTiaoRes);
+
+  // 一键换麦
+  rpc ChangeChair(ChangeChairReq) returns (ChangeChairRes);
+  // 在房间抢本房间的单
+  rpc AcceptSendBill(AcceptSendBillReq) returns (AcceptSendBillRes);
+  // 获取主持人名单
+  rpc PresenterList(RoomPlayerListReq) returns (PlayerListRes);
+  // 设置房间主持
+  rpc SetPresenter(SetPresenterReq) returns (SetPresenterRes);
+  // 获取房间主持人欢迎语
+  rpc PresenterWelcomeInfo(PresenterWelcomeInfoReq) returns (PresenterWelcomeInfoRes);
+  // 设置房间主持人欢迎语
+  rpc SetPresenterWelcomeInfo(SetPresenterWelcomeInfoReq) returns (SetPresenterWelcomeInfoRes);
+
+  // 清空麦序魅力值
+  rpc ClearChairCharm(ClearChairCharmReq) returns (ClearChairCharmRes);
+  // 获取房间最新公屏发言
+  rpc GetNewestSendChat(NewestSendChatReq) returns (NewestSendChatRes);
+  // 接引弹窗 点击取消
+  rpc CancelReceiveWindow (CancelReceiveWindowReq) returns (CancelReceiveWindowRes);
+  // 首页接引弹窗 房间弹窗询问（客户端首页活动到底部，弹窗询问）
+  rpc OpenWindow(OpenWindowReq) returns (OpenWindowRes);
+  // 派单弹窗
+  rpc DispatchWindowConf(DispatchWindowConfReq) returns (DispatchWindowConfRes);
+  rpc IfDispatchWindow(IfDispatchWindowReq) returns (IfDispatchWindowRes);
+  rpc DispatchWindowEnter(DispatchWindowEnterReq) returns (DispatchWindowEnterRes);
+  // 首充提示
+  rpc FirstChargeTip(FirstChargeReq) returns (FirstChargeRes);
+  rpc FirstChargeWindow(FirstChargeWindowReq) returns (FirstChargeWindowRes);
+
+  // 吐泡泡
+  rpc SendRedEnvelope(SendRedEnvelopeReq) returns (SendRedEnvelopeRes);
+  // 吐泡泡  随机红包
+  rpc SendRandomRedEnvelope(SendRandomRedEnvelopeReq) returns (SendRandomRedEnvelopeRes);
+  // 戳泡泡
+  rpc BreakRedEnvelope(BreakRedEnvelopeReq) returns (BreakRedEnvelopeRes);
+  // 开泡泡
+  rpc OpenRedEnvelope(OpenRedEnvelopeReq) returns (RedEnvelopeLuckyListRes);
+  // 戳泡泡后的面板领取记录
+  rpc RedEnvelopeLuckyList(RedEnvelopeLuckyListReq) returns (RedEnvelopeLuckyListRes);
+  // 泡泡记录
+  rpc RedEnvelopeLog(RedEnvelopeLogReq) returns (RedEnvelopeLogRes);
+  // 泡泡配置
+  rpc RedEnvelopeConf(RedEnvelopeConfReq) returns (RedEnvelopeConfRes);
+  // 撤销泡泡
+  rpc CloseRedEnvelope(CloseRedEnvelopeReq) returns (CloseRedEnvelopeRes);
+
+  //房间装饰相关
+  //装饰配置
+  rpc AllDecorateConf(AllDecorateConfReq) returns (AllDecorateConfRes);
+  //使用装饰
+  rpc UseDecorate(UseDecorateReq) returns (UseDecorateRes);
+  //购买装饰
+  rpc BuyDecorate(BuyDecorateReq) returns (BuyDecorateRes);
+  ////////////////新装饰协议///////////////
+  //装饰基础配置
+  rpc BaseDecorateConf(BaseDecorateConfReq) returns (BaseDecorateConfRes);
+  //装饰基础配置url
+  rpc BaseDecorateConfUrl(BaseDecorateConfUrlReq) returns (BaseDecorateConfUrlRes);
+
+  //获取批量玩家所在房间和房间名，一次最大50个
+  rpc PlayersRooms(PlayersRoomsReq) returns (PlayersRoomsRes);
+  // 删除广播交友信息
+  rpc DelBroadcastFriendRecord(DelBroadcastFriendRecordReq) returns (DelBroadcastFriendRecordRes);
+  //获取下一个返利房
+  rpc NextRewardRoom(NextRewardRoomReq) returns (NextRewardRoomRes);
+  //获取房间投票记录
+  rpc RoomVoteLog (RoomVoteLogReq) returns (RoomVoteLogRes);
+  //获取个人投票记录
+  rpc UserVoteLog (UserVoteLogReq) returns (UserVoteLogRes);
+  // 获取贵宾列表
+  rpc GetNobilityList(RoomPlayerListReq) returns (PlayerListRes); // 获取贵宾列表
+
+  // 获取技能列表
+  rpc RoomSkill(RoomSkillReq)returns (RoomSkillRes);
+  rpc UseSkill(UseSkillReq)returns (UseSkillRes);
+  // 房间上麦时解除匿名上麦
+  rpc UpdateAnonymousSit(UpdateAnonymousSitReq) returns(UpdateAnonymousSitRes);
+  // 防跟随检查
+  rpc FollowCheck (FollowCheckReq) returns (FollowCheckRes);
+  // 获取麦上公会成员列表
+  rpc RoomClanMembersOnChair (RoomClanMembersOnChairReq) returns (RoomClanMembersOnChairRes);
+  // 获取用户房间当前公会信息
+  rpc RoomClanInfo (RoomClanInfoReq) returns (RoomClanInfoRes);
+  // 检查是否可设置该房间模式
+  rpc PreCheckRoomPatternSet (PreCheckRoomPatternSetReq) returns (PreCheckRoomPatternSetRes);
+  rpc ReceiveWindowRoomId (ReceiveWindowRoomIdReq) returns (ReceiveWindowRoomIdRes);
+  // 设为表演
+  rpc SetShow(SetShowReq) returns (SetShowRes);
+  // 获取半小时内消费的老板
+  rpc HallHourBoss(HallHourBossReq) returns (HallHourBossRes);
+  //房间设置
+  rpc ChangeRoomSet(ChangeRoomSetReq) returns(ChangeRoomSetRes);
+
+  //  表演模式排档
+  rpc PlanTaskInfo(PlanTaskInfoReq) returns(PlanTaskInfoRes);  // 获取排档设置
+  rpc SavePlanTask(SavePlanTaskReq) returns(SavePlanTaskRes);  // 保存排档设置
+  rpc ShowOrderInfo(ShowOrderInfoReq) returns(ShowOrderInfoRes);  // 获取排档麦序
+  rpc PlayOrder(PlayOrderReq) returns(PlayOrderRes);  // 获取当前麦序
+  rpc SubTask(SubTaskReq) returns(SubTaskRes);  // 手动减少麦序任务数量
+  rpc PlanOrder(PlanOrderReq) returns(PlanOrderRes);  // 获取排档麦序
+  rpc ArrangeOrder(ArrangeOrderReq) returns(ArrangeOrderRes);  // 排档
+  rpc ArrangeTopOrder(ArrangeTopOrderReq) returns(ArrangeTopOrderRes);  // 添加置顶
+  rpc CancelPlanOrder(CancelPlanOrderReq) returns(CancelPlanOrderRes);  // 取消任务
+  rpc RoomSpeak(RoomSpeakReq) returns(RoomSpeakRes);  // 排档发送公屏
+
+  // 结束投票
+  rpc StopVote(StopVoteReq) returns (StopVoteRes);
+
+  // 获取房间个人相关信息
+  rpc RoomPlayerInfo(RoomPlayerInfoReq) returns (RoomPlayerInfoRes);
+
+  //客户端进房成功后调用此接口，然后后台才推送通知
+  rpc EnterRoomSuccess(EnterRoomSuccessReq) returns (EnterRoomSuccessRes);
+
+  // 合唱
+  rpc ChorusOpt(ChorusOptReq) returns (ChorusOptRes);
+  // 房间禁言操作
+  rpc RoomBanSpeak(RoomBanSpeakReq) returns (RoomBanSpeakRes);
+
+  // PC 房间欢迎语操作
+  rpc PCRoomGreetingOperation( PCRoomGreetingOperationReq) returns (PCRoomGreetingOperationRes);
+  // 获取 PC 房间欢迎语
+  rpc GetPCRoomGreetings ( GetPCRoomGreetingsReq) returns ( GetPCRoomGreetingsRes);
+  // 获取房间互动面板配置
+  rpc InteractionConf (InteractionConfReq) returns (InteractionConfRes);
+  // 设置房间互动面板配置
+  rpc SetInteractionConf (SetInteractionConfReq) returns (SetInteractionConfRes);
+  // 设置房间互动面板配置 单价礼物、双费礼物、全麦双费礼物选择列表 pc用
+  rpc InteractionConfGiftList (InteractionConfGiftListReq) returns (InteractionConfGiftListRes);
+  // 公屏快速发言
+  rpc PublicScreenFastSpeak(PublicScreenFastSpeakReq) returns (PublicScreenFastSpeakRes);
+  // 获取粉丝召唤配置
+  rpc FansRecallConf(FansRecallConfReq) returns (FansRecallConfRes);
+  // 粉丝召唤弹窗
+  rpc FansRecallPopup(FansRecallPopupReq) returns (FansRecallPopupRes);
+  // 发起粉丝召唤
+  rpc FansRecallSend(FansRecallSendReq) returns (FansRecallSendRes);
+  // 获取已召唤用户列表
+  rpc GetFansRecallList(GetFansRecallListReq) returns (GetFansRecallListRes);
+  // 取消召唤
+  rpc FansRecallCancel(FansRecallCancelReq) returns (FansRecallCancelRes);
+  // 声音sdk光圈回调
+  rpc ReportVoiceStatus(ReportVoiceStatusReq) returns (ReportVoiceStatusRes);
+  // 获取视频直播url
+  rpc GetLiveUrl(GetLiveUrlReq) returns(GetLiveUrlRes);
+
+  //获取快捷语以及配置
+  rpc RoomQuickChatConf(RoomQuickChatConfReq)returns(RoomQuickChatConfRes);
+
+  // 添加快捷语
+  rpc AddQuickChat(AddQuickChatReq)returns(AddQuickChatRes);
+  //快捷语文本违禁词检查
+  rpc CheckQuickChatContent(CheckQuickChatContentReq)returns(CheckQuickChatContentRes);
+
+  // 房间多频道配置
+  rpc GetAllChatCfg(GetAllChatCfgReq) returns (GetAllChatCfgRes);
+
+  // 获取房间踢人时间配置
+  rpc GetKickOutRoomCfg(GetKickOutRoomCfgReq) returns (GetKickOutRoomCfgRes);
+  // 网易合唱入会成功
+  rpc NeteaseIMToken(NeteaseIMTokenReq) returns (NeteaseIMTokenRes);
+
+  // 在房间内断线重连请求，异步推送
+  rpc AsyncReconnectedInRoom(AsyncReconnectedInRoomReq) returns(AsyncReconnectedInRoomRes);
+
+  // 异步获取房间模式配置
+  rpc AsyncRoomPatternCfg(AsyncRoomPatternCfgReq)returns(AsyncRoomPatternCfgRes);
+
+
+  // 公会任务操作
+  rpc ClanTaskOpt(ClanTaskReq) returns (ClanTaskRes);
+  // 惩罚榜单
+  rpc PunishmentRank(PunishmentRankReq) returns (PunishmentRankRes);
+  // 惩罚礼物配置
+  rpc PunishmentGiftConf(PunishmentGiftConfReq) returns (PunishmentGiftConfRes);
+  // 心愿礼物操作
+  rpc WishGiftOpt(WishGiftReq) returns (WishGiftRes);
+  // 获取心愿墙
+  rpc WishGiftConf(WishGiftConfReq) returns (WishGiftConfRes);
+  // 获取退出小窝房的时间
+  rpc LeaveFossaRoomTime(LeaveFossaRoomTimeReq) returns (LeaveFossaRoomTimeRes);
+  // 开启小窝房
+  rpc OpenFossaRoom(OpenFossaRoomReq) returns (OpenFossaRoomRes);
+  // 初始化相亲流水统计
+  rpc InitMateRoomGoldStat(InitMateRoomGoldStatReq) returns (InitMateRoomGoldStatRes);
+  // 获取相亲流水统计
+  rpc MateRoomGoldStat(MateRoomGoldStatReq) returns (MateRoomGoldStatRes);
+  
+  // 获取一个全员在麦的点歌房
+  rpc FullChairRoom(FullChairRoomReq) returns (FullChairRoomRes);
+  // 新手路径获取随机进厅信息
+  rpc NewUserRandomRoom(NewUserRandomRoomReq) returns (NewUserRandomRoomRes);
+  // 获取房间右上角角标数据
+  rpc QueryRoomTopRightCornerLabel(QueryRoomTopRightCornerLabelReq) returns (QueryRoomTopRightCornerLabelRes);
+  // 获取房间特效
+  rpc QueryRoomEffectConf(QueryRoomEffectConfReq) returns (QueryRoomEffectConfRes);
+}

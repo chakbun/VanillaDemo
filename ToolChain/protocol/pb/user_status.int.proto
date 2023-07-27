@@ -1,0 +1,117 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+import "pb/user_status.ext.proto";
+
+// 请求OnlineState
+message OnlineStateReq {
+    sint64 id = 1;
+    bool not_need_room = 2;
+}
+
+message OnlineStateRes {
+    OnlineStatus state = 1;
+}
+
+// 进出房间
+message PlayerRoomReq {
+    uint32 optType = 1;     // 0进房间，1出房间
+    sint64 playerId = 2;
+    sint64 roomId = 3;
+    string roomName = 4;
+}
+
+message PlayerRoomRes {
+}
+
+message UserStatReq {
+}
+
+message UserStatRes {
+    int32 user_num = 1;     // 在线人数
+    int32 robot_num = 2;    // 在线机器人数
+    int32 ip_num = 3;       // ip数
+    int32 conn_num = 4;     // 连接数
+}
+
+// 断开连接
+message KickConnectReq {
+    sint64 account_id = 1;
+    string msg = 2; // 踢下线提示
+}
+
+message KickConnectRes {
+}
+
+message GetOnlineListReq {
+}
+
+message GetOnlineListRes {
+    map<int64, int64> list = 1;  // key=playerId, value=roomId
+}
+
+message CaijiLoginReq {
+    int64 player_id = 1;
+}
+message CaijiLoginRes {
+}
+
+message LatestLoginTimeReq {
+    sint64 account_id = 1;
+}
+message LatestLoginTimeRes {
+    map<string, int64> list = 1;    //key:设备类型, values=时间戳
+}
+
+message GetUserConnInfosReq {
+    int64 player_id = 1;
+}
+message GetUserConnInfosRes {
+    repeated UserConInfo infos = 1;
+}
+
+message SyncConnOnlineTimeReq {
+    int64 log_time = 1; // 同步记录的时间
+}
+
+message SyncConnOnlineTimeRes {
+
+}
+
+message DelConnOnlineTimeReq {
+
+}
+
+message DelConnOnlineTimeRes {
+
+}
+
+
+service UserStatusIntObj {
+    // 请求在线状态
+    rpc GetOnlineState (OnlineStateReq) returns (OnlineStateRes);
+    // 更新房间信息
+    rpc UpdateRoom (PlayerRoomReq) returns (PlayerRoomRes);
+
+    //  管理后台，每3分钟请求数据，写入log_online表等
+    rpc GetUserStat(UserStatReq) returns (UserStatRes);
+    // 断开连接 管理后台/超管，封号/封ip/踢出等
+    rpc KickConnect(KickConnectReq) returns (KickConnectRes);
+
+    // 请求在线列表，已排除机器人
+    rpc GetOnlineList (GetOnlineListReq) returns (GetOnlineListRes);
+
+    // 菜鸡进房间后请求登录
+    rpc CaijiLogin(CaijiLoginReq) returns (CaijiLoginRes);
+
+    // 最近登陆时间
+    rpc GetLatestLoginTime(LatestLoginTimeReq) returns (LatestLoginTimeRes);
+    // 获取用户的连接信息
+    rpc GetUserConnInfos(GetUserConnInfosReq) returns (GetUserConnInfosRes);
+    // 同步长链接在线时长到DB
+    rpc SyncConnOnlineTime(SyncConnOnlineTimeReq) returns (SyncConnOnlineTimeRes);
+    // 定期删除长链接在线时长历史数据
+    rpc DelConnOnlineTime(DelConnOnlineTimeReq) returns (DelConnOnlineTimeRes);
+}

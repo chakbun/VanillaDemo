@@ -1,0 +1,804 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/activity_cli.ext.proto";
+
+// 对外的配置
+
+/// ACM配置说明
+/// 1: 结构以List结尾，返回一个切片配置，否则，返回单个结构配置 
+/// 2: reserved预留字段说明 reserved "服务名(多个服务用英文逗号隔开)","配置对应的Key值","配置中文名"
+
+message IMInteractionConfList {
+    IMInteractionType type = 1;  // 互动类型
+    int32 gold = 2;              // 金币数
+    string btn_text = 3;         // 按钮文案
+    string btn_icon = 4;         // 按钮图标
+    string content = 5;          // 说明文案
+    int32 gift_id = 6;           // 礼物ID
+    string icon = 7;             // 显示图标
+    string type_name = 8;        // 类型名称:撩TA、真心话、8分钟恋爱体验
+    string tag_icon = 9;            // 标签
+    reserved "chat","hydrogen.chat.IMInteractionConfList","IM互动面板配置";
+}
+
+enum IMInteractionType {
+    IMIT_ZERO = 0;          // 占位
+    IMIT_TEASE_TA = 1;      // 撩TA
+    IMIT_SINCERE_WORD = 2;  // 真心话
+    IMIT_CHAT_CP = 3;       // 8分钟恋爱体验
+}
+
+message IMVideoBtnConfList {
+    int32 btn_type = 1;     // 按钮类型
+    bool btn_on_off = 2;    // 按钮开关
+    string btn_title = 3;   // 按钮标题
+    string btn_text = 4;    // 按钮文案
+    string btn_desc = 5;    // 按钮说明
+    string im_icon = 6;     // 按钮图标
+    reserved "phome","hydrogen.phome.IMVideoBtnConfList","IM视频按钮配置";
+}
+
+//房间装饰
+message RoomAllDecorateItem{
+    int64 decorate_id = 1;
+    DecorateType decorate_type = 2;
+    bool can_buy = 3;
+    string name = 4;
+    string bg_url = 5;
+    string small_bg_url = 6;
+    string pc_url = 7;
+    string small_pc_url = 8;
+    string right_sign_string = 9;
+    string describe = 10;
+    int64 remain_time = 11;// -1 无限时
+    bool is_use = 12;//是否在使用
+    repeated RoomShopDecorateItem shop_item = 13;
+    int32  weight = 14;
+    bool is_belong = 15; //是否专属
+    repeated RoomFlagType room_type = 16;//房间类型
+    string shelter_url = 17; // 方形庇护图片地址
+    string pc_shelter_url = 18; // 方形庇护PC图片地址
+    string stretchable_url = 19; // 拉伸图地址
+    bool is_off_shelf = 20; // 是否装饰下架
+    repeated NewRoomPattern room_pattern = 21; //房间模式
+    string bg_video_url = 22; //客户端动态背景URL
+    string bg_video_pc_url = 23; //pc端动态背景URL
+    reserved "room","hydrogen.room.RoomAllDecorateItem","房间装饰V1","ToList";
+}
+
+message RoomShopDecorateItem{
+    int64 shop_id = 1;
+    int32 num = 2;
+    int32 price = 3;
+    string unit = 4;//单位
+    string pic = 5;
+    string pc_pic = 6;
+    int32  weight = 7;
+    bool is_off_shelf = 8; // 是否商品下架
+}
+
+// 开黑组队游戏设置数据
+enum MobaTeamGameSettingType{
+    MTGST_NONE = 0;             // 占位
+    // MTGST_AREA = 1;             // 区服
+    // MTGST_RANK = 2;             // 段位
+    // MTGST_TEAM_MEMBER_NUM = 3;  // 组队人数
+}
+
+// 开黑组队游戏设置数据类型
+enum MobaTeamGameSettingDataType{
+    MTGSDT_NONE = 0;             // 占位
+    MTGSDT_OPTIONS = 1;          // 下拉选项
+    MTGSDT_INPUT_NUM = 2;        // 输入数值
+    MTGSDT_INPUT_NUM_RANGE = 3;  // 输入数值范围
+}
+
+// 开黑组队游戏设置数据
+message MobaTeamGameSettingData{
+    int64 data_id = 1;          // 设置数据id
+    string data_name = 2;       // 设置数据名称
+}
+
+// 开黑组队游戏设置配置
+message MobaTeamGameSettingCfg{
+    int64 setting_id = 1;                              // 设置id
+    MobaTeamGameSettingType setting_type = 2;          // 设置类型
+    string setting_name = 3;                           // 设置名称
+    MobaTeamGameSettingDataType setting_data_type = 4; // 设置数据类型
+    repeated MobaTeamGameSettingData setting_data = 5; // 设置数据
+    int64 setting_sort = 6;                            // 设置排序
+    int64 data_default = 7;                            //默认信息ID
+}
+
+// 开黑组队信息排位人数
+message MobaTeamGameMemberCfg{
+    int64 default_member_num = 1; // 默认人数
+    int64 min_member_num = 2;     // 最小人数
+    int64 max_member_num = 3;     // 最大人数
+}
+
+// 开黑组队游戏类型
+enum MobaTeamGameType{
+    MTGT_NONE = 0;             // 占位
+    MTGT_KING_HONOR = 1;       // 王者荣耀
+    MTGT_LOLM = 2;             // 英雄联盟手游
+    MTGT_GAME_FOR_PEACE = 3;   // 和平精英
+    MTGT_JCC = 4;              // 金铲铲之战
+}
+
+// 服务端生成配置使用
+message MobaTeamGameCfg{
+    int64 game_id = 1;                              // 游戏id
+    string name = 2;                                // 游戏名称
+    repeated MobaTeamGameSettingCfg settings = 3;   // 设置列表
+    int64 game_sort = 4;                            // 游戏排序
+    string game_icon = 5;                           // 游戏图标
+    string game_icon_room = 6;                      // 房间样式图标
+    string game_bg_room = 7;                        // 房间样式背景图
+    string game_frame_bro = 8;                      // 开黑广播边框图
+    string game_bg_bro = 9;                         // 开黑广播(世界广播)背景图
+    string game_frame_color = 10;                   // 世界广播-边框颜色
+    MobaTeamGameMemberCfg member_cfg = 11;          // 排位人数配置
+    string default_demand_desc = 12;                // 默认组队要求
+    string game_bg_bro_pc = 13;                     // pc开黑广播(世界广播)背景图
+    repeated string demand_desc_list = 14;          // 组队要求列表
+    MobaTeamGameType game_type = 15;                // 游戏类型枚举
+    string ad_open_game_link = 16;                  // 安卓打开游戏链接
+    string game_name_bg_color_start = 17;           // 游戏名称背景开始颜色
+    string game_name_bg_color_end = 18;             // 游戏名称背景结束颜色
+    reserved "room","hydrogen.room.MobaTeamGameCfgList","开黑组队配置","ToList";
+}
+
+// 首充有礼奖励类型
+enum FirstPayGiftRewardType{
+    FPGRT_NONE = 0;             // 占位
+    FPGRT_GIFT = 1;             // 礼物
+    FPGRT_EFFECT = 2;           // 特效
+    FPGRT_NOBILITY = 3;         // 爵位
+}
+
+// 首充有礼宝盒类型
+enum FirstPayGiftBoxType{
+    FPGBT_NONE = 0;             // 占位
+    FPGBT_BASE = 1;             // 初级宝箱
+    FPGBT_MIDDLE = 2;           // 中级
+    FPGBT_BEST = 3;             // 高级
+}
+
+// 首充有礼宝盒奖励数量限定类型
+enum FirstPayGiftRewardLimitType{
+    FPGRLT_NONE = 0;             // 无限制
+    FPGRLT_DAILY = 1;            // 每日限定数量
+}
+
+// 逻辑关系类型
+enum LogicRelationshipType {
+    LRT_NONE = 0;  // 占位
+    LRT_OR = 1;    // 或
+    LRT_AND = 2;   // 与
+}
+
+// 首充有礼基础配置
+message XcmFirstPayGiftBaseCfg{
+    string most_value_desc = 1;    // 最高奖励描述
+    string most_value_url = 2;     // 最高奖励url
+    string most_value_h5_url = 3;  // H5最高奖励url
+    int32 window_stay = 4;         // 用户在房间停留X秒后弹出提示，0则不弹出
+    int32 window_popup_times = 5;  // 每日弹窗上限次数
+    int32 wealth_lev = 6;          // 财富等级
+    int32 charm_lev = 7;           // 魅力等级
+    LogicRelationshipType lev_relationship = 8; // 等级逻辑关系
+    string window_jump_url = 9;    // 房间弹窗跳转url
+    reserved "index,admin","hydrogen.index.XcmFirstPayGiftBaseCfg","首充有礼基础配置";
+}
+
+// 首充有礼奖励配置
+message XcmFirstPayGiftRewardCfg{
+    int64 id = 1;                               // 配置id
+    int64 reward_id = 2;                        // 奖励id
+    FirstPayGiftRewardType reward_type = 3;     // 奖励类型
+    int64 expired_time = 4;                     // 有效时长（秒）
+    FirstPayGiftRewardLimitType limit_type = 5; // 奖励数量限定类型
+    int64 limit_num = 6;                        // 限定数量
+    FirstPayGiftBoxType box_type = 7;           // 宝箱类型
+    int32 box_sort = 8;                         // 宝箱类型内排序
+    int32 reward_num = 9;                       // 奖励数量
+    string reward_unit = 10;                    // 奖励单位
+    bool is_worth = 11;                         // 是否限定奖励
+    int64 weight = 12;                          // 权重
+    reserved "index,admin","hydrogen.index.XcmFirstPayGiftRewardCfgList","首充有礼奖励配置","ToList";
+}
+
+// 处CP通话界面的tips
+message CPTips{
+    repeated string tips_boss = 1;    // 提示文案-老板侧
+    repeated string tips_pw = 2;      // 提示文案-陪玩侧
+    reserved "chat","hydrogen.chat.CPTipsList","处CP通话界面的tips";
+}
+
+// IM1v1通话界面的tips
+message IM1V1Tips{
+    repeated string tips_boss = 1;    // 提示文案-老板侧
+    repeated string tips_pw = 2;      // 提示文案-陪玩侧
+    reserved "chat","hydrogen.chat.IM1V1TipsList","IM1v1通话界面的tips";
+}
+
+// IM限时礼物弹窗显示时间
+message IMPresentPushCfg{
+    int64 show_time_out_app = 1;   // APP端显示过期时间戳
+    int64 show_time_out_pc = 2;    // PC端显示过期时间戳
+    reserved "gift","hydrogen.gift.IMPresentPushCfg","IM限时礼物弹窗显示时间配置";
+}
+
+enum CouponLimitType{
+    CLT_NONE = 0; // 占位
+    CLT_ACCOUNT = 1; // 账号
+    CLT_DEVICE = 2; // 设备号
+}
+
+enum CouponEffectType{
+    CET_NONE = 0; // 占位
+    CET_FIX_DATE = 1; // 固定日期
+    CET_GET = 2; // 领取后
+}
+
+// 优惠券配置
+message CouponCfg{
+    int64 id = 1; // 优惠券ID
+    string name = 2; // 优惠券名称
+    CouponDiscountType discount_type = 3; // 优惠方式
+    int32 full_money = 4; // 最低满足金额(元)(-1无限制)
+    int32 sub_money = 5; // 减金额(元)
+    int32 discount = 6;  // 折扣（百分位，即放大100倍，如: 7.5折，则该数值为75，tips：显示时除以10，计算时除以100）
+    CouponJumpType jump_type = 7; // 跳转场景类型
+    string jump_url = 8; // 跳转路由
+    string usage_remark = 9; // 使用说明
+    CouponStatus status = 10; // 状态
+    string discount_unit = 11;  // 折扣单位（元，折）
+    int64 official_subsidy_num = 12; // 官方补贴金币数
+    CouponDiscountUnit coupon_unit = 13;  // 实际折扣单位
+    bool IsCheck = 14; // 是否校验优惠券金额
+    reserved "admin,coupon,assets,user,timer,chat","hydrogen.coupon.XcmCouponCfgList","优惠券配置","ToList";
+}
+
+// 优惠券发放规则
+message CouponIssueRule {
+    int64 cfg_id = 1;                 // 优惠券id
+    CouponEffectType effect_type = 2; // 有效期方式
+    int64 fix_begin_at = 3;           // 开始时间(时间戳秒)
+    int64 fix_end_at = 4;             // 结束时间(时间戳秒)
+    int32 get_begin_day = 5;          // 领取多少天后生效(-1当天生效)
+    int32 get_day_num = 6;            // 有效天数
+    int32 coupon_num = 7;             // 发放数量
+    int32 sort  = 8;                  // 包内展示权重
+}
+
+// 优惠券领取规则
+message CouponGainRule {
+    bool is_limit_new = 1;          // 是否限制新用户 false:否;true:是
+    int32 limit_new_hour = 2;       // 新用户限制小时
+    CouponLimitType limit_type = 3; // 限制类型
+    int32 wealth_lev_min = 4;       // 最低财富等级(-1无限制)
+    int32 wealth_lev_max = 5;       // 最高财富等级(-1无限制)
+    int32 charm_lev_min = 6;        // 最低魅力等级(-1无限制)
+    int32 charm_lev_max = 7;        // 最高魅力等级(-1无限制)
+    bool is_and = 8;                // 等级逻辑关系:false或，true
+    bool is_repeat = 9;             // 重复领取:false:否;true:是
+    int32 repeat_day = 10;          // 重复领取天数
+    int32 repeat_num = 11;          // 重复领取数量
+    bool judge_device = 12;         // 是否判断新设备
+    map<int32, bool> white_channel = 13; // 渠道白名单
+    map<int64,bool> channel_type = 14;   // 渠道类型白名单
+    map<int64,bool> advendor_id = 15;    // 渠道平台
+    map<int32,bool> device_type = 16;    // 设备类型
+    bool and_or = 17;                    // 全且 或 全或
+    map<string,bool> application = 18;   //渠道应用标识
+    bool judge_phone = 19;         // 是否判断新手机
+}
+
+// 优惠券礼包配置
+message CouponPackageCfg{
+    int64 id = 1;                            // 礼包id
+    string name = 2;                         // 礼包名称
+    CouponPackageType package_type  = 3;     // 礼包类型
+    CouponGainRule gain_rule = 4;            // 领取规则
+    repeated CouponIssueRule issue_rule = 5; // 券发放规则
+    reserved "admin,coupon,user","hydrogen.coupon.XcmCouponPackageCfg","优惠券礼包配置","ToList";
+}
+
+// 个播2.0亲密粉丝客户端任务配置
+message IntimateFansMiddionCliCfg{
+  int64 id = 1;                    // 任务id
+  IntimateFansTargetType type = 2; // 任务类型
+  string name = 3;                 // 任务名称
+  string desc = 4;                 // 任务描述
+  int64 target_val = 5;            // 目标值
+  int64 intimate_val = 6;          // 亲密值
+  string router = 7;               // 跳转路由
+  string router_title = 8;         // 路由按钮名称
+  string icon = 9;                 // 任务图片
+  int64 sort = 10;                 // 任务排序
+  reserved "admin,user","hydrogen.user.XcmIntimateFansMiddionCliCfg","个播2.0亲密粉丝任务客户端配置","ToList";
+}
+// 点单技能基础配置
+message BillSkillBaseCfg{
+    string avatar_icon = 1;   // 头像审核示例图
+    string avatar_label = 2;  // 头像审核示例说明
+    reserved "admin","hydrogen.gift.XcmBillSkillBaseCfg","点单技能基础配置";
+}
+
+enum SolitaireTarget {
+    SOTT_ZERO = 0;            // 占位
+    SOTT_USER = 1;            // 用户投入
+    SOTT_PRIZE_POOL_INIT = 2; // 奖池初始值
+}
+  
+enum SolitaireEatPutType {
+    SOTEAP_ZERO = 0; // 占位
+    SOTEAP_EAT = 1;  // 吃
+    SOTEAP_PUT = 2;  // 放
+}
+  
+// 方案类型
+enum SolitaireSchemeType {
+    SOTST_ZERO = 0;     // 占位
+    SOTST_NORMAL = 1;   // 常规
+    SOTST_EAT = 2;      // 吃分线
+    SOTST_PUT = 3;      // 放分线
+}
+  
+enum SolitaireTimeType {
+    SOTTT_ZERO = 0;         // 占位
+    SOTTT_TIME_SLOT = 1;    // 持续时间段
+    SOTTT_EVERYDAY = 2;     // 每日定时
+}
+  
+// 接龙奖池吃放规则
+message SolitaireEatPut {
+    SolitaireEatPutType eat_put = 1; // 吃或放 1:吃 2:放
+    SolitaireTarget target = 2;      // 吃放对象 1:用户投入 2:奖池初始值
+    int32 rate = 3;                  // 比率，如设置成10%，那该值为10
+    int32 weight = 4;                // 权重
+}
+
+message SolitaireRate {
+    int64 min_weight = 1;                      // 最低比率，如设置成10%，那该值为10
+    int64 max_weight = 2;                      // 最高比率，如设置成10%，那该值为10
+    int64 user_rate = 3;                       // 用户比例，如设置成10%，那该值为10
+    int64 pond_rate = 4;                       // 总奖池比例，如设置成10%，那该值为10
+}
+
+message SolitaireScheme {
+    SolitaireSchemeType scheme = 1;            // 方案类型 1:常规 2:吃分线 3:放分线
+    int64 score = 2;                           // 分值 scheme=2，本轮初始值<=该值执行 scheme=3，本轮初始值>=该值执行
+    repeated SolitaireEatPut eat_put_list = 3; // 吃放规则
+    repeated SolitaireRate rate_list = 4;      // 比例列表
+    int64 total_weight = 5;                    // 总权重
+    int32 conf_id = 6;                         // 配置ID
+}
+
+message SolitaireTips {
+    int32 id = 1;      // id
+    string tips = 2;   // 飘屏文案
+}
+
+// 春节福气接龙-接龙配置
+message XcmSolitaireCfg {
+    int32 id = 1;                   // 配置ID 
+    string name = 2;                // 配置名称
+    bool is_open = 3;               // 是否开启
+    SolitaireTimeType time_type = 4;// 开启时间类型，1:持续时间段 2:每日计时
+    string start_time = 5;          // 开始时间
+    string end_time = 6;            // 结束时间
+    int64 store_id = 7;             // 挚友商城物品ID
+    int64 time_long = 8;            // 每局持续时长(秒)
+    int32 min_join = 9;             // 最低参与人数，-1不限
+    int32 max_join = 10;            // 最高参与人数，-1不限
+    int64 blessing_value = 11;      // 参与用户注入福气值
+    repeated SolitaireTips tips = 12;    // 飘屏默认文案
+    string rule_desc = 13;          // 规则文案
+    int32 wait_time = 14;           // 开奖等待时长(秒)
+    repeated SolitaireScheme list = 15;  // 奖池规则
+    int32 exchange_id = 16;         // 兑换礼物ID
+    int32 effect_id = 17;           // 奖励特效ID，可以是空
+    int64 effect_reward_time_long = 18;  // 特效奖励时长
+    ConfActPage act_page = 19;           // 页面内容
+    SubInfoActivityType act_type = 20;   // 活动类型
+    int32 inc_store_id = 21;             //  挚友商城商城ID
+    reserved "actgame","hydrogen.actgame.conf_red_envelope_solitaire","春节福气接龙-接龙配置";
+}
+
+enum XcmKickOutRoomType {
+    XKORT_NONE = 0; // 无限
+    XKORT_SECOND = 1; // 秒
+    XKORT_MINUTE = 60; // 分
+    XKORT_HOUR = 3600; // 小时
+    XKORT_DAY = 86400; // 天
+}
+
+// 房间踢人时间配置
+message XcmKickOutRoomCfg {
+    int32 cfg_id = 1;    // 配置ID
+    string cfg_name = 2; // 配置名称
+    int64 expired_time = 3; // 过期时间
+    XcmKickOutRoomType unit_time = 4; // 时间单位
+    reserved "admin,room","hydrogen.room.XcmKickOutRoomCfg","房间踢人时间配置","ToList";
+}
+
+// 骚扰投诉提示
+message XcmCfgHarassAccuse{
+    string tips_text = 1;
+    reserved "friend", "hydrogen.friend.XcmHarassAccuseConf", "骚扰投诉提示";
+}
+
+
+// 礼物皮肤基础配置
+message XcmGiftSkinCfg{
+  int64 skin_id = 1;            // 皮肤id
+  string skin_name = 2;         // 皮肤名称
+  string app_icon = 3;          // app图标资源
+  string pc_icon = 4;           // pc图标资源
+  string app_gift_wall_tag = 5; // app礼物墙角标
+  string pc_gift_wall_tag = 6;  // pc礼物墙角标
+  bool is_animation = 7;        // 皮肤动画
+  int64 animation_time = 8;     // 皮肤动画时长（毫秒ms）
+  bool animation_mask = 9;      // 皮肤遮罩
+  string animation_res = 10;    // 动画资源
+  bool show_in_room = 11;       // 是否展示礼物墙
+  int64 gift_id = 12;           // 礼物id
+  string skin_msg = 13;         // 皮肤赠送语句
+  int64 weight = 14;            // 权重
+}
+
+enum GiftSkinStoreShowType {
+  GSST_None = 0;                // 占用
+  GSST_Forever = 1;             // 永久
+  GSST_Time = 2;                // 时段
+}
+
+enum GiftSkinStoreDisplayType {
+    GSSDT_None = 0;                // 占用
+    GSSDT_WhiteList = 1;           // 白名单
+    GSSDT_FixDisplay = 2;          // 固定显示
+    GSSDT_FixHidden = 3;           // 固定不显示
+}
+
+enum GiftSkinStoreTimeType {
+  GSTT_None = 0;                // 占用
+  GSTT_Day = 1;                 // 天
+  GSTT_Hour = 2;                // 时
+  GSTT_Min = 3;                 // 分
+}
+
+enum GiftSkinStoreSoldType {
+  GSSTT_None = 0;                // 占用
+  GSSTT_Forever = 1;             // 永久
+  GSSTT_AddTime = 2;             // 增加时长
+}
+
+
+// 礼物皮肤商城配置
+message XcmGiftSkinStoreCfg{
+  int64 store_id = 1;                  // 商城id
+  int64 price = 2;                     // 商城价格
+  string name = 3;                     // 皮肤名称
+  int64 skin_id = 4;                   // 皮肤id
+  string skin_detail_icon = 5;         // 皮肤详情图
+  string bottom_desc = 6;              // 底部文案
+  bool is_purchase = 7;                // 是否可购买
+  GiftSkinStoreShowType show_type = 8; // 展示类型
+  int64 show_start_time = 9;            // 开始展示时间
+  GiftSkinStoreTimeType time_type = 10; // 单位时效
+  int64 time_val = 11;                  // 时效时间
+  GiftSkinStoreSoldType sold_type = 12; // 出售类型
+  int64 show_end_time = 13;            // 结束展示时间
+  GiftSkinStoreDisplayType display_type = 14; // 显示类型
+  int64 weight = 15; // 权重
+    map<int64,bool> show_map = 16; //指定展示人员map
+}
+
+//礼物皮肤规则
+message XcmGiftSkinRule {
+    string rule = 1;
+    reserved "admin,gift", "hydrogen.gift.XcmGiftSkinRule", "礼物皮肤规则";
+}
+
+//礼物皮肤基础配置
+message XcmGiftSkinCfgData{
+    map<int64,XcmGiftSkinCfg> skin_map = 1;
+    reserved "admin,gift,assets", "hydrogen.gift.XcmGiftSkinCfgList", "礼物皮肤基础配置";
+}
+
+// 礼物皮肤商店配置
+message XcmGiftSkinStoreCfgData{
+    map<int64, XcmGiftSkinStoreCfg> store_map = 1; // 礼物皮肤商店配置
+    reserved "admin,gift", "hydrogen.gift.XcmGiftSkinStoreCfgData", "礼物皮肤商店配置";
+}
+
+
+// 富文本内容配置
+message XcmTextContentCfg {
+    map<int32, string> text_content_map = 1; // 富文本内容配置 key对应system.ext.proto TextContentType
+    reserved "admin,index", "hydrogen.index.XcmTextContentCfg", "富文本内容配置";
+}
+
+
+message CfgUserId2RandomScheme {
+    int32   id = 1;
+    int32   id2_type = 2;
+    int32   id2_gift_id = 3;
+    int32   first_consume_num = 4;
+    int32   first_change_consume_num = 5;
+    int32   change_times = 6;
+}
+
+message XcmCfgUserId2Random {
+    repeated CfgUserId2RandomScheme cfgList = 1;
+    ConfActPage act_page = 2;           // 页面内容
+    reserved "actgame", "hydrogen.actgame.conf_user_id2_random", "靓号机配置";
+}
+
+// room.ext.proto，cmdId=100224 房间模式客户端配置
+message XcmRoomPatternCliCfg{
+    NewRoomPattern pattern = 1;    // 房间模式
+    int64 default_decorate_id = 2; // 房间模式默认背景（若为0，表示房间没有默认背景）
+    bool bgm_player_switch = 3;    // 房间模式播放器功能开关
+}
+
+// 房间模式客户端配置数据
+message XcmRoomPatternCliCfgData{
+    repeated XcmRoomPatternCliCfg cli_cfg_list = 1;
+    int64 unix_timestamp = 2; // 更新时间，unix时间戳，单位: 秒
+}
+
+// 房间模式配置
+message XcmRoomPatternCfgData {
+    repeated XcmRoomPatternCliCfg cli_cfg_list = 1;
+    reserved "room", "hydrogen.room.XcmRoomPatternCfgData", "房间模式配置";
+}
+
+message XcmOfficialExamPassMemberCfg {
+    int64 player_id = 1;        // 用户ID
+    int64 clan_id = 2;          // 公会ID
+    int32 examination_result = 3;  // 考核结果 1-考核不通过,2-考核通过,3-待考核
+}
+
+message XcmOfficialExamPassMemberCfgData{
+    map<int64, XcmOfficialExamPassMemberCfg> cfg_map = 1;
+    reserved "admin,room", "hydrogen.room.XcmOfficialExamPassMemberCfgData", "官方考核通过成员";
+}
+// 挚友特殊背景配置
+message XcmIntimateBackgroundCfgData {
+    int64 bg_id = 1; // 配置ID
+    string bg_name = 2; // 背景名称
+    string bg_static_url_app = 3; // 静态图URL
+    string bg_static_url_pc = 4; // 静态图URL
+    string bg_dynamic_url_app = 5; // 动态图URL
+    string bg_dynamic_url_pc = 6; // 动态图URL
+    int32 intimate_level_min = 7; // 挚友等级
+    int32 intimate_level_max = 8; // 挚友等级
+    reserved "admin,friend","oxygen.friend.XcmIntimateBackgroundCfgData","挚友特殊背景配置","ToList";
+}
+
+// 挚友特殊背景最低挚友类型
+message XcmIntimateMinTypeCfgData {
+    int32 intimate_type = 1; // 挚友类型
+    map<int32, int32> intimate_type_weight = 2; // 挚友类型权重 挚友类型:挚友权重
+    reserved "admin,friend","oxygen.friend.XcmIntimateMinTypeCfgData","挚友特殊背景最低挚友类型";
+}
+
+// 挚友特殊背景跳转图标配置
+message XcmIntimateBackgroundIconCfgData {
+    int64 icon_id = 1;                 // 配置ID
+    string icon_name = 2;    // 配置名称
+    string icon_url_app = 3; // 图标地址
+    string icon_url_pc = 4; // 图标地址
+    string jump_url = 5; // 跳转地址
+    int64 weight = 6; // 权重
+    string old_icon_url_app = 7; // 图标地址
+    string old_icon_url_pc = 8; // 图标地址
+    bool is_show_other = 9; // 客态是否展示；TRUE：展示；FALSE：不展示
+    reserved "admin,friend","oxygen.friend.XcmIntimateBackgroundIconCfgData","挚友特殊背景跳转图标配置","ToList";
+}
+
+// 音乐播放器入口配置
+message XcmRoomBgmPlayerCfg{
+  bool clan_member = 2;             //公会成员开关
+  bool single_player = 3;           //达人用户开关
+  bool all_player = 4;              //所有用户开关
+  map<int64,bool> white_list = 5;   //白名单用户
+  reserved "room,admin,ktv", "oxygen.room.XcmRoomMusicPlayerCfg", "音乐播放器入口配置";
+}
+
+// 底部导航配置
+message XcmMainTabCfgData {
+    int64 id = 1;                              // 配置ID
+    int32 tab_type = 2;
+    string tab_name = 3;
+    int32 weights = 4;
+    int32 wealth_lv = 5;
+    int32 wealth_lv_max = 6;
+    int32 charm_lv = 7;
+    int32 charm_lv_max = 8;
+    int32 regis_day = 9;
+    int32 regis_x_can_see = 10;
+    string android_ver_min = 11;
+    string android_ver_max = 12;
+    string ios_ver_min = 13;
+    string ios_ver_max = 14;
+    string pc_ver_min = 15;
+    string pc_ver_max = 16;
+    string application = 17;
+    string tab_img = 18;
+    string tab_img_activated = 19;
+    int32 is_show = 20;
+    int32 is_default = 21;
+    repeated int32 app_name = 22;
+    bool ios_verify_hide = 23;
+    string route = 24;
+    bool android_verify_hide = 25;
+    int32 new_user_default = 26;
+    string channel = 27;
+    string tab_img_swipe = 28;
+    bool ios_verify_show = 29;
+    reserved "phome,admin", "oxygen.phome.XcmMainTabCfgData", "底部导航配置","ToList";
+}
+
+// 挚友养成升级配置
+message CfgCultivateLvUpScheme {
+    int32 level = 1;  //等级
+    int32 need_exp_num = 3; //
+}
+
+// 挚友养成升级配置
+message CfgCultivateAwardScheme {
+    int32 send_type = 1; //奖励类型
+    int32 level_or_num = 2; //等级或合种数
+    int32 award_type = 4; //奖励类型 0礼物 1特效 2挚友经验
+    int32 award_id = 5; //奖励Id
+    int32 award_num = 6; //奖励数量
+    int32 loop_receive = 7; //重复领取
+    int32 unit = 8; //单位 0秒 1分 2时 3天
+    bool auto_use = 9; //是否自动穿戴
+}
+
+// 挚友养成配置
+message CfgIntimateCultivateScheme {
+    int32 id = 1;
+    string name = 2;       // 名称
+    string cultivate_name = 3; //养成物名称
+    bool  cultivate_loop = 4; //是否循环养成
+    int32 cultivate_type = 5; //养成条件
+    repeated CfgCultivateLvUpScheme level_list = 6; //升级配置
+    int32 down_time_num = 7;
+    int32 down_time_unit = 8;
+    int32 per_time_num = 9;
+    int32 per_time_unit = 10;
+    int32 down_percent = 11;
+    int32 max_num = 12;
+    int32 min_num = 13;
+    int32 over_max_percent = 14;
+    int32 in_num = 15;
+    repeated CfgCultivateAwardScheme level_award = 16; //升级奖励
+    repeated CfgCultivateAwardScheme cultivate_num_award = 17; //种植数奖励
+    int32 sneak_cd_time = 18;    //偷取能量值CD时间
+    int32 exp_active_time = 19;  //能量球有效时间
+}
+
+message XcmCfgIntimateCultivate {
+    repeated CfgIntimateCultivateScheme cfgList = 1;
+    ConfActPage act_page = 2;           // 页面内容
+    reserved "actgame", "oxygen.actgame.XcmCfgIntimateCultivate", "挚友合种养成配置";
+}
+
+message CfgIntimateCultivateTaskScheme {
+    int32 index_id = 1;          //任务序号
+    string name = 2;            //任务名称
+    string description = 3;     //任务描述
+    int32 type = 4;             //任务类型
+    int32 count_type = 5;       //计算类型
+    int32 condition = 6;        //达成条件
+    int32 award_max = 7;        //获得上限
+    int32 award_num = 8;        //获得能量
+}
+
+// 挚友合种养成任务配置
+message XcmCfgIntimateCultivateTask {
+    repeated CfgIntimateCultivateTaskScheme cfgList = 1;    //养成任务配置
+    int32 intimate_sneak_max = 2;   //好友偷取上限
+    reserved "actgame", "oxygen.actgame.XcmCfgIntimateCultivateTask", "挚友合种养成任务配置";
+}
+
+// 氧气车载礼物配置
+message XcmOxygenCarGiftCfgData {
+    map<int32, uint32> cfg_map = 1; // 配置map key为OxygenCarGiftType value为礼物ID
+    reserved "admin,index", "oxygen.index.XcmOxygenCarGiftCfgData", "氧气车载礼物配置";
+}
+
+enum OxygenCarGiftType{
+    OCGT_NONE = 0; // 占位
+    OCGT_VOICE_TEST = 1; // 试音
+    OCGT_SING_SONG = 2; // 点唱
+}
+
+message CultivateStoreItemLimit {
+    int32 limit_num = 1;   //限制数量
+    int32 limit_range = 2; //限制范围 1全服 2个人
+    int32 limit_cycle = 3; //重制类型 1每周重置 2每月重置 3每日重置 4不重置
+}
+
+message CultivateStoreItemLvImage {
+    int32 level = 1;   //等级
+    string level_image = 2; //等级对应树种皮肤
+    string level_single_image = 3; //等级对应树种皮肤单帧
+}
+
+// 挚友合种商城商品配置
+message CfgCultivateStoreItemConf{
+    int32 store_item_id = 1;    //挚友合种商城物品Id
+    string store_item_name = 2; //售卖商品名称
+    int32 store_item_price_type = 3; //售卖商品价格类型 0金币 1物品
+    int32 store_item_price_item = 4; //售卖商品价格物品ID
+    int32 store_item_price_item_num = 5; //售卖商品价格物品数量
+    int32 store_item_price = 6; //售卖商品金币价格
+    int32 sort_weight = 7; //展示权重
+    string store_item_image = 8; //商品实际效果地址
+    string show_store_item_image = 9; //商品售卖界面展示图
+    repeated CultivateStoreItemLimit json_limits = 10;    //商品售卖限制条件
+    repeated CultivateStoreItemLvImage level_image_list = 11;  //
+    int64 active_time = 12;     //有效时间
+    int32 active_time_unit = 13; //有效时间单位
+    int32 store_item_type = 14;    //挚友合种商城物品类型
+    int64 sell_begin_time = 15;    //商品售卖开始时间
+    int64 sell_end_time = 16;    //商品售卖结束时间
+    repeated int32 intimate_type = 17; //挚友类型限定
+    string flag_image = 18;   //商品标签
+    int32 tab_type = 19;      //分栏类型
+    string store_item_des = 20; //树种皮肤&背景介绍
+}
+
+// 挚友合种商城配置
+message CfgCultivateStoreConf{
+    int32 tab_id = 1;   //分栏ID
+    string tab_name = 2;  //分栏名
+    int32 tab_type = 3;    //分栏类型 0商城
+    int32 sell_type = 4;   //售卖商品类型 0背景 1皮肤
+    int32 sort_weight = 5;  //分栏排序
+    string android_min = 6; //安卓最小版本
+    string android_max = 7; //安卓最大版本
+    string ios_min = 8; //iOS最小版本
+    string ios_max = 9; //iOS最大版本
+    string pc_min = 10; //PC最小版本
+    string pc_max = 11; //PC最大版本
+    string applets_max = 12; //小程序最大版本
+    string applets_min = 13; //小程序最小版本
+    repeated CfgCultivateStoreItemConf store_item_list = 14; //售卖商品列表
+    repeated int64 white_user_list = 15;    //用户白名单列表
+    repeated int64 black_user_list = 16;    //用户黑名单列表
+    repeated int64 white_room_list = 17;    //房间白名单列表
+    repeated int64 black_room_list = 18;    //房间黑名单列表
+}
+
+// 挚友合种商城配置
+message XcmCfgCultivateStoreConf {
+    repeated CfgCultivateStoreConf cfgList = 1;    //挚友合种商城配置
+    reserved "actgame", "oxygen.actgame.XcmCfgCultivateStoreConf", "挚友合种商城配置";
+}
+
+// 挚友合种图鉴信息
+message CultivateHandbook {
+    int32 relate_store_id = 1; //关联商品ID
+    string handbook_image = 2; //图鉴图片
+    string handbook_des = 3;   //图鉴描述
+    int32 sort_weight = 4; //图鉴权重
+}
+
+// 挚友合种图鉴配置
+message XcmCfgCultivateHandbookConf {
+    repeated CultivateHandbook cfgList = 1;    //挚友合种图鉴配置
+    reserved "actgame", "oxygen.actgame.XcmCfgCultivateHandbookConf", "挚友合种图鉴配置";
+}

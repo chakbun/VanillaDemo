@@ -1,0 +1,376 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/common.int.proto";
+import "pb/chat.ext.proto";
+
+// chat配置类型
+enum ChatConf {
+  Cc_Zero = 0; // 占位
+  Cc_Chat_Effect = 1; // 聊天特效配置
+  Cc_chat_Effect_User_limit = 2; // 聊天特效-用户限制（黑白名单）
+}
+
+message UpdateChatConfReq {
+  ChatConf cate = 1;
+}
+
+message UpdateChatConfRes {
+
+}
+
+enum ChatCPCheckType {
+  CPCT_ZEOR = 0;          // 占位
+  CPCT_LOGIN = 1;         // 登录检测
+  CPCT_DISCONNECTION = 2; // 断线检测
+}
+
+//小酒馆用户类型
+enum BistroUserType {
+  BUT_ZEOR = 0;          // 占位
+  BUT_NEW = 1;         // 新用户
+  BUT_OLD = 2;        // 老用户
+}
+
+//小酒馆开启场景
+enum BistroOpenScene {
+  BOS_ZEOR = 0;          // 占位
+  BUT_8MIN = 1;         // 8分钟
+  BUT_IM = 2;           // IM
+}
+
+message ChatCPDisconnectionReq {
+  int64 player_id = 1;          // 用户ID
+  DeviceType device_type = 2;   // 设备类型
+  ChatCPCheckType type = 3;     // 是否为登录检测
+}
+
+message ChatCPDisconnectionRes {
+}
+
+message CheckFirstPayCPReq {
+  int64 create_at = 1;        // 账号创建时间
+  int32 adchannel = 2;        // 渠道号
+  int32 real_adChannel = 3;   // 真实渠道号
+  string device_id = 4;       // 设备ID
+  int64 player_id = 5;        // 用户ID
+  SexType sex = 6;            // 性别
+  DeviceType device_type = 7; // 设备类型
+  string client_version = 8;  // 客户端版本
+}
+
+message CheckFirstPayCPRes {
+}
+
+message ChatCPBuildListReq {
+  int64 list_next_time = 1;   // CP队列的下个时间区间
+}
+
+message ChatCPBuildListRes {
+}
+
+message IsShowCPMessageOnOffReq {
+  int64 player_id = 1; // 用户ID
+}
+
+message IsShowCPMessageOnOffRes {
+  bool is_show = 1;
+}
+
+message ChatHourTaskReq {
+
+}
+message ChatHourTaskRes {
+
+}
+
+message BistroBindRelationship {
+  int64 player_id = 1;
+  int64 cp_id = 2;
+  int32 cure_time = 3;
+  int64 create_at = 4;
+  int64 update_at = 5;
+}
+
+message BistroCureTimeReq {
+  int64 player_id = 1; // 用户ID
+  int64 other_player_id = 2; // 用户ID
+}
+
+message BistroCureTimeRes {
+  int32 total_cure_time = 1; //总剩余时间（s）
+}
+
+message CleanOldCpHeartBeatReq {
+
+}
+
+message CleanOldCpHeartBeatRes {
+
+}
+
+message NotifyPresentChatPkgGiftReq {
+  int32 gift_id = 1; // 礼物ID
+  int32 gift_num = 2; // 礼物数量
+  int64 from_id = 3; // 赠送玩家ID
+  int64 to_id = 4; // 接受玩家ID
+  string from_device_id = 5; // 赠送玩家的设备ID
+  SendGiftSource giftSource = 6; // 送礼来源
+  SendGiftPosition position = 7; // 送礼位置
+}
+
+message NotifyPresentChatPkgGiftRes {
+
+}
+
+message CheckPresentChatPkgGiftReq {
+  int32 gift_id = 1; // 礼物ID
+  int32 gift_num = 2; // 礼物数量
+  int64 from_id = 3; // 赠送玩家ID
+  int64 to_id = 4; // 接受玩家ID
+  string from_device_id = 5; // 赠送玩家的设备ID
+  SendGiftPosition position = 7; // 送礼位置
+}
+
+message CheckPresentChatPkgGiftRes {
+
+}
+
+message NotifyChatPresentGiftReq {
+    int32 gift_id = 1;
+    int32 gift_num = 2;
+    int64 from_id = 3;
+    int64 to_id = 4;
+    int32 gift_type = 5;
+    SendGiftPosition position = 6; // 送礼位置
+}
+
+message NotifyChatPresentGiftRes {
+
+}
+
+message WeekCPListReq {
+  int64 player_id = 1; // 用户ID
+}
+
+message WeekCPListRes {
+  repeated WeekCP list = 1;
+}
+
+message WeekCP {
+  string id = 1;          // 唯一ID
+  int64 player_id = 2;    // 用户ID
+  int64 cp_id = 3;        // CPID
+  int64 clan_sign_id = 4; // 模ID
+  int64 invite_id = 5;    // 邀请者ID
+  int64 expire_time = 6;  // cp结束时间
+}
+
+message IMWeekCPInfoReq {
+  int64 player_id = 1; // 用户ID
+  int64 cp_id = 2;     // CPID
+}
+
+message IMWeekCPInfoRes {
+  WeekCPInfo cp_info = 1;
+}
+
+message GetWeekCPReq {
+  int64 player_id = 1; // 用户ID
+  int64 cp_id = 2;     // CPID
+}
+
+message GetWeekCPRes {
+  WeekCPInfoStatus status = 1;    // 状态
+  int64 expire_time = 2;          // 任务倒计时，确立一周CP关系后才有倒计时
+}
+
+message EndWeekCPTaskReq {
+  string id = 1;          // 唯一ID
+  bool is_succeed = 2;    // 是否全部完成
+}
+
+message EndWeekCPTaskRes {
+
+}
+
+message GetWeekTravelReq{
+  string travel_id = 1; // 一周旅行ID
+  // 如果没有旅行ID,可以传双方ID 或者最近生效的旅行信息
+  int64 small_id = 2; // 较小ID
+  int64 large_id = 3; // 较大ID
+}
+
+message GetWeekTravelRes{
+  string travel_id = 1; // 一周旅行ID
+  int64 small_id = 2; // 较小ID
+  int64 large_id = 3; // 较大ID
+  int32 city_id = 4; // 城市ID
+  int64 expire_time = 5; // 过期时间
+}
+
+message EndWeekTravelTaskReq{
+  string travel_id = 1; // 一周旅行ID
+  int32 task_id = 2; // 任务ID
+  int64 from_id = 3; // 任务发起者
+  int64 to_id = 4; // 任务接受者
+  WeekTravelExpSource exp_source = 5; // 亲密值来源
+  int32 exp = 6; // 亲密值（后台来源使用）
+  string operator = 7; // 操作者（后台来源使用）
+}
+
+message EndWeekTravelTaskRes{
+
+}
+
+message IMWeekTravelInfoReq{
+  int64 inviter_id = 1; // 邀请人ID
+  int64 invitee_id = 2; // 被邀请人ID
+  bool inviterIsSignMember = 3; // 邀请者是否是公会成员
+}
+
+message GetWeekTravelCountReq{
+  repeated int32 city_id = 1; // 城市ID
+  int64 begin_time = 2; // 开始时间
+  int64 end_time = 3; // 结束时间
+}
+
+message GetWeekTravelCountRes{
+  int32 count = 1; // 数量
+}
+
+message GetWeekTravelInfoIngReq{
+  int64 inviter_id = 1; // 邀请人ID
+  int64 invitee_id = 2; // 被邀请人ID
+}
+
+message PushCpChatHealScoreConfItem{
+  int64 id = 1;
+  int64 category_id = 2; // 类别ID
+  int64 score = 3; // 分值
+  string score_name = 4; //分数名称
+  int64 valid_hours = 5; // 分数有效期 单位小时 -1为永久
+  int64 player_id = 6; // 用户ID
+}
+
+message PushCpChatHealScoreConfReq{
+  repeated PushCpChatHealScoreConfItem items = 1;
+}
+message PushCpChatHealScoreConfRes{}
+
+message DeleteCpChatHealScoreConfReq{
+  int64 id = 1; // 回显ID
+}
+
+message DeleteCpChatHealScoreConfRes{}
+
+message ChatMinuteTaskReq {
+}
+
+message ChatMinuteTaskRes {
+}
+
+message CpChatHealGetLevelInfoReq {
+  int64 player_id = 1;
+}
+
+message CpChatHealGetLevelInfoRes {
+  CpChatHealLevel level = 1;
+  int32 score = 2;
+}
+
+message ChatScheduleTaskReq {
+  ScheduleTaskTime time = 1;
+}
+message ChatScheduleTaskRes {
+
+}
+
+message CPGuideGetCPReq {
+  int64 player_id = 1;//老板id
+}
+message CPGuideGetCPRes {
+  int64 cp_id = 1; //陪陪id
+  CPGuideStatus status = 2;//当前状态
+}
+
+message IsCPGuideNewPlayerReq {
+  int64 player_id = 1;
+}
+message IsCPGuideNewPlayerRes {
+  bool is_new = 1;
+  int64 end_time = 2;
+}
+
+
+message NotifyChatFirstBindPhoneReq {
+  int64 player_id = 1;
+}
+message NotifyChatFirstBindPhoneRes {}
+
+service ChatIntObj {
+  // 更新chat 配置
+  rpc UpdateChatConf (UpdateChatConfReq) returns (UpdateChatConfRes);
+
+  // 断线结束语音通话
+  rpc ChatCPDisconnection (ChatCPDisconnectionReq) returns (ChatCPDisconnectionRes);
+  // 检测用户是否有首充CP资格
+  rpc CheckFirstPayCP(CheckFirstPayCPReq) returns (CheckFirstPayCPRes);
+  // 构建CP队列
+  rpc ChatCPBuildList(ChatCPBuildListReq) returns (ChatCPBuildListRes);
+
+  // 判断是否显示来电弹窗开关设置
+  rpc IsShowCPMessageOnOff(IsShowCPMessageOnOffReq) returns (IsShowCPMessageOnOffRes);
+  // 1小时任务
+  rpc ChatHourTask(ChatHourTaskReq) returns (ChatHourTaskRes);
+
+  //内容审核结果
+  rpc AdvertAuditChat(CommContentCheckResultReq) returns(CommContentCheckResultRes);
+
+  // 查询小酒馆双方套餐时间
+  rpc BistroCureTime(BistroCureTimeReq) returns (BistroCureTimeRes);
+  // 清除过期cp通话心跳
+  rpc CleanOldCpHeartBeat(CleanOldCpHeartBeatReq) returns (CleanOldCpHeartBeatRes);
+  // 聊天包礼物赠送通知
+  rpc NotifyPresentChatPkgGift(NotifyPresentChatPkgGiftReq) returns (NotifyPresentChatPkgGiftRes);
+  // 聊天包礼物赠送检查
+  rpc CheckPresentChatPkgGift(CheckPresentChatPkgGiftReq) returns (CheckPresentChatPkgGiftRes);
+  // 送礼通知
+  rpc NotifyChatPresentGift(NotifyChatPresentGiftReq) returns (NotifyChatPresentGiftRes);
+  //获取进行中的一周CP的关系
+  rpc WeekCPList(WeekCPListReq) returns (WeekCPListRes);
+  // 获取IM一周CP关系
+  rpc IMWeekCPInfo(IMWeekCPInfoReq) returns (IMWeekCPInfoRes);
+  // 获取一周CP关系数据
+  rpc GetWeekCP(GetWeekCPReq) returns (GetWeekCPRes);
+  // 结束一周CP任务
+  rpc EndWeekCPTask(EndWeekCPTaskReq) returns (EndWeekCPTaskRes);
+  // 获取一周旅行关系数据
+  rpc GetWeekTravel(GetWeekTravelReq) returns (GetWeekTravelRes);
+  // 结束一周旅行任务
+  rpc EndWeekTravelTask(EndWeekTravelTaskReq) returns (EndWeekTravelTaskRes);
+  // 查询一周旅行信息
+  rpc IMWeekTravelInfo(IMWeekTravelInfoReq) returns(WeekTravelInfo);
+  // 查询一周旅行人数
+  rpc GetWeekTravelCount(GetWeekTravelCountReq) returns(GetWeekTravelCountRes);
+  // 获取正在进行的旅行信息
+  rpc GetWeekTravelInfoIng(GetWeekTravelInfoIngReq) returns(WeekTravelInfo);
+  // 推送聊愈师白名单配置
+  rpc PushCpChatHealScoreConf(PushCpChatHealScoreConfReq) returns(PushCpChatHealScoreConfRes);
+  // 删除聊愈师白名单配置
+  rpc DeleteCpChatHealScoreConf(DeleteCpChatHealScoreConfReq) returns(DeleteCpChatHealScoreConfRes);
+  // 每分钟定时触发
+  rpc ChatMinuteTask(ChatMinuteTaskReq) returns (ChatMinuteTaskRes);
+  // 获取接线员等级
+  rpc CpChatHealGetLevelInfo(CpChatHealGetLevelInfoReq) returns(CpChatHealGetLevelInfoRes);
+  // 定时任务触发
+  rpc ChatScheduleTask(ChatScheduleTaskReq) returns(ChatScheduleTaskRes);
+  // 新人接待官陪陪信息
+  rpc CPGuideGetCP(CPGuideGetCPReq) returns (CPGuideGetCPRes);
+  // 新人接待官判断的新人
+  rpc IsCPGuideNewPlayer(IsCPGuideNewPlayerReq) returns (IsCPGuideNewPlayerRes);
+  // 首次绑定手机通知
+  rpc NotifyChatFirstBindPhone(NotifyChatFirstBindPhoneReq) returns(NotifyChatFirstBindPhoneRes);
+}

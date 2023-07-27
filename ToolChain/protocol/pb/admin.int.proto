@@ -1,0 +1,123 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+message IsLoginReq {
+    string tk = 1;
+    string uid = 2;
+    int64 id = 3;
+    string name = 4;
+}
+message IsLoginRes {
+    bool auth_pass = 1;
+}
+
+message LoginOutReq {
+    string token = 1;
+}
+message LoginOutRes {
+}
+
+message ClanIndexTipReq {
+    int32 handle_type = 1;
+    int64 room_id = 2;
+    int64 tip_id = 3;
+}
+message ClanIndexTipRes {
+}
+
+message RpcClanReq {
+    string obj = 1;
+    string func_name = 2;
+    bytes params = 3;
+}
+message RpcClanRes {
+}
+message DelImageGoReq {
+    UploadType type = 1;
+    string icon = 2;
+    int64 id = 3;
+}
+message DelImageGoRes {
+}
+
+message GetCrackEggStatisticsReq {
+    string begin_time = 1;
+    string end_time = 2;
+}
+
+message AddGiftBlackWhiteReq {
+    map<string, string> param = 1;
+}
+
+message AddGiftBlackWhiteRes {
+
+}
+
+message DelGiftBlackWhiteReq {
+    map<string, string> param = 1;
+}
+
+message DelGiftBlackWhiteRes {
+
+}
+
+message RefreshLastWeekStarReq {
+
+}
+
+message RefreshLastWeekStarRes {
+
+}
+
+message NotifyAdminUpdateNicknameReq {
+    int64 player_id = 1;
+}
+message NotifyAdminUpdateNicknameRes {
+
+}
+
+message AddCpGuideAuthorityReq {
+    int64 player_id = 1;
+    string remark = 2;
+}
+
+message AddCpGuideAuthorityRes {
+
+}
+
+
+service AdminObj {
+    rpc IsLogin (IsLoginReq) returns (IsLoginRes);
+    rpc LoginOut (LoginOutReq) returns (LoginOutRes);
+    rpc ClanIndexTip (ClanIndexTipReq) returns (ClanIndexTipRes);
+    rpc DelImage (DelImageGoReq) returns (DelImageGoRes);
+    rpc GetCrackEggStatistics (GetCrackEggStatisticsReq) returns (GetCrackEggStatisticsRes);
+    rpc AddGiftBlackWhite (AddGiftBlackWhiteReq) returns (AddGiftBlackWhiteRes);
+    rpc DelGiftBlackWhite (DelGiftBlackWhiteReq) returns (DelGiftBlackWhiteRes);
+    rpc RefreshLastWeekStar(RefreshLastWeekStarReq) returns (RefreshLastWeekStarRes);
+    rpc NotifyAdminUpdateNickname(NotifyAdminUpdateNicknameReq) returns (NotifyAdminUpdateNicknameRes);
+    rpc AddCpGuideAuthority(AddCpGuideAuthorityReq) returns (AddCpGuideAuthorityRes);
+}
+
+enum ExpDataSortTypeEnum {
+    NULL = 0;
+    EXP_ASC = 1;  // 按当前经验值 升序
+    EXP_DESC = 2; // 按当前经验值 降序
+}
+
+message GetCrackEggStatistics {
+    int64 cost_gold_top = 1;       // 浇花TOP100消费(元)
+    int64 profit_top = 2;          // 浇花TOP100利润(元)
+    int64 profit = 3;              // 利润(元)
+    int64 jizi_gold = 4;           // 兑换产出(元)
+    int64 luck_gold = 5;           // 幸福事件产出(元)
+    int64 gold = 6;                // 玩家获得收益(元)
+    int64 cost_gold = 7;           // 玩家消费金额(元)
+    int64 cost_gold_drop = 8;      // 玩家购买水滴(元)
+}
+
+message GetCrackEggStatisticsRes {
+    repeated GetCrackEggStatistics list = 1;
+}

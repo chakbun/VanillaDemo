@@ -1,0 +1,17 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+
+message GetAutoConfReq {
+    string name = 1;
+}
+
+message GetAutoConfRes {
+    string greet = 1;
+}
+
+service AutoExtObj {
+    rpc GetAutoConf (GetAutoConfReq) returns (GetAutoConfRes);
+}
+

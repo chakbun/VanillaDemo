@@ -23,47 +23,47 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-#pragma mark - PB4VideoExtRoot
+#pragma mark - PB3VideoExtRoot
 
-@implementation PB4VideoExtRoot
+@implementation PB3VideoExtRoot
 
 // No extensions in the file and none of the imports (direct or indirect)
 // defined extensions, so no need to generate +extensionRegistry.
 
 @end
 
-#pragma mark - PB4VideoExtRoot_FileDescriptor
+#pragma mark - PB3VideoExtRoot_FileDescriptor
 
-static GPBFileDescriptor *PB4VideoExtRoot_FileDescriptor(void) {
+static GPBFileDescriptor *PB3VideoExtRoot_FileDescriptor(void) {
   // This is called by +initialize so there is no need to worry
   // about thread safety of the singleton.
   static GPBFileDescriptor *descriptor = NULL;
   if (!descriptor) {
     GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
     descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"plugin_pb"
-                                                 objcPrefix:@"PB4"
+                                                 objcPrefix:@"PB3"
                                                      syntax:GPBFileSyntaxProto3];
   }
   return descriptor;
 }
 
-#pragma mark - Enum PB4VideoCmdId
+#pragma mark - Enum PB3VideoCmdId
 
-GPBEnumDescriptor *PB4VideoCmdId_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoCmdId_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "IcVideoZero\000";
     static const int32_t values[] = {
-        PB4VideoCmdId_IcVideoZero,
+        PB3VideoCmdId_IcVideoZero,
     };
     static const char *extraTextFormatInfo = "\001\000b\211\000";
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoCmdId)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoCmdId)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoCmdId_IsValidValue
+                                     enumVerifier:PB3VideoCmdId_IsValidValue
                               extraTextFormatInfo:extraTextFormatInfo];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
@@ -73,32 +73,32 @@ GPBEnumDescriptor *PB4VideoCmdId_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoCmdId_IsValidValue(int32_t value__) {
+BOOL PB3VideoCmdId_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoCmdId_IcVideoZero:
+    case PB3VideoCmdId_IcVideoZero:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoGetType
+#pragma mark - Enum PB3VideoGetType
 
-GPBEnumDescriptor *PB4VideoGetType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoGetType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VgtZero\000VgtFirst\000";
     static const int32_t values[] = {
-        PB4VideoGetType_VgtZero,
-        PB4VideoGetType_VgtFirst,
+        PB3VideoGetType_VgtZero,
+        PB3VideoGetType_VgtFirst,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoGetType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoGetType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoGetType_IsValidValue];
+                                     enumVerifier:PB3VideoGetType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -107,38 +107,38 @@ GPBEnumDescriptor *PB4VideoGetType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoGetType_IsValidValue(int32_t value__) {
+BOOL PB3VideoGetType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoGetType_VgtZero:
-    case PB4VideoGetType_VgtFirst:
+    case PB3VideoGetType_VgtZero:
+    case PB3VideoGetType_VgtFirst:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4EIButtonType
+#pragma mark - Enum PB3EIButtonType
 
-GPBEnumDescriptor *PB4EIButtonType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3EIButtonType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "EibtZero\000EibtSkill\000EibtChat\000EibtLiaoTa\000E"
         "ibtZhenxinhua\000EibtCpYuehui\000";
     static const int32_t values[] = {
-        PB4EIButtonType_EibtZero,
-        PB4EIButtonType_EibtSkill,
-        PB4EIButtonType_EibtChat,
-        PB4EIButtonType_EibtLiaoTa,
-        PB4EIButtonType_EibtZhenxinhua,
-        PB4EIButtonType_EibtCpYuehui,
+        PB3EIButtonType_EibtZero,
+        PB3EIButtonType_EibtSkill,
+        PB3EIButtonType_EibtChat,
+        PB3EIButtonType_EibtLiaoTa,
+        PB3EIButtonType_EibtZhenxinhua,
+        PB3EIButtonType_EibtCpYuehui,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4EIButtonType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3EIButtonType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4EIButtonType_IsValidValue];
+                                     enumVerifier:PB3EIButtonType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -147,41 +147,41 @@ GPBEnumDescriptor *PB4EIButtonType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4EIButtonType_IsValidValue(int32_t value__) {
+BOOL PB3EIButtonType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4EIButtonType_EibtZero:
-    case PB4EIButtonType_EibtSkill:
-    case PB4EIButtonType_EibtChat:
-    case PB4EIButtonType_EibtLiaoTa:
-    case PB4EIButtonType_EibtZhenxinhua:
-    case PB4EIButtonType_EibtCpYuehui:
+    case PB3EIButtonType_EibtZero:
+    case PB3EIButtonType_EibtSkill:
+    case PB3EIButtonType_EibtChat:
+    case PB3EIButtonType_EibtLiaoTa:
+    case PB3EIButtonType_EibtZhenxinhua:
+    case PB3EIButtonType_EibtCpYuehui:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoPlayerStatus
+#pragma mark - Enum PB3VideoPlayerStatus
 
-GPBEnumDescriptor *PB4VideoPlayerStatus_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoPlayerStatus_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VpsZero\000VpsOutRoom\000VpsInRoom\000VpsOnChair\000"
         "VpsSinging\000";
     static const int32_t values[] = {
-        PB4VideoPlayerStatus_VpsZero,
-        PB4VideoPlayerStatus_VpsOutRoom,
-        PB4VideoPlayerStatus_VpsInRoom,
-        PB4VideoPlayerStatus_VpsOnChair,
-        PB4VideoPlayerStatus_VpsSinging,
+        PB3VideoPlayerStatus_VpsZero,
+        PB3VideoPlayerStatus_VpsOutRoom,
+        PB3VideoPlayerStatus_VpsInRoom,
+        PB3VideoPlayerStatus_VpsOnChair,
+        PB3VideoPlayerStatus_VpsSinging,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoPlayerStatus)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoPlayerStatus)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoPlayerStatus_IsValidValue];
+                                     enumVerifier:PB3VideoPlayerStatus_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -190,39 +190,39 @@ GPBEnumDescriptor *PB4VideoPlayerStatus_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoPlayerStatus_IsValidValue(int32_t value__) {
+BOOL PB3VideoPlayerStatus_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoPlayerStatus_VpsZero:
-    case PB4VideoPlayerStatus_VpsOutRoom:
-    case PB4VideoPlayerStatus_VpsInRoom:
-    case PB4VideoPlayerStatus_VpsOnChair:
-    case PB4VideoPlayerStatus_VpsSinging:
+    case PB3VideoPlayerStatus_VpsZero:
+    case PB3VideoPlayerStatus_VpsOutRoom:
+    case PB3VideoPlayerStatus_VpsInRoom:
+    case PB3VideoPlayerStatus_VpsOnChair:
+    case PB3VideoPlayerStatus_VpsSinging:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoCTopType
+#pragma mark - Enum PB3VideoCTopType
 
-GPBEnumDescriptor *PB4VideoCTopType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoCTopType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VctZero\000VctActivity\000VctSameCity\000VctFallo"
         "w\000";
     static const int32_t values[] = {
-        PB4VideoCTopType_VctZero,
-        PB4VideoCTopType_VctActivity,
-        PB4VideoCTopType_VctSameCity,
-        PB4VideoCTopType_VctFallow,
+        PB3VideoCTopType_VctZero,
+        PB3VideoCTopType_VctActivity,
+        PB3VideoCTopType_VctSameCity,
+        PB3VideoCTopType_VctFallow,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoCTopType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoCTopType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoCTopType_IsValidValue];
+                                     enumVerifier:PB3VideoCTopType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -231,40 +231,40 @@ GPBEnumDescriptor *PB4VideoCTopType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoCTopType_IsValidValue(int32_t value__) {
+BOOL PB3VideoCTopType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoCTopType_VctZero:
-    case PB4VideoCTopType_VctActivity:
-    case PB4VideoCTopType_VctSameCity:
-    case PB4VideoCTopType_VctFallow:
+    case PB3VideoCTopType_VctZero:
+    case PB3VideoCTopType_VctActivity:
+    case PB3VideoCTopType_VctSameCity:
+    case PB3VideoCTopType_VctFallow:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoRecReason
+#pragma mark - Enum PB3VideoRecReason
 
-GPBEnumDescriptor *PB4VideoRecReason_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoRecReason_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VrrZero\000VrrNearby\000VrrFocus\000VrrGood\000VrrTo"
         "p\000VrrLabel\000";
     static const int32_t values[] = {
-        PB4VideoRecReason_VrrZero,
-        PB4VideoRecReason_VrrNearby,
-        PB4VideoRecReason_VrrFocus,
-        PB4VideoRecReason_VrrGood,
-        PB4VideoRecReason_VrrTop,
-        PB4VideoRecReason_VrrLabel,
+        PB3VideoRecReason_VrrZero,
+        PB3VideoRecReason_VrrNearby,
+        PB3VideoRecReason_VrrFocus,
+        PB3VideoRecReason_VrrGood,
+        PB3VideoRecReason_VrrTop,
+        PB3VideoRecReason_VrrLabel,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoRecReason)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoRecReason)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoRecReason_IsValidValue];
+                                     enumVerifier:PB3VideoRecReason_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -273,39 +273,39 @@ GPBEnumDescriptor *PB4VideoRecReason_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoRecReason_IsValidValue(int32_t value__) {
+BOOL PB3VideoRecReason_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoRecReason_VrrZero:
-    case PB4VideoRecReason_VrrNearby:
-    case PB4VideoRecReason_VrrFocus:
-    case PB4VideoRecReason_VrrGood:
-    case PB4VideoRecReason_VrrTop:
-    case PB4VideoRecReason_VrrLabel:
+    case PB3VideoRecReason_VrrZero:
+    case PB3VideoRecReason_VrrNearby:
+    case PB3VideoRecReason_VrrFocus:
+    case PB3VideoRecReason_VrrGood:
+    case PB3VideoRecReason_VrrTop:
+    case PB3VideoRecReason_VrrLabel:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoButtonType
+#pragma mark - Enum PB3VideoButtonType
 
-GPBEnumDescriptor *PB4VideoButtonType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoButtonType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VbtZero\000VbtInteraction\000VbtBill\000VbtIm\000";
     static const int32_t values[] = {
-        PB4VideoButtonType_VbtZero,
-        PB4VideoButtonType_VbtInteraction,
-        PB4VideoButtonType_VbtBill,
-        PB4VideoButtonType_VbtIm,
+        PB3VideoButtonType_VbtZero,
+        PB3VideoButtonType_VbtInteraction,
+        PB3VideoButtonType_VbtBill,
+        PB3VideoButtonType_VbtIm,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoButtonType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoButtonType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoButtonType_IsValidValue];
+                                     enumVerifier:PB3VideoButtonType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -314,40 +314,40 @@ GPBEnumDescriptor *PB4VideoButtonType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoButtonType_IsValidValue(int32_t value__) {
+BOOL PB3VideoButtonType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoButtonType_VbtZero:
-    case PB4VideoButtonType_VbtInteraction:
-    case PB4VideoButtonType_VbtBill:
-    case PB4VideoButtonType_VbtIm:
+    case PB3VideoButtonType_VbtZero:
+    case PB3VideoButtonType_VbtInteraction:
+    case PB3VideoButtonType_VbtBill:
+    case PB3VideoButtonType_VbtIm:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - Enum PB4VideoOptType
+#pragma mark - Enum PB3VideoOptType
 
-GPBEnumDescriptor *PB4VideoOptType_EnumDescriptor(void) {
+GPBEnumDescriptor *PB3VideoOptType_EnumDescriptor(void) {
   static _Atomic(GPBEnumDescriptor*) descriptor = nil;
   if (!descriptor) {
     static const char *valueNames =
         "VotZero\000VotStart\000VotComplete\000VotStop\000Vot"
         "Uninterested\000VotCover\000";
     static const int32_t values[] = {
-        PB4VideoOptType_VotZero,
-        PB4VideoOptType_VotStart,
-        PB4VideoOptType_VotComplete,
-        PB4VideoOptType_VotStop,
-        PB4VideoOptType_VotUninterested,
-        PB4VideoOptType_VotCover,
+        PB3VideoOptType_VotZero,
+        PB3VideoOptType_VotStart,
+        PB3VideoOptType_VotComplete,
+        PB3VideoOptType_VotStop,
+        PB3VideoOptType_VotUninterested,
+        PB3VideoOptType_VotCover,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB4VideoOptType)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3VideoOptType)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PB4VideoOptType_IsValidValue];
+                                     enumVerifier:PB3VideoOptType_IsValidValue];
     GPBEnumDescriptor *expected = nil;
     if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
       [worker release];
@@ -356,36 +356,36 @@ GPBEnumDescriptor *PB4VideoOptType_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL PB4VideoOptType_IsValidValue(int32_t value__) {
+BOOL PB3VideoOptType_IsValidValue(int32_t value__) {
   switch (value__) {
-    case PB4VideoOptType_VotZero:
-    case PB4VideoOptType_VotStart:
-    case PB4VideoOptType_VotComplete:
-    case PB4VideoOptType_VotStop:
-    case PB4VideoOptType_VotUninterested:
-    case PB4VideoOptType_VotCover:
+    case PB3VideoOptType_VotZero:
+    case PB3VideoOptType_VotStart:
+    case PB3VideoOptType_VotComplete:
+    case PB3VideoOptType_VotStop:
+    case PB3VideoOptType_VotUninterested:
+    case PB3VideoOptType_VotCover:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - PB4VideoReq
+#pragma mark - PB3VideoReq
 
-@implementation PB4VideoReq
+@implementation PB3VideoReq
 
 @dynamic getType;
 @dynamic lastTrendId;
 @dynamic lastIdsArray, lastIdsArray_Count;
 @dynamic lastIndex;
 
-typedef struct PB4VideoReq__storage_ {
+typedef struct PB3VideoReq__storage_ {
   uint32_t _has_storage_[1];
-  PB4VideoGetType getType;
+  PB3VideoGetType getType;
   int32_t lastIndex;
   GPBInt64Array *lastIdsArray;
   int64_t lastTrendId;
-} PB4VideoReq__storage_;
+} PB3VideoReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -395,48 +395,48 @@ typedef struct PB4VideoReq__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "getType",
-        .dataTypeSpecific.enumDescFunc = PB4VideoGetType_EnumDescriptor,
-        .number = PB4VideoReq_FieldNumber_GetType,
+        .dataTypeSpecific.enumDescFunc = PB3VideoGetType_EnumDescriptor,
+        .number = PB3VideoReq_FieldNumber_GetType,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoReq__storage_, getType),
+        .offset = (uint32_t)offsetof(PB3VideoReq__storage_, getType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "lastTrendId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoReq_FieldNumber_LastTrendId,
+        .number = PB3VideoReq_FieldNumber_LastTrendId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoReq__storage_, lastTrendId),
+        .offset = (uint32_t)offsetof(PB3VideoReq__storage_, lastTrendId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "lastIdsArray",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoReq_FieldNumber_LastIdsArray,
+        .number = PB3VideoReq_FieldNumber_LastIdsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoReq__storage_, lastIdsArray),
+        .offset = (uint32_t)offsetof(PB3VideoReq__storage_, lastIdsArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "lastIndex",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoReq_FieldNumber_LastIndex,
+        .number = PB3VideoReq_FieldNumber_LastIndex,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoReq__storage_, lastIndex),
+        .offset = (uint32_t)offsetof(PB3VideoReq__storage_, lastIndex),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoReq class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoReq class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoReq__storage_)
+                                   storageSize:sizeof(PB3VideoReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -446,30 +446,30 @@ typedef struct PB4VideoReq__storage_ {
 
 @end
 
-int32_t PB4VideoReq_GetType_RawValue(PB4VideoReq *message) {
-  GPBDescriptor *descriptor = [PB4VideoReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoReq_FieldNumber_GetType];
+int32_t PB3VideoReq_GetType_RawValue(PB3VideoReq *message) {
+  GPBDescriptor *descriptor = [PB3VideoReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoReq_FieldNumber_GetType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoReq_GetType_RawValue(PB4VideoReq *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoReq_FieldNumber_GetType];
+void SetPB3VideoReq_GetType_RawValue(PB3VideoReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoReq_FieldNumber_GetType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoRes
+#pragma mark - PB3VideoRes
 
-@implementation PB4VideoRes
+@implementation PB3VideoRes
 
 @dynamic infosArray, infosArray_Count;
 @dynamic preloadIdxArray, preloadIdxArray_Count;
 
-typedef struct PB4VideoRes__storage_ {
+typedef struct PB3VideoRes__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *infosArray;
   GPBInt64Array *preloadIdxArray;
-} PB4VideoRes__storage_;
+} PB3VideoRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -479,30 +479,30 @@ typedef struct PB4VideoRes__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "infosArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4VideoInfo),
-        .number = PB4VideoRes_FieldNumber_InfosArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3VideoInfo),
+        .number = PB3VideoRes_FieldNumber_InfosArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoRes__storage_, infosArray),
+        .offset = (uint32_t)offsetof(PB3VideoRes__storage_, infosArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "preloadIdxArray",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoRes_FieldNumber_PreloadIdxArray,
+        .number = PB3VideoRes_FieldNumber_PreloadIdxArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoRes__storage_, preloadIdxArray),
+        .offset = (uint32_t)offsetof(PB3VideoRes__storage_, preloadIdxArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoRes class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoRes class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoRes__storage_)
+                                   storageSize:sizeof(PB3VideoRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -512,9 +512,9 @@ typedef struct PB4VideoRes__storage_ {
 
 @end
 
-#pragma mark - PB4VideoInfo
+#pragma mark - PB3VideoInfo
 
-@implementation PB4VideoInfo
+@implementation PB3VideoInfo
 
 @dynamic trendId;
 @dynamic playerId;
@@ -542,9 +542,9 @@ typedef struct PB4VideoRes__storage_ {
 @dynamic traceInfo;
 @dynamic authInfoListArray, authInfoListArray_Count;
 
-typedef struct PB4VideoInfo__storage_ {
+typedef struct PB3VideoInfo__storage_ {
   uint32_t _has_storage_[1];
-  PB4PluginSexType sex;
+  PB3PluginSexType sex;
   int32_t videoWidth;
   int32_t videoHeight;
   int32_t skillId;
@@ -553,7 +553,7 @@ typedef struct PB4VideoInfo__storage_ {
   int32_t from;
   int32_t quality;
   int32_t labelId;
-  PB4VideoRecmdSource recmdSource;
+  PB3VideoRecmdSource recmdSource;
   NSString *name;
   NSString *icon;
   NSString *videoURL;
@@ -568,7 +568,7 @@ typedef struct PB4VideoInfo__storage_ {
   int64_t likeNum;
   int64_t commentNum;
   int64_t sourceId;
-} PB4VideoInfo__storage_;
+} PB3VideoInfo__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -579,97 +579,97 @@ typedef struct PB4VideoInfo__storage_ {
       {
         .name = "trendId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_TrendId,
+        .number = PB3VideoInfo_FieldNumber_TrendId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, trendId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, trendId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "playerId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_PlayerId,
+        .number = PB3VideoInfo_FieldNumber_PlayerId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, playerId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, playerId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "name",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_Name,
+        .number = PB3VideoInfo_FieldNumber_Name,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, name),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, name),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "sex",
-        .dataTypeSpecific.enumDescFunc = PB4PluginSexType_EnumDescriptor,
-        .number = PB4VideoInfo_FieldNumber_Sex,
+        .dataTypeSpecific.enumDescFunc = PB3PluginSexType_EnumDescriptor,
+        .number = PB3VideoInfo_FieldNumber_Sex,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, sex),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, sex),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "icon",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_Icon,
+        .number = PB3VideoInfo_FieldNumber_Icon,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, icon),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, icon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "videoURL",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_VideoURL,
+        .number = PB3VideoInfo_FieldNumber_VideoURL,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, videoURL),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, videoURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "likeNum",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_LikeNum,
+        .number = PB3VideoInfo_FieldNumber_LikeNum,
         .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, likeNum),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, likeNum),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "commentNum",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_CommentNum,
+        .number = PB3VideoInfo_FieldNumber_CommentNum,
         .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, commentNum),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, commentNum),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "content",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_Content,
+        .number = PB3VideoInfo_FieldNumber_Content,
         .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, content),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, content),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "tagsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4TrendTag),
-        .number = PB4VideoInfo_FieldNumber_TagsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3TrendTag),
+        .number = PB3VideoInfo_FieldNumber_TagsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, tagsArray),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, tagsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "isGaveLike",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_IsGaveLike,
+        .number = PB3VideoInfo_FieldNumber_IsGaveLike,
         .hasIndex = 9,
         .offset = 10,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -678,137 +678,137 @@ typedef struct PB4VideoInfo__storage_ {
       {
         .name = "coverURL",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_CoverURL,
+        .number = PB3VideoInfo_FieldNumber_CoverURL,
         .hasIndex = 11,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, coverURL),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, coverURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "videoWidth",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_VideoWidth,
+        .number = PB3VideoInfo_FieldNumber_VideoWidth,
         .hasIndex = 12,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, videoWidth),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, videoWidth),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "videoHeight",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_VideoHeight,
+        .number = PB3VideoInfo_FieldNumber_VideoHeight,
         .hasIndex = 13,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, videoHeight),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, videoHeight),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "skillId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_SkillId,
+        .number = PB3VideoInfo_FieldNumber_SkillId,
         .hasIndex = 14,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, skillId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, skillId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "iaId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_IaId,
+        .number = PB3VideoInfo_FieldNumber_IaId,
         .hasIndex = 15,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, iaId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, iaId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "activityId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_ActivityId,
+        .number = PB3VideoInfo_FieldNumber_ActivityId,
         .hasIndex = 16,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, activityId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, activityId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "sourceId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_SourceId,
+        .number = PB3VideoInfo_FieldNumber_SourceId,
         .hasIndex = 17,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, sourceId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, sourceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "from",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_From,
+        .number = PB3VideoInfo_FieldNumber_From,
         .hasIndex = 18,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, from),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, from),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "quality",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_Quality,
+        .number = PB3VideoInfo_FieldNumber_Quality,
         .hasIndex = 19,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, quality),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, quality),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "labelId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_LabelId,
+        .number = PB3VideoInfo_FieldNumber_LabelId,
         .hasIndex = 20,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, labelId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, labelId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "recmdSource",
-        .dataTypeSpecific.enumDescFunc = PB4VideoRecmdSource_EnumDescriptor,
-        .number = PB4VideoInfo_FieldNumber_RecmdSource,
+        .dataTypeSpecific.enumDescFunc = PB3VideoRecmdSource_EnumDescriptor,
+        .number = PB3VideoInfo_FieldNumber_RecmdSource,
         .hasIndex = 21,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, recmdSource),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, recmdSource),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "recmdSourceId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_RecmdSourceId,
+        .number = PB3VideoInfo_FieldNumber_RecmdSourceId,
         .hasIndex = 22,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, recmdSourceId),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, recmdSourceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "traceInfo",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoInfo_FieldNumber_TraceInfo,
+        .number = PB3VideoInfo_FieldNumber_TraceInfo,
         .hasIndex = 23,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, traceInfo),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, traceInfo),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "authInfoListArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4PAuthInfo),
-        .number = PB4VideoInfo_FieldNumber_AuthInfoListArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3PAuthInfo),
+        .number = PB3VideoInfo_FieldNumber_AuthInfoListArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoInfo__storage_, authInfoListArray),
+        .offset = (uint32_t)offsetof(PB3VideoInfo__storage_, authInfoListArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoInfo class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoInfo class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoInfo__storage_)
+                                   storageSize:sizeof(PB3VideoInfo__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
@@ -823,46 +823,46 @@ typedef struct PB4VideoInfo__storage_ {
 
 @end
 
-int32_t PB4VideoInfo_Sex_RawValue(PB4VideoInfo *message) {
-  GPBDescriptor *descriptor = [PB4VideoInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoInfo_FieldNumber_Sex];
+int32_t PB3VideoInfo_Sex_RawValue(PB3VideoInfo *message) {
+  GPBDescriptor *descriptor = [PB3VideoInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoInfo_FieldNumber_Sex];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoInfo_Sex_RawValue(PB4VideoInfo *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoInfo_FieldNumber_Sex];
+void SetPB3VideoInfo_Sex_RawValue(PB3VideoInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoInfo_FieldNumber_Sex];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-int32_t PB4VideoInfo_RecmdSource_RawValue(PB4VideoInfo *message) {
-  GPBDescriptor *descriptor = [PB4VideoInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoInfo_FieldNumber_RecmdSource];
+int32_t PB3VideoInfo_RecmdSource_RawValue(PB3VideoInfo *message) {
+  GPBDescriptor *descriptor = [PB3VideoInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoInfo_FieldNumber_RecmdSource];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoInfo_RecmdSource_RawValue(PB4VideoInfo *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoInfo_FieldNumber_RecmdSource];
+void SetPB3VideoInfo_RecmdSource_RawValue(PB3VideoInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoInfo_FieldNumber_RecmdSource];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoPlayerReq
+#pragma mark - PB3VideoPlayerReq
 
-@implementation PB4VideoPlayerReq
+@implementation PB3VideoPlayerReq
 
 @dynamic trendId;
 @dynamic from;
 @dynamic quality;
 @dynamic labelId;
 
-typedef struct PB4VideoPlayerReq__storage_ {
+typedef struct PB3VideoPlayerReq__storage_ {
   uint32_t _has_storage_[1];
   int32_t from;
   int32_t quality;
   int32_t labelId;
   int64_t trendId;
-} PB4VideoPlayerReq__storage_;
+} PB3VideoPlayerReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -873,47 +873,47 @@ typedef struct PB4VideoPlayerReq__storage_ {
       {
         .name = "trendId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoPlayerReq_FieldNumber_TrendId,
+        .number = PB3VideoPlayerReq_FieldNumber_TrendId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerReq__storage_, trendId),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerReq__storage_, trendId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "from",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoPlayerReq_FieldNumber_From,
+        .number = PB3VideoPlayerReq_FieldNumber_From,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerReq__storage_, from),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerReq__storage_, from),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "quality",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoPlayerReq_FieldNumber_Quality,
+        .number = PB3VideoPlayerReq_FieldNumber_Quality,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerReq__storage_, quality),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerReq__storage_, quality),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "labelId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoPlayerReq_FieldNumber_LabelId,
+        .number = PB3VideoPlayerReq_FieldNumber_LabelId,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerReq__storage_, labelId),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerReq__storage_, labelId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoPlayerReq class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoPlayerReq class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoPlayerReq__storage_)
+                                   storageSize:sizeof(PB3VideoPlayerReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -923,9 +923,9 @@ typedef struct PB4VideoPlayerReq__storage_ {
 
 @end
 
-#pragma mark - PB4VideoPlayerRes
+#pragma mark - PB3VideoPlayerRes
 
-@implementation PB4VideoPlayerRes
+@implementation PB3VideoPlayerRes
 
 @dynamic hasContentTop, contentTop;
 @dynamic hasButton, button;
@@ -934,15 +934,15 @@ typedef struct PB4VideoPlayerReq__storage_ {
 @dynamic recReason;
 @dynamic hasExtraInfoBtn, extraInfoBtn;
 
-typedef struct PB4VideoPlayerRes__storage_ {
+typedef struct PB3VideoPlayerRes__storage_ {
   uint32_t _has_storage_[1];
-  PB4VideoPlayerStatus status;
-  PB4VideoRecReason recReason;
-  PB4VideoContentTop *contentTop;
-  PB4VideoButton *button;
-  PB4ExtraInfo *extraInfoBtn;
+  PB3VideoPlayerStatus status;
+  PB3VideoRecReason recReason;
+  PB3VideoContentTop *contentTop;
+  PB3VideoButton *button;
+  PB3ExtraInfo *extraInfoBtn;
   int64_t roomId;
-} PB4VideoPlayerRes__storage_;
+} PB3VideoPlayerRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -952,66 +952,66 @@ typedef struct PB4VideoPlayerRes__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "contentTop",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4VideoContentTop),
-        .number = PB4VideoPlayerRes_FieldNumber_ContentTop,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3VideoContentTop),
+        .number = PB3VideoPlayerRes_FieldNumber_ContentTop,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, contentTop),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, contentTop),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "button",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4VideoButton),
-        .number = PB4VideoPlayerRes_FieldNumber_Button,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3VideoButton),
+        .number = PB3VideoPlayerRes_FieldNumber_Button,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, button),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, button),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "status",
-        .dataTypeSpecific.enumDescFunc = PB4VideoPlayerStatus_EnumDescriptor,
-        .number = PB4VideoPlayerRes_FieldNumber_Status,
+        .dataTypeSpecific.enumDescFunc = PB3VideoPlayerStatus_EnumDescriptor,
+        .number = PB3VideoPlayerRes_FieldNumber_Status,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, status),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, status),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "roomId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoPlayerRes_FieldNumber_RoomId,
+        .number = PB3VideoPlayerRes_FieldNumber_RoomId,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, roomId),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, roomId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "recReason",
-        .dataTypeSpecific.enumDescFunc = PB4VideoRecReason_EnumDescriptor,
-        .number = PB4VideoPlayerRes_FieldNumber_RecReason,
+        .dataTypeSpecific.enumDescFunc = PB3VideoRecReason_EnumDescriptor,
+        .number = PB3VideoPlayerRes_FieldNumber_RecReason,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, recReason),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, recReason),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "extraInfoBtn",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4ExtraInfo),
-        .number = PB4VideoPlayerRes_FieldNumber_ExtraInfoBtn,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3ExtraInfo),
+        .number = PB3VideoPlayerRes_FieldNumber_ExtraInfoBtn,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB4VideoPlayerRes__storage_, extraInfoBtn),
+        .offset = (uint32_t)offsetof(PB3VideoPlayerRes__storage_, extraInfoBtn),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoPlayerRes class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoPlayerRes class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoPlayerRes__storage_)
+                                   storageSize:sizeof(PB3VideoPlayerRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1021,33 +1021,33 @@ typedef struct PB4VideoPlayerRes__storage_ {
 
 @end
 
-int32_t PB4VideoPlayerRes_Status_RawValue(PB4VideoPlayerRes *message) {
-  GPBDescriptor *descriptor = [PB4VideoPlayerRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoPlayerRes_FieldNumber_Status];
+int32_t PB3VideoPlayerRes_Status_RawValue(PB3VideoPlayerRes *message) {
+  GPBDescriptor *descriptor = [PB3VideoPlayerRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoPlayerRes_FieldNumber_Status];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoPlayerRes_Status_RawValue(PB4VideoPlayerRes *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoPlayerRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoPlayerRes_FieldNumber_Status];
+void SetPB3VideoPlayerRes_Status_RawValue(PB3VideoPlayerRes *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoPlayerRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoPlayerRes_FieldNumber_Status];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-int32_t PB4VideoPlayerRes_RecReason_RawValue(PB4VideoPlayerRes *message) {
-  GPBDescriptor *descriptor = [PB4VideoPlayerRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoPlayerRes_FieldNumber_RecReason];
+int32_t PB3VideoPlayerRes_RecReason_RawValue(PB3VideoPlayerRes *message) {
+  GPBDescriptor *descriptor = [PB3VideoPlayerRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoPlayerRes_FieldNumber_RecReason];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoPlayerRes_RecReason_RawValue(PB4VideoPlayerRes *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoPlayerRes descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoPlayerRes_FieldNumber_RecReason];
+void SetPB3VideoPlayerRes_RecReason_RawValue(PB3VideoPlayerRes *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoPlayerRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoPlayerRes_FieldNumber_RecReason];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4ExtraInfo
+#pragma mark - PB3ExtraInfo
 
-@implementation PB4ExtraInfo
+@implementation PB3ExtraInfo
 
 @dynamic buttonType;
 @dynamic buttonIcon;
@@ -1060,9 +1060,9 @@ void SetPB4VideoPlayerRes_RecReason_RawValue(PB4VideoPlayerRes *message, int32_t
 @dynamic jumpURL;
 @dynamic price;
 
-typedef struct PB4ExtraInfo__storage_ {
+typedef struct PB3ExtraInfo__storage_ {
   uint32_t _has_storage_[1];
-  PB4EIButtonType buttonType;
+  PB3EIButtonType buttonType;
   int32_t orderNum;
   int32_t price;
   NSString *buttonIcon;
@@ -1072,7 +1072,7 @@ typedef struct PB4ExtraInfo__storage_ {
   NSString *skillInfo;
   NSString *jumpURL;
   int64_t expireTime;
-} PB4ExtraInfo__storage_;
+} PB3ExtraInfo__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1082,102 +1082,102 @@ typedef struct PB4ExtraInfo__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "buttonType",
-        .dataTypeSpecific.enumDescFunc = PB4EIButtonType_EnumDescriptor,
-        .number = PB4ExtraInfo_FieldNumber_ButtonType,
+        .dataTypeSpecific.enumDescFunc = PB3EIButtonType_EnumDescriptor,
+        .number = PB3ExtraInfo_FieldNumber_ButtonType,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, buttonType),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, buttonType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "buttonIcon",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_ButtonIcon,
+        .number = PB3ExtraInfo_FieldNumber_ButtonIcon,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, buttonIcon),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, buttonIcon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "buttonContent",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_ButtonContent,
+        .number = PB3ExtraInfo_FieldNumber_ButtonContent,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, buttonContent),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, buttonContent),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "icon",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_Icon,
+        .number = PB3ExtraInfo_FieldNumber_Icon,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, icon),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, icon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "content",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_Content,
+        .number = PB3ExtraInfo_FieldNumber_Content,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, content),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, content),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "orderNum",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_OrderNum,
+        .number = PB3ExtraInfo_FieldNumber_OrderNum,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, orderNum),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, orderNum),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "skillInfo",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_SkillInfo,
+        .number = PB3ExtraInfo_FieldNumber_SkillInfo,
         .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, skillInfo),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, skillInfo),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "expireTime",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_ExpireTime,
+        .number = PB3ExtraInfo_FieldNumber_ExpireTime,
         .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, expireTime),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, expireTime),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "jumpURL",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_JumpURL,
+        .number = PB3ExtraInfo_FieldNumber_JumpURL,
         .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, jumpURL),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, jumpURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "price",
         .dataTypeSpecific.className = NULL,
-        .number = PB4ExtraInfo_FieldNumber_Price,
+        .number = PB3ExtraInfo_FieldNumber_Price,
         .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PB4ExtraInfo__storage_, price),
+        .offset = (uint32_t)offsetof(PB3ExtraInfo__storage_, price),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4ExtraInfo class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3ExtraInfo class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4ExtraInfo__storage_)
+                                   storageSize:sizeof(PB3ExtraInfo__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
@@ -1192,34 +1192,34 @@ typedef struct PB4ExtraInfo__storage_ {
 
 @end
 
-int32_t PB4ExtraInfo_ButtonType_RawValue(PB4ExtraInfo *message) {
-  GPBDescriptor *descriptor = [PB4ExtraInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4ExtraInfo_FieldNumber_ButtonType];
+int32_t PB3ExtraInfo_ButtonType_RawValue(PB3ExtraInfo *message) {
+  GPBDescriptor *descriptor = [PB3ExtraInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ExtraInfo_FieldNumber_ButtonType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4ExtraInfo_ButtonType_RawValue(PB4ExtraInfo *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4ExtraInfo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4ExtraInfo_FieldNumber_ButtonType];
+void SetPB3ExtraInfo_ButtonType_RawValue(PB3ExtraInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3ExtraInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3ExtraInfo_FieldNumber_ButtonType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoContentTop
+#pragma mark - PB3VideoContentTop
 
-@implementation PB4VideoContentTop
+@implementation PB3VideoContentTop
 
 @dynamic ctType;
 @dynamic icon;
 @dynamic text;
 @dynamic jumpURL;
 
-typedef struct PB4VideoContentTop__storage_ {
+typedef struct PB3VideoContentTop__storage_ {
   uint32_t _has_storage_[1];
-  PB4VideoCTopType ctType;
+  PB3VideoCTopType ctType;
   NSString *icon;
   NSString *text;
   NSString *jumpURL;
-} PB4VideoContentTop__storage_;
+} PB3VideoContentTop__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1229,48 +1229,48 @@ typedef struct PB4VideoContentTop__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "ctType",
-        .dataTypeSpecific.enumDescFunc = PB4VideoCTopType_EnumDescriptor,
-        .number = PB4VideoContentTop_FieldNumber_CtType,
+        .dataTypeSpecific.enumDescFunc = PB3VideoCTopType_EnumDescriptor,
+        .number = PB3VideoContentTop_FieldNumber_CtType,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoContentTop__storage_, ctType),
+        .offset = (uint32_t)offsetof(PB3VideoContentTop__storage_, ctType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "icon",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoContentTop_FieldNumber_Icon,
+        .number = PB3VideoContentTop_FieldNumber_Icon,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoContentTop__storage_, icon),
+        .offset = (uint32_t)offsetof(PB3VideoContentTop__storage_, icon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "text",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoContentTop_FieldNumber_Text,
+        .number = PB3VideoContentTop_FieldNumber_Text,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoContentTop__storage_, text),
+        .offset = (uint32_t)offsetof(PB3VideoContentTop__storage_, text),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "jumpURL",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoContentTop_FieldNumber_JumpURL,
+        .number = PB3VideoContentTop_FieldNumber_JumpURL,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoContentTop__storage_, jumpURL),
+        .offset = (uint32_t)offsetof(PB3VideoContentTop__storage_, jumpURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoContentTop class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoContentTop class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoContentTop__storage_)
+                                   storageSize:sizeof(PB3VideoContentTop__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
@@ -1285,21 +1285,21 @@ typedef struct PB4VideoContentTop__storage_ {
 
 @end
 
-int32_t PB4VideoContentTop_CtType_RawValue(PB4VideoContentTop *message) {
-  GPBDescriptor *descriptor = [PB4VideoContentTop descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoContentTop_FieldNumber_CtType];
+int32_t PB3VideoContentTop_CtType_RawValue(PB3VideoContentTop *message) {
+  GPBDescriptor *descriptor = [PB3VideoContentTop descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoContentTop_FieldNumber_CtType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoContentTop_CtType_RawValue(PB4VideoContentTop *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoContentTop descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoContentTop_FieldNumber_CtType];
+void SetPB3VideoContentTop_CtType_RawValue(PB3VideoContentTop *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoContentTop descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoContentTop_FieldNumber_CtType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoButton
+#pragma mark - PB3VideoButton
 
-@implementation PB4VideoButton
+@implementation PB3VideoButton
 
 @dynamic icon;
 @dynamic text;
@@ -1307,14 +1307,14 @@ void SetPB4VideoContentTop_CtType_RawValue(PB4VideoContentTop *message, int32_t 
 @dynamic ctType;
 @dynamic typeId;
 
-typedef struct PB4VideoButton__storage_ {
+typedef struct PB3VideoButton__storage_ {
   uint32_t _has_storage_[1];
-  PB4VideoButtonType ctType;
+  PB3VideoButtonType ctType;
   NSString *icon;
   NSString *text;
   NSString *jumpURL;
   int64_t typeId;
-} PB4VideoButton__storage_;
+} PB3VideoButton__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1325,56 +1325,56 @@ typedef struct PB4VideoButton__storage_ {
       {
         .name = "icon",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoButton_FieldNumber_Icon,
+        .number = PB3VideoButton_FieldNumber_Icon,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoButton__storage_, icon),
+        .offset = (uint32_t)offsetof(PB3VideoButton__storage_, icon),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "text",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoButton_FieldNumber_Text,
+        .number = PB3VideoButton_FieldNumber_Text,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoButton__storage_, text),
+        .offset = (uint32_t)offsetof(PB3VideoButton__storage_, text),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "jumpURL",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoButton_FieldNumber_JumpURL,
+        .number = PB3VideoButton_FieldNumber_JumpURL,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoButton__storage_, jumpURL),
+        .offset = (uint32_t)offsetof(PB3VideoButton__storage_, jumpURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "ctType",
-        .dataTypeSpecific.enumDescFunc = PB4VideoButtonType_EnumDescriptor,
-        .number = PB4VideoButton_FieldNumber_CtType,
+        .dataTypeSpecific.enumDescFunc = PB3VideoButtonType_EnumDescriptor,
+        .number = PB3VideoButton_FieldNumber_CtType,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoButton__storage_, ctType),
+        .offset = (uint32_t)offsetof(PB3VideoButton__storage_, ctType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "typeId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoButton_FieldNumber_TypeId,
+        .number = PB3VideoButton_FieldNumber_TypeId,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB4VideoButton__storage_, typeId),
+        .offset = (uint32_t)offsetof(PB3VideoButton__storage_, typeId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoButton class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoButton class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoButton__storage_)
+                                   storageSize:sizeof(PB3VideoButton__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
@@ -1389,28 +1389,28 @@ typedef struct PB4VideoButton__storage_ {
 
 @end
 
-int32_t PB4VideoButton_CtType_RawValue(PB4VideoButton *message) {
-  GPBDescriptor *descriptor = [PB4VideoButton descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoButton_FieldNumber_CtType];
+int32_t PB3VideoButton_CtType_RawValue(PB3VideoButton *message) {
+  GPBDescriptor *descriptor = [PB3VideoButton descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoButton_FieldNumber_CtType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoButton_CtType_RawValue(PB4VideoButton *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoButton descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoButton_FieldNumber_CtType];
+void SetPB3VideoButton_CtType_RawValue(PB3VideoButton *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoButton descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoButton_FieldNumber_CtType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoLikeReq
+#pragma mark - PB3VideoLikeReq
 
-@implementation PB4VideoLikeReq
+@implementation PB3VideoLikeReq
 
 @dynamic page;
 
-typedef struct PB4VideoLikeReq__storage_ {
+typedef struct PB3VideoLikeReq__storage_ {
   uint32_t _has_storage_[1];
   int32_t page;
-} PB4VideoLikeReq__storage_;
+} PB3VideoLikeReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1421,20 +1421,20 @@ typedef struct PB4VideoLikeReq__storage_ {
       {
         .name = "page",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoLikeReq_FieldNumber_Page,
+        .number = PB3VideoLikeReq_FieldNumber_Page,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoLikeReq__storage_, page),
+        .offset = (uint32_t)offsetof(PB3VideoLikeReq__storage_, page),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoLikeReq class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoLikeReq class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoLikeReq__storage_)
+                                   storageSize:sizeof(PB3VideoLikeReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1444,18 +1444,18 @@ typedef struct PB4VideoLikeReq__storage_ {
 
 @end
 
-#pragma mark - PB4VideoLikeRes
+#pragma mark - PB3VideoLikeRes
 
-@implementation PB4VideoLikeRes
+@implementation PB3VideoLikeRes
 
 @dynamic nextPage;
 @dynamic infosArray, infosArray_Count;
 
-typedef struct PB4VideoLikeRes__storage_ {
+typedef struct PB3VideoLikeRes__storage_ {
   uint32_t _has_storage_[1];
   int32_t nextPage;
   NSMutableArray *infosArray;
-} PB4VideoLikeRes__storage_;
+} PB3VideoLikeRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1466,29 +1466,29 @@ typedef struct PB4VideoLikeRes__storage_ {
       {
         .name = "nextPage",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoLikeRes_FieldNumber_NextPage,
+        .number = PB3VideoLikeRes_FieldNumber_NextPage,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoLikeRes__storage_, nextPage),
+        .offset = (uint32_t)offsetof(PB3VideoLikeRes__storage_, nextPage),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "infosArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PB4VideoInfo),
-        .number = PB4VideoLikeRes_FieldNumber_InfosArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3VideoInfo),
+        .number = PB3VideoLikeRes_FieldNumber_InfosArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PB4VideoLikeRes__storage_, infosArray),
+        .offset = (uint32_t)offsetof(PB3VideoLikeRes__storage_, infosArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoLikeRes class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoLikeRes class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoLikeRes__storage_)
+                                   storageSize:sizeof(PB3VideoLikeRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1498,9 +1498,9 @@ typedef struct PB4VideoLikeRes__storage_ {
 
 @end
 
-#pragma mark - PB4VideoOptReq
+#pragma mark - PB3VideoOptReq
 
-@implementation PB4VideoOptReq
+@implementation PB3VideoOptReq
 
 @dynamic optType;
 @dynamic trendId;
@@ -1512,17 +1512,17 @@ typedef struct PB4VideoLikeRes__storage_ {
 @dynamic traceInfo;
 @dynamic firstPlay;
 
-typedef struct PB4VideoOptReq__storage_ {
+typedef struct PB3VideoOptReq__storage_ {
   uint32_t _has_storage_[1];
-  PB4VideoOptType optType;
+  PB3VideoOptType optType;
   int32_t leftNum;
-  PB4VideoRecmdSource recmdSource;
+  PB3VideoRecmdSource recmdSource;
   NSString *recmdSourceId;
   NSString *traceInfo;
   int64_t trendId;
   int64_t second;
   int64_t sourceId;
-} PB4VideoOptReq__storage_;
+} PB3VideoOptReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1532,80 +1532,80 @@ typedef struct PB4VideoOptReq__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "optType",
-        .dataTypeSpecific.enumDescFunc = PB4VideoOptType_EnumDescriptor,
-        .number = PB4VideoOptReq_FieldNumber_OptType,
+        .dataTypeSpecific.enumDescFunc = PB3VideoOptType_EnumDescriptor,
+        .number = PB3VideoOptReq_FieldNumber_OptType,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, optType),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, optType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "trendId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_TrendId,
+        .number = PB3VideoOptReq_FieldNumber_TrendId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, trendId),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, trendId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "second",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_Second,
+        .number = PB3VideoOptReq_FieldNumber_Second,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, second),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, second),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "leftNum",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_LeftNum,
+        .number = PB3VideoOptReq_FieldNumber_LeftNum,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, leftNum),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, leftNum),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
       {
         .name = "sourceId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_SourceId,
+        .number = PB3VideoOptReq_FieldNumber_SourceId,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, sourceId),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, sourceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "recmdSource",
-        .dataTypeSpecific.enumDescFunc = PB4VideoRecmdSource_EnumDescriptor,
-        .number = PB4VideoOptReq_FieldNumber_RecmdSource,
+        .dataTypeSpecific.enumDescFunc = PB3VideoRecmdSource_EnumDescriptor,
+        .number = PB3VideoOptReq_FieldNumber_RecmdSource,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, recmdSource),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, recmdSource),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "recmdSourceId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_RecmdSourceId,
+        .number = PB3VideoOptReq_FieldNumber_RecmdSourceId,
         .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, recmdSourceId),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, recmdSourceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "traceInfo",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_TraceInfo,
+        .number = PB3VideoOptReq_FieldNumber_TraceInfo,
         .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PB4VideoOptReq__storage_, traceInfo),
+        .offset = (uint32_t)offsetof(PB3VideoOptReq__storage_, traceInfo),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "firstPlay",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoOptReq_FieldNumber_FirstPlay,
+        .number = PB3VideoOptReq_FieldNumber_FirstPlay,
         .hasIndex = 8,
         .offset = 9,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -1613,12 +1613,12 @@ typedef struct PB4VideoOptReq__storage_ {
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoOptReq class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoOptReq class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoOptReq__storage_)
+                                   storageSize:sizeof(PB3VideoOptReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1628,38 +1628,38 @@ typedef struct PB4VideoOptReq__storage_ {
 
 @end
 
-int32_t PB4VideoOptReq_OptType_RawValue(PB4VideoOptReq *message) {
-  GPBDescriptor *descriptor = [PB4VideoOptReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoOptReq_FieldNumber_OptType];
+int32_t PB3VideoOptReq_OptType_RawValue(PB3VideoOptReq *message) {
+  GPBDescriptor *descriptor = [PB3VideoOptReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoOptReq_FieldNumber_OptType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoOptReq_OptType_RawValue(PB4VideoOptReq *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoOptReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoOptReq_FieldNumber_OptType];
+void SetPB3VideoOptReq_OptType_RawValue(PB3VideoOptReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoOptReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoOptReq_FieldNumber_OptType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-int32_t PB4VideoOptReq_RecmdSource_RawValue(PB4VideoOptReq *message) {
-  GPBDescriptor *descriptor = [PB4VideoOptReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoOptReq_FieldNumber_RecmdSource];
+int32_t PB3VideoOptReq_RecmdSource_RawValue(PB3VideoOptReq *message) {
+  GPBDescriptor *descriptor = [PB3VideoOptReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoOptReq_FieldNumber_RecmdSource];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoOptReq_RecmdSource_RawValue(PB4VideoOptReq *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoOptReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoOptReq_FieldNumber_RecmdSource];
+void SetPB3VideoOptReq_RecmdSource_RawValue(PB3VideoOptReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoOptReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoOptReq_FieldNumber_RecmdSource];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoOptRes
+#pragma mark - PB3VideoOptRes
 
-@implementation PB4VideoOptRes
+@implementation PB3VideoOptRes
 
 
-typedef struct PB4VideoOptRes__storage_ {
+typedef struct PB3VideoOptRes__storage_ {
   uint32_t _has_storage_[1];
-} PB4VideoOptRes__storage_;
+} PB3VideoOptRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1667,12 +1667,12 @@ typedef struct PB4VideoOptRes__storage_ {
   static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoOptRes class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoOptRes class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:NULL
                                     fieldCount:0
-                                   storageSize:sizeof(PB4VideoOptRes__storage_)
+                                   storageSize:sizeof(PB3VideoOptRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1682,18 +1682,18 @@ typedef struct PB4VideoOptRes__storage_ {
 
 @end
 
-#pragma mark - PB4VideoButtonReportReq
+#pragma mark - PB3VideoButtonReportReq
 
-@implementation PB4VideoButtonReportReq
+@implementation PB3VideoButtonReportReq
 
 @dynamic btn;
 @dynamic trendId;
 
-typedef struct PB4VideoButtonReportReq__storage_ {
+typedef struct PB3VideoButtonReportReq__storage_ {
   uint32_t _has_storage_[1];
-  PB4EIButtonType btn;
+  PB3EIButtonType btn;
   int64_t trendId;
-} PB4VideoButtonReportReq__storage_;
+} PB3VideoButtonReportReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1703,30 +1703,30 @@ typedef struct PB4VideoButtonReportReq__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "btn",
-        .dataTypeSpecific.enumDescFunc = PB4EIButtonType_EnumDescriptor,
-        .number = PB4VideoButtonReportReq_FieldNumber_Btn,
+        .dataTypeSpecific.enumDescFunc = PB3EIButtonType_EnumDescriptor,
+        .number = PB3VideoButtonReportReq_FieldNumber_Btn,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PB4VideoButtonReportReq__storage_, btn),
+        .offset = (uint32_t)offsetof(PB3VideoButtonReportReq__storage_, btn),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "trendId",
         .dataTypeSpecific.className = NULL,
-        .number = PB4VideoButtonReportReq_FieldNumber_TrendId,
+        .number = PB3VideoButtonReportReq_FieldNumber_TrendId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PB4VideoButtonReportReq__storage_, trendId),
+        .offset = (uint32_t)offsetof(PB3VideoButtonReportReq__storage_, trendId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoButtonReportReq class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoButtonReportReq class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PB4VideoButtonReportReq__storage_)
+                                   storageSize:sizeof(PB3VideoButtonReportReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -1736,26 +1736,26 @@ typedef struct PB4VideoButtonReportReq__storage_ {
 
 @end
 
-int32_t PB4VideoButtonReportReq_Btn_RawValue(PB4VideoButtonReportReq *message) {
-  GPBDescriptor *descriptor = [PB4VideoButtonReportReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoButtonReportReq_FieldNumber_Btn];
+int32_t PB3VideoButtonReportReq_Btn_RawValue(PB3VideoButtonReportReq *message) {
+  GPBDescriptor *descriptor = [PB3VideoButtonReportReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoButtonReportReq_FieldNumber_Btn];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPB4VideoButtonReportReq_Btn_RawValue(PB4VideoButtonReportReq *message, int32_t value) {
-  GPBDescriptor *descriptor = [PB4VideoButtonReportReq descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB4VideoButtonReportReq_FieldNumber_Btn];
+void SetPB3VideoButtonReportReq_Btn_RawValue(PB3VideoButtonReportReq *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3VideoButtonReportReq descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3VideoButtonReportReq_FieldNumber_Btn];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - PB4VideoButtonReportRes
+#pragma mark - PB3VideoButtonReportRes
 
-@implementation PB4VideoButtonReportRes
+@implementation PB3VideoButtonReportRes
 
 
-typedef struct PB4VideoButtonReportRes__storage_ {
+typedef struct PB3VideoButtonReportRes__storage_ {
   uint32_t _has_storage_[1];
-} PB4VideoButtonReportRes__storage_;
+} PB3VideoButtonReportRes__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -1763,12 +1763,12 @@ typedef struct PB4VideoButtonReportRes__storage_ {
   static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PB4VideoButtonReportRes class]
-                                     rootClass:[PB4VideoExtRoot class]
-                                          file:PB4VideoExtRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[PB3VideoButtonReportRes class]
+                                     rootClass:[PB3VideoExtRoot class]
+                                          file:PB3VideoExtRoot_FileDescriptor()
                                         fields:NULL
                                     fieldCount:0
-                                   storageSize:sizeof(PB4VideoButtonReportRes__storage_)
+                                   storageSize:sizeof(PB3VideoButtonReportRes__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

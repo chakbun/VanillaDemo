@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (kPlayerClanIconType)clanIconTypeByPB3Type:(PB3ClanIconType)iconType;
 
-+ (kPlayerClanIconType)clanIconTypeByCommunityType:(PB4CommunityClanIconType)iconType;
+//+ (kPlayerClanIconType)clanIconTypeByCommunityType:(PB4CommunityClanIconType)iconType;
 
 
 @end

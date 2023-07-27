@@ -28,7 +28,10 @@
 CF_EXTERN_C_BEGIN
 
 @class PB3Song;
+@class PB3SongInfo;
 @class PB3SongTag;
+@class PB3UploadSongMsg;
+GPB_ENUM_FWD_DECLARE(PB3AuditStatus);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -89,6 +92,28 @@ GPBEnumDescriptor *PB3LikeSongOperation_EnumDescriptor(void);
  **/
 BOOL PB3LikeSongOperation_IsValidValue(int32_t value);
 
+#pragma mark - Enum PB3UploadSongMsgType
+
+typedef GPB_ENUM(PB3UploadSongMsgType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3UploadSongMsgType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3UploadSongMsgType_UsmtNone = 0,
+  PB3UploadSongMsgType_UsmtDelete = 1,
+  PB3UploadSongMsgType_UsmtAudit = 2,
+};
+
+GPBEnumDescriptor *PB3UploadSongMsgType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3UploadSongMsgType_IsValidValue(int32_t value);
+
 #pragma mark - PB3PlayExtRoot
 
 /**
@@ -128,7 +153,6 @@ typedef GPB_ENUM(PB3Song_FieldNumber) {
 };
 
 /**
- * import "pb/common.ext.proto";
  * 歌曲
  **/
 @interface PB3Song : GPBMessage
@@ -428,6 +452,272 @@ void SetPB3LikeSongReq_Type_RawValue(PB3LikeSongReq *message, int32_t value);
 #pragma mark - PB3LikeSongRes
 
 @interface PB3LikeSongRes : GPBMessage
+
+@end
+
+#pragma mark - PB3SongInfo
+
+typedef GPB_ENUM(PB3SongInfo_FieldNumber) {
+  PB3SongInfo_FieldNumber_Id_p = 1,
+  PB3SongInfo_FieldNumber_Name = 2,
+  PB3SongInfo_FieldNumber_Singer = 3,
+  PB3SongInfo_FieldNumber_Size = 4,
+  PB3SongInfo_FieldNumber_URL = 5,
+  PB3SongInfo_FieldNumber_CratedAt = 6,
+  PB3SongInfo_FieldNumber_AuditStatus = 7,
+  PB3SongInfo_FieldNumber_Duration = 8,
+};
+
+@interface PB3SongInfo : GPBMessage
+
+@property(nonatomic, readwrite) int64_t id_p;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *singer;
+
+@property(nonatomic, readwrite) int32_t size;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
+
+@property(nonatomic, readwrite) int64_t cratedAt;
+
+/** 审核状态 */
+@property(nonatomic, readwrite) enum PB3AuditStatus auditStatus;
+
+/** 歌曲时长，单位秒 */
+@property(nonatomic, readwrite) int32_t duration;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SongInfo's @c auditStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SongInfo_AuditStatus_RawValue(PB3SongInfo *message);
+/**
+ * Sets the raw value of an @c PB3SongInfo's @c auditStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SongInfo_AuditStatus_RawValue(PB3SongInfo *message, int32_t value);
+
+#pragma mark - PB3FetchSongsOnWebsiteReq
+
+typedef GPB_ENUM(PB3FetchSongsOnWebsiteReq_FieldNumber) {
+  PB3FetchSongsOnWebsiteReq_FieldNumber_Page = 1,
+  PB3FetchSongsOnWebsiteReq_FieldNumber_PageSize = 2,
+};
+
+/**
+ * 获取歌曲
+ **/
+@interface PB3FetchSongsOnWebsiteReq : GPBMessage
+
+@property(nonatomic, readwrite) int32_t page;
+
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3FetchSongsOnWebsiteRes
+
+typedef GPB_ENUM(PB3FetchSongsOnWebsiteRes_FieldNumber) {
+  PB3FetchSongsOnWebsiteRes_FieldNumber_SongsArray = 1,
+  PB3FetchSongsOnWebsiteRes_FieldNumber_Total = 3,
+};
+
+@interface PB3FetchSongsOnWebsiteRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SongInfo*> *songsArray;
+/** The number of items in @c songsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger songsArray_Count;
+
+/** 总数 */
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3UploadSongOnWebsiteReq
+
+typedef GPB_ENUM(PB3UploadSongOnWebsiteReq_FieldNumber) {
+  PB3UploadSongOnWebsiteReq_FieldNumber_Name = 1,
+  PB3UploadSongOnWebsiteReq_FieldNumber_Singer = 2,
+  PB3UploadSongOnWebsiteReq_FieldNumber_URL = 3,
+  PB3UploadSongOnWebsiteReq_FieldNumber_Md5 = 4,
+};
+
+/**
+ * 上传歌曲
+ **/
+@interface PB3UploadSongOnWebsiteReq : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *singer;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *md5;
+
+@end
+
+#pragma mark - PB3UploadSongOnWebsiteRes
+
+@interface PB3UploadSongOnWebsiteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3UpdateSongOnWebsiteReq
+
+typedef GPB_ENUM(PB3UpdateSongOnWebsiteReq_FieldNumber) {
+  PB3UpdateSongOnWebsiteReq_FieldNumber_Id_p = 1,
+  PB3UpdateSongOnWebsiteReq_FieldNumber_Name = 2,
+  PB3UpdateSongOnWebsiteReq_FieldNumber_Singer = 3,
+};
+
+/**
+ * 编辑歌曲
+ **/
+@interface PB3UpdateSongOnWebsiteReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t id_p;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *singer;
+
+@end
+
+#pragma mark - PB3UpdateSongOnWebsiteRes
+
+@interface PB3UpdateSongOnWebsiteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3DeleteSongOnWebsiteReq
+
+typedef GPB_ENUM(PB3DeleteSongOnWebsiteReq_FieldNumber) {
+  PB3DeleteSongOnWebsiteReq_FieldNumber_IdsArray = 1,
+};
+
+/**
+ * 删除歌曲
+ **/
+@interface PB3DeleteSongOnWebsiteReq : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *idsArray;
+/** The number of items in @c idsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger idsArray_Count;
+
+@end
+
+#pragma mark - PB3DeleteSongOnWebsiteRes
+
+@interface PB3DeleteSongOnWebsiteRes : GPBMessage
+
+@end
+
+#pragma mark - PB3UploadSongMsg
+
+typedef GPB_ENUM(PB3UploadSongMsg_FieldNumber) {
+  PB3UploadSongMsg_FieldNumber_Id_p = 1,
+  PB3UploadSongMsg_FieldNumber_CreatedAt = 2,
+  PB3UploadSongMsg_FieldNumber_IsRead = 3,
+  PB3UploadSongMsg_FieldNumber_SongName = 4,
+  PB3UploadSongMsg_FieldNumber_AuditStatus = 5,
+  PB3UploadSongMsg_FieldNumber_MsgType = 6,
+};
+
+/**
+ * 消息
+ **/
+@interface PB3UploadSongMsg : GPBMessage
+
+@property(nonatomic, readwrite) int64_t id_p;
+
+@property(nonatomic, readwrite) int64_t createdAt;
+
+@property(nonatomic, readwrite) BOOL isRead;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *songName;
+
+@property(nonatomic, readwrite) enum PB3AuditStatus auditStatus;
+
+@property(nonatomic, readwrite) PB3UploadSongMsgType msgType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3UploadSongMsg's @c auditStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3UploadSongMsg_AuditStatus_RawValue(PB3UploadSongMsg *message);
+/**
+ * Sets the raw value of an @c PB3UploadSongMsg's @c auditStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3UploadSongMsg_AuditStatus_RawValue(PB3UploadSongMsg *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3UploadSongMsg's @c msgType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3UploadSongMsg_MsgType_RawValue(PB3UploadSongMsg *message);
+/**
+ * Sets the raw value of an @c PB3UploadSongMsg's @c msgType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3UploadSongMsg_MsgType_RawValue(PB3UploadSongMsg *message, int32_t value);
+
+#pragma mark - PB3FetchUploadSongMsgOnWebsiteReq
+
+typedef GPB_ENUM(PB3FetchUploadSongMsgOnWebsiteReq_FieldNumber) {
+  PB3FetchUploadSongMsgOnWebsiteReq_FieldNumber_Page = 1,
+  PB3FetchUploadSongMsgOnWebsiteReq_FieldNumber_PageSize = 2,
+};
+
+@interface PB3FetchUploadSongMsgOnWebsiteReq : GPBMessage
+
+@property(nonatomic, readwrite) int32_t page;
+
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3FetchUploadSongMsgOnWebsiteRes
+
+typedef GPB_ENUM(PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber) {
+  PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_MessagesArray = 1,
+  PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_Unread = 2,
+  PB3FetchUploadSongMsgOnWebsiteRes_FieldNumber_Total = 3,
+};
+
+@interface PB3FetchUploadSongMsgOnWebsiteRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3UploadSongMsg*> *messagesArray;
+/** The number of items in @c messagesArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger messagesArray_Count;
+
+/** 未读数 */
+@property(nonatomic, readwrite) int32_t unread;
+
+/** 总数 */
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3ReadUploadSongMsgOnWebsiteReq
+
+@interface PB3ReadUploadSongMsgOnWebsiteReq : GPBMessage
+
+@end
+
+#pragma mark - PB3ReadUploadSongMsgOnWebsiteRes
+
+@interface PB3ReadUploadSongMsgOnWebsiteRes : GPBMessage
 
 @end
 

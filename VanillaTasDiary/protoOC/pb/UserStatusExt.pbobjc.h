@@ -28,6 +28,7 @@
 CF_EXTERN_C_BEGIN
 
 @class PB3UserConInfo;
+GPB_ENUM_FWD_DECLARE(PB3ClientLoginType);
 GPB_ENUM_FWD_DECLARE(PB3DeviceType);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -67,6 +68,12 @@ typedef GPB_ENUM(PB3UserStatusErr) {
 
   /** 封身份证 */
   PB3UserStatusErr_ErrUserStatusBanIdCard = 37010,
+
+  /** 系统维护中 */
+  PB3UserStatusErr_ErrUserStatusLimitLogin = 37015,
+
+  /** 异常登录验证时间过期 */
+  PB3UserStatusErr_ErrUserStatusTimeOut = 37018,
 };
 
 GPBEnumDescriptor *PB3UserStatusErr_EnumDescriptor(void);
@@ -97,6 +104,9 @@ typedef GPB_ENUM(PB3UserStatusCmdId) {
 
   /** 本账号设备离线, BroadcastDeviceDisconnected */
   PB3UserStatusCmdId_UcUserStatusDeviceDisconnected = 501003,
+
+  /** 异地登录提示文案 */
+  PB3UserStatusCmdId_UcUserStatusRemote = 501008,
 };
 
 GPBEnumDescriptor *PB3UserStatusCmdId_EnumDescriptor(void);
@@ -106,6 +116,55 @@ GPBEnumDescriptor *PB3UserStatusCmdId_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PB3UserStatusCmdId_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3ExpandType
+
+typedef GPB_ENUM(PB3ExpandType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ExpandType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3ExpandType_UnknownZero = 0,
+  PB3ExpandType_Umengpushid = 1,
+  PB3ExpandType_Umengmsgid = 2,
+  PB3ExpandType_Desttype = 3,
+  PB3ExpandType_Pushtype = 4,
+};
+
+GPBEnumDescriptor *PB3ExpandType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ExpandType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3LogoutType
+
+/** 退出登录类型 */
+typedef GPB_ENUM(PB3LogoutType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3LogoutType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3LogoutType_LtNone = 0,
+
+  /** 注销登录 */
+  PB3LogoutType_LtDeleteAccount = 1,
+};
+
+GPBEnumDescriptor *PB3LogoutType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3LogoutType_IsValidValue(int32_t value);
 
 #pragma mark - PB3UserStatusExtRoot
 
@@ -131,6 +190,7 @@ typedef GPB_ENUM(PB3LoginReq_FieldNumber) {
   PB3LoginReq_FieldNumber_PushToken = 4,
   PB3LoginReq_FieldNumber_ReyunDeviceId = 5,
   PB3LoginReq_FieldNumber_UMengDeviceId = 6,
+  PB3LoginReq_FieldNumber_Expand = 7,
 };
 
 /**
@@ -153,6 +213,11 @@ typedef GPB_ENUM(PB3LoginReq_FieldNumber) {
 /** 友盟deviceId */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *uMengDeviceId;
 
+/** key使用ExpandType枚举 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32ObjectDictionary<NSString*> *expand;
+/** The number of items in @c expand without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger expand_Count;
+
 @end
 
 /**
@@ -171,11 +236,21 @@ void SetPB3LoginReq_DeviceType_RawValue(PB3LoginReq *message, int32_t value);
 
 typedef GPB_ENUM(PB3LoginRes_FieldNumber) {
   PB3LoginRes_FieldNumber_AccountId = 1,
+  PB3LoginRes_FieldNumber_Extends = 2,
 };
 
 @interface PB3LoginRes : GPBMessage
 
 @property(nonatomic, readwrite) int64_t accountId;
+
+/**
+ * 登录返回附加参数
+ * key说明如下:
+ * <li> roomid，表示房间id </li>
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableDictionary<NSString*, NSString*> *extends;
+/** The number of items in @c extends without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger extends_Count;
 
 @end
 
@@ -185,6 +260,10 @@ typedef GPB_ENUM(PB3BroadcastRelogin_FieldNumber) {
   PB3BroadcastRelogin_FieldNumber_DeviceId = 1,
   PB3BroadcastRelogin_FieldNumber_DeviceType = 2,
   PB3BroadcastRelogin_FieldNumber_MultiClient = 3,
+  PB3BroadcastRelogin_FieldNumber_LoginAt = 4,
+  PB3BroadcastRelogin_FieldNumber_LoginType = 5,
+  PB3BroadcastRelogin_FieldNumber_DeviceName = 6,
+  PB3BroadcastRelogin_FieldNumber_Application = 7,
 };
 
 /**
@@ -197,6 +276,18 @@ typedef GPB_ENUM(PB3BroadcastRelogin_FieldNumber) {
 @property(nonatomic, readwrite) enum PB3DeviceType deviceType;
 
 @property(nonatomic, readwrite) BOOL multiClient;
+
+/** 登录时间 */
+@property(nonatomic, readwrite) int64_t loginAt;
+
+/** 登录类型 */
+@property(nonatomic, readwrite) enum PB3ClientLoginType loginType;
+
+/** 设备名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceName;
+
+/** 应用 氧气：oxygen 半塘 fish */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *application;
 
 @end
 
@@ -211,6 +302,18 @@ int32_t PB3BroadcastRelogin_DeviceType_RawValue(PB3BroadcastRelogin *message);
  * was generated.
  **/
 void SetPB3BroadcastRelogin_DeviceType_RawValue(PB3BroadcastRelogin *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3BroadcastRelogin's @c loginType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BroadcastRelogin_LoginType_RawValue(PB3BroadcastRelogin *message);
+/**
+ * Sets the raw value of an @c PB3BroadcastRelogin's @c loginType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BroadcastRelogin_LoginType_RawValue(PB3BroadcastRelogin *message, int32_t value);
 
 #pragma mark - PB3BroadcastTakeLeave
 
@@ -265,6 +368,7 @@ void SetPB3BroadcastDeviceDisconnected_DeviceType_RawValue(PB3BroadcastDeviceDis
 
 typedef GPB_ENUM(PB3LogoutReq_FieldNumber) {
   PB3LogoutReq_FieldNumber_Key = 1,
+  PB3LogoutReq_FieldNumber_LogoutType = 2,
 };
 
 @interface PB3LogoutReq : GPBMessage
@@ -272,7 +376,22 @@ typedef GPB_ENUM(PB3LogoutReq_FieldNumber) {
 /** sessionKey */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *key;
 
+/** 注销登录 */
+@property(nonatomic, readwrite) PB3LogoutType logoutType;
+
 @end
+
+/**
+ * Fetches the raw value of a @c PB3LogoutReq's @c logoutType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3LogoutReq_LogoutType_RawValue(PB3LogoutReq *message);
+/**
+ * Sets the raw value of an @c PB3LogoutReq's @c logoutType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3LogoutReq_LogoutType_RawValue(PB3LogoutReq *message, int32_t value);
 
 #pragma mark - PB3LogoutRes
 
@@ -287,7 +406,6 @@ typedef GPB_ENUM(PB3DisconnectReq_FieldNumber) {
   PB3DisconnectReq_FieldNumber_UserId = 2,
   PB3DisconnectReq_FieldNumber_DeviceType = 3,
   PB3DisconnectReq_FieldNumber_DeviceId = 4,
-  PB3DisconnectReq_FieldNumber_Timeout = 5,
 };
 
 /**
@@ -302,8 +420,6 @@ typedef GPB_ENUM(PB3DisconnectReq_FieldNumber) {
 @property(nonatomic, readwrite) enum PB3DeviceType deviceType;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *deviceId;
-
-@property(nonatomic, readwrite) BOOL timeout;
 
 @end
 
@@ -470,6 +586,45 @@ void SetPB3UserDeviceDisconnectedReq_DeviceType_RawValue(PB3UserDeviceDisconnect
 #pragma mark - PB3UserDeviceDisconnectedRes
 
 @interface PB3UserDeviceDisconnectedRes : GPBMessage
+
+@end
+
+#pragma mark - PB3GetStateReq
+
+@interface PB3GetStateReq : GPBMessage
+
+@end
+
+#pragma mark - PB3GetStateRes
+
+typedef GPB_ENUM(PB3GetStateRes_FieldNumber) {
+  PB3GetStateRes_FieldNumber_Msg = 1,
+};
+
+@interface PB3GetStateRes : GPBMessage
+
+/** 只返回 ok */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
+
+@end
+
+#pragma mark - PB3RemoteLogin
+
+typedef GPB_ENUM(PB3RemoteLogin_FieldNumber) {
+  PB3RemoteLogin_FieldNumber_TimeAt = 1,
+  PB3RemoteLogin_FieldNumber_DeviceId = 2,
+};
+
+/**
+ * 登录解除保护提示信息
+ **/
+@interface PB3RemoteLogin : GPBMessage
+
+/** 触发临时保护时间戳 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *timeAt;
+
+/** 显示的设备ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceId;
 
 @end
 

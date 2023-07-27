@@ -1,0 +1,1364 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+import "pb/room_single_live.ext.proto";
+import "pb/room.ext.proto";
+import "pb/cloud_disco.ext.proto";
+
+// 房间模式错误码
+enum RoomPatternErr {
+  RPE_SUCCESS = 0;
+  RPE_ERR_CODE_AUCTION_SET = 41001;            // 填写的信息包含敏感内容
+  RPE_ERR_CODE_AUCTION_BLACKLIST = 41002;      // 该用户涉嫌行为不当，无法参与拍卖
+  RPE_ERR_CODE_AUCTION_PRICE_MIN = 41003;      // 你的起拍价不能低于100金币
+  RPE_ERR_CODE_AUCTION_PRICE_MAX = 41004;      // 你的起拍价不能高于1000000金币
+  RPE_ERR_CODE_AUCTION_PRICE_ERR = 41005;      // 你账户金额余额不足，无法竞价
+  RPE_ERR_CODE_AUCTION_GIFT_MIN_PRICE = 41006; // 起拍价不能低于%d
+  RPE_ERR_CODE_AUCTION_CHAIR_OPEN = 41007;     // 该模式下卖家麦位无法解锁
+  RPE_ERR_CODE_AUCTION_LEAVE_CHAIR = 41008;    // 拍卖进行中无法下麦
+  RPE_ERR_CODE_AUCTION_START = 41009;          // 拍卖进行中不能踢卖家下麦
+  RPE_ERR_CODE_AUCTION_STATE = 41010;          // 拍卖进行中，不可切换房间模式
+  RPE_ERR_CODE_AUCTION_BIDDING = 41011;        // 手速太快了，歇一下
+  RPE_ERR_CODE_AUCTION_PATTERN_UPDATE = 41012; // 当前房间正在进行【拍卖模式】，您的版本不支持该模式，请升级~
+  RPE_ERR_CODE_AUCTION_BIDDING_PRICE = 41013;  // 你的出价不能比当前最高价低
+  RPE_ERR_CODE_AUCTION_BIDDING_MIN_PRICE = 41014; // 你的出价不能低于起拍价
+  RPE_ERR_CODE_PK_TAUNT_GOLD = 41015;             // PK嘲讽金币发生变化，请刷新技能 
+}
+
+// 房间模式cmdId定义 // 800
+enum RoomPatternCmdId {
+  RPC_ZERO = 0;
+  RPC_AUCTION_STATE = 800101;         // 拍卖模式: 推送拍卖状态
+  RPC_AUCTION_RANK = 800102;          // 拍卖模式: 推送拍卖排名
+  RPC_AUCTION_END = 800103;           // 拍卖模式: 推送拍卖结果
+  RPC_AUCTION_GIFT_CONF = 800104;     // 拍卖模式: 拍卖礼物配置更新
+  RPC_AUCTION_BIDDING_PRICE = 800105; // 拍卖模式: 竞价成功后推送我的出价(解决多端登录显示不一致的问题)
+  RPC_AUCTION_GIFT = 800106;          // 拍卖模式: 礼物拍卖推送全服公屏(客户端过滤本房间)/拍卖金额超设定值，推送全服公屏(客户端过滤本房间)
+  RPC_AUCTION_BIDDING_SYATEM = 800107;     // 拍卖模式: 超Ta成功推送
+  RPC_AUCTION_BIDDING_ARTIFICIAL = 800108; // 拍卖模式: 推送普通出价或送礼竞价玩家夺得榜一/榜二/榜三
+  RPC_SingleLiveStats = 800109;       // 个播模式：推送本场个播数据 SingleLiveTimeStats
+  RPC_SingleLiveInfo = 800110;        // 个播模式：广播个播模式信息 SingleLiveInfo
+  RPC_MOBA_TEAM_BASE_INFO = 800111;   // 开黑派单厅：推送车队基础信息 MobaTeamListRes
+  RPC_MOBA_TEAM_MEMBER_INFO = 800112; // 开黑派单厅：推送车队成员信息 TeamMemberInfo
+  RPC_MOBA_TEAM_DEPARTURE_BROADCAST = 800113; // 开黑派单厅：广播发车信息 MobaTeamDepartureBroadcast
+  RPC_MOBA_TEAM_CHANGE_STATUS = 800114;       // 开黑派单厅：用户车队状态变化 MobaTeamChange
+  RPC_MOBA_TEAM_PATTERN_BROADCAST = 800115; // 游戏信息变化(切换个人开黑房间模式使用) MobaTeamPatternBroadcast
+  RPC_MOBA_TEAM_PATTERN_GUIDE = 800116; // 开黑模式引导推送 MobaTeamPatternGuide
+  RPC_MOBA_TEAM_SHOW_GAME_INFO_BROADCAST = 800117; // 切换个人开黑模式时是否显示游戏信息弹窗广播 MobaTeamShowGameInfoBroadcast
+  RPC_MOBA_TEAM_GAME_INFO_CHANGE = 800118; // 开黑模式游戏配置变更推送 MobaTeamGameInfo
+  RPC_PROGRAM_UPDATE = 800120; //广播房间节目更新 RoomProgramItem
+  RPC_PROGRAM_SHOW_NOTICE_UPDATE = 800121; //广播房间节目单项目点击通知 RoomProgramShow
+  RPC_PROGRAM_SHOW_UPDATE = 800122; //广播房间节目单项目更新 RoomProgramShow
+  RPC_PROGRAM_SHOW_DELETE = 800123; //广播房间节目单项目删除 RoomProgramShow 只有id
+  RPC_PROGRAM_ONLINE_INFO = 800124; // 个播2.0表演中节目信息推送 RoomProgramOnlineInfo
+  PRC_PK_TEAM_INFO = 800125; // PK:推送PK面板信息 PkInfo
+  RPC_PK_TEAM_PUSH = 800126; // PK:推送队伍信息变更 PkTeamPush
+  RPC_PK_USE_SKILL = 800127; // PK:使用技能 PkSkillPush
+  RPC_PK_TREASURE_BOX = 800128; // PK:推送宝箱 PkTreasureBox
+  RPC_PK_INVITE = 800129; // PK 邀请推送 PkInviteInfo
+  RPC_PK_MATCH = 800130; // PK 匹配推送 PkMatchInfo
+  RPC_PK_PROTECT_PUSH = 800131; // PK:保护机制 PkProtectPush
+  RPC_PK_MVP_GLOBAL_PUSH = 800132; // PK:MVP全服横幅推送 PkMvpGlobalPush
+  PRC_PK_REWARD_TICKET_PUSH = 800133; // PK:获得钻石推送 PkRewardTicketPush
+  RPC_PK_TAUNT_ROOM_NOTICE = 800134; // PK:嘲讽公屏文案 PkTauntRoomNoticePush
+  PRC_SINGLE_LIVE_PERM     = 800135; // 个播权限变更
+  RPC_PK_HOST_INFO = 800136; //PK:主持信息 PkHostInfo
+  RPC_PK_PUSH_MUTE_TYPE = 800137; // PK:静音类型 PkPushMuteType
+  PRC_SINGLE_LIVE_PK_TEAM_INFO = 800138; // PK:推送PK面板信息 SingleLivePkInfo
+  RPC_SINGLE_LIVE_PK_TEAM_PUSH = 800139; // PK:推送队伍信息变更 SingleLivePkTeamPush
+  RPC_SINGLE_LIVE_PK_USE_SKILL = 800140; // PK:使用技能 SingleLivePkSkillPush
+  RPC_SINGLE_LIVE_PK_TREASURE_BOX = 800141; // PK:推送宝箱 SingleLivePkTreasureBox
+  RPC_SINGLE_LIVE_PK_INVITE = 800142; // PK 邀请推送 SingleLivePkInviteInfo
+  RPC_SINGLE_LIVE_PK_MATCH = 800143; // PK 匹配推送 SingleLivePkMatchInfo
+  RPC_SINGLE_LIVE_PK_PROTECT_PUSH = 800144; // PK:保护机制 SingleLivePkProtectPush
+  RPC_SINGLE_LIVE_PK_MVP_GLOBAL_PUSH = 800145; // PK:MVP全服横幅推送 SingleLivePkMvpGlobalPush
+  PRC_SINGLE_LIVE_PK_REWARD_TICKET_PUSH = 800146; // PK:获得钻石推送 SingleLivePkRewardTicketPush
+  RPC_SINGLE_LIVE_PK_TAUNT_ROOM_NOTICE = 800147; // PK:嘲讽公屏文案 SingleLivePkTauntRoomNoticePush
+  RPC_SINGLE_LIVE_PK_PUSH_MUTE_TYPE = 800149; // PK:静音类型 SingleLivePkPushMuteType
+  RPC_SINGLE_LIVE_PK_SUB_RANK = 800150; // PK:个播模式PK排行角标 SubInfoPkRank
+  RPC_SINGLE_LIVE_PK_CHAIR_CHANGE = 800151; // PK:对方房间麦位变化推送 SingleLivePkChairChange
+  RPC_CLOUD_DISCO_BOOTH_SEAT = 800152; // 蹦迪模式：卡座推送
+  RPC_CLOUD_DISCO_INFO = 800153; // 云蹦迪信息广播 CloudDiscoInfo
+  RPC_CLOUD_DISCO_SCENE = 800154; // 云蹦迪场景广播 PushCloudDiscoSceneInfo
+  RPC_CLOUD_DISCO_ENTER_ROOM = 800155; // 云蹦迪进房推送 PushCloudDiscoEnterRoom
+  RPC_CLOUD_DISCO_DANCER_CFG = 800156; // 推送云蹦迪观众席配置（进房、切房间模式，修改配置都推送）PushCloudDiscoDancerCfg
+  RPC_CLOUD_DISCO_ROCK_BROADCAST = 800157; // 推送云蹦迪狂欢时刻广播通知 PushCloudDiscoRockBroadcast
+}
+
+// 拍卖配置请求
+message AuctionConfReq {
+}
+
+message AuctionConfRes {
+  repeated string service_list = 1; // 服务内容
+  repeated string time_list = 2;    // 服务时长
+  bool is_use_custom = 3;           // 是否使用自定义,false:不使用; true:使用
+  sint32 rate = 4;                 // 礼物拍卖手续费扣除比例
+  repeated int32 price_list = 5;    // 普通出价配置
+}
+
+// 拍卖设置，机审不通过的错误提示
+message AuctionSetReq {
+  AuctionType type = 1;    // 拍卖类型
+  string content = 2;      // 服务内容(服务)
+  string time_long = 3;    // 服务时长(服务)
+  sint32 gift_id = 4;      // 起拍礼物(服务)
+  bool is_custom = 5;      // 是否为用户自定义(服务),false:不是; true:用户自定义
+  sint32 sell_gift_id = 6; // 拍卖的礼物ID(礼物)
+  sint32 sell_gift_num = 7;// 拍卖的礼物数量(礼物)
+  sint32 price = 8;        // 起拍价 >=100且<=1000000(礼物)
+}
+
+message AuctionSetRes {
+}
+
+// 拍卖的对象
+message AuctionTarget {
+  AuctionType type = 1;    // 拍卖类型
+  SimplePlayer player = 2; // 卖家信息(服务,礼物)
+  string content = 3;      // 服务内容(服务)
+  string time_long = 4;    // 服务时长(服务)
+  sint32 gift_id = 5;      // 起拍礼物ID(服务)
+  sint32 sell_gift_id = 6; // 拍卖的礼物ID(礼物)
+  sint32 sell_gift_num = 7;// 拍卖的礼物数量(礼物)
+  sint32 price = 8;        // 起拍价 >=100且<=1000000(礼物)
+  string auction_id = 9;   // 拍卖编号
+}
+
+// 竞拍排名
+message AuctionRank {
+  SimplePlayer player = 1; // 玩家信息
+  sint64 price = 2;        // 竞拍价格
+  sint32 rank = 3;         // 排名
+}
+
+// 结束拍卖
+message AuctionEndReq {
+  string auction_id = 1;  // 拍卖编号
+}
+
+message AuctionEndRes {
+}
+
+// 竞价类型
+enum BiddingType {
+  BT_DEFAULT = 0;      // 占位
+  BT_ARTIFICIAL = 1;// 用户竞价
+  BT_SYSTEM = 2;    // 系统竞价
+}
+
+// 拍卖竞价
+message AuctionBiddingReq {
+  sint64 price = 1;    // 竞价
+  BiddingType type = 2;// 竞价类型
+  string auction_id = 3;  // 拍卖编号
+}
+
+message AuctionBiddingRes {
+}
+
+// cmdId=800101 推送拍卖状态 
+message BroadcastAuctionState {
+  AuctionState state = 1;   // 拍卖状态
+  AuctionTarget target = 2; // 拍卖对象
+  sint64 price = 3;         // 我的出价
+  string url = 4;           // 拍卖开始音效url(state=3时，客户端播放)
+}
+
+// cmdId=800102 推送拍卖排名
+message BroadcastAuctionRank {
+  repeated AuctionRank rank = 1;  // 拍卖排名
+  sint64 time_stamp = 2;          // 时间戳
+}
+
+// cmdId=800103 推送拍卖结束
+message BroadcastAuctionResult {
+  AuctionType type = 1;        // 拍卖类型
+  bool is_success = 2;         // true:竞拍成功; false:流拍
+  SimplePlayer sell_player = 3;// 卖家信息(服务)
+  SimplePlayer buy_player = 4; // 买家信息(服务,礼物)
+  string content = 5;          // 服务内容(服务)
+  string time_long = 6;        // 服务时长(服务)
+  sint32 gift_id = 7;          // 拍卖的礼物ID(礼物)
+  sint32 gift_num = 8;         // 拍卖的礼物数量
+  sint64 price = 9;            // 成交金币(礼物)
+  string error_msg = 10;       // 流拍原因(礼物)
+  string url = 11;             // 拍卖结束音效url
+}
+
+// cmdId=800104 拍卖礼物配置更新
+message BroadcastAuctionGiftUpdate {
+}
+
+// cmdId=800105 竞价成功后推送我的出价(解决多端登录显示不一致的问题)
+message BroadcastAuctionBiddingPrice {
+  sint64 price = 1;         // 我的出价
+}
+
+// cmdId=800106 礼物拍卖推送全服公屏(客户端过滤本房间)
+message BroadcastAuctionGift {
+  sint64 room_id = 1;   // 房间ID
+  string msg = 2;       // 公屏消息
+}
+
+// 秒全场类型
+enum SurpassType {
+  SURPASS_ZERO = 0;       // 占位
+  SURPASS_KILL_NIL = 1;   // 夺得榜首
+  SURPASS_KILL_ALL = 2;   // 秒杀了
+  SURPASS_KILL_FAST = 3;  // 反杀
+}
+
+// cmdId=800107 超Ta成功推送
+message BroadcastAuctionBiddingSystem {
+  SurpassType type = 1;        // 秒全场类型
+  SimplePlayer cur_player = 2; // 当前榜一玩家信息
+  SimplePlayer old_player = 3; // 被超越的(旧榜一)玩家信息
+  string msg = 4;              // 房间公屏消息(收到推送后，需要增加全屏动效)
+}
+
+// 上榜类型
+enum TranscendType {
+  TRANSCEND_ZERO = 0;   // 占位
+  TRANSCEND_FIRST = 1;  // 夺得榜首
+  TRANSCEND_SECOND = 2; // 夺得榜二
+  TRANSCEND_THIRD = 3;  // 夺得榜三
+}
+
+// cmdId=800108 推送普通出价或送礼竞价玩家夺得榜一/榜二/榜三
+message BroadcastAuctionBiddingArtificial {
+  TranscendType type = 1;  // 上榜类型
+  SimplePlayer player = 2; // 上榜用户信息
+}
+
+// 拍卖状态
+enum AuctionState {
+  AS_ZERO = 0;      // 占位
+  AS_NOT_START = 1; // 未开始
+  AS_SETTING = 2;   // 设置中
+  AS_ON_START = 3;  // 拍卖开始，进行中
+}
+
+// 拍卖记录
+message AuctionDetail {
+  sint32 gift_id = 1;     // 礼物ID
+  sint32 gift_num = 2;    // 礼物数量
+  bool is_buy = 3;        // 是否为买家，true:买家; false:卖家
+  sint64 price = 4;       // 成交金额
+  sint64 create_at = 5;   // 成交时间
+  string auction_id = 6;  // 拍卖编号
+}
+
+message AuctionRecordReq {
+  sint32 page = 1;
+  sint32 page_size = 2;
+}
+
+message AuctionRecordRes {
+  repeated AuctionDetail auction_list = 1;
+}
+
+message InitAuctionReq {
+}
+
+message InitAuctionRes {
+  AuctionState state = 1;   // 拍卖状态
+  AuctionTarget target = 2; // 拍卖对象
+  sint64 price = 3;         // 我的出价
+  repeated AuctionRank rank = 4;  // 拍卖排名榜前三名
+}
+
+// 拍卖礼物配置
+message AuctionGiftConf {
+  sint32 gift_id = 1;     // 礼物ID
+  bool is_sell = 2;       // 礼物可否被竞拍 true:该礼物可以被拍卖; false:该礼物不可被拍卖
+  bool is_auction = 3;    // 是否为竞拍礼物 true:该礼物显示在竞拍面板; false:该礼物不显示在竞拍面板
+  uint32 min_price = 4;   // 竞拍底价，礼物的竞拍底价不能小于此值
+  sint32 sort = 5;        // 权重
+}
+
+message AuctionGiftConfReq {
+}
+
+message AuctionGiftConfRes {
+  repeated AuctionGiftConf auction_gift_conf_list = 1;
+}
+
+// 获取房间车队列表
+message MobaTeamListReq {}
+
+// cmdid = 800111
+message MobaTeamListRes{
+  repeated TeamBaseInfo team_list = 1;   // 车队列表
+}
+
+// 车队基础信息
+message TeamBaseInfo {
+  string id = 1;                // 车队唯一ID
+  int32 number = 2;             // 车队编号
+  int64 leader_id = 3;          // 队长ID
+  string leader_name = 4;       // 队长名称
+  string leader_icon = 5;       // 队长头像
+  int32 member_count = 6;       // 成员数量
+  TermStatus team_status = 7;   // 车队状态
+  MobaTeamGameInfo game_info = 8; // 游戏信息
+}
+
+// 车队状态
+enum TermStatus {
+  REAMS_ZERO = 0;           // 占位
+  REAMS_ORGANIZE = 1;       // 组队中
+  REAMS_PUBLISH = 2;        // 已发布
+}
+
+// 操作车队
+message MobaTeamOptReq {
+  TeamOptType type = 1;   // 车队操作类型
+  string id = 2;          // 车队唯一ID
+}
+
+message MobaTeamOptRes {}
+
+// 车队操作类型
+enum TeamOptType {
+  TEAMOT_ZERO = 0;      // 占位
+  TEAMOT_DELETE = 1;    // 删除车队--管理员、房主
+  TEAMOT_PUBLISH = 2;   // 发车--队长
+  TEAMOT_BROADCAST = 3; // 发布车队广播头条(开黑派单厅)--队长
+  TEAMOT_MOBA_ROOM = 4; // 发布广播头条(开黑模式)--房主
+}
+
+// 操作车队成员
+message MobaTeamMemberOptReq {
+  MemberOptType type = 1; // 操作类型
+  string id = 2;          // 车队唯一ID
+  int64 target_id = 3;    // 被踢出车队的用户ID
+}
+
+message MobaTeamMemberOptRes {
+  string id = 1;            // 车队唯一ID
+  TeamMemberType type = 2;  // 车队成员类型
+}
+
+// 车队成员操作类型
+enum MemberOptType {
+  MEMBEROT_ZERO = 0;      // 占位
+  MEMBEROT_JOIN = 1;      // 加入车队
+  MEMBEROT_LEAVE = 2;     // 离开车队
+  MEMBEROT_KICK_OUT = 3;  // 踢出车队
+  MEMBEROT_CLEAN = 4;      // 清除车队成员
+}
+
+// cmdId = 800112
+message TeamMemberInfo {
+  string id = 1;                        // 车队唯一ID
+  repeated TeamMember member_list = 2;  // 车队成员列表
+  TeamBaseInfo team_info = 3;           // 车队基础信息
+}
+
+// 车队成员信息
+message TeamMember {
+  int64 player_id = 1;      // 用户ID
+  string player_name = 2;   // 用户名称
+  string player_icon = 3;   // 用户头像
+  TeamMemberType type = 4;  // 车队成员类型
+}
+
+// 车队成员类型
+enum TeamMemberType {
+  TeamMT_ZERO = 0;      // 占位
+  TeamMT_LEADER = 1;    // 队长
+  TeamMT_NORMAL = 2;    // 普通成员
+}
+
+// 发车广播（车队里的所有人都会收到）cmdId = 800113
+message MobaTeamDepartureBroadcast{
+  int64 lobby_id = 1;         // 大厅房间id
+  int64 team_leader_id = 2;   // 队长id
+  string team_id = 3;         // 车队id
+  string password = 4;        // 房间密码
+}
+
+// 获取游戏配置cdn SysConfType.TypeMobaTeamGameCfg（system.ext.proto）
+message MobaTeamGameCfgCDNReq{
+  string conf_url = 1;        // CDN的URL
+}
+message MobaTeamGameCfgCDNRes{
+  string conf_url = 1;        // CDN的URL（当为空时，表示当前为最新配置）
+}
+
+// 创建、编辑车队
+message MobaTeamSaveReq {
+  TeamSaveType type = 1;            // 操作类型
+  MobaTeamGameInfo game_info = 2;   // 车队信息
+  string id = 3;                    // 车队唯一ID(修改)
+}
+
+message MobaTeamSaveRes {}
+
+enum TeamSaveType {
+  TEAMST_ZERO = 0;        // 占位
+  TEAMST_CREATE = 1;      // 创建车队
+  TEAMST_MOD = 2;         // 修改车队
+}
+
+// cmdid=800114 用户车队状态变化
+message MobaTeamChange {
+  MobaTeamStatus status = 1;  // 类型
+  string id = 2;              // 车队唯一ID
+  TeamMemberType type = 3;    // 车队成员类型
+  int64 push_time = 4;        // 推送时间-毫秒（处理状态频繁切换可能导致状态不一致问题）
+  TeamMemberInfo team = 5;    // 车队成员信息
+}
+
+enum MobaTeamStatus {
+  MOBATS_ZERO = 0;        // 占位
+  MOBATS_JOIN = 1;        // 上车(替换默认车队成员，无脑替换)
+  MOBATS_LEAVE = 2;       // 下车(不替换)
+  MOBATS_KICK_OUT = 3;    // 被踢出(不替换)
+  MOBATS_CLEAN = 4;       // 清空车队(不替换)
+  MOBATS_DELETE = 5;      // 删除车队(替换默认车队成员，判断显示车队ID和id是否一致，一致就替换)
+  MOBATS_LEADER = 6;      // 成为队长(替换默认车队成员，无脑替换)
+  MOBATS_PUBLISH = 7;     // 发车(替换默认车队成员,判断显示车队ID和id是否一致，一致就替换)
+}
+
+// 开黑组队游戏信息广播 cmdId = 800115
+message MobaTeamPatternBroadcast{
+  int64 room_id = 1;          // 房间id
+  string moba_team_name = 2; // 组队需求
+}
+
+// 更新个人开黑房间信息
+message MobaTeamUpdateRoomInfoReq {
+  MobaTeamGameInfo game_info = 1;   // 游戏信息
+}
+message MobaTeamUpdateRoomInfoRes {}
+
+// 获取个人开黑房间信息
+message MobaTeamRoomInfoReq {}
+message MobaTeamRoomInfoRes {
+  MobaTeamGameInfo game_info = 1;     // 游戏信息
+}
+
+// 引导推送
+message MobaTeamPatternGuide {
+  int64 room_id = 1;          // 房间id
+}
+
+// 切换个人开黑模式时是否显示游戏信息弹窗广播 cmdId = 800117
+message MobaTeamShowGameInfoBroadcast{
+  int64 room_id = 1;          // 房间id
+  bool is_show_moba_team_info = 2; // 切换个人开黑模式时是否显示游戏信息弹窗
+}
+
+// 个人开黑模式发送游戏昵称
+message MobaTeamBroadcastGameNickNameReq{
+  string nick_name = 1;       // 游戏名字昵称
+  int64 game_id = 2;          // 游戏id
+}
+message MobaTeamBroadcastGameNickNameRes{
+}
+
+// 获取个人开黑模式游戏昵称
+message MobaTeamGameNickNameReq{
+  int64 game_id = 1;          // 游戏id
+}
+message MobaTeamGameNickNameRes{
+  repeated string nick_name = 1; // 游戏名字昵称列表
+}
+
+//////////////////////////////// 赏金PK //////////////////////////////////
+// cmdid=800125
+message PkInfo {
+  string id = 1;                // 唯一ID
+  int32 pk_reward = 2;          // PK赏金值
+  repeated PkTeam teams = 3;    // 红队
+  int64 end_time = 4;           // 结束时间(秒)
+  int64 timestamp = 5;          // 时间戳(毫秒)
+  PkStatus status = 6 [deprecated=true]; // PK状态(兼容旧版本，惩罚状态返回已结束)
+  int32 reward_rate = 7;        // 赏金比例(如：10%，则传10；该值大于0，才显示赏金池及胜利后分金币动画)
+  repeated string tips = 8;     // 轮播tips
+  int32 scroll_time = 9;        // 轮播时间
+  PkMode mode = 10;             // PK模式
+  int64 sec_kill_id = 11;       // 被秒杀的房间ID，ID>0，处于秒杀倒计时
+  int32 cancel_score = 12;      // 取消秒杀的分数
+  bool is_begin_pk = 13;        // 是否开始PK的推送
+  DeviceType device_type = 14;  // 设备类型
+  int32 open_time = 15;         // 展开时长(秒)，0则一直展开
+  PkStatus pk_status = 16;      // PK状态
+  string punish_content = 17;   // 惩罚内容
+  bool is_end_pk = 18;          // 是否结束PK的推送
+}
+
+enum PkStatus {
+  PS_ZERO = 0;             // 占位
+  PS_IN_PK = 1;            // PK中
+  PS_PK_END = 2;           // PK结束
+  PS_PK_INVITING = 3;      // PK邀请中
+  PS_PK_MATCHING = 4;      // PK匹配中
+  PS_PK_MATCH_SUCCESS = 5; // PK匹配成功
+  PS_PK_PUNISHMENT = 6;    // PK互动中
+}
+
+message PkTeam {
+  int64 room_id = 1;                 // 房间ID
+  int64 host_id = 2;                 // 主持ID
+  string host_name = 3;              // 主持名称
+  string host_icon = 4;              // 主持头像
+  int32 income = 5;                  // 进度条的值，pk值
+  repeated PkPlayer player_list = 6; // 贡献前三的老板
+  PkResult result = 7;               // PK结果
+  bool is_punishment = 8;            // 主持是否有PK互动连麦弹窗
+}
+
+enum PkResult {
+  PKR_ZERO = 0;        // 占位
+  PKR_WINNER = 1;      // 获胜方
+  PKR_LOSER = 2;       // 失败方
+  PKR_DRAW = 3;        // 平局
+}
+
+message PkPlayer {
+  int64 player_id = 1;    // 用户ID
+  string name = 2;        // 用户名称
+  string icon = 3;        // 头像
+  uint32 score = 4;       // 贡献值
+  uint32 rank = 5;        // 排名
+  int64 start_match_time = 6; // 当前用户开始匹配时间戳
+  int64 room_id = 7; // 房间id
+}
+
+// cmdid=800126
+message PkTeamPush {
+  string id = 1;          // 唯一ID
+  int32 pk_reward = 2;    // PK赏金值
+  PkTeam team = 3;        // 红队
+  int64 timestamp = 4;    // 时间戳(毫秒)
+}
+
+// cmdid=800127
+message PkSkillPush {
+  string id = 1;                // 唯一ID
+  PkSkillType skill = 2;        // 技能
+  int64 use_room_id = 3;        // 使用技能的房间ID
+  int64 target_room_id = 4;     // 对手的房间ID
+  oneof data {
+    SeckillPush sec_kill = 5;   // 秒杀数据
+    TauntPush taunt = 6;        // 嘲讽数据
+  }
+}
+
+message SeckillPush {
+  SeckillStatus status = 1;
+  int64 end_time = 2;     // 结束时间(秒)，更新PK面板的倒计时(PkInfo的end_time)
+  int32 cancel_score = 3; // 阻止秒杀PK值
+  int32 cancel_time = 4;  // 秒杀反应时间(30)秒
+}
+
+enum SeckillStatus {
+  SKS_ZERO = 0;   // 占位
+  SKS_START = 1;  // 开始
+  SKS_CANCEL = 2; // 取消
+}
+
+message TauntPush {
+  int32 gold = 1; // 使用后的金币
+}
+
+message UsePkSkillReq {
+  string id = 1;                // 唯一ID
+  PkSkillType skill = 2;        // 技能
+  int32 gold = 3;               // 使用嘲讽的金币
+}
+
+message UsePkSkillRes {
+
+}
+
+message PkSkillListReq {
+}
+
+message PkSkillListRes {
+  repeated PkSkill skills = 1; // 技能列表
+}
+
+message PkSkill {
+  PkSkillType skill = 1;      // 技能类型
+  string icon = 2;            // 技能图标
+  oneof data {
+    Seckill sec_kill = 3;     // 秒杀数据
+    Taunt taunt = 4;          // 嘲讽数据
+  }
+}
+
+message Seckill {
+  int32 score = 1;        // 门槛分
+  int64 start_time = 2;   // 开始显示时间(时间戳，秒)
+  int64 end_time = 3;     // 结束显示时间(时间戳，秒)
+  bool is_used = 4;       // 是否已使用
+}
+
+message Taunt {
+  int32 gold = 1;                // 金币
+  bool gold_superposition = 2;   // 是否金币叠加
+}
+
+// cmdid=800128
+message PkTreasureBox {
+  string id = 1;         // 唯一ID
+  string name = 2;       // 宝箱名称
+  int64 roomId = 3;      // 房间Id
+  int64 end_time = 4;    // 消失时间(时间戳，秒)
+}
+
+message OpenPkTreasureBoxReq {
+  string id = 1; // 唯一ID
+  int64 roomId = 2; //房间ID
+}
+
+message OpenPkTreasureBoxRes {
+  TreasureBoxStatus status = 1;  // 领取状态
+  string icon = 2;      // 奖励的图片
+  string content = 3;   // 奖励内容
+  int64 valid_time = 4;  // 有效时长
+}
+
+enum TreasureBoxStatus {
+  TBS_ZERO = 0;        // 占位
+  TBS_BOX_NULL = 1;    // 空奖励
+  TBS_SUCCESS = 2;     // 领取成功
+  TBS_RECEIVED = 3;    // 已领过
+  TBS_NOT_HIT = 4;    // 未抽中
+}
+
+message InPkRankListReq {
+}
+
+message InPkRankListRes {
+  repeated InPkRank list = 1;
+}
+
+message InPkRank {
+  repeated InPkTeam teams = 1;          // 红色方
+}
+
+message InPkTeam {
+  int64 room_id = 1;           // 房间ID
+  int64 host_id = 2;           // 主持ID
+  string host_name = 3;        // 主持名称
+  string host_icon = 4;        // 主持头像
+  int32 income = 5;            // 进度条的值，pk值
+  int32 win_or_lose = 6;       // 连胜或连败次数(正数为连胜，负数为连负)
+}
+
+message WeekPkRankListReq {
+  int32 page = 1;           // 页数，从1开始
+  int32 page_size = 2;      // 每页数量
+  WeekPkRankType type = 3;  // 本周榜/上周榜
+}
+
+enum WeekPkRankType {
+  WPRT_ZERO = 0;        // 占位
+  WPRT_THIS_WEEK = 1;   // 本周
+  WPRT_LAST_WEEK = 2;   // 上周
+}
+
+message WeekPkRankListRes {
+  repeated WeekPkRank list = 1;      // PK周榜
+}
+
+message WeekPkRank {
+  int64 host_id = 1;          // 主持ID
+  string host_name = 2;       // 主持名称
+  string host_icon = 3;       // 主持头像
+  int32 score = 4;            // 分数
+  int64 mvp_id = 5;           // MVP用户ID
+  string mvp_name = 6;        // MVP用户名称
+  string mvp_icon = 7;        // mvp头像
+  int32 win_or_lose = 8;      // 连胜或连败次数(正数为连胜，负数为连负)
+}
+
+message PkRecInviteListReq {
+  bool is_from_match = 1; // 是否从匹配超时点击的
+}
+message PkRecInviteListRes {
+  repeated PkPlayer players = 1; // 推荐可邀请人
+}
+
+message PkInviteReq {
+  int64 invited_player_id = 1; // 被邀请人ID 支持短号
+  int64 invited_room_id = 2; // 要邀请房间ID 支持短号
+}
+message PkInviteRes {
+  string invite_id = 1; // 邀请id
+  repeated PkPlayer players = 2; // 邀请双方信息
+  string tip = 3; // 提示信息
+  int64 end_time = 4; // 邀请超时时间结束时间戳 
+}
+
+enum PkInviteAction {
+  PKIA_ZERO = 0; //占位不用
+  PKIA_INVITED = 1; // 被邀请
+  PKIA_INVITE_CANCEL = 2; // 取消邀请
+  PKIA_INVITE_REJECT = 3; // 拒绝邀请
+  PKIA_INVITE_TIMEOUT = 4; // 邀请超时
+}
+
+// cmdid=800129
+message PkInviteInfo {
+  string invite_id = 1; // 邀请id
+  PkPlayer player = 2; // 邀请人信息
+  int64 end_time = 3; // 邀请超时时间结束时间戳
+  int64 operator_id = 4; // 取消、拒绝邀请操作人的用户id
+  PkInviteAction pk_invite_action = 5; // 邀请操作状态
+}
+
+message PkInviteCancelReq {
+  string invite_id = 1; // 邀请id
+}
+message PkInviteCancelRes {
+}
+
+enum PkInviteRejectType {
+  PKIRT_ZERO = 0; // 占位不用
+  PKIRT_ONCE_PERSON = 1; // 本次拒绝Ta的邀请PK
+  PKIRT_TODAY_PERSON = 2; // 今日不接受Ta的邀请PK
+  PKIRT_TODAY_FORBID = 3; // 今日不接受邀请PK
+}
+message PkInviteRejectReq {
+  PkInviteRejectType reject_type = 1; // 拒绝类型
+  string invite_id = 2; // 邀请id
+}
+message PkInviteRejectRes {
+}
+
+message PkInviteAcceptReq {
+  string invite_id = 1; // 邀请id
+}
+message PkInviteAcceptRes {
+}
+
+message PkMatchReq {
+}
+message PkMatchRes {
+  PkPlayer player = 1; // 当前用户排名分数
+  int64 timeout_at = 2; // 等待超时弹窗时间戳
+  string tip = 3; // 提示信息
+}
+
+message PkMatchCancelReq {
+}
+message PkMatchCancelRes {
+}
+
+enum PkMatchAction {
+  PKMA_ZERO = 0; // 占位不用
+  PKMA_MATCH_TIMEOUT = 1; // 匹配超时
+  PKMA_MATCH_SUCCESS = 2; // 匹配成功
+  PKMA_MATCH_START = 3; // 匹配成功后准备开始
+  PKMA_MATCH_START_TIMEOUT = 4; // 匹配成功后准备开始超时
+  PKMA_MATCH_START_FAIL = 5; // 匹配成功后对方房间退房
+  PKMA_MATCH_CANCEL = 6; // 取消匹配
+
+}
+
+// cmdid=800130
+message PkMatchInfo {
+  string match_id = 1; // 匹配id
+  repeated PkPlayer players = 2; // 匹配双方、点击开始的用户
+  int64 end_time = 3; // 匹配成功等待点击开始时间结束时间戳
+  string msg = 4; // 匹配超时、 提示信息
+  PkMatchAction pk_match_action = 5; // 匹配操作状态
+}
+
+message PkMatchStartReq {
+  string match_id = 1; // 匹配id
+}
+message PkMatchStartRes {
+}
+
+message PkMatchKeepWaitReq {
+}
+message PkMatchKeepWaitRes {
+}
+
+// cmdid=800131
+message PkProtectPush {
+  int64 end_time = 1; // 结束时间戳(秒)
+}
+
+// cmdid=800132
+message PkMvpGlobalPush {
+  int64 mvp_id = 1;       // MVP的ID
+  string mvp_name = 2;    // MVP名称
+  int64 room_id = 3;      // 获胜房间ID
+}
+
+// cmdid=800133
+message PkRewardTicketPush {
+  int32 ticket = 1; // 获得钻石数
+  int64 room_id = 2;// 当前PK的房间
+}
+
+// cmdid=800134
+message PkTauntRoomNoticePush {
+  int64 use_taunt_player_id = 1;    // 使用嘲讽的用户ID
+  string use_taunt_player_name = 2; // 使用嘲讽的用户名称
+  int64 room_id = 3;                // 发起嘲讽的房间ID
+  int64 taunt_room_id = 4;          // 被嘲讽的房间ID
+  string taunt_room_name = 5;       // 被嘲讽的房间名称
+}
+
+// cmdid=800136
+message PkHostInfo {
+  int64 room_id = 1;           // 房间ID
+  int64 host_id = 2;           // 主持ID
+  RoomVoice voice = 3;         // 房间音质
+  bool is_winner = 4;          // 是否为获胜方的主持
+  int64 own_host_id = 5;       // 己方主持ID
+  MuteType mute = 6;           // 己方静音操作类型
+  MuteType opponent_mute = 7;  // 对方静音操作类型
+}
+
+enum MuteType {
+  MUTET_ZERO = 0;        // 占位
+  MUTET_START = 1;       // 接收声音
+  MUTET_STOP = 2;        // 静音
+}
+
+message PkVoiceMuteReq {
+  MuteType mute = 1;     // 静音操作类型
+  string pk_id = 2;      // PKId
+}
+
+message PkVoiceMuteRes {}
+
+// cmdid=800137
+message PkPushMuteType {
+  MuteType mute = 1;     // 静音操作类型
+  int64 room_id = 2;     // 静音的房间ID
+}
+
+message PkStartPunishReq {
+  string pk_id = 1; //
+}
+
+message PkStartPunishRes {}
+
+//////////////////////////////// 赏金PK //////////////////////////////////
+
+
+//////////////////////////////// 个播PK //////////////////////////////////
+// cmdid=800138
+message SingleLivePkInfo {
+  string id = 1;                // 唯一ID
+  int32 pk_reward = 2;          // PK赏金值
+  repeated SingleLivePkTeam teams = 3;    // 红队
+  int64 end_time = 4;           // 结束时间(秒)
+  int64 timestamp = 5;          // 时间戳(毫秒)
+  int32 reward_rate = 6;        // 赏金比例(如：10%，则传10；该值大于0，才显示赏金池及胜利后分金币动画)
+  repeated string tips = 7;     // 轮播tips
+  int32 scroll_time = 8;        // 轮播时间
+  SingleLivePkMode mode = 9;    // PK模式
+  int64 sec_kill_id = 10;       // 被秒杀的房间ID，ID>0，处于秒杀倒计时
+  int32 cancel_score = 11;      // 取消秒杀的分数
+  bool is_begin_pk = 12;        // 是否开始PK的推送
+  DeviceType device_type = 13;  // 设备类型
+  int32 open_time = 14;         // 展开时长(秒)，0则一直展开
+  SingleLivePkStatus pk_status = 15;      // PK状态
+  string punish_content = 16;   // 惩罚内容
+  bool is_end_pk = 17;          // 是否结束PK的推送
+  repeated SingleLivePkRoomInfo room_info = 18; // 个播PK房间信息房间信息
+  RoomVoice voice = 19;         // 房间音质
+  string router_url = 20;       // 规则的路由
+}
+
+message SingleLivePkRoomInfo {
+  int64 room_id = 1;                               // 房间ID
+  repeated SingleLiveChairPlayer chair_player = 2; // 麦上用户
+  SingleLiveMuteType mute = 3;                     // 己方静音操作类型
+  SingleLiveMuteType opponent_mute = 4;            // 对方静音操作类型
+}
+
+
+enum SingleLivePkStatus {
+  SL_PS_ZERO = 0;             // 占位
+  SL_PS_IN_PK = 1;            // PK中
+  SL_PS_PK_END = 2;           // PK结束
+  SL_PS_PK_INVITING = 3;      // PK邀请中
+  SL_PS_PK_MATCHING = 4;      // PK匹配中
+  SL_PS_PK_MATCH_SUCCESS = 5; // PK匹配成功
+  SL_PS_PK_PUNISHMENT = 6;    // PK互动中
+}
+
+message SingleLivePkTeam {
+  int64 room_id = 1;                 // 房间ID
+  int64 host_id = 2;                 // 主持ID
+  string host_name = 3;              // 主持名称
+  string host_icon = 4;              // 主持头像
+  int32 income = 5;                  // 进度条的值，pk值
+  repeated SingleLivePkPlayer player_list = 6; // 贡献前三的老板
+  SingleLivePkResult result = 7;               // PK结果
+  bool is_punishment = 8;            // 主持是否有PK互动连麦弹窗
+}
+
+message SingleLiveChairPlayer {
+  int64 player_id = 1;
+  string name = 2;
+  string icon = 3;
+  int32 chair_id = 4;
+  int32 effect_id = 5; // 主持上麦特效ID
+  SexType sex = 6; // 性别
+}
+
+enum SingleLivePkResult {
+  SL_PKR_ZERO = 0;        // 占位
+  SL_PKR_WINNER = 1;      // 获胜方
+  SL_PKR_LOSER = 2;       // 失败方
+  SL_PKR_DRAW = 3;        // 平局
+}
+
+message SingleLivePkPlayer {
+  int64 player_id = 1;    // 用户ID
+  string name = 2;        // 用户名称
+  string icon = 3;        // 头像
+  uint32 score = 4;       // 贡献值
+  uint32 rank = 5;        // 排名
+  int64 start_match_time = 6; // 当前用户开始匹配时间戳
+  int64 room_id = 7; // 房间id
+}
+
+// cmdid=800139
+message SingleLivePkTeamPush {
+  string id = 1;          // 唯一ID
+  int32 pk_reward = 2;    // PK赏金值
+  SingleLivePkTeam team = 3;        // 红队
+  int64 timestamp = 4;    // 时间戳(毫秒)
+}
+
+// cmdid=800140
+message SingleLivePkSkillPush {
+  string id = 1;                // 唯一ID
+  SingleLivePkSkillType skill = 2;        // 技能
+  int64 use_room_id = 3;        // 使用技能的房间ID
+  int64 target_room_id = 4;     // 对手的房间ID
+  oneof data {
+    SingleLiveSeckillPush sec_kill = 5;   // 秒杀数据
+    SingleLiveTauntPush taunt = 6;        // 嘲讽数据
+  }
+}
+
+message SingleLiveSeckillPush {
+  SingleLiveSeckillStatus status = 1;
+  int64 end_time = 2;     // 结束时间(秒)，更新PK面板的倒计时(PkInfo的end_time)
+  int32 cancel_score = 3; // 阻止秒杀PK值
+  int32 cancel_time = 4;  // 秒杀反应时间(30)秒
+}
+
+enum SingleLiveSeckillStatus {
+  SL_SKS_ZERO = 0;   // 占位
+  SL_SKS_START = 1;  // 开始
+  SL_SKS_CANCEL = 2; // 取消
+}
+
+message SingleLiveTauntPush {
+  int32 gold = 1; // 使用后的金币
+}
+
+message SingleLiveUsePkSkillReq {
+  string id = 1;                // 唯一ID
+  SingleLivePkSkillType skill = 2;        // 技能
+  int32 gold = 3;               // 使用嘲讽的金币
+}
+
+message SingleLiveUsePkSkillRes {
+
+}
+
+message SingleLivePkSkillListReq {
+}
+
+message SingleLivePkSkillListRes {
+  repeated SingleLivePkSkill skills = 1; // 技能列表
+}
+
+message SingleLivePkSkill {
+  SingleLivePkSkillType skill = 1;      // 技能类型
+  string icon = 2;            // 技能图标
+  oneof data {
+    SingleLiveSeckill sec_kill = 3;     // 秒杀数据
+    SingleLiveTaunt taunt = 4;          // 嘲讽数据
+  }
+}
+
+message SingleLiveSeckill {
+  int32 score = 1;        // 门槛分
+  int64 start_time = 2;   // 开始显示时间(时间戳，秒)
+  int64 end_time = 3;     // 结束显示时间(时间戳，秒)
+  bool is_used = 4;       // 是否已使用
+}
+
+message SingleLiveTaunt {
+  int32 gold = 1;                // 金币
+  bool gold_superposition = 2;   // 是否金币叠加
+}
+
+// cmdid=800141
+message SingleLivePkTreasureBox {
+  string id = 1;         // 唯一ID
+  string name = 2;       // 宝箱名称
+  int64 roomId = 3;      // 房间Id
+  int64 end_time = 4;    // 消失时间(时间戳，秒)
+}
+
+message SingleLiveInPkRankListReq {
+}
+
+message SingleLiveInPkRankListRes {
+  repeated SingleLiveInPkRank list = 1;
+}
+
+message SingleLiveInPkRank {
+  repeated SingleLiveInPkTeam teams = 1;          // 红色方
+}
+
+message SingleLiveInPkTeam {
+  int64 room_id = 1;           // 房间ID
+  int64 host_id = 2;           // 主持ID
+  string host_name = 3;        // 主持名称
+  string host_icon = 4;        // 主持头像
+  int32 income = 5;            // 进度条的值，pk值
+  int32 win_or_lose = 6;       // 连胜或连败次数(正数为连胜，负数为连负)
+}
+
+message SingleLiveWeekPkRankListReq {
+  int32 page = 1;           // 页数，从1开始
+  int32 page_size = 2;      // 每页数量
+  SingleLiveWeekPkRankType type = 3;  // 本周榜/上周榜
+}
+
+enum SingleLiveWeekPkRankType {
+  SL_WPRT_ZERO = 0;        // 占位
+  SL_WPRT_THIS_WEEK = 1;   // 本周
+  SL_WPRT_LAST_WEEK = 2;   // 上周
+}
+
+message SingleLiveWeekPkRankListRes {
+  repeated SingleLiveWeekPkRank list = 1;      // PK周榜
+}
+
+message SingleLiveWeekPkRank {
+  int64 host_id = 1;          // 主持ID
+  string host_name = 2;       // 主持名称
+  string host_icon = 3;       // 主持头像
+  int32 score = 4;            // 分数
+  int64 mvp_id = 5;           // MVP用户ID
+  string mvp_name = 6;        // MVP用户名称
+  string mvp_icon = 7;        // mvp头像
+  int32 win_or_lose = 8;      // 连胜或连败次数(正数为连胜，负数为连负)
+}
+
+message SingleLivePkRecInviteListReq {
+  bool is_from_match = 1; // 是否从匹配超时点击的
+}
+message SingleLivePkRecInviteListRes {
+  repeated SingleLivePkPlayer players = 1; // 推荐可邀请人
+}
+
+message SingleLivePkInviteReq {
+  int64 invited_player_id = 1; // 被邀请人ID 支持短号
+  int64 invited_room_id = 2; // 要邀请房间ID 支持短号
+}
+message SingleLivePkInviteRes {
+  string invite_id = 1; // 邀请id
+  repeated SingleLivePkPlayer players = 2; // 邀请双方信息
+  string tip = 3; // 提示信息
+  int64 end_time = 4; // 邀请超时时间结束时间戳 
+}
+
+enum SingleLivePkInviteAction {
+  SL_PKIA_ZERO = 0; //占位不用
+  SL_PKIA_INVITED = 1; // 被邀请
+  SL_PKIA_INVITE_CANCEL = 2; // 取消邀请
+  SL_PKIA_INVITE_REJECT = 3; // 拒绝邀请
+  SL_PKIA_INVITE_TIMEOUT = 4; // 邀请超时
+}
+
+// cmdid=800142
+message SingleLivePkInviteInfo {
+  string invite_id = 1; // 邀请id
+  SingleLivePkPlayer player = 2; // 邀请人信息
+  int64 end_time = 3; // 邀请超时时间结束时间戳
+  int64 operator_id = 4; // 取消、拒绝邀请操作人的用户id
+  SingleLivePkInviteAction pk_invite_action = 5; // 邀请操作状态
+}
+
+message SingleLivePkInviteCancelReq {
+  string invite_id = 1; // 邀请id
+}
+message SingleLivePkInviteCancelRes {
+}
+
+enum SingleLivePkInviteRejectType {
+  SL_PKIRT_ZERO = 0; // 占位不用
+  SL_PKIRT_ONCE_PERSON = 1; // 本次拒绝Ta的邀请PK
+  SL_PKIRT_TODAY_PERSON = 2; // 今日不接受Ta的邀请PK
+  SL_PKIRT_TODAY_FORBID = 3; // 今日不接受邀请PK
+}
+message SingleLivePkInviteRejectReq {
+  SingleLivePkInviteRejectType reject_type = 1; // 拒绝类型
+  string invite_id = 2; // 邀请id
+}
+message SingleLivePkInviteRejectRes {
+}
+
+message SingleLivePkInviteAcceptReq {
+  string invite_id = 1; // 邀请id
+}
+message SingleLivePkInviteAcceptRes {
+}
+
+message SingleLivePkMatchReq {
+}
+message SingleLivePkMatchRes {
+  SingleLivePkPlayer player = 1; // 当前用户排名分数
+  int64 timeout_at = 2; // 等待超时弹窗时间戳
+  string tip = 3; // 提示信息
+}
+
+message SingleLivePkMatchCancelReq {
+}
+message SingleLivePkMatchCancelRes {
+}
+
+enum SingleLivePkMatchAction {
+  SL_PKMA_ZERO = 0; // 占位不用
+  SL_PKMA_MATCH_TIMEOUT = 1; // 匹配超时
+  SL_PKMA_MATCH_SUCCESS = 2; // 匹配成功
+  SL_PKMA_MATCH_START = 3; // 匹配成功后准备开始
+  SL_PKMA_MATCH_START_TIMEOUT = 4; // 匹配成功后准备开始超时
+  SL_PKMA_MATCH_START_FAIL = 5; // 匹配成功后对方房间退房
+  SL_PKMA_MATCH_CANCEL = 6; // 取消匹配
+}
+
+// cmdid=800143
+message SingleLivePkMatchInfo {
+  string match_id = 1; // 匹配id
+  repeated SingleLivePkPlayer players = 2; // 匹配双方、点击开始的用户
+  int64 end_time = 3; // 匹配成功等待点击开始时间结束时间戳
+  string msg = 4; // 匹配超时、 提示信息
+  SingleLivePkMatchAction pk_match_action = 5; // 匹配操作状态
+}
+
+message SingleLivePkMatchStartReq {
+  string match_id = 1; // 匹配id
+}
+message SingleLivePkMatchStartRes {
+}
+
+message SingleLivePkMatchKeepWaitReq {
+}
+message SingleLivePkMatchKeepWaitRes {
+}
+
+// cmdid=800144
+message SingleLivePkProtectPush {
+  int64 end_time = 1; // 结束时间戳(秒)
+}
+
+// cmdid=800145
+message SingleLivePkMvpGlobalPush {
+  int64 mvp_id = 1;       // MVP的ID
+  string mvp_name = 2;    // MVP名称
+  int64 room_id = 3;      // 获胜房间ID
+}
+
+// cmdid=800146
+message SingleLivePkRewardTicketPush {
+  int32 ticket = 1; // 获得钻石数
+  int64 room_id = 2;// 当前PK的房间
+}
+
+// cmdid=800147
+message SingleLivePkTauntRoomNoticePush {
+  int64 use_taunt_player_id = 1;    // 使用嘲讽的用户ID
+  string use_taunt_player_name = 2; // 使用嘲讽的用户名称
+  int64 room_id = 3;                // 发起嘲讽的房间ID
+  int64 taunt_host_id = 4;          // 被嘲讽的达人ID
+  string taunt_host_name = 5;       // 被嘲讽的达人名称
+}
+
+enum SingleLiveMuteType {
+  SL_MUTET_ZERO = 0;        // 占位
+  SL_MUTET_START = 1;       // 接收声音
+  SL_MUTET_STOP = 2;        // 静音
+}
+
+message SingleLivePkVoiceMuteReq {
+  SingleLiveMuteType mute = 1;     // 静音操作类型
+  string pk_id = 2;      // PKId
+}
+
+message SingleLivePkVoiceMuteRes {}
+
+// cmdid=800149
+message SingleLivePkPushMuteType {
+  SingleLiveMuteType mute = 1;     // 静音操作类型
+  int64 room_id = 2;     // 静音的房间ID
+}
+
+// cmdid=800151
+message SingleLivePkChairChange {
+  SingleLivePkChairChangeType change_type = 1;
+  oneof data {
+    BroadcastChairMove move = 2;     // 移麦推送
+    BroadcastChair sit = 3;          // 上麦推送
+  }
+}
+
+enum SingleLivePkChairChangeType {
+  SL_PK_CCT_ZERO = 0;     // 占位
+  SL_PK_CCT_MOVE = 1;     // 换麦
+  SL_PK_CCT_SIT = 2;      // 上、下麦
+}
+//////////////////////////////// 个播PK //////////////////////////////////
+
+service RoomPatternExtObj {
+  // 获取拍卖配置
+  rpc GetAuctionConf(AuctionConfReq) returns (AuctionConfRes);
+  // 保存拍卖设置,设置成功后，自动开始拍卖
+  rpc AuctionSet(AuctionSetReq) returns (AuctionSetRes);
+  // 结束拍卖
+  rpc AuctionEnd(AuctionEndReq) returns (AuctionEndRes);
+  // 拍卖竞价
+  rpc AuctionBidding(AuctionBiddingReq) returns (AuctionBiddingRes);
+  // 拍卖记录
+  rpc AuctionRecord(AuctionRecordReq) returns (AuctionRecordRes);
+  // 获取房间拍卖状态
+  rpc InitAuction(InitAuctionReq) returns (InitAuctionRes);
+  // 获取拍卖礼物配置
+  rpc GetAuctionGiftConf(AuctionGiftConfReq) returns (AuctionGiftConfRes);
+
+  // 个播
+  rpc SingleLiveRankList(SingleLiveRankReq) returns (SingleLiveRankRes); // 个播排行榜
+  rpc SingleLiveOpt(SingleLiveOptReq) returns (SingleLiveOptRes);    // 个播开播/下播操作
+  rpc SingleLiveTimeStats(SingleLiveTimeStatsReq) returns (SingleLiveTimeStatsRes); // 个播本场直播数据
+  rpc SingleLiveTimeRank(SingleLiveTimeRankReq) returns (SingleLiveTimeRankRes); // 本场直播贡献榜单
+
+  // 开黑组队----------------
+  // 获取游戏配置
+  rpc MobaTeamGameCfgCDN(MobaTeamGameCfgCDNReq) returns (MobaTeamGameCfgCDNRes);
+  // 获取房间车队列表
+  rpc MobaTeamList(MobaTeamListReq) returns (MobaTeamListRes);
+  // 操作车队
+  rpc MobaTeamOpt(MobaTeamOptReq) returns (MobaTeamOptRes);
+  // 操作车队成员
+  rpc MobaTeamMemberOpt(MobaTeamMemberOptReq) returns (MobaTeamMemberOptRes);
+  // 创建、编辑车队
+  rpc MobaTeamSave(MobaTeamSaveReq) returns (MobaTeamSaveRes);
+  // 获取个人开黑房间信息
+  rpc MobaTeamRoomInfo(MobaTeamRoomInfoReq) returns (MobaTeamRoomInfoRes);
+  // 更新个人开黑房间信息
+  rpc MobaTeamUpdateRoomInfo(MobaTeamUpdateRoomInfoReq) returns (MobaTeamUpdateRoomInfoRes);
+  // 个人开黑模式发送游戏昵称
+  rpc MobaTeamBroadcastGameNickName(MobaTeamBroadcastGameNickNameReq) returns (MobaTeamBroadcastGameNickNameRes);
+  // 获取个人开黑模式游戏昵称
+  rpc MobaTeamGameNickName(MobaTeamGameNickNameReq) returns (MobaTeamGameNickNameRes);
+  // 保存节目信息
+  rpc AddRoomProgram(AddRoomProgramReq) returns (AddRoomProgramRes);
+  // 房间节目列表
+  rpc RoomProgram(RoomProgramReq) returns (RoomProgramRes);
+  // 添加节目单项目
+  rpc AddRoomProgramShow(AddRoomProgramShowReq) returns (AddRoomProgramShowRes);
+  // 删除节目单项目
+  rpc DelRoomProgramShow(DelRoomProgramShowReq) returns (DelRoomProgramShowRes);
+  // 预约节目单项目
+  rpc OrderRoomProgramShow(OrderRoomProgramShowReq) returns (OrderRoomProgramShowRes);
+  // 获取预约的节目单列表
+  rpc OrderRoomProgramShowList(OrderRoomProgramShowListReq) returns (OrderRoomProgramShowListRes);
+  // 获取个播2.0表演中节目信息
+  rpc RoomProgramOnlineInfo(RoomProgramOnlineInfoReq) returns (RoomProgramOnlineInfoRes);
+  // 获取房间节目状态
+  rpc RoomProgramState(RoomProgramStateReq) returns (RoomProgramStateRes);
+
+  // 个播权限 --------------------
+  //申请个播权限
+  rpc ApplySingleLivePermission(ApplySLPermissionReq) returns (ApplySLPermissionRes);
+  //获取个播权限
+  rpc SingleLivePermission(GetSLPermissionReq) returns (GetSLPermissionRes);
+  // 直播数据统计
+  rpc SingleLiveStats(SingleLiveStatsReq) returns (SingleLiveStatsRes);
+  // 直播数据趋势
+  rpc SingleLiveDataTrend(SingleLiveDataTrendReq) returns (SingleLiveDataTrendRes);
+  // 个播权限 --------------------
+  // 赏金PK ----------------------
+  // 获取PK技能
+  rpc PkSkillList(PkSkillListReq) returns (PkSkillListRes);
+  // 使用PK技能
+  rpc UsePkSkill(UsePkSkillReq) returns (UsePkSkillRes);
+  // 开Pk宝箱
+  rpc OpenPkTreasureBox(OpenPkTreasureBoxReq) returns (OpenPkTreasureBoxRes);
+  // 进行中的PK列表(h5)
+  rpc InPkRankList(InPkRankListReq) returns (InPkRankListRes);
+  // PK周榜(h5)
+  rpc WeekPkRankList(WeekPkRankListReq) returns (WeekPkRankListRes);
+  // 获取推荐邀请人列表
+  rpc PkRecInviteList(PkRecInviteListReq) returns (PkRecInviteListRes);
+  // pk邀请
+  rpc PkInvite(PkInviteReq) returns (PkInviteRes);
+  // pk邀请取消
+  rpc PkInviteCancel(PkInviteCancelReq) returns (PkInviteCancelRes);
+  // pk邀请拒绝
+  rpc PkInviteReject(PkInviteRejectReq) returns (PkInviteRejectRes);
+  // pk邀请接受
+  rpc PkInviteAccept(PkInviteAcceptReq) returns (PkInviteAcceptRes);
+  // pk匹配
+  rpc PkMatch(PkMatchReq) returns (PkMatchRes);
+  // pk匹配取消
+  rpc PkMatchCancel(PkMatchCancelReq) returns (PkMatchCancelRes);
+  // pk匹配开始
+  rpc PkMatchStart(PkMatchStartReq) returns (PkMatchStartRes);
+  // PK互动连麦静音
+  rpc PkVoiceMute(PkVoiceMuteReq) returns (PkVoiceMuteRes);
+  // 发起PK互动连麦
+  rpc PkStartPunish(PkStartPunishReq) returns (PkStartPunishRes);
+  // 赏金PK ----------------------
+
+  // 个播PK ----------------------
+  // 获取PK技能
+  rpc SingleLivePkSkillList(SingleLivePkSkillListReq) returns (SingleLivePkSkillListRes);
+  // 使用PK技能
+  rpc SingleLiveUsePkSkill(SingleLiveUsePkSkillReq) returns (SingleLiveUsePkSkillRes);
+  // 进行中的PK列表(h5)
+  rpc SingleLiveInPkRankList(SingleLiveInPkRankListReq) returns (SingleLiveInPkRankListRes);
+  // PK周榜(h5)
+  rpc SingleLiveWeekPkRankList(SingleLiveWeekPkRankListReq) returns (SingleLiveWeekPkRankListRes);
+  // 获取推荐邀请人列表
+  rpc SingleLivePkRecInviteList(SingleLivePkRecInviteListReq) returns (SingleLivePkRecInviteListRes);
+  // pk邀请
+  rpc SingleLivePkInvite(SingleLivePkInviteReq) returns (SingleLivePkInviteRes);
+  // pk邀请取消
+  rpc SingleLivePkInviteCancel(SingleLivePkInviteCancelReq) returns (SingleLivePkInviteCancelRes);
+  // pk邀请拒绝
+  rpc SingleLivePkInviteReject(SingleLivePkInviteRejectReq) returns (SingleLivePkInviteRejectRes);
+  // pk邀请接受
+  rpc SingleLivePkInviteAccept(SingleLivePkInviteAcceptReq) returns (SingleLivePkInviteAcceptRes);
+  // pk匹配
+  rpc SingleLivePkMatch(SingleLivePkMatchReq) returns (SingleLivePkMatchRes);
+  // pk匹配取消
+  rpc SingleLivePkMatchCancel(SingleLivePkMatchCancelReq) returns (SingleLivePkMatchCancelRes);
+  // pk匹配开始
+  rpc SingleLivePkMatchStart(SingleLivePkMatchStartReq) returns (SingleLivePkMatchStartRes);
+  // PK互动连麦静音
+  rpc SingleLivePkVoiceMute(SingleLivePkVoiceMuteReq) returns (SingleLivePkVoiceMuteRes);
+  // 个播PK ----------------------
+
+  // 云蹦迪 ----------------------
+  //获取云蹦迪排行榜信息
+  rpc CloudDiscoRankList(CloudDiscoRankListReq) returns(CloudDiscoRankListRes);
+  // 云蹦迪 ----------------------
+
+}

@@ -1,0 +1,509 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/bill.ext.proto";
+import "pb/gift.ext.proto";
+import "pb/show.ext.proto";
+import "pb/common.ext.proto";
+
+// 增加礼物墙
+message GiftShowAddReq {
+	sint64 id = 1; // 被赠送者id
+	uint32 gift_id = 2; // 礼物id
+    	uint32 gift_num = 3;
+    	uint32 gold = 4;
+	sint64 sendId = 5; // 送礼者id
+	sint64 roomId = 6; // 房间ID
+}
+
+message GiftShowAddRes {
+}
+
+message GiftDeferAdminReq {
+	sint32 id = 1; // id
+	int32 type = 2; // 1-奖励 2-再次奖励 3-取消 4-再次取消
+}
+
+message GiftDeferAdminRes {
+	bool flag = 1; // true-成功 false-失败
+    string reason = 2;   //原因
+}
+
+message ReloadGiftConfReq {
+}
+
+message ReloadGiftConfRes {
+}
+
+
+message GiftConfItem {
+	uint32 gift_id = 1;             // 礼物id
+	string name = 2;                // 礼物名字
+	string gift_description = 3;    // 礼物描述
+	uint32 price = 4;               // 价格
+	uint32 gift_type = 5;          // 礼物类型，0是小礼物，1是大礼物
+	uint32 transfer = 6;           // 能否转赠
+	uint32 dynamic = 7;            // 是否动态显示礼物(根据库存)
+	uint32 gift_wealth_level = 8;  // 动画的财富等级
+	uint32 present_type = 9;		// 赠送类型 1只消耗背包 2背包+金币 3其他
+	uint32 type = 10;		// 类型 1普通（可以赠送） 2宝石（没有收益，暂时没有） 3其他（不能赠送，其他功能用的）
+}
+
+message GiftConfNewItem {
+	int64 gift_id = 1;             // 礼物id
+	string name = 2;                // 礼物名字
+	string gift_description = 3;    // 礼物描述
+	int32 price = 4;               // 价格
+	int32 gift_type = 5;          // 礼物类型，0是小礼物，1是大礼物
+	int32 transfer = 6;           // 能否转赠
+	int32 dynamic = 7;            // 是否动态显示礼物(根据库存)
+	int32 gift_wealth_level = 8;  // 动画的财富等级
+	int32 present_type = 9;		// 赠送类型 1只消耗背包 2背包+金币 3其他
+	int32 type = 10;		// 类型 1普通（可以赠送） 2宝石（没有收益，暂时没有） 3其他（不能赠送，其他功能用的）
+}
+
+//是否有该新手下单的新手单正在处理
+message BillOrderCheckProcessNewReq {
+	int64 player_id = 1;	//下单者
+}
+message BillOrderCheckProcessNewRes {
+	bool is_processing_new = 1;
+}
+
+
+message YunGameGiftPlayer {
+	sint64 to_id 			= 1;
+	sint32 target_gift_id 	= 2;
+	sint32 gold_total 		= 4;
+	sint32 gold_room 		= 5;
+	sint32 gain_ticket 		= 6;
+	sint32 original_ticket 		= 7;
+	bool is_yun_game 			= 8;
+	sint64 yungame_id 	= 9;
+}
+
+message YunGameGiftCheckReq {
+	sint64 player_id 	= 1;
+	sint64 room_id 		= 2;
+	sint64 gift_id 		= 3;
+	sint64 gift_num 	= 4;
+	repeated sint64 to_id 	= 5;
+	bool is_batch = 6;
+	string wish_msg = 7;
+	sint64 yungame_id 	= 8;
+}
+
+message YunGameGiftCheckRes {
+	repeated YunGameGiftPlayer list = 1;
+	GiftConfItem original_gift 	  = 2;
+	sint64 yungame_id 	= 3;
+	sint64 player_id 	= 4;
+}
+
+message YunGameGainLossReq {
+	sint64 from_id 			= 1;
+	sint64 to_id 			= 2;
+	sint32 gift_id 			= 3;
+	sint32 gift_num 		= 4;
+	sint32 target_gift_id 	= 5;
+	sint32 gold_total 		= 6;
+	sint32 gold_room 		= 7;
+	sint32 gain_ticket 		= 8;
+	sint32 original_ticket 		= 9;
+	sint32 gift_cost 			= 10;
+	sint32 cost_gold 			= 11;
+	bool is_yun_game 			= 12;
+	string loss_remark 			= 13;
+	string gain_remark 			= 14;
+	sint64 room_id 		= 15;
+	bool is_batch = 16;
+	string wish_msg = 17;
+	sint64 yungame_id 	= 18;
+	sint64 to_yungame_id 	= 19;
+}
+
+
+message YunGameGainLossRes {
+	bool is_succ = 1;
+}
+
+message OpenGiftBoxesIntReq {
+	int64 player_id = 1;
+	int32 gift_id = 2;	// 宝盒礼物id
+	int32 gift_num = 3; // 打开个数
+}
+message OpenGiftBoxesIntRes {
+	repeated GiftBox gift_boxes = 1;
+}
+
+message PlayerOrderServicingReq {
+	int64 player_id = 1;
+}
+message PlayerOrderServicingRes {
+	OrderInt order = 1;
+}
+
+message BillPlayerProfitReq {
+	int64 player_id = 1;
+}
+message BillPlayerProfitRes {
+	OrderProfitRes profit = 1;
+}
+
+message RandBoxesReq {
+	int32 gift_id = 1; // 宝盒id
+	int32 gift_num = 2; // 获取礼物的数量
+}
+
+message RandBoxesRes {
+    map<int32, GiftBox> gift_boxes = 1;
+}
+
+// 领取过新手礼包的天数列表
+message NewerGiftGotListReq {
+	int64 player_id = 1; //
+}
+message NewerGiftGotListRes {
+	repeated uint32 got_list = 1;
+}
+
+// 根据id列表获取礼物配置
+message GiftConfListReq{
+	repeated int64 gift_ids = 1; // 礼物ID列表
+}
+message GiftConfListRes{
+	repeated GiftConfNewItem gift_conf_list = 1; // 礼物配置列表
+}
+
+message GetGiftConfReq {
+	repeated int32 gift_ids = 1; // 礼物ID列表
+}
+
+message GetGiftConfRes {
+	map<int32, GiftConfigItem> gift_conf_list = 1; // 礼物配置列表
+}
+
+// 礼物解锁显示
+message AddUnlockGiftReq {
+	sint64 player_id = 1; // 发起者
+	sint32 gift_id = 2; // 礼物ID
+	sint64 timeout = 3; // 结束时间
+	string remark = 4; // 备注
+	sint32 add_type = 5; // 增加特效类型 1-覆盖 2-叠加 3-永不过期
+	string operator = 6; // 操作者
+}
+message AddUnlockGiftRes {}
+
+message DelUnlockGiftReq {
+	sint64 player_id = 1; // 发起者
+	sint32 gift_id = 2; // 礼物ID
+	string remark = 3; // 备注
+	string operator = 4; // 操作者
+}
+message DelUnlockGiftRes {}
+
+message AddUnlockGiftListReq {
+	repeated AddUnlockGiftList list = 1;
+}
+message AddUnlockGiftList {
+	sint64 player_id = 1; // 发起者
+	sint32 gift_id = 2; // 礼物ID
+	sint64 timeout = 3; // 结束时间
+	string remark = 4; // 备注
+	sint32 add_type = 5; // 增加特效类型 1-覆盖 2-叠加 3-永不过期
+	string operator = 6; // 操作者
+}
+message AddUnlockGiftListRes{
+	repeated UnlockGiftListFail fail = 1;
+}
+message UnlockGiftListFail {
+	string msg = 1; // 错误信息
+	sint64 player_id = 2;
+	sint32 gift_id = 3;
+	sint64 timeout = 4;
+	string remark = 5;
+	sint32 add_type = 6;
+	string operator = 7;
+}
+
+message DelUnlockGiftListReq {
+	repeated DelUnlockGiftList list = 1;
+}
+message DelUnlockGiftList {
+	sint64 player_id = 1; // 发起者
+	sint32 gift_id = 2; // 礼物ID
+	string remark = 3; // 备注
+	string operator = 4; // 操作者
+}
+message DelUnlockGiftListRes {
+	repeated UnlockGiftListFail fail = 1;
+}
+
+message UpdateConfigReq {
+	int32 config_type = 1;
+}
+
+message UpdateConfigRes {
+
+}
+
+message TimeLimitTimeoutReq {
+	string im_present_id = 1; // 唯一ID
+}
+
+message TimeLimitTimeoutRes {
+	IMGiftStatus status = 1; // 领取状态
+}
+// 触发检查藏宝礼物状态
+message CheckTreasureGiftReq{}
+message CheckTreasureGiftRes{}
+
+// 诈骗风控送礼状态
+enum GiftRiskStatusType{
+	GRST_RELEASE = 0;   // 解冻
+	GRST_FREEZE = 1;    // 冻结
+	GRST_PENALTY = 2;   // 扣除
+}
+
+// 诈骗风控送礼操作
+enum GiftRiskOptType{
+	GROT_NONE = 0;     // 占位
+	GROT_RELEASE = 1;  // 解冻
+	GROT_PENALTY = 2;  // 扣除
+}
+
+// 诈骗风控送礼数据
+message GiftRiskRecord{
+	int64 id = 1;   // 记录id
+	GiftRiskStatusType status = 2; // 记录状态
+	int64 send_pid = 3; // 送礼用户Id
+	int64 recv_pid = 4; // 收礼用户id
+	int64 ticket = 5; // 钻石数量
+	int32 source = 6; // 送礼来源类型
+	int64 clan_id = 7; // 公会id
+	int64 room_id = 8; // 房间id
+	int32 rate_type = 9; // 机构分成类型
+	int32 clan_rate = 10; // 机构分成比例
+	int64 total_gold = 11; // 消费
+	int64 gold_cost = 12; // 消费金币
+	int64 gift_id = 13; // 礼物id
+	int64 gift_num = 14; // 礼物数量
+	int32 gift_type = 15; // 礼物类型
+}
+
+// 诈骗风控送礼操作
+message GiftRiskReq{
+	GiftRiskOptType opt_type = 1;            // 操作类型
+	int64 player_id = 2;                     // 被操作用户id
+	repeated GiftRiskRecord record_list = 3; // 操作记录列表
+	string remark = 4;                       // 备注
+	string application = 5;									 // 应用包名
+}
+message GiftRiskRes{}
+
+// 账号注销放弃进行中的订单
+message LogoffProgressOrderReq {
+	int64 player_id = 1; // 用户id
+}
+message LogoffProgressOrderRes {
+}
+
+// 赠送宝石礼物条件检查
+message CheckPresentGemReq {
+  int64 player_id = 1;          // 用户id
+  int64 room_id = 2;            // 房间id
+  int64 to_player_id = 3;       // 收礼者id
+  int64 gift_id = 4;            // 礼物id
+  int64 gift_num = 5;           // 礼物数量
+}
+message CheckPresentGemRes {}
+
+// 内部调用穿戴/卸下礼物皮肤
+message GiftSkinIntOptReq {
+	  int64 player_id = 1;             // 用户id
+	  GiftSkinOpt opt_type = 2;        // 穿戴/卸下
+	  repeated int64 skin_id_list = 3; // 皮肤id列表
+}
+message GiftSkinIntOptRes {
+}
+
+message ReceiveIntimateBoxFlowerReq {
+	int64 player_id = 1;
+	int64 room_id = 2;
+}
+
+message ReceiveIntimateBoxFlowerRes {
+	
+}
+
+message TriggerIntimateBoxSettlementReq {
+
+}
+
+message TriggerIntimateBoxSettlementRes {
+	
+}
+
+message ResendIntimateBoxFlowerReq {
+	int32 record_id = 1; // 鲜花记录ID
+}
+
+message ResendIntimateBoxFlowerRes {
+
+}
+
+message GiftCollectBasicInfoReq {
+	int64 player_id = 1;
+}
+
+message GiftCollectBasicInfoRes {
+	GiftCollectLevelInfo level = 1; // 图鉴等级
+}
+
+message CalcGiftCollectAllRanksReq {
+
+}
+
+message CalcGiftCollectAllRanksRes {
+	
+}
+
+message AddGiftCollectExpReq {
+	int64 player_id = 1;
+	int32 collect_id = 2; // 图鉴收集id
+	int32 gift_id = 3; // 礼物id
+	int32 exp = 4; // 增加的经验
+}
+
+message AddGiftCollectExpRes {
+
+}
+
+message AllGiftWallReq{
+	int64 player_id = 1;
+}
+
+message AllGiftWallRes{
+	int64 illuminated_num = 1;//已点亮
+	int64 all_num = 2; //全部礼物数量
+	repeated uint32 illuminated_gift_id_list = 3; // 已点亮礼物ID
+}
+
+message GetStatGiftBoxNewNumReq {
+	repeated int64 gift_ids = 1; //礼物id
+}
+
+message GetStatGiftBoxNewNumRes {
+	map<int64, StatGiftBoxNum> gift_map = 1; //礼物数量
+}
+
+message StatGiftBoxNum {
+	map<int32, int64> event_map = 1; // 事件
+}
+
+message GetInteractTopicEffectReq {
+	int64 player_id = 1;
+}
+
+message GetInteractTopicEffectRes {
+	string topic = 1;
+	int64 end_time = 2;
+}
+
+message ReduceInteractTopicEffectReq {
+	int64 player_id = 1;
+	int64 reduce_time = 2;  // 扣减时间
+}
+
+message ReduceInteractTopicEffectRes {
+
+}
+
+service GiftIntObj {
+  rpc ShowAdd (GiftShowAddReq) returns (GiftShowAddRes);
+  rpc DeferAdmin (GiftDeferAdminReq) returns (GiftDeferAdminRes);
+  rpc ReloadGiftConf (ReloadGiftConfReq) returns (ReloadGiftConfRes);
+  rpc BillOrderOper (BillOrderIntOperReq) returns (BillOrderIntOperRes);
+  //查看是否有该新手下单的新手单正在处理
+  rpc BillOrderCheckProcessNew (BillOrderCheckProcessNewReq) returns (BillOrderCheckProcessNewRes);
+  rpc SysSendBill (SysSendBillReq) returns (SysSendBillRes);
+
+  // 云游戏接入
+  rpc YunGameGiftCheck (YunGameGiftCheckReq) returns (YunGameGiftCheckRes);
+  rpc YunGameGainLoss (YunGameGainLossReq) returns (YunGameGainLossRes);
+
+  // 点单信息通知
+  rpc BillOrderMsgNotify (BillOrderMsgNotifyIntReq) returns (BillOrderMsgNotifyIntRes);
+
+  rpc OpenGiftBoxesInt (OpenGiftBoxesIntReq) returns (OpenGiftBoxesIntRes);
+  // 获取主播点单信息
+  rpc PlayerOrderServicing(PlayerOrderServicingReq) returns (PlayerOrderServicingRes);
+
+  //申诉操作
+  rpc OptBillComplain (OrderOperationReq) returns(OrderOperationRes);
+  // 获取主播点单收益
+  rpc BillPlayerProfit(BillPlayerProfitReq) returns (BillPlayerProfitRes);
+  // 宝盒随机礼物
+  rpc RandBoxes(RandBoxesReq) returns (RandBoxesRes);
+  // 领取过新手礼包的天数列表
+  rpc NewerGiftGotList(NewerGiftGotListReq) returns (NewerGiftGotListRes);
+  // 获取房间表演老板
+  rpc RoomShowBossList(RoomShowBossListReq) returns (RoomShowBossListRes);
+
+	// 根据id列表获取礼物配置
+	rpc GiftConfList(GiftConfListReq) returns (GiftConfListRes);
+
+  // 根据礼物id列表获取礼物所有配置
+  rpc GetGiftConfList(GetGiftConfReq) returns (GetGiftConfRes);
+
+  // 增加解锁礼物
+  rpc AddUnlockGift(AddUnlockGiftReq) returns (AddUnlockGiftRes);
+  // 删除解锁礼物
+  rpc DelUnlockGift(DelUnlockGiftReq) returns (DelUnlockGiftRes);
+	// 批量增加解锁礼物
+	rpc AddUnlockGiftList(AddUnlockGiftListReq) returns (AddUnlockGiftListRes);
+	// 批量删除解锁礼物
+	rpc DelUnlockGiftList(DelUnlockGiftListReq) returns (DelUnlockGiftListRes);
+
+  // 更新配置
+  rpc UpdateConfig(UpdateConfigReq) returns (UpdateConfigRes);
+
+  // 限时礼物过期
+  rpc TimeLimitTimeout(TimeLimitTimeoutReq) returns (TimeLimitTimeoutRes);
+
+  // 获取当前有效的点单老板id
+  rpc BillOrderBossId(BillOrderBossIdReq) returns (BillOrderBossIdRes);
+  // 定时检查藏宝礼物状态
+  rpc CheckTreasureGift(CheckTreasureGiftReq) returns (CheckTreasureGiftRes);
+  // 风控礼物收益操作
+  rpc GiftRisk(GiftRiskReq) returns (GiftRiskRes);
+  // 账号注销放弃进行中的订单
+  rpc LogoffProgressOrder(LogoffProgressOrderReq) returns (LogoffProgressOrderRes);
+  // 赠送宝石礼物条件检查
+  rpc CheckPresentGem(CheckPresentGemReq) returns (CheckPresentGemRes);
+
+  // 内部调用礼物皮肤佩戴
+  rpc GiftSkinIntOpt(GiftSkinIntOptReq) returns (GiftSkinIntOptRes); //  穿戴/卸下皮肤
+  // 触发领取挚友礼盒鲜花礼物
+  rpc ReceiveIntimateBoxFlower(ReceiveIntimateBoxFlowerReq) returns (ReceiveIntimateBoxFlowerRes);
+  // 触发挚友礼盒结算
+  rpc TriggerIntimateBoxSettlement(TriggerIntimateBoxSettlementReq) returns (TriggerIntimateBoxSettlementRes);
+  // 补发挚友礼盒鲜花
+  rpc ResendIntimateBoxFlower(ResendIntimateBoxFlowerReq) returns (ResendIntimateBoxFlowerRes);
+  // 获取礼物图鉴数据
+  rpc GiftCollectBasicInfo(GiftCollectBasicInfoReq) returns (GiftCollectBasicInfoRes);
+  // 重新计算全网排名
+  rpc CalcGiftCollectAllRanks(CalcGiftCollectAllRanksReq) returns (CalcGiftCollectAllRanksRes);
+  // 增加图鉴经验
+  rpc AddGiftCollectExp(AddGiftCollectExpReq) returns (AddGiftCollectExpRes);
+	// 获取用户礼物墙数量
+	rpc AllGiftWall(AllGiftWallReq)returns(AllGiftWallRes);
+	// 礼物消费
+	rpc GiftDetailConsume(GiftDetailReq) returns (GiftDetailRes);
+	// 获取宝盒礼物全服赠送数
+	rpc GetStatGiftBoxNewNum(GetStatGiftBoxNewNumReq) returns (GetStatGiftBoxNewNumRes);
+	// 获取个人互动话题
+	rpc GetInteractTopicEffect(GetInteractTopicEffectReq) returns (GetInteractTopicEffectRes);
+	// 扣减互动话题特效时长
+	rpc ReduceInteractTopicEffect(ReduceInteractTopicEffectReq)returns(ReduceInteractTopicEffectRes);
+}

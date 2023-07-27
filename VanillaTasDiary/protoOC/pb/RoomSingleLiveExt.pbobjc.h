@@ -27,14 +27,18 @@
 
 CF_EXTERN_C_BEGIN
 
+@class PB3IntimateFansInfo;
 @class PB3MaskInfo;
 @class PB3Rank;
 @class PB3Rank1;
 @class PB3RoomProgramAnchor;
 @class PB3RoomProgramItem;
 @class PB3RoomProgramShow;
+@class PB3SingLiveStatsPlayer;
+@class PB3SingleLiveData;
 @class PB3SingleLiveTimeRank;
 GPB_ENUM_FWD_DECLARE(PB3AuditStatus);
+GPB_ENUM_FWD_DECLARE(PB3SexType);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -276,6 +280,138 @@ GPBEnumDescriptor *PB3SingleLiveTplType_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PB3SingleLiveTplType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3ShowSingleLiveTplType
+
+/** 个播模式2.0房间模版显示类型 */
+typedef GPB_ENUM(PB3ShowSingleLiveTplType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ShowSingleLiveTplType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3ShowSingleLiveTplType_SslttNone = 0,
+
+  /** 仅显示单人 */
+  PB3ShowSingleLiveTplType_SslttSingle = 1,
+
+  /** 显示单人和双人 */
+  PB3ShowSingleLiveTplType_SslttDouble = 2,
+};
+
+GPBEnumDescriptor *PB3ShowSingleLiveTplType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ShowSingleLiveTplType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingleLivePermStatus
+
+/** 个播权限状态 0 未申请,1 未审核,2 已通过,3 未通过,4 人工冻结,5 自动冻结 */
+typedef GPB_ENUM(PB3SingleLivePermStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingleLivePermStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3SingleLivePermStatus_SlNotApply = 0,
+  PB3SingleLivePermStatus_SlNotAudit = 1,
+  PB3SingleLivePermStatus_SlPass = 2,
+  PB3SingleLivePermStatus_SlNotPass = 3,
+  PB3SingleLivePermStatus_SlLaborFreeze = 4,
+  PB3SingleLivePermStatus_SlAutoFreeze = 5,
+};
+
+GPBEnumDescriptor *PB3SingleLivePermStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingleLivePermStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3FreezeReqType
+
+/** 0定时器 1下播 2管理后台 */
+typedef GPB_ENUM(PB3FreezeReqType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3FreezeReqType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3FreezeReqType_Timer = 0,
+  PB3FreezeReqType_Unlive = 1,
+  PB3FreezeReqType_Admin = 2,
+};
+
+GPBEnumDescriptor *PB3FreezeReqType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3FreezeReqType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3FreezeResCode
+
+typedef GPB_ENUM(PB3FreezeResCode) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3FreezeResCode_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 冻结成功 */
+  PB3FreezeResCode_FreezeSuc = 0,
+
+  /** 正在直播 */
+  PB3FreezeResCode_FreezeLive = 1,
+};
+
+GPBEnumDescriptor *PB3FreezeResCode_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3FreezeResCode_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3SingLiveDataTrendTime
+
+/** 直播数据趋势时间 */
+typedef GPB_ENUM(PB3SingLiveDataTrendTime) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3SingLiveDataTrendTime_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位不使用 */
+  PB3SingLiveDataTrendTime_SldttZero = 0,
+
+  /** 本周 */
+  PB3SingLiveDataTrendTime_SldttThisWeek = 1,
+
+  /** 上周 */
+  PB3SingLiveDataTrendTime_SldttLastWeek = 2,
+
+  /** 上月 */
+  PB3SingLiveDataTrendTime_SldttLastMonth = 3,
+};
+
+GPBEnumDescriptor *PB3SingLiveDataTrendTime_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3SingLiveDataTrendTime_IsValidValue(int32_t value);
 
 #pragma mark - PB3RoomSingleLiveExtRoot
 
@@ -1092,6 +1228,343 @@ typedef GPB_ENUM(PB3RoomProgramStateReq_FieldNumber) {
 #pragma mark - PB3RoomProgramStateRes
 
 @interface PB3RoomProgramStateRes : GPBMessage
+
+@end
+
+#pragma mark - PB3ApplySLPermissionReq
+
+typedef GPB_ENUM(PB3ApplySLPermissionReq_FieldNumber) {
+  PB3ApplySLPermissionReq_FieldNumber_PlayerId = 1,
+};
+
+/**
+ * -------- 个播权限
+ * 申请个播权限
+ **/
+@interface PB3ApplySLPermissionReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@end
+
+#pragma mark - PB3ApplySLPermissionRes
+
+typedef GPB_ENUM(PB3ApplySLPermissionRes_FieldNumber) {
+  PB3ApplySLPermissionRes_FieldNumber_IsAuto = 1,
+  PB3ApplySLPermissionRes_FieldNumber_Message = 2,
+};
+
+@interface PB3ApplySLPermissionRes : GPBMessage
+
+/** 自动审批是否打开 1是 0否 */
+@property(nonatomic, readwrite) BOOL isAuto;
+
+/** 提示信息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *message;
+
+@end
+
+#pragma mark - PB3GetSLPermissionReq
+
+typedef GPB_ENUM(PB3GetSLPermissionReq_FieldNumber) {
+  PB3GetSLPermissionReq_FieldNumber_PlayerId = 1,
+  PB3GetSLPermissionReq_FieldNumber_NeedActive = 2,
+};
+
+/**
+ * 获取个播权限
+ **/
+@interface PB3GetSLPermissionReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 需要活跃传1 */
+@property(nonatomic, readwrite) int32_t needActive;
+
+@end
+
+#pragma mark - PB3GetSLPermissionRes
+
+typedef GPB_ENUM(PB3GetSLPermissionRes_FieldNumber) {
+  PB3GetSLPermissionRes_FieldNumber_Status = 1,
+  PB3GetSLPermissionRes_FieldNumber_UpdateTime = 2,
+  PB3GetSLPermissionRes_FieldNumber_IsActive = 3,
+  PB3GetSLPermissionRes_FieldNumber_ValidMin = 4,
+  PB3GetSLPermissionRes_FieldNumber_ActiveDone = 5,
+  PB3GetSLPermissionRes_FieldNumber_ActiveDay = 6,
+};
+
+/**
+ * cmdId=800135 个播权限返回
+ **/
+@interface PB3GetSLPermissionRes : GPBMessage
+
+/** 个播权限状态 */
+@property(nonatomic, readwrite) PB3SingleLivePermStatus status;
+
+/** 更新时间 */
+@property(nonatomic, readwrite) int64_t updateTime;
+
+/** 是否活跃 1是 0否 */
+@property(nonatomic, readwrite) BOOL isActive;
+
+/** 活跃有效时常 单位（分钟） */
+@property(nonatomic, readwrite) int64_t validMin;
+
+/** 近N天完成活跃天数 单位（天） */
+@property(nonatomic, readwrite) int64_t activeDone;
+
+/** 近N天 */
+@property(nonatomic, readwrite) int64_t activeDay;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3GetSLPermissionRes's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3GetSLPermissionRes_Status_RawValue(PB3GetSLPermissionRes *message);
+/**
+ * Sets the raw value of an @c PB3GetSLPermissionRes's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3GetSLPermissionRes_Status_RawValue(PB3GetSLPermissionRes *message, int32_t value);
+
+#pragma mark - PB3FreezeReq
+
+typedef GPB_ENUM(PB3FreezeReq_FieldNumber) {
+  PB3FreezeReq_FieldNumber_PlayerId = 1,
+  PB3FreezeReq_FieldNumber_ReqType = 2,
+};
+
+/**
+ * 冻结个播权限
+ **/
+@interface PB3FreezeReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@property(nonatomic, readwrite) PB3FreezeReqType reqType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3FreezeReq's @c reqType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3FreezeReq_ReqType_RawValue(PB3FreezeReq *message);
+/**
+ * Sets the raw value of an @c PB3FreezeReq's @c reqType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3FreezeReq_ReqType_RawValue(PB3FreezeReq *message, int32_t value);
+
+#pragma mark - PB3FreezeRes
+
+typedef GPB_ENUM(PB3FreezeRes_FieldNumber) {
+  PB3FreezeRes_FieldNumber_Code = 1,
+};
+
+@interface PB3FreezeRes : GPBMessage
+
+@property(nonatomic, readwrite) PB3FreezeResCode code;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3FreezeRes's @c code property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3FreezeRes_Code_RawValue(PB3FreezeRes *message);
+/**
+ * Sets the raw value of an @c PB3FreezeRes's @c code property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3FreezeRes_Code_RawValue(PB3FreezeRes *message, int32_t value);
+
+#pragma mark - PB3SingLiveStatsPlayer
+
+typedef GPB_ENUM(PB3SingLiveStatsPlayer_FieldNumber) {
+  PB3SingLiveStatsPlayer_FieldNumber_Id_p = 1,
+  PB3SingLiveStatsPlayer_FieldNumber_Id2 = 2,
+  PB3SingLiveStatsPlayer_FieldNumber_Nickname = 3,
+  PB3SingLiveStatsPlayer_FieldNumber_Sex = 4,
+  PB3SingLiveStatsPlayer_FieldNumber_Icon = 5,
+};
+
+@interface PB3SingLiveStatsPlayer : GPBMessage
+
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 靓号. ==0时没有 */
+@property(nonatomic, readwrite) int64_t id2;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
+
+@property(nonatomic, readwrite) enum PB3SexType sex;
+
+/** 图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingLiveStatsPlayer's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingLiveStatsPlayer_Sex_RawValue(PB3SingLiveStatsPlayer *message);
+/**
+ * Sets the raw value of an @c PB3SingLiveStatsPlayer's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingLiveStatsPlayer_Sex_RawValue(PB3SingLiveStatsPlayer *message, int32_t value);
+
+#pragma mark - PB3SingleLiveStatsReq
+
+/**
+ * 直播数据统计
+ **/
+@interface PB3SingleLiveStatsReq : GPBMessage
+
+@end
+
+#pragma mark - PB3SingleLiveStatsRes
+
+typedef GPB_ENUM(PB3SingleLiveStatsRes_FieldNumber) {
+  PB3SingleLiveStatsRes_FieldNumber_Player = 1,
+  PB3SingleLiveStatsRes_FieldNumber_IsFrozen = 2,
+  PB3SingleLiveStatsRes_FieldNumber_UnfreezeTime = 3,
+  PB3SingleLiveStatsRes_FieldNumber_IntimateFansNum = 4,
+  PB3SingleLiveStatsRes_FieldNumber_FansCount = 5,
+  PB3SingleLiveStatsRes_FieldNumber_TaskNeedDay = 6,
+  PB3SingleLiveStatsRes_FieldNumber_TaskLiveDay = 7,
+  PB3SingleLiveStatsRes_FieldNumber_TaskNeedTimeOneDay = 8,
+  PB3SingleLiveStatsRes_FieldNumber_UpdateTime = 9,
+  PB3SingleLiveStatsRes_FieldNumber_IntimateFansInfo = 10,
+};
+
+@interface PB3SingleLiveStatsRes : GPBMessage
+
+/** 用户信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3SingLiveStatsPlayer *player;
+/** Test to see if @c player has been set. */
+@property(nonatomic, readwrite) BOOL hasPlayer;
+
+/** 是否冻结 粉丝徽章是否高亮标识 */
+@property(nonatomic, readwrite) BOOL isFrozen;
+
+/** 解冻时间 为0时不显示解冻时间 */
+@property(nonatomic, readwrite) int64_t unfreezeTime;
+
+/** 守护数 */
+@property(nonatomic, readwrite) int64_t intimateFansNum;
+
+/** 订阅数 */
+@property(nonatomic, readwrite) int64_t fansCount;
+
+/** 本周任务需要的天数 */
+@property(nonatomic, readwrite) int64_t taskNeedDay;
+
+/** 本周有效直播天数 */
+@property(nonatomic, readwrite) int64_t taskLiveDay;
+
+/** 每天需要直播的时长 单位:秒 */
+@property(nonatomic, readwrite) int64_t taskNeedTimeOneDay;
+
+/** 更新时间 */
+@property(nonatomic, readwrite) int64_t updateTime;
+
+/** 亲密粉丝信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3IntimateFansInfo *intimateFansInfo;
+/** Test to see if @c intimateFansInfo has been set. */
+@property(nonatomic, readwrite) BOOL hasIntimateFansInfo;
+
+@end
+
+#pragma mark - PB3SingleLiveData
+
+typedef GPB_ENUM(PB3SingleLiveData_FieldNumber) {
+  PB3SingleLiveData_FieldNumber_DayTime = 1,
+  PB3SingleLiveData_FieldNumber_LiveTime = 2,
+  PB3SingleLiveData_FieldNumber_LiveTicket = 3,
+};
+
+/**
+ * 直播数据
+ **/
+@interface PB3SingleLiveData : GPBMessage
+
+/** 时间戳 */
+@property(nonatomic, readwrite) int64_t dayTime;
+
+/** 直播时间 */
+@property(nonatomic, readwrite) int64_t liveTime;
+
+/** 直播收益 */
+@property(nonatomic, readwrite) int64_t liveTicket;
+
+@end
+
+#pragma mark - PB3SingleLiveDataTrendReq
+
+typedef GPB_ENUM(PB3SingleLiveDataTrendReq_FieldNumber) {
+  PB3SingleLiveDataTrendReq_FieldNumber_TrendTime = 1,
+};
+
+/**
+ * 直播数据趋势
+ **/
+@interface PB3SingleLiveDataTrendReq : GPBMessage
+
+/** 时间范围 */
+@property(nonatomic, readwrite) PB3SingLiveDataTrendTime trendTime;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3SingleLiveDataTrendReq's @c trendTime property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3SingleLiveDataTrendReq_TrendTime_RawValue(PB3SingleLiveDataTrendReq *message);
+/**
+ * Sets the raw value of an @c PB3SingleLiveDataTrendReq's @c trendTime property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3SingleLiveDataTrendReq_TrendTime_RawValue(PB3SingleLiveDataTrendReq *message, int32_t value);
+
+#pragma mark - PB3SingleLiveDataTrendRes
+
+typedef GPB_ENUM(PB3SingleLiveDataTrendRes_FieldNumber) {
+  PB3SingleLiveDataTrendRes_FieldNumber_LiveDay = 1,
+  PB3SingleLiveDataTrendRes_FieldNumber_LiveTime = 2,
+  PB3SingleLiveDataTrendRes_FieldNumber_LiveTicket = 3,
+  PB3SingleLiveDataTrendRes_FieldNumber_DataArray = 4,
+  PB3SingleLiveDataTrendRes_FieldNumber_UpdateTime = 5,
+};
+
+@interface PB3SingleLiveDataTrendRes : GPBMessage
+
+/** 直播天数 */
+@property(nonatomic, readwrite) int64_t liveDay;
+
+/** 直播时长 秒 */
+@property(nonatomic, readwrite) int64_t liveTime;
+
+/** 直播收益 */
+@property(nonatomic, readwrite) int64_t liveTicket;
+
+/** 直播数据 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SingleLiveData*> *dataArray;
+/** The number of items in @c dataArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger dataArray_Count;
+
+/** 更新时间 */
+@property(nonatomic, readwrite) int64_t updateTime;
 
 @end
 

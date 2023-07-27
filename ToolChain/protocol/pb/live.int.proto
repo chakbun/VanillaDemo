@@ -1,0 +1,61 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+import "pb/common.ext.proto";
+package pb;
+
+message LiveMatchSuccReq {
+    int64 channel_id = 1;
+}
+
+message LiveMatchSuccRes {
+}
+
+message GiftDelayLiveTimeoutReq {
+    int64 from_id = 1;
+    int64 channel_id = 2;
+    int64 gift_price = 3;
+}
+
+message GiftDelayLiveTimeoutRes {
+}
+
+message GetPlayerCharacterReq {
+    int64 player_id = 1;
+}
+
+message GetPlayerCharacterRes {
+    LiveCharacter character = 1;
+}
+
+message ReloadLiveConfReq {
+}
+
+message ReloadLiveConfRes {
+}
+
+message DelPlayerChannelReq {
+   int64 player_id = 1;
+}
+message DelPlayerChannelRes {}
+
+message LiveHeartbeatReq{
+    int64 player_id = 1;
+}
+message LiveHeartbeatRes{}
+message ReportImChatTelepathyReq{
+    int64 player_id = 1;
+    int64 target_id = 2;
+    int64 tel_id = 3;
+}
+message ReportImChatTelepathyRes{}
+
+service LiveIntObj {
+    rpc LiveMatchSucc (LiveMatchSuccReq) returns (LiveMatchSuccRes);
+    rpc GiftDelayLiveTimeout (GiftDelayLiveTimeoutReq) returns (GiftDelayLiveTimeoutRes);
+    rpc GetPlayerCharacter(GetPlayerCharacterReq) returns(GetPlayerCharacterRes);
+    rpc ReloadLiveConf(ReloadLiveConfReq) returns(ReloadLiveConfRes);
+    rpc DelPlayerChannel (DelPlayerChannelReq) returns (DelPlayerChannelRes);
+    rpc LiveHeartbeat(LiveHeartbeatReq) returns(LiveHeartbeatRes);
+    // 心电感应私聊上报
+    rpc ReportImChatTelepathy(ReportImChatTelepathyReq) returns (ReportImChatTelepathyRes);
+}

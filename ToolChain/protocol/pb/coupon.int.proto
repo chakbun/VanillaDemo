@@ -1,0 +1,66 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/coupon.ext.proto";
+
+// 优惠券内部协议
+
+
+// 获取优惠券数据
+message GetCouponReq{
+    int64 player_id = 1; // 用户id
+    int64 coupon_id = 2; // 优惠券id
+}
+message GetCouponRes{
+}
+
+message CheckCouponReq {
+    int64 player_id = 1;            // 用户id
+    int64 origin_price = 2;         // 订单原价
+    CouponUsedData coupon_used = 3; // 优惠券使用数据
+    CouponJumpType coupon_type = 4; // 优惠券类型
+}
+
+message CheckCouponRes {
+}
+
+// 推送优惠券包
+message PushCouponBagReq {
+    int64 player_id = 1;            // 用户id
+}
+message PushCouponBagRes {
+}
+
+message GetCouponBagByIdReq {
+    int64 player_id = 1; //
+    int64 coupon_id = 2; //
+}
+
+message GetCouponBagByIdRes {
+    CouponInfo coupon_bag = 1;
+}
+
+message GetCouponBagByCouponCfgIdReq {
+    int64 player_id = 1; //
+    int64 cfg_id = 2; //
+}
+
+message GetCouponBagByCouponCfgIdRes {
+    repeated CouponInfo list = 1;
+}
+
+//  内部接口
+service CouponIntObj {
+    // 获取优惠券数据
+    rpc GetCoupon(GetCouponReq) returns (GetCouponRes);
+    // 检测优惠券是否可用
+    rpc CheckCoupon(CheckCouponReq) returns (CheckCouponRes);
+    // 推送优惠券包
+    rpc PushCouponBag(PushCouponBagReq) returns (PushCouponBagRes);
+    // 获取券包信息
+    rpc GetCouponBagById(GetCouponBagByIdReq) returns (GetCouponBagByIdRes);
+    // 通过优化券配置ID获取优化券
+    rpc GetCouponBagByCouponCfgId(GetCouponBagByCouponCfgIdReq) returns (GetCouponBagByCouponCfgIdRes);
+}

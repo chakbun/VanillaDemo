@@ -1,0 +1,505 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/common.ext.proto";
+
+enum NobilityCmdId {
+    NCmdId_Null = 0;
+    NCmdId_PlayDynamic = 508001; // 推送开通动画 NobilityDynamic
+    NCmdId_UpdatePrivilege = 508002; // 更新特权 UpdatePrivilege
+    NCmdId_UpdateMask = 508003; // 更新马甲 NoticeUpdateMask
+    NCmdId_UpdateNobility = 508004; // 更新爵位状态 NoticeNobility
+}
+
+message NobilityConf {
+    int32                     nobility_id          = 1;  // 爵位id
+    string                    name                 = 2;  // 爵位名称
+    string                    icon                 = 3;  // 爵位图标
+    string                    timeout_icon         = 4;  // 过期爵位图标
+    string                    description          = 5;  // 爵位描述
+    string                    dynamic_img          = 6;  // 开通爵位动画
+    int32                     nobility_level       = 7;  // 爵位等级 子爵<侯爵<公爵<国王<皇帝
+    repeated int32            privilege_ids        = 8;  // 爵位特权id
+    string                    frame_img            = 9;  // 边框
+    map<int32, NobilityPrice> price                = 10; // key 对应NobilityPriceType value价格
+    string                    pc_min_icon          = 11; // pc小图片
+    string                    icon_frame           = 12; // 头像框
+    string                    server_num           = 13; // 客服
+    string                    dynamic_img_bottom   = 14; // 动画底部横幅
+    string                    pc_dynamic_img       = 15; // pc动画
+    string                    pc_big_icon          = 16; // pc大图
+    string                    name_color           = 17; // 贵宾列表，名字颜色 #666666
+    bool                      is_vip_buy           = 18; // 是否支持大额购买
+    string                    enter_room_effect    = 19; //爵位进房横幅特效无头像app
+    string                    enter_room_effect_icon    = 20; //爵位进房横幅特效名字颜色app
+    string                    enter_room_screen    = 21; //爵位进房横幅公屏app
+    string                    enter_room_effect_pc = 22; //爵位进房横幅特效无头像pc
+    string                    enter_room_effect_icon_pc = 23; //爵位进房横幅特效带头像pc
+    string                    enter_room_screen_pc    = 24; //爵位进房横幅公屏pc
+
+}
+
+message NobilityPrice {
+    int32  id             = 1; // 价格ID
+    int32  price          = 2; // 价格，金币
+    int32  amount         = 3; // 价格，人民币（分）
+    int32  present_gold   = 4; // 赠送金币
+    int32  valid_days     = 5; // 实际的天数
+    string show_price     = 6; // 展示价格（人民币） 如 3.8
+    string show_unit_name = 7; // 展示的单位（人民币） 万元/月
+    string show_gold      = 8; // 展示价格（金币）
+    string show_gold_unit_name = 9; // 展示的单位（金币） 万元/月
+    string show_present_gold = 10; // 展示赠送的金币 2
+    string show_present_unit_name = 11; // 展示的单位 万金币
+    NobilityPriceType price_type = 12; // 价格类型
+}
+
+enum NobilityPriceType {
+    NobilityPriceType_Null = 0;
+    NobilityPriceType_Normal = 1; // 正常价格
+    NobilityPriceType_Normal_Renew = 2; // 正常续费价格
+    NobilityPriceType_Ios_Normal = 3; // ios价格
+    NobilityPriceType_Ios_Normal_Renew = 4; // ios续费价格
+}
+
+// 1xxx 用户显示类
+// 2xxx 房间显示类
+// 3xxx 福利类
+// 4xxx 专享类
+// 5xxx 特权类
+// 6xxx 加成类
+enum PrivilegeType {
+    PT_NULL                      = 0;    // 占位不用
+
+    PT_Mask                      = 1;    // 特权设置，有马甲设置项返回
+
+    PT_Show                      = 1000; // 用户显示类 占位不用
+    PT_Show_Pay                  = 1001; // 开通特效(开通，续费，升级)
+    PT_Show_HonourableIdentity   = 1002; // 尊贵身份
+    PT_Show_HallOfFame           = 1003; // 名人堂
+    PT_Show_CardFrame            = 1004; // 稀有名片框
+
+    PT_RoomShow                  = 2000; // 房间显示类 占位不用
+    PT_RoomShow_Welcome          = 2001; // 入场特效，横幅欢迎
+    PT_RoomShow_SitChar          = 2002; // 上麦特效
+    PT_RoomShow_CharBubble       = 2003; // 麦上气泡
+    PT_RoomShow_Speak            = 2004; // 发言特效
+
+    PT_Welfare                   = 3000; // 福利类 占位不用
+    PT_Welfare_HonourableVehicle = 3001; // 尊贵座驾
+
+    PT_Special                   = 4000; // 专享类 占位不用
+    PT_Special_CmbPay            = 4001; // 招行大额充值
+    PT_Special_Gift              = 4002; // 专属礼物
+    PT_Special_Service           = 4003; // 专属客服
+    PT_Privilege_MagicSkill      = 4007; // 魔法技能
+
+    PT_Privilege                 = 5000; // 特权类 占位不用
+    PT_Privilege_MaskRank        = 5001; // 榜单隐身
+    PT_Privilege_MaskEnter       = 5002; // 进场隐身
+    PT_Privilege_MaskSitChar     = 5003; // 匿名上麦
+    PT_Privilege_PreventBanSpeak = 5004; // 防禁言
+    PT_Privilege_FriendTrack     = 5005; // 好友行踪
+    PT_Privilege_PreventKickOut  = 5006; // 防踢出
+    PT_Privilege_HideTrack       = 5007; // 访客隐身
+    PT_Privilege_MoreDealFriend  = 5008; // 更多挚友
+    PT_Privilege_NoDisturbing    = 5009; // 消息免打扰
+    PT_Privilege_PreventTrack    = 5010; // 防跟踪踩房
+
+    PT_Extra                     = 6000; // 加成类 占位不用
+    PT_Extra_AddHot              = 6001; // 热度加成
+}
+
+message NobilityPrivilegeConf {
+    int32         privilege_id = 1; // 爵位特权ID，与上面的PrivilegeType对应
+    string        name         = 2; // 爵位特权名称PrivilegeType 对应
+    string        icon         = 3;
+    string        route        = 4;
+    string        description  = 5; // 简介
+    string        set_icon     = 6; // 特权设置里的icon
+    string        gray_icon    = 7; // 购买页爵位没有的特权icon
+}
+
+// 获取爵位基础配置
+message GetNobilityConfReq {
+    string md5 = 1;
+}
+
+message GetNobilityConfRes {
+    repeated NobilityConf          nobility_conf       = 1; // 爵位配置
+    repeated NobilityPrivilegeConf privilege_conf_list = 2; // 特权配置
+    string md5 = 3;
+    repeated MaskName name_list = 4; // 马甲名称配置
+    repeated MaskPhoto photo_list = 5; // 马甲头像配置
+    bool minors_switch = 6; // 未成年开关
+}
+
+enum BuyNobilityType {
+    BNT_NULL    = 0; // 不可开通
+    BNT_OPEN    = 1; // 开通
+    BNT_RENEW   = 2; // 续费
+    BNT_UPGRADE = 3; // 升级
+}
+
+enum PayNobilityType {
+    PNT_NULL   = 0; // 占位不用
+    PNT_GOLD   = 1; // 金币
+    PNT_WPAY   = 2; // 微信支付
+    PNT_APAY   = 3; // 支付宝支付
+    PNT_IAP    = 4; // iap支付
+    PNT_CMB    = 5; // 招行大额支付
+}
+
+enum BuyNobilityGoldType {
+    BNGT_IOS = 0; // ios金币购买
+
+    BNGT_H5 = 2; // 站外购买
+}
+
+// 购买爵位
+message BuyNobilityReq {
+    int32           nobility_id = 1; // 爵位ID
+    BuyNobilityType buy_type    = 2; // 购买类型
+    PayNobilityType pay_type    = 3; // 支付类型
+    NobilityPrice   price       = 4; // 购买价格
+    int64           room_id     = 5; // 房间ID
+    int64           benefit_id  = 6; // 受益人ID
+    BuyNobilityGoldType buy_gold_type = 7; // 金币购买是传
+    CouponUsedData coupon = 8; // 优惠券
+}
+
+message BuyNobilityRes {
+    NobilityDynamic nobility_dynamic = 1;
+}
+
+enum PlayerNobilityStatus {
+    PNS_NULL      = 0; // 占位不用
+    PNS_USING     = 1; // 正在使用中的爵位
+    PNS_OWNED     = 2; // 购买的低等级爵位未使用
+    PNS_PROTECTED = 3; // 保护期
+    PNS_OVERDUE   = 4; // 过期的
+}
+
+message PlayerNobilityInfo {
+    int32                nobility_id    = 1;   // 爵位ID
+    int64                create_at      = 2;   // 开通时间: 单位秒
+    PlayerNobilityStatus status         = 3;   // 爵位状态
+    int64                end_at         = 4;   // 到期时间：单位秒
+    int64                protect_at     = 5;   // 保护期到期时间：单位秒
+    int32                open_days      = 6;   // 开通天数
+    string               show_end_at    = 7;   // 显示给用户看的到期时间
+    int32                protect_days   = 8;   // 剩余保护天数
+    int32                level          = 9;   // 爵位等级
+}
+
+// 获取玩家正在使用的爵位信息
+message PlayerNobilityInfoReq {
+    int64 player_id = 1;
+}
+
+message PlayerNobilityInfoRes {
+    PlayerNobilityInfo nobility_info = 1;
+    MaskInfo           mask_info     = 2; // 马甲信息
+}
+
+// 获取所有拥有的爵位信息
+message PlayerNobilityInfoListReq {
+
+}
+
+message PlayerNobilityInfoListRes {
+    repeated PlayerNobilityInfo list = 1;
+}
+
+message NobilityPrivilege {
+    NobilityPrivilegeConf privilege       = 1; // 特权
+    bool                  is_custom_set   = 2; // 是否支持自定义设置
+    PrivilegeSetType      set_type        = 3; // 设置类型
+    bool                  status          = 4; // bool类型的值
+    string                tips            = 5; // 下面的小字介绍说明
+    PrivilegeSetDataType  data_type       = 6; // 数据类型
+    bytes                 extra_data      = 7; // 额外定义的数据，和客户端或服务端内部约定
+    bool                  show_arrow      = 8; // 是否显示右侧小箭头
+    string                img             = 9; // 显示的图片
+}
+
+enum PrivilegeSetType {
+    PST_NULL  = 0; // 占位
+    PST_BOOL  = 1; // bool类型, 当前页设置，除防跟踪进房，其余bool类型调用这个接口 UpdateBoolPrivilege
+    PST_OtherPageSet = 2; // 挑转到其它的设置页面，根据id挑转
+    PST_ProtectEnterRoom = 3; // 防跟踪进房设置调用这个接口 SetFollowToRoom
+}
+
+enum PrivilegeSetDataType {
+    PSDT_Null = 0; // 占位
+    PSDT_Bool = 1; // 数据为bool类型，直接用 status
+    PSDT_StringImg = 2; // 数据为string 图片地址, 直接用img
+    PSDT_ProtectEnterRoom = 3; // 防跟踪进房 FollowToRoomRes
+    PSDT_MoreDealFriendInt = 4; // (服务端内部用)更多挚友 PrivilegeMoreDealFriendExtra
+}
+
+// 我的特权设置项
+message NobilityPrivilegeReq {
+
+}
+message NobilityPrivilegeRes {
+    repeated NobilityPrivilege list = 1;
+}
+
+// 更新马甲信息
+message UpdateMaskInfoReq {
+    int32    mask_name_id = 1; // 马甲名称ID
+    int32    mask_icon_id = 2; // 马甲头像ID
+}
+message UpdateMaskInfoRes {
+}
+
+// 修改特权(bool类型的设置)
+message UpdateBoolPrivilegeReq {
+    int32 privilege_id = 1;
+    bool  status       = 2;
+}
+message UpdateBoolPrivilegeRes {
+
+}
+
+message NobilityDynamic {
+    int32            nobility_id = 1; // 爵位ID
+    int64            player_id   = 2; // 用户ID
+    int64            id2         = 3; // 靓号
+    string           name        = 4; // 昵称
+    string           icon        = 5; // 头像
+    BuyNobilityType  buy_type    = 6; // 1 开通，2 续费，3 升级
+    string           msg         = 7; // 公屏内容
+    int64            room_id     = 8; // 玩家房间ID
+    string           order_id    = 9; // 购买爵位的唯一订单ID
+}
+
+message UpdatePrivilege {
+    int32 privilege_id = 1;
+    bool  status       = 2;
+    int64 player_id    = 3;
+}
+
+message NoticeUpdateMask {
+    MaskInfo mask_info = 1;
+}
+
+message NoticeNobility {
+    PlayerNobilityInfo nobility_info = 1; // 新的爵位信息
+    MaskInfo           mask_info     = 2; // 马甲信息
+    int64              player_id     = 3; // 用户ID
+}
+
+message RoomNobilityInfo {
+    MaskInfo mask_info = 1; // 马甲信息
+    int64 open_nobility_at = 2; // 爵位开通时间
+    bool is_stealth_enter = 3; // 是否隐身进房
+    bool is_stealth_sit = 4; // 是否匿名上麦
+    int32 nobility_id = 5; // 爵位ID
+    int32 level = 6; // 爵位等级
+    int32 chair_id = 7; // 所在麦位id
+}
+
+message HallOfFame {
+    int64 player_id = 1; // 玩家id
+    string name = 2; // 玩家昵称
+    string icon = 3; // 玩家头像
+    int64 join_timestamp = 4; // 加入名人堂时间
+    int32 join_days = 5; // 已经加入了多少天，累计的
+    int32 nobility_id = 6; // 爵位id
+}
+
+message HallOfFameReq {
+    int32 page = 1; // 分页，每页50个
+}
+message HallOfFameRes {
+    repeated HallOfFame famous = 1; // 名人堂列表
+    HallOfFame my_nobility = 2; // 我的名人堂信息
+    int32 sum_famous = 3; // 名人堂总数
+}
+
+message RoomRankMaskSetReq {
+    CommonOperType oper = 1;
+    repeated sint64 room_ids = 2;   //房间榜单隐身的房间列表
+}
+message RoomRankMaskSetRes {
+}
+
+message RoomRankMaskListReq {
+}
+
+message RoomRankMaskListRes {
+    repeated MaskRoomInfo rooms = 1;   //房间榜单隐身的房间列表UpdateBoolPrivilege
+}
+
+message MaskRoomInfo {
+    sint64 id = 1;          //房间id
+    string icon = 2;        //头像
+    string name = 3;        //房间名
+    string greeting = 4;    //简介
+}
+
+message MaskName {
+    int32  id   = 1;
+    string name = 2;
+    bool   is_default = 3; // 是否默认
+}
+
+message MaskPhoto {
+    int32  id          = 1;
+    string icon        = 2;
+    string dynamic_img = 3;
+    string name        = 4; // 头像的名字
+    bool   is_default = 5; // 是否默认
+}
+
+
+
+message BuyNobilityLogReq {
+    int32 index = 1;
+}
+message BuyNobilityLogRes {
+    repeated NobilityLog list = 1;
+    int32 next_index = 2;
+}
+
+message NobilityLog {
+    int32 nobility_id = 1;  // 爵位ID
+    BuyNobilityType buy_type = 2; // 购买类型
+    int32 num = 3; // 数量
+    PayNobilityType pay_type = 4; // 支付类型
+    int64 buy_gold = 5; // 购买花费的人金币
+    int64 refund_gold = 6; // 返回的金币
+    int64 buy_time = 7; // 购买的时间
+    int64 end_time = 8; // 到期时间
+    PlayerNobilityStatus status = 9; // 状态
+    int64 buy_rmb = 10; // 购买花费的人民币
+}
+
+message MinNobilityReq {
+    int32 privilege_id = 2;
+}
+
+message MinNobilityRes {
+    int32 nobility_id = 1;
+}
+
+// 请求防跟踪进房设置
+message FollowToRoomReq {
+}
+message FollowToRoomRes {
+    bool ban_follow_me = 1; // true 则开启防跟踪踩房
+    bool friend_follow = 2; // true 则我的好友可以跟踪踩房
+}
+
+// 防跟踪进房设置
+message SetFollowToRoomReq {
+    bool ban_follow_me = 1; // true 则开启防跟踪踩房
+    bool friend_follow = 2; // true 则我的好友可以跟踪踩房
+}
+message SetFollowToRoomRes {
+}
+
+message CustomerServiceReq {
+
+}
+
+message CustomerServiceRes {
+    string name = 1; // 客服名称
+    string icon = 2; // 客服头像
+    string description = 3; // 描述
+    string route = 4; // 连接
+}
+
+message OpenNobilityPopItem {
+    string title      = 1; // 标题
+    string msg        = 2; // 描述
+    string background = 3; // 背景图
+    string image      = 4; // 图片
+}
+
+message AfterOpenNobilityPopReq {
+    string order_id = 1; // 爵位动画推送 NobilityDynamic里的order_id
+}
+message AfterOpenNobilityPopRes {
+    repeated OpenNobilityPopItem list = 1;
+}
+
+message NobilityRoomRewardReq {
+    int32 index = 1; // 开始传0，之后用后台返回的next_index
+}
+message NobilityRoomRewardRes {
+    int32 next_index = 1; // 下一页的索引
+    repeated RoomRewardItem list = 2; // 总收益
+}
+message RoomRewardItem {
+    int64 player_id = 1;
+    int64 player_id2 = 2;
+    string name = 3;
+    string icon = 4;
+    SexType sex = 5;
+    int64 create_at = 6; // 开通日期
+    int64 tick = 7; // 返还钻石
+    BuyNobilityType buy_type = 8; // 购买类型
+    string nobility_name = 9; // 爵位名称
+    string day = 10; // 开通天数
+    int64 benefit_id = 11; // 推荐人ID
+    int64 benefit_id2 = 12; // 推荐人ID2
+    string benefit_name = 13; // 推荐人名称
+}
+
+message NobilityGainReq {
+
+}
+message NobilityGainRes {
+    int64 nobility_gain = 1; // 爵位总收益
+    bool  is_show = 2; // 是否显示
+}
+
+message GetNobilityConfCDNReq {
+}
+message GetNobilityConfCDNRes {
+    string oss_url = 1; // 用 GetNobilityConfRes 解析数据
+}
+
+service NobilityExtObj {
+    // 获取配置
+    rpc GetNobilityConf(GetNobilityConfReq) returns (GetNobilityConfRes);
+    // 购买爵位
+    rpc BuyNobility(BuyNobilityReq) returns (BuyNobilityRes);
+    // 获取玩家爵位信息
+    rpc PlayerNobilityInfo(PlayerNobilityInfoReq) returns (PlayerNobilityInfoRes);
+    // 获取拥有爵位信息
+    rpc PlayerNobilityInfoList(PlayerNobilityInfoListReq) returns (PlayerNobilityInfoListRes);
+    // 获取我的特权设置
+    rpc NobilityPrivilege(NobilityPrivilegeReq) returns (NobilityPrivilegeRes);
+    // 更新马甲
+    rpc UpdateMaskInfo(UpdateMaskInfoReq) returns (UpdateMaskInfoRes);
+    // 更新特权（bool类型）
+    rpc UpdateBoolPrivilege(UpdateBoolPrivilegeReq) returns (UpdateBoolPrivilegeRes);
+    // 获取购买列表
+    rpc BuyNobilityLog(BuyNobilityLogReq) returns (BuyNobilityLogRes);
+    // 获取拥有某个特权的最低爵位
+    rpc MinNobility(MinNobilityReq) returns (MinNobilityRes);
+    // 名人堂
+    rpc HallOfFame(HallOfFameReq) returns (HallOfFameRes);
+    // 房间榜单隐身房间设置
+    rpc RoomRankMaskSet (RoomRankMaskSetReq) returns (RoomRankMaskSetRes);
+    // 房间榜单隐身房间列表
+    rpc RoomRankMaskList (RoomRankMaskListReq) returns (RoomRankMaskListRes);
+    // 请求防跟踪进房设置
+    rpc FollowToRoom (FollowToRoomReq) returns (FollowToRoomRes);
+    // 防跟踪进房设置
+    rpc SetFollowToRoom (SetFollowToRoomReq) returns (SetFollowToRoomRes);
+    // 获取专属客服
+    rpc CustomerService (CustomerServiceReq) returns (CustomerServiceRes);
+    // 获取爵位购买成功，播放动画后的弹窗
+    rpc AfterOpenNobilityPop(AfterOpenNobilityPopReq) returns (AfterOpenNobilityPopRes);
+    // 获取爵位房间返利列表
+    rpc NobilityRoomReward(NobilityRoomRewardReq) returns (NobilityRoomRewardRes);
+    // 获取爵位分成
+    rpc NobilityGain(NobilityGainReq) returns (NobilityGainRes);
+    // 获取爵位配置地址
+    rpc GetNobilityConfCDN(GetNobilityConfCDNReq) returns(GetNobilityConfCDNRes);
+}

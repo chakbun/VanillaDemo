@@ -1,0 +1,814 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+import "pb/gift.ext.proto";
+
+//系统cmdid
+enum SystemCmdId {
+  NONE101 = 0; //占位
+  SYSTEM_MSG_CMD_ID = 101001;                 //SystemMsgNotice  系统消息, （后台短消息） SSC000011
+  SYSTEM_NOTICE_CMD_ID = 101002;              //SystemMsgNotice  系统公告，显示在聊天频道
+  SYSTEM_PUSH_LOG_CMD_ID = 101003;          //SystemMsgNotice  管理后台主动提交客户端日志   SSC000271
+  SYSTEM_MAINTENANCE_CMD_ID = 101004;         //MaintenanceMsgNotice  系统维护信息    SSC000080
+  SYSTEM_MAIL = 101005;                       //广播收到新邮件
+
+  SYSTEM_AUTH_NAME_CMD_ID = 101006;           // 暂定
+
+  SYSTEM_ROOM_VIDEO_URL_CMD_ID = 101008;      //广播视频直播房间 0x000099(待优化)
+  SYSTEM_UPDATE_TABS_CMD_ID = 101009;         //UpdateTabs 更新标签词条 SSC000034
+  SYSTEM_WEEK_STAR = 101010;                  // WeekStar 周星贺报 SSC000070
+  SYSTEM_TIMER = 101011;                      // TimerInfo 倒计时 SSC000361
+  SYSTEM_WEEK_STAR_NOTICE = 101012;           // WeekStar通知：eg: [周星]新一轮周星活动开始报名啦，有意参加的主持、歌手、陪陪可以联系厅主，厅主再将名单提交给官方运营哦（限周一17:00前）
+  SYSTEM_CONF_UPDATE = 101013;                // SysConfUpdate
+
+  SYSTEM_TOAST_CMD_ID = 101015;               // 吐司内容SysToastMsg
+
+  CLAN_UPDATE = 101020;                // 公会变更通知 UpdateClanNotice
+  NOTICE_CMD_ID = 101021;             // 实名认证弹窗，通知客户端弹窗
+  BILL_CHECK_STATUS = 101022;         // 通知审核结果 bill.ext.BroadcastBillCheckStatus
+
+  DIALOG_POPUP_CMD_ID = 101023; // 通用弹窗通知
+
+  PRIVATE_CHAT_CMD_ID = 101024; // PrivateChatMsg 通知用给另一个用户发私聊
+
+  CRACK_EGG_SYSTEM_MSG_CMD_ID = 101025;                 // 砸蛋系统消息
+  OVERDUE_SYSTEM_MSG_CMD_ID = 101026;     //过期系统消息Id列表
+
+  COMMON_NOTICE_CMD_ID = 101027; // 客户端通用弹窗协议
+  NEW_SYSTEM_NOTICE_CMD_ID = 101028;//新系统公屏信息
+  DYN_CONF_UPDATE_CMD_ID = 101029;//动态配置更新
+
+  NOTICE_DEL_BF = 101030; // 推送删除广播交友信息 DelBFRecords
+  NEW_SYSTEM_NOTICE_MARQUEE_CMD_ID = 101031;//新系统公屏信息，跑马灯 NewSystemNoticeMarquee
+
+  ACTIVITY_DATA_CMD_ID = 101032; //活动数据
+  ACTIVITY_POP_CMD_ID = 101033; //活动弹窗
+  ACTIVITY_SORT_CMD_ID = 101034; //活动榜单数据
+
+  ROOM_BANNER_DATA_CMD_ID = 101035; //横幅数据
+  ROOM_BANNER_MSG_CMD_ID = 101036; //横幅消息数据
+  ROOM_BANNER_BOX_CMD_ID = 101037; //横幅宝箱数据
+  ROOM_EVENT_REWARD_BOX_CMD_ID = 101038;  //事件宝箱推送
+  UMENG_REPORT_CMD_ID = 101039;  // 友盟上报推送
+  ACTIVITY_TREASURE_CMD_ID = 101040; //活动许愿夺宝结构
+  SYSTEM_NOTICE_NEED_CHECK_CMD_ID = 101041;// 系统公屏信息，客户端需要根据个人检查是否显示（是否满足条件）SystemNoticeNeedCheck
+  ACTIVITY_PREMIUMS_CMD_ID = 101042; //活动额外奖励
+  ACTIVITY_LOTTERY_POINT_CMD_ID = 101043; //活动抽奖积分
+  ACTIVITY_LIMITED_TIME_WELFARE_CMD_ID = 101044; //限时福利
+  ACTIVITY_ON_TIME_WELFARE_CMD_ID = 101045; //定时在线福利开启
+  ROOM_EVENT_REWARD_BOX_AWARD_CMD_ID = 101046;  //事件宝箱开奖推送
+  ACTIVITY_ON_ASK_OR_SEND_GIFT_CMD_ID = 101048; //赠送或索要物品推送
+  ACTIVITY_BLIND_LOTTERY_UPDATE_CMD_ID = 101049; //盲盒状态更新推送
+  SYSTEM_SYNC_OPT = 101050; // 同步操作 SyncOpt
+  ACTIVITY_RANK_UPDATE_CMD_ID= 101051; //活动排行榜更新推送
+  ROOM_PROGRAM_NOTICE_CMD_ID = 101052; //活动节目预告推送
+  ROOM_BANNER_WELFARE_CMD_ID = 101053; //横幅浪漫飘屏
+  ACTIVITY_CP_PUBLIC_NOTICE_CMD_ID = 101054; // 告白位状态更新推送
+  ACT_GAME_RED_ENVELOPE_STATUS_CMD_ID = 101056; //红包接龙活动游戏状态推送 PushRedEnvelopeStatus
+  ACTIVITY_LOTTERY_POINT_REWARD_CMD_ID = 101057; //抽奖幸运值中奖通知
+  ACTIVITY_DIG_TREASURE_HIGH_MODEL_CMD_ID = 101058; // 挖宝高爆模式切换推送
+  ACTIVITY_DIG_TREASURE_GRID_DATA_UPDATE_CMD_ID = 101059; // 挖宝格子信息更新推送
+  PROMOTER_RECALL_UPDATE_CMD_ID = 101060; // 推广员系统数据更新
+  ACTIVITY_RANK_SCORE_UPDATE_CMD_ID = 101061; // 活动排行榜总分更新推送
+  ACTIVITY_RANK_PK_RESULT_CMD_ID= 101062; // 活动榜单阵营pk结果推送
+  SYSTEM_PROXY_INVOKE_INT_SERVER = 101063; // 代理调用服务器内部接口
+  RANK_SHOW_CMD_ID = 101064; //排行榜分级展示
+  ACTIVITY_LOTTERY_LEVEL_UP = 101066; // 活动奖池升级
+  CREDIT_SCORE_INFO = 101067;// 信用分推送 CreditScoreInfoRes
+  INTIMATE_CULTIVATE_LEVEL_UPDATE = 101070;// 挚友养成升降级推送
+  ACTIVITY_LOTTERY_RACE_CMD_ID = 101071;// 有奖抢占推送
+  LONG_TIME_NO_CONFIRM = 101073; // 长时间未短信验证
+  ACTIVITY_WELFARE_UPDATE_CMD_ID = 101074; //福利更新推送
+  ACTIVITY_CONSTELLATION_STAR_SLOT_CMD_ID = 101078; //星象全服投注数据推送
+  ACTIVITY_CONSTELLATION_AWARD_NOTICE_CMD_ID = 101079; // 星象开奖结果推送
+  WEIXIN_VIP_CUSTOMER_SERVICE_CMD_ID = 101087; // vip接入企微客服金额达标推送 VipWeixinCustomService
+
+  JIGSAW_DATA_CMD_ID = 101088; //礼物拼图数据
+  ACTIVITY_PILE_UP_DRAW_CMD_ID = 101089; //奖券池开奖推送
+  ACTIVITY_PILE_UP_ISSUE_CMD_ID = 101090; //完成福利后，下发的奖券推送
+}
+
+// 上报事件类型
+enum ReportEventType {
+  Event_DEFAULT = 0;  //占位
+  MOOD_EFFECT_USE_SUCCESS = 1; // "moodEffect_use_success" 心情触发动效成功事件
+  MOOD_EFFECT_USE_FAIL = 2 ;   // "moodEffect_use_fail" 心情触发动效失败事件
+}
+
+// 友盟上报 cmdId==101039
+message UmengReport {
+  string event_name = 1;
+  map<string, string> list = 2;
+}
+
+enum SysToastType {
+  SysToastNormal = 0; //普通
+  SysToastSucc = 1; //成功
+  SysToastWarn = 2; //警告
+  SysToastError = 3; //错误
+}
+
+
+enum SysConfType {
+  SysConfTypeNONE = 0; //占位
+  TypeGift = 1; //礼物配置更新
+  TypeEffect = 2; //特效配置更新
+  TypeGiftRoom = 3; //更新房间礼物
+  TypeAssetsConf = 4; // 资产配置
+  TypeConfBlind = 5; // 推送更新相亲卡片
+  FriendHeartbeat = 6; //挚友心跳配置
+  TypeConfActivity = 7; // 推送更新活动配置
+  TypeConfStores = 8; // 推送更新商城配置
+  TypeConfBindPhoneReward = 9; // 推送绑定手机号配置
+  TypeConfBillConf = 10; // 点单配置
+  TypeConfSubConf = 11; // 更新房间角标
+  TypeCrackWriting = 12; // 更新砸蛋文案
+  TypeIntimateConf = 13; // 挚友配置
+  TypePCindexNavConf = 14; // pc导航配置
+  TypeCrackTheme = 15; // 砸蛋新主题配置
+  TypeRoomDecorateConf = 16;//房间装饰配置
+  TypeRoomDecorateShopConf = 17;//房间装饰商城配置
+  TypeRoomDecorateConfV2 = 18;//新版房间装饰配置
+  TypeNobilityConfig = 19; // 爵位配置
+  TypeRoomSkillConfig = 20;//房间技能配置
+  TypeNobilityEffectConfig = 21;//爵位特效配置
+  TypeNobilityCustomerService = 22;   //爵位专属客服配置
+  TypeFriendBackgroundConfig = 23; // 挚友背景配置更新
+  TypeProtectionOfMinorsWindow = 24; // 未成年保护弹窗
+  TypeGiftBanner = 25; //礼物banner配置更新
+  TypeEmojiConf = 26; // 表情包配置更新
+  TypeEffectBanner = 27; // 特效banner配置更新
+  TypeFocusRoomPop = 28; // 房间气泡关注配置更新弹窗
+  TypeShowConfig = 29; // 表演模式配置
+  TypeStoreClassifyConfig = 30; // 商城分类栏配置更新
+  TypeVoiceTag = 31;     // 声鉴卡配置
+  TypeUpdateRoomWealthDayRank = 32; // 更新房间财富日榜
+  TypeFriendImImgLimit = 33; // 更新IM发送图片限制配置
+  TypeActivityRoomList = 34; // 更新活动房间列表配置
+  TypeCountDown = 35; // 更新新年倒计时配置
+  TypeGiftClassify = 36; // 礼物分栏配置更新
+  TypeIntimateFansLevConf = 37; // 亲密粉丝等级配置
+  TypeFirstClassify = 38; // 一级分栏配置更新
+  TypeGiftNumTextConf = 39; // 礼物数量对应文本配置更新
+  TypeEffectBagClassify = 40; // 特效背包一级分栏配置更新
+  TypeOnTimeWelfare = 41; // 定时触发福利配置更新
+  TypeKUpdateGmeKey = 42; // 更新gme key
+  TypeTeacherStudentLevCfg = 44; // 师徒等级配置 TeacherStudentLevCfgReq
+  TypeMobaTeamGameCfg = 46;      // 组队开黑游戏配置 MobaTeamGameCfgCDNReq
+  TypeFirstPayGiftBaseCfg = 47;  // 首充礼包配置 FirstPayGiftBaseCfgReq
+  TypeCouponCfg = 48;            // 获取优惠券配置 CouponCfgUrlRes
+  TypeIntimateFansMissionConf = 49;  // 个播2.0任务配置 IntimateFansMiddionCliCfg
+  TypeXcmKickOutRoomCfg = 50; // 房间踢人时间配置 XcmKickOutRoomCfg
+  TypeGiftSkinCfg = 51;       // 礼物皮肤配置 直接返回URL
+  TypeConfBlind2 = 52; // 交友2.0 推送更新相亲卡片
+  TypeTextContentCfg = 53;    // 富文本配置 直接返回URL
+  TypeIntimateBackgroundCfgData = 54;    // 挚友特殊背景配置 XcmIntimateBackgroundCfgData
+  TypeOxygenCarCfg = 55; // 氧气车载 礼物ID发生变化 XcmOxygenCarGiftCfgData
+  TypeConfActSubConf = 56; // 更新房间活动角标
+  TypeCubismBgConf = 57; // 虚拟形象背景推送
+  TypeCubismModelConf = 58; // 虚拟形象模型推送
+}
+
+message NoConfirm{
+  string phone = 1; //手机号码
+}
+
+enum NoticeType {
+  NT_ZERO = 0; // 不用
+  NT_CERTIFY = 1; // 实名认证
+  NT_TOAST = 2; // toast
+  NT_FORCE_LOGOUT = 3; // 强制退出
+}
+
+enum ButtonType {
+  BTYPE_ZERO = 0;
+  BTYPE_CONFIRM = 1;
+  BTYPE_CANCEL = 2;
+}
+
+//实名认证弹窗推送 CmdId=101021
+message certifyNotice {
+  NoticeType noticeType = 1;
+  string msg = 2;
+  repeated ButtonType button_style = 3;
+}
+
+enum ReceiverType {
+  RT_NONE = 0; // 占位
+  RT_OKAMI = 1; // 接收者为大神
+  RT_SIGNATORY = 2; //接收者为签约者
+}
+
+enum SubMsgType {
+  SMT_SELF = 0; // 2:官方消息（旧版本官方消息和活动公告放在一起）
+  SMT_ACTIVITY = 1; // 活动公告
+}
+
+//系统消息通知 CmdId=101001  CmdId=101002  CmdId=101003 CmdId=101012 CmdId=101023
+message SystemMsgNotice {
+  string msg = 1; //发送内容
+  uint32 send_time = 2; // 发送时间
+  uint32 language = 3; //语言类型
+  string router_url = 4; //
+  string picture = 5;     //图片路径
+  string picture_router = 6;     //图片跳转路由
+  string mask_text = 7;     //遮罩文字
+  string bottom_text = 8;     //底部文字
+  string bottom_router = 9;     //底部跳转路由
+  string msg_title = 10;     //信息标题
+  bytes room_id = 11;     //房间id
+  uint32 status = 12; //消息状态 1.未发送 2.已发送 3.未发送已过期 4.已发送已过期
+  int64 overdue_time = 13; //过期时间
+  string hyperlink = 14; //超链接文本
+  uint32 msg_type = 15; //消息类型 1:系统通知;2:官方消息;
+  uint32 pc_system_switch = 16; //人工消息是否PC公屏显示0:不显示，1:显示
+  uint32 wealth_level = 17; //财富等级限制,大于等于该值才能查看消息
+  ReceiverType receiver_type = 18; // 接收者类型
+  int32 register_day_limit = 19;    //用户注册天数限制，为0时不做限制
+  int32 register_judge_type = 20;   //用户注册天数限制判断类型，1为小于等于、2为大于等于
+  int32 wealth_judge_type = 21;     //用户财富等级限制判断类型，1为小于等于、2为大于等于
+  int32 and_or = 22;                //用户财富和魅力等级判断关系，1为且、2为或
+  int32 charm_judge_type = 23;      //用户魅力等级限制判断类型，1为小于等于、2为大于等于
+  int32 charm_level = 24;           //用户魅力等级，为0时不做限制
+  int64 start_ts = 25;              // 日志拉取开始时间戳
+  int64 end_ts = 26;                // 日志拉取结束时间戳
+  int64 operator_id = 27;           // 日志拉取操作人 id
+  string operator_name = 28;        // 日志拉取操作人姓名
+  string reason = 29;               // 日志拉取原因
+  SubMsgType sub_msg_type = 30;       // 消息类型子类型
+  int32 device_type = 31;             // 日志拉取指定设备，20: Android，40: iOS，90: PC
+  int32 send_from = 32;               // 发送类型 0 默认；1 管理后台发送
+  int64 check_id = 33;                // 审核ID
+  repeated string application = 34;   // 应用包名
+}
+
+enum SystemMessageCheckResult {
+  SMCR_None = 0; // 没审批过的
+  SMCR_Machine_Pass = 1; // 机审通过，即审核中
+  SMSR_Human_Refuse = 2; // 审核拒绝
+  SMSR_Human_Pass = 3; // 审核通过
+}
+
+//公屏信息 cmdId = 101028
+message NewSystemNotice{
+  string msg = 1;
+  bool is_push_all = 2; //全服推送
+  string pc_msg = 3;//pc公屏优先展示消息
+  bool msg_is_center = 4;//msg消息是否居中显示
+  MagicCubismPush cubism = 5;//虚拟形象消息
+}
+
+//跑马灯推送 cmdId = 101031
+message NewSystemNoticeMarquee{
+  int32 wealth_lv = 1; // 财富等级，大于等于该等级才显示
+  int32 charm_lv = 2;  // 魅力等级，大于等于该等级才显示
+  int32 or_and = 3;  // 两个等级，1或 2且
+  string content = 4; // 富文本跳转
+  string router = 5; // 路由跳转
+}
+
+message OverdueMsgNotice {
+  repeated int64 msg_id = 1; // 过期消息id
+}
+
+// 系统维护升级信息 CmdId=101004
+message MaintenanceMsgNotice {
+  string device = 1;  // ios|android
+  string content = 2; // 提示内容
+}
+
+// 更新标签词条 CmdId=101009
+message UpdateTabs {
+  repeated string tabs = 1;   // 新首页词条
+}
+
+// 周星贺报 CmdId=101010
+message WeekStar {
+  sint32 type = 1;
+  repeated WeekStarPlayer names = 2;
+  string content = 3;     // "[周星贺报] xxx、xxx、xxx在上轮周星活动中，强势摘得明星前三名，老司机从不翻车！";
+}
+
+message WeekStarPlayer {
+  sint64 id = 1;
+  string name = 2;
+}
+
+message TimerInfo {
+  sint64 seconds = 1;    // 倒计时剩余秒数
+}
+
+message SysConfUpdate {
+  SysConfType type = 1;    // 类型
+  bytes data = 2;          // 类型TypeGiftBanner时，解析成GiftBannerConf; TypeEffectBanner解析EffectBanner 特效配置，emoji配置的oss链接
+}
+
+message SysToastMsg {
+  SysToastType    type = 1;    // 类型
+  string          msg = 2;    // 文字
+}
+
+// 公会变更通知，加入/退出都会收到
+message UpdateClanNotice {
+  int64 player_id = 1;
+  int64 clan_id = 2;  // 公会id
+}
+
+// 隐私协议更新类型
+enum DialogNoticePrivacyUpdateType {
+  DNPUt_NONE = 0; // 占位
+  DNPUT_USER = 1;// 用户协议政策
+  DNPUT_USER_PRIVACY = 2;// 用户隐私协议政策
+  DNPUT_USER_PRIVACY_SUMMARY = 3;// 用户隐私协议政策摘要
+}
+
+// 通用弹窗通知 cmdId = 101023
+message DialogNotice {
+  string                title = 1; // 标题
+  string                content = 2; // 内容
+  DialogStyle           dialog_style = 3; // 样式
+  repeated DialogButton buttons = 4; // 按钮
+  GenerationDataType    data_type = 5; // 数据类型
+  bytes                 generation_data = 6; // proto数据
+  string                url = 7; // 隐私协议
+  bytes                 callback_data = 8; //回调数据
+  DialogNoticePrivacyUpdateType update_type = 9; // 隐私协议更新类型
+}
+
+enum GenerationDataType {
+  GDT_ZERO = 0; // 占位不用
+}
+
+enum DialogStyle {
+  DS_ZERO = 0; // 占位不使用
+  DS_YOUNG = 1; // 青少年模式
+  DS_PRIVATE = 2; // 隐私模式
+  DS_PRIVACY_UPDATE = 3;  //隐私协议更新
+}
+
+message DialogButton {
+  string            text = 1; // 按钮文字
+  string            text_color = 2; // 文字颜色
+  string            background_color = 3; // 按钮背景色
+  DialogButtonStyle button_style = 4; // 按钮样式
+  DialogButtonType  button_type = 5; // 按钮类型
+  bool              can_press = 6; // 是否可按
+  bytes             callback_data = 7; // 回调数据
+  string            route = 8; // 路由
+}
+
+enum DialogButtonStyle {
+  DBS_ZERO = 0; // 占位不使用
+  DBS_NORMAL = 1; // 普通按钮
+  DBS_CONTENT = 2; // 文本中的按钮
+}
+
+enum DialogButtonType {
+  DBT_ZERO = 0; // 占位不使用
+  DBT_CANCEL = 1; // 取消按钮
+  DBT_CONFIRM = 2; // 确认按钮
+  DBT_CALLBACK = 3; // 回调按钮
+  DBT_ROUTE = 4; // 路由按钮
+  DBT_EXIT = 5; // 退出登录
+}
+
+enum CallbackDataType {
+  CDT_ZERO = 0; // 占位不用
+  CDT_CALLBACK_OPERATION = 1;
+}
+
+message CallbackData {
+  CallbackDataType callback_type = 1;
+  bytes            callback_data = 2;
+}
+
+enum CallbackOpt {
+  CBO_ZERO = 0; // 不使用
+  CBO_NEXT = 1; // 下次再弹起
+  CBO_POP_END = 2; // 不再弹起
+}
+
+message CallbackOperation {
+  CallbackOpt opt = 1;
+  sint32      dialog_id = 2;
+}
+
+// PRIVATE_CHAT_CMD_ID = 101024
+message PrivateChatMsg {
+  sint64 to_id = 1;  // 发私聊的ID
+  string msg = 2;  // 内容
+}
+
+// COMMON_NOTICE_CMD_ID = 101027
+message CommonNotice {
+  CommonNoticeType type = 1;  // 不存在的类型过滤不弹窗
+  string title = 2; // 标题
+  string content = 3; // 内容
+  repeated CommonNoticeButton buttons = 4;
+  bool out_can_press = 5; // 弹窗外部是否可点击 true可以点击取消，false不能点击消失
+}
+
+message CommonNoticeButton {
+  ButtonType type = 1;
+  string text = 2;
+  string route = 3; // 路由
+}
+
+enum CommonNoticeType {
+  CNT_NULL = 0;
+  CNT_COMMON = 1; // 普通的
+}
+
+//  推送删除广播交友信息 NOTICE_DEL_BF = 101030;
+message DelBFRecords {
+  repeated string ids = 1;
+}
+
+//敏感词检查, 如果有敏感词, 在error中返回给客户端的结构  error code : 101000040
+message ContentSensitiveChkErr {
+  string toast_text = 1;          //toast 提示文案
+  string checked_content = 2;     //屏蔽敏感词后的内容
+}
+
+//活动数据推送 CMD=101032
+message PushActivityData {
+  int32 activity_cmd_id = 1; //活动cmdid
+  bytes bin = 2; //活动数据
+}
+
+//活动许愿夺宝数据推送 cmdId = 101040
+message ActivityTreasureData {
+  int32 treasure_id = 1; //夺宝配置id
+  string period_num = 2;  //夺宝期号
+  int32 stock = 3; //当期夺宝剩余库存
+  int32 status = 4; //当前期状态 1进行中 2已开奖 3取消
+}
+
+//活动额外奖励 cmdId = 101042
+message ActivityPremiumsData {
+  repeated int32 exchange_id_list = 1; //兑换id列表
+  int32 expire_time = 2;  //显示时长 单位秒
+  string remark = 3; //文案
+  int32 premiums_id = 4; //额外奖励id
+}
+
+//活动抽奖幸运值 cmdId = 101043
+message ActivityLotteryPointData {
+  int32 lottery_id = 1; //当前进行的抽奖id
+  int32 data_type = 2; //积分类型，0全服抽奖积分  1普通抽奖积分
+  int32 cur_server_point = 3; //当前全服抽奖幸运值
+  int32 conf_luck_id = 4; // 幸运值配置ID
+}
+
+// 活动弹窗枚举 cmdId=101033
+enum ActivityPopPos {
+  POS_BOTTOM = 0;
+  POS_TOP = 1;
+  POS_LEFT = 2;
+  POS_RIGHT = 3;
+  POS_MID = 4;
+}
+
+// 活动弹窗数据推送 cmdId=101033
+message ActivityPopData {
+  int32 switch_type = 1; //弹窗开关 1打开弹窗 2关闭弹窗
+  string route_url = 2; //活动路由
+  ActivityPopPos pos = 3; //关闭弹窗的位置 0底部 1顶部 2左边 3右边 4中间
+}
+
+//排行榜列表 cmdId=101034
+message ActivitySortList {
+  int64 act_id = 1; //活动id
+  int64 rel_act_id = 2; //子活动id
+}
+
+//房间动画类型
+enum RoomAnimationType {
+  R_NULL = 0;
+  R_BANNER = 1; //横幅动画
+  R_SITE = 2; //侧边栏动画
+}
+
+//房间动画
+message RoomAnimation {
+  RoomAnimationType type = 1; //房间动画类型
+  bool is_show = 2; //是否显示 true显示 false隐藏
+  int64 end_time = 3; //动画的结束时间 时间戳
+}
+
+//房间贡献者信息 收礼人
+message RoomContributor {
+  int64 player_id = 1; //玩家id_box
+  string player_icon = 2; //玩家头像
+  int64 point = 3; //贡献积分数
+  int32 sort = 4; //贡献排名
+}
+
+//房间横幅排行榜数据
+message RoomRankMemberInfo {
+  int64 room_cur_point = 1; //当前排行榜获得积分
+  int64 box_cur_point = 2; //宝箱累计积分
+  int64 box_max_point = 3; //引爆值
+  int32 sort = 4; //房间排名
+  repeated RoomContributor player_list = 5; //贡献人员列表
+  repeated RoomAnimation banner_animation = 6; //横幅动画
+  int32 max_box_num = 7; //宝箱最大累计个数
+  int32 total_box_num = 8; //当前宝箱累计总数
+  int32 max_open_box_num = 9; //宝箱可开启次数
+  int32 act_id = 10; //活动id
+  int32 rel_act_id = 11; //子活动id
+  int64 clan_id = 12;   //公会ID
+  string clan_icon = 13;   //公会头像
+  string clan_name = 14;   //公会名称
+}
+
+//房间横幅 cmdId=101035
+message RoomBanner {
+  bool is_show = 1; //是否显示横幅 true显示 false不显示，当前房间为非参与活动的房间时为false
+  RoomRankMemberInfo rank_member_info = 2; //横幅数据
+  bool is_show_popup_win = 3; //是否显示弹窗 true是 false否
+}
+
+//房间横幅消息 cmdId=101036
+message RoomBannerMsg {
+  int64 room_id = 1; //房间id
+  string room_icon = 2;//房间头像
+  string msg = 3; //消息内容
+  int64 end_time = 4; //过期时间 时间戳 达到过期时间隐藏窗口
+  int64 box_end_time = 5; //宝箱过期时间
+  repeated int64 exclude_rooms = 6; //排除显示的房间
+}
+
+message TriggerPlayerInfo {
+  int64 player_id = 1; //用户ID
+  string player_name = 2; //用户名
+  string player_icon = 3; //用户头衔
+}
+enum ActBoxGameType {
+  Game_Normal = 0; //宝箱
+  Game_Golden_Toad = 1; //金蟾游戏
+}
+
+//房间横幅宝箱数据 cmdId=101037
+message RoomBannerBoxInfo {
+  int32 activity_id = 1; //活动id
+  int32 rel_act_id = 2; //子活动id
+  int32 lottery_id = 3; //抽奖配置id
+  int32 assign_id = 4; //指定消耗的物品id
+  int64 start_time = 6; //宝箱掉落的时间 时间戳 -1未到时间 0立即掉落 大于0时，当前时间戳-start_time=倒计时
+  int64 end_time = 5; //宝箱的过期时间 时间戳
+  TriggerPlayerInfo trigger_player_info = 7;  //触发宝箱用户信息
+  ActBoxGameType game_type = 8; //宝箱展示类型
+  int32 game_score = 9;     // 参与游戏分数，如：金蟾游戏次数
+}
+
+//事件宝箱推送 cmdId=101038
+message RoomEventRewardBoxInfo {
+  int32 activity_id = 1; //活动id
+  int32 rel_act_id = 2; //子活动id
+  int64 room_id = 3;    //公会房间id
+  int64 end_time = 4;  //事件持续结束时间
+}
+
+// 系统公屏信息，客户端需要根据个人检查是否显示（是否满足条件） cmdId = 101041
+message SystemNoticeNeedCheck{
+  string msg = 1; // 公屏内容
+  SystemNoticeNeedCheckConf conf = 2; // 显示条件配置
+  SystemNoticeEvent event = 3; //公屏事件
+  string sub_route_url = 4; //二级路由
+  NoticeStyleType type = 5; // 样式类型
+  NoticeStyleUrl style_urls = 6; // 样式
+}
+
+message NoticeStyleUrl {
+  string style_url = 1; //app公屏样式
+  string pc_head_url = 2; // pc公屏样式头图
+  string pc_tail_url = 3; // pc公屏样式尾图
+  string pc_url = 4; // pc公屏样式拉伸图
+}
+
+message SystemNoticeNeedCheckConf{
+  map<int32, ClientVer> version = 1; // int32 为 下面的ClientType
+  int32 or_and = 2;  // 两种等级，1或 2且
+  int32 wealth_lv_min = 3; // 最小财富等级
+  int32 wealth_lv_max = 4; // 最大财富等级
+  int32 charm_lv_min = 5;  // 最小魅力等级
+  int32 charm_lv_max = 6;  // 最大魅力等级
+  repeated int64 black_room_ids = 7; // 不显示的房间id
+  repeated int32 no_show_room_type = 8; // 不显示的房间类型 NoShowRoomType
+}
+
+message ClientVer {
+  int64 ver_min = 1; // -1为不限制
+  int64 ver_max = 2; // -1为不限制
+}
+
+
+enum ClientType {
+  CT_ZERO = 0;
+
+  CT_IOS = 2;
+  CT_PC = 3;
+}
+enum NoShowRoomType {
+  NSRT_ZERO = 0;
+  NSRT_NORMAL = 1; // 普通房
+  NSRT_REWARD = 2; // 返利厅
+  NSRT_GUILD = 3; // 公会
+  NSRT_ACTIVITY = 4; // 活动房
+}
+
+//限时福利 cmdId=101044
+message LimitedTimeWelfare {
+  int32 rel_act_id = 1; //子活动id
+  int32 welfare_id = 2; //福利id
+  int64 begin_time = 3; //开始时间
+  int64 end_time = 4; //结束时间
+  int64 num_of_received = 5; //剩余数量
+  int64 total_num = 6; //总数量 0不限制
+}
+
+//赠送或索取物品推送 cmdId=101048
+message AskOrSendNewInfo {
+
+}
+
+//盲盒状态更新推送 cmdId=101049
+message BlindLotteryStatusUpdate {
+
+}
+
+//活动排行榜更新推送 cmdId=101051
+message ActivityRankUpdate {
+  int32 act_id = 1;
+  int32 rel_act_id = 2;
+}
+
+enum RoomBannerContentDataType {
+  RBCDT_NONE = 0; //占位
+  RBCDT_PLAYER = 1; // 用户
+}
+
+message RoomBannerWelfareContent {
+  string content = 1; // 后台配置的没被替换的原始文案
+  string content_color = 2; // 文案的颜色
+  repeated RoomBannerContentData data = 3; // 提供给前端自己替换的数据
+}
+
+message RoomBannerContentData {
+  RoomBannerContentDataType type = 1; // 类型： 1:用户数据
+  string substitution = 2; // 替换符号，如（ %user_name ）
+  int64 id = 3; // 对应类型的Id 如用户Id
+  string name = 4; // 对应类型的名称 如用户名
+  string color = 5; // 颜色
+}
+
+//横幅浪漫飘屏 cmdId=101053
+message RoomBannerWelfare {
+  string content = 1; // 横幅内容
+  string banner_url = 2; // 横幅样式
+  string pc_banner_url = 3; // PC横幅样式
+  string banner_effect_url = 4; // 浪漫飘屏资源
+  string pc_banner_effect_url = 5; // PC浪漫飘屏资源
+  int64 room_id = 6; // 房间Id，点击横幅跳转到该房间;
+  int64 banner_duration = 7; // 横幅时长(毫秒)
+  int64 scroll_duration = 8; // 飘屏动画时长（毫秒）
+  int32 banner_effect_count = 9; // 满屏数量
+  int32 banner_effect_speed = 10; // 下落速度
+  int32 banner_effect_angle = 11; // 旋转角度
+  int32 pc_banner_effect_count = 12; // PC满屏数量
+  int32 pc_banner_effect_speed = 13; // PC下落速度
+  int32 pc_banner_effect_angle = 14; // PC旋转角度
+  repeated int64 show_effect_room_ids = 15; // 如果用户所在房间在该列表里，则需要展示飘屏动画
+  RoomBannerWelfareContent content_raw = 16; // 原始文案以及替换的数据
+}
+
+// 告白位状态更新推送 cmdId=101054
+message ActivityCpPublicNoticeStatus {
+  CpPublicNoticeStatus status = 1; // 当前状态 1-有CP数据；2-虚位以待；3-活动结束不显示图标
+}
+
+// 推广员系统数据更新推送 cmdId=101060
+message PromoterRecallUpdate {
+  int32 new_task_num = 1; // 新分配的任务数量 （不为0时，显示新任务数，否则显示正在进行任务数）
+  int32 current_task_num = 2; // 当前正在进行的任务数量
+}
+
+// 活动排行榜总分更新推送 cmdId=101061
+message ActivityRankScoreUpdate {
+  int32 rel_id = 1; // 子活动Id
+  int64 score = 2; // 总分
+  int32 act_id = 3; // 主活动id
+}
+
+// 活动榜单阵营pk结果推送 cmdId=101062
+message ActivityRankPKResult {
+  int32 act_id = 1; //主活动id
+  int32 win_rel_act_id = 2; // 胜出的子活动榜单
+  string win_camp_name = 3; // 胜利的阵营名字
+  int64 win_mvp_id = 4; // 胜利阵营的mvp
+  int64 lose_mvp_id = 5; // 失败阵营的mvp
+  repeated ActNewAwardInfo awards = 6; // 奖励
+  int64 seq_no = 7; // 期号
+}
+
+// 代理调用服务器内部接口
+message ProxyInvokeIntServerFunc {
+  string obj_name = 1;  //服务端实例名
+  string func_name = 2; //服务端内部接口名
+  bytes req_data = 3; //func传入数据
+}
+
+// 富文本配置类型
+enum TextContentType {
+  STCT_NONE = 0; // 占位
+  STCT_HOT_POINT_RANK_RULE = 1; // 广场热点榜规则
+  STCT_HOT_POINT_RULE = 2; // 上热点规则
+  STCT_HOT_POINT_SECKILL_RULE = 3; // 热点秒榜规则
+  STCT_HOT_POINT_HEAT_RULE = 4; // 热点火力值规则
+}
+
+// 活动奖池升级 cmdId=101066
+message ActivityLotteryLevelUp {
+  int32 act_id = 1;
+  int32 level = 2;
+  int64 player_id = 3; // 触发这次升级的用户 （player_id与收到消息的用户不一致，说明时CP给你解锁的）
+  string player_name = 4; // 触发这次升级的用户
+}
+
+message CultivateAwardInfo {
+  string award_icon = 1;    //奖励图标
+  string award_name = 2;    //奖励名
+  int32 award_type = 3;     //奖励类型0礼物 1特效
+  int32 award_num = 4;      //奖励数
+}
+
+// 挚友养成树升降级推送  cmdId=101070
+message IntimateCultivateLevelUpdate {
+  int64 intimate_id = 1;      // 挚友ID
+  string intimate_icon = 2;   // 挚友头像
+  string intimate_name = 3;   // 挚友名
+  int32 old_level = 4;    //旧等级
+  int32 new_level = 5;    //新等级
+  bool is_max = 6;        //是否已满级
+  repeated CultivateAwardInfo award_info = 7;  //奖励字符串
+  string old_level_image = 8; //旧的等级树种皮肤
+  string new_level_image = 9; //新的等级树种皮肤
+}
+
+// 有奖抢占推送 cmdId=101071
+message ActivityLotteryRaceUpdate {
+  SimplePlayer player = 1; // 抢占人信息
+  int64 seize_time = 2; // 抢占时间戳（表示抢占成功的开始时间）
+  int32 protect_duration = 3; // 保护时长（秒）
+  repeated int32 lottery_conf_id = 4; // 奖池配置Id （收到推送后，需要检查本次有奖活动中的奖池id是否在推送的列表里面）
+  int32 seize_duration = 5; // 占领时长
+}
+
+//福利更新推送 cmdId=101074;
+message ActivityWelfareUpdate {
+  int32 rel_act_id = 1;
+  int32 welfare_id = 2;
+  int64 num_of_received = 3;
+}
+
+//vip接入企微客服金额达标推送 cmdId=101087
+message VipWeixinCustomService{
+  string vip_weixin_custom_service_url = 1; // vip企微客服链接
+  string vip_weixin_custom_service_id = 2; // vip企微企业ID
+}
+
+//礼物拼图数据推送 CMD=101088
+message PushJigsawData {
+    int64 gift_id = 1; // 礼物ID
+    int32 status = 2; // 状态，0未激活，1收集中，2已激活，3普通礼物
+}
+//活动抽奖幸运值 cmdId = 101089
+message ActivityPileUpDrawData {
+    int64 pile_up_id = 1; //当前进行的抽奖id
+    int64 timing_id = 2; //当前进行抽奖的时间段
+    repeated HitTicket hit_tickets= 3; //中奖列表
+    int32 act_id=4;//活动id
+    int32 rel_act_id=5;//子活动id
+}
+//奖券
+message HitTicket {
+    int64 player_id=1;
+    string player_icon=2;
+    string player_name=3;
+    int64 ticket_id=4;//奖券码
+    int64 at=5;//中奖时间戳，秒
+}
+//完成福利后，下发的奖券推送 cmdId = 101090
+message ActivityPileUpIssueData {
+    int64 pile_up_id = 1; //当前进行的抽奖id
+    int64 timing_id = 2; //当前进行的时间段
+    int64 ticket_id = 3; //下发的券码
+    string gift_img = 4;//奖品图片
+    string gift_name = 5;//奖品名字
+    int64 gift_gold = 6;//奖品价值
+    int32 act_id=7;//活动id
+    int32 rel_act_id=8;//子活动id
+}

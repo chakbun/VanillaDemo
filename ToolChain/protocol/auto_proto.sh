@@ -14,15 +14,15 @@ fi
 
 #if [ -z "$env" ]
 #then
-#    env=0
+#	env=0
 #fi
 
 env=0
 if [ ! -n "$2" ] ;then
-    env=0
+	env=0
 else
     if [ $2 == "-rel" ]; then
-        env=1
+    	env=1
     fi
 fi
 #echo "$env"
@@ -48,23 +48,21 @@ echo "移动 pb 文件"
 mkdir client
 mkdir pb
 mkdir upush_pb
-mkdir plugin_pb
 #记得确定一下仓库存放pb文件路径
 mv  ./protoRepo/src/main/proto/client/* ./client
 mv  ./protoRepo/src/main/proto/pb/* ./pb
 mv  ./protoRepo/src/main/proto/upush_pb/* ./upush_pb
-mv  ./protoRepo/src/main/proto/plugin_pb/* ./plugin_pb
 echo "移动完成"
 
 #4. 移除keywords
 echo "移除keywords"
 if [ $env -eq 1 ]
 then
-    echo "Release Mode"
-    python cleanPb.py Release
+	echo "Release Mode"
+	python cleanPb.py Release
 else
-    echo "Debug Mode"
-    python cleanPb.py
+	echo "Debug Mode"
+	python cleanPb.py
 fi
 echo "移除keywords完成"
 
@@ -118,24 +116,10 @@ upush_pb/$file
 fi
 done
 
-#platform
-rm -rf GEN_DIR/plugin_pb
-for file in `ls ./plugin_pb`
-do
-#.ext.proto
-if [[ `echo $file | awk -F'.' '$0~/.*ext.*proto/{print $3}'` = "proto" ]]
-then
-echo "name: ${file} ${GEN_DIR}/plugin_pb"
-./protoc --objc_out=${GEN_DIR} \
-plugin_pb/$file
-fi
-done
-
-
 echo "输出完成"
 
 #清理Repo
 rm -rf protoRepo
 rm -rf ./client
-rm -rf ./pb
+#rm -rf ./pb
 rm -rf ./upush_pb

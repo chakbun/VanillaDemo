@@ -1,0 +1,17 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+
+message CollectHelloReq {
+
+    string name = 1;
+}
+
+message CollectHelloRes {
+    string greet = 1;
+}
+
+service CollectExtObj {
+    rpc CollectHello (CollectHelloReq) returns (CollectHelloRes);
+}

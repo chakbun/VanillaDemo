@@ -1327,6 +1327,17 @@ typedef GPB_ENUM(PB3BillSkillConf_FieldNumber) {
   PB3BillSkillConf_FieldNumber_ClosedIconURL = 22,
   PB3BillSkillConf_FieldNumber_CardBackgroundURL = 23,
   PB3BillSkillConf_FieldNumber_TagsArray = 24,
+  PB3BillSkillConf_FieldNumber_PlayerIconExample = 25,
+  PB3BillSkillConf_FieldNumber_PlayerIconRemark = 26,
+  PB3BillSkillConf_FieldNumber_BillSkillIntroExample = 27,
+  PB3BillSkillConf_FieldNumber_BillSkillIntroRemark = 28,
+  PB3BillSkillConf_FieldNumber_BillSkillRankRemark = 29,
+  PB3BillSkillConf_FieldNumber_BillSkillPicExample = 30,
+  PB3BillSkillConf_FieldNumber_BillSkillPicRemark = 31,
+  PB3BillSkillConf_FieldNumber_PowerPicExample = 32,
+  PB3BillSkillConf_FieldNumber_PowerPicRemark = 33,
+  PB3BillSkillConf_FieldNumber_VoiceIntroRemark = 34,
+  PB3BillSkillConf_FieldNumber_SetDefaultLevel = 35,
 };
 
 @interface PB3BillSkillConf : GPBMessage
@@ -1398,6 +1409,39 @@ typedef GPB_ENUM(PB3BillSkillConf_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BillTag*> *tagsArray;
 /** The number of items in @c tagsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
+
+/** 技能申请头像示例图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIconExample;
+
+/** 头像要求说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerIconRemark;
+
+/** 技能简介示例图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *billSkillIntroExample;
+
+/** 技能简介说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *billSkillIntroRemark;
+
+/** 段位说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *billSkillRankRemark;
+
+/** 技能示例图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *billSkillPicExample;
+
+/** 技能示例图说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *billSkillPicRemark;
+
+/** 实力图示例图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *powerPicExample;
+
+/** 主页实力图说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *powerPicRemark;
+
+/** 语音介绍说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceIntroRemark;
+
+/** 是否设置默认等级;true:自动填充最高等级;false:不填充(用户自己选) */
+@property(nonatomic, readwrite) BOOL setDefaultLevel;
 
 @end
 
@@ -2068,6 +2112,7 @@ typedef GPB_ENUM(PB3BillPlayer_FieldNumber) {
   PB3BillPlayer_FieldNumber_InService = 26,
   PB3BillPlayer_FieldNumber_IconType = 27,
   PB3BillPlayer_FieldNumber_IsMinors = 28,
+  PB3BillPlayer_FieldNumber_IsDeleted = 29,
 };
 
 /**
@@ -2162,6 +2207,9 @@ typedef GPB_ENUM(PB3BillPlayer_FieldNumber) {
 
 /** 是否成年(false为成年，true为未成年) */
 @property(nonatomic, readwrite) BOOL isMinors;
+
+/** 是否注销 */
+@property(nonatomic, readwrite) BOOL isDeleted;
 
 @end
 
@@ -3966,6 +4014,7 @@ typedef GPB_ENUM(PB3BillPlayerSkill_FieldNumber) {
   PB3BillPlayerSkill_FieldNumber_HomepagePicURL = 5,
   PB3BillPlayerSkill_FieldNumber_AbilityPicUrlsArray = 6,
   PB3BillPlayerSkill_FieldNumber_OrderNum = 7,
+  PB3BillPlayerSkill_FieldNumber_LevelPicURL = 8,
 };
 
 @interface PB3BillPlayerSkill : GPBMessage
@@ -3992,6 +4041,9 @@ typedef GPB_ENUM(PB3BillPlayerSkill_FieldNumber) {
 
 /** 单数 */
 @property(nonatomic, readwrite) int32_t orderNum;
+
+/** 等级图片url */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *levelPicURL;
 
 @end
 
@@ -4066,6 +4118,7 @@ typedef GPB_ENUM(PB3BillSkillLevel_FieldNumber) {
   PB3BillSkillLevel_FieldNumber_Name = 2,
   PB3BillSkillLevel_FieldNumber_TextColor = 3,
   PB3BillSkillLevel_FieldNumber_BorderColor = 4,
+  PB3BillSkillLevel_FieldNumber_Sort = 5,
 };
 
 /**
@@ -4084,6 +4137,9 @@ typedef GPB_ENUM(PB3BillSkillLevel_FieldNumber) {
 
 /** 边框颜色 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *borderColor;
+
+/** 排序字段 */
+@property(nonatomic, readwrite) int32_t sort;
 
 @end
 

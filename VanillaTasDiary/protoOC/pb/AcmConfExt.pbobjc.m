@@ -781,6 +781,43 @@ BOOL PB3GiftSkinStoreSoldType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PB3OxygenCarGiftType
+
+GPBEnumDescriptor *PB3OxygenCarGiftType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "OcgtNone\000OcgtVoiceTest\000OcgtSingSong\000";
+    static const int32_t values[] = {
+        PB3OxygenCarGiftType_OcgtNone,
+        PB3OxygenCarGiftType_OcgtVoiceTest,
+        PB3OxygenCarGiftType_OcgtSingSong,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PB3OxygenCarGiftType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PB3OxygenCarGiftType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PB3OxygenCarGiftType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PB3OxygenCarGiftType_OcgtNone:
+    case PB3OxygenCarGiftType_OcgtVoiceTest:
+    case PB3OxygenCarGiftType_OcgtSingSong:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - PB3IMInteractionConfList
 
 @implementation PB3IMInteractionConfList
@@ -2458,6 +2495,8 @@ typedef struct PB3IMPresentPushCfg__storage_ {
 @dynamic status;
 @dynamic discountUnit;
 @dynamic officialSubsidyNum;
+@dynamic couponUnit;
+@dynamic isCheck;
 
 typedef struct PB3CouponCfg__storage_ {
   uint32_t _has_storage_[1];
@@ -2467,6 +2506,7 @@ typedef struct PB3CouponCfg__storage_ {
   int32_t discount;
   PB3CouponJumpType jumpType;
   PB3CouponStatus status;
+  PB3CouponDiscountUnit couponUnit;
   NSString *name;
   NSString *jumpURL;
   NSString *usageRemark;
@@ -2589,6 +2629,24 @@ typedef struct PB3CouponCfg__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "couponUnit",
+        .dataTypeSpecific.enumDescFunc = PB3CouponDiscountUnit_EnumDescriptor,
+        .number = PB3CouponCfg_FieldNumber_CouponUnit,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3CouponCfg__storage_, couponUnit),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "isCheck",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CouponCfg_FieldNumber_IsCheck,
+        .hasIndex = 13,
+        .offset = 14,  // Stored in _has_storage_ to save space.
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBool,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PB3CouponCfg class]
@@ -2600,7 +2658,7 @@ typedef struct PB3CouponCfg__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\001\010\004\241!!\000";
+        "\002\010\004\241!!\000\016G\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -2644,6 +2702,18 @@ int32_t PB3CouponCfg_Status_RawValue(PB3CouponCfg *message) {
 void SetPB3CouponCfg_Status_RawValue(PB3CouponCfg *message, int32_t value) {
   GPBDescriptor *descriptor = [PB3CouponCfg descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCfg_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PB3CouponCfg_CouponUnit_RawValue(PB3CouponCfg *message) {
+  GPBDescriptor *descriptor = [PB3CouponCfg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCfg_FieldNumber_CouponUnit];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPB3CouponCfg_CouponUnit_RawValue(PB3CouponCfg *message, int32_t value) {
+  GPBDescriptor *descriptor = [PB3CouponCfg descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PB3CouponCfg_FieldNumber_CouponUnit];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -2800,6 +2870,8 @@ void SetPB3CouponIssueRule_EffectType_RawValue(PB3CouponIssueRule *message, int3
 @dynamic advendorId, advendorId_Count;
 @dynamic deviceType, deviceType_Count;
 @dynamic andOr;
+@dynamic application, application_Count;
+@dynamic judgePhone;
 
 typedef struct PB3CouponGainRule__storage_ {
   uint32_t _has_storage_[1];
@@ -2815,6 +2887,7 @@ typedef struct PB3CouponGainRule__storage_ {
   GPBInt64BoolDictionary *channelType;
   GPBInt64BoolDictionary *advendorId;
   GPBInt32BoolDictionary *deviceType;
+  GPBStringBoolDictionary *application;
 } PB3CouponGainRule__storage_;
 
 // This method is threadsafe because it is initially called
@@ -2973,6 +3046,24 @@ typedef struct PB3CouponGainRule__storage_ {
         .number = PB3CouponGainRule_FieldNumber_AndOr,
         .hasIndex = 16,
         .offset = 17,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "application",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CouponGainRule_FieldNumber_Application,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CouponGainRule__storage_, application),
+        .flags = GPBFieldMapKeyString,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "judgePhone",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CouponGainRule_FieldNumber_JudgePhone,
+        .hasIndex = 18,
+        .offset = 19,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -4842,6 +4933,7 @@ typedef struct PB3XcmCfgUserId2Random__storage_ {
 
 @dynamic pattern;
 @dynamic defaultDecorateId;
+@dynamic bgmPlayerSwitch;
 
 typedef struct PB3XcmRoomPatternCliCfg__storage_ {
   uint32_t _has_storage_[1];
@@ -4872,6 +4964,15 @@ typedef struct PB3XcmRoomPatternCliCfg__storage_ {
         .offset = (uint32_t)offsetof(PB3XcmRoomPatternCliCfg__storage_, defaultDecorateId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "bgmPlayerSwitch",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmRoomPatternCliCfg_FieldNumber_BgmPlayerSwitch,
+        .hasIndex = 2,
+        .offset = 3,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -5099,6 +5200,2219 @@ typedef struct PB3XcmOfficialExamPassMemberCfgData__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PB3XcmOfficialExamPassMemberCfgData__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmIntimateBackgroundCfgData
+
+@implementation PB3XcmIntimateBackgroundCfgData
+
+@dynamic bgId;
+@dynamic bgName;
+@dynamic bgStaticURLApp;
+@dynamic bgStaticURLPc;
+@dynamic bgDynamicURLApp;
+@dynamic bgDynamicURLPc;
+@dynamic intimateLevelMin;
+@dynamic intimateLevelMax;
+
+typedef struct PB3XcmIntimateBackgroundCfgData__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t intimateLevelMin;
+  int32_t intimateLevelMax;
+  NSString *bgName;
+  NSString *bgStaticURLApp;
+  NSString *bgStaticURLPc;
+  NSString *bgDynamicURLApp;
+  NSString *bgDynamicURLPc;
+  int64_t bgId;
+} PB3XcmIntimateBackgroundCfgData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "bgId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "bgName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bgStaticURLApp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgStaticURLApp,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgStaticURLApp),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bgStaticURLPc",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgStaticURLPc,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgStaticURLPc),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bgDynamicURLApp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgDynamicURLApp,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgDynamicURLApp),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "bgDynamicURLPc",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_BgDynamicURLPc,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, bgDynamicURLPc),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "intimateLevelMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_IntimateLevelMin,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, intimateLevelMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "intimateLevelMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundCfgData_FieldNumber_IntimateLevelMax,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundCfgData__storage_, intimateLevelMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmIntimateBackgroundCfgData class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmIntimateBackgroundCfgData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\004\003\002\246\241!!\243\000\004\002\246\241!!\242\000\005\002\247\241!!\243\000\006\002\247\241!!\242\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmIntimateMinTypeCfgData
+
+@implementation PB3XcmIntimateMinTypeCfgData
+
+@dynamic intimateType;
+@dynamic intimateTypeWeight, intimateTypeWeight_Count;
+
+typedef struct PB3XcmIntimateMinTypeCfgData__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t intimateType;
+  GPBInt32Int32Dictionary *intimateTypeWeight;
+} PB3XcmIntimateMinTypeCfgData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "intimateType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateMinTypeCfgData_FieldNumber_IntimateType,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateMinTypeCfgData__storage_, intimateType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "intimateTypeWeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateMinTypeCfgData_FieldNumber_IntimateTypeWeight,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateMinTypeCfgData__storage_, intimateTypeWeight),
+        .flags = GPBFieldMapKeyInt32,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmIntimateMinTypeCfgData class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmIntimateMinTypeCfgData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmIntimateBackgroundIconCfgData
+
+@implementation PB3XcmIntimateBackgroundIconCfgData
+
+@dynamic iconId;
+@dynamic iconName;
+@dynamic iconURLApp;
+@dynamic iconURLPc;
+@dynamic jumpURL;
+@dynamic weight;
+@dynamic oldIconURLApp;
+@dynamic oldIconURLPc;
+@dynamic isShowOther;
+
+typedef struct PB3XcmIntimateBackgroundIconCfgData__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *iconName;
+  NSString *iconURLApp;
+  NSString *iconURLPc;
+  NSString *jumpURL;
+  NSString *oldIconURLApp;
+  NSString *oldIconURLPc;
+  int64_t iconId;
+  int64_t weight;
+} PB3XcmIntimateBackgroundIconCfgData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "iconId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, iconId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "iconName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, iconName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iconURLApp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconURLApp,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, iconURLApp),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iconURLPc",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconURLPc,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, iconURLPc),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "jumpURL",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_JumpURL,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, jumpURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "weight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_Weight,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, weight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "oldIconURLApp",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_OldIconURLApp,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, oldIconURLApp),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "oldIconURLPc",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_OldIconURLPc,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3XcmIntimateBackgroundIconCfgData__storage_, oldIconURLPc),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "isShowOther",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IsShowOther,
+        .hasIndex = 8,
+        .offset = 9,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmIntimateBackgroundIconCfgData class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmIntimateBackgroundIconCfgData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\005\003\004\241!!\243\000\004\004\241!!\242\000\005\004\241!!\000\007\003\244\241!!\243\000\010\003\244\241!!\242\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmRoomBgmPlayerCfg
+
+@implementation PB3XcmRoomBgmPlayerCfg
+
+@dynamic clanMember;
+@dynamic singlePlayer;
+@dynamic allPlayer;
+@dynamic whiteList, whiteList_Count;
+
+typedef struct PB3XcmRoomBgmPlayerCfg__storage_ {
+  uint32_t _has_storage_[1];
+  GPBInt64BoolDictionary *whiteList;
+} PB3XcmRoomBgmPlayerCfg__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "clanMember",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmRoomBgmPlayerCfg_FieldNumber_ClanMember,
+        .hasIndex = 0,
+        .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "singlePlayer",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmRoomBgmPlayerCfg_FieldNumber_SinglePlayer,
+        .hasIndex = 2,
+        .offset = 3,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "allPlayer",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmRoomBgmPlayerCfg_FieldNumber_AllPlayer,
+        .hasIndex = 4,
+        .offset = 5,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "whiteList",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmRoomBgmPlayerCfg_FieldNumber_WhiteList,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmRoomBgmPlayerCfg__storage_, whiteList),
+        .flags = GPBFieldMapKeyInt64,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmRoomBgmPlayerCfg class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmRoomBgmPlayerCfg__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmMainTabCfgData
+
+@implementation PB3XcmMainTabCfgData
+
+@dynamic id_p;
+@dynamic tabType;
+@dynamic tabName;
+@dynamic weights;
+@dynamic wealthLv;
+@dynamic wealthLvMax;
+@dynamic charmLv;
+@dynamic charmLvMax;
+@dynamic regisDay;
+@dynamic regisXCanSee;
+@dynamic androidVerMin;
+@dynamic androidVerMax;
+@dynamic iosVerMin;
+@dynamic iosVerMax;
+@dynamic pcVerMin;
+@dynamic pcVerMax;
+@dynamic application;
+@dynamic tabImg;
+@dynamic tabImgActivated;
+@dynamic isShow;
+@dynamic isDefault;
+@dynamic appNameArray, appNameArray_Count;
+@dynamic iosVerifyHide;
+@dynamic route;
+@dynamic androidVerifyHide;
+@dynamic newUserDefault;
+@dynamic channel;
+@dynamic tabImgSwipe;
+@dynamic iosVerifyShow;
+
+typedef struct PB3XcmMainTabCfgData__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t tabType;
+  int32_t weights;
+  int32_t wealthLv;
+  int32_t wealthLvMax;
+  int32_t charmLv;
+  int32_t charmLvMax;
+  int32_t regisDay;
+  int32_t regisXCanSee;
+  int32_t isShow;
+  int32_t isDefault;
+  int32_t newUserDefault;
+  NSString *tabName;
+  NSString *androidVerMin;
+  NSString *androidVerMax;
+  NSString *iosVerMin;
+  NSString *iosVerMax;
+  NSString *pcVerMin;
+  NSString *pcVerMax;
+  NSString *application;
+  NSString *tabImg;
+  NSString *tabImgActivated;
+  GPBInt32Array *appNameArray;
+  NSString *route;
+  NSString *channel;
+  NSString *tabImgSwipe;
+  int64_t id_p;
+} PB3XcmMainTabCfgData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "tabType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_TabType,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, tabType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "tabName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_TabName,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, tabName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "weights",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_Weights,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, weights),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "wealthLv",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_WealthLv,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, wealthLv),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "wealthLvMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_WealthLvMax,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, wealthLvMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "charmLv",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_CharmLv,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, charmLv),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "charmLvMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_CharmLvMax,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, charmLvMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "regisDay",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_RegisDay,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, regisDay),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "regisXCanSee",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_RegisXCanSee,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, regisXCanSee),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "androidVerMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_AndroidVerMin,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, androidVerMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "androidVerMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_AndroidVerMax,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, androidVerMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iosVerMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IosVerMin,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, iosVerMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iosVerMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IosVerMax,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, iosVerMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "pcVerMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_PcVerMin,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, pcVerMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "pcVerMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_PcVerMax,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, pcVerMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "application",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_Application,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, application),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tabImg",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_TabImg,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, tabImg),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tabImgActivated",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_TabImgActivated,
+        .hasIndex = 18,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, tabImgActivated),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "isShow",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IsShow,
+        .hasIndex = 19,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, isShow),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "isDefault",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IsDefault,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, isDefault),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "appNameArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_AppNameArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, appNameArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "iosVerifyHide",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IosVerifyHide,
+        .hasIndex = 21,
+        .offset = 22,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "route",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_Route,
+        .hasIndex = 23,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, route),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "androidVerifyHide",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_AndroidVerifyHide,
+        .hasIndex = 24,
+        .offset = 25,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "newUserDefault",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_NewUserDefault,
+        .hasIndex = 26,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, newUserDefault),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "channel",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_Channel,
+        .hasIndex = 27,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, channel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tabImgSwipe",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_TabImgSwipe,
+        .hasIndex = 28,
+        .offset = (uint32_t)offsetof(PB3XcmMainTabCfgData__storage_, tabImgSwipe),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iosVerifyShow",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmMainTabCfgData_FieldNumber_IosVerifyShow,
+        .hasIndex = 29,
+        .offset = 30,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmMainTabCfgData class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmMainTabCfgData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgCultivateLvUpScheme
+
+@implementation PB3CfgCultivateLvUpScheme
+
+@dynamic level;
+@dynamic needExpNum;
+
+typedef struct PB3CfgCultivateLvUpScheme__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t level;
+  int32_t needExpNum;
+} PB3CfgCultivateLvUpScheme__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "level",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateLvUpScheme_FieldNumber_Level,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateLvUpScheme__storage_, level),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "needExpNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateLvUpScheme_FieldNumber_NeedExpNum,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateLvUpScheme__storage_, needExpNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgCultivateLvUpScheme class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgCultivateLvUpScheme__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgCultivateAwardScheme
+
+@implementation PB3CfgCultivateAwardScheme
+
+@dynamic sendType;
+@dynamic levelOrNum;
+@dynamic awardType;
+@dynamic awardId;
+@dynamic awardNum;
+@dynamic loopReceive;
+@dynamic unit;
+@dynamic autoUse;
+
+typedef struct PB3CfgCultivateAwardScheme__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t sendType;
+  int32_t levelOrNum;
+  int32_t awardType;
+  int32_t awardId;
+  int32_t awardNum;
+  int32_t loopReceive;
+  int32_t unit;
+} PB3CfgCultivateAwardScheme__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "sendType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_SendType,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, sendType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "levelOrNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_LevelOrNum,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, levelOrNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "awardType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_AwardType,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, awardType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "awardId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_AwardId,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, awardId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "awardNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_AwardNum,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, awardNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "loopReceive",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_LoopReceive,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, loopReceive),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "unit",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_Unit,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateAwardScheme__storage_, unit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "autoUse",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateAwardScheme_FieldNumber_AutoUse,
+        .hasIndex = 7,
+        .offset = 8,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgCultivateAwardScheme class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgCultivateAwardScheme__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgIntimateCultivateScheme
+
+@implementation PB3CfgIntimateCultivateScheme
+
+@dynamic id_p;
+@dynamic name;
+@dynamic cultivateName;
+@dynamic cultivateLoop;
+@dynamic cultivateType;
+@dynamic levelListArray, levelListArray_Count;
+@dynamic downTimeNum;
+@dynamic downTimeUnit;
+@dynamic perTimeNum;
+@dynamic perTimeUnit;
+@dynamic downPercent;
+@dynamic maxNum;
+@dynamic minNum;
+@dynamic overMaxPercent;
+@dynamic inNum;
+@dynamic levelAwardArray, levelAwardArray_Count;
+@dynamic cultivateNumAwardArray, cultivateNumAwardArray_Count;
+@dynamic sneakCdTime;
+@dynamic expActiveTime;
+
+typedef struct PB3CfgIntimateCultivateScheme__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t id_p;
+  int32_t cultivateType;
+  int32_t downTimeNum;
+  int32_t downTimeUnit;
+  int32_t perTimeNum;
+  int32_t perTimeUnit;
+  int32_t downPercent;
+  int32_t maxNum;
+  int32_t minNum;
+  int32_t overMaxPercent;
+  int32_t inNum;
+  int32_t sneakCdTime;
+  int32_t expActiveTime;
+  NSString *name;
+  NSString *cultivateName;
+  NSMutableArray *levelListArray;
+  NSMutableArray *levelAwardArray;
+  NSMutableArray *cultivateNumAwardArray;
+} PB3CfgIntimateCultivateScheme__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_Name,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cultivateName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_CultivateName,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, cultivateName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "cultivateLoop",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_CultivateLoop,
+        .hasIndex = 3,
+        .offset = 4,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "cultivateType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_CultivateType,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, cultivateType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "levelListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgCultivateLvUpScheme),
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_LevelListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, levelListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "downTimeNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_DownTimeNum,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, downTimeNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "downTimeUnit",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_DownTimeUnit,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, downTimeUnit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "perTimeNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_PerTimeNum,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, perTimeNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "perTimeUnit",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_PerTimeUnit,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, perTimeUnit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "downPercent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_DownPercent,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, downPercent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "maxNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_MaxNum,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, maxNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "minNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_MinNum,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, minNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "overMaxPercent",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_OverMaxPercent,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, overMaxPercent),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "inNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_InNum,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, inNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "levelAwardArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgCultivateAwardScheme),
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_LevelAwardArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, levelAwardArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "cultivateNumAwardArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgCultivateAwardScheme),
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_CultivateNumAwardArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, cultivateNumAwardArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "sneakCdTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_SneakCdTime,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, sneakCdTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "expActiveTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateScheme_FieldNumber_ExpActiveTime,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateScheme__storage_, expActiveTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgIntimateCultivateScheme class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgIntimateCultivateScheme__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmCfgIntimateCultivate
+
+@implementation PB3XcmCfgIntimateCultivate
+
+@dynamic cfgListArray, cfgListArray_Count;
+@dynamic hasActPage, actPage;
+
+typedef struct PB3XcmCfgIntimateCultivate__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *cfgListArray;
+  PB3ConfActPage *actPage;
+} PB3XcmCfgIntimateCultivate__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cfgListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgIntimateCultivateScheme),
+        .number = PB3XcmCfgIntimateCultivate_FieldNumber_CfgListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmCfgIntimateCultivate__storage_, cfgListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "actPage",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3ConfActPage),
+        .number = PB3XcmCfgIntimateCultivate_FieldNumber_ActPage,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmCfgIntimateCultivate__storage_, actPage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmCfgIntimateCultivate class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmCfgIntimateCultivate__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000cfgList\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgIntimateCultivateTaskScheme
+
+@implementation PB3CfgIntimateCultivateTaskScheme
+
+@dynamic indexId;
+@dynamic name;
+@dynamic description_p;
+@dynamic type;
+@dynamic countType;
+@dynamic condition;
+@dynamic awardMax;
+@dynamic awardNum;
+
+typedef struct PB3CfgIntimateCultivateTaskScheme__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t indexId;
+  int32_t type;
+  int32_t countType;
+  int32_t condition;
+  int32_t awardMax;
+  int32_t awardNum;
+  NSString *name;
+  NSString *description_p;
+} PB3CfgIntimateCultivateTaskScheme__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "indexId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_IndexId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, indexId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "name",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_Name,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, name),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "description_p",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_Description_p,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, description_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "type",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_Type,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, type),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "countType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_CountType,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, countType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "condition",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_Condition,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, condition),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "awardMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_AwardMax,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, awardMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "awardNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgIntimateCultivateTaskScheme_FieldNumber_AwardNum,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3CfgIntimateCultivateTaskScheme__storage_, awardNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgIntimateCultivateTaskScheme class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgIntimateCultivateTaskScheme__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmCfgIntimateCultivateTask
+
+@implementation PB3XcmCfgIntimateCultivateTask
+
+@dynamic cfgListArray, cfgListArray_Count;
+@dynamic intimateSneakMax;
+
+typedef struct PB3XcmCfgIntimateCultivateTask__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t intimateSneakMax;
+  NSMutableArray *cfgListArray;
+} PB3XcmCfgIntimateCultivateTask__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cfgListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgIntimateCultivateTaskScheme),
+        .number = PB3XcmCfgIntimateCultivateTask_FieldNumber_CfgListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmCfgIntimateCultivateTask__storage_, cfgListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "intimateSneakMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmCfgIntimateCultivateTask_FieldNumber_IntimateSneakMax,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3XcmCfgIntimateCultivateTask__storage_, intimateSneakMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmCfgIntimateCultivateTask class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmCfgIntimateCultivateTask__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000cfgList\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmOxygenCarGiftCfgData
+
+@implementation PB3XcmOxygenCarGiftCfgData
+
+@dynamic cfgMap, cfgMap_Count;
+
+typedef struct PB3XcmOxygenCarGiftCfgData__storage_ {
+  uint32_t _has_storage_[1];
+  GPBInt32UInt32Dictionary *cfgMap;
+} PB3XcmOxygenCarGiftCfgData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cfgMap",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3XcmOxygenCarGiftCfgData_FieldNumber_CfgMap,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmOxygenCarGiftCfgData__storage_, cfgMap),
+        .flags = GPBFieldMapKeyInt32,
+        .dataType = GPBDataTypeUInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmOxygenCarGiftCfgData class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmOxygenCarGiftCfgData__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CultivateStoreItemLimit
+
+@implementation PB3CultivateStoreItemLimit
+
+@dynamic limitNum;
+@dynamic limitRange;
+@dynamic limitCycle;
+
+typedef struct PB3CultivateStoreItemLimit__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t limitNum;
+  int32_t limitRange;
+  int32_t limitCycle;
+} PB3CultivateStoreItemLimit__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "limitNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLimit_FieldNumber_LimitNum,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLimit__storage_, limitNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "limitRange",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLimit_FieldNumber_LimitRange,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLimit__storage_, limitRange),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "limitCycle",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLimit_FieldNumber_LimitCycle,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLimit__storage_, limitCycle),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CultivateStoreItemLimit class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CultivateStoreItemLimit__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CultivateStoreItemLvImage
+
+@implementation PB3CultivateStoreItemLvImage
+
+@dynamic level;
+@dynamic levelImage;
+@dynamic levelSingleImage;
+
+typedef struct PB3CultivateStoreItemLvImage__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t level;
+  NSString *levelImage;
+  NSString *levelSingleImage;
+} PB3CultivateStoreItemLvImage__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "level",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLvImage_FieldNumber_Level,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLvImage__storage_, level),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "levelImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLvImage_FieldNumber_LevelImage,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLvImage__storage_, levelImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "levelSingleImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateStoreItemLvImage_FieldNumber_LevelSingleImage,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CultivateStoreItemLvImage__storage_, levelSingleImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CultivateStoreItemLvImage class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CultivateStoreItemLvImage__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgCultivateStoreItemConf
+
+@implementation PB3CfgCultivateStoreItemConf
+
+@dynamic storeItemId;
+@dynamic storeItemName;
+@dynamic storeItemPriceType;
+@dynamic storeItemPriceItem;
+@dynamic storeItemPriceItemNum;
+@dynamic storeItemPrice;
+@dynamic sortWeight;
+@dynamic storeItemImage;
+@dynamic showStoreItemImage;
+@dynamic jsonLimitsArray, jsonLimitsArray_Count;
+@dynamic levelImageListArray, levelImageListArray_Count;
+@dynamic activeTime;
+@dynamic activeTimeUnit;
+@dynamic storeItemType;
+@dynamic sellBeginTime;
+@dynamic sellEndTime;
+@dynamic intimateTypeArray, intimateTypeArray_Count;
+@dynamic flagImage;
+@dynamic tabType;
+@dynamic storeItemDes;
+
+typedef struct PB3CfgCultivateStoreItemConf__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t storeItemId;
+  int32_t storeItemPriceType;
+  int32_t storeItemPriceItem;
+  int32_t storeItemPriceItemNum;
+  int32_t storeItemPrice;
+  int32_t sortWeight;
+  int32_t activeTimeUnit;
+  int32_t storeItemType;
+  int32_t tabType;
+  NSString *storeItemName;
+  NSString *storeItemImage;
+  NSString *showStoreItemImage;
+  NSMutableArray *jsonLimitsArray;
+  NSMutableArray *levelImageListArray;
+  GPBInt32Array *intimateTypeArray;
+  NSString *flagImage;
+  NSString *storeItemDes;
+  int64_t activeTime;
+  int64_t sellBeginTime;
+  int64_t sellEndTime;
+} PB3CfgCultivateStoreItemConf__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "storeItemId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "storeItemPriceType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceType,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemPriceType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemPriceItem",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceItem,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemPriceItem),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemPriceItemNum",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceItemNum,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemPriceItemNum),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemPrice",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPrice,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemPrice),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "sortWeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_SortWeight,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, sortWeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemImage,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "showStoreItemImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_ShowStoreItemImage,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, showStoreItemImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "jsonLimitsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CultivateStoreItemLimit),
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_JsonLimitsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, jsonLimitsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "levelImageListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CultivateStoreItemLvImage),
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_LevelImageListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, levelImageListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "activeTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_ActiveTime,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, activeTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "activeTimeUnit",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_ActiveTimeUnit,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, activeTimeUnit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemType,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "sellBeginTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_SellBeginTime,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, sellBeginTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "sellEndTime",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_SellEndTime,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, sellEndTime),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "intimateTypeArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_IntimateTypeArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, intimateTypeArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "flagImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_FlagImage,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, flagImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tabType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_TabType,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, tabType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "storeItemDes",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemDes,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreItemConf__storage_, storeItemDes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgCultivateStoreItemConf class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgCultivateStoreItemConf__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CfgCultivateStoreConf
+
+@implementation PB3CfgCultivateStoreConf
+
+@dynamic tabId;
+@dynamic tabName;
+@dynamic tabType;
+@dynamic sellType;
+@dynamic sortWeight;
+@dynamic androidMin;
+@dynamic androidMax;
+@dynamic iosMin;
+@dynamic iosMax;
+@dynamic pcMin;
+@dynamic pcMax;
+@dynamic appletsMax;
+@dynamic appletsMin;
+@dynamic storeItemListArray, storeItemListArray_Count;
+@dynamic whiteUserListArray, whiteUserListArray_Count;
+@dynamic blackUserListArray, blackUserListArray_Count;
+@dynamic whiteRoomListArray, whiteRoomListArray_Count;
+@dynamic blackRoomListArray, blackRoomListArray_Count;
+
+typedef struct PB3CfgCultivateStoreConf__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t tabId;
+  int32_t tabType;
+  int32_t sellType;
+  int32_t sortWeight;
+  NSString *tabName;
+  NSString *androidMin;
+  NSString *androidMax;
+  NSString *iosMin;
+  NSString *iosMax;
+  NSString *pcMin;
+  NSString *pcMax;
+  NSString *appletsMax;
+  NSString *appletsMin;
+  NSMutableArray *storeItemListArray;
+  GPBInt64Array *whiteUserListArray;
+  GPBInt64Array *blackUserListArray;
+  GPBInt64Array *whiteRoomListArray;
+  GPBInt64Array *blackRoomListArray;
+} PB3CfgCultivateStoreConf__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "tabId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_TabId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, tabId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "tabName",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_TabName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, tabName),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tabType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_TabType,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, tabType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "sellType",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_SellType,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, sellType),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "sortWeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_SortWeight,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, sortWeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "androidMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_AndroidMin,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, androidMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "androidMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_AndroidMax,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, androidMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iosMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_IosMin,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, iosMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "iosMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_IosMax,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, iosMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "pcMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_PcMin,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, pcMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "pcMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_PcMax,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, pcMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "appletsMax",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_AppletsMax,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, appletsMax),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "appletsMin",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_AppletsMin,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, appletsMin),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "storeItemListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgCultivateStoreItemConf),
+        .number = PB3CfgCultivateStoreConf_FieldNumber_StoreItemListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, storeItemListArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "whiteUserListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_WhiteUserListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, whiteUserListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "blackUserListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_BlackUserListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, blackUserListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "whiteRoomListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_WhiteRoomListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, whiteRoomListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "blackRoomListArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CfgCultivateStoreConf_FieldNumber_BlackRoomListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3CfgCultivateStoreConf__storage_, blackRoomListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked),
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CfgCultivateStoreConf class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CfgCultivateStoreConf__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmCfgCultivateStoreConf
+
+@implementation PB3XcmCfgCultivateStoreConf
+
+@dynamic cfgListArray, cfgListArray_Count;
+
+typedef struct PB3XcmCfgCultivateStoreConf__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *cfgListArray;
+} PB3XcmCfgCultivateStoreConf__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cfgListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CfgCultivateStoreConf),
+        .number = PB3XcmCfgCultivateStoreConf_FieldNumber_CfgListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmCfgCultivateStoreConf__storage_, cfgListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmCfgCultivateStoreConf class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmCfgCultivateStoreConf__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000cfgList\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3CultivateHandbook
+
+@implementation PB3CultivateHandbook
+
+@dynamic relateStoreId;
+@dynamic handbookImage;
+@dynamic handbookDes;
+@dynamic sortWeight;
+
+typedef struct PB3CultivateHandbook__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t relateStoreId;
+  int32_t sortWeight;
+  NSString *handbookImage;
+  NSString *handbookDes;
+} PB3CultivateHandbook__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "relateStoreId",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateHandbook_FieldNumber_RelateStoreId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PB3CultivateHandbook__storage_, relateStoreId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "handbookImage",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateHandbook_FieldNumber_HandbookImage,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PB3CultivateHandbook__storage_, handbookImage),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "handbookDes",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateHandbook_FieldNumber_HandbookDes,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PB3CultivateHandbook__storage_, handbookDes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "sortWeight",
+        .dataTypeSpecific.className = NULL,
+        .number = PB3CultivateHandbook_FieldNumber_SortWeight,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PB3CultivateHandbook__storage_, sortWeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3CultivateHandbook class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3CultivateHandbook__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PB3XcmCfgCultivateHandbookConf
+
+@implementation PB3XcmCfgCultivateHandbookConf
+
+@dynamic cfgListArray, cfgListArray_Count;
+
+typedef struct PB3XcmCfgCultivateHandbookConf__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *cfgListArray;
+} PB3XcmCfgCultivateHandbookConf__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "cfgListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PB3CultivateHandbook),
+        .number = PB3XcmCfgCultivateHandbookConf_FieldNumber_CfgListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PB3XcmCfgCultivateHandbookConf__storage_, cfgListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PB3XcmCfgCultivateHandbookConf class]
+                                     rootClass:[PB3AcmConfExtRoot class]
+                                          file:PB3AcmConfExtRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PB3XcmCfgCultivateHandbookConf__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000cfgList\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }

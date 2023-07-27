@@ -1,5 +1,5 @@
 syntax = "proto3";
-option objc_class_prefix = "PB4";
+option objc_class_prefix = "PB3";
 package plugin_pb;
 
 import "plugin_pb/plugin.ext.proto";
@@ -11,7 +11,7 @@ enum PHomeCmdId {
     IC_HomeZero = 0; // 占位
     IC_HomePushBcFriend = 1; // 推送广播交友 PHomeEntryBcFriend
     IC_HomePushBubble = 701050; // 推送首页冒泡
-    IC_HomePushBcFriendGame = 701051; // 推送房间模式广播交友 PHomeEntryBcFriend
+    IC_HomePushBcFriendGame = 701051; // 推送房间模式广播交友PHomeEntryBcFriend
     // SystemCmdId_SYSTEM_TOAST_CMD_ID          SystemCmdId = 101015
     IC_Home_SYSTEM_TOAST_CMD_ID = 101015; // 吐司内容SysToastMsg
     IC_Home_MATCH_CMD_ID = 101016; // 推送匹配结果SysMatchMsg
@@ -19,6 +19,8 @@ enum PHomeCmdId {
     IC_HomePushModActionReset = 701053; // 重置模块行为状态
     IC_HomePushNavRed = 701054; // 推送导航红点 PhomeNavRed
     IC_HomePushBcFriendPlayerTogether = 701055; // 推送首页开黑广播 PHomeEntryBcFriend
+    IC_HomePushHotPoint = 701056; // 推送首页热点 UpdatePHomeEntryHotPoint
+    IC_HomePushBcGift = 701057; // 推送礼物广播 PHomeEntryBcGift
 }
 enum PHomeSysToastType {
     SysToastNormal       = 0; //普通
@@ -106,26 +108,32 @@ enum PHomeModStyle {
     HMS_StyleTopCharm = 75;// 顶流明星
     HMS_StyleNobilityUser = 76;// 爵位用户
     HMS_StyleGameGangUp = 77; // 开黑广播样式
-    HMS_StyleMobaTeamRoom = 78; // 开黑房间样式
-    HMS_StyleBanner_690_160 = 79; // banner1
-
-    // 海外游戏社区
-    HMS_StyleCommGame = 80; // 游戏样式
-    HMS_StyleCommMiss = 81; // 任务样式
-    HMS_StyleCommRank = 82; // 排行榜样式
-    HMS_StyleCommBanner = 83; // banner样式，好像可以复用以前的，保留
-    HMS_StyleCommGameSingle = 84; // 独立游戏样式，用于首页第一个游戏
-    HMS_StyleCommShowUser = 85; // 独立游戏样式，用于首页第一个游戏
-
-
-    // 游戏模块样式
-    HMS_StyleGame_Slide = 91; // 每行4个，可左右滑动
-    HMS_StyleGame_PlayNum = 92; // 每行2个，显示在玩人数
-    HMS_StyleGame_Desc = 93; // 每行1个，显示游戏描述
-
-    // 心动8分钟
+    HMS_StyleMobaTeamRoom = 78; // 开黑厅样式
+    HMS_StyleMobaTeamRoomList = 79; // 开黑组队列表样式
+    HMS_StylePlayerSlideSupportJumpMore = 80; // 好友形式（可左右滑动支持查看更多）
+    HMS_StyleRoomSlideSupportJumpMore = 81; // 房间4p（可滑动支持查看更多）
+    HMS_StyleCPInfo = 82; // 心动8分钟选妃样式
+    HMS_StyleSingleLive2 = 83; // 个播2.0节目单列表样式
+    HMS_StyleSmallActivityRoom = 84; // 小型活动房间样式
+    HMS_StyleBannerIrregular5P = 85; // 5P不规则banner
+    HMS_StyleRoomHotList = 86; // 热门房间样式
+    HMS_StyleNoData = 87; // 纯标题样式
+    HMS_StyleConsortiaPKRank = 88; // 公会战榜单样式
+    HMS_StyleCPInfo5P = 89; // 心动8分钟选妃样式5P
+    HMS_StyleRoomListLongPicIcon = 90;  //长图房间列表+麦上头像
+    HMS_StyleRoomListSquarePicIcon = 91;  //方图房间列表+麦上头像
+    HMS_StyleCompositeSearchRecord = 92; // 综合搜索-搜索记录样式
+    HMS_StyleHotPointScroll = 93; // 热点榜滚动样式
+    HMS_StyleHotPointList = 94; // 热点榜列表样式
+    HMS_StyleCPPlayer = 95; // CP接线员样式
     HMS_StyleCPBlindBox = 96; // CP心动盲盒样式
-
+    HMS_StyleRoom2P = 97; // 房间2P图
+    HMS_StyleOxygenCarNormalList = 98; // 氧气车载普通样式
+    HMS_StyleOxygenCarScrollList = 99; // 氧气车载循环样式
+    HMS_StyleBFGift = 100; // 礼物广播
+    HMS_StyleRoomNestedList = 101; // 房间嵌套样式 HDT_DataTypeRoom = 1; // 房间数据    PHomeEntryRoomList
+    HMS_StyleNestedBanner = 102; // 嵌套banner子样式 HDT_DataTypeBanner = 3; // banner    PHomeEntryBannerList
+    
     // 焦糖的 用 1001 - 1999
     HMS_StyleVideoCard       = 1001; // 一起看卡片
     HMS_StyleVideoList       = 1002; // 一起看列表
@@ -137,9 +145,6 @@ enum PHomeModStyle {
     // 氧气之前写错了
     HMS_StyleOrderList       = 1010; // 点单列表
     HMS_StyleBannerMatrix44  = 1011; // 1x4矩阵列表
-
-    HMS_StylePlayerListIM  = 2001; // 用户列表IM入口
-
 }
 
 enum PHomeMoreRule {
@@ -180,66 +185,12 @@ enum PHomeDataType {
     HDT_DataTypeBcFriendGame = 15; // 广播交友-游戏模式  PHomeEntryBcFriendList
     HDT_DateTypeRadioStation = 16; // 电台 RadioStationList
     HDT_DataTypeBcFriendGameGangUp = 17; // 广播交友-开黑模式  PHomeEntryBcFriendList
-    // 海外游戏社区
-    HDT_DataTypeCommGame = 18; // 游戏类型 PHomeCommGameList
-    HDT_DataTypeCommMiss = 19; // 任务类型 PHomeCommMissList
-    HDT_DataTypeCommRank = 20; // 排行榜 PHomeCommRankList
-    HDT_DataTypeCommGameSingle = 21; // 游戏类型(单列) PHomeCommGame，考虑PHomeCommGameList，数量为1
-    HDT_DataTypeCommShowUser = 22; // 社区顶部展示用户类型 PHomeShowUser
-    HDT_DataTypeGame         = 23; // 游戏模块
-
-    HDT_DataTypeCPInfoFish = 24; // 心动8分钟模块(半糖) PHomeCPInfoList
-    HDT_DataTypeCPInfo = 25; // 心动8分钟模块 PHomeCPInfoList
-}
-
-// 定义结构
-// 首页顶部用户
-
-message SHomeShowUser {
-}
-// 首页游戏列表
-message PHomeCommGame {
-    string banner = 1; // 游戏banner
-    string game_name = 2;// 游戏名称
-    int64 play_num = 3; // 在玩人数
-    int64 game_id = 4; // 游戏id
-    sint32 index = 5; // 索引
-    int32 screen_direction = 6; // 游戏屏幕方向 1：横屏 2：竖屏
-    string bg_color = 7; // 背景颜色
-    string text_color = 8; // 字体颜色
-    string desc = 9;       // 游戏描述
-}
-message PHomeCommGameList {
-    repeated PHomeCommGame games = 1;
-}
-// 首页任务列表
-message PHomeCommMiss {
-    string icon = 1; // 任务icon
-    string bonus_text = 2; // 奖励说明
-    int64 coin = 3; // 奖励金币
-    int32 total = 4; // 任务条件数量
-    int32 current_process = 5; // 当前进度
-    bool status = 6; // 任务领取状态
-    sint32 index = 7; // 索引
-    string miss_text = 8; // 任务说明
-    int32 miss_id = 9; // 任务id
-}
-message PHomeCommMissList {
-    repeated PHomeCommMiss miss = 1;
-}
-// 首页排排行榜列表
-message PHomeCommRank {
-    string nickname = 1; // 用户名
-    string game_name = 2; // 游戏名
-    string game_icon = 3; // 游戏icon
-    string avatar = 4; // 用户头像
-    string avatar_frame = 5; // 头像框
-    sint32 index = 6; // 索引
-    string background_url = 7; // 背景图
-    int32 game_id = 8; // 游戏id
-}
-message PHomeCommRankList {
-    repeated PHomeCommRank rank = 1;
+    HDT_DataTypeCPInfo = 18; // 心动8分钟模块 PHomeCPInfoList
+    HDT_DataTypeProgramShow = 19; // 个播2.0节目单模块 PHomeRoomProgramShowList
+    HDT_DataTypeNoData = 20; // 纯标题模块(不需要解析PHomeMod的data_type字段)
+    HDT_DataTypeCPInfoFish = 21; // 心动8分钟模块(半糖) PHomeCPInfoList
+    HDT_DataTypeHotPoint = 22; // 热点榜 PHomeEntryHotPointList
+    HDT_DataTypeBcGift = 23; // 礼物广播  PHomeEntryBcGiftList
 }
 
 enum PHomeRouteType {
@@ -253,11 +204,6 @@ enum PHomeRouteType {
     HDT_RouteTypeIMChat = 7; // IM|聊天
     HDT_RouteTypeMiwoOne = 8; // 个人空间-技能分类（点单模块）
     HDT_RouteTypeSkill = 9; // 大神技能页（点单模块）
-    // 海外社区游戏
-    HDT_RouteTypeCommGame = 10; // 游戏房间
-    HDT_RouteTypeCommRank = 11; // 排行榜
-    HDT_RouteTypeCommMiss = 12; // 排行榜
-    HDT_RouteTypeCommBanner = 13; // 排行榜
 }
 
 enum PHomeClassify {
@@ -276,6 +222,8 @@ enum PHomeExtraType {
 enum PHomeNavStyle {
     HMC_NavStyleNone = 0; // 占位
     HMC_NavStyleNearBy = 1; // 附近的人
+    HMC_NavStyleHotPoint = 2; // 热点
+    HMC_NavStyleGenderPattern = 3; // 男声女声版
 }
 
 enum PluginRankType {
@@ -295,6 +243,8 @@ enum PluginRankType {
     PRT_ManWealthHour = 13; //男富豪小时榜
     PRT_GirlCharmHour = 14; //女明星小时榜
     PRT_ManCharmHour = 15; //男明星小时榜
+    PRT_ConsortiaPKWeek = 16; // 公会战7天榜
+    PRT_ConsortiaPKHour = 17; // 公会战小时榜
 }
 
 enum MatchDirectType {
@@ -348,13 +298,13 @@ message PHomeMod {
     int32 id = 1;
     string title = 2; // 标题
     bool is_show_title = 3; // 是否显示标题
-    PHomeModStyle style = 4; // 样式，对应展示样式
+    PHomeModStyle style = 4; // 样式
     bool is_show_ctrl_btn = 5; // 是否有右边按钮
     string ctrl_btn_img_url = 6; // 右边按钮url
     PHomeMoreRule ctrl_btn_rule = 7; // 右边按钮规则
     bool is_end = 9; // 是否到了最后一条数据
     repeated PHomeModClassify classifys = 10; // 模块分类
-    PHomeDataType data_type = 11; // 数据类型，对应pb结构
+    PHomeDataType data_type = 11; // 数据类型
     bytes data_byte = 12; // 数据
     PHomeRouteType route_type = 13; // 路由
     string route = 14; // 路由
@@ -370,6 +320,13 @@ message PHomeMod {
     bool is_router = 25; // 是否设置路由跳转规则
     string photo_router = 26; // 点击头像的跳转规则，is_router为true且photo_router不为空，则按路由规则跳转
     bool is_open_online = 27; // 控制列表是否显示在线标识
+    string bg_url = 28; // 模块背景URL
+    string title_url = 29; // 模块名称图片URL
+    string bg_color = 30; // 模块背景color
+    bool autoplay = 31; // 心动8分钟是否自动播放
+    int32 nested_mod_position = 33; // 嵌套模块位置 等于0为主模块,嵌套模块位置从1开始
+    repeated PHomeMod nested_mod_list = 34; // 嵌套模块列表
+    int32 nested_id = 35; // 嵌套ID
 }
 
 
@@ -381,6 +338,16 @@ enum PHomeEntryRoomExtendKey {
     PEREK_NONE = 0;
     PEREK_GAME_ICON = 1;    // 游戏图标
     PEREK_GAME_BG_URL = 2;   // 背景图
+    PEREK_GAME_NAME_BG_COLOR_START = 3; // 游戏名称底部开始颜色
+    PEREK_GAME_NAME_BG_COLOR_END = 4; // 游戏名称底部结束颜色
+    PEREK_GAME_NAME = 5; // 游戏名称
+}
+
+enum PHomeFlowSupportType {
+    PFST_NONE = 0; // 占位
+    PFST_NEW_TING = 1; // 新厅扶持
+    PFST_CONSORTIA_PK_WEEK = 2; // 公会战周榜扶持
+    PFST_CONSORTIA_PK_HOUR = 3; // 小时榜扶持
 }
 
 message PHomeEntryRoom {
@@ -413,7 +380,7 @@ message PHomeEntryRoom {
     PhomeVideoInfo video_info = 27;   // 视频信息
     PlayerBaseInfo host = 28; //主持
     string room_game_icon = 29;//房间游戏图标
-    string room_type_tag = 30; // 房间类型标签icon
+    string room_type_tag = 30 [deprecated=true]; // 房间类型标签icon
     EightDescribe eight_describe = 31; // 8号麦有人时的描述
     string owner_name = 32; // 房主昵称
     bool is_clan = 33; // 是否是公会
@@ -424,20 +391,32 @@ message PHomeEntryRoom {
     repeated ChairPlayerInfo chair_player_list = 38;  // 房间麦上用户头像（过滤掉房主）
     string game_name = 39; // 游戏名称
     map<int32, string> extend = 40; // 额外信息 PHomeEntryRoomExtendKey
-    PHomeEntryRoomLabel room_label = 41; // 房间标签
+    repeated string labels = 41;                // 标签列表
+    string room_ting_tag = 42; // 房间类型标签icon
+    PHomeEntryRoomStatus status = 43; // 房间状态类型
+    repeated sint32 heat_arr = 44; // 指定版本营收热度值(只针对特定版本,非指定版本该字段为空,第一个为旧热度值,第二个为新热度值)
+    int32 flow_support_type = 45; // 流量扶持类型+100*数据源ID
+    string cubism_model_name = 46; // 临时字段 提审使用
+    RoomStatus room_status = 47; // 房间状态
 }
 
-// 房间标签
-message PHomeEntryRoomLabel {
-    string label_icon_url = 1; // 标签底图
-    string label_name = 2; // 标签名
-    string label_fontcolor = 3; // 字体颜色
+message RoomStatus {
+    PHomeEntryRoomStatus status = 1; // 房间状态 PK中, 弹幕游戏中
+    string icon = 2; // 图片
+    string msg = 3;  // 文字说明 例如：甜甜圈大作战中
+}
+
+enum PHomeEntryRoomStatus {
+    PHERS_ZERO = 0;         // 占位，不展示
+    PHERS_PK = 1;           // PK中
+    PHERS_BARRAGEGAME = 2;  // 弹幕游戏中
 }
 
 // 房间麦上用户头像（过滤掉房主）
 message ChairPlayerInfo {
     int64 player_id = 1; // 玩家ID
     string icon     = 2; // 玩家头像
+    bool is_boss    = 3; // 嘉宾
 }
 
 //游戏房间状态   与go_tech/game_protocol 仓库里面的 GameRoomStatusType 一致
@@ -473,7 +452,30 @@ message PhomeVideoInfo {
 
 message PHomeEntryBcFriendList {
     repeated PHomeEntryBcFriend list = 1;
+}
 
+message PHomeEntryBcGiftList {
+    repeated PHomeEntryBcGift list = 1;
+    PHomeEntryBcGift newestBcGift = 2; // 最新一条的礼物广播记录
+}
+
+// 首页心动8分钟配置
+message PHomeCPInfoList {
+    repeated PHomeCPInfo list = 1; // CP配置
+    repeated PHomeCPInfo same_sex_list = 2; // CP配置 同性的
+    PluginSexType default_sex_type = 3; // 默认显示性别 0:原来逻辑不变
+}
+
+// CP图片配置
+message PHomeCPInfo {
+    string image_url = 1;  // 图片
+    string voice_url = 2;  // 语音条
+    string condition = 3;  // 要求
+    int32 voice_time = 4;  // 音频时长
+    int32 voice_id = 5;    // 声鉴卡ID
+    PluginSexType sex = 6; // 性别
+    int32 id = 7;          // 配置唯一ID
+    int32 anchor_num = 8;  // 主播人数
 }
 
 enum PHomeExtendKey {
@@ -506,8 +508,32 @@ message PHomeEntryBcFriend {
     string room_pattern_bc_border_color = 18;   //房间模式文案边框颜色
     map<int32, string> extend = 19;             // 额外信息PHomeExtendKey
     repeated string labels = 20;                // 标签列表
-    int64 player_id = 21; // 用户id
-    PHomeEntryRoomLabel room_label = 22; // 房间标签
+    int64 push_time = 21;                       // 发送时间（时间戳:秒）
+}
+
+message PHomeEntryBcGift {
+    sint64 send_id = 1; // 赠送者ID
+    string send_name = 2; // 赠送者昵称
+    string send_icon = 3; // 赠送者头像
+    PluginSexType send_sex = 4; // 赠送者性别
+    sint64 recv_id = 5; // 接收者ID
+    string recv_name = 6; // 接收者昵称
+    string recv_icon = 7; // 接收者头像
+    PluginSexType recv_sex = 8; // 接收者性别
+    sint64 room_id = 9; // 房间ID
+    string room_pwd = 10; // 房间密码
+    sint32 gift_id = 11; // 礼物ID
+    sint32 gift_num = 12; // 礼物数量
+    sint64 create_time = 13; // 送礼时间unix时间，单位: s
+    sint32 Gold = 14; // 价值
+    sint64 room_id2 = 15; // 房间靓号
+    bool   is_world = 16; // 是否全服礼物
+    string gift_icon = 17; // 礼物图片
+    int32 gift_type = 18; // 礼物类型
+    string from_id_cubism_icon = 19; // 送礼者的虚拟形象静态图
+    string to_id_cubism_icon = 20; // 收礼者的虚拟形象静态图
+    string room_name = 21; // 房间名字
+    string message = 22; // 输入信息
 }
 
 // 广播交友信息类型, 与广播交友信息里的info_type 字段对应的
@@ -688,6 +714,8 @@ enum BannerPosition {
     BP_RIGHT_TOP = 2;    // 右上
     BP_LEFT_BOTTOM = 3;  // 左下
     BP_RIGHT_BOTTOM = 4; // 右下
+    BP_MIDDLE_TOP = 5;   // 中上
+    BP_MIDDLE_BOTTOM = 6;   // 中下
 }
 
 message PHomeEntrySubNavList {
@@ -718,20 +746,37 @@ message PHomeNav {
     PHomeNavStyle nav_style = 8; // 标签样式
     bool is_fixed = 9; // 是否固定
     string nav_icon = 10; // 导航图标
+    string bg_url = 11; // 导航背景URL
+    repeated Button buttons = 12; // 导航右侧的按钮
+    string unselect_img_url = 13; // 未选中
+    string select_img_url = 14; // 选中
+}
+
+enum HomeNavButtonType{
+    HNBT_NONE = 0; // 占位
+    HNBT_RANK = 1; // tab_排行
+    HNBT_MESSAGE = 2; // tab_消息
+    HNBT_PERSONA = 3; // tab_个人
+    HNBT_MIWO = 4; // 我的咪窝
+    HNBT_ROOM = 5; // 我的房间
+    HNBT_OKAMI = 6; // 申请大神
 }
 
 message Button {
     string button_icon = 1;
     string router = 2;
+    HomeNavButtonType but_type = 3;
 }
 
 enum HomeType {
     HT_Index = 0; // 首页
-    HT_Community = 1; // 社区 动态
+    HT_Community = 1; // 社区
     HT_Discovery = 2; // 焦糖发现
     HT_Search_Id = 3;   // 找ID
     HT_Search_Room = 4; // 找房间
     HT_Leave_Room = 5; // 退房推荐
+    HT_Index2 = 6; // 首页2 (配置2个首页的时候用到)
+    HT_CompositeSearch = 7; // 综合搜索
 }
 
 message GetPHomeNavReq {
@@ -912,6 +957,7 @@ message CommentInfo {
     int64 create_at = 17;                    // '创建时间'
     repeated CommentInfo child_comment = 18; // '子评论'，没有则为空
     bool isTop = 19;                         // '是否置顶'
+    int32 like_num = 20;                     // '点赞数量'
 }
 
 message GetHotCommentListByArticleIdReq {
@@ -1003,6 +1049,18 @@ message MainTab {
     bool is_default = 5; // 是否默认
     string route = 6; // 路由
     string tab_img_swipe = 7; // 划卡图
+    MainTabHomeStyle home_style = 8; // 首页样式
+    string head_bg_image = 9; // 头部背景图
+    string foot_bg_image = 10; // 底部bar选中时背景图
+    PHomeMainTabImgType tab_img_type = 11; // 图标类型
+    bool is_hidden_name = 12; // 是否隐藏名称: false:显示名称; true:不显示名称
+    bool is_show_cartoon = 13; // 是否展示动画: false: 不展示; true: 展示
+}
+
+enum PHomeMainTabImgType {
+    PHOME_MTIT_NONE = 0; // 占位
+    PHOME_MTIT_NORMAL = 1; // 常规图标
+    PHOME_MTIT_LARGE = 2; // 大图标
 }
 
 enum TabType {
@@ -1017,8 +1075,15 @@ enum TabType {
     TabType_Match = 8; // 匹配
     TabType_Route = 9; // 路由
     TabType_Wipe = 10; // 划卡
+    TabType_Entertainment2 = 11;// 娱乐2 (配置2个娱乐tab的时候用到)
+    TabType_CPCard = 12; // 心动划卡
 }
 
+// 底部导航对应首页的样式
+enum MainTabHomeStyle {
+    MTHS_StyleZero = 0; // 占位
+    MTHS_StyleGenderPattern = 1; // 男女声切换
+}
 
 // --------------------以上为评论管理 -------------------------------
 
@@ -1166,47 +1231,130 @@ message ClearNavRedReq {
 message ClearNavRedRes {
 
 }
+enum PhomeRoomProgramShowDayType {
+    PRpsdt_None = 0; // 占位
+    PRpsdt_Today = 1; // 今天
+    PRpsdt_Tomorrow = 2; // 明天
+}
 
-message PlayerSystemMsgSummayReq {
+// 个播节目单
+message PHomeRoomProgramShow{
+    int64 id = 1; // 节目单项目id
+    string subject = 2; // 主题 最长20个字
+    string intro = 3; // 介绍 最长50个字
+    sint64 start_time = 4; // 节目开始时间
+    sint64 end_time = 5; // 节目结束时间
+    int32 start_time_seconds = 6; // 节目开始时间秒数
+    int32 end_time_seconds = 7; // 节目结束时间秒数
+    PhomeRoomProgramShowDayType day_type = 8; // 1 今天 2 明天
+    string cover = 9; //封面
+    int64 room_id = 10; // 房间ID
+    string player_name = 11; // 房主昵称
+}
+
+// 个播节目单列表
+message PHomeRoomProgramShowList {
+    repeated PHomeRoomProgramShow list = 1;
+}
+
+// 热点榜
+message PHomeEntryHotPointList{
+    repeated PHomeEntryHotPoint list = 1;
+}
+
+enum UpdateHotPointType{
+    UPHPT_NONE = 0; // 占位
+    UPHPT_ADD = 1; // 新增
+    UPHPT_REMOVE = 2; // 移除
+}
+
+message UpdatePHomeEntryHotPoint{
+    UpdateHotPointType opt_type = 1; // 操作类型
+    PHomeEntryHotPoint hot_point = 2; //
+}
+
+enum GetPHomeEntryHotPointType {
+    GPEHPT_NONE = 0; // 占位
+    GPEHPT_LIST = 1; // 获取列表
+    GPEHPT_TOTAL = 2; // 获取总数
+}
+
+message GetPHomeEntryHotPointListReq{
+    int32 index = 1;
+    int64 owner_id = 2; // 热点发布者ID
+    GetPHomeEntryHotPointType type = 3; // 请求类型
+    int64 player_id = 4; // 接口请求用户ID
+}
+
+message GetPHomeEntryHotPointListRes{
+    repeated PHomeEntryHotPoint list = 1;
+    int32 next_index  = 2;        //-1代表列表没有下一页了, 否则可以用此值在CommunityTrendsListReq中请求下一页
+    int32 total = 3;  // 总数
+    GetPHomeEntryHotPointType type = 4;   // 请求类型
+    int64 top_num = 5; //热点榜单配置大小
+}
+
+//热点可见状态修改
+enum HotHideType{
+    HotHideType_INVISIBLE = 0; //不可见
+    HotHideType_VISIBLE = 1; //可见
+}
+message DelPHomeEntryHotPointReq{
+    int64 hot_point_id = 1; // 热点ID
+    HotHideType type = 2; //请求类型，默认不可见
+}
+
+message DelPHomeEntryHotPointRes{
 
 }
 
-message PlayerSystemMsgSummayRes {
-    repeated SystemMiscMsgItem lists = 1;// 系统固定展示消息项，已排好序
+//热点详情页
+//火力值排行榜
+message FirepowerRankReq{
+  int64 hot_point_id = 1; // 热点ID
+  int32 page = 2; // 页数
+  int32 page_size = 3; // 大小
 }
 
-message CommunityTrendsPhotosReq {
-    sint32 index = 1; //
-    int64 player_id = 2; // 用户id
-    int64 trend_id = 3; // 上次最后的动态id
-    int32 last_id = 4; // 上次最后的资源id
-}
-message CommunityTrendsPhotosRes {
-    repeated Photo list = 1;
-    sint32 index = 2; // 分页页码
-    int64 trend_id = 3; // 分表标识，需要客户端请求下一页时候上传
-    int32 last_id = 4; // 分表标识，需要客户端请求下一页时候上传
-    bool is_end = 5;
+message FirepowerRankRes{
+  repeated FirepowerRank list = 1; // 排行榜数据
+  int64 count = 2; // 总数
 }
 
-// 首页心动8分钟配置
-message PHomeCPInfoList {
-    repeated PHomeCPInfo list = 1; // CP配置
-    repeated PHomeCPInfo same_sex_list = 2; // CP配置 同性的
+//热点加热
+message AddFirepowerReq{
+  int64 hot_point_id = 1; // 热点ID
+  int32 gold = 2; // 金币
+}
+message AddFirepowerRes{
+
+}
+//热点下架
+message UnShelveReq{
+    int64 hot_point_id = 1; // 热点ID
+    int32 gold = 2; // 金币
+}
+message UnShelveRes{
+    int32  un_shelve_gold=1;//最新下架金币数量
 }
 
-// CP图片配置
-message PHomeCPInfo {
-    string image_url = 1;  // 图片
-    string voice_url = 2;  // 语音条
-    string condition = 3;  // 要求
-    int32 voice_time = 4;  // 音频时长
-    int32 voice_id = 5;    // 声鉴卡ID
-    PluginSexType sex = 6; // 性别
-    int32 id = 7;          // 配置唯一ID
-    int32 anchor_num = 8;  // 主播人数
-    int32 index = 9;
-    bool is_show_tone = 10; //是否展示音色
+//热点回复内容
+message HotReplyReq{
+    int64 hot_point_id = 1; // 热点ID
+    string content                      = 2;    // 文本内容
+    repeated MediaResource media_urls   = 3;    // 多媒体资源列表
+    repeated AtPlayer at_player = 4;    // @用户信息，上面的 at_player_id 弃用，客户端不再传值
+}
+message HotReplyRes{
+
+}
+
+//最新下架金币数
+message UnShelveGoldReq{
+    int64 hot_point_id = 1; // 热点ID
+}
+message UnShelveGoldRes{
+    int32  un_shelve_gold=1;//最新下架金币数
 }
 
 // cp接线员信息
@@ -1217,7 +1365,17 @@ message PHomeCPPlayer {
     repeated string labels = 4; // 标签
 }
 
+//获取分享热点详情
+message HotShareReq{
+    int64 share_id = 1; // 分享ID
+}
+message HotShareRes{
+    CommunityTrendsDetailRes detail_res = 1;// 详情
+    CommunityTrendsCommentsRes comment_res = 2;//评论
+}
+
 service PHomeExtObj {
+
     rpc HomeNav (GetPHomeNavReq) returns (GetPHomeNavRes); // 获取导航
     rpc HomeMod (GetPHomeModReq) returns (GetPHomeModRes); // 获取模块数据
     rpc HomeCtrlBtn (GetPHomeCtrlBtnReq) returns (GetPHomeCtrlBtnRes); // 获取更多数据
@@ -1239,23 +1397,20 @@ service PHomeExtObj {
     rpc CommunityTagDetail (CommunityTagDetailReq) returns (GetPHomeCtrlBtnRes);
     // 获取圈子动态
     rpc CommunityGroupDetail (CommunityGroupDetailReq) returns (GetPHomeCtrlBtnRes);
-
     // 发布动态
     rpc CommunityPublish (CommunityPublishReq) returns (CommunityPublishRes);
+    // 动态操作
+    rpc CommunityTrendsOper (CommunityTrendsOperReq) returns (CommunityTrendsOperRes);
     // 玩家动态列表
     rpc CommunityTrendsList (CommunityTrendsListReq) returns (CommunityTrendsListRes);
     // 玩家最近动态
     rpc CommunityLastTrends (CommunityLastTrendsReq) returns (CommunityLastTrendsRes);
     // 动态详情
     rpc CommunityTrendsDetail (CommunityTrendsDetailReq) returns (CommunityTrendsDetailRes);
-    // 动态操作
-    rpc CommunityTrendsOper (CommunityTrendsOperReq) returns (CommunityTrendsOperRes);
     // 动态评论
     rpc CommunityTrendsComments (CommunityTrendsCommentsReq) returns (CommunityTrendsCommentsRes);
     // 全部点赞的人
     rpc CommunityTrendsLikers (CommunityTrendsLikersReq) returns (CommunityTrendsLikersRes);
-    // 动态相册
-    rpc CommunityTrendsPhotos(CommunityTrendsPhotosReq) returns (CommunityTrendsPhotosRes);
 
      //创建或更新圈子
     rpc CommunityCreateOrUpdateGroup(CommunityCreateOrUpdateGroupReq) returns(CommunityCreateOrUpdateGroupRes);
@@ -1287,8 +1442,6 @@ service PHomeExtObj {
     rpc ClearMsgRedPoint(CommunityPlayerMsgClearRedPointReq) returns(CommunityPlayerMsgClearRedPointRes);
     // 获取消息列表
     rpc PlayerMsgList(CommunityPlayerMsgReq) returns(CommunityPlayerMsgRes);
-    // 获取个人系统信息总览
-    rpc PlayerSystemMsgSummay(PlayerSystemMsgSummayReq) returns (PlayerSystemMsgSummayRes);
 
     // 个人社区信息统计
     rpc CommunityPlayerStat (CommunityPlayerStatReq) returns (CommunityPlayerStatRes);
@@ -1314,7 +1467,7 @@ service PHomeExtObj {
     //删除文章的评论
     rpc DelArticleComment(DelArticleCommentReq) returns (DelArticleCommentRes);
     //点赞或者取消点赞
-    rpc UpdateCommentLike (UpdateCommentLikeReq) returns (UpdateCommentLikeRes);
+    rpc UpdateCommentLike (UpdateCommentLikeReq ) returns (UpdateCommentLikeRes);
     //判断用户是否有管理员权限
     rpc CheckUserIsAdmin (CheckUserIsAdminReq) returns (CheckUserIsAdminRes);
 
@@ -1370,7 +1523,24 @@ service PHomeExtObj {
     // ---- 视频 ---- end
     // 视频互动按钮上报
     rpc VideoButtonReport(VideoButtonReportReq) returns (VideoButtonReportRes);
-    // 最新动态
-    rpc CommunityNewTrends (CommunityNewTrendsReq) returns (CommunityNewTrendsRes);
 
+    // ---- 热点 ----
+    // 获取个人在榜热点列表
+    rpc GetPHomeEntryHotPointList(GetPHomeEntryHotPointListReq) returns (GetPHomeEntryHotPointListRes);
+    // 动态隐藏个人热点
+    rpc DelPHomeEntryHotPoint(DelPHomeEntryHotPointReq) returns (DelPHomeEntryHotPointRes);
+
+    // 获取热点火力值排行榜
+    rpc FirepowerRank(FirepowerRankReq) returns(FirepowerRankRes);
+    // 热点加热
+    rpc AddFirepower(AddFirepowerReq) returns(AddFirepowerRes);
+    // 热点下架
+    rpc UnShelve(UnShelveReq) returns(UnShelveRes);
+    //热点回复内容
+    rpc HotReply(HotReplyReq) returns(HotReplyRes);
+    // 最新下架金币数
+    rpc UnShelveGold(UnShelveGoldReq) returns(UnShelveGoldRes);
+    // 获取分享热点
+    rpc GetShareHotDetail(HotShareReq) returns(HotShareRes);
+    // ---- end ----
 }

@@ -1,0 +1,146 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+import "pb/activity_common.proto";
+import "pb/activity_cli.ext.proto";
+import "pb/common.ext.proto";
+import "pb/store.ext.proto";
+package pb;
+
+message ActivityModIn {
+    ActivityConfType type  = 1; //活动配置
+    string md5 = 2; // MD5(mod_bytes数据的md5),二次请求回传,第一次请求或无缓存的情况下传空,用于下次请求的校验
+}
+// 获取活动聚合信息, ref GetActivity, 活动h5提速度专项
+message FindActivityModPolyInfoReq {
+    int32 act_id = 1; // 0或者此活动id不存在，则返回所有
+    repeated ActivityModIn mods = 2; // 请求的活动配置 (空数组表示返回所有)
+    int64 player_id = 3; //用户ID
+}
+
+message ActivityModOut {
+    ActivityConfType type  = 1; // 活动配置
+    bytes mod_bytes = 2; // mod数据,如果md5 一致,该数据不返回,客户端拿回去要缓存在本地下次打开还可以使用
+    string md5 = 3; // MD5(mod_bytes数据的md5),二次请求回传,用于下次请求的校验
+}
+message FindActivityModPolyInfoRes {
+    repeated ActivityModOut mods = 1;
+}
+
+// ACT_ACTIVITY = 1;
+message ActivityModValWrap4Activity {
+    repeated Activity val = 1; // 活动信息
+}
+// ACT_WELFARE = 2; //福利配置
+message ActivityModValWrap4ConfWelfare {
+    repeated ConfWelfare val = 1; // 福利配置
+}
+// ACT_PUZZLE = 3; //拼图配置
+message ActivityModValWrap4ConfPuzzle {
+    repeated ConfPuzzle val = 1; // 拼图配置
+}
+// ACT_LOTTERY = 4; //抽奖配置
+message ActivityModValWrap4ConfLottery {
+    repeated ConfLottery val = 1; // 抽奖配置
+}
+// ACT_VOTE = 5; //投票
+message ActivityModValWrap4ConfVote {
+    ConfVote val = 1; //投票
+}
+//ACT_CULTIVATE = 6; //养成配置
+message ActivityModValWrap4ConfCultivate {
+    repeated ConfCultivate val = 1; // 养成配置
+}
+// ACT_NEW_AWARD = 7; //新版奖励
+message ActivityModValWrap4ConfNewAward {
+    ConfNewAward val = 1; // 新版奖励
+}
+// ACT_GOLD_BACK = 8; //返现配置
+message ActivityModValWrap4ConfGoldBack {
+    repeated ConfGoldBack val = 1; // 返现配置
+}
+// ACT_COMPOUND = 9; //合成配置
+message ActivityModValWrap4ConfCompound {
+    repeated ConfCompound val = 1; // 合成配置
+}
+// ACT_DRAW_CARD = 10; //抽卡配置
+message ActivityModValWrap4ConfDrawCard {
+    repeated ConfDrawCard val = 1; // 抽卡配置
+}
+// ACT_LOTTERY2 = 11; //抽奖配置
+message ActivityModValWrap4ConfLottery2 {
+    repeated ConfLottery val = 1; // 抽奖配置
+}
+// ACT_USER_STINT = 12;//活动用户限制规则
+message ActivityModValWrap4UserStint {
+    repeated UserStint val = 1; //活动用户限制规则
+}
+// ACT_TREASURE_LIST = 13; //夺宝配置列表
+message ActivityModValWrap4ConfTreasure {
+    repeated ConfTreasure val = 1; // 夺宝配置列表
+}
+// ACT_TREASURE_GIFT_LIST = 14; //夺宝礼物列表
+message ActivityModValWrap4ConfTreasureGift {
+    repeated ConfTreasureGift val = 1; // 夺宝礼物列表
+}
+// ACT_FORM_CARRIER = 15; //动态表单配置 - 表单载体
+message ActivityModValWrap4ConfActFormCarrier {
+    repeated ConfActFormCarrier val = 1; // 动态表单配置 - 表单载体
+}
+// ACT_SUMMARY_LIST = 16; //盘点配置
+message ActivityModValWrap4ConfSummary {
+    repeated ConfSummary val = 1; // 盘点配置
+}
+// ACT_SERVER_LOTTERY = 17; //全服抽奖配置
+message ActivityModValWrap4ConfServerLottery {
+    repeated ConfServerLottery val = 1; // 全服抽奖配置
+}
+// ACT_BLIND_LOTTERY = 18; //盲盒抽奖
+message ActivityModValWrap4ConfBlindLottery {
+    repeated ConfBlindLottery val = 1; // 盲盒抽奖
+}
+// ACT_DEFEND_PETS = 19; // 保卫宠物
+message ActivityModValWrap4ConfDefendPets {
+    repeated ConfDefendPets val = 1; // 保卫宠物配置
+}
+// ACT_DEFEND_PETS_BATTLE = 20; // 保卫宠物对战配置
+message ActivityModValWrap4ConfPetBattle {
+    repeated ConfPetBattle val = 1; // 保卫宠物对战配置
+}
+// ACT_PLAYER = 26; // 查看个人信息(只用于站内)(默认返回)
+message ActivityModValWrap4Player {
+    Player val = 1; // 查看个人信息(只用于站内)
+}
+// ACT_CLANINFO = 27; // 公会信息(默认返回)
+message ActivityModValWrap4ClanInfo {
+    ClanInfo val = 1; // 公会信息
+}
+// ACT_SERVER_TIMESTAMP = 28; // 服务器时间(默认返回)
+message ActivityModValWrap4ServerTimestamp {
+    ServerTimestamp val = 1; // 服务器时间
+}
+// ACT_Exchange = 23; // 兑换
+message ActivityModValWrap4Exchange {
+    repeated Exchange val = 1; // 兑换配置（必须指定主活动才会返回兑换配置)
+}
+
+// ACT_PLAYER_POLY_INFO = 24; // 用户二次关联信息聚合
+message ActivityModValWrap4PlayerPolyInfo {
+    PlayerPolyInfo val = 1; // 用户二次关联信息聚合
+}
+
+// ACT_CONF_ID_DIG = 29; // 活动配置奖励，特效、礼物等ID聚合
+message ActivityModValWrap4ConfIdDig {
+    ActivityActConfIdDig val = 1; // 竞猜游戏配置
+}
+
+message ActivityActConfIdDig {
+    repeated ConfNewAwardCustomAward new_award = 3; // 新奖励配置
+    repeated ExchangeGoods room_decorate = 4; // 房间背景
+    repeated int32 gift_ids = 5; // 礼物ids
+    repeated int32 effect_ids = 6; // 特效ids
+}
+
+message PlayerPolyInfo {
+    repeated WelfareInfo welfare_info = 1; // 个人福利数据（必须指定了主活动且有请求福利配置时才会返回)
+    repeated BagItem bag = 2; // 背包
+}

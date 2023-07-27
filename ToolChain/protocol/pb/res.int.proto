@@ -1,0 +1,96 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/room.int.proto";
+import "pb/common.int.proto";
+import "pb/common.ext.proto";
+
+service ResInt {
+    rpc GenMateCard (GenMateCardReq) returns (GenMateCardRes);  // 生成卡片
+    rpc DelImagesScanRes(DelImagesScanResReq)returns (DelImagesScanResRes);  //图片审核删除图片资源
+    rpc PassImagesScanRes(PassImagesScanResReq)returns (PassImagesScanResRes);//图片审核通过生效图片资源
+    rpc DelDynamicImage(DynamicImageReq) returns (DynamicImageRes);   // 删除动态图片
+    rpc HeadImageExam(HeadImageExamReq) returns (HeadImageExamRes);  // 头像审核
+
+    rpc CreateImage(CreateImageReq) returns (CreateImageRes);  // 生成70*70图片
+    rpc CreatePlayerIcon(CreatePlayerIconReq) returns (CreatePlayerIconRes);  // 用户生成70*70
+
+    rpc DelBatchDynamicImage(DelBatchDynamicImageReq) returns (DelBatchDynamicImageRes); // 批量删除动态图片
+
+    rpc Download3rdHeadImg(Download3rdHeadImgReq) returns(Download3rdHeadImgRes);  // 下载第三方头像
+
+    rpc DelImage(DelImageReq) returns (DelImageRes);   // 删除图片
+}
+
+message DelImageReq {
+    UploadType type = 1;
+    string icon = 2;
+    int64 id = 3;
+}
+message DelImageRes {
+}
+
+message GenMateCardReq {
+    repeated pb.MateCardMetadata value = 1;
+}
+
+message GenMateCardRes {
+}
+
+message DelImagesScanResReq{
+    ImagesScan images_scan=1;
+}
+message DelImagesScanResRes{
+
+}
+message PassImagesScanResReq{
+    ImagesScan images_scan=1;
+}
+message PassImagesScanResRes{
+
+}
+
+message DynamicImageReq {
+    int64 id = 1;
+}
+
+message DynamicImageRes {
+}
+
+message HeadImageExamReq {
+    int32 type = 1;
+    string name = 2;
+}
+
+message HeadImageExamRes {
+
+}
+
+message CreateImageReq {
+}
+
+message CreateImageRes {
+
+}
+
+message CreatePlayerIconReq{
+    int64 player_id=1;
+}
+
+message CreatePlayerIconRes{
+
+}
+
+message DelBatchDynamicImageReq {
+    repeated int64 player_ids = 1;
+}
+message DelBatchDynamicImageRes {
+
+}
+
+message Download3rdHeadImgReq {
+    int64 player_id = 1;
+    string url = 2;
+}
+message Download3rdHeadImgRes {
+}

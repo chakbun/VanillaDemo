@@ -1,0 +1,51 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/assets.ext.proto";
+import "pb/common.ext.proto";
+
+enum EffectCmdId { //700
+    EFFECT_NONE1 = 0; //
+    EFFECT_CMD_ADD_PROTECT = 700101; // 有新的保护期特效，assets.ext.proto -> Effect ，id、protect_second、protect_start_at有值
+    EFFECT_CMD_DEL_PROTECT = 700102; // 保护期特效过期，assets.ext.proto -> Effect ，只有 id 有值
+}
+
+message EffectHonourHeavenReq{
+    sint32 page = 1;      // 页码
+    sint32 page_size = 2; // 每页数量
+}
+
+message EffectHonourHeavenRes {
+    repeated EffectHonour effect_honour = 1; //荣耀殿堂信息 如果请求为空，表示到底，没数据了
+    sint64 total = 2;                     //总数
+}
+
+// 用户自定义荣耀宣言
+message EffectHonourDecReq{
+    int32 effect_id = 1;                  //特效ID
+    string effect_dec_own = 2;            //用户自定义荣耀宣言
+    int32 is_allow = 3;                   //获取到审核状态为-1（未通过）时，请求该接口修改审核状态，该字段传入值规定为-1
+}
+
+message EffectHonourDecRes{
+}
+
+service EffectExtObj {
+   rpc GetEffectConf (EffectConfigReq) returns (EffectConfigRes);        // 获取特效配置
+   rpc GetEffectConfCDN (EffectConfigCDNReq) returns (EffectConfigCDNRes);        // 获取CDN特效配置
+   rpc ZoneEffect (GetEffectReq) returns (GetEffectRes);        // 获取咪爪的特效
+   rpc UseEffect (UseEffectReq) returns (UseEffectRes);        // 使用特效
+   rpc NobilityEffectConf(NobilityEffectConfReq) returns (NobilityEffectConfRes);
+   rpc GetEffect (GetEffectReq) returns (GetEffectRes);        // 获取个人特效
+
+   // 获取荣耀殿堂
+   rpc EffectHonourHeaven (EffectHonourHeavenReq) returns (EffectHonourHeavenRes);
+   // 设置荣耀宣言
+   rpc EffectHonourDec (EffectHonourDecReq) returns (EffectHonourDecRes);
+   // 获取个人荣耀勋章
+   rpc MedalEffect (MedalEffectReq) returns (MedalEffectRes);
+   // 获取师徒勋章分组点亮列表
+   rpc EffectTeacherMedalList (EffectTeacherMedalListReq) returns (EffectTeacherMedalListRes);
+
+}

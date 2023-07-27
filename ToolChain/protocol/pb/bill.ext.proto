@@ -1,0 +1,1331 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+enum BillCmdId { //300
+                 BillNone1 = 0; //
+                 // 点单系统
+                 BillOrderMsgCmdId = 400206; //OrderMsg 订单信息
+
+                 BillOrderRedCmdId = 400207; //订单红点推送
+                 SendOrderMsgNumberCmdId = 400208; //派单消息数量推送
+
+                 VisitBillPlayerCmdId = 400209; // 访问点单主播推送访问记录 VisitPlayerInfo
+                 DispatchWindowPushCmdId = 400210; // 派单弹窗推送 DispatchWindowPush
+
+                 VisitLogV2RedCmdId = 400211;       //访问记录红点推送 VisitLogV2RedRes
+
+    SendOrderMsgRedNumberCmdId = 4002014; //派单红点消息数量推送 SendOrderMsgRedNumber
+}
+
+//------------ 点单系统 ------------
+
+enum BillOrderOper {
+    BO_ZERO             = 0; // 占位不使用
+    //BO_Order            = 1; // （玩家）下单
+    BO_Accept           = 2; // （主播）接受订单
+    BO_Deliver           = 3; // （主播）发货
+    BO_ConfirmDeliver    = 4; // （玩家）确认收货
+    BO_Refuse           = 5; // （主播）拒绝
+    BO_BOSS_CANCEL      = 6; // （玩家) 取消
+    BO_Apply            = 7; // (主播)申请服务
+    BO_ConfirmBegin     = 8; // （老板)同意开始
+}
+
+
+enum BillIntOrderOper {
+    BOInt_ZERO              = 0; // 占位不使用
+    BOInt_SysRefuse         = 1; // 系统超时拒绝
+    BOInt_SysSettlement     = 2; // 系统超时结算
+    BOInt_SysRefund         = 3; // 系统超时退款
+    BOInt_DelOrderId        = 4; // 清理当地单号
+    BOInt_Boss_Complaint    = 5; // 老板投诉退款
+    BOInt_SysUnlock         = 6; // 系统解锁订单
+    BOInt_SysNotApplyBegin  = 7; // 主播没有申请服务
+    BOInt_SysAutoBegin      = 8; // 老板超时未确认开始，自动开始
+}
+
+
+enum BillOrder_Status {
+    BOStatus_ZERO             = 0; // 占位不使用
+    BOStatus_Order            = 1; // 已下单
+    BOStatus_Accept           = 2; // 已接单(服务中)
+    BOStatus_Deliver          = 3; // 已发货
+    BOStatus_ConfirmDeliver   = 4; // 确认发货
+    BOStatus_Refuse           = 5; // (主播)已拒绝
+    BOStatus_Sys_Refuse       = 6; // (超时系统)已拒绝
+    BOStatus_Settlement       = 7; // 已结算(时间到自动结算)
+    BOStatus_Refund           = 8; // 已退款(系统退款)
+    BOStatus_Cancel           = 9; // 已取消(老板取消)
+    BOStatus_Complaint_Refund = 10; // 已退款(老板投诉)
+    BOStatus_Order_Unlock     = 11; // 订单解锁，主播接单，订单锁定，锁定时间内主播不能申请完成，解锁主播可以申请完成，老板主动完成订单，主播可以再次接单
+    BOStatus_Apply_Service    = 12; // 主播申请服务
+    BOStatus_Apply_Service_Timeout = 13; // 主播超时未申请服务
+    BOStatus_Confirm_Begin    = 14; // 老板确认开始
+    BOStatus_Confirm_Begin_Timeout = 15; // 老板超时未确认开始
+
+
+    BOStatus_New_Order            = 21; // 已下单
+    BOStatus_New_BossApplyStart   = 22; // 老板要求立即开始
+    BOStatus_New_PPApplyStart     = 23; // 主播要求开始服务
+    BOStatus_New_RefuseStart      = 24; // 主播拒绝开始
+    BOStatus_New_PPAgreeServicing = 25; // 主播同意开始服务
+    BOStatus_New_EndAdvance       = 26; // 提前结束
+    BOStatus_New_EndTimeout       = 27; // 超时结束（系统）
+    BOStatus_New_EndComplaint     = 28; // 投诉并结束
+    BOStatus_New_Cancel           = 29; // 取消(老板取消)
+    BOStatus_New_CancelTimeout    = 30; // 取消（超时）
+    BOStatus_New_Complaint_Refund = 31; // 已退款(老板投诉)
+    BOStatus_New_Settlement       = 32; // 已结算(时间到自动结算)
+    BOStatus_New_Complaint        = 33; // 投诉（服务完成投诉）
+    BOStatus_New_BossRefuseStart  = 34; // boss拒绝开始
+    BOStatus_New_Cancel_Complaint = 35; // 撤销投诉
+    BOStatus_New_Complaint_Refuse = 36; // 投诉驳回
+    BOStatus_New_BossAgreeServicing = 37; // 老板同意开始服务
+    BOStatus_New_Admin_Refund       = 38; // 后台退单
+}
+
+enum BillServiceProgressType {
+    BSPT_NONE = 0; // 没有进度条
+    BSPT_WaitAccept = 1; // 待接单
+    BSPT_WaitService = 2; // 待服务
+    BSPT_Servicing = 3; // 服务中
+    BSPT_Completion = 4; // 完成
+}
+
+
+enum BillHistory {
+    BH_ZERO             = 0; // 占位不使用
+    BH_Accept           = 1; // （主播）接单记录
+    BH_Order            = 2; // （用户）下单单记录
+    BH_All              = 3; //  订单消息(接单下单一起)
+    BH_IM               = 4; //  Im
+    BH_Accept_msg       = 5; //  接单消息
+    BH_Order_msg        = 6; //  下单消息
+}
+
+
+enum BillHistoryTime {
+    BHT_ZERO             = 0; // 占位不使用
+    BHT_All              = 1; // 所有历史记录
+    BHT_ThisMonth        = 2; // 本月
+    BHT_LastMonth        = 3; // 上月
+    BHT_ThisWeek         = 4; // 本周
+    BHT_Today            = 5; // 今天
+}
+
+enum BillSkill_Status {
+    BSkill_Status_Normal           = 0; // 正常状态
+    BSkill_Status_Closed           = 1; // 停用
+}
+
+message BillSkillConf {
+    int32   id          = 1;
+    string   name        = 2;
+    string   linear_start_color      = 3;
+    string   linear_end_color       = 4;
+    int32   gift_id     = 5;
+    int32   gift_num    = 6;
+    int32   max_num     = 7;
+    int32   service_time        = 8;        // 每件服务时间长
+    string   unit_name    = 9;               // 单位中文
+    BillSkill_Status   status      = 10;
+    string   text_uncheck_color       = 11;
+    string   text_checked_color       = 12;
+    string   border_uncheck_color     = 13;
+    string   border_checked_color     = 14;
+    map<int32, BillSkillNewPrice>  new_price = 15; //新价格, 格式:map<BillNewPriceType, BillSkillNewPrice>
+    string icon_url = 16; //图标
+    repeated BillSkillLevel levels = 17; //等级/段位列表
+    bool need_level_check = 18; //true: 认证技能时会出现技能段位/等级认证步骤
+    repeated BillSkillPrice prices = 19; //价格列表
+    bool new_player_bill = 20;  //true: 当前技能接受新手单
+    int32 sort = 21;    //排序
+    string closed_icon_url = 22; //停用的技能的图标
+    string card_background_url = 23; //技能卡背景图
+    repeated BillTag tags = 24; // 评价标签
+    string player_icon_example = 25; // 技能申请头像示例图
+    string player_icon_remark = 26; // 头像要求说明
+    string bill_skill_intro_example = 27; // 技能简介示例图
+    string bill_skill_intro_remark = 28; // 技能简介说明
+    string bill_skill_rank_remark = 29; // 段位说明
+    string bill_skill_pic_example = 30; // 技能示例图
+    string bill_skill_pic_remark = 31; // 技能示例图说明
+    string power_pic_example = 32; // 实力图示例图
+    string power_pic_remark = 33; // 主页实力图说明
+    string voice_intro_remark = 34; // 语音介绍说明
+    bool set_default_level = 35; // 是否设置默认等级;true:自动填充最高等级;false:不填充(用户自己选)
+}
+
+message BillTag {
+    int32 tag_id = 1;
+    string name = 2;
+    int32 sex = 3; // SexType 0 全部，1 男，2女
+}
+
+message BillLevelConf {
+    int32   level          = 1;
+    string  icon_url    = 2;
+    int32   next_num    = 3;        //下一个等级数量
+    string  zone_icon_url = 4;
+    int32   icon_url_num = 5;
+}
+
+// 公会等级图标类型
+enum ClanIconType {
+    CIT_NORMAL = 0; // 普通公会
+    CIT_RELY = 1;   // 挂靠公会
+    CIT_BILL  = 2;  // 点单公会
+}
+
+message BillOrder {
+    string id               = 1;    // 订单id
+    int64  player_id        = 2;    // 发起id
+    string player_name      = 3;    // 玩家名
+    string player_icon      = 4;    // 玩家名图标
+    int64 player_id2       = 5;    // 短号
+    int32 tick             = 6;     // 钻石
+    BillSkillConf skill_info         = 7;     // 技能技能信息
+    int32 num              = 8;     // 数量
+    BillOrder_Status status = 9;   // 订单状态
+    // 下面订单信息才用
+    int64 order_time              = 10;   // 时间戳
+    int64 update_time             = 11;   // 时间戳
+    repeated OrderButton buttons  = 12;         // 按钮列表
+    string status_tips = 13;              // 订单状态文案
+    string notice_tips = 14;              // 注意文案
+    string role_tips   = 15;              // 订单角色
+    int64 clan_id = 16;	// 公会id； 当状态开关列表中公会开启时， 判断clan_id>0时，显示公会入口, 入口url找h5同事提供
+    string clan_icon_word = 17; // 公会图标文字
+    string clan_level_name = 18; // 公会等级名称
+    string clan_name        = 19; // 公会名称
+    int64  clan_level       = 20;//公会等级
+    string short_status_tips = 21;              // 订单状态文案(短)
+    string short_status_color = 22;              // 订单状态颜色值(短)
+    sint64 servant_room_id = 23; // 接单人(老板)房间ID
+    string notice_router = 24; // notice_tips 的跳转路由
+    string notice_color = 25; // notice_tips 的颜色
+    int64  counter_down = 26; // 倒计时结束时间
+    int32 gold = 27; // 金币
+    OrderRole role = 28; // 角色
+    BillOrderType type = 29;        //订单类型
+    string short_status_tips_v2 = 30; // v2 订单状态文案(短)
+    string short_status_color_v2 = 31; // v2 订单状态颜色值(短)
+    repeated NoticeMsg notices = 32; // // 注意文案
+    BillServiceProgressType progress = 33; // 进度条位置
+    repeated NoticeMsg detail_content = 34; // 详情页内的文案
+    int32 sex = 35; // 性别，对应SexType
+    bool  is_progressing = 36; // 是否为正在进行
+    int32 order_cost = 37; // 订单费用
+    repeated BillOrderHistory history = 38; // 记录
+    string bill_icon      = 39;    // 点单用户图标
+    ClanIconType icon_type = 40;   // 公会图标枚举
+}
+
+message BillOrderHistory {
+    string DateStr          = 1; // 时间2006-01-02 15:04:05
+    string StatusStr        = 2; // 操作文案
+}
+
+message NoticeMsg {
+    string notice_tips = 1; // 注意文案
+    string notice_router = 24; // notice_tips 的跳转路由
+    string notice_color = 25; // notice_tips 的颜色
+}
+
+enum OrderRole {
+    OR_ZERO = 0;   // 不用
+    OR_SERVER = 1; // 接单人
+    OR_BOSS = 2;   // 老板
+}
+
+// 下单操作
+message BillOrderReq {
+    int64 to_player_id         = 1; // 玩家id
+    int32 skill_id      = 2; // 技能id
+    int32 num           = 3; // 数量
+    string remark       = 4; // 说明
+    BillNewPriceType new_price_type = 5; //新价格类型
+}
+
+message BillOrderRes {
+    BillOrder order     = 2; // 订单信息
+}
+
+
+// 下单操作
+message BillOrderOperReq {
+    BillOrderOper op_type   = 1; // 操作类型
+    string order_id     = 2; // 玩家id
+}
+
+message BillOrderOperRes {
+    BillOrderOper op_type   = 1; // 操作类型
+    BillOrder order     = 2; // 订单信息
+}
+
+// 下单操作
+message BillOrderIntOperReq {
+    BillIntOrderOper op_type   = 1; // 操作类型
+    string order_id     = 2; // 玩家id
+    BillOrder_Status next_status = 3;
+    int64 player_id = 4;
+}
+
+message BillOrderIntOperRes {
+}
+
+
+message BillOrderListReq {
+    BillHistory     op_type     = 1; // 操作类型
+    BillHistoryTime time_type   = 2; // 时间类型
+    int32 page =3;//页码
+}
+
+
+message BillOrderListRes {
+    repeated BillOrder list = 1; // 订单信息
+    int32 count_num         = 2;  // 总订单数
+    int32 count_tick        = 3;  // 总钻石
+    int32 processing_num = 4;     // 未完成订
+}
+
+message BillConfReq {
+}
+message BillConfRes {
+    map<int32, BillSkillConf>       skills = 1;
+    map<int32, BillLevelConf>       levels = 2;
+    int32                           max_skill_num = 3;  // 最大技能数量
+    int32                           max_summary_num = 4;  // 最大技能数量
+    int32                           banner_mod_id   = 5;  // 模块id  请求首页 GetPHomeCtrlBtnReq 只需要传mod_id
+    bool                            skill_certify = 6; //认证技能需实名认证
+    bool                            skill_bind_phone = 7; //认证技能需绑定手机
+    int32                           evaluate_word_num = 8; // 评价字数
+    bool                            is_minors = 9;         // 是否成年(18岁)
+}
+
+// ---------------设置 -------------
+
+enum BillPlayerStatus {
+    BP_NONE = 0;  	// 默认 (也显示关闭，点进去，提示完善资料才能开启)
+    BP_OPEN = 1;  	// 开启
+    BP_CLOSE = 2; 	// 关闭
+    BP_FREEZE = 3; 	// 冻结
+}
+
+// 审核状态
+enum BillPlayerCheckStatus {
+    BPC_None = 0;  	// 默认
+    BPC_CHECKING    = 1; // 审核中 （不可提交）(管理后台显示：审核类型为新传)
+    BPC_CHECKED_SUCC    = 2;   // 审核通过 (可以提交新资料)
+    BPC_CHECKED_FAIL     = 3;  // 审核失败 (可以提交新资料)
+    BPC_RE_CHECKING      = 4;  // 重新审核中 （不可提交） (管理后台显示：审核类型为修改)
+    BPC_RE_CHECKED_FAIL  = 5;  // 重新审核失败 (可以提交新资料)
+}
+
+// 接单玩家信息
+message BillPlayer {
+    int64 player_id = 1;
+    string name = 2;
+    int32 sex = 3;          // common.SexType
+    int32 level = 4;		// 等级
+    int32 order_num = 5;  	// 完成单数
+    string voice = 6;		// 声音
+    repeated int32 skills = 7;  // 技能列表
+    repeated string pics = 8;   // 图片列表
+    int64 room_id = 9; 		// 用户当前所在房间
+    string signature = 10;  // 简介
+    BillPlayerStatus status = 11;  // 接单状态
+    string icon = 12;
+    int64 clan_id = 13;
+    string clan_name = 14;   // 公会名；
+    string clan_icon_word = 18; // 公会图标名
+    int64 clan_level = 17;  // 公会等级
+    bool is_online = 15;     // 是否在线
+    int32 voice_sec = 16;    // 声音秒数
+    bool accept_new = 19;    //是否接新手单
+    BillNewPriceType new_price_type = 20; //值不为BNPT_NONE时, 显示对应类型的新价格
+    repeated BillSkill bill_skills = 21;    //技能列表(分类)
+    bool receive_send_order_msg = 22;    //是否接收派单信息
+    string room_name = 23;  // 用户不在线为"",用户当前所在房间的 房间名
+    string room_icon = 24;  // 用户不在线为"",用户当前所在房间的 房间图片
+    repeated BillSkillInfo skill_infos = 25;    //技能列表(新版本)
+    bool in_service = 26;   //是否服务中
+    ClanIconType icon_type = 27;   // 公会图标枚举
+    bool is_minors = 28;  // 是否成年(false为成年，true为未成年)
+    bool is_deleted = 29; // 是否注销
+}
+
+// 审核信息
+message BillPlayerCheck {
+    BillPlayerCheckStatus status = 1; // 审核状态
+    string signature = 2;	   // 接单简介
+    repeated string pics = 3;  // url不要带cdn前缀
+    string voice = 4;          // url不要带cdn前缀
+    int32 voice_sec = 5;       // 声音秒数
+}
+
+// 接单玩家名片
+message BillPlayerCard {
+    int32 level = 1;		// 等级
+    repeated int32 skills = 2; // 技能列表
+    BillPlayerStatus status = 3;  // 接单状态
+    BillPlayerCheckStatus check_status = 4; //  getPlayer方法才有值，审核状态
+    repeated BillSkill bill_skills = 5;    //技能列表(分类)
+    repeated int32 skill_ids = 6;    //技能列表(新版本)
+    int64 tick = 7;        //收益(钻石)
+    bool is_master = 8;    // 是否是大神(自己才有)
+    bool is_red_point = 9; // 是否有红点(自己才有)
+    bool is_show_item = 10; // 是否显示条款(自己才有)
+}
+
+// 接单设置
+message BillOrderSetReq {
+    repeated int32 skills = 2; // 技能列表
+    string signature = 3;	   // 接单简介
+    repeated string pics = 4;  // url不要带cdn前缀
+    string voice = 5;          // url不要带cdn前缀
+    int32 voice_sec = 6;       // 声音秒数
+    repeated BillSkill bill_skills = 7;    //技能列表(分类)
+}
+message BillOrderSetRes {
+    BillPlayer player = 1;
+    BillPlayerCheck check = 2;		// 审核信息，（查看自己才有值）
+}
+
+// 接单玩家信息
+message GetBillPlayerReq {
+    int64 player_id = 1;
+    bool is_bill = 2; // 是否主播入口,派单弹窗时候的时候，用这个字段过滤出主播，是主播才弹窗
+    bool is_must_return = 3; // 有就返回，不管是什么状态
+    bool all_checked_skill = 4; //返回所有已认证技能, 不管什么状态
+}
+message GetBillPlayerRes {
+    BillPlayer player = 1;
+    BillPlayerCheck check = 2;		// 审核信息，（查看自己才有值）
+    repeated BillSkillCheck skill_check_list = 3;   //审核的技能 (查看自己才有值)
+}
+
+// 接单状态设置
+message BillOrderStatusSetReq {
+    BillPlayerStatus status = 1;
+}
+message BillOrderStatusSetRes {
+}
+
+// 接单技能设置
+message BillOrderSkillsSetReq {
+    repeated int32 skills = 1; // 技能列表
+}
+message BillOrderSkillsSetRes {
+}
+
+// 接单技能分类设置
+message BillOrderSkillsSetSepReq {
+    repeated BillSkill bill_skills = 1;    //技能列表(分类)
+}
+message BillOrderSkillsSetSepRes {
+}
+
+
+// 通用弹窗按钮类型
+enum OrderButtonType {
+    ORDER_BUTTION_NONE = 0;       // 占位
+    ORDER_BUTTION_NORMAL = 1;     // 正常按钮
+    ORDER_BUTTION_CANCEL = 2;     // 取消按钮
+    ORDER_BUTTION_ROUTER   = 4;   // 路由按钮
+}
+
+// 通用弹窗消息序列化数据结构类型
+enum GenrationOrderMsgType {
+    ORDER_G_MSG_NONE = 0;          // 占位
+    ORDER_G_MSG_BILL = 1;          // 订单信息 == bill.ext.proto  BillOrder 结构
+    ORDER_G_MSG_NEW_ORDER = 2;     // 新的订单信息
+}
+
+enum OrderButtonStyle {
+    OrderBtnStyle_NONE      = 0;      // 占位
+    OrderBtnStyle_Normal    = 1;      // 正常
+    OrderBtnStyle_Cancel    = 2;      // 取消
+    OrderBtnStyle_Again     = 3;      // 再来一单
+    OrderBtnStyle_Complaint = 4;      // 投诉
+}
+
+// 通用弹窗按钮
+message OrderButton {
+    bool  is_pressed         = 1;         // 是否可按
+    string text             = 2;         // 按钮文本
+    bytes callback_data     = 3;         // 回调二进制数据  opt<string, string>
+    OrderButtonType type    = 4;         // 按钮类型
+    string router_url       = 5;         // 路由按钮
+    OrderButtonStyle style_type = 6;     // 按钮样式类型
+    bool is_second_popup    = 7;         // 是否二次弹窗
+    string second_popup_msg = 8;         // 二次弹窗文案
+    int64   end_time         = 9;         // 结束时间戳
+}
+
+// 通用弹窗样式枚举
+enum OrderMsgStyleType {
+    ORDER_MSG_STYLE_NONE   = 0;     // 占位
+    ORDER_MSG_STYLE_NORMAL = 1;     // 样式1
+    ORDER_MSG_STYLE_TEXT   = 2;     // 样式2
+    ORDER_MSG_STYLE_2      = 3;     // 样式3
+    ORDER_MSG_STYLE_3      = 4;     // 样式4
+    ORDER_MSG_STYLE_NEW_NORMAL = 5; // 点单新的弹窗样式，势力，老板要求开始->主播收到弹窗
+}
+
+// 通用弹窗消息
+message OrderMsg {
+    string title                              = 2;         // 标题
+    string msg                                = 3;         // 弹窗信息
+    GenrationOrderMsgType generation_type     = 4;         // 通用描述数据结构
+    bytes generation_data                     = 5;         // 通用描述数据结构
+    int64 order_time                          = 6;         // 时间戳
+    repeated OrderButton buttons              = 7;         // 按钮列表
+    OrderMsgStyleType type                    = 8;         // 弹窗样式
+    bool is_popup                             = 9;         // 是否弹窗
+}
+
+enum BillFileType {
+    FT_Picture = 0;
+    FT_Voice   = 1;
+}
+
+// 删除文件
+message BillDelFileReq {
+    int64 id = 1;       // 文件id, 删除声音时，不需要传id
+    BillFileType fileType = 2;
+}
+
+message BillDelFileRes {
+}
+
+// 红点推送
+message BillOrderRedMsg {
+    int64 unreaded_nums = 1;    // 未读消息数
+}
+
+// 上传声音oss回调
+message BillVoiceReq {
+    string url = 1;  // 不用设置
+}
+message BillVoiceRes {
+}
+
+// 上传图片oss回调
+message BillPictureReq {
+    string url = 1;  // 不用设置
+}
+message BillPictureRes {
+}
+
+// 广播审核结果
+message BroadcastBillCheckStatus {
+    int64 player_id = 1;
+    BillPlayerCard card = 2;
+}
+
+// 官方反馈
+message BillFeedbackReq {
+    int64 id                = 1;  // 要投诉的用户Id
+    string content           = 2;  // 反馈内容
+    repeated string imgs_url = 3;  // 图片路径
+}
+message BillFeedbackRes {
+}
+
+// 设置是否接新手单
+message BillOrderAcceptNewSetReq {
+    bool on_off = 1;            //true:接新手单, false:不接新手单
+}
+message BillOrderAcceptNewSetRes {
+}
+
+enum BillOrderType {
+    BOT_NORMAL             = 0; // 正常单
+    BOT_NEW_PLAYER         = 1; // 新手单
+}
+
+enum BillSkillType {
+    BST_NONE      = 0;      // 占位
+    BST_FIRST     = 1;      // 主技能
+    BST_SECOND    = 2;      // 副技能
+}
+
+message BillSkill {
+    BillSkillType type = 1;
+    int32 skill = 2;  // 技能列表
+    int64 skill_create_at = 3;  // 技能创建时间
+    int32 order_num = 4; // 接单数量
+    string intro_text = 5; // 技能介绍
+    int32 price = 6; // 技能价格
+}
+
+message BillSkillInfo {
+    int32 skill_id = 1;  // 技能id
+    int32 level_id = 2;  //等级/段位id
+    int32 order_num = 3; //接单数
+    BillSkillPriceType price_type = 4; //显示的价格类型
+    BillPlayerSkillStatus status = 5;   //状态
+    int32 sort = 6; //排序
+    SkillEvaluated evaluation = 7; // 综合评价
+    NewPlayerBillStatus new_player_bill = 8; // 是否开启新手单
+}
+
+enum NewPlayerBillStatus {
+    NPBS_None = 0; // 无权限，不显示新手单开关按钮
+    NPBS_Open = 1; // 开启状态
+    NPBS_Close = 2; // 关闭状态
+}
+
+//下单者信息
+message BillBoss {
+    int64   player_id = 1;
+    int32   order_num = 2;        //完成订单数
+    int32   order_num_new = 3;    //完成的新手单订单数
+    uint32  gold_total  = 4;      //总消耗金币
+}
+message GetBillBossReq {
+    int64 player_id = 1;
+}
+message GetBillBossRes {
+    BillBoss boss = 1;
+}
+
+//技能新价格类型
+enum BillNewPriceType {
+    BNPT_NONE           = 0;    // 占位
+    BNPT_NEW_PLAYER     = 1;    // 新手价格
+}
+
+message BillSkillNewPrice {
+    BillNewPriceType type   = 1;
+    int32   gift_id_new     = 2;   //新价格:礼物id
+    int32   gift_num_new    = 3;   //新价格:数量
+}
+
+enum SendOrderType {
+    SOT_ZERO = 0; // 占位不用
+    SOT_QUERY = 1; // 获取派单信息
+    SOT_SEND_ORDER = 2; // 派单
+    SOT_AGAIN = 3; // 重新派单
+    SOT_FINISH = 4; // 结束派单
+}
+
+message BillSendOptReq {
+    SendOrderType opt_type = 1;
+    int64 boss_id = 2;  // 老板ID
+    int32 skill_id = 3; // 技能类型
+    int32 sex = 4;    // 性别要求
+    int32 min_level = 5;    // 等级
+    int32 order_num = 6;    // 派单件数
+    string anchor_condition = 7;    // 接单要求
+    string send_order_id = 8; // 派单ID
+}
+message BillSendOptRes {
+    int64 boss_id = 1;  // 老板ID
+    int64 boss_id2 = 2; // 老板靓号
+    string boss_name = 3; // 老板名称
+    int32 skill_id = 4; // 技能类型
+    int32 sex = 5;    // 性别要求 common.ext SexType
+    int32 min_level = 6;    // 等级
+    int32 order_num = 7;    // 派单件数
+    string anchor_condition = 8;    // 接单要求
+    string send_order_id = 9; // 派单ID
+    int64 send_order_time = 10; // 派单时间
+    int32 send_time = 11; // 派单计时
+}
+
+// 设置接收派单信息
+message SendOrderReceiveMsgSetReq {
+    bool on_off = 1;            //true:接收派单信息, false:不接收派单信息
+}
+message SendOrderReceiveMsgSetRes {
+}
+//删除
+message DelDisBillReq {
+    string send_order_id = 1; //派单Id
+}
+
+message DelDisBillRes {
+    int32 code = 1; //0成功 1失败
+}
+
+message DisBillInfo{
+    string send_order_id = 1;//派单id
+    int64 send_order_time = 2; //派单时间
+    string host_name = 3; //派单人名称
+    string host_icon = 4; //派单人头像
+    int64 host_id = 5;//派单人id
+    int64 host_id2 = 6;//派单人靓号id
+    int64 room_id = 7; //房间id
+    int32 skill_id = 8; //技能类型
+    int32 order_num = 9;    // 派单件数
+    string anchor_condition = 10;  // 接单要求
+    int32 host_sex = 11;    // 性别 common.ext SexType
+    string room_name = 12; //房间名称
+    DisBillInfoStatus status = 13;
+    string skill_name = 14; // 技能名称
+    string skill_icon = 15; // 技能图标
+}
+
+enum DisBillInfoStatus {
+    DBIS_None = 0;
+    DBIS_Dispatch = 1; // 派单中
+    DBIS_End = 2; // 已结束
+}
+
+//派单信息
+message DisBillListReq{
+    int32 query = 1; // 0查询派单中(旧版默认) 2全部
+    int32 page = 2;		// 页数
+    int32 pageSize = 3;	// 每页多少条数据
+    bool clean_red = 4; // 不消除红点消息 false为清除(默认是清除，false为默认，兼容旧版) true为不清除
+}
+
+message DisBillListRes{
+    repeated DisBillInfo dis_bill = 1;
+}
+
+// 主播抢单上报
+message SendOrderAcceptReq {
+    string send_order_id = 1; // 派单ID
+}
+message SendOrderAcceptRes {
+}
+
+//派单消息数量推送
+message SendOrderMsgNumber {
+    int32 msg_num = 1;  //派单消息数量
+    string bill_id = 2; // 订单ID
+    SendOrderMsgNumberType status = 3;
+}
+
+enum SendOrderMsgNumberType {
+    SOMNT_None = 0;
+    SOMNT_Start = 1; // 派单
+    SOMNT_End = 2; // 结束派单
+}
+
+//派单红点消息数量推送
+message SendOrderMsgRedNumber {
+    int32 msg_num = 1;  //派单红点消息数量
+}
+
+
+// 审核状态
+enum SysSendOrderType {
+    SysSOType_None      = 0;  	// 默认
+    SysSOType_Timeout   = 1;  	// 超时
+    SysSOType_FirstPush = 2;  	// 首次
+    SysSOType_SysPush   = 3;  	// 再次
+}
+// 开启状态的主播列表
+message SysSendBillReq {
+    string send_order_id = 1;//派单id
+    sint64 room_id       = 2;//房间Id
+    SysSendOrderType op_type = 3; // 操作类型
+}
+message SysSendBillRes {
+}
+
+message LastReadBillMsgTimeReq {
+    int64 last_read_time = 1; // 第一条订单的update_time
+}
+message LastReadBillMsgTimeRes {
+
+}
+
+message VisitBillPlayerReq {
+    int64 player_id = 1;
+}
+message VisitBillPlayerRes {
+
+}
+
+message VisitLogReq {
+
+}
+message VisitLogRes {
+    repeated VisitPlayerInfo list = 1;
+}
+
+message VisitPlayerInfo {
+    sint64 id = 1;
+    sint64 id2 = 2;
+    sint32 sex = 3;  // 性别 common.ext SexType
+    string name = 4;
+    sint32 charm_level = 5;
+    sint32 wealth_level = 6;
+    sint64 visit_time = 8;
+    string visit_msg = 9;
+    bool   is_online = 10;
+    sint64 room_id = 11;
+    string icon = 12;
+}
+
+// 请求派单弹窗配置
+message DispatchWindowConfReq {
+}
+message DispatchWindowConfRes {
+    repeated int32 positions = 1; // 触发位置列表(id和PHomeModStyle对应)：27.点单用户3P小图 17.点单用户瀑布流(点单用户2P大图)
+    int32 exposure_time = 2; // 在 点单列表、点单瀑布流 中曝光多久弹窗 ms
+}
+// 是否弹窗询问
+message IfDispatchWindowReq {
+}
+message IfDispatchWindowRes {
+    int32 next_unix = 1; // 至少在next_unix 时间戳 后才进行下次弹窗询问，可以弹窗后台直接推 100173
+}
+// 派单弹窗推送，弹出窗口 cmdId = 400210
+message DispatchWindowPush {
+}
+// 派单弹窗，进入房间类型
+message DispatchWindowEnterReq {
+    int32 dispatch_type = 1; // 1.游戏派单 2.声音派单 3.随便逛逛
+}
+message DispatchWindowEnterRes {
+    int64 room_id = 1; // 要进入的房间id
+}
+
+//点单信息通知
+message BillOrderMsgNotifyIntReq {
+    string order_id = 1;
+    int64 player_id = 2;
+    int64 to_player_id = 3;
+}
+message BillOrderMsgNotifyIntRes {
+
+}
+message BillInfoReq {
+    string order_id = 1; // 订单ID
+}
+message BillInfoRes {
+    BillOrder order = 1; // 订单详情
+}
+
+message BillClanComplaintReq {
+    string order_id   = 1; // 订单ID
+    int64  servant_id = 2; // 主播ID
+}
+message BillClanComplaintRes {
+    bool  is_chat = 1; // 是否私聊 false 进房间， true 私聊
+    int64 id      = 2; // 私聊ID 或 进房间ID
+    string name   = 3; // 用户名
+    string icon   = 4; // 用户头像
+}
+
+enum BillPlayerSkillStatus {
+    BPSS_None = 0;  //占位
+    BPSS_Normal = 1; //开启
+    BPSS_Closed = 2; //关闭
+}
+
+enum BillSkillCheckStatus {
+    BSCS_None           = 0;        //占位不用
+    BSCS_Checking       = 1;        //审核中
+    BSCS_CheckedPass    = 2;        //通过
+    BSCS_CheckedNoPass  = 3;        //不通过
+}
+
+message BillSkillCheck {
+    int32 skill_id = 1; // 技能id
+    BillSkillCheckStatus  status = 2;     //认证状态
+}
+
+enum BillSkillSetOption {
+    BSSO_None              = 0;        //占位不用
+    BSSO_SkillStatus       = 1;        //技能状态, value值: 1:开启, 2:关闭
+    BSSO_NewPlayerBill     = 2;        //接新手单开关, value值: 0:关闭, 1:开启
+    BSSO_ALL = 3; // 技能一键操作 value值: 0:全部关闭, 1:全部开启
+}
+
+message BillSkillSetItem {
+    BillSkillSetOption option = 1;      //设置项
+    int32 value = 2;                    //设置具体数值
+}
+
+message BillSkillOptionSetReq {
+    int32 skill_id = 1;                 //技能id
+    BillSkillSetItem item = 2;
+}
+message BillSkillOptionSetRes {
+}
+
+enum BillSkillCheckSegment {
+    BSIS_None               = 0;        //占位不用
+    BSIS_ALL                = 1;        //全部
+    BSIS_Level              = 2;        //段位/等级
+    BSIS_IntroText          = 3;        //简介
+    BSIS_IntroVoice         = 4;        //语音介绍
+    BSIS_IntroPictures      = 5;        //展示图片
+    BSIS_Icon               = 6;        //点单头像
+}
+
+message SkillCheckSegmentStatus {
+    BillSkillCheckSegment segment = 1;
+    BillSkillCheckStatus status = 2;    //审核状态
+    string check_tips = 3;              //审核状态提示内容
+    int64 check_at = 4;                 //审核时间
+}
+
+message BillSkillCheckReq {
+    int32 skill_id = 1;
+    BillSkillCheckSegment segment = 2;
+    string icon_url = 3;                    //BSCC_Icon 头像url
+    int32 level_id= 4;                      //BSCC_Level 段位/等级id
+    string level_pic_url = 5;               //BSCC_Level 段位/等级图片url
+    string intro_text = 6;                  //BSCC_IntroText 文字简介
+    string intro_voice_url = 7;             //BSCC_IntroVoice 语音介绍url
+    int32 intro_voice_sec = 8;              // BSCC_IntroVoice 语音介绍秒数
+    string homepage_pic_url = 9;            //BSCC_IntroPictures 个人主页大图url
+    repeated string ability_pic_urls = 10;   //BSCC_IntroPictures 实力展示图片url
+}
+message BillSkillCheckRes {
+}
+
+message BillPlayerSkillReq {
+    int64 player_id = 1;
+    int32 skill_id = 2;
+}
+message BillPlayerSkillRes {
+    BillPlayerSkill skill = 1;
+    BillPlayerSkillCheck skill_check = 2;   // 审核信息，（查看自己才有值）
+}
+message BillPlayerSkill {
+    int32 level_id = 1;                     //等级/段位id
+    string intro_text = 2;                  //文字简介
+    string intro_voice_url = 3;             //语音介绍url
+    int32 intro_voice_sec = 4;              //语音介绍秒数
+    string homepage_pic_url = 5;            //个人主页大图url
+    repeated string ability_pic_urls = 6;   //实力展示图片url
+    int32 order_num = 7;                    //单数
+    string level_pic_url = 8;               // 等级图片url
+}
+message BillPlayerSkillCheck {
+    int32 level_id = 1;
+    string level_pic_url = 2;
+    string intro_text = 3;
+    string intro_voice_url = 4;
+    int32 intro_voice_sec = 5;
+    string homepage_pic_url = 6;
+    repeated string ability_pic_urls = 7;
+    repeated SkillCheckSegmentStatus status_list = 8;
+    BillPlayerSkillStatus status = 9;  //技能状态
+    bool new_player_bill_visible = 10;  //新手单开关是否可见
+    bool new_player_bill = 11;   //是否接受新手单
+    string icon_url = 12;
+}
+
+//技能等级/段位
+message BillSkillLevel {
+    int32 id = 1;      //等级/段位id
+    string name = 2;   //等级/段位名称
+    string text_color = 3; //文字颜色
+    string border_color = 4; //边框颜色
+    int32   sort = 5;        // 排序字段
+}
+
+//技能价格
+enum BillSkillPriceType {
+    BSKPT_None = 0;
+    BSKPT_Original = 1;     //原价
+    BSKPT_NewPlayer = 2;    //新手价
+}
+message BillSkillPriceItem {
+    BillSkillPriceType price_type = 1; //价格类型
+    int32 gold = 2; //金币
+}
+message BillSkillPrice {
+    int32 price_id = 1;     //价格id
+    repeated BillSkillPriceItem items = 2; //价格
+    string unit_name = 3;             // 单位中文
+}
+
+message BillSimplePlayer {
+    int64   player_id           = 1;    // 发起id
+    string  player_name         = 2;    // 玩家名
+    string  player_icon         = 3;    // 玩家名图标
+    int64   player_id2          = 4;    // 短号
+    int32   sex                 = 5; // 性别，对应SexType
+    string  bill_icon           = 6;    // 点单用户图标
+}
+
+message OrderDetailInfo {
+    string  title                = 1; // 状态标题
+    string  tips                 = 2; // 状态描述
+    repeated OrderButton buttons  = 3;         // 按钮列表
+    BillArrowType arrow = 4; // 箭头
+}
+
+enum BillArrowType {
+    BAT_NULL = 0; // 没有箭头
+    BAT_Purple_Right_Arrow = 1; // 紫色右箭头
+    BAT_Gray_Right_Arrow = 2; // 灰色右箭头
+    BAT_Red_Right_Arrow = 3; // 红色右箭头
+}
+
+message BillClanInfo {
+    int64 id = 1;	// 公会id； 当状态开关列表中公会开启时， 判断clan_id>0时，显示公会入口, 入口url找h5同事提供
+    string icon_word = 2; // 公会图标文字
+    string level_name = 3; // 公会等级名称
+    string name = 4; // 公会名称
+    int64  level = 6;//公会等级
+    ClanIconType icon_type = 7;   // 公会图标枚举
+}
+
+message BillNewOrder {
+    string id                       = 1; // 订单id
+    BillSimplePlayer player         = 2; // 玩家信息
+    BillClanInfo clan                   = 3; // 玩家信息
+    BillSkillConf skill_info        = 4; // 技能技能信息
+    int32 num                       = 5; // 数量
+    BillOrder_Status status         = 6; // 订单状态
+    BillSkillPrice prices           = 7; // 选择价格
+    BillSkillPriceItem PriceItem    = 8; // 支付方式
+    int32 gold                      = 9; // 金币
+    int32 tick                      = 10; // 钻石
+    OrderRole role                  = 11; // 角色
+    BillOrderType type              = 12; //订单类型
+    BillServiceProgressType progress    = 14; // 进度条位置
+    repeated BillOrderHistory history   = 15; // 记录
+    int64 order_time                    = 16;   // 时间戳
+    int64 update_time                   = 17;   // 时间戳
+    int64 counter_down                  = 18; // 倒计时结束时间
+    int64   room_id                     = 21; // 房间id
+    OrderDetailInfo detail_info         = 22; // 订单详情页
+    OrderDetailInfo record_info         = 23; // 接单，下单记录页
+    OrderDetailInfo im_record_text      = 24; // IM悬浮记录文案
+    OrderDetailInfo msg_info            = 25; // 订单消息页
+    OrderDetailInfo im_msg              = 26; // IM消息
+    OrderDetailInfo pop_msg             = 27; // 弹窗消息
+    Evaluation evaluation               = 28; // 评价
+}
+
+// 点单列表
+message OrderLogsReq {
+    BillHistory     type        = 1; //类型
+    int32           next_index  = 2; // 翻页用的
+    int64           target_id   = 3; // Im 用的，（如果是登录，传im类型，target_id=0）
+}
+message OrderLogsRes {
+    BillHistory             type            = 1; //类型
+    repeated BillNewOrder   progress_list   = 2; //进行中 next_index=0 会返回；>0 就返回，第一页一定包含了所有的进行中
+    repeated BillNewOrder   finish_list     = 3; //完成的, 接单，下单消息列表；分页数据都续到完成的
+    int32                   next_index      = 4; // 翻页用的； -1为到底了
+}
+
+// 点单收益
+message OrderProfitReq {
+}
+
+message OrderProfitRes {
+  int64 tick            = 1;    // 本月到账钻石
+  int64 finish_tick     = 2;    // 已到帐
+  int64 progress_tick   = 3;    // 未到帐
+  int64 total_tick      = 4;    // 累计总收入
+  int64 refund_tick     = 5;    // 投诉退单钻石
+}
+
+enum ComplaintType  {
+    BCT_None            = 0;
+    BCT_Complaint       = 1;      //投诉
+    BCT_Cancel          = 2;      //取消投诉
+}
+
+// 点单投诉
+message OrderComplaintReq {
+    string order_id         = 1; //点单id
+    string content          = 2; // 投诉内容
+    repeated string picture = 3; // 投诉图片
+    ComplaintType complaint_type = 4; // 投诉操作
+    BillOrder_Status status      = 5; // 订单状态 投诉并结束 或完成后投诉
+
+}
+message OrderComplaintRes {
+}
+
+
+enum ComplaintStatus  {
+    BCS_None = 0;
+    BCS_Progressing = 1;        //投诉中
+    BCS_Agree       = 2;        //同意投诉已退单
+    BCS_Refuse      = 3;        //投诉驳回
+    BCS_Cancel      = 4;        //投诉取消
+}
+message ComplaintResult {
+    int32 num               = 1; //第几次投诉
+    string content          = 2; // 投诉内容
+    repeated string picture = 3; // 投诉图片
+    int64 update_time       = 4; // 时间
+    ComplaintStatus status  = 5; // 状态
+    string replay           = 6; // 回复内容
+}
+
+message OrderComplaintResultReq {
+    string order_id         = 1; //点单id
+}
+message OrderComplaintResultRes {
+     BillNewOrder order                 = 1;
+     repeated ComplaintResult results   = 2; // 投诉结果
+}
+
+enum OrderOptExtraDataType {
+    OOEDT_NULL = 0;
+    OOEDT_REFUSE = 1;   // RefuseMsg
+}
+
+message RefuseMsg {
+    string msg = 1;
+}
+
+message OrderOperationReq {
+    BillOrder_Status status  = 1;
+    string id = 2; // 订单ID
+    OrderOptExtraDataType data_type = 3;
+    bytes datas = 4;
+}
+message OrderOperationRes {
+    BillOrder_Status status  = 1;
+    BillNewOrder order = 2;
+}
+
+message OrderDetailReq {
+    string id = 1; // 订单ID
+}
+
+message OrderDetailRes {
+    BillNewOrder order = 1;
+}
+
+enum VisitSource {
+    VLC_None = 0;                   //占位
+    VLC_IM = 1;                     //IM页面
+    VLC_BillPlayerSkill = 2;        //技能详情页
+}
+//访问点单主播上报
+message VisitBillPlayerV2Req {
+    int64 player_id = 1;
+    VisitSource src = 2;
+    int32 skill_id = 3;
+}
+message VisitBillPlayerV2Res {
+    int64   skill_desc_time =   1;  // im技能简介时间戳
+    int32   desc_skill_id = 2;      // im简介的技能id
+    bool    skill_list_visible = 3; // im技能价目表是否显示
+    string  skill_desc = 4;         // im技能简介内容
+}
+
+//被访问记录
+message VisitPlayerInfoV2 {
+    sint64 id = 1;
+    sint64 id2 = 2;
+    sint32 sex = 3;  // 性别 common.ext SexType
+    string name = 4;
+    string icon = 5;
+    sint64 last_visit_time = 6;
+    sint32 visit_count = 7;
+    string visit_desc = 8;
+}
+message VisitLogV2Req {
+    int32 index = 1;    //用于翻页, 请求第一页时传0
+}
+
+message VisitLogV2Res {
+    repeated VisitPlayerInfoV2 list = 1;
+    int32 next_index = 2;        //-1代表列表没有下一页了, 否则可以用此值在VisitLogV2Req中请求下一页
+}
+
+message VisitLogV2RedReq {
+}
+message VisitLogV2RedRes {
+    int32 unread_num = 1;   //未读数量
+    string unread_desc = 2; //未读描述
+}
+
+message OrderReq {
+    int64 to_player_id  = 1; // 玩家id
+    int32 skill_id      = 2; // 技能id
+    int32 num           = 3; // 数量
+    string remark       = 4; // 说明
+    BillSkillPrice price = 5; //价格
+    int64 trend_id      = 6; // 视频ID
+    int32 origin        = 7; // 来源
+}
+message OrderRes {
+    BillNewOrder order = 1;
+}
+
+message BillSkillSortItem {
+    int32 skill_id = 1;
+    int32 sort = 2;     //排序(1,2,3... 从小到大排序)
+}
+
+message BillSkillSortReq {
+    repeated BillSkillSortItem skills = 1;
+}
+
+message BillSkillSortRes {
+}
+message OrderServicingReq {
+
+}
+message OrderServicingRes {
+    BillNewOrder order = 1;
+}
+
+message OrderInt {
+    string order_id = 1;
+    int64 boss_id = 2;	// 老板ID
+    int64 servant_id = 3; // 主播ID
+    int32 skill_id = 4; // 技能ID
+    int32 num = 5;
+    int64 gift_id = 6;
+    int32 gift_total_num = 7;
+    int32 gift_cost_num = 8;
+    int32 gold_total = 9;
+    int32 gold_cost = 10;
+    int32 status = 11;
+    int64 ticket = 12;
+    string gold_remark = 13;
+    string ticket_remark = 14;
+    int64 room_id = 15;
+    int64 room_gold = 16;
+    int64 order_at = 17;
+    int64 update_at = 18;
+    string remark = 19;
+    int64 service_timeout = 20;
+    int32 type = 21;
+    string log_time = 22;
+}
+
+enum BillIconCheckStatus {
+    BICSTATUS_None = 0;  //占位
+    BICSTATUS_Checking = 1;  //审核中
+    BICSTATUS_CheckedPass = 2; //审核通过
+}
+
+message BillStatusIconReq {
+}
+
+message BillStatusIconRes {
+    string icon = 1;
+    BillIconCheckStatus status = 2;
+}
+
+enum EvaluationStatus {
+    ES_None   = 0; // 不可评价
+    ES_Wait   = 1; // 待评价，没有评论过
+    ES_Update = 2; // 可修改
+    ES_Done   = 3; // 已完成评价
+}
+
+message Evaluation {
+    EvaluationStatus evaluation_status = 1; // 评价状态
+    int32            overall_score     = 2; // 综合评分 10 表示1颗醒
+    int32            technical_score   = 3; // 技术评分 10 表示1颗醒
+    int32            service_score     = 4; // 服务评分 10 表示1颗醒
+    int32            response_score    = 5; // 响应评分 10 表示1颗醒
+    repeated int32   evaluation_tag    = 6; // 评论选择的标签
+    string           evaluation        = 7; // 评价
+    int64            evaluation_time   = 8; // 评价时间
+}
+
+// 待评价
+message WaitEvaluationListReq {
+    int32 index = 1; //  初始传0，-1没有了不用再请求
+}
+message WaitEvaluationListRes {
+    repeated BillNewOrder list = 1;
+    int32    evaluated_num     = 2; // 待评价数量
+    int32    next_index        = 3; // 请求下一页传回
+}
+
+// 发表评价
+message EvaluationOptReq {
+    string     order_id      = 1; // 点单ID
+    Evaluation evaluation    = 2; // 评价
+    bool       is_auto_focus = 3; // 是否自动关注
+}
+message EvaluationOptRes {
+
+}
+
+message Evaluated {
+    Evaluation evaluation = 1;
+    string     icon       = 2;
+    string     name       = 3;
+    int64      player_id  = 4; // 主播查看自己需要，别人查看不用
+    string     order_id   = 5; // 订单ID
+    int32      num        = 6; // 第几次下单
+    int32      skill_id   = 7; // 技能ID
+    int32      order_num  = 8; // 下单数量
+    string     unit       = 9; // 技能单位
+}
+
+// 我的评价
+message EvaluatedListReq {
+    int32 index = 1; //  初始传0，-1没有了不用再请求
+}
+message EvaluatedListRes {
+    repeated Evaluated list          = 1;
+    int32              evaluated_num = 2; // 已评价数量
+    int32              next_index    = 3; // 请求下一页传回
+}
+
+// 技能页评价列表
+message SkillEvaluatedListReq {
+    int32 index = 1; //  初始传0，-1没有了不用再请求
+    int32 tag_id = 2; // 评价标签ID
+    int64 player_id = 3; // 用户ID
+    int32 skill_id = 4; // 技能ID
+}
+message SkillEvaluatedListRes {
+    repeated   Evaluated list       = 1; // 评价列表
+    SkillEvaluated       evaluation = 2; // 综合评价
+    int32                next_index = 3; // 请求下一页传回
+    int32                evaluated_num = 4; // 总评价数量
+}
+
+// 技能综合评价
+message SkillEvaluated {
+    int32            overall_score     = 1; // 综合评分 10 表示1颗醒
+    int32            technical_score   = 2; // 技术评分 10 表示1颗醒
+    int32            service_score     = 3; // 服务评分 10 表示1颗醒
+    int32            response_score    = 4; // 响应评分 10 表示1颗醒
+    repeated SkillEvaluatedTag tags    = 5; // 标签
+}
+
+message SkillEvaluatedTag {
+    int32 tag_id = 1; // 标签ID
+    int32 num    = 2; // 数量
+}
+
+message WaitEvaluateNumReq {
+
+}
+message WaitEvaluateNumRes {
+    int32 red_num = 1;
+}
+
+// 消除大神中心红点
+message BillMasterRedPointReq {
+}
+message BillMasterRedPointRes {
+}
+
+// 获取当前有效的点单老板id(外部接口)
+message BillOrderBossIdReq{
+    int64 player_id = 1;
+}
+message BillOrderBossIdRes{
+    repeated int64 boss_id = 1;  // 老板id列表
+}
+
+message BillNewsRedReq{}
+message BillNewsRedRes{
+    int32 num = 1; // 红点数量
+}
+
+message ClearBillNewsRedReq{}
+message ClearBillNewsRedRes{}

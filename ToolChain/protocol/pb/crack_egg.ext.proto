@@ -1,0 +1,241 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+package pb;
+import "pb/common.ext.proto";
+
+enum CrackEggCmdId { //401
+                     NONE401 = 0; //占位
+                     CRACK_CMD_ID = 401101; //砸蛋 CrackEggRecord 砸中猫球只推送给自己，且CrackEggRecord为nil，
+                     //砸中小奖退给房间，若匿名则推给自己，大奖推给所有人
+                     OPEN_CMD_ID = 401102; //砸蛋开启关闭通知
+                     CRACK_SHIFT = 401103; //砸蛋 定时广播 CrackEggShift
+                     CRACK_SHIFT_NOTICE = 401104; //砸蛋 变身时广播 CrackEggShiftNotice
+                     CRACK_HOUR	 = 401107; //砸蛋 定时广播 CrackEggHour
+                     CRACK_LUCK_CMD_ID = 401108; //砸蛋 幸运砸蛋 奖池变化 CrackEggLuck
+                     CRACK_LUCK_GAIN	 = 401109; //砸蛋 幸运砸蛋获得, 对于自己显示特效，对于所有人(包括自己)显示公屏文案 CrackEggLuckGain
+                     CRACK_LUCK_NOTICE	 = 401110; //砸蛋 幸运砸蛋定时广播 CrackEggLuckNotice
+                     CRACK_TIME          = 401111; //砸蛋 广播砸蛋时间 CrackTime
+                     CRACK_LUCK_VALUE    = 401112; //砸蛋 广播砸蛋幸运值达到 85% 和 100% 提示  LuckyValueNotice
+}
+
+message Award {
+    uint32 gift_id = 1;
+    uint32 gift_num = 2;
+    bool is_free = 3;
+}
+
+message CrackEggRecord {
+    uint64 player_id = 1; // 玩家
+    string player_nickname = 2; //玩家昵称
+    uint32 award_id = 3; // 物品id
+    int64 award_num = 4; // 物品数量
+    string msg      =    5; //广播
+    uint32 free_id = 6; // 免费礼物Id
+    int64 free_num = 7; // 免费礼物数量
+    int64 room_id = 8; // 房间ID
+    bool show_me = 9;  // 是否屏幕中间显示tips  格式：幸运星能释放，恭喜获得惊喜礼物“礼物名五个字”
+    DeviceType device_type = 10; // 设备类型
+    repeated string msg_sign = 11; // msg字段里的所有替换符(用于新旧版兼容)
+}
+
+//砸蛋开始通知
+message CrackEggNotice {
+    int32 code = 1; //1-砸蛋开启 2-砸蛋关闭 3-开放并且公屏
+    string msg = 2; //说明
+}
+//################################
+
+message CrackTime {
+    int32 time = 1; // 客户端砸蛋时间间隔，毫秒
+}
+
+//砸蛋
+message CrackEggReq {
+    bool open = 1; //是否公开砸蛋
+    sint32 assets_type = 2; // 新加字段，默认0普通锤子, 3为黄金水滴 4钻石水滴 5黑金水滴 查看AssetsType
+}
+
+message CrackEggRes {
+    repeated Award awards = 1;
+    int32 gold = 2;
+    sint32 lucky_value_ratio = 3;  // 幸运星百分比 0 - 100
+    sint32 add_lucky_value = 4;  // 幸运星增加的值
+}
+
+//砸蛋幸运砸单
+message CrackEggShiftReq {
+    int32 op_type            =   1; //透传类型
+}
+
+// 进房间
+message CrackEggShiftRes {
+    int32 op_type = 1; //透传类型
+    CrackEggShift shift = 2; //变身数据
+    string crackegg_exchange_url = 3; // 浇花，道具兑换入口跳转url
+    string crackegg_million_forest_url = 4; // 浇花，百万森林跳转url
+    string crackegg_description_url = 5; // 浇花说明跳转url
+}
+
+message CrackEggShift {
+    int64 num = 1;	// 当前进度
+    int64 max_num = 2;	// 最大进度
+    int64 timeout = 3;	// 最大进度
+}
+
+
+//砸蛋准点广播
+message CrackEggHour {
+    int32 code = 1; //0-23小时
+    string msg = 2; //说明
+}
+
+message CrackEggShiftNotice {
+    string msg = 1; //说明
+}
+
+
+//砸蛋幸运砸单
+message CrackEggLuck {
+    int32 gold 		= 	1; //累计金币
+    int64 mtime     = 	2; //最后操作时间
+}
+
+//砸蛋幸运砸单获得通知
+message CrackEggLuckGain {
+    int32 id            =   1; //惟一id
+    uint64 player_id = 2; // 玩家
+    string player_nickname = 3; //玩家昵称
+    int32 gold 			= 	4; //金币
+    int32 gift_id 		= 	5; //礼物
+    int32 gift_num 		= 	6; //礼物数量
+    string msg          =    7; //广播
+
+}
+
+//砸蛋幸运砸单
+message CrackEggLuckReq {
+    int32 op_type            =   1; //透传类型
+}
+
+message CrackEggLuckRes {
+    	int32 op_type            =   1; //透传类型
+	CrackEggLuck luck 	= 	2; //幸运数据
+}
+
+//砸蛋幸运砸蛋
+message CrackEggLuckNotice {
+    int32 gold = 1; //幸运
+    string msg = 2; //说明
+}
+
+// 砸蛋排行榜
+message CrackEggRank {
+    sint64 id = 1;
+    string name = 2;
+    uint32 level = 3;
+    uint32 resTime = 4;
+    uint32 gapVal = 5;      // 差距值
+    string icon = 6;
+    string desc = 7;        // 描述
+}
+
+//砸蛋幸运砸单
+message CrackEggRankReq {
+    int32 op_type            =   1; //透传类型:0-今天; 1-昨天; 2-幸运砸蛋
+}
+message CrackEggRankRes {
+    int32 op_type            =   1; //透传类型:0-今天; 1-昨天; 2-幸运砸蛋
+    repeated CrackEggRank list = 2;
+}
+
+message GetCrackTimeReq {
+
+}
+message GetCrackTimeRes {
+    int32 time = 1; // 砸蛋间隔时间
+}
+
+// 砸蛋文案
+message CrackCopywritingReq {
+}
+message CrackCopywritingRes {
+    string keyword = 1; //
+    string copywriting_url = 2; // 文案文件url
+}
+
+// 新主题结构，旧的在 activity.ext.proto: Theme
+message CrackTheme {
+    int32 id = 1;
+    string name = 2; //主题名字
+    int32 type = 3; //主题类型 1- 砸蛋 2-pc砸蛋
+    bool status = 4; //状态
+    int64 start_time = 5; //开始时间
+    int64 end_time = 6; //结束时间
+    string key = 7; // 唯一标志
+    string ios_url = 8; // iOS动态压缩包地址
+    string android_url = 9; // 安卓动态压缩包地址
+    string pc_url = 10; // PC动态压缩包地址
+    string progress_col = 11; // 进度条的颜色
+    string progress_border_col = 12; // 进度条边框的颜色
+    string progress_backg_col = 13; // 进度条底色
+    string buy_col = 14; // 购买页文本颜色
+    string on_col = 15; // 开关开启颜色
+    string off_col = 16; // 开关关闭颜色
+    string luck_col = 17; // 幸运星文本颜色
+}
+//获取主题配置  有配置使用配置，没有使用默认
+message GetCrackThemeReq {
+}
+message GetCrackThemeRes {
+    repeated CrackTheme themes = 1;
+}
+
+message NoticeShiftReq {
+    enum Operation {
+        UNKNOW = 0; // 占位
+        TURN_ON_NOTICE = 1;
+        TURN_OFF_NOTICE = 2;
+        GET_NOTICE_STATUS = 3;
+    }
+    int64 player_id = 1;
+    Operation oper = 2;
+}
+
+message NoticeShiftRes {
+    enum Status {
+        UNKNOW = 0;
+        NOTICE_SHIFT_ON = 1;
+        NOTICE_SHIFT_OFF = 2;
+    }
+    Status status = 1;
+}
+
+// 幸运值查询
+message LuckyValueRes{
+    sint32 lucky_value_ratio = 1;  // 幸运星百分比 0 - 100
+}
+
+message LuckyValueReq{
+}
+
+// 幸运值通知
+message LuckyValueNotice{
+    sint32 ratio = 1;     // 幸运值每跨过一个阶段推送当前幸运值百分比
+    string msg = 2;  // 有就弹 幸运星点亮必有惊喜， 再来一次必有惊喜
+}
+
+service CrackEggExtObj {
+    rpc CrackEgg (CrackEggReq) returns (CrackEggRes); //获取礼物数量
+    rpc GetShift (CrackEggShiftReq) returns (CrackEggShiftRes); //获取变身
+    rpc GetLuck (CrackEggLuckReq) returns (CrackEggLuckRes); //获取幸运砸蛋
+    rpc GetRank (CrackEggRankReq) returns (CrackEggRankRes); //获取排行榜
+    rpc GetCrackTime (GetCrackTimeReq) returns (GetCrackTimeRes); // 获取砸蛋间隔时间
+    rpc GetCrackCopywriting (CrackCopywritingReq) returns (CrackCopywritingRes); // 获取砸蛋文案
+    rpc GetCrackTheme (GetCrackThemeReq) returns (GetCrackThemeRes); // 获取砸蛋主题
+    rpc NoticeShift (NoticeShiftReq) returns (NoticeShiftRes); //砸蛋变身通知
+
+    // 幸运值查询
+    rpc LuckyValue(LuckyValueReq) returns (LuckyValueRes);
+}

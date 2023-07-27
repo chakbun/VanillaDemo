@@ -1,0 +1,126 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+// 云蹦迪
+
+
+// 云蹦迪状态枚举
+enum CloudDiscoState {
+  CDS_Normal = 0;               // 正常
+  CDS_Rock = 1;                 // 狂欢时刻
+}
+
+// CmdId=800153, 云蹦迪信息
+message CloudDiscoInfo {
+  CloudDiscoState state = 1;    // 当前状态
+  int64 rock_val = 2;           // 狂欢时刻进度值
+  int64 rock_end_time = 3;      // 狂欢时刻结束时间(unix时间戳：秒)
+  int64 timestamp = 4;          // 服务器当前时间（unix时间戳：纳秒）
+  int64 room_id = 5;            // 房间id
+  int64 rock_start_time = 6;    // 狂欢时刻开始时间(unix时间戳：秒)
+  CloudDiscoDecorateInfo decorate_info = 7; // 当前房间背景信息
+}
+
+// CmdId=800155, 云蹦迪进房推送
+message PushCloudDiscoEnterRoom{
+  CloudDiscoInfo info = 1;                  // 云蹦迪信息
+  int64 dancer_num = 2;                     // 观众席人数上限
+  bool is_room_shake = 3;                   // 是否房间震动
+  bool is_chair_shake = 4;                  // 是否麦位震动
+}
+
+// 房间背景信息
+message CloudDiscoDecorateInfo{
+  int64 decorate_id = 1;        // 房间背景id
+  int64 end_time = 2;           // 结束时间
+}
+
+// 房间观众席信息
+message CloudDiscoDancerInfo{
+  int64 end_time = 1;           // 送礼者效果结束时间
+}
+
+
+enum CloudDiscoSceneType{
+  CDST_None = 0; // 占位
+  CDST_Room = 1; // 房间形态变化（背景+麦位抖动+观众席变化）
+  CDST_Dancer = 2; // 观众席变化
+}
+
+// CmdId=800154 推送云蹦迪场景信息
+message PushCloudDiscoSceneInfo{
+  int64 timestamp = 1;                      // 服务器当前时间（unix时间戳：纳秒）
+  CloudDiscoSceneType scene_type = 2;       // 场景变化类型
+  CloudDiscoDecorateInfo decorate_info = 3; // 房间背景信息
+  CloudDiscoDancerInfo dancer_info = 4;     // 观众席场景信息
+  int64 gift_from_pid = 5;                  // 送礼用户id
+  int64 gift_to_pid = 6;                    // 收礼用户id
+  int64 gift_id = 7;                        // 礼物id
+}
+
+// CmdId=800156 推送云蹦迪观众席配置
+message PushCloudDiscoDancerCfg{
+  int64 num = 1; // 观众席人数上限
+}
+
+// CmdId=800157 推送云蹦迪狂欢时刻广播通知
+message PushCloudDiscoRockBroadcast{
+  int64 room_id = 1; // 房间id
+  string room_name = 2; // 房间名称
+  string room_icon = 3; // 房间头像
+  string msg = 4;    // 广播消息
+}
+
+message CloudDiscoRankListReq{
+}
+
+message CloudDiscoRankListRes{ //直接返回前100名
+  repeated CloudDiscoRank list = 1;
+  CloudDiscoRank my = 2;
+  int32 my_rank = 3; // 0 = 99+
+  int64 next_time = 4; //下次结算时间戳 （秒）
+  int64 threshold = 5; //卡座门槛
+}
+
+message CloudDiscoRank{
+  int64 id = 1;
+  string name = 2;
+  SexType sex = 3;
+  int32 wealth_level = 4;
+  string icon = 5;  //头像
+  int64 score = 6; //当前分数
+  int64 gap_score = 7; // 距离前一名的分数
+  MaskInfo mask_info = 8; //马甲信息
+}
+
+enum CloudDiscoBoothPushType{
+    CLOUD_DISCO_BOOTH_PUSH_NONE = 0; //占位不用
+    CLOUD_DISCO_BOOTH_PUSH_TIMING = 1; //定时三分钟全部卡座刷新
+    CLOUD_DISCO_BOOTH_PUSH_UP_DOWN = 2; //卡座上下座位更新推送
+}
+
+message CloudDiscoBooth {
+  repeated CloudDiscoBoothSeat list = 1;
+  int64 timestamp = 2; //服务器当前时间（unix时间戳：秒）
+  CloudDiscoBoothPushType type = 3;
+}
+
+message CloudDiscoBoothSeat{
+  int64 id = 1;
+  string icon = 2;
+  string name = 3;
+  CloudDiscoInRoomStatus status = 4;
+  int32 rank = 5;   //卡座排名 1-4
+  MaskInfo mask_info = 6;
+  repeated CloudDiscoBoothSeat pick_up_list = 7;
+}
+
+enum CloudDiscoInRoomStatus {
+    IN_ROOM_STATUS_NONE = 0; //占位，不用
+    IN_ROOM_STATUS_IN = 1; //在座位上
+    IN_ROOM_STATUS_LEAVE = 2; //下座位
+}
+

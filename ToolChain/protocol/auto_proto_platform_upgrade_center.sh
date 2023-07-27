@@ -22,7 +22,7 @@ Branch=$1
 #仓库地址
 RepoPath=ssh://git@git.2tianxin.com:2022/platform/protocol/upgrade_center.git
 #输出工程的oc文件路径
-GEN_DIR=../../huhuAudio/protoOC
+GEN_DIR=../../XHX/protoOC
 
 #1. clone proto 仓库,并做清理
 rm -rf protoRepo

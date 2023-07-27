@@ -7,23 +7,23 @@
 		<key>scheme</key>
 		<string>https</string>
 		<key>host</key>
-		<string>api.poposapp.com</string>
+		<string>beta-hydrogen.2tianxin.com</string>
 		<key>shortlinkPort</key>
 		<string>443</string>
 		<key>socketHost</key>
-		<string>s.poposapp.com</string>
+		<string>beta.goim.2tianxin.com</string>
 		<key>port</key>
 		<string>6666</string>
 		<key>cdn</key>
-		<string>beta-popo-cdn.2tianxin.com</string>
+		<string>beta-hydrogen-cdn.2tianxin.com</string>
 		<key>staticHtml</key>
-		<string>beta-popo-cdn.2tianxin.com</string>
+		<string>beta-hydrogen-cdn.2tianxin.com</string>
 		<key>oldcdn</key>
-		<string>beta-popo-cdn.2tianxin.com</string>
+		<string>beta-hydrogen-cdn.2tianxin.com</string>
 		<key>ossHost</key>
-		<string>pub.res.devop.xinyu100.com</string>
+		<string>beta-hydrogen-cdn.2tianxin.com</string>
 		<key>param</key>
-		<string>/prod</string>
+		<string>/beta</string>
 	</dict>
 	<key>debug</key>
 	<dict>

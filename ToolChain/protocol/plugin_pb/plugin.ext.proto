@@ -1,5 +1,5 @@
 syntax = "proto3";
-option objc_class_prefix = "PB4";
+option objc_class_prefix = "PB3";
 package plugin_pb;
 
 // 房间类型
@@ -154,6 +154,7 @@ message PluginPlayer {
     map<int32, int32> flags_kv = 36; //标记, key-value存储, key:参考 enum PlayerFlagKey{}, value:参考key对应的enum{}
     sint64 new_wealth = 37;          // 新财富值
     repeated PAuthInfo auth_info = 39; // 歌手、声优认证信息
+    bool is_deleted = 40; // 是否注销
 }
 
 message PluginUserInfo {
@@ -304,6 +305,7 @@ enum PhomeRoomPattern {
     PRP_GAME_PLATFORM = 81; //游戏模式
     PNRP_MOBA_TEAM = 85;                     // 游戏开黑模式
     PNRP_ORGANIZE_MOBA_TEAM = 86;            // 游戏开黑派单模式
+    PNRP_SINGLE_LIVE_VSN_2 = 89;             // 个播2.0
 }
 
 enum UserSongType{
@@ -318,7 +320,7 @@ message MatchUserGameReq {
 }
 
 message MatchUserGameRes {
-    
+
 }
 
 message MatchUserGameCancelReq {
@@ -408,4 +410,62 @@ message PAuthInfo {
     string name = 7;            // 认证名称
     string start_color = 8;     // 开始颜色
     string end_color = 9;       // 结束颜色
+}
+
+// 热点榜
+enum PluginHotPointType{
+    PHPT_NONE = 0; // 占位
+    PHPT_OFFICIAL = 1; // 官方
+    PHPT_HOT = 2; // 热
+    PHPT_NEW = 3; // 新
+}
+enum HotPointStatus{
+    PHPT_Normal = 0; // 正常
+    PHPT_UnShelve = 1; // 被撤
+    PHPT_Expire = 2; // 过期
+    PHPT_Delete = 3; // 后台删除
+}
+enum HotHide{
+    VISIBLE = 0; //可见
+    INVISIBLE = 1; //不可见
+}
+message PHomeEntryHotPoint {
+    int64 hot_point_id = 1; // 热点ID
+    int64 player_id = 2; // 用户ID
+    int64 player_id2 = 3; // 用户靓号
+    int64 player_id3 = 4; // 半糖靓号
+    string name = 5; // 用户昵称
+    string icon = 6; // 用户头像
+    PluginSexType sex = 7; // 用户性别
+    int32 wealth_level = 8; // 财富等级
+    int32 charm_level = 9; // 魅力等级
+    int32 wealth_level_fish = 10; // 财富等级(半糖)
+    int32 charm_level_fish = 11; // 魅力等级(半糖)
+    string content = 12; // 热点内容
+    string content_response = 13; // 热点回应内容
+    int32 rank = 14; // 排名
+    PluginHotPointType type = 15; // 热点类型
+    int32 gold = 16; // 金币
+    int32 heat = 17; // 热度值
+    int32 watch_num = 18; // 围观人数
+    string jump_url = 19; // 跳转地址
+    int64 push_time = 20; // 发布时间(时间戳:秒)
+    int64 room_id = 21; // player所在房间ID
+    HotPointStatus status = 22; // 热点状态
+    HotHide is_hide = 23; //是否仅自己可见
+}
+
+//火力值排行榜
+message FirepowerRank{
+    int64 player_id = 1;//用户ID
+    string player_image = 2;//用户头像
+    string player_name = 3;//用户名称
+    int64 firepower = 4;//火力值
+}
+
+// 男声女声版
+enum PluginGenderPattern {
+    GV_ZERO = 0;
+    GV_MALE = 1;	// 男声
+    GV_FEMALE = 2; // 女声
 }

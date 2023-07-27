@@ -48,8 +48,11 @@ typedef GPB_ENUM(PB3CouponCmdId) {
   /** 占位 */
   PB3CouponCmdId_PushNone = 0,
 
-  /** 推送优惠券列表 PushCouponList */
+  /** 推送优惠券列表 PushCouponList （不推车载的优惠券） */
   PB3CouponCmdId_CouponListCmdId = 80001,
+
+  /** 推送优惠券列表（全部优惠券 包括车载） */
+  PB3CouponCmdId_CouPonListCarCmdId = 80002,
 };
 
 GPBEnumDescriptor *PB3CouponCmdId_EnumDescriptor(void);
@@ -406,6 +409,25 @@ typedef GPB_ENUM(PB3ShowCouponReq_FieldNumber) {
 #pragma mark - PB3ShowCouponRes
 
 @interface PB3ShowCouponRes : GPBMessage
+
+@end
+
+#pragma mark - PB3ExchangeCouponReq
+
+typedef GPB_ENUM(PB3ExchangeCouponReq_FieldNumber) {
+  PB3ExchangeCouponReq_FieldNumber_Code = 1,
+};
+
+@interface PB3ExchangeCouponReq : GPBMessage
+
+/** 兑换码 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *code;
+
+@end
+
+#pragma mark - PB3ExchangeCouponRes
+
+@interface PB3ExchangeCouponRes : GPBMessage
 
 @end
 

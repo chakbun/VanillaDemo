@@ -22,7 +22,7 @@ Branch=$1
 #仓库地址
 RepoPath=ssh://git@git.2tianxin.com:2022/platform/protocol/auth.git
 #输出工程的oc文件路径
-GEN_DIR=../../huhuAudio/protoOC
+GEN_DIR=../../XHX/protoOC
 
 #1. clone proto 仓库,并做清理
 rm -rf protoRepo
@@ -35,9 +35,9 @@ cd  ../
 
 #3. 移动需要的文件
 echo "移动 auth_pb 文件"
-mkdir auth_pb
+# mkdir auth_pb
 #记得确定一下仓库存放auth_pb文件路径
-mv  ./protoRepo/* ./auth_pb
+mv  ./protoRepo/* ./
 echo "移动完成"
 
 #4. 移除keywords
@@ -58,15 +58,21 @@ echo "开始输出OC文件: ${GEN_DIR}"
 
 #platform
 rm -rf GEN_DIR/auth_pb
-cp ./auth_pb/*.proto ./
-for file in `ls ./auth_pb`
+for file in `ls ./`
 do
 #.ext.proto
 if [[ `echo $file | awk -F'.' '$0~/.*ext.*proto/{print $3}'` = "proto" ]]
 then
 echo "name: ${file} ${GEN_DIR}/auth_pb"
-./protoc --objc_out=${GEN_DIR} \
-auth_pb/$file
+./protoc --objc_out=${GEN_DIR}/auth_pb \
+$file
+fi
+#_common.proto
+if [[ `echo $file | awk -F'.' '$0~/_common.*proto/{print $2}'` = "proto" ]]
+then
+echo "name: ${file} ${GEN_DIR}/auth_pb"
+./protoc --objc_out=${GEN_DIR}/auth_pb \
+$file
 fi
 done
 
@@ -75,4 +81,3 @@ echo "输出完成"
 #清理Repo
 rm -rf protoRepo
 rm -rf ./auth_pb
-rm -f ./*.proto

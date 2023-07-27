@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+import "pb/friend.ext.proto";
+import "pb/common.int.proto";
+package pb;
+
+
+//获取好友关系
+message FriendRelReq {
+    uint64 player_id = 1;
+    uint64 friend_id = 2;
+}
+
+message FriendRelRes {
+    FriendType type = 1;
+}
+
+message RoomNoticeReq {
+    repeated RoomNotice notice = 1;
+}
+
+message RoomNoticeRes {
+
+}
+
+message GetByFollowNumReq {
+    repeated int64 id = 1;
+}
+
+message GetByFollowNumRes {
+    repeated FriendCount count = 1;
+}
+
+message IntimateRelationReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+}
+message IntimateRelationRes {
+    int32 type = 1;         // type=0没有关系
+    int32 intimate_val = 2; // 陪伴值
+    int32 exp_level = 3;  // 经验等级
+    int32 exp = 4;  // 经验值
+    int64 create_at = 5;//开始时间
+}
+
+message AddRoomTimeReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    int32 add_time = 3;     // 秒
+}
+message AddRoomTimeRes{
+
+}
+
+message AddIntimateExpReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    int32 add_type = 3;  // 0上麦，1送礼，2管理后台，3活动奖励
+    int32 val = 4; // 可以为负， 对应add_type:秒，金币，经验
+}
+
+message AddIntimateExpRes {
+}
+
+message AddIntimateValReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+    int32 val = 3; //  陪伴值
+}
+
+message AddIntimateValRes {
+}
+
+message GetAliasAndFollowNumReq {
+    int64 player_id = 1;
+    int64 friend_id = 2;
+}
+message GetAliasAndFollowNumRes {
+    string alias = 1;       //
+    int32 follow_num = 2;
+    int32 friend_type = 3; // 好友类型
+}
+
+message FriendListIntReq {
+    int64 player_id = 1;
+    FriendType type = 2; // 1-关注 2-好友 3-关注加好友
+}
+
+message FriendListIntRes {
+    repeated int64 player_id = 1; //好友列表
+}
+
+//解除挚友
+message DismissIntimateIntReq {
+    int64 player_id = 1; //
+    int64 friend_id = 2; // 挚友id
+}
+
+message DismissIntimateIntRes {
+}
+
+message ImportImAccountReq {
+    int64 player_id = 1;
+    string player_name = 2;
+    string player_icon = 3;
+}
+message ImportImAccountRes {
+}
+
+message FriendOptReq {
+    int64 player_id = 1;
+    int64 target_id = 2;
+    OperType oper = 3;
+}
+message FriendOptRes {
+}
+
+message GetTeacherStudentRelationshipListReq{
+    int64 player_id = 1;
+}
+
+message GetTeacherStudentRelationshipListRes{
+    repeated TeacherStudent list = 1;
+}
+
+message TeacherStudent {
+    int64 id = 1; // ID
+    int64 tid = 2; // 师傅ID
+    int64 sid = 3; // 徒弟ID
+    int32 lev = 4; // 等级
+    int64 exp = 5; // 经验值
+}
+
+// 师徒系统财富等级升级
+message TeacherStudentWealthLevelUpReq {
+    int64 player_id = 1;  // 用户Id
+    int32 old_lev = 2;    // 原等级
+    int32 new_lev = 3;    // 新等级
+    int64 new_wealth = 4; // 新经验值
+}
+message TeacherStudentWealthLevelUpRes {
+}
+
+// 经验操作类型
+enum TeacherStudentExpOptType {
+    TSEOT_None = 0; // 占位
+    TSEOT_Add = 1;  // 添加
+    TSEOT_Sub = 2;  // 减少
+}
+
+// 经验值来源
+enum TeacherStudentExpSourceType {
+    TSEST_None = 0;   // 占位
+    TSEST_Gift = 1;   // 礼物
+    TSEST_Sign = 2;   // 签到
+    TSEST_Manual = 3; // 人工
+}
+
+// 徒弟礼物经验
+message TeacherStudentGiftExpReq {
+    int64 student_id = 1; // 徒弟ID
+    int64 teacher_id = 2; // 师父ID
+    int64 add_charm = 3; // 增加魅力值
+    int64 gift_id = 4; // 礼物ID
+    int64 num = 5; // 礼物数量
+}
+message TeacherStudentGiftExpRes {
+}
+
+// 师徒系统增加经验值
+message TeacherStudentChangeExpReq {
+    int64 student_id = 1; // 徒弟ID
+    int64 teacher_id = 2; // 师父ID
+    int64 add_charm = 3; // 增加魅力值
+    TeacherStudentExpOptType opt_type = 4; // 操作类型
+    TeacherStudentExpSourceType source_type = 5; // 经验来源
+    string remark = 6; // 备注
+    string operator = 7; // 操作者
+}
+message TeacherStudentChangeExpRes {
+}
+
+service FriendIntObj {
+    rpc FriendRel (FriendRelReq) returns (FriendRelRes); //好友关系
+    rpc RoomNotice (RoomNoticeReq) returns (RoomNoticeRes); //房间
+    rpc GetByFollowNum (GetByFollowNumReq) returns (GetByFollowNumRes); //房间
+
+    // 请求挚友关系
+    rpc IntimateRelation(IntimateRelationReq) returns (IntimateRelationRes);
+    // 请求挚友列表
+    rpc IntimateList (IntimateListReq) returns (IntimateListRes);
+
+    rpc AddRoomTime (AddRoomTimeReq) returns (AddRoomTimeRes);
+    // 加减经验
+    rpc AddIntimateExp (AddIntimateExpReq) returns (AddIntimateExpRes);
+    // 加减陪伴值
+    rpc AddIntimateVal (AddIntimateValReq) returns (AddIntimateValRes);
+    // 得到别名,粉丝数
+    rpc GetAliasAndFollowNum (GetAliasAndFollowNumReq) returns (GetAliasAndFollowNumRes);
+
+    rpc FriendListInt (FriendListIntReq) returns (FriendListIntRes); //好友列表
+    // 解除挚友
+    rpc DismissIntimate (DismissIntimateIntReq) returns (DismissIntimateIntRes);
+
+    // 导入im帐号
+    rpc ImportImAccount (ImportImAccountReq) returns (ImportImAccountRes);
+    // 好友操作
+    rpc FriendOpt (FriendOptReq) returns (FriendOptRes);
+
+    // 师徒系统
+    // 获取师徒列表
+    rpc GetTeacherStudentRelationshipList(GetTeacherStudentRelationshipListReq) returns (GetTeacherStudentRelationshipListRes);
+    // 师徒系统财富等级升级
+    rpc TeacherStudentWealthLevelUp(TeacherStudentWealthLevelUpReq) returns (TeacherStudentWealthLevelUpRes);
+    rpc TeacherStudentChangeExp(TeacherStudentChangeExpReq) returns (TeacherStudentChangeExpRes);
+
+    //内容审核结果
+    rpc AdvertAuditFriend(CommContentCheckResultReq) returns(CommContentCheckResultRes);
+}

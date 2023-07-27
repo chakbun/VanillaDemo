@@ -27,1292 +27,1612 @@
 
 CF_EXTERN_C_BEGIN
 
-@class PB4AuthTag;
-@class PB4BillConf;
-@class PB4BillPlayerIconInfo;
-@class PB4Button;
-@class PB4ChairPlayerInfo;
-@class PB4CommentInfo;
-@class PB4EightDescribe;
-@class PB4InterestItem;
-@class PB4MainTab;
-@class PB4MatchSource;
-@class PB4NavRed;
-@class PB4PGamePlayerStatusExt;
-@class PB4PHomeActivity;
-@class PB4PHomeCPInfo;
-@class PB4PHomeCPPlayer;
-@class PB4PHomeCommGame;
-@class PB4PHomeCommMiss;
-@class PB4PHomeCommRank;
-@class PB4PHomeEntryBanner;
-@class PB4PHomeEntryBcFriend;
-@class PB4PHomeEntryBubble;
-@class PB4PHomeEntryOrderPlayer;
-@class PB4PHomeEntryPlayer;
-@class PB4PHomeEntryRoom;
-@class PB4PHomeEntryRoomLabel;
-@class PB4PHomeEntrySubNav;
-@class PB4PHomeMod;
-@class PB4PHomeModClassify;
-@class PB4PHomeNav;
-@class PB4PHomePlayerAbility;
-@class PB4PHomeRank;
-@class PB4PHomeRankItem;
-@class PB4PHomeRouter;
-@class PB4PhomeVideoInfo;
-@class PB4Photo;
-@class PB4PlayerBaseInfo;
-@class PB4PlayerImageInfo;
-@class PB4PluginHomeTips;
-@class PB4Position;
-@class PB4RadioStationRoom;
-@class PB4RoomDecorate;
-@class PB4SubNavRed;
-@class PB4SystemMiscMsgItem;
-GPB_ENUM_FWD_DECLARE(PB4IconLocationType);
-GPB_ENUM_FWD_DECLARE(PB4PluginBcFriendType);
-GPB_ENUM_FWD_DECLARE(PB4PluginRoomType);
-GPB_ENUM_FWD_DECLARE(PB4PluginSexType);
-GPB_ENUM_FWD_DECLARE(PB4UserSongType);
+@class PB3AtPlayer;
+@class PB3AuthTag;
+@class PB3BillConf;
+@class PB3BillPlayerIconInfo;
+@class PB3Button;
+@class PB3ChairPlayerInfo;
+@class PB3CommentInfo;
+@class PB3CommunityTrendsCommentsRes;
+@class PB3CommunityTrendsDetailRes;
+@class PB3EightDescribe;
+@class PB3FirepowerRank;
+@class PB3InterestItem;
+@class PB3MainTab;
+@class PB3MatchSource;
+@class PB3MediaResource;
+@class PB3NavRed;
+@class PB3PGamePlayerStatusExt;
+@class PB3PHomeActivity;
+@class PB3PHomeCPInfo;
+@class PB3PHomeCPPlayer;
+@class PB3PHomeEntryBanner;
+@class PB3PHomeEntryBcFriend;
+@class PB3PHomeEntryBcGift;
+@class PB3PHomeEntryBubble;
+@class PB3PHomeEntryHotPoint;
+@class PB3PHomeEntryOrderPlayer;
+@class PB3PHomeEntryPlayer;
+@class PB3PHomeEntryRoom;
+@class PB3PHomeEntrySubNav;
+@class PB3PHomeMod;
+@class PB3PHomeModClassify;
+@class PB3PHomeNav;
+@class PB3PHomePlayerAbility;
+@class PB3PHomeRank;
+@class PB3PHomeRankItem;
+@class PB3PHomeRoomProgramShow;
+@class PB3PHomeRouter;
+@class PB3PhomeVideoInfo;
+@class PB3PlayerBaseInfo;
+@class PB3PlayerImageInfo;
+@class PB3PluginHomeTips;
+@class PB3Position;
+@class PB3RadioStationRoom;
+@class PB3RoomDecorate;
+@class PB3RoomStatus;
+@class PB3SubNavRed;
+GPB_ENUM_FWD_DECLARE(PB3IconLocationType);
+GPB_ENUM_FWD_DECLARE(PB3PluginBcFriendType);
+GPB_ENUM_FWD_DECLARE(PB3PluginRoomType);
+GPB_ENUM_FWD_DECLARE(PB3PluginSexType);
+GPB_ENUM_FWD_DECLARE(PB3UserSongType);
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Enum PB4PHomeCmdId
+#pragma mark - Enum PB3PHomeCmdId
 
 /** 广播cmdId定义 // 203 */
-typedef GPB_ENUM(PB4PHomeCmdId) {
+typedef GPB_ENUM(PB3PHomeCmdId) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeCmdId_IcHomeZero = 0,
+  PB3PHomeCmdId_IcHomeZero = 0,
 
   /** 推送广播交友 PHomeEntryBcFriend */
-  PB4PHomeCmdId_IcHomePushBcFriend = 1,
+  PB3PHomeCmdId_IcHomePushBcFriend = 1,
 
   /** 推送首页冒泡 */
-  PB4PHomeCmdId_IcHomePushBubble = 701050,
+  PB3PHomeCmdId_IcHomePushBubble = 701050,
 
-  /** 推送房间模式广播交友 PHomeEntryBcFriend */
-  PB4PHomeCmdId_IcHomePushBcFriendGame = 701051,
+  /** 推送房间模式广播交友PHomeEntryBcFriend */
+  PB3PHomeCmdId_IcHomePushBcFriendGame = 701051,
 
   /** SystemCmdId_SYSTEM_TOAST_CMD_ID          SystemCmdId = 101015 */
-  PB4PHomeCmdId_IcHomeSystemToastCmdId = 101015,
+  PB3PHomeCmdId_IcHomeSystemToastCmdId = 101015,
 
   /** 推送匹配结果SysMatchMsg */
-  PB4PHomeCmdId_IcHomeMatchCmdId = 101016,
+  PB3PHomeCmdId_IcHomeMatchCmdId = 101016,
 
   /** 行为更新推送 PushUpdateAction */
-  PB4PHomeCmdId_IcHomePushUpdateAction = 701052,
+  PB3PHomeCmdId_IcHomePushUpdateAction = 701052,
 
   /** 重置模块行为状态 */
-  PB4PHomeCmdId_IcHomePushModActionReset = 701053,
+  PB3PHomeCmdId_IcHomePushModActionReset = 701053,
 
   /** 推送导航红点 PhomeNavRed */
-  PB4PHomeCmdId_IcHomePushNavRed = 701054,
+  PB3PHomeCmdId_IcHomePushNavRed = 701054,
 
   /** 推送首页开黑广播 PHomeEntryBcFriend */
-  PB4PHomeCmdId_IcHomePushBcFriendPlayerTogether = 701055,
+  PB3PHomeCmdId_IcHomePushBcFriendPlayerTogether = 701055,
+
+  /** 推送首页热点 UpdatePHomeEntryHotPoint */
+  PB3PHomeCmdId_IcHomePushHotPoint = 701056,
+
+  /** 推送礼物广播 PHomeEntryBcGift */
+  PB3PHomeCmdId_IcHomePushBcGift = 701057,
 };
 
-GPBEnumDescriptor *PB4PHomeCmdId_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeCmdId_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeCmdId_IsValidValue(int32_t value);
+BOOL PB3PHomeCmdId_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeSysToastType
+#pragma mark - Enum PB3PHomeSysToastType
 
-typedef GPB_ENUM(PB4PHomeSysToastType) {
+typedef GPB_ENUM(PB3PHomeSysToastType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeSysToastType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeSysToastType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 普通 */
-  PB4PHomeSysToastType_SysToastNormal = 0,
+  PB3PHomeSysToastType_SysToastNormal = 0,
 
   /** 成功 */
-  PB4PHomeSysToastType_SysToastSucc = 1,
+  PB3PHomeSysToastType_SysToastSucc = 1,
 
   /** 警告 */
-  PB4PHomeSysToastType_SysToastWarn = 2,
+  PB3PHomeSysToastType_SysToastWarn = 2,
 
   /** 错误 */
-  PB4PHomeSysToastType_SysToastError = 3,
+  PB3PHomeSysToastType_SysToastError = 3,
 };
 
-GPBEnumDescriptor *PB4PHomeSysToastType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeSysToastType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeSysToastType_IsValidValue(int32_t value);
+BOOL PB3PHomeSysToastType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeModStyle
+#pragma mark - Enum PB3PHomeModStyle
 
-typedef GPB_ENUM(PB4PHomeModStyle) {
+typedef GPB_ENUM(PB3PHomeModStyle) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeModStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeModStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 氧气 用 1 - 999 */
-  PB4PHomeModStyle_HmsStyleZero = 0,
+  PB3PHomeModStyle_HmsStyleZero = 0,
 
   /** banner1 */
-  PB4PHomeModStyle_HmsStyleBanner001 = 1,
+  PB3PHomeModStyle_HmsStyleBanner001 = 1,
 
   /** banner2 */
-  PB4PHomeModStyle_HmsStyleBanner002 = 2,
+  PB3PHomeModStyle_HmsStyleBanner002 = 2,
 
   /** 子导航 */
-  PB4PHomeModStyle_HmsStyleSubNav = 3,
+  PB3PHomeModStyle_HmsStyleSubNav = 3,
 
   /** 用户瀑布流 */
-  PB4PHomeModStyle_HmsStylePlayerFalls = 4,
+  PB3PHomeModStyle_HmsStylePlayerFalls = 4,
 
   /** 用户3P */
-  PB4PHomeModStyle_HmsStylePlayer3P = 5,
+  PB3PHomeModStyle_HmsStylePlayer3P = 5,
 
   /** 用户列表 */
-  PB4PHomeModStyle_HmsStylePlayerList = 6,
+  PB3PHomeModStyle_HmsStylePlayerList = 6,
 
   /** 房间列表 */
-  PB4PHomeModStyle_HmsStyleRoomList = 7,
+  PB3PHomeModStyle_HmsStyleRoomList = 7,
 
   /** 房间列表+性别 */
-  PB4PHomeModStyle_HmsStyleRoomListSex = 8,
+  PB3PHomeModStyle_HmsStyleRoomListSex = 8,
 
   /** 房间3P大图 */
-  PB4PHomeModStyle_HmsStyleRoom3Pbig = 9,
+  PB3PHomeModStyle_HmsStyleRoom3Pbig = 9,
 
   /** 房间3P小图 */
-  PB4PHomeModStyle_HmsStyleRoom3Psmall = 10,
+  PB3PHomeModStyle_HmsStyleRoom3Psmall = 10,
 
   /** 房间2P大图 */
-  PB4PHomeModStyle_HmsStyleRoom2Pbig = 11,
+  PB3PHomeModStyle_HmsStyleRoom2Pbig = 11,
 
   /** 广播交友弹幕 */
-  PB4PHomeModStyle_HmsStyleBfbarrage = 12,
+  PB3PHomeModStyle_HmsStyleBfbarrage = 12,
 
   /** 广播交友滚屏 */
-  PB4PHomeModStyle_HmsStyleBfscroll = 13,
+  PB3PHomeModStyle_HmsStyleBfscroll = 13,
 
   /** 推荐收藏 */
-  PB4PHomeModStyle_HmsStyleTjcollection = 14,
+  PB3PHomeModStyle_HmsStyleTjcollection = 14,
 
   /** 我的收藏 */
-  PB4PHomeModStyle_HmsStyleMyCollection = 15,
+  PB3PHomeModStyle_HmsStyleMyCollection = 15,
 
   /** 我的足迹 */
-  PB4PHomeModStyle_HmsStyleMyFootPrint = 16,
+  PB3PHomeModStyle_HmsStyleMyFootPrint = 16,
 
   /** 点单用户瀑布流 */
-  PB4PHomeModStyle_HmsStyleOrderPlayer2Pbig = 17,
+  PB3PHomeModStyle_HmsStyleOrderPlayer2Pbig = 17,
 
   /** banner列表样式 */
-  PB4PHomeModStyle_HmsStyleBannerList = 18,
+  PB3PHomeModStyle_HmsStyleBannerList = 18,
 
   /** 路由大图 */
-  PB4PHomeModStyle_HmsStyleRouter = 19,
+  PB3PHomeModStyle_HmsStyleRouter = 19,
 
   /** 活动样式 */
-  PB4PHomeModStyle_HmsStyleActivity = 20,
+  PB3PHomeModStyle_HmsStyleActivity = 20,
 
   /** 榜单列表样式 */
-  PB4PHomeModStyle_HmsStyleRankList = 21,
+  PB3PHomeModStyle_HmsStyleRankList = 21,
 
   /** 路由小图 */
-  PB4PHomeModStyle_HmsStyleRouterSmall = 22,
+  PB3PHomeModStyle_HmsStyleRouterSmall = 22,
 
   /** 房间2P小图 */
-  PB4PHomeModStyle_HmsStyleRoom2Psmall = 23,
+  PB3PHomeModStyle_HmsStyleRoom2Psmall = 23,
 
   /** 附近的人列表 */
-  PB4PHomeModStyle_HmsStyleNearByList = 24,
+  PB3PHomeModStyle_HmsStyleNearByList = 24,
 
   /** 附近的人3P小图 */
-  PB4PHomeModStyle_HmsStyleNearBy3Psmall = 25,
+  PB3PHomeModStyle_HmsStyleNearBy3Psmall = 25,
 
   /** 用户顶部插入模块 */
-  PB4PHomeModStyle_HmsStylePlayerInsertTop = 26,
+  PB3PHomeModStyle_HmsStylePlayerInsertTop = 26,
 
   /** 点单用户3P */
-  PB4PHomeModStyle_HmsStyleOrderPlayer3P = 27,
+  PB3PHomeModStyle_HmsStyleOrderPlayer3P = 27,
 
   /** 附近人的带相册 */
-  PB4PHomeModStyle_HmsStyleNearByWithAlbum = 28,
+  PB3PHomeModStyle_HmsStyleNearByWithAlbum = 28,
 
   /** 社区标签 */
-  PB4PHomeModStyle_HmsStyleCommunityTag = 29,
+  PB3PHomeModStyle_HmsStyleCommunityTag = 29,
 
   /** 圈子3P大头图 */
-  PB4PHomeModStyle_HmsStyleCommunityGroup3PbigHead = 30,
+  PB3PHomeModStyle_HmsStyleCommunityGroup3PbigHead = 30,
 
   /** 圈子滑动 我的-浏览记录 */
-  PB4PHomeModStyle_HmsStyleCommunityGroupSlide = 31,
+  PB3PHomeModStyle_HmsStyleCommunityGroupSlide = 31,
 
   /** 圈子列表 */
-  PB4PHomeModStyle_HmsStyleCommunityGroupList = 32,
+  PB3PHomeModStyle_HmsStyleCommunityGroupList = 32,
 
   /** 动态列表 */
-  PB4PHomeModStyle_HmsStyleCommunityTrendList = 33,
+  PB3PHomeModStyle_HmsStyleCommunityTrendList = 33,
 
   /** 圈子动态列表 */
-  PB4PHomeModStyle_HmsStyleCommunityGroupTrendList = 34,
+  PB3PHomeModStyle_HmsStyleCommunityGroupTrendList = 34,
 
   /** 社区动态发布框 */
-  PB4PHomeModStyle_HmsStyleCommunityTrendPublish = 35,
+  PB3PHomeModStyle_HmsStyleCommunityTrendPublish = 35,
 
   /** 圈子大头滑动 推荐-热门 */
-  PB4PHomeModStyle_HmsStyleCommunityGroupSlideBigHead = 36,
+  PB3PHomeModStyle_HmsStyleCommunityGroupSlideBigHead = 36,
 
   /** banner矩阵(2行4列),左右滑动 */
-  PB4PHomeModStyle_HmsStyleBannerMatrix24Slide = 37,
+  PB3PHomeModStyle_HmsStyleBannerMatrix24Slide = 37,
 
   /** banner 3P */
-  PB4PHomeModStyle_HmsStyleBanner3P = 38,
+  PB3PHomeModStyle_HmsStyleBanner3P = 38,
 
   /** banner 2P */
-  PB4PHomeModStyle_HmsStyleBanner2P = 39,
+  PB3PHomeModStyle_HmsStyleBanner2P = 39,
 
   /** 房间左右滑动列表 */
-  PB4PHomeModStyle_HmsStyleRoomListSlide = 40,
+  PB3PHomeModStyle_HmsStyleRoomListSlide = 40,
 
   /** 附近的人大卡片 */
-  PB4PHomeModStyle_HmsStyleNearByBigCard = 41,
+  PB3PHomeModStyle_HmsStyleNearByBigCard = 41,
 
   /** 声鉴卡 */
-  PB4PHomeModStyle_HmsStylePlayerSoundCard = 42,
+  PB3PHomeModStyle_HmsStylePlayerSoundCard = 42,
 
   /** 广播交友弹幕游戏模式 */
-  PB4PHomeModStyle_HmsStyleBfbarrageGame = 43,
+  PB3PHomeModStyle_HmsStyleBfbarrageGame = 43,
 
   /** 广播交友滚屏游戏模式 */
-  PB4PHomeModStyle_HmsStyleBfscrollGame = 44,
+  PB3PHomeModStyle_HmsStyleBfscrollGame = 44,
 
   /** 房间超大图 */
-  PB4PHomeModStyle_HmsStyleRoomLarge = 45,
+  PB3PHomeModStyle_HmsStyleRoomLarge = 45,
 
   /** 游戏房间列表（9.0版本的新样式支持非游戏模式） */
-  PB4PHomeModStyle_HmsStyleGameRoomList = 46,
+  PB3PHomeModStyle_HmsStyleGameRoomList = 46,
 
   /** 声鉴列表 */
-  PB4PHomeModStyle_HmsStylePlayerSoundCardList = 47,
+  PB3PHomeModStyle_HmsStylePlayerSoundCardList = 47,
 
   /** 表演|派单房间列表 */
-  PB4PHomeModStyle_HmsStyleShowOrderRoomList = 49,
+  PB3PHomeModStyle_HmsStyleShowOrderRoomList = 49,
 
   /** 电台房间列表 */
-  PB4PHomeModStyle_HmsStyleRoomRadioList = 50,
+  PB3PHomeModStyle_HmsStyleRoomRadioList = 50,
 
   /** banner 均分3P */
-  PB4PHomeModStyle_HmsStyleBannerAverage3P = 51,
+  PB3PHomeModStyle_HmsStyleBannerAverage3P = 51,
 
   /** 点单榜单样式 */
-  PB4PHomeModStyle_HmsStyleOrderRank = 52,
+  PB3PHomeModStyle_HmsStyleOrderRank = 52,
 
   /** 匹配房间和游戏等样式 */
-  PB4PHomeModStyle_HmsStyleMatching = 53,
+  PB3PHomeModStyle_HmsStyleMatching = 53,
 
   /** 社区热门动态列表 */
-  PB4PHomeModStyle_HmsStyleCommunityGroupTrendHotList = 54,
+  PB3PHomeModStyle_HmsStyleCommunityGroupTrendHotList = 54,
 
   /** 搜索页->最近进房->房间列表样式 */
-  PB4PHomeModStyle_HmsStyleSearchRoomList = 55,
+  PB3PHomeModStyle_HmsStyleSearchRoomList = 55,
 
   /** 搜索页Banner样式 */
-  PB4PHomeModStyle_HmsStyleSearchBanner = 56,
+  PB3PHomeModStyle_HmsStyleSearchBanner = 56,
 
   /** 搜索页模块样式 */
-  PB4PHomeModStyle_HmsStyleSearchModule = 57,
+  PB3PHomeModStyle_HmsStyleSearchModule = 57,
 
   /** 搜ID-搜索记录样式 */
-  PB4PHomeModStyle_HmsStyleSearchRecord = 58,
+  PB3PHomeModStyle_HmsStyleSearchRecord = 58,
 
   /** 搜房间-搜索记录样式 */
-  PB4PHomeModStyle_HmsStyleSearchRecordRoom = 59,
+  PB3PHomeModStyle_HmsStyleSearchRecordRoom = 59,
 
   /** 新 首页游戏房间列表 */
-  PB4PHomeModStyle_HmsStyleGameRoomListNew = 60,
+  PB3PHomeModStyle_HmsStyleGameRoomListNew = 60,
 
   /** 游戏用户列表 */
-  PB4PHomeModStyle_HmsStyleGamePlayerList = 61,
+  PB3PHomeModStyle_HmsStyleGamePlayerList = 61,
 
   /** 游戏用户列表展开 */
-  PB4PHomeModStyle_HmsStyleGamePlayerListOpen = 62,
+  PB3PHomeModStyle_HmsStyleGamePlayerListOpen = 62,
 
   /** 个人推荐样式 */
-  PB4PHomeModStyle_HmsStylePersonalRecommend = 63,
+  PB3PHomeModStyle_HmsStylePersonalRecommend = 63,
 
   /** 房间推荐列表样式 */
-  PB4PHomeModStyle_HmsStyleRoomRecommend = 64,
+  PB3PHomeModStyle_HmsStyleRoomRecommend = 64,
 
   /** 退房推荐 圆圈横排样式 （退房好友在玩） */
-  PB4PHomeModStyle_HmsStyleLeaveRoomRecommendRowCircle = 65,
+  PB3PHomeModStyle_HmsStyleLeaveRoomRecommendRowCircle = 65,
 
   /** 退房推荐 圆圈竖排样式 （退房推荐用户） */
-  PB4PHomeModStyle_HmsStyleLeaveRoomRecommendColumnCircle = 66,
+  PB3PHomeModStyle_HmsStyleLeaveRoomRecommendColumnCircle = 66,
 
   /** 退房推荐 方形横排样式 （退房最近足迹） */
-  PB4PHomeModStyle_HmsStyleLeaveRoomRecommendRowSquare = 67,
+  PB3PHomeModStyle_HmsStyleLeaveRoomRecommendRowSquare = 67,
 
   /** 退房推荐 方形竖排样式 （退房热门房间） */
-  PB4PHomeModStyle_HmsStyleLeaveRoomRecommendColumnSquare = 68,
+  PB3PHomeModStyle_HmsStyleLeaveRoomRecommendColumnSquare = 68,
 
   /** banner矩阵(2行5列),左右滑动 */
-  PB4PHomeModStyle_HmsStyleBannerMatrix25Slide = 69,
+  PB3PHomeModStyle_HmsStyleBannerMatrix25Slide = 69,
 
   /** 1x5矩阵列表 */
-  PB4PHomeModStyle_HmsStyleBannerMatrix15 = 70,
+  PB3PHomeModStyle_HmsStyleBannerMatrix15 = 70,
 
   /** 4P不规则banner */
-  PB4PHomeModStyle_HmsStyleBannerIrregular4P = 71,
+  PB3PHomeModStyle_HmsStyleBannerIrregular4P = 71,
 
   /** 好友推荐 */
-  PB4PHomeModStyle_HmsStyleFriendRecommend = 72,
+  PB3PHomeModStyle_HmsStyleFriendRecommend = 72,
 
   /** 发布头条 */
-  PB4PHomeModStyle_HmsStylePublishHeadlines = 73,
+  PB3PHomeModStyle_HmsStylePublishHeadlines = 73,
 
   /** 顶流富豪 */
-  PB4PHomeModStyle_HmsStyleTopWealth = 74,
+  PB3PHomeModStyle_HmsStyleTopWealth = 74,
 
   /** 顶流明星 */
-  PB4PHomeModStyle_HmsStyleTopCharm = 75,
+  PB3PHomeModStyle_HmsStyleTopCharm = 75,
 
   /** 爵位用户 */
-  PB4PHomeModStyle_HmsStyleNobilityUser = 76,
+  PB3PHomeModStyle_HmsStyleNobilityUser = 76,
 
   /** 开黑广播样式 */
-  PB4PHomeModStyle_HmsStyleGameGangUp = 77,
+  PB3PHomeModStyle_HmsStyleGameGangUp = 77,
 
-  /** 开黑房间样式 */
-  PB4PHomeModStyle_HmsStyleMobaTeamRoom = 78,
+  /** 开黑厅样式 */
+  PB3PHomeModStyle_HmsStyleMobaTeamRoom = 78,
 
-  /** banner1 */
-  PB4PHomeModStyle_HmsStyleBanner690160 = 79,
+  /** 开黑组队列表样式 */
+  PB3PHomeModStyle_HmsStyleMobaTeamRoomList = 79,
 
-  /** 海外游戏社区 */
-  PB4PHomeModStyle_HmsStyleCommGame = 80,
+  /** 好友形式（可左右滑动支持查看更多） */
+  PB3PHomeModStyle_HmsStylePlayerSlideSupportJumpMore = 80,
 
-  /** 任务样式 */
-  PB4PHomeModStyle_HmsStyleCommMiss = 81,
+  /** 房间4p（可滑动支持查看更多） */
+  PB3PHomeModStyle_HmsStyleRoomSlideSupportJumpMore = 81,
 
-  /** 排行榜样式 */
-  PB4PHomeModStyle_HmsStyleCommRank = 82,
+  /** 心动8分钟选妃样式 */
+  PB3PHomeModStyle_HmsStyleCpinfo = 82,
 
-  /** banner样式，好像可以复用以前的，保留 */
-  PB4PHomeModStyle_HmsStyleCommBanner = 83,
+  /** 个播2.0节目单列表样式 */
+  PB3PHomeModStyle_HmsStyleSingleLive2 = 83,
 
-  /** 独立游戏样式，用于首页第一个游戏 */
-  PB4PHomeModStyle_HmsStyleCommGameSingle = 84,
+  /** 小型活动房间样式 */
+  PB3PHomeModStyle_HmsStyleSmallActivityRoom = 84,
 
-  /** 独立游戏样式，用于首页第一个游戏 */
-  PB4PHomeModStyle_HmsStyleCommShowUser = 85,
+  /** 5P不规则banner */
+  PB3PHomeModStyle_HmsStyleBannerIrregular5P = 85,
 
-  /** 游戏模块样式 */
-  PB4PHomeModStyle_HmsStyleGameSlide = 91,
+  /** 热门房间样式 */
+  PB3PHomeModStyle_HmsStyleRoomHotList = 86,
 
-  /** 每行2个，显示在玩人数 */
-  PB4PHomeModStyle_HmsStyleGamePlayNum = 92,
+  /** 纯标题样式 */
+  PB3PHomeModStyle_HmsStyleNoData = 87,
 
-  /** 每行1个，显示游戏描述 */
-  PB4PHomeModStyle_HmsStyleGameDesc = 93,
+  /** 公会战榜单样式 */
+  PB3PHomeModStyle_HmsStyleConsortiaPkrank = 88,
 
-  /** 心动8分钟 */
-  PB4PHomeModStyle_HmsStyleCpblindBox = 96,
+  /** 心动8分钟选妃样式5P */
+  PB3PHomeModStyle_HmsStyleCpinfo5P = 89,
+
+  /** 长图房间列表+麦上头像 */
+  PB3PHomeModStyle_HmsStyleRoomListLongPicIcon = 90,
+
+  /** 方图房间列表+麦上头像 */
+  PB3PHomeModStyle_HmsStyleRoomListSquarePicIcon = 91,
+
+  /** 综合搜索-搜索记录样式 */
+  PB3PHomeModStyle_HmsStyleCompositeSearchRecord = 92,
+
+  /** 热点榜滚动样式 */
+  PB3PHomeModStyle_HmsStyleHotPointScroll = 93,
+
+  /** 热点榜列表样式 */
+  PB3PHomeModStyle_HmsStyleHotPointList = 94,
+
+  /** CP接线员样式 */
+  PB3PHomeModStyle_HmsStyleCpplayer = 95,
+
+  /** CP心动盲盒样式 */
+  PB3PHomeModStyle_HmsStyleCpblindBox = 96,
+
+  /** 房间2P图 */
+  PB3PHomeModStyle_HmsStyleRoom2P = 97,
+
+  /** 氧气车载普通样式 */
+  PB3PHomeModStyle_HmsStyleOxygenCarNormalList = 98,
+
+  /** 氧气车载循环样式 */
+  PB3PHomeModStyle_HmsStyleOxygenCarScrollList = 99,
+
+  /** 礼物广播 */
+  PB3PHomeModStyle_HmsStyleBfgift = 100,
+
+  /** 房间嵌套样式 HDT_DataTypeRoom = 1; // 房间数据    PHomeEntryRoomList */
+  PB3PHomeModStyle_HmsStyleRoomNestedList = 101,
+
+  /** 嵌套banner子样式 HDT_DataTypeBanner = 3; // banner    PHomeEntryBannerList */
+  PB3PHomeModStyle_HmsStyleNestedBanner = 102,
 
   /** 焦糖的 用 1001 - 1999 */
-  PB4PHomeModStyle_HmsStyleVideoCard = 1001,
+  PB3PHomeModStyle_HmsStyleVideoCard = 1001,
 
   /** 一起看列表 */
-  PB4PHomeModStyle_HmsStyleVideoList = 1002,
+  PB3PHomeModStyle_HmsStyleVideoList = 1002,
 
   /** 榜单大图 */
-  PB4PHomeModStyle_HmsStyleRankBigImage = 1003,
+  PB3PHomeModStyle_HmsStyleRankBigImage = 1003,
 
   /** 路由2P */
-  PB4PHomeModStyle_HmsStyleRouter2P = 1004,
+  PB3PHomeModStyle_HmsStyleRouter2P = 1004,
 
   /** 路由3P */
-  PB4PHomeModStyle_HmsStyleRouter3P = 1005,
+  PB3PHomeModStyle_HmsStyleRouter3P = 1005,
 
   /** 首页冒泡 */
-  PB4PHomeModStyle_HmsStyleBubble = 1006,
+  PB3PHomeModStyle_HmsStyleBubble = 1006,
 
   /** 氧气之前写错了 */
-  PB4PHomeModStyle_HmsStyleOrderList = 1010,
+  PB3PHomeModStyle_HmsStyleOrderList = 1010,
 
   /** 1x4矩阵列表 */
-  PB4PHomeModStyle_HmsStyleBannerMatrix44 = 1011,
-
-  /** 用户列表IM入口 */
-  PB4PHomeModStyle_HmsStylePlayerListIm = 2001,
+  PB3PHomeModStyle_HmsStyleBannerMatrix44 = 1011,
 };
 
-GPBEnumDescriptor *PB4PHomeModStyle_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeModStyle_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeModStyle_IsValidValue(int32_t value);
+BOOL PB3PHomeModStyle_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeMoreRule
+#pragma mark - Enum PB3PHomeMoreRule
 
-typedef GPB_ENUM(PB4PHomeMoreRule) {
+typedef GPB_ENUM(PB3PHomeMoreRule) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeMoreRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeMoreRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeMoreRule_HmrRuleNone = 0,
+  PB3PHomeMoreRule_HmrRuleNone = 0,
 
   /** 跳转子页面 */
-  PB4PHomeMoreRule_HmrRuleSubPage = 1,
+  PB3PHomeMoreRule_HmrRuleSubPage = 1,
 
   /** 翻页（下一页） */
-  PB4PHomeMoreRule_HmrRuleNextPage = 2,
+  PB3PHomeMoreRule_HmrRuleNextPage = 2,
 
   /** 刷新 */
-  PB4PHomeMoreRule_HmrRuleRefre = 3,
+  PB3PHomeMoreRule_HmrRuleRefre = 3,
 
   /** 折叠 */
-  PB4PHomeMoreRule_HmrRuleFole = 4,
+  PB3PHomeMoreRule_HmrRuleFole = 4,
 
   /** 清空 */
-  PB4PHomeMoreRule_HmrRuleClean = 5,
+  PB3PHomeMoreRule_HmrRuleClean = 5,
 
   /** 模块分类 */
-  PB4PHomeMoreRule_HmrRuleModClassify = 6,
+  PB3PHomeMoreRule_HmrRuleModClassify = 6,
 
   /** 广播交友 */
-  PB4PHomeMoreRule_HmrRuleModBcFriend = 7,
+  PB3PHomeMoreRule_HmrRuleModBcFriend = 7,
 
   /** 咪窝 */
-  PB4PHomeMoreRule_HmrRuleModMyZone = 8,
+  PB3PHomeMoreRule_HmrRuleModMyZone = 8,
 
   /** 推介数据 */
-  PB4PHomeMoreRule_HmrRuleModRecommend = 9,
+  PB3PHomeMoreRule_HmrRuleModRecommend = 9,
 
   /** 路由 */
-  PB4PHomeMoreRule_HmrRuleModRoute = 10,
+  PB3PHomeMoreRule_HmrRuleModRoute = 10,
 
   /** 首页冒泡 */
-  PB4PHomeMoreRule_HmrRuleModBubble = 11,
+  PB3PHomeMoreRule_HmrRuleModBubble = 11,
 
   /** 跳转游戏子页面 */
-  PB4PHomeMoreRule_HmrRuleSubPageGame = 12,
+  PB3PHomeMoreRule_HmrRuleSubPageGame = 12,
 };
 
-GPBEnumDescriptor *PB4PHomeMoreRule_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeMoreRule_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeMoreRule_IsValidValue(int32_t value);
+BOOL PB3PHomeMoreRule_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeShowStatus
+#pragma mark - Enum PB3PHomeShowStatus
 
-typedef GPB_ENUM(PB4PHomeShowStatus) {
+typedef GPB_ENUM(PB3PHomeShowStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeShowStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeShowStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeShowStatus_HssShowNone = 0,
+  PB3PHomeShowStatus_HssShowNone = 0,
 
   /** 正常显示 */
-  PB4PHomeShowStatus_HssShowNormal = 1,
+  PB3PHomeShowStatus_HssShowNormal = 1,
 
   /** 折叠规则显示 */
-  PB4PHomeShowStatus_HssShowFole = 2,
+  PB3PHomeShowStatus_HssShowFole = 2,
 };
 
-GPBEnumDescriptor *PB4PHomeShowStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeShowStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeShowStatus_IsValidValue(int32_t value);
+BOOL PB3PHomeShowStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeDataType
+#pragma mark - Enum PB3PHomeDataType
 
-typedef GPB_ENUM(PB4PHomeDataType) {
+typedef GPB_ENUM(PB3PHomeDataType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeDataType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeDataType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeDataType_HdtDataTypeNone = 0,
+  PB3PHomeDataType_HdtDataTypeNone = 0,
 
   /** 房间数据    PHomeEntryRoomList */
-  PB4PHomeDataType_HdtDataTypeRoom = 1,
+  PB3PHomeDataType_HdtDataTypeRoom = 1,
 
   /** 玩家       PHomeEntryPlayerList */
-  PB4PHomeDataType_HdtDataTypePlayer = 2,
+  PB3PHomeDataType_HdtDataTypePlayer = 2,
 
   /** banner       PHomeEntryBannerList */
-  PB4PHomeDataType_HdtDataTypeBanner = 3,
+  PB3PHomeDataType_HdtDataTypeBanner = 3,
 
   /** 二级导航    PHomeEntrySubNavList */
-  PB4PHomeDataType_HdtDataTypeSubNav = 4,
+  PB3PHomeDataType_HdtDataTypeSubNav = 4,
 
   /** 广播交友  PHomeEntryBcFriendList */
-  PB4PHomeDataType_HdtDataTypeBcFriend = 6,
+  PB3PHomeDataType_HdtDataTypeBcFriend = 6,
 
   /** 路由数据    PHomeRouterList */
-  PB4PHomeDataType_HdtDataTypeRouter = 7,
+  PB3PHomeDataType_HdtDataTypeRouter = 7,
 
   /** 榜单         PHomeRankList */
-  PB4PHomeDataType_HdtDataTypeRank = 8,
+  PB3PHomeDataType_HdtDataTypeRank = 8,
 
   /** 活动     PHomeActivityList */
-  PB4PHomeDataType_HdtDataTypeActivity = 9,
+  PB3PHomeDataType_HdtDataTypeActivity = 9,
 
   /** 社区标签 CommunityTagList */
-  PB4PHomeDataType_HdtDateTypeCommunityTag = 10,
+  PB3PHomeDataType_HdtDateTypeCommunityTag = 10,
 
   /** 社区圈子 CommunityGroupDataList */
-  PB4PHomeDataType_HdtDateTypeCommunityGroup = 11,
+  PB3PHomeDataType_HdtDateTypeCommunityGroup = 11,
 
   /** 社区动态 CommunityTrendDataList */
-  PB4PHomeDataType_HdtDateTypeCommunityTrend = 12,
+  PB3PHomeDataType_HdtDateTypeCommunityTrend = 12,
 
   /** 社区圈子动态 CommunityGroupTrendList */
-  PB4PHomeDataType_HdtDateTypeCommunityGroupDetail = 13,
+  PB3PHomeDataType_HdtDateTypeCommunityGroupDetail = 13,
 
   /** 首页冒泡 PHomeEntryBubble */
-  PB4PHomeDataType_HdtDataTypeBubble = 14,
+  PB3PHomeDataType_HdtDataTypeBubble = 14,
 
   /** 广播交友-游戏模式  PHomeEntryBcFriendList */
-  PB4PHomeDataType_HdtDataTypeBcFriendGame = 15,
+  PB3PHomeDataType_HdtDataTypeBcFriendGame = 15,
 
   /** 电台 RadioStationList */
-  PB4PHomeDataType_HdtDateTypeRadioStation = 16,
+  PB3PHomeDataType_HdtDateTypeRadioStation = 16,
 
   /** 广播交友-开黑模式  PHomeEntryBcFriendList */
-  PB4PHomeDataType_HdtDataTypeBcFriendGameGangUp = 17,
-
-  /** 海外游戏社区 */
-  PB4PHomeDataType_HdtDataTypeCommGame = 18,
-
-  /** 任务类型 PHomeCommMissList */
-  PB4PHomeDataType_HdtDataTypeCommMiss = 19,
-
-  /** 排行榜 PHomeCommRankList */
-  PB4PHomeDataType_HdtDataTypeCommRank = 20,
-
-  /** 游戏类型(单列) PHomeCommGame，考虑PHomeCommGameList，数量为1 */
-  PB4PHomeDataType_HdtDataTypeCommGameSingle = 21,
-
-  /** 社区顶部展示用户类型 PHomeShowUser */
-  PB4PHomeDataType_HdtDataTypeCommShowUser = 22,
-
-  /** 游戏模块 */
-  PB4PHomeDataType_HdtDataTypeGame = 23,
-
-  /** 心动8分钟模块(半糖) PHomeCPInfoList */
-  PB4PHomeDataType_HdtDataTypeCpinfoFish = 24,
+  PB3PHomeDataType_HdtDataTypeBcFriendGameGangUp = 17,
 
   /** 心动8分钟模块 PHomeCPInfoList */
-  PB4PHomeDataType_HdtDataTypeCpinfo = 25,
+  PB3PHomeDataType_HdtDataTypeCpinfo = 18,
+
+  /** 个播2.0节目单模块 PHomeRoomProgramShowList */
+  PB3PHomeDataType_HdtDataTypeProgramShow = 19,
+
+  /** 纯标题模块(不需要解析PHomeMod的data_type字段) */
+  PB3PHomeDataType_HdtDataTypeNoData = 20,
+
+  /** 心动8分钟模块(半糖) PHomeCPInfoList */
+  PB3PHomeDataType_HdtDataTypeCpinfoFish = 21,
+
+  /** 热点榜 PHomeEntryHotPointList */
+  PB3PHomeDataType_HdtDataTypeHotPoint = 22,
+
+  /** 礼物广播  PHomeEntryBcGiftList */
+  PB3PHomeDataType_HdtDataTypeBcGift = 23,
 };
 
-GPBEnumDescriptor *PB4PHomeDataType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeDataType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeDataType_IsValidValue(int32_t value);
+BOOL PB3PHomeDataType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeRouteType
+#pragma mark - Enum PB3PHomeRouteType
 
-typedef GPB_ENUM(PB4PHomeRouteType) {
+typedef GPB_ENUM(PB3PHomeRouteType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeRouteType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeRouteType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 没有路由 */
-  PB4PHomeRouteType_HdtRouteTypeNone = 0,
+  PB3PHomeRouteType_HdtRouteTypeNone = 0,
 
   /** 路由拼接id */
-  PB4PHomeRouteType_HdtRouteTypeId = 1,
+  PB3PHomeRouteType_HdtRouteTypeId = 1,
 
   /** 跳转子页面（路由模块） */
-  PB4PHomeRouteType_HdtRouteTypeSubPage = 2,
+  PB3PHomeRouteType_HdtRouteTypeSubPage = 2,
 
   /** 自定义路由 */
-  PB4PHomeRouteType_HdtRouteTypeDefine = 3,
+  PB3PHomeRouteType_HdtRouteTypeDefine = 3,
 
   /** 个人空间 */
-  PB4PHomeRouteType_HdtRouteTypeMiwoZero = 4,
+  PB3PHomeRouteType_HdtRouteTypeMiwoZero = 4,
 
   /** 进个人房 */
-  PB4PHomeRouteType_HdtRouteTypeEnterRoom = 5,
+  PB3PHomeRouteType_HdtRouteTypeEnterRoom = 5,
 
   /** 弹出名片卡 */
-  PB4PHomeRouteType_HdtRouteTypePlayerCard = 6,
+  PB3PHomeRouteType_HdtRouteTypePlayerCard = 6,
 
   /** IM|聊天 */
-  PB4PHomeRouteType_HdtRouteTypeImchat = 7,
+  PB3PHomeRouteType_HdtRouteTypeImchat = 7,
 
   /** 个人空间-技能分类（点单模块） */
-  PB4PHomeRouteType_HdtRouteTypeMiwoOne = 8,
+  PB3PHomeRouteType_HdtRouteTypeMiwoOne = 8,
 
   /** 大神技能页（点单模块） */
-  PB4PHomeRouteType_HdtRouteTypeSkill = 9,
-
-  /** 海外社区游戏 */
-  PB4PHomeRouteType_HdtRouteTypeCommGame = 10,
-
-  /** 排行榜 */
-  PB4PHomeRouteType_HdtRouteTypeCommRank = 11,
-
-  /** 排行榜 */
-  PB4PHomeRouteType_HdtRouteTypeCommMiss = 12,
-
-  /** 排行榜 */
-  PB4PHomeRouteType_HdtRouteTypeCommBanner = 13,
+  PB3PHomeRouteType_HdtRouteTypeSkill = 9,
 };
 
-GPBEnumDescriptor *PB4PHomeRouteType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeRouteType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeRouteType_IsValidValue(int32_t value);
+BOOL PB3PHomeRouteType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeClassify
+#pragma mark - Enum PB3PHomeClassify
 
-typedef GPB_ENUM(PB4PHomeClassify) {
+typedef GPB_ENUM(PB3PHomeClassify) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeClassify_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeClassify_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeClassify_HmcClassifyNone = 0,
+  PB3PHomeClassify_HmcClassifyNone = 0,
 
   /** 所有性别 */
-  PB4PHomeClassify_HmcClassifySexAll = 1,
+  PB3PHomeClassify_HmcClassifySexAll = 1,
 
   /** 性别男 */
-  PB4PHomeClassify_HmcClassifyAllMale = 2,
+  PB3PHomeClassify_HmcClassifyAllMale = 2,
 
   /** 性别女 */
-  PB4PHomeClassify_HmcClassifyAllFemale = 3,
+  PB3PHomeClassify_HmcClassifyAllFemale = 3,
 };
 
-GPBEnumDescriptor *PB4PHomeClassify_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeClassify_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeClassify_IsValidValue(int32_t value);
+BOOL PB3PHomeClassify_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeExtraType
+#pragma mark - Enum PB3PHomeExtraType
 
-typedef GPB_ENUM(PB4PHomeExtraType) {
+typedef GPB_ENUM(PB3PHomeExtraType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeExtraType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeExtraType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeExtraType_HmcExtraTypeNone = 0,
+  PB3PHomeExtraType_HmcExtraTypeNone = 0,
 
   /** 全服热度 */
-  PB4PHomeExtraType_HmcExtraTypeAll = 1,
+  PB3PHomeExtraType_HmcExtraTypeAll = 1,
 
   /** 全服在线人数 */
-  PB4PHomeExtraType_HmcExtraTypePeople = 2,
+  PB3PHomeExtraType_HmcExtraTypePeople = 2,
 
   /** 全服在线房间 */
-  PB4PHomeExtraType_HmcExtraTypeRoom = 3,
+  PB3PHomeExtraType_HmcExtraTypeRoom = 3,
 };
 
-GPBEnumDescriptor *PB4PHomeExtraType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeExtraType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeExtraType_IsValidValue(int32_t value);
+BOOL PB3PHomeExtraType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeNavStyle
+#pragma mark - Enum PB3PHomeNavStyle
 
-typedef GPB_ENUM(PB4PHomeNavStyle) {
+typedef GPB_ENUM(PB3PHomeNavStyle) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeNavStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeNavStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeNavStyle_HmcNavStyleNone = 0,
+  PB3PHomeNavStyle_HmcNavStyleNone = 0,
 
   /** 附近的人 */
-  PB4PHomeNavStyle_HmcNavStyleNearBy = 1,
+  PB3PHomeNavStyle_HmcNavStyleNearBy = 1,
+
+  /** 热点 */
+  PB3PHomeNavStyle_HmcNavStyleHotPoint = 2,
+
+  /** 男声女声版 */
+  PB3PHomeNavStyle_HmcNavStyleGenderPattern = 3,
 };
 
-GPBEnumDescriptor *PB4PHomeNavStyle_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeNavStyle_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeNavStyle_IsValidValue(int32_t value);
+BOOL PB3PHomeNavStyle_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PluginRankType
+#pragma mark - Enum PB3PluginRankType
 
-typedef GPB_ENUM(PB4PluginRankType) {
+typedef GPB_ENUM(PB3PluginRankType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PluginRankType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PluginRankType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PluginRankType_PrtZero = 0,
+  PB3PluginRankType_PrtZero = 0,
 
   /** 明星日榜 */
-  PB4PluginRankType_PrtCharmDay = 1,
+  PB3PluginRankType_PrtCharmDay = 1,
 
   /** 明星周榜 */
-  PB4PluginRankType_PrtCharmWeek = 2,
+  PB3PluginRankType_PrtCharmWeek = 2,
 
   /** 明星总榜 */
-  PB4PluginRankType_PrtCharmAll = 3,
+  PB3PluginRankType_PrtCharmAll = 3,
 
   /** 富豪日榜 */
-  PB4PluginRankType_PrtWealthDay = 4,
+  PB3PluginRankType_PrtWealthDay = 4,
 
   /** 富豪周榜 */
-  PB4PluginRankType_PrtWealthWeek = 5,
+  PB3PluginRankType_PrtWealthWeek = 5,
 
   /** 富豪总榜 */
-  PB4PluginRankType_PrtWealthAll = 6,
+  PB3PluginRankType_PrtWealthAll = 6,
 
   /** 礼物总榜 */
-  PB4PluginRankType_PrtGiftAll = 7,
+  PB3PluginRankType_PrtGiftAll = 7,
 
   /** 周星榜 */
-  PB4PluginRankType_PrtWeekStar = 8,
+  PB3PluginRankType_PrtWeekStar = 8,
 
   /** 明星年榜 */
-  PB4PluginRankType_PrtCharmYear = 9,
+  PB3PluginRankType_PrtCharmYear = 9,
 
   /** 富豪年榜 */
-  PB4PluginRankType_PrtWealthYear = 10,
+  PB3PluginRankType_PrtWealthYear = 10,
 
   /** 接单榜 */
-  PB4PluginRankType_PrtOrderRank = 11,
+  PB3PluginRankType_PrtOrderRank = 11,
 
   /** 女富豪小时榜 */
-  PB4PluginRankType_PrtGirlWealthHour = 12,
+  PB3PluginRankType_PrtGirlWealthHour = 12,
 
   /** 男富豪小时榜 */
-  PB4PluginRankType_PrtManWealthHour = 13,
+  PB3PluginRankType_PrtManWealthHour = 13,
 
   /** 女明星小时榜 */
-  PB4PluginRankType_PrtGirlCharmHour = 14,
+  PB3PluginRankType_PrtGirlCharmHour = 14,
 
   /** 男明星小时榜 */
-  PB4PluginRankType_PrtManCharmHour = 15,
+  PB3PluginRankType_PrtManCharmHour = 15,
+
+  /** 公会战7天榜 */
+  PB3PluginRankType_PrtConsortiaPkweek = 16,
+
+  /** 公会战小时榜 */
+  PB3PluginRankType_PrtConsortiaPkhour = 17,
 };
 
-GPBEnumDescriptor *PB4PluginRankType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PluginRankType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PluginRankType_IsValidValue(int32_t value);
+BOOL PB3PluginRankType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4MatchDirectType
+#pragma mark - Enum PB3MatchDirectType
 
-typedef GPB_ENUM(PB4MatchDirectType) {
+typedef GPB_ENUM(PB3MatchDirectType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4MatchDirectType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3MatchDirectType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4MatchDirectType_MatchDirectTypeDefault = 0,
+  PB3MatchDirectType_MatchDirectTypeDefault = 0,
 
   /** 进入房间 int64 roomId, 只是进入房间，游戏匹配是另外的逻辑 */
-  PB4MatchDirectType_MatchDirectTypeRoom = 1,
+  PB3MatchDirectType_MatchDirectTypeRoom = 1,
 
   /** 私聊  int64 playerId */
-  PB4MatchDirectType_MatchDirectTypeChat = 2,
+  PB3MatchDirectType_MatchDirectTypeChat = 2,
 
   /** 模块 int64 modId */
-  PB4MatchDirectType_MatchDirectTypeMod = 3,
+  PB3MatchDirectType_MatchDirectTypeMod = 3,
 
   /** 进入游戏 string （gameId + roomId） 对应MatchDirectTypeGameData结构,进入游戏房间中的正在玩的游戏 */
-  PB4MatchDirectType_MatchDirectTypeGame = 4,
+  PB3MatchDirectType_MatchDirectTypeGame = 4,
 
   /** 继续匹配，返回多少秒之后继续请求一次 int64 */
-  PB4MatchDirectType_MatchDirectTypeContinue = 5,
+  PB3MatchDirectType_MatchDirectTypeContinue = 5,
 
   /** 服务端没数据或者其他情况 */
-  PB4MatchDirectType_MatchDirectTypeNotice = 6,
+  PB3MatchDirectType_MatchDirectTypeNotice = 6,
 
   /** 匹配得类型，跟随的功能放在这里，不影响旧版本的问题 */
-  PB4MatchDirectType_MatchDirectTypeFollow = 7,
+  PB3MatchDirectType_MatchDirectTypeFollow = 7,
 
   /** 链接 */
-  PB4MatchDirectType_MatchDirectTypeLink = 8,
+  PB3MatchDirectType_MatchDirectTypeLink = 8,
 };
 
-GPBEnumDescriptor *PB4MatchDirectType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3MatchDirectType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4MatchDirectType_IsValidValue(int32_t value);
+BOOL PB3MatchDirectType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4MatchStatusType
+#pragma mark - Enum PB3MatchStatusType
 
-typedef GPB_ENUM(PB4MatchStatusType) {
+typedef GPB_ENUM(PB3MatchStatusType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4MatchStatusType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3MatchStatusType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4MatchStatusType_MatchStatusTypeDefault = 0,
+  PB3MatchStatusType_MatchStatusTypeDefault = 0,
 
   /** 匹配中 */
-  PB4MatchStatusType_MatchStatusTypeIng = 1,
+  PB3MatchStatusType_MatchStatusTypeIng = 1,
 
   /** 游戏匹配状态取消,推送给房间 */
-  PB4MatchStatusType_MatchStatusCancel = 2,
+  PB3MatchStatusType_MatchStatusCancel = 2,
 };
 
-GPBEnumDescriptor *PB4MatchStatusType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3MatchStatusType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4MatchStatusType_IsValidValue(int32_t value);
+BOOL PB3MatchStatusType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4QuickGamePreType
+#pragma mark - Enum PB3QuickGamePreType
 
-typedef GPB_ENUM(PB4QuickGamePreType) {
+typedef GPB_ENUM(PB3QuickGamePreType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4QuickGamePreType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3QuickGamePreType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4QuickGamePreType_QuickGamePreTypeDefault = 0,
+  PB3QuickGamePreType_QuickGamePreTypeDefault = 0,
 
   /** 快速匹配中 */
-  PB4QuickGamePreType_QuickGamePreTypeIng = 1,
+  PB3QuickGamePreType_QuickGamePreTypeIng = 1,
 };
 
-GPBEnumDescriptor *PB4QuickGamePreType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3QuickGamePreType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4QuickGamePreType_IsValidValue(int32_t value);
+BOOL PB3QuickGamePreType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeEntryRoomExtendKey
+#pragma mark - Enum PB3PHomeEntryRoomExtendKey
 
-typedef GPB_ENUM(PB4PHomeEntryRoomExtendKey) {
+typedef GPB_ENUM(PB3PHomeEntryRoomExtendKey) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeEntryRoomExtendKey_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PHomeEntryRoomExtendKey_PerekNone = 0,
+  PB3PHomeEntryRoomExtendKey_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeEntryRoomExtendKey_PerekNone = 0,
 
   /** 游戏图标 */
-  PB4PHomeEntryRoomExtendKey_PerekGameIcon = 1,
+  PB3PHomeEntryRoomExtendKey_PerekGameIcon = 1,
 
   /** 背景图 */
-  PB4PHomeEntryRoomExtendKey_PerekGameBgURL = 2,
+  PB3PHomeEntryRoomExtendKey_PerekGameBgURL = 2,
+
+  /** 游戏名称底部开始颜色 */
+  PB3PHomeEntryRoomExtendKey_PerekGameNameBgColorStart = 3,
+
+  /** 游戏名称底部结束颜色 */
+  PB3PHomeEntryRoomExtendKey_PerekGameNameBgColorEnd = 4,
+
+  /** 游戏名称 */
+  PB3PHomeEntryRoomExtendKey_PerekGameName = 5,
 };
 
-GPBEnumDescriptor *PB4PHomeEntryRoomExtendKey_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeEntryRoomExtendKey_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeEntryRoomExtendKey_IsValidValue(int32_t value);
+BOOL PB3PHomeEntryRoomExtendKey_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PGameRoomStatusTypeExt
+#pragma mark - Enum PB3PHomeFlowSupportType
+
+typedef GPB_ENUM(PB3PHomeFlowSupportType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PHomeFlowSupportType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3PHomeFlowSupportType_PfstNone = 0,
+
+  /** 新厅扶持 */
+  PB3PHomeFlowSupportType_PfstNewTing = 1,
+
+  /** 公会战周榜扶持 */
+  PB3PHomeFlowSupportType_PfstConsortiaPkWeek = 2,
+
+  /** 小时榜扶持 */
+  PB3PHomeFlowSupportType_PfstConsortiaPkHour = 3,
+};
+
+GPBEnumDescriptor *PB3PHomeFlowSupportType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PHomeFlowSupportType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PHomeEntryRoomStatus
+
+typedef GPB_ENUM(PB3PHomeEntryRoomStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PHomeEntryRoomStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位，不展示 */
+  PB3PHomeEntryRoomStatus_PhersZero = 0,
+
+  /** PK中 */
+  PB3PHomeEntryRoomStatus_PhersPk = 1,
+
+  /** 弹幕游戏中 */
+  PB3PHomeEntryRoomStatus_PhersBarragegame = 2,
+};
+
+GPBEnumDescriptor *PB3PHomeEntryRoomStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PHomeEntryRoomStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PGameRoomStatusTypeExt
 
 /** 游戏房间状态   与go_tech/game_protocol 仓库里面的 GameRoomStatusType 一致 */
-typedef GPB_ENUM(PB4PGameRoomStatusTypeExt) {
+typedef GPB_ENUM(PB3PGameRoomStatusTypeExt) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PGameRoomStatusTypeExt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PGameRoomStatusTypeExt_ExtPgrstNone = 0,
+  PB3PGameRoomStatusTypeExt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PGameRoomStatusTypeExt_ExtPgrstNone = 0,
 
   /** 未开始 */
-  PB4PGameRoomStatusTypeExt_ExtPgrstWait = 1,
+  PB3PGameRoomStatusTypeExt_ExtPgrstWait = 1,
 
   /** 已开始 */
-  PB4PGameRoomStatusTypeExt_ExtPgrstPlaying = 2,
+  PB3PGameRoomStatusTypeExt_ExtPgrstPlaying = 2,
 };
 
-GPBEnumDescriptor *PB4PGameRoomStatusTypeExt_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PGameRoomStatusTypeExt_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PGameRoomStatusTypeExt_IsValidValue(int32_t value);
+BOOL PB3PGameRoomStatusTypeExt_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PGamePlayerStatusTypeExt
+#pragma mark - Enum PB3PGamePlayerStatusTypeExt
 
 /** 游戏用户状态, 与 go_tech/game_protocol 仓库里面的 GamePlayerStatusType 一致 */
-typedef GPB_ENUM(PB4PGamePlayerStatusTypeExt) {
+typedef GPB_ENUM(PB3PGamePlayerStatusTypeExt) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PGamePlayerStatusTypeExt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4PGamePlayerStatusTypeExt_ExtPgpstNone = 0,
+  PB3PGamePlayerStatusTypeExt_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PGamePlayerStatusTypeExt_ExtPgpstNone = 0,
 
   /** 未准备 */
-  PB4PGamePlayerStatusTypeExt_ExtPgpstUnReady = 1,
+  PB3PGamePlayerStatusTypeExt_ExtPgpstUnReady = 1,
 
   /** 已准备 */
-  PB4PGamePlayerStatusTypeExt_ExtPgpstReady = 2,
+  PB3PGamePlayerStatusTypeExt_ExtPgpstReady = 2,
 
   /** 游戏中 */
-  PB4PGamePlayerStatusTypeExt_ExtPgpstStart = 3,
+  PB3PGamePlayerStatusTypeExt_ExtPgpstStart = 3,
 };
 
-GPBEnumDescriptor *PB4PGamePlayerStatusTypeExt_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PGamePlayerStatusTypeExt_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PGamePlayerStatusTypeExt_IsValidValue(int32_t value);
+BOOL PB3PGamePlayerStatusTypeExt_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PHomeExtendKey
+#pragma mark - Enum PB3PHomeExtendKey
 
-typedef GPB_ENUM(PB4PHomeExtendKey) {
+typedef GPB_ENUM(PB3PHomeExtendKey) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PHomeExtendKey_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PHomeExtendKey_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4PHomeExtendKey_PekNone = 0,
+  PB3PHomeExtendKey_PekNone = 0,
 
   /** 开黑广播(世界广播)背景图 */
-  PB4PHomeExtendKey_PekGameBgBro = 1,
+  PB3PHomeExtendKey_PekGameBgBro = 1,
 
   /** 开黑广播边框图 */
-  PB4PHomeExtendKey_PekGameFrameBro = 2,
+  PB3PHomeExtendKey_PekGameFrameBro = 2,
 
   /** 世界广播-边框颜色 */
-  PB4PHomeExtendKey_PekGameFrameColor = 3,
+  PB3PHomeExtendKey_PekGameFrameColor = 3,
 
   /** 车队ID */
-  PB4PHomeExtendKey_PekCarId = 4,
+  PB3PHomeExtendKey_PekCarId = 4,
 
   /** PC开黑广播(世界广播)背景图 */
-  PB4PHomeExtendKey_PekGameBgBroPc = 5,
+  PB3PHomeExtendKey_PekGameBgBroPc = 5,
 };
 
-GPBEnumDescriptor *PB4PHomeExtendKey_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PHomeExtendKey_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PHomeExtendKey_IsValidValue(int32_t value);
+BOOL PB3PHomeExtendKey_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4BF_RECORD_TYPE
+#pragma mark - Enum PB3BF_RECORD_TYPE
 
 /** 广播交友信息类型, 与广播交友信息里的info_type 字段对应的 */
-typedef GPB_ENUM(PB4BF_RECORD_TYPE) {
+typedef GPB_ENUM(PB3BF_RECORD_TYPE) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4BF_RECORD_TYPE_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3BF_RECORD_TYPE_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 广播交友信息 */
-  PB4BF_RECORD_TYPE_BfrtNormal = 0,
+  PB3BF_RECORD_TYPE_BfrtNormal = 0,
 
   /** 跳跳 */
-  PB4BF_RECORD_TYPE_BfrtTiaoTiao = 1,
+  PB3BF_RECORD_TYPE_BfrtTiaoTiao = 1,
 
   /** 全副礼物 */
-  PB4BF_RECORD_TYPE_BfrtWorldGift = 2,
+  PB3BF_RECORD_TYPE_BfrtWorldGift = 2,
 };
 
-GPBEnumDescriptor *PB4BF_RECORD_TYPE_EnumDescriptor(void);
+GPBEnumDescriptor *PB3BF_RECORD_TYPE_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4BF_RECORD_TYPE_IsValidValue(int32_t value);
+BOOL PB3BF_RECORD_TYPE_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4BannerPosition
+#pragma mark - Enum PB3BannerPosition
 
-typedef GPB_ENUM(PB4BannerPosition) {
+typedef GPB_ENUM(PB3BannerPosition) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4BannerPosition_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4BannerPosition_BpZero = 0,
+  PB3BannerPosition_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3BannerPosition_BpZero = 0,
 
   /** 左上 */
-  PB4BannerPosition_BpLeftTop = 1,
+  PB3BannerPosition_BpLeftTop = 1,
 
   /** 右上 */
-  PB4BannerPosition_BpRightTop = 2,
+  PB3BannerPosition_BpRightTop = 2,
 
   /** 左下 */
-  PB4BannerPosition_BpLeftBottom = 3,
+  PB3BannerPosition_BpLeftBottom = 3,
 
   /** 右下 */
-  PB4BannerPosition_BpRightBottom = 4,
+  PB3BannerPosition_BpRightBottom = 4,
+
+  /** 中上 */
+  PB3BannerPosition_BpMiddleTop = 5,
+
+  /** 中下 */
+  PB3BannerPosition_BpMiddleBottom = 6,
 };
 
-GPBEnumDescriptor *PB4BannerPosition_EnumDescriptor(void);
+GPBEnumDescriptor *PB3BannerPosition_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4BannerPosition_IsValidValue(int32_t value);
+BOOL PB3BannerPosition_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4HomeType
+#pragma mark - Enum PB3HomeNavButtonType
 
-typedef GPB_ENUM(PB4HomeType) {
+typedef GPB_ENUM(PB3HomeNavButtonType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4HomeType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3HomeNavButtonType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3HomeNavButtonType_HnbtNone = 0,
+
+  /** tab_排行 */
+  PB3HomeNavButtonType_HnbtRank = 1,
+
+  /** tab_消息 */
+  PB3HomeNavButtonType_HnbtMessage = 2,
+
+  /** tab_个人 */
+  PB3HomeNavButtonType_HnbtPersona = 3,
+
+  /** 我的咪窝 */
+  PB3HomeNavButtonType_HnbtMiwo = 4,
+
+  /** 我的房间 */
+  PB3HomeNavButtonType_HnbtRoom = 5,
+
+  /** 申请大神 */
+  PB3HomeNavButtonType_HnbtOkami = 6,
+};
+
+GPBEnumDescriptor *PB3HomeNavButtonType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3HomeNavButtonType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3HomeType
+
+typedef GPB_ENUM(PB3HomeType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3HomeType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 首页 */
-  PB4HomeType_HtIndex = 0,
-
-  /** 社区 动态 */
-  PB4HomeType_HtCommunity = 1,
-
-  /** 焦糖发现 */
-  PB4HomeType_HtDiscovery = 2,
-
-  /** 找ID */
-  PB4HomeType_HtSearchId = 3,
-
-  /** 找房间 */
-  PB4HomeType_HtSearchRoom = 4,
-
-  /** 退房推荐 */
-  PB4HomeType_HtLeaveRoom = 5,
-};
-
-GPBEnumDescriptor *PB4HomeType_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PB4HomeType_IsValidValue(int32_t value);
-
-#pragma mark - Enum PB4ClearFootType
-
-typedef GPB_ENUM(PB4ClearFootType) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PB4ClearFootType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** 首页 */
-  PB4ClearFootType_CftNone = 0,
-
-  /** 清空圈子足迹 */
-  PB4ClearFootType_CftCommunityGroup = 1,
-};
-
-GPBEnumDescriptor *PB4ClearFootType_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PB4ClearFootType_IsValidValue(int32_t value);
-
-#pragma mark - Enum PB4ExtraModType
-
-typedef GPB_ENUM(PB4ExtraModType) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PB4ExtraModType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4ExtraModType_EmtNone = 0,
-
-  /** PHomeEntryBannerList */
-  PB4ExtraModType_EmtSearchPlayerBanner = 1,
-
-  /** PHomeEntryBannerList */
-  PB4ExtraModType_EmtSearchRoomBanner = 2,
-
-  /** PHomeEntryRoomList */
-  PB4ExtraModType_EmtRecentRoom = 3,
-
-  /** RadioStationList */
-  PB4ExtraModType_EmtRadioStation = 4,
-
-  /** PHomeEntryPlayer */
-  PB4ExtraModType_EmtImNearby = 5,
-
-  /** 点单评价banner PHomeEntryBannerList */
-  PB4ExtraModType_EmtBillEvaluateBanner = 6,
-
-  /** 活动弹窗banner PHomeEntryBannerList */
-  PB4ExtraModType_EmtActivityDialogBanner = 7,
-
-  /** 公会banner PHomeEntryBannerList */
-  PB4ExtraModType_EmtClanBanner = 8,
-
-  /** 小程序房间 */
-  PB4ExtraModType_EmtMiniProgramRoom = 9,
-};
-
-GPBEnumDescriptor *PB4ExtraModType_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PB4ExtraModType_IsValidValue(int32_t value);
-
-#pragma mark - Enum PB4TabType
-
-typedef GPB_ENUM(PB4TabType) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PB4TabType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4TabType_TabTypeNone = 0,
-
-  /** 娱乐 */
-  PB4TabType_TabTypeEntertainment = 1,
-
-  /** 排行 */
-  PB4TabType_TabTypeRankingList = 2,
-
-  /** 个人 */
-  PB4TabType_TabTypeMine = 3,
+  PB3HomeType_HtIndex = 0,
 
   /** 社区 */
-  PB4TabType_TabTypeCommunity = 4,
+  PB3HomeType_HtCommunity = 1,
 
-  /** 消息 */
-  PB4TabType_TabTypeMessage = 5,
+  /** 焦糖发现 */
+  PB3HomeType_HtDiscovery = 2,
 
-  /** 播放器 */
-  PB4TabType_TabTypeMediaPlayer = 6,
+  /** 找ID */
+  PB3HomeType_HtSearchId = 3,
 
-  /** 发现 */
-  PB4TabType_TabTypeDiscovery = 7,
+  /** 找房间 */
+  PB3HomeType_HtSearchRoom = 4,
 
-  /** 匹配 */
-  PB4TabType_TabTypeMatch = 8,
+  /** 退房推荐 */
+  PB3HomeType_HtLeaveRoom = 5,
 
-  /** 路由 */
-  PB4TabType_TabTypeRoute = 9,
+  /** 首页2 (配置2个首页的时候用到) */
+  PB3HomeType_HtIndex2 = 6,
 
-  /** 划卡 */
-  PB4TabType_TabTypeWipe = 10,
+  /** 综合搜索 */
+  PB3HomeType_HtCompositeSearch = 7,
 };
 
-GPBEnumDescriptor *PB4TabType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3HomeType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4TabType_IsValidValue(int32_t value);
+BOOL PB3HomeType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4FilterRule
+#pragma mark - Enum PB3ClearFootType
 
-/** 模块过滤规则 */
-typedef GPB_ENUM(PB4FilterRule) {
+typedef GPB_ENUM(PB3ClearFootType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4FilterRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4FilterRule_FrZero = 0,
+  PB3ClearFootType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 首页 */
+  PB3ClearFootType_CftNone = 0,
 
-  /** 异性(把同性数据过滤掉) */
-  PB4FilterRule_FrDifferentSex = 1,
+  /** 清空圈子足迹 */
+  PB3ClearFootType_CftCommunityGroup = 1,
 };
 
-GPBEnumDescriptor *PB4FilterRule_EnumDescriptor(void);
+GPBEnumDescriptor *PB3ClearFootType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4FilterRule_IsValidValue(int32_t value);
+BOOL PB3ClearFootType_IsValidValue(int32_t value);
 
-#pragma mark - PB4PhomeExtRoot
+#pragma mark - Enum PB3ExtraModType
+
+typedef GPB_ENUM(PB3ExtraModType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3ExtraModType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3ExtraModType_EmtNone = 0,
+
+  /** PHomeEntryBannerList */
+  PB3ExtraModType_EmtSearchPlayerBanner = 1,
+
+  /** PHomeEntryBannerList */
+  PB3ExtraModType_EmtSearchRoomBanner = 2,
+
+  /** PHomeEntryRoomList */
+  PB3ExtraModType_EmtRecentRoom = 3,
+
+  /** RadioStationList */
+  PB3ExtraModType_EmtRadioStation = 4,
+
+  /** PHomeEntryPlayer */
+  PB3ExtraModType_EmtImNearby = 5,
+
+  /** 点单评价banner PHomeEntryBannerList */
+  PB3ExtraModType_EmtBillEvaluateBanner = 6,
+
+  /** 活动弹窗banner PHomeEntryBannerList */
+  PB3ExtraModType_EmtActivityDialogBanner = 7,
+
+  /** 公会banner PHomeEntryBannerList */
+  PB3ExtraModType_EmtClanBanner = 8,
+
+  /** 小程序房间 */
+  PB3ExtraModType_EmtMiniProgramRoom = 9,
+};
+
+GPBEnumDescriptor *PB3ExtraModType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3ExtraModType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PHomeMainTabImgType
+
+typedef GPB_ENUM(PB3PHomeMainTabImgType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PHomeMainTabImgType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3PHomeMainTabImgType_PhomeMtitNone = 0,
+
+  /** 常规图标 */
+  PB3PHomeMainTabImgType_PhomeMtitNormal = 1,
+
+  /** 大图标 */
+  PB3PHomeMainTabImgType_PhomeMtitLarge = 2,
+};
+
+GPBEnumDescriptor *PB3PHomeMainTabImgType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PHomeMainTabImgType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3TabType
+
+typedef GPB_ENUM(PB3TabType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3TabType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3TabType_TabTypeNone = 0,
+
+  /** 娱乐 */
+  PB3TabType_TabTypeEntertainment = 1,
+
+  /** 排行 */
+  PB3TabType_TabTypeRankingList = 2,
+
+  /** 个人 */
+  PB3TabType_TabTypeMine = 3,
+
+  /** 社区 */
+  PB3TabType_TabTypeCommunity = 4,
+
+  /** 消息 */
+  PB3TabType_TabTypeMessage = 5,
+
+  /** 播放器 */
+  PB3TabType_TabTypeMediaPlayer = 6,
+
+  /** 发现 */
+  PB3TabType_TabTypeDiscovery = 7,
+
+  /** 匹配 */
+  PB3TabType_TabTypeMatch = 8,
+
+  /** 路由 */
+  PB3TabType_TabTypeRoute = 9,
+
+  /** 划卡 */
+  PB3TabType_TabTypeWipe = 10,
+
+  /** 娱乐2 (配置2个娱乐tab的时候用到) */
+  PB3TabType_TabTypeEntertainment2 = 11,
+
+  /** 心动划卡 */
+  PB3TabType_TabTypeCpcard = 12,
+};
+
+GPBEnumDescriptor *PB3TabType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3TabType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3MainTabHomeStyle
+
+/** 底部导航对应首页的样式 */
+typedef GPB_ENUM(PB3MainTabHomeStyle) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3MainTabHomeStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3MainTabHomeStyle_MthsStyleZero = 0,
+
+  /** 男女声切换 */
+  PB3MainTabHomeStyle_MthsStyleGenderPattern = 1,
+};
+
+GPBEnumDescriptor *PB3MainTabHomeStyle_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3MainTabHomeStyle_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3FilterRule
+
+/** 模块过滤规则 */
+typedef GPB_ENUM(PB3FilterRule) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3FilterRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3FilterRule_FrZero = 0,
+
+  /** 异性(把同性数据过滤掉) */
+  PB3FilterRule_FrDifferentSex = 1,
+};
+
+GPBEnumDescriptor *PB3FilterRule_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3FilterRule_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PhomeRoomProgramShowDayType
+
+typedef GPB_ENUM(PB3PhomeRoomProgramShowDayType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PhomeRoomProgramShowDayType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3PhomeRoomProgramShowDayType_PrpsdtNone = 0,
+
+  /** 今天 */
+  PB3PhomeRoomProgramShowDayType_PrpsdtToday = 1,
+
+  /** 明天 */
+  PB3PhomeRoomProgramShowDayType_PrpsdtTomorrow = 2,
+};
+
+GPBEnumDescriptor *PB3PhomeRoomProgramShowDayType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PhomeRoomProgramShowDayType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3UpdateHotPointType
+
+typedef GPB_ENUM(PB3UpdateHotPointType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3UpdateHotPointType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3UpdateHotPointType_UphptNone = 0,
+
+  /** 新增 */
+  PB3UpdateHotPointType_UphptAdd = 1,
+
+  /** 移除 */
+  PB3UpdateHotPointType_UphptRemove = 2,
+};
+
+GPBEnumDescriptor *PB3UpdateHotPointType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3UpdateHotPointType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3GetPHomeEntryHotPointType
+
+typedef GPB_ENUM(PB3GetPHomeEntryHotPointType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3GetPHomeEntryHotPointType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3GetPHomeEntryHotPointType_GpehptNone = 0,
+
+  /** 获取列表 */
+  PB3GetPHomeEntryHotPointType_GpehptList = 1,
+
+  /** 获取总数 */
+  PB3GetPHomeEntryHotPointType_GpehptTotal = 2,
+};
+
+GPBEnumDescriptor *PB3GetPHomeEntryHotPointType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3GetPHomeEntryHotPointType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3HotHideType
+
+/** 热点可见状态修改 */
+typedef GPB_ENUM(PB3HotHideType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3HotHideType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 不可见 */
+  PB3HotHideType_HotHideTypeInvisible = 0,
+
+  /** 可见 */
+  PB3HotHideType_HotHideTypeVisible = 1,
+};
+
+GPBEnumDescriptor *PB3HotHideType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3HotHideType_IsValidValue(int32_t value);
+
+#pragma mark - PB3PhomeExtRoot
 
 /**
  * Exposes the extension registry for this file.
@@ -1324,207 +1644,19 @@ BOOL PB4FilterRule_IsValidValue(int32_t value);
  * which is a @c GPBExtensionRegistry that includes all the extensions defined by
  * this file and all files that it depends on.
  **/
-@interface PB4PhomeExtRoot : GPBRootObject
+@interface PB3PhomeExtRoot : GPBRootObject
 @end
 
-#pragma mark - PB4SHomeShowUser
+#pragma mark - PB3MatchDirectTypeGameData
 
-@interface PB4SHomeShowUser : GPBMessage
-
-@end
-
-#pragma mark - PB4PHomeCommGame
-
-typedef GPB_ENUM(PB4PHomeCommGame_FieldNumber) {
-  PB4PHomeCommGame_FieldNumber_Banner = 1,
-  PB4PHomeCommGame_FieldNumber_GameName = 2,
-  PB4PHomeCommGame_FieldNumber_PlayNum = 3,
-  PB4PHomeCommGame_FieldNumber_GameId = 4,
-  PB4PHomeCommGame_FieldNumber_Index = 5,
-  PB4PHomeCommGame_FieldNumber_ScreenDirection = 6,
-  PB4PHomeCommGame_FieldNumber_BgColor = 7,
-  PB4PHomeCommGame_FieldNumber_TextColor = 8,
-  PB4PHomeCommGame_FieldNumber_Desc = 9,
+typedef GPB_ENUM(PB3MatchDirectTypeGameData_FieldNumber) {
+  PB3MatchDirectTypeGameData_FieldNumber_GameId = 1,
+  PB3MatchDirectTypeGameData_FieldNumber_RoomId = 2,
+  PB3MatchDirectTypeGameData_FieldNumber_MatchStatus = 3,
+  PB3MatchDirectTypeGameData_FieldNumber_QuickGamePre = 4,
 };
 
-/**
- * 首页游戏列表
- **/
-@interface PB4PHomeCommGame : GPBMessage
-
-/** 游戏banner */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *banner;
-
-/** 游戏名称 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameName;
-
-/** 在玩人数 */
-@property(nonatomic, readwrite) int64_t playNum;
-
-/** 游戏id */
-@property(nonatomic, readwrite) int64_t gameId;
-
-/** 索引 */
-@property(nonatomic, readwrite) int32_t index;
-
-/** 游戏屏幕方向 1：横屏 2：竖屏 */
-@property(nonatomic, readwrite) int32_t screenDirection;
-
-/** 背景颜色 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *bgColor;
-
-/** 字体颜色 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *textColor;
-
-/** 游戏描述 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
-
-@end
-
-#pragma mark - PB4PHomeCommGameList
-
-typedef GPB_ENUM(PB4PHomeCommGameList_FieldNumber) {
-  PB4PHomeCommGameList_FieldNumber_GamesArray = 1,
-};
-
-@interface PB4PHomeCommGameList : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeCommGame*> *gamesArray;
-/** The number of items in @c gamesArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger gamesArray_Count;
-
-@end
-
-#pragma mark - PB4PHomeCommMiss
-
-typedef GPB_ENUM(PB4PHomeCommMiss_FieldNumber) {
-  PB4PHomeCommMiss_FieldNumber_Icon = 1,
-  PB4PHomeCommMiss_FieldNumber_BonusText = 2,
-  PB4PHomeCommMiss_FieldNumber_Coin = 3,
-  PB4PHomeCommMiss_FieldNumber_Total = 4,
-  PB4PHomeCommMiss_FieldNumber_CurrentProcess = 5,
-  PB4PHomeCommMiss_FieldNumber_Status = 6,
-  PB4PHomeCommMiss_FieldNumber_Index = 7,
-  PB4PHomeCommMiss_FieldNumber_MissText = 8,
-  PB4PHomeCommMiss_FieldNumber_MissId = 9,
-};
-
-/**
- * 首页任务列表
- **/
-@interface PB4PHomeCommMiss : GPBMessage
-
-/** 任务icon */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
-
-/** 奖励说明 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *bonusText;
-
-/** 奖励金币 */
-@property(nonatomic, readwrite) int64_t coin;
-
-/** 任务条件数量 */
-@property(nonatomic, readwrite) int32_t total;
-
-/** 当前进度 */
-@property(nonatomic, readwrite) int32_t currentProcess;
-
-/** 任务领取状态 */
-@property(nonatomic, readwrite) BOOL status;
-
-/** 索引 */
-@property(nonatomic, readwrite) int32_t index;
-
-/** 任务说明 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *missText;
-
-/** 任务id */
-@property(nonatomic, readwrite) int32_t missId;
-
-@end
-
-#pragma mark - PB4PHomeCommMissList
-
-typedef GPB_ENUM(PB4PHomeCommMissList_FieldNumber) {
-  PB4PHomeCommMissList_FieldNumber_MissArray = 1,
-};
-
-@interface PB4PHomeCommMissList : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeCommMiss*> *missArray;
-/** The number of items in @c missArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger missArray_Count;
-
-@end
-
-#pragma mark - PB4PHomeCommRank
-
-typedef GPB_ENUM(PB4PHomeCommRank_FieldNumber) {
-  PB4PHomeCommRank_FieldNumber_Nickname = 1,
-  PB4PHomeCommRank_FieldNumber_GameName = 2,
-  PB4PHomeCommRank_FieldNumber_GameIcon = 3,
-  PB4PHomeCommRank_FieldNumber_Avatar = 4,
-  PB4PHomeCommRank_FieldNumber_AvatarFrame = 5,
-  PB4PHomeCommRank_FieldNumber_Index = 6,
-  PB4PHomeCommRank_FieldNumber_BackgroundURL = 7,
-  PB4PHomeCommRank_FieldNumber_GameId = 8,
-};
-
-/**
- * 首页排排行榜列表
- **/
-@interface PB4PHomeCommRank : GPBMessage
-
-/** 用户名 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
-
-/** 游戏名 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameName;
-
-/** 游戏icon */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameIcon;
-
-/** 用户头像 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *avatar;
-
-/** 头像框 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *avatarFrame;
-
-/** 索引 */
-@property(nonatomic, readwrite) int32_t index;
-
-/** 背景图 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *backgroundURL;
-
-/** 游戏id */
-@property(nonatomic, readwrite) int32_t gameId;
-
-@end
-
-#pragma mark - PB4PHomeCommRankList
-
-typedef GPB_ENUM(PB4PHomeCommRankList_FieldNumber) {
-  PB4PHomeCommRankList_FieldNumber_RankArray = 1,
-};
-
-@interface PB4PHomeCommRankList : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeCommRank*> *rankArray;
-/** The number of items in @c rankArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger rankArray_Count;
-
-@end
-
-#pragma mark - PB4MatchDirectTypeGameData
-
-typedef GPB_ENUM(PB4MatchDirectTypeGameData_FieldNumber) {
-  PB4MatchDirectTypeGameData_FieldNumber_GameId = 1,
-  PB4MatchDirectTypeGameData_FieldNumber_RoomId = 2,
-  PB4MatchDirectTypeGameData_FieldNumber_MatchStatus = 3,
-  PB4MatchDirectTypeGameData_FieldNumber_QuickGamePre = 4,
-};
-
-@interface PB4MatchDirectTypeGameData : GPBMessage
+@interface PB3MatchDirectTypeGameData : GPBMessage
 
 /** 游戏id */
 @property(nonatomic, readwrite) int32_t gameId;
@@ -1533,50 +1665,50 @@ typedef GPB_ENUM(PB4MatchDirectTypeGameData_FieldNumber) {
 @property(nonatomic, readwrite) int32_t roomId;
 
 /** 匹配状态 */
-@property(nonatomic, readwrite) PB4MatchStatusType matchStatus;
+@property(nonatomic, readwrite) PB3MatchStatusType matchStatus;
 
 /** 快速游戏状态，1表示快速游戏，0表示默认 */
-@property(nonatomic, readwrite) PB4QuickGamePreType quickGamePre;
+@property(nonatomic, readwrite) PB3QuickGamePreType quickGamePre;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4MatchDirectTypeGameData's @c matchStatus property, even
+ * Fetches the raw value of a @c PB3MatchDirectTypeGameData's @c matchStatus property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MatchDirectTypeGameData_MatchStatus_RawValue(PB4MatchDirectTypeGameData *message);
+int32_t PB3MatchDirectTypeGameData_MatchStatus_RawValue(PB3MatchDirectTypeGameData *message);
 /**
- * Sets the raw value of an @c PB4MatchDirectTypeGameData's @c matchStatus property, allowing
+ * Sets the raw value of an @c PB3MatchDirectTypeGameData's @c matchStatus property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MatchDirectTypeGameData_MatchStatus_RawValue(PB4MatchDirectTypeGameData *message, int32_t value);
+void SetPB3MatchDirectTypeGameData_MatchStatus_RawValue(PB3MatchDirectTypeGameData *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4MatchDirectTypeGameData's @c quickGamePre property, even
+ * Fetches the raw value of a @c PB3MatchDirectTypeGameData's @c quickGamePre property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MatchDirectTypeGameData_QuickGamePre_RawValue(PB4MatchDirectTypeGameData *message);
+int32_t PB3MatchDirectTypeGameData_QuickGamePre_RawValue(PB3MatchDirectTypeGameData *message);
 /**
- * Sets the raw value of an @c PB4MatchDirectTypeGameData's @c quickGamePre property, allowing
+ * Sets the raw value of an @c PB3MatchDirectTypeGameData's @c quickGamePre property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MatchDirectTypeGameData_QuickGamePre_RawValue(PB4MatchDirectTypeGameData *message, int32_t value);
+void SetPB3MatchDirectTypeGameData_QuickGamePre_RawValue(PB3MatchDirectTypeGameData *message, int32_t value);
 
-#pragma mark - PB4MatchDirectTypeNormal
+#pragma mark - PB3MatchDirectTypeNormal
 
-typedef GPB_ENUM(PB4MatchDirectTypeNormal_FieldNumber) {
-  PB4MatchDirectTypeNormal_FieldNumber_NormalId = 1,
-  PB4MatchDirectTypeNormal_FieldNumber_NormalURL = 2,
-  PB4MatchDirectTypeNormal_FieldNumber_NormalMsg = 3,
-  PB4MatchDirectTypeNormal_FieldNumber_FollowId = 4,
-  PB4MatchDirectTypeNormal_FieldNumber_FollowType = 5,
-  PB4MatchDirectTypeNormal_FieldNumber_FollowName = 6,
-  PB4MatchDirectTypeNormal_FieldNumber_FollowMsg = 7,
+typedef GPB_ENUM(PB3MatchDirectTypeNormal_FieldNumber) {
+  PB3MatchDirectTypeNormal_FieldNumber_NormalId = 1,
+  PB3MatchDirectTypeNormal_FieldNumber_NormalURL = 2,
+  PB3MatchDirectTypeNormal_FieldNumber_NormalMsg = 3,
+  PB3MatchDirectTypeNormal_FieldNumber_FollowId = 4,
+  PB3MatchDirectTypeNormal_FieldNumber_FollowType = 5,
+  PB3MatchDirectTypeNormal_FieldNumber_FollowName = 6,
+  PB3MatchDirectTypeNormal_FieldNumber_FollowMsg = 7,
 };
 
-@interface PB4MatchDirectTypeNormal : GPBMessage
+@interface PB3MatchDirectTypeNormal : GPBMessage
 
 /** 常规解的类型 */
 @property(nonatomic, readwrite) int32_t normalId;
@@ -1601,18 +1733,18 @@ typedef GPB_ENUM(PB4MatchDirectTypeNormal_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeModClassify
+#pragma mark - PB3PHomeModClassify
 
-typedef GPB_ENUM(PB4PHomeModClassify_FieldNumber) {
-  PB4PHomeModClassify_FieldNumber_Id_p = 1,
-  PB4PHomeModClassify_FieldNumber_Name = 2,
-  PB4PHomeModClassify_FieldNumber_URL = 3,
-  PB4PHomeModClassify_FieldNumber_SelectedURL = 4,
+typedef GPB_ENUM(PB3PHomeModClassify_FieldNumber) {
+  PB3PHomeModClassify_FieldNumber_Id_p = 1,
+  PB3PHomeModClassify_FieldNumber_Name = 2,
+  PB3PHomeModClassify_FieldNumber_URL = 3,
+  PB3PHomeModClassify_FieldNumber_SelectedURL = 4,
 };
 
-@interface PB4PHomeModClassify : GPBMessage
+@interface PB3PHomeModClassify : GPBMessage
 
-@property(nonatomic, readwrite) PB4PHomeClassify id_p;
+@property(nonatomic, readwrite) PB3PHomeClassify id_p;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
@@ -1623,48 +1755,55 @@ typedef GPB_ENUM(PB4PHomeModClassify_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeModClassify's @c id_p property, even
+ * Fetches the raw value of a @c PB3PHomeModClassify's @c id_p property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeModClassify_Id_p_RawValue(PB4PHomeModClassify *message);
+int32_t PB3PHomeModClassify_Id_p_RawValue(PB3PHomeModClassify *message);
 /**
- * Sets the raw value of an @c PB4PHomeModClassify's @c id_p property, allowing
+ * Sets the raw value of an @c PB3PHomeModClassify's @c id_p property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeModClassify_Id_p_RawValue(PB4PHomeModClassify *message, int32_t value);
+void SetPB3PHomeModClassify_Id_p_RawValue(PB3PHomeModClassify *message, int32_t value);
 
-#pragma mark - PB4PHomeMod
+#pragma mark - PB3PHomeMod
 
-typedef GPB_ENUM(PB4PHomeMod_FieldNumber) {
-  PB4PHomeMod_FieldNumber_Id_p = 1,
-  PB4PHomeMod_FieldNumber_Title = 2,
-  PB4PHomeMod_FieldNumber_IsShowTitle = 3,
-  PB4PHomeMod_FieldNumber_Style = 4,
-  PB4PHomeMod_FieldNumber_IsShowCtrlBtn = 5,
-  PB4PHomeMod_FieldNumber_CtrlBtnImgURL = 6,
-  PB4PHomeMod_FieldNumber_CtrlBtnRule = 7,
-  PB4PHomeMod_FieldNumber_IsEnd = 9,
-  PB4PHomeMod_FieldNumber_ClassifysArray = 10,
-  PB4PHomeMod_FieldNumber_DataType = 11,
-  PB4PHomeMod_FieldNumber_DataByte = 12,
-  PB4PHomeMod_FieldNumber_RouteType = 13,
-  PB4PHomeMod_FieldNumber_Route = 14,
-  PB4PHomeMod_FieldNumber_IsInsterMod = 15,
-  PB4PHomeMod_FieldNumber_ShowNum = 16,
-  PB4PHomeMod_FieldNumber_EmptyImg = 17,
-  PB4PHomeMod_FieldNumber_ExposureNum = 18,
-  PB4PHomeMod_FieldNumber_FollowMsg = 19,
-  PB4PHomeMod_FieldNumber_IsNew = 20,
-  PB4PHomeMod_FieldNumber_RightTopRoute = 22,
-  PB4PHomeMod_FieldNumber_EmptyImgRoute = 23,
-  PB4PHomeMod_FieldNumber_IsDynamicLoad = 24,
-  PB4PHomeMod_FieldNumber_IsRouter = 25,
-  PB4PHomeMod_FieldNumber_PhotoRouter = 26,
-  PB4PHomeMod_FieldNumber_IsOpenOnline = 27,
+typedef GPB_ENUM(PB3PHomeMod_FieldNumber) {
+  PB3PHomeMod_FieldNumber_Id_p = 1,
+  PB3PHomeMod_FieldNumber_Title = 2,
+  PB3PHomeMod_FieldNumber_IsShowTitle = 3,
+  PB3PHomeMod_FieldNumber_Style = 4,
+  PB3PHomeMod_FieldNumber_IsShowCtrlBtn = 5,
+  PB3PHomeMod_FieldNumber_CtrlBtnImgURL = 6,
+  PB3PHomeMod_FieldNumber_CtrlBtnRule = 7,
+  PB3PHomeMod_FieldNumber_IsEnd = 9,
+  PB3PHomeMod_FieldNumber_ClassifysArray = 10,
+  PB3PHomeMod_FieldNumber_DataType = 11,
+  PB3PHomeMod_FieldNumber_DataByte = 12,
+  PB3PHomeMod_FieldNumber_RouteType = 13,
+  PB3PHomeMod_FieldNumber_Route = 14,
+  PB3PHomeMod_FieldNumber_IsInsterMod = 15,
+  PB3PHomeMod_FieldNumber_ShowNum = 16,
+  PB3PHomeMod_FieldNumber_EmptyImg = 17,
+  PB3PHomeMod_FieldNumber_ExposureNum = 18,
+  PB3PHomeMod_FieldNumber_FollowMsg = 19,
+  PB3PHomeMod_FieldNumber_IsNew = 20,
+  PB3PHomeMod_FieldNumber_RightTopRoute = 22,
+  PB3PHomeMod_FieldNumber_EmptyImgRoute = 23,
+  PB3PHomeMod_FieldNumber_IsDynamicLoad = 24,
+  PB3PHomeMod_FieldNumber_IsRouter = 25,
+  PB3PHomeMod_FieldNumber_PhotoRouter = 26,
+  PB3PHomeMod_FieldNumber_IsOpenOnline = 27,
+  PB3PHomeMod_FieldNumber_BgURL = 28,
+  PB3PHomeMod_FieldNumber_TitleURL = 29,
+  PB3PHomeMod_FieldNumber_BgColor = 30,
+  PB3PHomeMod_FieldNumber_Autoplay = 31,
+  PB3PHomeMod_FieldNumber_NestedModPosition = 33,
+  PB3PHomeMod_FieldNumber_NestedModListArray = 34,
+  PB3PHomeMod_FieldNumber_NestedId = 35,
 };
 
-@interface PB4PHomeMod : GPBMessage
+@interface PB3PHomeMod : GPBMessage
 
 @property(nonatomic, readwrite) int32_t id_p;
 
@@ -1674,8 +1813,8 @@ typedef GPB_ENUM(PB4PHomeMod_FieldNumber) {
 /** 是否显示标题 */
 @property(nonatomic, readwrite) BOOL isShowTitle;
 
-/** 样式，对应展示样式 */
-@property(nonatomic, readwrite) PB4PHomeModStyle style;
+/** 样式 */
+@property(nonatomic, readwrite) PB3PHomeModStyle style;
 
 /** 是否有右边按钮 */
 @property(nonatomic, readwrite) BOOL isShowCtrlBtn;
@@ -1684,24 +1823,24 @@ typedef GPB_ENUM(PB4PHomeMod_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *ctrlBtnImgURL;
 
 /** 右边按钮规则 */
-@property(nonatomic, readwrite) PB4PHomeMoreRule ctrlBtnRule;
+@property(nonatomic, readwrite) PB3PHomeMoreRule ctrlBtnRule;
 
 /** 是否到了最后一条数据 */
 @property(nonatomic, readwrite) BOOL isEnd;
 
 /** 模块分类 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeModClassify*> *classifysArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeModClassify*> *classifysArray;
 /** The number of items in @c classifysArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger classifysArray_Count;
 
-/** 数据类型，对应pb结构 */
-@property(nonatomic, readwrite) PB4PHomeDataType dataType;
+/** 数据类型 */
+@property(nonatomic, readwrite) PB3PHomeDataType dataType;
 
 /** 数据 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *dataByte;
 
 /** 路由 */
-@property(nonatomic, readwrite) PB4PHomeRouteType routeType;
+@property(nonatomic, readwrite) PB3PHomeRouteType routeType;
 
 /** 路由 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *route;
@@ -1742,117 +1881,146 @@ typedef GPB_ENUM(PB4PHomeMod_FieldNumber) {
 /** 控制列表是否显示在线标识 */
 @property(nonatomic, readwrite) BOOL isOpenOnline;
 
+/** 模块背景URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgURL;
+
+/** 模块名称图片URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *titleURL;
+
+/** 模块背景color */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgColor;
+
+/** 心动8分钟是否自动播放 */
+@property(nonatomic, readwrite) BOOL autoplay;
+
+/** 嵌套模块位置 等于0为主模块,嵌套模块位置从1开始 */
+@property(nonatomic, readwrite) int32_t nestedModPosition;
+
+/** 嵌套模块列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeMod*> *nestedModListArray;
+/** The number of items in @c nestedModListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger nestedModListArray_Count;
+
+/** 嵌套ID */
+@property(nonatomic, readwrite) int32_t nestedId;
+
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeMod's @c style property, even
+ * Fetches the raw value of a @c PB3PHomeMod's @c style property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeMod_Style_RawValue(PB4PHomeMod *message);
+int32_t PB3PHomeMod_Style_RawValue(PB3PHomeMod *message);
 /**
- * Sets the raw value of an @c PB4PHomeMod's @c style property, allowing
+ * Sets the raw value of an @c PB3PHomeMod's @c style property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeMod_Style_RawValue(PB4PHomeMod *message, int32_t value);
+void SetPB3PHomeMod_Style_RawValue(PB3PHomeMod *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeMod's @c ctrlBtnRule property, even
+ * Fetches the raw value of a @c PB3PHomeMod's @c ctrlBtnRule property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeMod_CtrlBtnRule_RawValue(PB4PHomeMod *message);
+int32_t PB3PHomeMod_CtrlBtnRule_RawValue(PB3PHomeMod *message);
 /**
- * Sets the raw value of an @c PB4PHomeMod's @c ctrlBtnRule property, allowing
+ * Sets the raw value of an @c PB3PHomeMod's @c ctrlBtnRule property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeMod_CtrlBtnRule_RawValue(PB4PHomeMod *message, int32_t value);
+void SetPB3PHomeMod_CtrlBtnRule_RawValue(PB3PHomeMod *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeMod's @c dataType property, even
+ * Fetches the raw value of a @c PB3PHomeMod's @c dataType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeMod_DataType_RawValue(PB4PHomeMod *message);
+int32_t PB3PHomeMod_DataType_RawValue(PB3PHomeMod *message);
 /**
- * Sets the raw value of an @c PB4PHomeMod's @c dataType property, allowing
+ * Sets the raw value of an @c PB3PHomeMod's @c dataType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeMod_DataType_RawValue(PB4PHomeMod *message, int32_t value);
+void SetPB3PHomeMod_DataType_RawValue(PB3PHomeMod *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeMod's @c routeType property, even
+ * Fetches the raw value of a @c PB3PHomeMod's @c routeType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeMod_RouteType_RawValue(PB4PHomeMod *message);
+int32_t PB3PHomeMod_RouteType_RawValue(PB3PHomeMod *message);
 /**
- * Sets the raw value of an @c PB4PHomeMod's @c routeType property, allowing
+ * Sets the raw value of an @c PB3PHomeMod's @c routeType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeMod_RouteType_RawValue(PB4PHomeMod *message, int32_t value);
+void SetPB3PHomeMod_RouteType_RawValue(PB3PHomeMod *message, int32_t value);
 
-#pragma mark - PB4PHomeEntryRoomList
+#pragma mark - PB3PHomeEntryRoomList
 
-typedef GPB_ENUM(PB4PHomeEntryRoomList_FieldNumber) {
-  PB4PHomeEntryRoomList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryRoomList_FieldNumber) {
+  PB3PHomeEntryRoomList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntryRoomList : GPBMessage
+@interface PB3PHomeEntryRoomList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryRoom*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryRoom*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeEntryRoom
+#pragma mark - PB3PHomeEntryRoom
 
-typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
-  PB4PHomeEntryRoom_FieldNumber_Id_p = 1,
-  PB4PHomeEntryRoom_FieldNumber_Index = 2,
-  PB4PHomeEntryRoom_FieldNumber_Type = 3,
-  PB4PHomeEntryRoom_FieldNumber_Id2 = 4,
-  PB4PHomeEntryRoom_FieldNumber_Name = 5,
-  PB4PHomeEntryRoom_FieldNumber_Icon = 6,
-  PB4PHomeEntryRoom_FieldNumber_OnlineNum = 7,
-  PB4PHomeEntryRoom_FieldNumber_HasPasswd = 8,
-  PB4PHomeEntryRoom_FieldNumber_IsRoomOwnerOnline = 9,
-  PB4PHomeEntryRoom_FieldNumber_Category = 10,
-  PB4PHomeEntryRoom_FieldNumber_Pattern = 11,
-  PB4PHomeEntryRoom_FieldNumber_DetailsImg = 12,
-  PB4PHomeEntryRoom_FieldNumber_Flags = 13,
-  PB4PHomeEntryRoom_FieldNumber_Rank = 14,
-  PB4PHomeEntryRoom_FieldNumber_IsTop = 15,
-  PB4PHomeEntryRoom_FieldNumber_RecommendWord = 16,
-  PB4PHomeEntryRoom_FieldNumber_Fans = 17,
-  PB4PHomeEntryRoom_FieldNumber_RoomId = 18,
-  PB4PHomeEntryRoom_FieldNumber_HighQualityOnlineNum = 19,
-  PB4PHomeEntryRoom_FieldNumber_Tips = 20,
-  PB4PHomeEntryRoom_FieldNumber_LastTime = 21,
-  PB4PHomeEntryRoom_FieldNumber_Sex = 22,
-  PB4PHomeEntryRoom_FieldNumber_Heat = 23,
-  PB4PHomeEntryRoom_FieldNumber_Chairs = 24,
-  PB4PHomeEntryRoom_FieldNumber_CoverPic = 25,
-  PB4PHomeEntryRoom_FieldNumber_RoomDecorateArray = 26,
-  PB4PHomeEntryRoom_FieldNumber_VideoInfo = 27,
-  PB4PHomeEntryRoom_FieldNumber_Host = 28,
-  PB4PHomeEntryRoom_FieldNumber_RoomGameIcon = 29,
-  PB4PHomeEntryRoom_FieldNumber_RoomTypeTag = 30,
-  PB4PHomeEntryRoom_FieldNumber_EightDescribe = 31,
-  PB4PHomeEntryRoom_FieldNumber_OwnerName = 32,
-  PB4PHomeEntryRoom_FieldNumber_IsClan = 33,
-  PB4PHomeEntryRoom_FieldNumber_GameStatus = 34,
-  PB4PHomeEntryRoom_FieldNumber_GamePlayerStatusArray = 35,
-  PB4PHomeEntryRoom_FieldNumber_ActionTalk = 36,
-  PB4PHomeEntryRoom_FieldNumber_RoomTypeStr = 37,
-  PB4PHomeEntryRoom_FieldNumber_ChairPlayerListArray = 38,
-  PB4PHomeEntryRoom_FieldNumber_GameName = 39,
-  PB4PHomeEntryRoom_FieldNumber_Extend = 40,
-  PB4PHomeEntryRoom_FieldNumber_RoomLabel = 41,
+typedef GPB_ENUM(PB3PHomeEntryRoom_FieldNumber) {
+  PB3PHomeEntryRoom_FieldNumber_Id_p = 1,
+  PB3PHomeEntryRoom_FieldNumber_Index = 2,
+  PB3PHomeEntryRoom_FieldNumber_Type = 3,
+  PB3PHomeEntryRoom_FieldNumber_Id2 = 4,
+  PB3PHomeEntryRoom_FieldNumber_Name = 5,
+  PB3PHomeEntryRoom_FieldNumber_Icon = 6,
+  PB3PHomeEntryRoom_FieldNumber_OnlineNum = 7,
+  PB3PHomeEntryRoom_FieldNumber_HasPasswd = 8,
+  PB3PHomeEntryRoom_FieldNumber_IsRoomOwnerOnline = 9,
+  PB3PHomeEntryRoom_FieldNumber_Category = 10,
+  PB3PHomeEntryRoom_FieldNumber_Pattern = 11,
+  PB3PHomeEntryRoom_FieldNumber_DetailsImg = 12,
+  PB3PHomeEntryRoom_FieldNumber_Flags = 13,
+  PB3PHomeEntryRoom_FieldNumber_Rank = 14,
+  PB3PHomeEntryRoom_FieldNumber_IsTop = 15,
+  PB3PHomeEntryRoom_FieldNumber_RecommendWord = 16,
+  PB3PHomeEntryRoom_FieldNumber_Fans = 17,
+  PB3PHomeEntryRoom_FieldNumber_RoomId = 18,
+  PB3PHomeEntryRoom_FieldNumber_HighQualityOnlineNum = 19,
+  PB3PHomeEntryRoom_FieldNumber_Tips = 20,
+  PB3PHomeEntryRoom_FieldNumber_LastTime = 21,
+  PB3PHomeEntryRoom_FieldNumber_Sex = 22,
+  PB3PHomeEntryRoom_FieldNumber_Heat = 23,
+  PB3PHomeEntryRoom_FieldNumber_Chairs = 24,
+  PB3PHomeEntryRoom_FieldNumber_CoverPic = 25,
+  PB3PHomeEntryRoom_FieldNumber_RoomDecorateArray = 26,
+  PB3PHomeEntryRoom_FieldNumber_VideoInfo = 27,
+  PB3PHomeEntryRoom_FieldNumber_Host = 28,
+  PB3PHomeEntryRoom_FieldNumber_RoomGameIcon = 29,
+  PB3PHomeEntryRoom_FieldNumber_RoomTypeTag = 30,
+  PB3PHomeEntryRoom_FieldNumber_EightDescribe = 31,
+  PB3PHomeEntryRoom_FieldNumber_OwnerName = 32,
+  PB3PHomeEntryRoom_FieldNumber_IsClan = 33,
+  PB3PHomeEntryRoom_FieldNumber_GameStatus = 34,
+  PB3PHomeEntryRoom_FieldNumber_GamePlayerStatusArray = 35,
+  PB3PHomeEntryRoom_FieldNumber_ActionTalk = 36,
+  PB3PHomeEntryRoom_FieldNumber_RoomTypeStr = 37,
+  PB3PHomeEntryRoom_FieldNumber_ChairPlayerListArray = 38,
+  PB3PHomeEntryRoom_FieldNumber_GameName = 39,
+  PB3PHomeEntryRoom_FieldNumber_Extend = 40,
+  PB3PHomeEntryRoom_FieldNumber_LabelsArray = 41,
+  PB3PHomeEntryRoom_FieldNumber_RoomTingTag = 42,
+  PB3PHomeEntryRoom_FieldNumber_Status = 43,
+  PB3PHomeEntryRoom_FieldNumber_HeatArrArray = 44,
+  PB3PHomeEntryRoom_FieldNumber_FlowSupportType = 45,
+  PB3PHomeEntryRoom_FieldNumber_CubismModelName = 46,
+  PB3PHomeEntryRoom_FieldNumber_RoomStatus = 47,
 };
 
-@interface PB4PHomeEntryRoom : GPBMessage
+@interface PB3PHomeEntryRoom : GPBMessage
 
 /** ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -1860,7 +2028,7 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 /** 索引 */
 @property(nonatomic, readwrite) int32_t index;
 
-@property(nonatomic, readwrite) enum PB4PluginRoomType type;
+@property(nonatomic, readwrite) enum PB3PluginRoomType type;
 
 /** 短号 */
 @property(nonatomic, readwrite) int64_t id2;
@@ -1907,14 +2075,14 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 @property(nonatomic, readwrite) int32_t highQualityOnlineNum;
 
 /** 房间标签url */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PluginHomeTips *tips;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PluginHomeTips *tips;
 /** Test to see if @c tips has been set. */
 @property(nonatomic, readwrite) BOOL hasTips;
 
 /** 最后进入时间，有就显示，没有就显示 */
 @property(nonatomic, readwrite) int64_t lastTime;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 /** 热度 */
 @property(nonatomic, readwrite) int32_t heat;
@@ -1925,17 +2093,17 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 /** 封面图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *coverPic;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4RoomDecorate*> *roomDecorateArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3RoomDecorate*> *roomDecorateArray;
 /** The number of items in @c roomDecorateArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger roomDecorateArray_Count;
 
 /** 视频信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PhomeVideoInfo *videoInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PhomeVideoInfo *videoInfo;
 /** Test to see if @c videoInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasVideoInfo;
 
 /** 主持 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PlayerBaseInfo *host;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PlayerBaseInfo *host;
 /** Test to see if @c host has been set. */
 @property(nonatomic, readwrite) BOOL hasHost;
 
@@ -1943,10 +2111,10 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *roomGameIcon;
 
 /** 房间类型标签icon */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *roomTypeTag;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomTypeTag DEPRECATED_ATTRIBUTE;
 
 /** 8号麦有人时的描述 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4EightDescribe *eightDescribe;
+@property(nonatomic, readwrite, strong, null_resettable) PB3EightDescribe *eightDescribe;
 /** Test to see if @c eightDescribe has been set. */
 @property(nonatomic, readwrite) BOOL hasEightDescribe;
 
@@ -1957,10 +2125,10 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 @property(nonatomic, readwrite) BOOL isClan;
 
 /** 房间游戏状态 */
-@property(nonatomic, readwrite) PB4PGameRoomStatusTypeExt gameStatus;
+@property(nonatomic, readwrite) PB3PGameRoomStatusTypeExt gameStatus;
 
 /** 玩家状态 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PGamePlayerStatusExt*> *gamePlayerStatusArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PGamePlayerStatusExt*> *gamePlayerStatusArray;
 /** The number of items in @c gamePlayerStatusArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger gamePlayerStatusArray_Count;
 
@@ -1971,7 +2139,7 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *roomTypeStr;
 
 /** 房间麦上用户头像（过滤掉房主） */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4ChairPlayerInfo*> *chairPlayerListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ChairPlayerInfo*> *chairPlayerListArray;
 /** The number of items in @c chairPlayerListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger chairPlayerListArray_Count;
 
@@ -1983,84 +2151,128 @@ typedef GPB_ENUM(PB4PHomeEntryRoom_FieldNumber) {
 /** The number of items in @c extend without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger extend_Count;
 
-/** 房间标签 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PHomeEntryRoomLabel *roomLabel;
-/** Test to see if @c roomLabel has been set. */
-@property(nonatomic, readwrite) BOOL hasRoomLabel;
+/** 标签列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *labelsArray;
+/** The number of items in @c labelsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger labelsArray_Count;
+
+/** 房间类型标签icon */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomTingTag;
+
+/** 房间状态类型 */
+@property(nonatomic, readwrite) PB3PHomeEntryRoomStatus status;
+
+/** 指定版本营收热度值(只针对特定版本,非指定版本该字段为空,第一个为旧热度值,第二个为新热度值) */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32Array *heatArrArray;
+/** The number of items in @c heatArrArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger heatArrArray_Count;
+
+/** 流量扶持类型+100*数据源ID */
+@property(nonatomic, readwrite) int32_t flowSupportType;
+
+/** 临时字段 提审使用 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cubismModelName;
+
+/** 房间状态 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3RoomStatus *roomStatus;
+/** Test to see if @c roomStatus has been set. */
+@property(nonatomic, readwrite) BOOL hasRoomStatus;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryRoom's @c type property, even
+ * Fetches the raw value of a @c PB3PHomeEntryRoom's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryRoom_Type_RawValue(PB4PHomeEntryRoom *message);
+int32_t PB3PHomeEntryRoom_Type_RawValue(PB3PHomeEntryRoom *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryRoom's @c type property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryRoom's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryRoom_Type_RawValue(PB4PHomeEntryRoom *message, int32_t value);
+void SetPB3PHomeEntryRoom_Type_RawValue(PB3PHomeEntryRoom *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryRoom's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeEntryRoom's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryRoom_Sex_RawValue(PB4PHomeEntryRoom *message);
+int32_t PB3PHomeEntryRoom_Sex_RawValue(PB3PHomeEntryRoom *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryRoom's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryRoom's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryRoom_Sex_RawValue(PB4PHomeEntryRoom *message, int32_t value);
+void SetPB3PHomeEntryRoom_Sex_RawValue(PB3PHomeEntryRoom *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryRoom's @c gameStatus property, even
+ * Fetches the raw value of a @c PB3PHomeEntryRoom's @c gameStatus property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryRoom_GameStatus_RawValue(PB4PHomeEntryRoom *message);
+int32_t PB3PHomeEntryRoom_GameStatus_RawValue(PB3PHomeEntryRoom *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryRoom's @c gameStatus property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryRoom's @c gameStatus property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryRoom_GameStatus_RawValue(PB4PHomeEntryRoom *message, int32_t value);
+void SetPB3PHomeEntryRoom_GameStatus_RawValue(PB3PHomeEntryRoom *message, int32_t value);
 
-#pragma mark - PB4PHomeEntryRoomLabel
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryRoom's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryRoom_Status_RawValue(PB3PHomeEntryRoom *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryRoom's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryRoom_Status_RawValue(PB3PHomeEntryRoom *message, int32_t value);
 
-typedef GPB_ENUM(PB4PHomeEntryRoomLabel_FieldNumber) {
-  PB4PHomeEntryRoomLabel_FieldNumber_LabelIconURL = 1,
-  PB4PHomeEntryRoomLabel_FieldNumber_LabelName = 2,
-  PB4PHomeEntryRoomLabel_FieldNumber_LabelFontcolor = 3,
+#pragma mark - PB3RoomStatus
+
+typedef GPB_ENUM(PB3RoomStatus_FieldNumber) {
+  PB3RoomStatus_FieldNumber_Status = 1,
+  PB3RoomStatus_FieldNumber_Icon = 2,
+  PB3RoomStatus_FieldNumber_Msg = 3,
 };
 
-/**
- * 房间标签
- **/
-@interface PB4PHomeEntryRoomLabel : GPBMessage
+@interface PB3RoomStatus : GPBMessage
 
-/** 标签底图 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelIconURL;
+/** 房间状态 PK中, 弹幕游戏中 */
+@property(nonatomic, readwrite) PB3PHomeEntryRoomStatus status;
 
-/** 标签名 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelName;
+/** 图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
-/** 字体颜色 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelFontcolor;
+/** 文字说明 例如：甜甜圈大作战中 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
 
 @end
 
-#pragma mark - PB4ChairPlayerInfo
+/**
+ * Fetches the raw value of a @c PB3RoomStatus's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3RoomStatus_Status_RawValue(PB3RoomStatus *message);
+/**
+ * Sets the raw value of an @c PB3RoomStatus's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3RoomStatus_Status_RawValue(PB3RoomStatus *message, int32_t value);
 
-typedef GPB_ENUM(PB4ChairPlayerInfo_FieldNumber) {
-  PB4ChairPlayerInfo_FieldNumber_PlayerId = 1,
-  PB4ChairPlayerInfo_FieldNumber_Icon = 2,
+#pragma mark - PB3ChairPlayerInfo
+
+typedef GPB_ENUM(PB3ChairPlayerInfo_FieldNumber) {
+  PB3ChairPlayerInfo_FieldNumber_PlayerId = 1,
+  PB3ChairPlayerInfo_FieldNumber_Icon = 2,
+  PB3ChairPlayerInfo_FieldNumber_IsBoss = 3,
 };
 
 /**
  * 房间麦上用户头像（过滤掉房主）
  **/
-@interface PB4ChairPlayerInfo : GPBMessage
+@interface PB3ChairPlayerInfo : GPBMessage
 
 /** 玩家ID */
 @property(nonatomic, readwrite) int64_t playerId;
@@ -2068,21 +2280,24 @@ typedef GPB_ENUM(PB4ChairPlayerInfo_FieldNumber) {
 /** 玩家头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
+/** 嘉宾 */
+@property(nonatomic, readwrite) BOOL isBoss;
+
 @end
 
-#pragma mark - PB4PGamePlayerStatusExt
+#pragma mark - PB3PGamePlayerStatusExt
 
-typedef GPB_ENUM(PB4PGamePlayerStatusExt_FieldNumber) {
-  PB4PGamePlayerStatusExt_FieldNumber_PlayerId = 1,
-  PB4PGamePlayerStatusExt_FieldNumber_Status = 2,
-  PB4PGamePlayerStatusExt_FieldNumber_Icon = 3,
+typedef GPB_ENUM(PB3PGamePlayerStatusExt_FieldNumber) {
+  PB3PGamePlayerStatusExt_FieldNumber_PlayerId = 1,
+  PB3PGamePlayerStatusExt_FieldNumber_Status = 2,
+  PB3PGamePlayerStatusExt_FieldNumber_Icon = 3,
 };
 
-@interface PB4PGamePlayerStatusExt : GPBMessage
+@interface PB3PGamePlayerStatusExt : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
-@property(nonatomic, readwrite) PB4PGamePlayerStatusTypeExt status;
+@property(nonatomic, readwrite) PB3PGamePlayerStatusTypeExt status;
 
 /** 玩家头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
@@ -2090,39 +2305,39 @@ typedef GPB_ENUM(PB4PGamePlayerStatusExt_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PGamePlayerStatusExt's @c status property, even
+ * Fetches the raw value of a @c PB3PGamePlayerStatusExt's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PGamePlayerStatusExt_Status_RawValue(PB4PGamePlayerStatusExt *message);
+int32_t PB3PGamePlayerStatusExt_Status_RawValue(PB3PGamePlayerStatusExt *message);
 /**
- * Sets the raw value of an @c PB4PGamePlayerStatusExt's @c status property, allowing
+ * Sets the raw value of an @c PB3PGamePlayerStatusExt's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PGamePlayerStatusExt_Status_RawValue(PB4PGamePlayerStatusExt *message, int32_t value);
+void SetPB3PGamePlayerStatusExt_Status_RawValue(PB3PGamePlayerStatusExt *message, int32_t value);
 
-#pragma mark - PB4EightDescribe
+#pragma mark - PB3EightDescribe
 
-typedef GPB_ENUM(PB4EightDescribe_FieldNumber) {
-  PB4EightDescribe_FieldNumber_Text = 1,
+typedef GPB_ENUM(PB3EightDescribe_FieldNumber) {
+  PB3EightDescribe_FieldNumber_Text = 1,
 };
 
-@interface PB4EightDescribe : GPBMessage
+@interface PB3EightDescribe : GPBMessage
 
 /** 非空用服务端的文案，空客户端自己写空闲 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *text;
 
 @end
 
-#pragma mark - PB4PhomeVideoInfo
+#pragma mark - PB3PhomeVideoInfo
 
-typedef GPB_ENUM(PB4PhomeVideoInfo_FieldNumber) {
-  PB4PhomeVideoInfo_FieldNumber_Title = 1,
-  PB4PhomeVideoInfo_FieldNumber_TagsArray = 2,
-  PB4PhomeVideoInfo_FieldNumber_Image = 3,
+typedef GPB_ENUM(PB3PhomeVideoInfo_FieldNumber) {
+  PB3PhomeVideoInfo_FieldNumber_Title = 1,
+  PB3PhomeVideoInfo_FieldNumber_TagsArray = 2,
+  PB3PhomeVideoInfo_FieldNumber_Image = 3,
 };
 
-@interface PB4PhomeVideoInfo : GPBMessage
+@interface PB3PhomeVideoInfo : GPBMessage
 
 /** 影片名称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
@@ -2137,48 +2352,163 @@ typedef GPB_ENUM(PB4PhomeVideoInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeEntryBcFriendList
+#pragma mark - PB3PHomeEntryBcFriendList
 
-typedef GPB_ENUM(PB4PHomeEntryBcFriendList_FieldNumber) {
-  PB4PHomeEntryBcFriendList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryBcFriendList_FieldNumber) {
+  PB3PHomeEntryBcFriendList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntryBcFriendList : GPBMessage
+@interface PB3PHomeEntryBcFriendList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryBcFriend*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryBcFriend*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeEntryBcFriend
+#pragma mark - PB3PHomeEntryBcGiftList
 
-typedef GPB_ENUM(PB4PHomeEntryBcFriend_FieldNumber) {
-  PB4PHomeEntryBcFriend_FieldNumber_Id_p = 1,
-  PB4PHomeEntryBcFriend_FieldNumber_Index = 2,
-  PB4PHomeEntryBcFriend_FieldNumber_Sex = 3,
-  PB4PHomeEntryBcFriend_FieldNumber_Id2 = 4,
-  PB4PHomeEntryBcFriend_FieldNumber_WealthLevel = 5,
-  PB4PHomeEntryBcFriend_FieldNumber_CharmLevel = 6,
-  PB4PHomeEntryBcFriend_FieldNumber_Content = 7,
-  PB4PHomeEntryBcFriend_FieldNumber_EndTime = 8,
-  PB4PHomeEntryBcFriend_FieldNumber_HeadlineCost = 9,
-  PB4PHomeEntryBcFriend_FieldNumber_Type = 10,
-  PB4PHomeEntryBcFriend_FieldNumber_Name = 11,
-  PB4PHomeEntryBcFriend_FieldNumber_Icon = 12,
-  PB4PHomeEntryBcFriend_FieldNumber_RecordId = 13,
-  PB4PHomeEntryBcFriend_FieldNumber_RecordType = 14,
-  PB4PHomeEntryBcFriend_FieldNumber_OnChairNum = 15,
-  PB4PHomeEntryBcFriend_FieldNumber_RoomPatternBcName = 16,
-  PB4PHomeEntryBcFriend_FieldNumber_RoomPatternBcNameColor = 17,
-  PB4PHomeEntryBcFriend_FieldNumber_RoomPatternBcBorderColor = 18,
-  PB4PHomeEntryBcFriend_FieldNumber_Extend = 19,
-  PB4PHomeEntryBcFriend_FieldNumber_LabelsArray = 20,
-  PB4PHomeEntryBcFriend_FieldNumber_PlayerId = 21,
-  PB4PHomeEntryBcFriend_FieldNumber_RoomLabel = 22,
+typedef GPB_ENUM(PB3PHomeEntryBcGiftList_FieldNumber) {
+  PB3PHomeEntryBcGiftList_FieldNumber_ListArray = 1,
+  PB3PHomeEntryBcGiftList_FieldNumber_NewestBcGift = 2,
 };
 
-@interface PB4PHomeEntryBcFriend : GPBMessage
+@interface PB3PHomeEntryBcGiftList : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryBcGift*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** 最新一条的礼物广播记录 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3PHomeEntryBcGift *newestBcGift;
+/** Test to see if @c newestBcGift has been set. */
+@property(nonatomic, readwrite) BOOL hasNewestBcGift;
+
+@end
+
+#pragma mark - PB3PHomeCPInfoList
+
+typedef GPB_ENUM(PB3PHomeCPInfoList_FieldNumber) {
+  PB3PHomeCPInfoList_FieldNumber_ListArray = 1,
+  PB3PHomeCPInfoList_FieldNumber_SameSexListArray = 2,
+  PB3PHomeCPInfoList_FieldNumber_DefaultSexType = 3,
+};
+
+/**
+ * 首页心动8分钟配置
+ **/
+@interface PB3PHomeCPInfoList : GPBMessage
+
+/** CP配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeCPInfo*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** CP配置 同性的 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeCPInfo*> *sameSexListArray;
+/** The number of items in @c sameSexListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger sameSexListArray_Count;
+
+/** 默认显示性别 0:原来逻辑不变 */
+@property(nonatomic, readwrite) enum PB3PluginSexType defaultSexType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PHomeCPInfoList's @c defaultSexType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeCPInfoList_DefaultSexType_RawValue(PB3PHomeCPInfoList *message);
+/**
+ * Sets the raw value of an @c PB3PHomeCPInfoList's @c defaultSexType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeCPInfoList_DefaultSexType_RawValue(PB3PHomeCPInfoList *message, int32_t value);
+
+#pragma mark - PB3PHomeCPInfo
+
+typedef GPB_ENUM(PB3PHomeCPInfo_FieldNumber) {
+  PB3PHomeCPInfo_FieldNumber_ImageURL = 1,
+  PB3PHomeCPInfo_FieldNumber_VoiceURL = 2,
+  PB3PHomeCPInfo_FieldNumber_Condition = 3,
+  PB3PHomeCPInfo_FieldNumber_VoiceTime = 4,
+  PB3PHomeCPInfo_FieldNumber_VoiceId = 5,
+  PB3PHomeCPInfo_FieldNumber_Sex = 6,
+  PB3PHomeCPInfo_FieldNumber_Id_p = 7,
+  PB3PHomeCPInfo_FieldNumber_AnchorNum = 8,
+};
+
+/**
+ * CP图片配置
+ **/
+@interface PB3PHomeCPInfo : GPBMessage
+
+/** 图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *imageURL;
+
+/** 语音条 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceURL;
+
+/** 要求 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *condition;
+
+/** 音频时长 */
+@property(nonatomic, readwrite) int32_t voiceTime;
+
+/** 声鉴卡ID */
+@property(nonatomic, readwrite) int32_t voiceId;
+
+/** 性别 */
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
+
+/** 配置唯一ID */
+@property(nonatomic, readwrite) int32_t id_p;
+
+/** 主播人数 */
+@property(nonatomic, readwrite) int32_t anchorNum;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PHomeCPInfo's @c sex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeCPInfo_Sex_RawValue(PB3PHomeCPInfo *message);
+/**
+ * Sets the raw value of an @c PB3PHomeCPInfo's @c sex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeCPInfo_Sex_RawValue(PB3PHomeCPInfo *message, int32_t value);
+
+#pragma mark - PB3PHomeEntryBcFriend
+
+typedef GPB_ENUM(PB3PHomeEntryBcFriend_FieldNumber) {
+  PB3PHomeEntryBcFriend_FieldNumber_Id_p = 1,
+  PB3PHomeEntryBcFriend_FieldNumber_Index = 2,
+  PB3PHomeEntryBcFriend_FieldNumber_Sex = 3,
+  PB3PHomeEntryBcFriend_FieldNumber_Id2 = 4,
+  PB3PHomeEntryBcFriend_FieldNumber_WealthLevel = 5,
+  PB3PHomeEntryBcFriend_FieldNumber_CharmLevel = 6,
+  PB3PHomeEntryBcFriend_FieldNumber_Content = 7,
+  PB3PHomeEntryBcFriend_FieldNumber_EndTime = 8,
+  PB3PHomeEntryBcFriend_FieldNumber_HeadlineCost = 9,
+  PB3PHomeEntryBcFriend_FieldNumber_Type = 10,
+  PB3PHomeEntryBcFriend_FieldNumber_Name = 11,
+  PB3PHomeEntryBcFriend_FieldNumber_Icon = 12,
+  PB3PHomeEntryBcFriend_FieldNumber_RecordId = 13,
+  PB3PHomeEntryBcFriend_FieldNumber_RecordType = 14,
+  PB3PHomeEntryBcFriend_FieldNumber_OnChairNum = 15,
+  PB3PHomeEntryBcFriend_FieldNumber_RoomPatternBcName = 16,
+  PB3PHomeEntryBcFriend_FieldNumber_RoomPatternBcNameColor = 17,
+  PB3PHomeEntryBcFriend_FieldNumber_RoomPatternBcBorderColor = 18,
+  PB3PHomeEntryBcFriend_FieldNumber_Extend = 19,
+  PB3PHomeEntryBcFriend_FieldNumber_LabelsArray = 20,
+  PB3PHomeEntryBcFriend_FieldNumber_PushTime = 21,
+};
+
+@interface PB3PHomeEntryBcFriend : GPBMessage
 
 /** ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -2186,7 +2516,7 @@ typedef GPB_ENUM(PB4PHomeEntryBcFriend_FieldNumber) {
 /** 索引 */
 @property(nonatomic, readwrite) int32_t index;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 /** 短号 */
 @property(nonatomic, readwrite) int64_t id2;
@@ -2201,7 +2531,7 @@ typedef GPB_ENUM(PB4PHomeEntryBcFriend_FieldNumber) {
 
 @property(nonatomic, readwrite) int32_t headlineCost;
 
-@property(nonatomic, readwrite) enum PB4PluginBcFriendType type;
+@property(nonatomic, readwrite) enum PB3PluginBcFriendType type;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
@@ -2212,7 +2542,7 @@ typedef GPB_ENUM(PB4PHomeEntryBcFriend_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *recordId;
 
 /** 0 广播交友信息, 1 跳跳，2礼物 */
-@property(nonatomic, readwrite) PB4BF_RECORD_TYPE recordType;
+@property(nonatomic, readwrite) PB3BF_RECORD_TYPE recordType;
 
 /** 发送广播时，麦上的人数 */
 @property(nonatomic, readwrite) int32_t onChairNum;
@@ -2236,77 +2566,193 @@ typedef GPB_ENUM(PB4PHomeEntryBcFriend_FieldNumber) {
 /** The number of items in @c labelsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger labelsArray_Count;
 
-/** 用户id */
-@property(nonatomic, readwrite) int64_t playerId;
-
-/** 房间标签 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PHomeEntryRoomLabel *roomLabel;
-/** Test to see if @c roomLabel has been set. */
-@property(nonatomic, readwrite) BOOL hasRoomLabel;
+/** 发送时间（时间戳:秒） */
+@property(nonatomic, readwrite) int64_t pushTime;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryBcFriend's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeEntryBcFriend's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryBcFriend_Sex_RawValue(PB4PHomeEntryBcFriend *message);
+int32_t PB3PHomeEntryBcFriend_Sex_RawValue(PB3PHomeEntryBcFriend *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryBcFriend's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryBcFriend's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryBcFriend_Sex_RawValue(PB4PHomeEntryBcFriend *message, int32_t value);
+void SetPB3PHomeEntryBcFriend_Sex_RawValue(PB3PHomeEntryBcFriend *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryBcFriend's @c type property, even
+ * Fetches the raw value of a @c PB3PHomeEntryBcFriend's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryBcFriend_Type_RawValue(PB4PHomeEntryBcFriend *message);
+int32_t PB3PHomeEntryBcFriend_Type_RawValue(PB3PHomeEntryBcFriend *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryBcFriend's @c type property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryBcFriend's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryBcFriend_Type_RawValue(PB4PHomeEntryBcFriend *message, int32_t value);
+void SetPB3PHomeEntryBcFriend_Type_RawValue(PB3PHomeEntryBcFriend *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryBcFriend's @c recordType property, even
+ * Fetches the raw value of a @c PB3PHomeEntryBcFriend's @c recordType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryBcFriend_RecordType_RawValue(PB4PHomeEntryBcFriend *message);
+int32_t PB3PHomeEntryBcFriend_RecordType_RawValue(PB3PHomeEntryBcFriend *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryBcFriend's @c recordType property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryBcFriend's @c recordType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryBcFriend_RecordType_RawValue(PB4PHomeEntryBcFriend *message, int32_t value);
+void SetPB3PHomeEntryBcFriend_RecordType_RawValue(PB3PHomeEntryBcFriend *message, int32_t value);
 
-#pragma mark - PB4PHomeRouterList
+#pragma mark - PB3PHomeEntryBcGift
 
-typedef GPB_ENUM(PB4PHomeRouterList_FieldNumber) {
-  PB4PHomeRouterList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryBcGift_FieldNumber) {
+  PB3PHomeEntryBcGift_FieldNumber_SendId = 1,
+  PB3PHomeEntryBcGift_FieldNumber_SendName = 2,
+  PB3PHomeEntryBcGift_FieldNumber_SendIcon = 3,
+  PB3PHomeEntryBcGift_FieldNumber_SendSex = 4,
+  PB3PHomeEntryBcGift_FieldNumber_RecvId = 5,
+  PB3PHomeEntryBcGift_FieldNumber_RecvName = 6,
+  PB3PHomeEntryBcGift_FieldNumber_RecvIcon = 7,
+  PB3PHomeEntryBcGift_FieldNumber_RecvSex = 8,
+  PB3PHomeEntryBcGift_FieldNumber_RoomId = 9,
+  PB3PHomeEntryBcGift_FieldNumber_RoomPwd = 10,
+  PB3PHomeEntryBcGift_FieldNumber_GiftId = 11,
+  PB3PHomeEntryBcGift_FieldNumber_GiftNum = 12,
+  PB3PHomeEntryBcGift_FieldNumber_CreateTime = 13,
+  PB3PHomeEntryBcGift_FieldNumber_Gold = 14,
+  PB3PHomeEntryBcGift_FieldNumber_RoomId2 = 15,
+  PB3PHomeEntryBcGift_FieldNumber_IsWorld = 16,
+  PB3PHomeEntryBcGift_FieldNumber_GiftIcon = 17,
+  PB3PHomeEntryBcGift_FieldNumber_GiftType = 18,
+  PB3PHomeEntryBcGift_FieldNumber_FromIdCubismIcon = 19,
+  PB3PHomeEntryBcGift_FieldNumber_ToIdCubismIcon = 20,
+  PB3PHomeEntryBcGift_FieldNumber_RoomName = 21,
+  PB3PHomeEntryBcGift_FieldNumber_Message = 22,
 };
 
-@interface PB4PHomeRouterList : GPBMessage
+@interface PB3PHomeEntryBcGift : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeRouter*> *listArray;
+/** 赠送者ID */
+@property(nonatomic, readwrite) int64_t sendId;
+
+/** 赠送者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *sendName;
+
+/** 赠送者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *sendIcon;
+
+/** 赠送者性别 */
+@property(nonatomic, readwrite) enum PB3PluginSexType sendSex;
+
+/** 接收者ID */
+@property(nonatomic, readwrite) int64_t recvId;
+
+/** 接收者昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *recvName;
+
+/** 接收者头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *recvIcon;
+
+/** 接收者性别 */
+@property(nonatomic, readwrite) enum PB3PluginSexType recvSex;
+
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
+
+/** 房间密码 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomPwd;
+
+/** 礼物ID */
+@property(nonatomic, readwrite) int32_t giftId;
+
+/** 礼物数量 */
+@property(nonatomic, readwrite) int32_t giftNum;
+
+/** 送礼时间unix时间，单位: s */
+@property(nonatomic, readwrite) int64_t createTime;
+
+/** 价值 */
+@property(nonatomic, readwrite) int32_t gold;
+
+/** 房间靓号 */
+@property(nonatomic, readwrite) int64_t roomId2;
+
+/** 是否全服礼物 */
+@property(nonatomic, readwrite) BOOL isWorld;
+
+/** 礼物图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *giftIcon;
+
+/** 礼物类型 */
+@property(nonatomic, readwrite) int32_t giftType;
+
+/** 送礼者的虚拟形象静态图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *fromIdCubismIcon;
+
+/** 收礼者的虚拟形象静态图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *toIdCubismIcon;
+
+/** 房间名字 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomName;
+
+/** 输入信息 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *message;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryBcGift's @c sendSex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryBcGift_SendSex_RawValue(PB3PHomeEntryBcGift *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryBcGift's @c sendSex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryBcGift_SendSex_RawValue(PB3PHomeEntryBcGift *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3PHomeEntryBcGift's @c recvSex property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PHomeEntryBcGift_RecvSex_RawValue(PB3PHomeEntryBcGift *message);
+/**
+ * Sets the raw value of an @c PB3PHomeEntryBcGift's @c recvSex property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PHomeEntryBcGift_RecvSex_RawValue(PB3PHomeEntryBcGift *message, int32_t value);
+
+#pragma mark - PB3PHomeRouterList
+
+typedef GPB_ENUM(PB3PHomeRouterList_FieldNumber) {
+  PB3PHomeRouterList_FieldNumber_ListArray = 1,
+};
+
+@interface PB3PHomeRouterList : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeRouter*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeRouter
+#pragma mark - PB3PHomeRouter
 
-typedef GPB_ENUM(PB4PHomeRouter_FieldNumber) {
-  PB4PHomeRouter_FieldNumber_Title = 1,
-  PB4PHomeRouter_FieldNumber_FeatureImg = 2,
-  PB4PHomeRouter_FieldNumber_FeatureText = 3,
-  PB4PHomeRouter_FieldNumber_BackgroundImg = 4,
-  PB4PHomeRouter_FieldNumber_Router = 5,
+typedef GPB_ENUM(PB3PHomeRouter_FieldNumber) {
+  PB3PHomeRouter_FieldNumber_Title = 1,
+  PB3PHomeRouter_FieldNumber_FeatureImg = 2,
+  PB3PHomeRouter_FieldNumber_FeatureText = 3,
+  PB3PHomeRouter_FieldNumber_BackgroundImg = 4,
+  PB3PHomeRouter_FieldNumber_Router = 5,
 };
 
-@interface PB4PHomeRouter : GPBMessage
+@interface PB3PHomeRouter : GPBMessage
 
 /** 标题 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
@@ -2325,37 +2771,37 @@ typedef GPB_ENUM(PB4PHomeRouter_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeRankList
+#pragma mark - PB3PHomeRankList
 
-typedef GPB_ENUM(PB4PHomeRankList_FieldNumber) {
-  PB4PHomeRankList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeRankList_FieldNumber) {
+  PB3PHomeRankList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeRankList : GPBMessage
+@interface PB3PHomeRankList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeRank*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeRank*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeRank
+#pragma mark - PB3PHomeRank
 
-typedef GPB_ENUM(PB4PHomeRank_FieldNumber) {
-  PB4PHomeRank_FieldNumber_RankName = 1,
-  PB4PHomeRank_FieldNumber_RankIcon = 2,
-  PB4PHomeRank_FieldNumber_Num = 3,
-  PB4PHomeRank_FieldNumber_Router = 4,
-  PB4PHomeRank_FieldNumber_RankListArray = 5,
-  PB4PHomeRank_FieldNumber_RankType = 6,
-  PB4PHomeRank_FieldNumber_Title = 7,
-  PB4PHomeRank_FieldNumber_Msg = 8,
-  PB4PHomeRank_FieldNumber_BgImage = 9,
-  PB4PHomeRank_FieldNumber_Describe = 10,
-  PB4PHomeRank_FieldNumber_ReloadTime = 11,
+typedef GPB_ENUM(PB3PHomeRank_FieldNumber) {
+  PB3PHomeRank_FieldNumber_RankName = 1,
+  PB3PHomeRank_FieldNumber_RankIcon = 2,
+  PB3PHomeRank_FieldNumber_Num = 3,
+  PB3PHomeRank_FieldNumber_Router = 4,
+  PB3PHomeRank_FieldNumber_RankListArray = 5,
+  PB3PHomeRank_FieldNumber_RankType = 6,
+  PB3PHomeRank_FieldNumber_Title = 7,
+  PB3PHomeRank_FieldNumber_Msg = 8,
+  PB3PHomeRank_FieldNumber_BgImage = 9,
+  PB3PHomeRank_FieldNumber_Describe = 10,
+  PB3PHomeRank_FieldNumber_ReloadTime = 11,
 };
 
-@interface PB4PHomeRank : GPBMessage
+@interface PB3PHomeRank : GPBMessage
 
 /** 榜单名称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *rankName;
@@ -2370,12 +2816,12 @@ typedef GPB_ENUM(PB4PHomeRank_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *router;
 
 /** 排行榜单 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeRankItem*> *rankListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeRankItem*> *rankListArray;
 /** The number of items in @c rankListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger rankListArray_Count;
 
 /** 排行榜类型 */
-@property(nonatomic, readwrite) PB4PluginRankType rankType;
+@property(nonatomic, readwrite) PB3PluginRankType rankType;
 
 /** 标题 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
@@ -2394,44 +2840,44 @@ typedef GPB_ENUM(PB4PHomeRank_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeRank's @c rankType property, even
+ * Fetches the raw value of a @c PB3PHomeRank's @c rankType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeRank_RankType_RawValue(PB4PHomeRank *message);
+int32_t PB3PHomeRank_RankType_RawValue(PB3PHomeRank *message);
 /**
- * Sets the raw value of an @c PB4PHomeRank's @c rankType property, allowing
+ * Sets the raw value of an @c PB3PHomeRank's @c rankType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeRank_RankType_RawValue(PB4PHomeRank *message, int32_t value);
+void SetPB3PHomeRank_RankType_RawValue(PB3PHomeRank *message, int32_t value);
 
-#pragma mark - PB4PHomeRankItem
+#pragma mark - PB3PHomeRankItem
 
-typedef GPB_ENUM(PB4PHomeRankItem_FieldNumber) {
-  PB4PHomeRankItem_FieldNumber_Id_p = 1,
-  PB4PHomeRankItem_FieldNumber_Name = 2,
-  PB4PHomeRankItem_FieldNumber_Sex = 3,
-  PB4PHomeRankItem_FieldNumber_Level = 4,
-  PB4PHomeRankItem_FieldNumber_Value = 5,
-  PB4PHomeRankItem_FieldNumber_ResTime = 6,
-  PB4PHomeRankItem_FieldNumber_GapVal = 7,
-  PB4PHomeRankItem_FieldNumber_Icon = 8,
-  PB4PHomeRankItem_FieldNumber_GiftId = 9,
-  PB4PHomeRankItem_FieldNumber_GiftNum = 10,
-  PB4PHomeRankItem_FieldNumber_Ranking = 11,
-  PB4PHomeRankItem_FieldNumber_Id2 = 12,
-  PB4PHomeRankItem_FieldNumber_GiftName = 13,
-  PB4PHomeRankItem_FieldNumber_IsChair = 14,
-  PB4PHomeRankItem_FieldNumber_IsRoom = 15,
+typedef GPB_ENUM(PB3PHomeRankItem_FieldNumber) {
+  PB3PHomeRankItem_FieldNumber_Id_p = 1,
+  PB3PHomeRankItem_FieldNumber_Name = 2,
+  PB3PHomeRankItem_FieldNumber_Sex = 3,
+  PB3PHomeRankItem_FieldNumber_Level = 4,
+  PB3PHomeRankItem_FieldNumber_Value = 5,
+  PB3PHomeRankItem_FieldNumber_ResTime = 6,
+  PB3PHomeRankItem_FieldNumber_GapVal = 7,
+  PB3PHomeRankItem_FieldNumber_Icon = 8,
+  PB3PHomeRankItem_FieldNumber_GiftId = 9,
+  PB3PHomeRankItem_FieldNumber_GiftNum = 10,
+  PB3PHomeRankItem_FieldNumber_Ranking = 11,
+  PB3PHomeRankItem_FieldNumber_Id2 = 12,
+  PB3PHomeRankItem_FieldNumber_GiftName = 13,
+  PB3PHomeRankItem_FieldNumber_IsChair = 14,
+  PB3PHomeRankItem_FieldNumber_IsRoom = 15,
 };
 
-@interface PB4PHomeRankItem : GPBMessage
+@interface PB3PHomeRankItem : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 /** 财富、魅力等级 */
 @property(nonatomic, readwrite) int32_t level;
@@ -2470,42 +2916,42 @@ typedef GPB_ENUM(PB4PHomeRankItem_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeRankItem's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeRankItem's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeRankItem_Sex_RawValue(PB4PHomeRankItem *message);
+int32_t PB3PHomeRankItem_Sex_RawValue(PB3PHomeRankItem *message);
 /**
- * Sets the raw value of an @c PB4PHomeRankItem's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeRankItem's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeRankItem_Sex_RawValue(PB4PHomeRankItem *message, int32_t value);
+void SetPB3PHomeRankItem_Sex_RawValue(PB3PHomeRankItem *message, int32_t value);
 
-#pragma mark - PB4PHomeActivityList
+#pragma mark - PB3PHomeActivityList
 
-typedef GPB_ENUM(PB4PHomeActivityList_FieldNumber) {
-  PB4PHomeActivityList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeActivityList_FieldNumber) {
+  PB3PHomeActivityList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeActivityList : GPBMessage
+@interface PB3PHomeActivityList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeActivity*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeActivity*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeActivity
+#pragma mark - PB3PHomeActivity
 
-typedef GPB_ENUM(PB4PHomeActivity_FieldNumber) {
-  PB4PHomeActivity_FieldNumber_ActivityIcon = 1,
-  PB4PHomeActivity_FieldNumber_ActivityTextArray = 2,
-  PB4PHomeActivity_FieldNumber_Router = 4,
-  PB4PHomeActivity_FieldNumber_Interval = 5,
-  PB4PHomeActivity_FieldNumber_Title = 6,
+typedef GPB_ENUM(PB3PHomeActivity_FieldNumber) {
+  PB3PHomeActivity_FieldNumber_ActivityIcon = 1,
+  PB3PHomeActivity_FieldNumber_ActivityTextArray = 2,
+  PB3PHomeActivity_FieldNumber_Router = 4,
+  PB3PHomeActivity_FieldNumber_Interval = 5,
+  PB3PHomeActivity_FieldNumber_Title = 6,
 };
 
-@interface PB4PHomeActivity : GPBMessage
+@interface PB3PHomeActivity : GPBMessage
 
 /** 活动图标 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *activityIcon;
@@ -2526,28 +2972,28 @@ typedef GPB_ENUM(PB4PHomeActivity_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeEntryOrderPlayer
+#pragma mark - PB3PHomeEntryOrderPlayer
 
-typedef GPB_ENUM(PB4PHomeEntryOrderPlayer_FieldNumber) {
-  PB4PHomeEntryOrderPlayer_FieldNumber_OrderNum = 1,
-  PB4PHomeEntryOrderPlayer_FieldNumber_VoiceURL = 2,
-  PB4PHomeEntryOrderPlayer_FieldNumber_BriefIntroduction = 3,
-  PB4PHomeEntryOrderPlayer_FieldNumber_OrderLevel = 4,
-  PB4PHomeEntryOrderPlayer_FieldNumber_OrderLevelPicture = 5,
-  PB4PHomeEntryOrderPlayer_FieldNumber_PriceId = 6,
-  PB4PHomeEntryOrderPlayer_FieldNumber_PriceNum = 7,
-  PB4PHomeEntryOrderPlayer_FieldNumber_Unit = 8,
-  PB4PHomeEntryOrderPlayer_FieldNumber_VoiceTime = 9,
-  PB4PHomeEntryOrderPlayer_FieldNumber_SkillId = 10,
-  PB4PHomeEntryOrderPlayer_FieldNumber_Gold = 11,
-  PB4PHomeEntryOrderPlayer_FieldNumber_SkillLevelId = 12,
-  PB4PHomeEntryOrderPlayer_FieldNumber_BillConf = 13,
-  PB4PHomeEntryOrderPlayer_FieldNumber_SkillLevelName = 14,
-  PB4PHomeEntryOrderPlayer_FieldNumber_TextColor = 15,
-  PB4PHomeEntryOrderPlayer_FieldNumber_BorderColor = 16,
+typedef GPB_ENUM(PB3PHomeEntryOrderPlayer_FieldNumber) {
+  PB3PHomeEntryOrderPlayer_FieldNumber_OrderNum = 1,
+  PB3PHomeEntryOrderPlayer_FieldNumber_VoiceURL = 2,
+  PB3PHomeEntryOrderPlayer_FieldNumber_BriefIntroduction = 3,
+  PB3PHomeEntryOrderPlayer_FieldNumber_OrderLevel = 4,
+  PB3PHomeEntryOrderPlayer_FieldNumber_OrderLevelPicture = 5,
+  PB3PHomeEntryOrderPlayer_FieldNumber_PriceId = 6,
+  PB3PHomeEntryOrderPlayer_FieldNumber_PriceNum = 7,
+  PB3PHomeEntryOrderPlayer_FieldNumber_Unit = 8,
+  PB3PHomeEntryOrderPlayer_FieldNumber_VoiceTime = 9,
+  PB3PHomeEntryOrderPlayer_FieldNumber_SkillId = 10,
+  PB3PHomeEntryOrderPlayer_FieldNumber_Gold = 11,
+  PB3PHomeEntryOrderPlayer_FieldNumber_SkillLevelId = 12,
+  PB3PHomeEntryOrderPlayer_FieldNumber_BillConf = 13,
+  PB3PHomeEntryOrderPlayer_FieldNumber_SkillLevelName = 14,
+  PB3PHomeEntryOrderPlayer_FieldNumber_TextColor = 15,
+  PB3PHomeEntryOrderPlayer_FieldNumber_BorderColor = 16,
 };
 
-@interface PB4PHomeEntryOrderPlayer : GPBMessage
+@interface PB3PHomeEntryOrderPlayer : GPBMessage
 
 /** 接单量 */
 @property(nonatomic, readwrite) int32_t orderNum;
@@ -2586,7 +3032,7 @@ typedef GPB_ENUM(PB4PHomeEntryOrderPlayer_FieldNumber) {
 @property(nonatomic, readwrite) int32_t skillLevelId;
 
 /** 点单配置 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4BillConf *billConf;
+@property(nonatomic, readwrite, strong, null_resettable) PB3BillConf *billConf;
 /** Test to see if @c billConf has been set. */
 @property(nonatomic, readwrite) BOOL hasBillConf;
 
@@ -2601,67 +3047,67 @@ typedef GPB_ENUM(PB4PHomeEntryOrderPlayer_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeEntryPlayerList
+#pragma mark - PB3PHomeEntryPlayerList
 
-typedef GPB_ENUM(PB4PHomeEntryPlayerList_FieldNumber) {
-  PB4PHomeEntryPlayerList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryPlayerList_FieldNumber) {
+  PB3PHomeEntryPlayerList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntryPlayerList : GPBMessage
+@interface PB3PHomeEntryPlayerList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryPlayer*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryPlayer*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeEntryPlayer
+#pragma mark - PB3PHomeEntryPlayer
 
-typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
-  PB4PHomeEntryPlayer_FieldNumber_Id_p = 1,
-  PB4PHomeEntryPlayer_FieldNumber_Index = 2,
-  PB4PHomeEntryPlayer_FieldNumber_Id2 = 3,
-  PB4PHomeEntryPlayer_FieldNumber_Name = 4,
-  PB4PHomeEntryPlayer_FieldNumber_Icon = 5,
-  PB4PHomeEntryPlayer_FieldNumber_HasRoomPasswd = 6,
-  PB4PHomeEntryPlayer_FieldNumber_RecommendWord = 7,
-  PB4PHomeEntryPlayer_FieldNumber_Fans = 8,
-  PB4PHomeEntryPlayer_FieldNumber_RoomId = 9,
-  PB4PHomeEntryPlayer_FieldNumber_Sex = 10,
-  PB4PHomeEntryPlayer_FieldNumber_OrderInfo = 11,
-  PB4PHomeEntryPlayer_FieldNumber_CoverPic = 12,
-  PB4PHomeEntryPlayer_FieldNumber_Flag = 13,
-  PB4PHomeEntryPlayer_FieldNumber_Signature = 14,
-  PB4PHomeEntryPlayer_FieldNumber_Distances = 15,
-  PB4PHomeEntryPlayer_FieldNumber_Province = 16,
-  PB4PHomeEntryPlayer_FieldNumber_Municipality = 17,
-  PB4PHomeEntryPlayer_FieldNumber_County = 18,
-  PB4PHomeEntryPlayer_FieldNumber_AddressDetail = 19,
-  PB4PHomeEntryPlayer_FieldNumber_RecommendTags = 20,
-  PB4PHomeEntryPlayer_FieldNumber_BillIconArray = 21,
-  PB4PHomeEntryPlayer_FieldNumber_IsOnline = 22,
-  PB4PHomeEntryPlayer_FieldNumber_ImageListArray = 23,
-  PB4PHomeEntryPlayer_FieldNumber_UpdateTime = 24,
-  PB4PHomeEntryPlayer_FieldNumber_OrderInfoListArray = 25,
-  PB4PHomeEntryPlayer_FieldNumber_TalkArray = 26,
-  PB4PHomeEntryPlayer_FieldNumber_PlayerAbilityArray = 27,
-  PB4PHomeEntryPlayer_FieldNumber_VoiceURL = 28,
-  PB4PHomeEntryPlayer_FieldNumber_VoiceTime = 29,
-  PB4PHomeEntryPlayer_FieldNumber_RecommendWordIcon = 30,
-  PB4PHomeEntryPlayer_FieldNumber_UserStateContent = 31,
-  PB4PHomeEntryPlayer_FieldNumber_AuthTagsArray = 32,
-  PB4PHomeEntryPlayer_FieldNumber_BillIconInfoArray = 33,
-  PB4PHomeEntryPlayer_FieldNumber_GameName = 34,
-  PB4PHomeEntryPlayer_FieldNumber_Age = 35,
-  PB4PHomeEntryPlayer_FieldNumber_Constellation = 36,
-  PB4PHomeEntryPlayer_FieldNumber_IsChair = 37,
-  PB4PHomeEntryPlayer_FieldNumber_ActionTalk = 38,
-  PB4PHomeEntryPlayer_FieldNumber_NobilityId = 39,
-  PB4PHomeEntryPlayer_FieldNumber_CpInfo = 40,
-  PB4PHomeEntryPlayer_FieldNumber_Mind = 41,
+typedef GPB_ENUM(PB3PHomeEntryPlayer_FieldNumber) {
+  PB3PHomeEntryPlayer_FieldNumber_Id_p = 1,
+  PB3PHomeEntryPlayer_FieldNumber_Index = 2,
+  PB3PHomeEntryPlayer_FieldNumber_Id2 = 3,
+  PB3PHomeEntryPlayer_FieldNumber_Name = 4,
+  PB3PHomeEntryPlayer_FieldNumber_Icon = 5,
+  PB3PHomeEntryPlayer_FieldNumber_HasRoomPasswd = 6,
+  PB3PHomeEntryPlayer_FieldNumber_RecommendWord = 7,
+  PB3PHomeEntryPlayer_FieldNumber_Fans = 8,
+  PB3PHomeEntryPlayer_FieldNumber_RoomId = 9,
+  PB3PHomeEntryPlayer_FieldNumber_Sex = 10,
+  PB3PHomeEntryPlayer_FieldNumber_OrderInfo = 11,
+  PB3PHomeEntryPlayer_FieldNumber_CoverPic = 12,
+  PB3PHomeEntryPlayer_FieldNumber_Flag = 13,
+  PB3PHomeEntryPlayer_FieldNumber_Signature = 14,
+  PB3PHomeEntryPlayer_FieldNumber_Distances = 15,
+  PB3PHomeEntryPlayer_FieldNumber_Province = 16,
+  PB3PHomeEntryPlayer_FieldNumber_Municipality = 17,
+  PB3PHomeEntryPlayer_FieldNumber_County = 18,
+  PB3PHomeEntryPlayer_FieldNumber_AddressDetail = 19,
+  PB3PHomeEntryPlayer_FieldNumber_RecommendTags = 20,
+  PB3PHomeEntryPlayer_FieldNumber_BillIconArray = 21,
+  PB3PHomeEntryPlayer_FieldNumber_IsOnline = 22,
+  PB3PHomeEntryPlayer_FieldNumber_ImageListArray = 23,
+  PB3PHomeEntryPlayer_FieldNumber_UpdateTime = 24,
+  PB3PHomeEntryPlayer_FieldNumber_OrderInfoListArray = 25,
+  PB3PHomeEntryPlayer_FieldNumber_TalkArray = 26,
+  PB3PHomeEntryPlayer_FieldNumber_PlayerAbilityArray = 27,
+  PB3PHomeEntryPlayer_FieldNumber_VoiceURL = 28,
+  PB3PHomeEntryPlayer_FieldNumber_VoiceTime = 29,
+  PB3PHomeEntryPlayer_FieldNumber_RecommendWordIcon = 30,
+  PB3PHomeEntryPlayer_FieldNumber_UserStateContent = 31,
+  PB3PHomeEntryPlayer_FieldNumber_AuthTagsArray = 32,
+  PB3PHomeEntryPlayer_FieldNumber_BillIconInfoArray = 33,
+  PB3PHomeEntryPlayer_FieldNumber_GameName = 34,
+  PB3PHomeEntryPlayer_FieldNumber_Age = 35,
+  PB3PHomeEntryPlayer_FieldNumber_Constellation = 36,
+  PB3PHomeEntryPlayer_FieldNumber_IsChair = 37,
+  PB3PHomeEntryPlayer_FieldNumber_ActionTalk = 38,
+  PB3PHomeEntryPlayer_FieldNumber_NobilityId = 39,
+  PB3PHomeEntryPlayer_FieldNumber_CpInfo = 40,
+  PB3PHomeEntryPlayer_FieldNumber_Mind = 41,
 };
 
-@interface PB4PHomeEntryPlayer : GPBMessage
+@interface PB3PHomeEntryPlayer : GPBMessage
 
 /** 房间ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -2688,9 +3134,9 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 /** 当前房间 */
 @property(nonatomic, readwrite) int64_t roomId;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4PHomeEntryOrderPlayer *orderInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PHomeEntryOrderPlayer *orderInfo;
 /** Test to see if @c orderInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasOrderInfo;
 
@@ -2730,14 +3176,14 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 @property(nonatomic, readwrite) BOOL isOnline;
 
 /** 相册 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PlayerImageInfo*> *imageListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PlayerImageInfo*> *imageListArray;
 /** The number of items in @c imageListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger imageListArray_Count;
 
 /** 数据刷新时间 */
 @property(nonatomic, readwrite) int64_t updateTime;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryOrderPlayer*> *orderInfoListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryOrderPlayer*> *orderInfoListArray;
 /** The number of items in @c orderInfoListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger orderInfoListArray_Count;
 
@@ -2747,7 +3193,7 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 @property(nonatomic, readonly) NSUInteger talkArray_Count;
 
 /** 特长(技能) */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomePlayerAbility*> *playerAbilityArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomePlayerAbility*> *playerAbilityArray;
 /** The number of items in @c playerAbilityArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger playerAbilityArray_Count;
 
@@ -2761,12 +3207,12 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 /** 声鉴卡实况 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *userStateContent;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4AuthTag*> *authTagsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AuthTag*> *authTagsArray;
 /** The number of items in @c authTagsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger authTagsArray_Count;
 
 /** 点单角标信息,url+位置 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4BillPlayerIconInfo*> *billIconInfoArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BillPlayerIconInfo*> *billIconInfoArray;
 /** The number of items in @c billIconInfoArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger billIconInfoArray_Count;
 
@@ -2789,7 +3235,7 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 @property(nonatomic, readwrite) int32_t nobilityId;
 
 /** cp接单员信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PHomeCPPlayer *cpInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PHomeCPPlayer *cpInfo;
 /** Test to see if @c cpInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasCpInfo;
 
@@ -2799,33 +3245,33 @@ typedef GPB_ENUM(PB4PHomeEntryPlayer_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryPlayer's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeEntryPlayer's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryPlayer_Sex_RawValue(PB4PHomeEntryPlayer *message);
+int32_t PB3PHomeEntryPlayer_Sex_RawValue(PB3PHomeEntryPlayer *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryPlayer's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryPlayer's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryPlayer_Sex_RawValue(PB4PHomeEntryPlayer *message, int32_t value);
+void SetPB3PHomeEntryPlayer_Sex_RawValue(PB3PHomeEntryPlayer *message, int32_t value);
 
-#pragma mark - PB4BillConf
+#pragma mark - PB3BillConf
 
-typedef GPB_ENUM(PB4BillConf_FieldNumber) {
-  PB4BillConf_FieldNumber_SkillId = 1,
-  PB4BillConf_FieldNumber_Name = 2,
-  PB4BillConf_FieldNumber_SkillIconURL = 3,
-  PB4BillConf_FieldNumber_SkillStartColor = 4,
-  PB4BillConf_FieldNumber_SkillEndColor = 5,
-  PB4BillConf_FieldNumber_LevSkillStartColor = 6,
-  PB4BillConf_FieldNumber_LevSkillEndColor = 7,
+typedef GPB_ENUM(PB3BillConf_FieldNumber) {
+  PB3BillConf_FieldNumber_SkillId = 1,
+  PB3BillConf_FieldNumber_Name = 2,
+  PB3BillConf_FieldNumber_SkillIconURL = 3,
+  PB3BillConf_FieldNumber_SkillStartColor = 4,
+  PB3BillConf_FieldNumber_SkillEndColor = 5,
+  PB3BillConf_FieldNumber_LevSkillStartColor = 6,
+  PB3BillConf_FieldNumber_LevSkillEndColor = 7,
 };
 
 /**
  * 点单配置
  **/
-@interface PB4BillConf : GPBMessage
+@interface PB3BillConf : GPBMessage
 
 /** 技能ID */
 @property(nonatomic, readwrite) int32_t skillId;
@@ -2850,53 +3296,53 @@ typedef GPB_ENUM(PB4BillConf_FieldNumber) {
 
 @end
 
-#pragma mark - PB4BillPlayerIconInfo
+#pragma mark - PB3BillPlayerIconInfo
 
-typedef GPB_ENUM(PB4BillPlayerIconInfo_FieldNumber) {
-  PB4BillPlayerIconInfo_FieldNumber_URL = 1,
-  PB4BillPlayerIconInfo_FieldNumber_IconLocation = 2,
+typedef GPB_ENUM(PB3BillPlayerIconInfo_FieldNumber) {
+  PB3BillPlayerIconInfo_FieldNumber_URL = 1,
+  PB3BillPlayerIconInfo_FieldNumber_IconLocation = 2,
 };
 
-@interface PB4BillPlayerIconInfo : GPBMessage
+@interface PB3BillPlayerIconInfo : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
 
-@property(nonatomic, readwrite) enum PB4IconLocationType iconLocation;
+@property(nonatomic, readwrite) enum PB3IconLocationType iconLocation;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4BillPlayerIconInfo's @c iconLocation property, even
+ * Fetches the raw value of a @c PB3BillPlayerIconInfo's @c iconLocation property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4BillPlayerIconInfo_IconLocation_RawValue(PB4BillPlayerIconInfo *message);
+int32_t PB3BillPlayerIconInfo_IconLocation_RawValue(PB3BillPlayerIconInfo *message);
 /**
- * Sets the raw value of an @c PB4BillPlayerIconInfo's @c iconLocation property, allowing
+ * Sets the raw value of an @c PB3BillPlayerIconInfo's @c iconLocation property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4BillPlayerIconInfo_IconLocation_RawValue(PB4BillPlayerIconInfo *message, int32_t value);
+void SetPB3BillPlayerIconInfo_IconLocation_RawValue(PB3BillPlayerIconInfo *message, int32_t value);
 
-#pragma mark - PB4AuthTag
+#pragma mark - PB3AuthTag
 
-typedef GPB_ENUM(PB4AuthTag_FieldNumber) {
-  PB4AuthTag_FieldNumber_Icon = 1,
+typedef GPB_ENUM(PB3AuthTag_FieldNumber) {
+  PB3AuthTag_FieldNumber_Icon = 1,
 };
 
-@interface PB4AuthTag : GPBMessage
+@interface PB3AuthTag : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
 @end
 
-#pragma mark - PB4PHomePlayerAbility
+#pragma mark - PB3PHomePlayerAbility
 
-typedef GPB_ENUM(PB4PHomePlayerAbility_FieldNumber) {
-  PB4PHomePlayerAbility_FieldNumber_AbilityName = 1,
-  PB4PHomePlayerAbility_FieldNumber_AbilityValue = 2,
+typedef GPB_ENUM(PB3PHomePlayerAbility_FieldNumber) {
+  PB3PHomePlayerAbility_FieldNumber_AbilityName = 1,
+  PB3PHomePlayerAbility_FieldNumber_AbilityValue = 2,
 };
 
-@interface PB4PHomePlayerAbility : GPBMessage
+@interface PB3PHomePlayerAbility : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *abilityName;
 
@@ -2904,33 +3350,33 @@ typedef GPB_ENUM(PB4PHomePlayerAbility_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PHomeEntryBannerList
+#pragma mark - PB3PHomeEntryBannerList
 
-typedef GPB_ENUM(PB4PHomeEntryBannerList_FieldNumber) {
-  PB4PHomeEntryBannerList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryBannerList_FieldNumber) {
+  PB3PHomeEntryBannerList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntryBannerList : GPBMessage
+@interface PB3PHomeEntryBannerList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryBanner*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryBanner*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeEntryBanner
+#pragma mark - PB3PHomeEntryBanner
 
-typedef GPB_ENUM(PB4PHomeEntryBanner_FieldNumber) {
-  PB4PHomeEntryBanner_FieldNumber_Id_p = 1,
-  PB4PHomeEntryBanner_FieldNumber_Index = 2,
-  PB4PHomeEntryBanner_FieldNumber_URL = 3,
-  PB4PHomeEntryBanner_FieldNumber_Route = 4,
-  PB4PHomeEntryBanner_FieldNumber_Name = 5,
-  PB4PHomeEntryBanner_FieldNumber_OnlineNum = 6,
-  PB4PHomeEntryBanner_FieldNumber_Position = 7,
+typedef GPB_ENUM(PB3PHomeEntryBanner_FieldNumber) {
+  PB3PHomeEntryBanner_FieldNumber_Id_p = 1,
+  PB3PHomeEntryBanner_FieldNumber_Index = 2,
+  PB3PHomeEntryBanner_FieldNumber_URL = 3,
+  PB3PHomeEntryBanner_FieldNumber_Route = 4,
+  PB3PHomeEntryBanner_FieldNumber_Name = 5,
+  PB3PHomeEntryBanner_FieldNumber_OnlineNum = 6,
+  PB3PHomeEntryBanner_FieldNumber_Position = 7,
 };
 
-@interface PB4PHomeEntryBanner : GPBMessage
+@interface PB3PHomeEntryBanner : GPBMessage
 
 /** 房间ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -2951,53 +3397,53 @@ typedef GPB_ENUM(PB4PHomeEntryBanner_FieldNumber) {
 @property(nonatomic, readwrite) int64_t onlineNum;
 
 /** 位置 */
-@property(nonatomic, readwrite) PB4BannerPosition position;
+@property(nonatomic, readwrite) PB3BannerPosition position;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryBanner's @c position property, even
+ * Fetches the raw value of a @c PB3PHomeEntryBanner's @c position property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryBanner_Position_RawValue(PB4PHomeEntryBanner *message);
+int32_t PB3PHomeEntryBanner_Position_RawValue(PB3PHomeEntryBanner *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryBanner's @c position property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryBanner's @c position property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryBanner_Position_RawValue(PB4PHomeEntryBanner *message, int32_t value);
+void SetPB3PHomeEntryBanner_Position_RawValue(PB3PHomeEntryBanner *message, int32_t value);
 
-#pragma mark - PB4PHomeEntrySubNavList
+#pragma mark - PB3PHomeEntrySubNavList
 
-typedef GPB_ENUM(PB4PHomeEntrySubNavList_FieldNumber) {
-  PB4PHomeEntrySubNavList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntrySubNavList_FieldNumber) {
+  PB3PHomeEntrySubNavList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntrySubNavList : GPBMessage
+@interface PB3PHomeEntrySubNavList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntrySubNav*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntrySubNav*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4PHomeEntrySubNav
+#pragma mark - PB3PHomeEntrySubNav
 
-typedef GPB_ENUM(PB4PHomeEntrySubNav_FieldNumber) {
-  PB4PHomeEntrySubNav_FieldNumber_Id_p = 1,
-  PB4PHomeEntrySubNav_FieldNumber_Index = 2,
-  PB4PHomeEntrySubNav_FieldNumber_Name = 3,
-  PB4PHomeEntrySubNav_FieldNumber_ImgURL = 4,
-  PB4PHomeEntrySubNav_FieldNumber_SelectedImgURL = 5,
-  PB4PHomeEntrySubNav_FieldNumber_IsDefault = 6,
-  PB4PHomeEntrySubNav_FieldNumber_NavStyle = 7,
-  PB4PHomeEntrySubNav_FieldNumber_ShowSelectSex = 8,
-  PB4PHomeEntrySubNav_FieldNumber_Classify = 9,
-  PB4PHomeEntrySubNav_FieldNumber_ButtonsArray = 10,
-  PB4PHomeEntrySubNav_FieldNumber_RedNum = 11,
+typedef GPB_ENUM(PB3PHomeEntrySubNav_FieldNumber) {
+  PB3PHomeEntrySubNav_FieldNumber_Id_p = 1,
+  PB3PHomeEntrySubNav_FieldNumber_Index = 2,
+  PB3PHomeEntrySubNav_FieldNumber_Name = 3,
+  PB3PHomeEntrySubNav_FieldNumber_ImgURL = 4,
+  PB3PHomeEntrySubNav_FieldNumber_SelectedImgURL = 5,
+  PB3PHomeEntrySubNav_FieldNumber_IsDefault = 6,
+  PB3PHomeEntrySubNav_FieldNumber_NavStyle = 7,
+  PB3PHomeEntrySubNav_FieldNumber_ShowSelectSex = 8,
+  PB3PHomeEntrySubNav_FieldNumber_Classify = 9,
+  PB3PHomeEntrySubNav_FieldNumber_ButtonsArray = 10,
+  PB3PHomeEntrySubNav_FieldNumber_RedNum = 11,
 };
 
-@interface PB4PHomeEntrySubNav : GPBMessage
+@interface PB3PHomeEntrySubNav : GPBMessage
 
 /** 房间ID */
 @property(nonatomic, readwrite) int32_t id_p;
@@ -3018,15 +3464,15 @@ typedef GPB_ENUM(PB4PHomeEntrySubNav_FieldNumber) {
 @property(nonatomic, readwrite) BOOL isDefault;
 
 /** 标签样式 */
-@property(nonatomic, readwrite) PB4PHomeNavStyle navStyle;
+@property(nonatomic, readwrite) PB3PHomeNavStyle navStyle;
 
 /** 是否显示刷选男女 */
 @property(nonatomic, readwrite) BOOL showSelectSex;
 
-@property(nonatomic, readwrite) PB4PHomeClassify classify;
+@property(nonatomic, readwrite) PB3PHomeClassify classify;
 
 /** 标签右侧的按钮 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4Button*> *buttonsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Button*> *buttonsArray;
 /** The number of items in @c buttonsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger buttonsArray_Count;
 
@@ -3036,45 +3482,49 @@ typedef GPB_ENUM(PB4PHomeEntrySubNav_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntrySubNav's @c navStyle property, even
+ * Fetches the raw value of a @c PB3PHomeEntrySubNav's @c navStyle property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntrySubNav_NavStyle_RawValue(PB4PHomeEntrySubNav *message);
+int32_t PB3PHomeEntrySubNav_NavStyle_RawValue(PB3PHomeEntrySubNav *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntrySubNav's @c navStyle property, allowing
+ * Sets the raw value of an @c PB3PHomeEntrySubNav's @c navStyle property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntrySubNav_NavStyle_RawValue(PB4PHomeEntrySubNav *message, int32_t value);
+void SetPB3PHomeEntrySubNav_NavStyle_RawValue(PB3PHomeEntrySubNav *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntrySubNav's @c classify property, even
+ * Fetches the raw value of a @c PB3PHomeEntrySubNav's @c classify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntrySubNav_Classify_RawValue(PB4PHomeEntrySubNav *message);
+int32_t PB3PHomeEntrySubNav_Classify_RawValue(PB3PHomeEntrySubNav *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntrySubNav's @c classify property, allowing
+ * Sets the raw value of an @c PB3PHomeEntrySubNav's @c classify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntrySubNav_Classify_RawValue(PB4PHomeEntrySubNav *message, int32_t value);
+void SetPB3PHomeEntrySubNav_Classify_RawValue(PB3PHomeEntrySubNav *message, int32_t value);
 
-#pragma mark - PB4PHomeNav
+#pragma mark - PB3PHomeNav
 
-typedef GPB_ENUM(PB4PHomeNav_FieldNumber) {
-  PB4PHomeNav_FieldNumber_Id_p = 1,
-  PB4PHomeNav_FieldNumber_Name = 2,
-  PB4PHomeNav_FieldNumber_Sort = 3,
-  PB4PHomeNav_FieldNumber_IsDefault = 4,
-  PB4PHomeNav_FieldNumber_ModListArray = 5,
-  PB4PHomeNav_FieldNumber_ImgURL = 6,
-  PB4PHomeNav_FieldNumber_SelectedImgURL = 7,
-  PB4PHomeNav_FieldNumber_NavStyle = 8,
-  PB4PHomeNav_FieldNumber_IsFixed = 9,
-  PB4PHomeNav_FieldNumber_NavIcon = 10,
+typedef GPB_ENUM(PB3PHomeNav_FieldNumber) {
+  PB3PHomeNav_FieldNumber_Id_p = 1,
+  PB3PHomeNav_FieldNumber_Name = 2,
+  PB3PHomeNav_FieldNumber_Sort = 3,
+  PB3PHomeNav_FieldNumber_IsDefault = 4,
+  PB3PHomeNav_FieldNumber_ModListArray = 5,
+  PB3PHomeNav_FieldNumber_ImgURL = 6,
+  PB3PHomeNav_FieldNumber_SelectedImgURL = 7,
+  PB3PHomeNav_FieldNumber_NavStyle = 8,
+  PB3PHomeNav_FieldNumber_IsFixed = 9,
+  PB3PHomeNav_FieldNumber_NavIcon = 10,
+  PB3PHomeNav_FieldNumber_BgURL = 11,
+  PB3PHomeNav_FieldNumber_ButtonsArray = 12,
+  PB3PHomeNav_FieldNumber_UnselectImgURL = 13,
+  PB3PHomeNav_FieldNumber_SelectImgURL = 14,
 };
 
-@interface PB4PHomeNav : GPBMessage
+@interface PB3PHomeNav : GPBMessage
 
 @property(nonatomic, readwrite) int32_t id_p;
 
@@ -3088,7 +3538,7 @@ typedef GPB_ENUM(PB4PHomeNav_FieldNumber) {
 @property(nonatomic, readwrite) BOOL isDefault;
 
 /** 模块列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeMod*> *modListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeMod*> *modListArray;
 /** The number of items in @c modListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger modListArray_Count;
 
@@ -3099,7 +3549,7 @@ typedef GPB_ENUM(PB4PHomeNav_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *selectedImgURL;
 
 /** 标签样式 */
-@property(nonatomic, readwrite) PB4PHomeNavStyle navStyle;
+@property(nonatomic, readwrite) PB3PHomeNavStyle navStyle;
 
 /** 是否固定 */
 @property(nonatomic, readwrite) BOOL isFixed;
@@ -3107,50 +3557,79 @@ typedef GPB_ENUM(PB4PHomeNav_FieldNumber) {
 /** 导航图标 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *navIcon;
 
+/** 导航背景URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgURL;
+
+/** 导航右侧的按钮 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Button*> *buttonsArray;
+/** The number of items in @c buttonsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger buttonsArray_Count;
+
+/** 未选中 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *unselectImgURL;
+
+/** 选中 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *selectImgURL;
+
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeNav's @c navStyle property, even
+ * Fetches the raw value of a @c PB3PHomeNav's @c navStyle property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeNav_NavStyle_RawValue(PB4PHomeNav *message);
+int32_t PB3PHomeNav_NavStyle_RawValue(PB3PHomeNav *message);
 /**
- * Sets the raw value of an @c PB4PHomeNav's @c navStyle property, allowing
+ * Sets the raw value of an @c PB3PHomeNav's @c navStyle property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeNav_NavStyle_RawValue(PB4PHomeNav *message, int32_t value);
+void SetPB3PHomeNav_NavStyle_RawValue(PB3PHomeNav *message, int32_t value);
 
-#pragma mark - PB4Button
+#pragma mark - PB3Button
 
-typedef GPB_ENUM(PB4Button_FieldNumber) {
-  PB4Button_FieldNumber_ButtonIcon = 1,
-  PB4Button_FieldNumber_Router = 2,
+typedef GPB_ENUM(PB3Button_FieldNumber) {
+  PB3Button_FieldNumber_ButtonIcon = 1,
+  PB3Button_FieldNumber_Router = 2,
+  PB3Button_FieldNumber_ButType = 3,
 };
 
-@interface PB4Button : GPBMessage
+@interface PB3Button : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *buttonIcon;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *router;
 
+@property(nonatomic, readwrite) PB3HomeNavButtonType butType;
+
 @end
 
-#pragma mark - PB4GetPHomeNavReq
+/**
+ * Fetches the raw value of a @c PB3Button's @c butType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3Button_ButType_RawValue(PB3Button *message);
+/**
+ * Sets the raw value of an @c PB3Button's @c butType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3Button_ButType_RawValue(PB3Button *message, int32_t value);
 
-typedef GPB_ENUM(PB4GetPHomeNavReq_FieldNumber) {
-  PB4GetPHomeNavReq_FieldNumber_PageId = 1,
-  PB4GetPHomeNavReq_FieldNumber_Type = 2,
-  PB4GetPHomeNavReq_FieldNumber_NavId = 3,
-  PB4GetPHomeNavReq_FieldNumber_SubNavId = 4,
+#pragma mark - PB3GetPHomeNavReq
+
+typedef GPB_ENUM(PB3GetPHomeNavReq_FieldNumber) {
+  PB3GetPHomeNavReq_FieldNumber_PageId = 1,
+  PB3GetPHomeNavReq_FieldNumber_Type = 2,
+  PB3GetPHomeNavReq_FieldNumber_NavId = 3,
+  PB3GetPHomeNavReq_FieldNumber_SubNavId = 4,
 };
 
-@interface PB4GetPHomeNavReq : GPBMessage
+@interface PB3GetPHomeNavReq : GPBMessage
 
 /** 首页页面ID，默认0，新首页ID，路由模块对应的ID */
 @property(nonatomic, readwrite) int32_t pageId;
 
-@property(nonatomic, readwrite) PB4HomeType type;
+@property(nonatomic, readwrite) PB3HomeType type;
 
 /** 一级导航 */
 @property(nonatomic, readwrite) int32_t navId;
@@ -3161,34 +3640,34 @@ typedef GPB_ENUM(PB4GetPHomeNavReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeNavReq's @c type property, even
+ * Fetches the raw value of a @c PB3GetPHomeNavReq's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeNavReq_Type_RawValue(PB4GetPHomeNavReq *message);
+int32_t PB3GetPHomeNavReq_Type_RawValue(PB3GetPHomeNavReq *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeNavReq's @c type property, allowing
+ * Sets the raw value of an @c PB3GetPHomeNavReq's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeNavReq_Type_RawValue(PB4GetPHomeNavReq *message, int32_t value);
+void SetPB3GetPHomeNavReq_Type_RawValue(PB3GetPHomeNavReq *message, int32_t value);
 
-#pragma mark - PB4GetPHomeNavRes
+#pragma mark - PB3GetPHomeNavRes
 
-typedef GPB_ENUM(PB4GetPHomeNavRes_FieldNumber) {
-  PB4GetPHomeNavRes_FieldNumber_IsRemember = 1,
-  PB4GetPHomeNavRes_FieldNumber_NavListArray = 2,
-  PB4GetPHomeNavRes_FieldNumber_Md5 = 3,
-  PB4GetPHomeNavRes_FieldNumber_ButtonsArray = 4,
-  PB4GetPHomeNavRes_FieldNumber_RedNum = 5,
+typedef GPB_ENUM(PB3GetPHomeNavRes_FieldNumber) {
+  PB3GetPHomeNavRes_FieldNumber_IsRemember = 1,
+  PB3GetPHomeNavRes_FieldNumber_NavListArray = 2,
+  PB3GetPHomeNavRes_FieldNumber_Md5 = 3,
+  PB3GetPHomeNavRes_FieldNumber_ButtonsArray = 4,
+  PB3GetPHomeNavRes_FieldNumber_RedNum = 5,
 };
 
-@interface PB4GetPHomeNavRes : GPBMessage
+@interface PB3GetPHomeNavRes : GPBMessage
 
 /** 是否记忆选中 */
 @property(nonatomic, readwrite) BOOL isRemember;
 
 /** 导航 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeNav*> *navListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeNav*> *navListArray;
 /** The number of items in @c navListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger navListArray_Count;
 
@@ -3196,7 +3675,7 @@ typedef GPB_ENUM(PB4GetPHomeNavRes_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *md5;
 
 /** 导航右侧的按钮 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4Button*> *buttonsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Button*> *buttonsArray;
 /** The number of items in @c buttonsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger buttonsArray_Count;
 
@@ -3205,18 +3684,18 @@ typedef GPB_ENUM(PB4GetPHomeNavRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GetPHomeModReq
+#pragma mark - PB3GetPHomeModReq
 
-typedef GPB_ENUM(PB4GetPHomeModReq_FieldNumber) {
-  PB4GetPHomeModReq_FieldNumber_NavId = 1,
-  PB4GetPHomeModReq_FieldNumber_SubNavId = 2,
-  PB4GetPHomeModReq_FieldNumber_ModId = 3,
-  PB4GetPHomeModReq_FieldNumber_Index = 4,
-  PB4GetPHomeModReq_FieldNumber_IsEnd = 5,
-  PB4GetPHomeModReq_FieldNumber_Classify = 6,
+typedef GPB_ENUM(PB3GetPHomeModReq_FieldNumber) {
+  PB3GetPHomeModReq_FieldNumber_NavId = 1,
+  PB3GetPHomeModReq_FieldNumber_SubNavId = 2,
+  PB3GetPHomeModReq_FieldNumber_ModId = 3,
+  PB3GetPHomeModReq_FieldNumber_Index = 4,
+  PB3GetPHomeModReq_FieldNumber_IsEnd = 5,
+  PB3GetPHomeModReq_FieldNumber_Classify = 6,
 };
 
-@interface PB4GetPHomeModReq : GPBMessage
+@interface PB3GetPHomeModReq : GPBMessage
 
 @property(nonatomic, readwrite) int32_t navId;
 
@@ -3229,50 +3708,50 @@ typedef GPB_ENUM(PB4GetPHomeModReq_FieldNumber) {
 /** 是否到了最后一条数据 */
 @property(nonatomic, readwrite) BOOL isEnd;
 
-@property(nonatomic, readwrite) PB4PHomeClassify classify;
+@property(nonatomic, readwrite) PB3PHomeClassify classify;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeModReq's @c classify property, even
+ * Fetches the raw value of a @c PB3GetPHomeModReq's @c classify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeModReq_Classify_RawValue(PB4GetPHomeModReq *message);
+int32_t PB3GetPHomeModReq_Classify_RawValue(PB3GetPHomeModReq *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeModReq's @c classify property, allowing
+ * Sets the raw value of an @c PB3GetPHomeModReq's @c classify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeModReq_Classify_RawValue(PB4GetPHomeModReq *message, int32_t value);
+void SetPB3GetPHomeModReq_Classify_RawValue(PB3GetPHomeModReq *message, int32_t value);
 
-#pragma mark - PB4GetPHomeModRes
+#pragma mark - PB3GetPHomeModRes
 
-typedef GPB_ENUM(PB4GetPHomeModRes_FieldNumber) {
-  PB4GetPHomeModRes_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3GetPHomeModRes_FieldNumber) {
+  PB3GetPHomeModRes_FieldNumber_ListArray = 1,
 };
 
-@interface PB4GetPHomeModRes : GPBMessage
+@interface PB3GetPHomeModRes : GPBMessage
 
 /** 导航 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeMod*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeMod*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4GetPHomeCtrlBtnReq
+#pragma mark - PB3GetPHomeCtrlBtnReq
 
-typedef GPB_ENUM(PB4GetPHomeCtrlBtnReq_FieldNumber) {
-  PB4GetPHomeCtrlBtnReq_FieldNumber_NavId = 1,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_SubNavId = 2,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_ModId = 3,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_Index = 4,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_MoreRule = 5,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_ModClassify = 6,
-  PB4GetPHomeCtrlBtnReq_FieldNumber_PageNum = 7,
+typedef GPB_ENUM(PB3GetPHomeCtrlBtnReq_FieldNumber) {
+  PB3GetPHomeCtrlBtnReq_FieldNumber_NavId = 1,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_SubNavId = 2,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_ModId = 3,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_Index = 4,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_MoreRule = 5,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_ModClassify = 6,
+  PB3GetPHomeCtrlBtnReq_FieldNumber_PageNum = 7,
 };
 
-@interface PB4GetPHomeCtrlBtnReq : GPBMessage
+@interface PB3GetPHomeCtrlBtnReq : GPBMessage
 
 @property(nonatomic, readwrite) int32_t navId;
 
@@ -3283,10 +3762,10 @@ typedef GPB_ENUM(PB4GetPHomeCtrlBtnReq_FieldNumber) {
 @property(nonatomic, readwrite) int32_t index;
 
 /** 更多规则 */
-@property(nonatomic, readwrite) PB4PHomeMoreRule moreRule;
+@property(nonatomic, readwrite) PB3PHomeMoreRule moreRule;
 
 /** 模块分类 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4PHomeModClassify *modClassify;
+@property(nonatomic, readwrite, strong, null_resettable) PB3PHomeModClassify *modClassify;
 /** Test to see if @c modClassify has been set. */
 @property(nonatomic, readwrite) BOOL hasModClassify;
 
@@ -3296,44 +3775,44 @@ typedef GPB_ENUM(PB4GetPHomeCtrlBtnReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeCtrlBtnReq's @c moreRule property, even
+ * Fetches the raw value of a @c PB3GetPHomeCtrlBtnReq's @c moreRule property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeCtrlBtnReq_MoreRule_RawValue(PB4GetPHomeCtrlBtnReq *message);
+int32_t PB3GetPHomeCtrlBtnReq_MoreRule_RawValue(PB3GetPHomeCtrlBtnReq *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeCtrlBtnReq's @c moreRule property, allowing
+ * Sets the raw value of an @c PB3GetPHomeCtrlBtnReq's @c moreRule property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeCtrlBtnReq_MoreRule_RawValue(PB4GetPHomeCtrlBtnReq *message, int32_t value);
+void SetPB3GetPHomeCtrlBtnReq_MoreRule_RawValue(PB3GetPHomeCtrlBtnReq *message, int32_t value);
 
-#pragma mark - PB4GetPHomeCtrlBtnRes
+#pragma mark - PB3GetPHomeCtrlBtnRes
 
-typedef GPB_ENUM(PB4GetPHomeCtrlBtnRes_FieldNumber) {
-  PB4GetPHomeCtrlBtnRes_FieldNumber_DataType = 1,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_DataByte = 2,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_RouteType = 3,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_Route = 4,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_MaxIndex = 5,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_FiterClassify = 6,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_SubPageStyle = 7,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_TopPic = 8,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_TopString = 9,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_IsRouter = 10,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_PhotoRouter = 11,
-  PB4GetPHomeCtrlBtnRes_FieldNumber_IsOpenOnline = 12,
+typedef GPB_ENUM(PB3GetPHomeCtrlBtnRes_FieldNumber) {
+  PB3GetPHomeCtrlBtnRes_FieldNumber_DataType = 1,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_DataByte = 2,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_RouteType = 3,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_Route = 4,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_MaxIndex = 5,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_FiterClassify = 6,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_SubPageStyle = 7,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_TopPic = 8,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_TopString = 9,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_IsRouter = 10,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_PhotoRouter = 11,
+  PB3GetPHomeCtrlBtnRes_FieldNumber_IsOpenOnline = 12,
 };
 
-@interface PB4GetPHomeCtrlBtnRes : GPBMessage
+@interface PB3GetPHomeCtrlBtnRes : GPBMessage
 
 /** 数据类型 */
-@property(nonatomic, readwrite) PB4PHomeDataType dataType;
+@property(nonatomic, readwrite) PB3PHomeDataType dataType;
 
 /** 数据 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *dataByte;
 
 /** 路由 */
-@property(nonatomic, readwrite) PB4PHomeRouteType routeType;
+@property(nonatomic, readwrite) PB3PHomeRouteType routeType;
 
 /** 路由 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *route;
@@ -3341,10 +3820,10 @@ typedef GPB_ENUM(PB4GetPHomeCtrlBtnRes_FieldNumber) {
 @property(nonatomic, readwrite) int32_t maxIndex;
 
 /** 订单的性别过滤条件 */
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 /** 子页面样式 */
-@property(nonatomic, readwrite) PB4PHomeModStyle subPageStyle;
+@property(nonatomic, readwrite) PB3PHomeModStyle subPageStyle;
 
 /** 子页图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *topPic;
@@ -3364,102 +3843,102 @@ typedef GPB_ENUM(PB4GetPHomeCtrlBtnRes_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeCtrlBtnRes's @c dataType property, even
+ * Fetches the raw value of a @c PB3GetPHomeCtrlBtnRes's @c dataType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeCtrlBtnRes_DataType_RawValue(PB4GetPHomeCtrlBtnRes *message);
+int32_t PB3GetPHomeCtrlBtnRes_DataType_RawValue(PB3GetPHomeCtrlBtnRes *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeCtrlBtnRes's @c dataType property, allowing
+ * Sets the raw value of an @c PB3GetPHomeCtrlBtnRes's @c dataType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeCtrlBtnRes_DataType_RawValue(PB4GetPHomeCtrlBtnRes *message, int32_t value);
+void SetPB3GetPHomeCtrlBtnRes_DataType_RawValue(PB3GetPHomeCtrlBtnRes *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeCtrlBtnRes's @c routeType property, even
+ * Fetches the raw value of a @c PB3GetPHomeCtrlBtnRes's @c routeType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeCtrlBtnRes_RouteType_RawValue(PB4GetPHomeCtrlBtnRes *message);
+int32_t PB3GetPHomeCtrlBtnRes_RouteType_RawValue(PB3GetPHomeCtrlBtnRes *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeCtrlBtnRes's @c routeType property, allowing
+ * Sets the raw value of an @c PB3GetPHomeCtrlBtnRes's @c routeType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeCtrlBtnRes_RouteType_RawValue(PB4GetPHomeCtrlBtnRes *message, int32_t value);
+void SetPB3GetPHomeCtrlBtnRes_RouteType_RawValue(PB3GetPHomeCtrlBtnRes *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeCtrlBtnRes's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3GetPHomeCtrlBtnRes's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeCtrlBtnRes_FiterClassify_RawValue(PB4GetPHomeCtrlBtnRes *message);
+int32_t PB3GetPHomeCtrlBtnRes_FiterClassify_RawValue(PB3GetPHomeCtrlBtnRes *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeCtrlBtnRes's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3GetPHomeCtrlBtnRes's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeCtrlBtnRes_FiterClassify_RawValue(PB4GetPHomeCtrlBtnRes *message, int32_t value);
+void SetPB3GetPHomeCtrlBtnRes_FiterClassify_RawValue(PB3GetPHomeCtrlBtnRes *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4GetPHomeCtrlBtnRes's @c subPageStyle property, even
+ * Fetches the raw value of a @c PB3GetPHomeCtrlBtnRes's @c subPageStyle property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GetPHomeCtrlBtnRes_SubPageStyle_RawValue(PB4GetPHomeCtrlBtnRes *message);
+int32_t PB3GetPHomeCtrlBtnRes_SubPageStyle_RawValue(PB3GetPHomeCtrlBtnRes *message);
 /**
- * Sets the raw value of an @c PB4GetPHomeCtrlBtnRes's @c subPageStyle property, allowing
+ * Sets the raw value of an @c PB3GetPHomeCtrlBtnRes's @c subPageStyle property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GetPHomeCtrlBtnRes_SubPageStyle_RawValue(PB4GetPHomeCtrlBtnRes *message, int32_t value);
+void SetPB3GetPHomeCtrlBtnRes_SubPageStyle_RawValue(PB3GetPHomeCtrlBtnRes *message, int32_t value);
 
-#pragma mark - PB4ClearHomeFootPrintReq
+#pragma mark - PB3ClearHomeFootPrintReq
 
-typedef GPB_ENUM(PB4ClearHomeFootPrintReq_FieldNumber) {
-  PB4ClearHomeFootPrintReq_FieldNumber_Type = 1,
+typedef GPB_ENUM(PB3ClearHomeFootPrintReq_FieldNumber) {
+  PB3ClearHomeFootPrintReq_FieldNumber_Type = 1,
 };
 
-@interface PB4ClearHomeFootPrintReq : GPBMessage
+@interface PB3ClearHomeFootPrintReq : GPBMessage
 
-@property(nonatomic, readwrite) PB4ClearFootType type;
+@property(nonatomic, readwrite) PB3ClearFootType type;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4ClearHomeFootPrintReq's @c type property, even
+ * Fetches the raw value of a @c PB3ClearHomeFootPrintReq's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ClearHomeFootPrintReq_Type_RawValue(PB4ClearHomeFootPrintReq *message);
+int32_t PB3ClearHomeFootPrintReq_Type_RawValue(PB3ClearHomeFootPrintReq *message);
 /**
- * Sets the raw value of an @c PB4ClearHomeFootPrintReq's @c type property, allowing
+ * Sets the raw value of an @c PB3ClearHomeFootPrintReq's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ClearHomeFootPrintReq_Type_RawValue(PB4ClearHomeFootPrintReq *message, int32_t value);
+void SetPB3ClearHomeFootPrintReq_Type_RawValue(PB3ClearHomeFootPrintReq *message, int32_t value);
 
-#pragma mark - PB4ClearHomeFootPrintRes
+#pragma mark - PB3ClearHomeFootPrintRes
 
-typedef GPB_ENUM(PB4ClearHomeFootPrintRes_FieldNumber) {
-  PB4ClearHomeFootPrintRes_FieldNumber_Flag = 1,
+typedef GPB_ENUM(PB3ClearHomeFootPrintRes_FieldNumber) {
+  PB3ClearHomeFootPrintRes_FieldNumber_Flag = 1,
 };
 
-@interface PB4ClearHomeFootPrintRes : GPBMessage
+@interface PB3ClearHomeFootPrintRes : GPBMessage
 
 /** 是否成功 */
 @property(nonatomic, readwrite) BOOL flag;
 
 @end
 
-#pragma mark - PB4Position
+#pragma mark - PB3Position
 
-typedef GPB_ENUM(PB4Position_FieldNumber) {
-  PB4Position_FieldNumber_Latitude = 1,
-  PB4Position_FieldNumber_Longitude = 2,
-  PB4Position_FieldNumber_Province = 3,
-  PB4Position_FieldNumber_Municipality = 4,
-  PB4Position_FieldNumber_County = 5,
-  PB4Position_FieldNumber_AddressDetail = 6,
+typedef GPB_ENUM(PB3Position_FieldNumber) {
+  PB3Position_FieldNumber_Latitude = 1,
+  PB3Position_FieldNumber_Longitude = 2,
+  PB3Position_FieldNumber_Province = 3,
+  PB3Position_FieldNumber_Municipality = 4,
+  PB3Position_FieldNumber_County = 5,
+  PB3Position_FieldNumber_AddressDetail = 6,
 };
 
-@interface PB4Position : GPBMessage
+@interface PB3Position : GPBMessage
 
 /** 纬度 */
 @property(nonatomic, readwrite) double latitude;
@@ -3481,52 +3960,52 @@ typedef GPB_ENUM(PB4Position_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PeopleNearbyReq
+#pragma mark - PB3PeopleNearbyReq
 
-typedef GPB_ENUM(PB4PeopleNearbyReq_FieldNumber) {
-  PB4PeopleNearbyReq_FieldNumber_Info = 1,
+typedef GPB_ENUM(PB3PeopleNearbyReq_FieldNumber) {
+  PB3PeopleNearbyReq_FieldNumber_Info = 1,
 };
 
-@interface PB4PeopleNearbyReq : GPBMessage
+@interface PB3PeopleNearbyReq : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4Position *info;
+@property(nonatomic, readwrite, strong, null_resettable) PB3Position *info;
 /** Test to see if @c info has been set. */
 @property(nonatomic, readwrite) BOOL hasInfo;
 
 @end
 
-#pragma mark - PB4PeopleNearbyRes
+#pragma mark - PB3PeopleNearbyRes
 
-typedef GPB_ENUM(PB4PeopleNearbyRes_FieldNumber) {
-  PB4PeopleNearbyRes_FieldNumber_Interval = 1,
+typedef GPB_ENUM(PB3PeopleNearbyRes_FieldNumber) {
+  PB3PeopleNearbyRes_FieldNumber_Interval = 1,
 };
 
-@interface PB4PeopleNearbyRes : GPBMessage
+@interface PB3PeopleNearbyRes : GPBMessage
 
 @property(nonatomic, readwrite) int32_t interval;
 
 @end
 
-#pragma mark - PB4FriendDistanceReq
+#pragma mark - PB3FriendDistanceReq
 
-typedef GPB_ENUM(PB4FriendDistanceReq_FieldNumber) {
-  PB4FriendDistanceReq_FieldNumber_FriendId = 1,
+typedef GPB_ENUM(PB3FriendDistanceReq_FieldNumber) {
+  PB3FriendDistanceReq_FieldNumber_FriendId = 1,
 };
 
-@interface PB4FriendDistanceReq : GPBMessage
+@interface PB3FriendDistanceReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t friendId;
 
 @end
 
-#pragma mark - PB4FriendDistanceRes
+#pragma mark - PB3FriendDistanceRes
 
-typedef GPB_ENUM(PB4FriendDistanceRes_FieldNumber) {
-  PB4FriendDistanceRes_FieldNumber_Distances = 1,
-  PB4FriendDistanceRes_FieldNumber_City = 2,
+typedef GPB_ENUM(PB3FriendDistanceRes_FieldNumber) {
+  PB3FriendDistanceRes_FieldNumber_Distances = 1,
+  PB3FriendDistanceRes_FieldNumber_City = 2,
 };
 
-@interface PB4FriendDistanceRes : GPBMessage
+@interface PB3FriendDistanceRes : GPBMessage
 
 /** 距离m  -1 不显示 */
 @property(nonatomic, readwrite) int32_t distances;
@@ -3536,40 +4015,40 @@ typedef GPB_ENUM(PB4FriendDistanceRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4LocationOffReq
+#pragma mark - PB3LocationOffReq
 
-@interface PB4LocationOffReq : GPBMessage
-
-@end
-
-#pragma mark - PB4LocationOffRes
-
-@interface PB4LocationOffRes : GPBMessage
+@interface PB3LocationOffReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityDataDetail
+#pragma mark - PB3LocationOffRes
 
-typedef GPB_ENUM(PB4CommunityDataDetail_FieldNumber) {
-  PB4CommunityDataDetail_FieldNumber_Style = 1,
-  PB4CommunityDataDetail_FieldNumber_IsEnd = 2,
-  PB4CommunityDataDetail_FieldNumber_DataType = 3,
-  PB4CommunityDataDetail_FieldNumber_Data_p = 4,
-  PB4CommunityDataDetail_FieldNumber_DefaultImg = 5,
-  PB4CommunityDataDetail_FieldNumber_FiterClassify = 6,
-  PB4CommunityDataDetail_FieldNumber_Index = 7,
+@interface PB3LocationOffRes : GPBMessage
+
+@end
+
+#pragma mark - PB3CommunityDataDetail
+
+typedef GPB_ENUM(PB3CommunityDataDetail_FieldNumber) {
+  PB3CommunityDataDetail_FieldNumber_Style = 1,
+  PB3CommunityDataDetail_FieldNumber_IsEnd = 2,
+  PB3CommunityDataDetail_FieldNumber_DataType = 3,
+  PB3CommunityDataDetail_FieldNumber_Data_p = 4,
+  PB3CommunityDataDetail_FieldNumber_DefaultImg = 5,
+  PB3CommunityDataDetail_FieldNumber_FiterClassify = 6,
+  PB3CommunityDataDetail_FieldNumber_Index = 7,
 };
 
-@interface PB4CommunityDataDetail : GPBMessage
+@interface PB3CommunityDataDetail : GPBMessage
 
 /** 样式 */
-@property(nonatomic, readwrite) PB4PHomeModStyle style;
+@property(nonatomic, readwrite) PB3PHomeModStyle style;
 
 /** 是否结束 */
 @property(nonatomic, readwrite) BOOL isEnd;
 
 /** 数据类型 */
-@property(nonatomic, readwrite) PB4PHomeDataType dataType;
+@property(nonatomic, readwrite) PB3PHomeDataType dataType;
 
 /** 数据 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *data_p;
@@ -3577,7 +4056,7 @@ typedef GPB_ENUM(PB4CommunityDataDetail_FieldNumber) {
 /** 缺省图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *defaultImg;
 
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 /** 当前索引 */
 @property(nonatomic, readwrite) int32_t index;
@@ -3585,117 +4064,117 @@ typedef GPB_ENUM(PB4CommunityDataDetail_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityDataDetail's @c style property, even
+ * Fetches the raw value of a @c PB3CommunityDataDetail's @c style property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityDataDetail_Style_RawValue(PB4CommunityDataDetail *message);
+int32_t PB3CommunityDataDetail_Style_RawValue(PB3CommunityDataDetail *message);
 /**
- * Sets the raw value of an @c PB4CommunityDataDetail's @c style property, allowing
+ * Sets the raw value of an @c PB3CommunityDataDetail's @c style property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityDataDetail_Style_RawValue(PB4CommunityDataDetail *message, int32_t value);
+void SetPB3CommunityDataDetail_Style_RawValue(PB3CommunityDataDetail *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4CommunityDataDetail's @c dataType property, even
+ * Fetches the raw value of a @c PB3CommunityDataDetail's @c dataType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityDataDetail_DataType_RawValue(PB4CommunityDataDetail *message);
+int32_t PB3CommunityDataDetail_DataType_RawValue(PB3CommunityDataDetail *message);
 /**
- * Sets the raw value of an @c PB4CommunityDataDetail's @c dataType property, allowing
+ * Sets the raw value of an @c PB3CommunityDataDetail's @c dataType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityDataDetail_DataType_RawValue(PB4CommunityDataDetail *message, int32_t value);
+void SetPB3CommunityDataDetail_DataType_RawValue(PB3CommunityDataDetail *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4CommunityDataDetail's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3CommunityDataDetail's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityDataDetail_FiterClassify_RawValue(PB4CommunityDataDetail *message);
+int32_t PB3CommunityDataDetail_FiterClassify_RawValue(PB3CommunityDataDetail *message);
 /**
- * Sets the raw value of an @c PB4CommunityDataDetail's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3CommunityDataDetail's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityDataDetail_FiterClassify_RawValue(PB4CommunityDataDetail *message, int32_t value);
+void SetPB3CommunityDataDetail_FiterClassify_RawValue(PB3CommunityDataDetail *message, int32_t value);
 
-#pragma mark - PB4CommunityTagDetailReq
+#pragma mark - PB3CommunityTagDetailReq
 
-typedef GPB_ENUM(PB4CommunityTagDetailReq_FieldNumber) {
-  PB4CommunityTagDetailReq_FieldNumber_TagId = 1,
-  PB4CommunityTagDetailReq_FieldNumber_FiterClassify = 2,
-  PB4CommunityTagDetailReq_FieldNumber_Index = 3,
+typedef GPB_ENUM(PB3CommunityTagDetailReq_FieldNumber) {
+  PB3CommunityTagDetailReq_FieldNumber_TagId = 1,
+  PB3CommunityTagDetailReq_FieldNumber_FiterClassify = 2,
+  PB3CommunityTagDetailReq_FieldNumber_Index = 3,
 };
 
-@interface PB4CommunityTagDetailReq : GPBMessage
+@interface PB3CommunityTagDetailReq : GPBMessage
 
 /** 标签ID */
 @property(nonatomic, readwrite) int64_t tagId;
 
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 @property(nonatomic, readwrite) int32_t index;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityTagDetailReq's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3CommunityTagDetailReq's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityTagDetailReq_FiterClassify_RawValue(PB4CommunityTagDetailReq *message);
+int32_t PB3CommunityTagDetailReq_FiterClassify_RawValue(PB3CommunityTagDetailReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityTagDetailReq's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3CommunityTagDetailReq's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityTagDetailReq_FiterClassify_RawValue(PB4CommunityTagDetailReq *message, int32_t value);
+void SetPB3CommunityTagDetailReq_FiterClassify_RawValue(PB3CommunityTagDetailReq *message, int32_t value);
 
-#pragma mark - PB4CommunityGroupDetailReq
+#pragma mark - PB3CommunityGroupDetailReq
 
-typedef GPB_ENUM(PB4CommunityGroupDetailReq_FieldNumber) {
-  PB4CommunityGroupDetailReq_FieldNumber_GroupId = 1,
-  PB4CommunityGroupDetailReq_FieldNumber_FiterClassify = 2,
-  PB4CommunityGroupDetailReq_FieldNumber_Index = 3,
+typedef GPB_ENUM(PB3CommunityGroupDetailReq_FieldNumber) {
+  PB3CommunityGroupDetailReq_FieldNumber_GroupId = 1,
+  PB3CommunityGroupDetailReq_FieldNumber_FiterClassify = 2,
+  PB3CommunityGroupDetailReq_FieldNumber_Index = 3,
 };
 
-@interface PB4CommunityGroupDetailReq : GPBMessage
+@interface PB3CommunityGroupDetailReq : GPBMessage
 
 /** 圈子ID */
 @property(nonatomic, readwrite) int64_t groupId;
 
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 @property(nonatomic, readwrite) int32_t index;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityGroupDetailReq's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3CommunityGroupDetailReq's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityGroupDetailReq_FiterClassify_RawValue(PB4CommunityGroupDetailReq *message);
+int32_t PB3CommunityGroupDetailReq_FiterClassify_RawValue(PB3CommunityGroupDetailReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityGroupDetailReq's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3CommunityGroupDetailReq's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityGroupDetailReq_FiterClassify_RawValue(PB4CommunityGroupDetailReq *message, int32_t value);
+void SetPB3CommunityGroupDetailReq_FiterClassify_RawValue(PB3CommunityGroupDetailReq *message, int32_t value);
 
-#pragma mark - PB4ExtraModReq
+#pragma mark - PB3ExtraModReq
 
-typedef GPB_ENUM(PB4ExtraModReq_FieldNumber) {
-  PB4ExtraModReq_FieldNumber_ModType = 1,
-  PB4ExtraModReq_FieldNumber_FiterClassify = 2,
-  PB4ExtraModReq_FieldNumber_Index = 3,
+typedef GPB_ENUM(PB3ExtraModReq_FieldNumber) {
+  PB3ExtraModReq_FieldNumber_ModType = 1,
+  PB3ExtraModReq_FieldNumber_FiterClassify = 2,
+  PB3ExtraModReq_FieldNumber_Index = 3,
 };
 
-@interface PB4ExtraModReq : GPBMessage
+@interface PB3ExtraModReq : GPBMessage
 
-@property(nonatomic, readwrite) PB4ExtraModType modType;
+@property(nonatomic, readwrite) PB3ExtraModType modType;
 
 /** 订单的性别过滤条件 */
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 /** 首页传0 */
 @property(nonatomic, readwrite) int32_t index;
@@ -3703,52 +4182,52 @@ typedef GPB_ENUM(PB4ExtraModReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4ExtraModReq's @c modType property, even
+ * Fetches the raw value of a @c PB3ExtraModReq's @c modType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ExtraModReq_ModType_RawValue(PB4ExtraModReq *message);
+int32_t PB3ExtraModReq_ModType_RawValue(PB3ExtraModReq *message);
 /**
- * Sets the raw value of an @c PB4ExtraModReq's @c modType property, allowing
+ * Sets the raw value of an @c PB3ExtraModReq's @c modType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ExtraModReq_ModType_RawValue(PB4ExtraModReq *message, int32_t value);
+void SetPB3ExtraModReq_ModType_RawValue(PB3ExtraModReq *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4ExtraModReq's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3ExtraModReq's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ExtraModReq_FiterClassify_RawValue(PB4ExtraModReq *message);
+int32_t PB3ExtraModReq_FiterClassify_RawValue(PB3ExtraModReq *message);
 /**
- * Sets the raw value of an @c PB4ExtraModReq's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3ExtraModReq's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ExtraModReq_FiterClassify_RawValue(PB4ExtraModReq *message, int32_t value);
+void SetPB3ExtraModReq_FiterClassify_RawValue(PB3ExtraModReq *message, int32_t value);
 
-#pragma mark - PB4ExtraModRes
+#pragma mark - PB3ExtraModRes
 
-typedef GPB_ENUM(PB4ExtraModRes_FieldNumber) {
-  PB4ExtraModRes_FieldNumber_DataType = 1,
-  PB4ExtraModRes_FieldNumber_Bin = 2,
-  PB4ExtraModRes_FieldNumber_MaxIndex = 3,
-  PB4ExtraModRes_FieldNumber_FiterClassify = 4,
-  PB4ExtraModRes_FieldNumber_NextIndex = 5,
-  PB4ExtraModRes_FieldNumber_TopPic = 8,
-  PB4ExtraModRes_FieldNumber_TopString = 9,
+typedef GPB_ENUM(PB3ExtraModRes_FieldNumber) {
+  PB3ExtraModRes_FieldNumber_DataType = 1,
+  PB3ExtraModRes_FieldNumber_Bin = 2,
+  PB3ExtraModRes_FieldNumber_MaxIndex = 3,
+  PB3ExtraModRes_FieldNumber_FiterClassify = 4,
+  PB3ExtraModRes_FieldNumber_NextIndex = 5,
+  PB3ExtraModRes_FieldNumber_TopPic = 8,
+  PB3ExtraModRes_FieldNumber_TopString = 9,
 };
 
-@interface PB4ExtraModRes : GPBMessage
+@interface PB3ExtraModRes : GPBMessage
 
 /** 数据类型 */
-@property(nonatomic, readwrite) PB4PHomeDataType dataType;
+@property(nonatomic, readwrite) PB3PHomeDataType dataType;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSData *bin;
 
 @property(nonatomic, readwrite) int32_t maxIndex;
 
 /** 订单的性别过滤条件 */
-@property(nonatomic, readwrite) PB4PHomeClassify fiterClassify;
+@property(nonatomic, readwrite) PB3PHomeClassify fiterClassify;
 
 /** 请求试传回服务端 */
 @property(nonatomic, readwrite) int32_t nextIndex;
@@ -3762,55 +4241,55 @@ typedef GPB_ENUM(PB4ExtraModRes_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4ExtraModRes's @c dataType property, even
+ * Fetches the raw value of a @c PB3ExtraModRes's @c dataType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ExtraModRes_DataType_RawValue(PB4ExtraModRes *message);
+int32_t PB3ExtraModRes_DataType_RawValue(PB3ExtraModRes *message);
 /**
- * Sets the raw value of an @c PB4ExtraModRes's @c dataType property, allowing
+ * Sets the raw value of an @c PB3ExtraModRes's @c dataType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ExtraModRes_DataType_RawValue(PB4ExtraModRes *message, int32_t value);
+void SetPB3ExtraModRes_DataType_RawValue(PB3ExtraModRes *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4ExtraModRes's @c fiterClassify property, even
+ * Fetches the raw value of a @c PB3ExtraModRes's @c fiterClassify property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4ExtraModRes_FiterClassify_RawValue(PB4ExtraModRes *message);
+int32_t PB3ExtraModRes_FiterClassify_RawValue(PB3ExtraModRes *message);
 /**
- * Sets the raw value of an @c PB4ExtraModRes's @c fiterClassify property, allowing
+ * Sets the raw value of an @c PB3ExtraModRes's @c fiterClassify property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4ExtraModRes_FiterClassify_RawValue(PB4ExtraModRes *message, int32_t value);
+void SetPB3ExtraModRes_FiterClassify_RawValue(PB3ExtraModRes *message, int32_t value);
 
-#pragma mark - PB4RadioStationList
+#pragma mark - PB3RadioStationList
 
-typedef GPB_ENUM(PB4RadioStationList_FieldNumber) {
-  PB4RadioStationList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3RadioStationList_FieldNumber) {
+  PB3RadioStationList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4RadioStationList : GPBMessage
+@interface PB3RadioStationList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4RadioStationRoom*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3RadioStationRoom*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4RadioStationRoom
+#pragma mark - PB3RadioStationRoom
 
-typedef GPB_ENUM(PB4RadioStationRoom_FieldNumber) {
-  PB4RadioStationRoom_FieldNumber_RoomId = 1,
-  PB4RadioStationRoom_FieldNumber_RoomId2 = 2,
-  PB4RadioStationRoom_FieldNumber_RoomName = 3,
-  PB4RadioStationRoom_FieldNumber_BriefIntroduction = 4,
-  PB4RadioStationRoom_FieldNumber_Cover = 5,
-  PB4RadioStationRoom_FieldNumber_Hot = 6,
+typedef GPB_ENUM(PB3RadioStationRoom_FieldNumber) {
+  PB3RadioStationRoom_FieldNumber_RoomId = 1,
+  PB3RadioStationRoom_FieldNumber_RoomId2 = 2,
+  PB3RadioStationRoom_FieldNumber_RoomName = 3,
+  PB3RadioStationRoom_FieldNumber_BriefIntroduction = 4,
+  PB3RadioStationRoom_FieldNumber_Cover = 5,
+  PB3RadioStationRoom_FieldNumber_Hot = 6,
 };
 
-@interface PB4RadioStationRoom : GPBMessage
+@interface PB3RadioStationRoom : GPBMessage
 
 @property(nonatomic, readwrite) int64_t roomId;
 
@@ -3830,30 +4309,31 @@ typedef GPB_ENUM(PB4RadioStationRoom_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommentInfo
+#pragma mark - PB3CommentInfo
 
-typedef GPB_ENUM(PB4CommentInfo_FieldNumber) {
-  PB4CommentInfo_FieldNumber_Id_p = 1,
-  PB4CommentInfo_FieldNumber_ArticleId = 2,
-  PB4CommentInfo_FieldNumber_ArticleName = 3,
-  PB4CommentInfo_FieldNumber_Content = 4,
-  PB4CommentInfo_FieldNumber_LikeCount = 5,
-  PB4CommentInfo_FieldNumber_CommentCount = 6,
-  PB4CommentInfo_FieldNumber_ParentId = 7,
-  PB4CommentInfo_FieldNumber_UserId = 8,
-  PB4CommentInfo_FieldNumber_UserName = 9,
-  PB4CommentInfo_FieldNumber_UserIcon = 10,
-  PB4CommentInfo_FieldNumber_CharmLevel = 12,
-  PB4CommentInfo_FieldNumber_WealthlEvel = 13,
-  PB4CommentInfo_FieldNumber_ToUserId = 14,
-  PB4CommentInfo_FieldNumber_ToUserName = 15,
-  PB4CommentInfo_FieldNumber_HasLike = 16,
-  PB4CommentInfo_FieldNumber_CreateAt = 17,
-  PB4CommentInfo_FieldNumber_ChildCommentArray = 18,
-  PB4CommentInfo_FieldNumber_IsTop = 19,
+typedef GPB_ENUM(PB3CommentInfo_FieldNumber) {
+  PB3CommentInfo_FieldNumber_Id_p = 1,
+  PB3CommentInfo_FieldNumber_ArticleId = 2,
+  PB3CommentInfo_FieldNumber_ArticleName = 3,
+  PB3CommentInfo_FieldNumber_Content = 4,
+  PB3CommentInfo_FieldNumber_LikeCount = 5,
+  PB3CommentInfo_FieldNumber_CommentCount = 6,
+  PB3CommentInfo_FieldNumber_ParentId = 7,
+  PB3CommentInfo_FieldNumber_UserId = 8,
+  PB3CommentInfo_FieldNumber_UserName = 9,
+  PB3CommentInfo_FieldNumber_UserIcon = 10,
+  PB3CommentInfo_FieldNumber_CharmLevel = 12,
+  PB3CommentInfo_FieldNumber_WealthlEvel = 13,
+  PB3CommentInfo_FieldNumber_ToUserId = 14,
+  PB3CommentInfo_FieldNumber_ToUserName = 15,
+  PB3CommentInfo_FieldNumber_HasLike = 16,
+  PB3CommentInfo_FieldNumber_CreateAt = 17,
+  PB3CommentInfo_FieldNumber_ChildCommentArray = 18,
+  PB3CommentInfo_FieldNumber_IsTop = 19,
+  PB3CommentInfo_FieldNumber_LikeNum = 20,
 };
 
-@interface PB4CommentInfo : GPBMessage
+@interface PB3CommentInfo : GPBMessage
 
 /** '序号' */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -3904,23 +4384,26 @@ typedef GPB_ENUM(PB4CommentInfo_FieldNumber) {
 @property(nonatomic, readwrite) int64_t createAt;
 
 /** '子评论'，没有则为空 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommentInfo*> *childCommentArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommentInfo*> *childCommentArray;
 /** The number of items in @c childCommentArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger childCommentArray_Count;
 
 /** '是否置顶' */
 @property(nonatomic, readwrite) BOOL isTop;
 
+/** '点赞数量' */
+@property(nonatomic, readwrite) int32_t likeNum;
+
 @end
 
-#pragma mark - PB4GetHotCommentListByArticleIdReq
+#pragma mark - PB3GetHotCommentListByArticleIdReq
 
-typedef GPB_ENUM(PB4GetHotCommentListByArticleIdReq_FieldNumber) {
-  PB4GetHotCommentListByArticleIdReq_FieldNumber_UserId = 1,
-  PB4GetHotCommentListByArticleIdReq_FieldNumber_ArticleId = 2,
+typedef GPB_ENUM(PB3GetHotCommentListByArticleIdReq_FieldNumber) {
+  PB3GetHotCommentListByArticleIdReq_FieldNumber_UserId = 1,
+  PB3GetHotCommentListByArticleIdReq_FieldNumber_ArticleId = 2,
 };
 
-@interface PB4GetHotCommentListByArticleIdReq : GPBMessage
+@interface PB3GetHotCommentListByArticleIdReq : GPBMessage
 
 /** '用户id' */
 @property(nonatomic, readwrite) int64_t userId;
@@ -3930,32 +4413,32 @@ typedef GPB_ENUM(PB4GetHotCommentListByArticleIdReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GetHotCommentListByArticleIdRes
+#pragma mark - PB3GetHotCommentListByArticleIdRes
 
-typedef GPB_ENUM(PB4GetHotCommentListByArticleIdRes_FieldNumber) {
-  PB4GetHotCommentListByArticleIdRes_FieldNumber_CommentListArray = 1,
+typedef GPB_ENUM(PB3GetHotCommentListByArticleIdRes_FieldNumber) {
+  PB3GetHotCommentListByArticleIdRes_FieldNumber_CommentListArray = 1,
 };
 
-@interface PB4GetHotCommentListByArticleIdRes : GPBMessage
+@interface PB3GetHotCommentListByArticleIdRes : GPBMessage
 
 /** 评论列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommentInfo*> *commentListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommentInfo*> *commentListArray;
 /** The number of items in @c commentListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger commentListArray_Count;
 
 @end
 
-#pragma mark - PB4GetCommentListByArticleIdReq
+#pragma mark - PB3GetCommentListByArticleIdReq
 
-typedef GPB_ENUM(PB4GetCommentListByArticleIdReq_FieldNumber) {
-  PB4GetCommentListByArticleIdReq_FieldNumber_UserId = 1,
-  PB4GetCommentListByArticleIdReq_FieldNumber_ArticleId = 2,
-  PB4GetCommentListByArticleIdReq_FieldNumber_ParentId = 3,
-  PB4GetCommentListByArticleIdReq_FieldNumber_LastId = 4,
-  PB4GetCommentListByArticleIdReq_FieldNumber_PageSize = 5,
+typedef GPB_ENUM(PB3GetCommentListByArticleIdReq_FieldNumber) {
+  PB3GetCommentListByArticleIdReq_FieldNumber_UserId = 1,
+  PB3GetCommentListByArticleIdReq_FieldNumber_ArticleId = 2,
+  PB3GetCommentListByArticleIdReq_FieldNumber_ParentId = 3,
+  PB3GetCommentListByArticleIdReq_FieldNumber_LastId = 4,
+  PB3GetCommentListByArticleIdReq_FieldNumber_PageSize = 5,
 };
 
-@interface PB4GetCommentListByArticleIdReq : GPBMessage
+@interface PB3GetCommentListByArticleIdReq : GPBMessage
 
 /** '用户id' */
 @property(nonatomic, readwrite) int64_t userId;
@@ -3974,20 +4457,20 @@ typedef GPB_ENUM(PB4GetCommentListByArticleIdReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GetCommentListByArticleIdRes
+#pragma mark - PB3GetCommentListByArticleIdRes
 
-typedef GPB_ENUM(PB4GetCommentListByArticleIdRes_FieldNumber) {
-  PB4GetCommentListByArticleIdRes_FieldNumber_CommentListArray = 1,
-  PB4GetCommentListByArticleIdRes_FieldNumber_HasMore = 2,
-  PB4GetCommentListByArticleIdRes_FieldNumber_LikeCount = 3,
-  PB4GetCommentListByArticleIdRes_FieldNumber_CommentCount = 4,
-  PB4GetCommentListByArticleIdRes_FieldNumber_Like = 5,
+typedef GPB_ENUM(PB3GetCommentListByArticleIdRes_FieldNumber) {
+  PB3GetCommentListByArticleIdRes_FieldNumber_CommentListArray = 1,
+  PB3GetCommentListByArticleIdRes_FieldNumber_HasMore = 2,
+  PB3GetCommentListByArticleIdRes_FieldNumber_LikeCount = 3,
+  PB3GetCommentListByArticleIdRes_FieldNumber_CommentCount = 4,
+  PB3GetCommentListByArticleIdRes_FieldNumber_Like = 5,
 };
 
-@interface PB4GetCommentListByArticleIdRes : GPBMessage
+@interface PB3GetCommentListByArticleIdRes : GPBMessage
 
 /** 评论列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommentInfo*> *commentListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommentInfo*> *commentListArray;
 /** The number of items in @c commentListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger commentListArray_Count;
 
@@ -4005,15 +4488,15 @@ typedef GPB_ENUM(PB4GetCommentListByArticleIdRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GetCommentInfoByArticleIdReq
+#pragma mark - PB3GetCommentInfoByArticleIdReq
 
-typedef GPB_ENUM(PB4GetCommentInfoByArticleIdReq_FieldNumber) {
-  PB4GetCommentInfoByArticleIdReq_FieldNumber_UserId = 1,
-  PB4GetCommentInfoByArticleIdReq_FieldNumber_ArticleId = 2,
-  PB4GetCommentInfoByArticleIdReq_FieldNumber_CommentId = 3,
+typedef GPB_ENUM(PB3GetCommentInfoByArticleIdReq_FieldNumber) {
+  PB3GetCommentInfoByArticleIdReq_FieldNumber_UserId = 1,
+  PB3GetCommentInfoByArticleIdReq_FieldNumber_ArticleId = 2,
+  PB3GetCommentInfoByArticleIdReq_FieldNumber_CommentId = 3,
 };
 
-@interface PB4GetCommentInfoByArticleIdReq : GPBMessage
+@interface PB3GetCommentInfoByArticleIdReq : GPBMessage
 
 /** '用户id' */
 @property(nonatomic, readwrite) int64_t userId;
@@ -4026,40 +4509,40 @@ typedef GPB_ENUM(PB4GetCommentInfoByArticleIdReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GetCommentInfoByArticleIdRes
+#pragma mark - PB3GetCommentInfoByArticleIdRes
 
-typedef GPB_ENUM(PB4GetCommentInfoByArticleIdRes_FieldNumber) {
-  PB4GetCommentInfoByArticleIdRes_FieldNumber_CommentInfo = 1,
-  PB4GetCommentInfoByArticleIdRes_FieldNumber_HotCommentListArray = 2,
+typedef GPB_ENUM(PB3GetCommentInfoByArticleIdRes_FieldNumber) {
+  PB3GetCommentInfoByArticleIdRes_FieldNumber_CommentInfo = 1,
+  PB3GetCommentInfoByArticleIdRes_FieldNumber_HotCommentListArray = 2,
 };
 
-@interface PB4GetCommentInfoByArticleIdRes : GPBMessage
+@interface PB3GetCommentInfoByArticleIdRes : GPBMessage
 
 /** 评论信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommentInfo *commentInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommentInfo *commentInfo;
 /** Test to see if @c commentInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasCommentInfo;
 
 /** 置顶或热门评论列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommentInfo*> *hotCommentListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommentInfo*> *hotCommentListArray;
 /** The number of items in @c hotCommentListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger hotCommentListArray_Count;
 
 @end
 
-#pragma mark - PB4AddArticleCommentReq
+#pragma mark - PB3AddArticleCommentReq
 
-typedef GPB_ENUM(PB4AddArticleCommentReq_FieldNumber) {
-  PB4AddArticleCommentReq_FieldNumber_ArticleId = 1,
-  PB4AddArticleCommentReq_FieldNumber_ArticleName = 2,
-  PB4AddArticleCommentReq_FieldNumber_ParentId = 3,
-  PB4AddArticleCommentReq_FieldNumber_Content = 4,
-  PB4AddArticleCommentReq_FieldNumber_ToUserId = 5,
-  PB4AddArticleCommentReq_FieldNumber_ToUserName = 6,
-  PB4AddArticleCommentReq_FieldNumber_CommentURL = 7,
+typedef GPB_ENUM(PB3AddArticleCommentReq_FieldNumber) {
+  PB3AddArticleCommentReq_FieldNumber_ArticleId = 1,
+  PB3AddArticleCommentReq_FieldNumber_ArticleName = 2,
+  PB3AddArticleCommentReq_FieldNumber_ParentId = 3,
+  PB3AddArticleCommentReq_FieldNumber_Content = 4,
+  PB3AddArticleCommentReq_FieldNumber_ToUserId = 5,
+  PB3AddArticleCommentReq_FieldNumber_ToUserName = 6,
+  PB3AddArticleCommentReq_FieldNumber_CommentURL = 7,
 };
 
-@interface PB4AddArticleCommentReq : GPBMessage
+@interface PB3AddArticleCommentReq : GPBMessage
 
 /** '文章id', */
 @property(nonatomic, readwrite) int64_t articleId;
@@ -4084,28 +4567,28 @@ typedef GPB_ENUM(PB4AddArticleCommentReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4AddArticleCommentRes
+#pragma mark - PB3AddArticleCommentRes
 
-typedef GPB_ENUM(PB4AddArticleCommentRes_FieldNumber) {
-  PB4AddArticleCommentRes_FieldNumber_Id_p = 1,
+typedef GPB_ENUM(PB3AddArticleCommentRes_FieldNumber) {
+  PB3AddArticleCommentRes_FieldNumber_Id_p = 1,
 };
 
-@interface PB4AddArticleCommentRes : GPBMessage
+@interface PB3AddArticleCommentRes : GPBMessage
 
 /** '评论id' */
 @property(nonatomic, readwrite) int64_t id_p;
 
 @end
 
-#pragma mark - PB4DelArticleCommentReq
+#pragma mark - PB3DelArticleCommentReq
 
-typedef GPB_ENUM(PB4DelArticleCommentReq_FieldNumber) {
-  PB4DelArticleCommentReq_FieldNumber_Id_p = 1,
-  PB4DelArticleCommentReq_FieldNumber_ArticleId = 2,
-  PB4DelArticleCommentReq_FieldNumber_ParentId = 4,
+typedef GPB_ENUM(PB3DelArticleCommentReq_FieldNumber) {
+  PB3DelArticleCommentReq_FieldNumber_Id_p = 1,
+  PB3DelArticleCommentReq_FieldNumber_ArticleId = 2,
+  PB3DelArticleCommentReq_FieldNumber_ParentId = 4,
 };
 
-@interface PB4DelArticleCommentReq : GPBMessage
+@interface PB3DelArticleCommentReq : GPBMessage
 
 /** '评论id' */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -4118,22 +4601,22 @@ typedef GPB_ENUM(PB4DelArticleCommentReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4DelArticleCommentRes
+#pragma mark - PB3DelArticleCommentRes
 
-@interface PB4DelArticleCommentRes : GPBMessage
+@interface PB3DelArticleCommentRes : GPBMessage
 
 @end
 
-#pragma mark - PB4UpdateCommentLikeReq
+#pragma mark - PB3UpdateCommentLikeReq
 
-typedef GPB_ENUM(PB4UpdateCommentLikeReq_FieldNumber) {
-  PB4UpdateCommentLikeReq_FieldNumber_ArticleId = 1,
-  PB4UpdateCommentLikeReq_FieldNumber_CommentId = 2,
-  PB4UpdateCommentLikeReq_FieldNumber_ParentCommentId = 3,
-  PB4UpdateCommentLikeReq_FieldNumber_Like = 4,
+typedef GPB_ENUM(PB3UpdateCommentLikeReq_FieldNumber) {
+  PB3UpdateCommentLikeReq_FieldNumber_ArticleId = 1,
+  PB3UpdateCommentLikeReq_FieldNumber_CommentId = 2,
+  PB3UpdateCommentLikeReq_FieldNumber_ParentCommentId = 3,
+  PB3UpdateCommentLikeReq_FieldNumber_Like = 4,
 };
 
-@interface PB4UpdateCommentLikeReq : GPBMessage
+@interface PB3UpdateCommentLikeReq : GPBMessage
 
 /** 文章id */
 @property(nonatomic, readwrite) int64_t articleId;
@@ -4149,47 +4632,47 @@ typedef GPB_ENUM(PB4UpdateCommentLikeReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4UpdateCommentLikeRes
+#pragma mark - PB3UpdateCommentLikeRes
 
-@interface PB4UpdateCommentLikeRes : GPBMessage
-
-@end
-
-#pragma mark - PB4CheckUserIsAdminReq
-
-@interface PB4CheckUserIsAdminReq : GPBMessage
+@interface PB3UpdateCommentLikeRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CheckUserIsAdminRes
+#pragma mark - PB3CheckUserIsAdminReq
 
-typedef GPB_ENUM(PB4CheckUserIsAdminRes_FieldNumber) {
-  PB4CheckUserIsAdminRes_FieldNumber_IsAdmin = 1,
+@interface PB3CheckUserIsAdminReq : GPBMessage
+
+@end
+
+#pragma mark - PB3CheckUserIsAdminRes
+
+typedef GPB_ENUM(PB3CheckUserIsAdminRes_FieldNumber) {
+  PB3CheckUserIsAdminRes_FieldNumber_IsAdmin = 1,
 };
 
-@interface PB4CheckUserIsAdminRes : GPBMessage
+@interface PB3CheckUserIsAdminRes : GPBMessage
 
 /** true 有管理员权限，false, 没有权限 */
 @property(nonatomic, readwrite) BOOL isAdmin;
 
 @end
 
-#pragma mark - PB4MainTabReq
+#pragma mark - PB3MainTabReq
 
-@interface PB4MainTabReq : GPBMessage
+@interface PB3MainTabReq : GPBMessage
 
 @end
 
-#pragma mark - PB4MainTabRes
+#pragma mark - PB3MainTabRes
 
-typedef GPB_ENUM(PB4MainTabRes_FieldNumber) {
-  PB4MainTabRes_FieldNumber_TabListArray = 1,
-  PB4MainTabRes_FieldNumber_RememberChoose = 2,
+typedef GPB_ENUM(PB3MainTabRes_FieldNumber) {
+  PB3MainTabRes_FieldNumber_TabListArray = 1,
+  PB3MainTabRes_FieldNumber_RememberChoose = 2,
 };
 
-@interface PB4MainTabRes : GPBMessage
+@interface PB3MainTabRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MainTab*> *tabListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MainTab*> *tabListArray;
 /** The number of items in @c tabListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger tabListArray_Count;
 
@@ -4197,22 +4680,28 @@ typedef GPB_ENUM(PB4MainTabRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MainTab
+#pragma mark - PB3MainTab
 
-typedef GPB_ENUM(PB4MainTab_FieldNumber) {
-  PB4MainTab_FieldNumber_TabType = 1,
-  PB4MainTab_FieldNumber_TabName = 2,
-  PB4MainTab_FieldNumber_TabImg = 3,
-  PB4MainTab_FieldNumber_TabImgActivated = 4,
-  PB4MainTab_FieldNumber_IsDefault = 5,
-  PB4MainTab_FieldNumber_Route = 6,
-  PB4MainTab_FieldNumber_TabImgSwipe = 7,
+typedef GPB_ENUM(PB3MainTab_FieldNumber) {
+  PB3MainTab_FieldNumber_TabType = 1,
+  PB3MainTab_FieldNumber_TabName = 2,
+  PB3MainTab_FieldNumber_TabImg = 3,
+  PB3MainTab_FieldNumber_TabImgActivated = 4,
+  PB3MainTab_FieldNumber_IsDefault = 5,
+  PB3MainTab_FieldNumber_Route = 6,
+  PB3MainTab_FieldNumber_TabImgSwipe = 7,
+  PB3MainTab_FieldNumber_HomeStyle = 8,
+  PB3MainTab_FieldNumber_HeadBgImage = 9,
+  PB3MainTab_FieldNumber_FootBgImage = 10,
+  PB3MainTab_FieldNumber_TabImgType = 11,
+  PB3MainTab_FieldNumber_IsHiddenName = 12,
+  PB3MainTab_FieldNumber_IsShowCartoon = 13,
 };
 
-@interface PB4MainTab : GPBMessage
+@interface PB3MainTab : GPBMessage
 
 /** 类型 */
-@property(nonatomic, readwrite) PB4TabType tabType;
+@property(nonatomic, readwrite) PB3TabType tabType;
 
 /** 名称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *tabName;
@@ -4232,38 +4721,80 @@ typedef GPB_ENUM(PB4MainTab_FieldNumber) {
 /** 划卡图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *tabImgSwipe;
 
+/** 首页样式 */
+@property(nonatomic, readwrite) PB3MainTabHomeStyle homeStyle;
+
+/** 头部背景图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *headBgImage;
+
+/** 底部bar选中时背景图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *footBgImage;
+
+/** 图标类型 */
+@property(nonatomic, readwrite) PB3PHomeMainTabImgType tabImgType;
+
+/** 是否隐藏名称: false:显示名称; true:不显示名称 */
+@property(nonatomic, readwrite) BOOL isHiddenName;
+
+/** 是否展示动画: false: 不展示; true: 展示 */
+@property(nonatomic, readwrite) BOOL isShowCartoon;
+
 @end
 
 /**
- * Fetches the raw value of a @c PB4MainTab's @c tabType property, even
+ * Fetches the raw value of a @c PB3MainTab's @c tabType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MainTab_TabType_RawValue(PB4MainTab *message);
+int32_t PB3MainTab_TabType_RawValue(PB3MainTab *message);
 /**
- * Sets the raw value of an @c PB4MainTab's @c tabType property, allowing
+ * Sets the raw value of an @c PB3MainTab's @c tabType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MainTab_TabType_RawValue(PB4MainTab *message, int32_t value);
+void SetPB3MainTab_TabType_RawValue(PB3MainTab *message, int32_t value);
 
-#pragma mark - PB4PHomeEntryBubble
+/**
+ * Fetches the raw value of a @c PB3MainTab's @c homeStyle property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MainTab_HomeStyle_RawValue(PB3MainTab *message);
+/**
+ * Sets the raw value of an @c PB3MainTab's @c homeStyle property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MainTab_HomeStyle_RawValue(PB3MainTab *message, int32_t value);
 
-typedef GPB_ENUM(PB4PHomeEntryBubble_FieldNumber) {
-  PB4PHomeEntryBubble_FieldNumber_PlayerId = 1,
-  PB4PHomeEntryBubble_FieldNumber_NickName = 2,
-  PB4PHomeEntryBubble_FieldNumber_Sex = 3,
-  PB4PHomeEntryBubble_FieldNumber_Icon = 4,
-  PB4PHomeEntryBubble_FieldNumber_Content = 5,
-  PB4PHomeEntryBubble_FieldNumber_LabelName = 6,
-  PB4PHomeEntryBubble_FieldNumber_Heat = 7,
-  PB4PHomeEntryBubble_FieldNumber_RoomId = 8,
-  PB4PHomeEntryBubble_FieldNumber_NavIdsArray = 9,
+/**
+ * Fetches the raw value of a @c PB3MainTab's @c tabImgType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3MainTab_TabImgType_RawValue(PB3MainTab *message);
+/**
+ * Sets the raw value of an @c PB3MainTab's @c tabImgType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3MainTab_TabImgType_RawValue(PB3MainTab *message, int32_t value);
+
+#pragma mark - PB3PHomeEntryBubble
+
+typedef GPB_ENUM(PB3PHomeEntryBubble_FieldNumber) {
+  PB3PHomeEntryBubble_FieldNumber_PlayerId = 1,
+  PB3PHomeEntryBubble_FieldNumber_NickName = 2,
+  PB3PHomeEntryBubble_FieldNumber_Sex = 3,
+  PB3PHomeEntryBubble_FieldNumber_Icon = 4,
+  PB3PHomeEntryBubble_FieldNumber_Content = 5,
+  PB3PHomeEntryBubble_FieldNumber_LabelName = 6,
+  PB3PHomeEntryBubble_FieldNumber_Heat = 7,
+  PB3PHomeEntryBubble_FieldNumber_RoomId = 8,
+  PB3PHomeEntryBubble_FieldNumber_NavIdsArray = 9,
 };
 
 /**
  * ------------------------ 首页冒泡 ---------------------
  **/
-@interface PB4PHomeEntryBubble : GPBMessage
+@interface PB3PHomeEntryBubble : GPBMessage
 
 /** 用户ID */
 @property(nonatomic, readwrite) int64_t playerId;
@@ -4272,7 +4803,7 @@ typedef GPB_ENUM(PB4PHomeEntryBubble_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *nickName;
 
 /** 性别 */
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 /** 头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
@@ -4297,40 +4828,40 @@ typedef GPB_ENUM(PB4PHomeEntryBubble_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeEntryBubble's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeEntryBubble's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeEntryBubble_Sex_RawValue(PB4PHomeEntryBubble *message);
+int32_t PB3PHomeEntryBubble_Sex_RawValue(PB3PHomeEntryBubble *message);
 /**
- * Sets the raw value of an @c PB4PHomeEntryBubble's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeEntryBubble's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeEntryBubble_Sex_RawValue(PB4PHomeEntryBubble *message, int32_t value);
+void SetPB3PHomeEntryBubble_Sex_RawValue(PB3PHomeEntryBubble *message, int32_t value);
 
-#pragma mark - PB4PHomeEntryBubbleList
+#pragma mark - PB3PHomeEntryBubbleList
 
-typedef GPB_ENUM(PB4PHomeEntryBubbleList_FieldNumber) {
-  PB4PHomeEntryBubbleList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3PHomeEntryBubbleList_FieldNumber) {
+  PB3PHomeEntryBubbleList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4PHomeEntryBubbleList : GPBMessage
+@interface PB3PHomeEntryBubbleList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeEntryBubble*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryBubble*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4UserSongReq
+#pragma mark - PB3UserSongReq
 
-typedef GPB_ENUM(PB4UserSongReq_FieldNumber) {
-  PB4UserSongReq_FieldNumber_Singer = 1,
-  PB4UserSongReq_FieldNumber_Song = 2,
-  PB4UserSongReq_FieldNumber_PlayType = 3,
+typedef GPB_ENUM(PB3UserSongReq_FieldNumber) {
+  PB3UserSongReq_FieldNumber_Singer = 1,
+  PB3UserSongReq_FieldNumber_Song = 2,
+  PB3UserSongReq_FieldNumber_PlayType = 3,
 };
 
-@interface PB4UserSongReq : GPBMessage
+@interface PB3UserSongReq : GPBMessage
 
 /** 歌手名称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *singer;
@@ -4339,39 +4870,39 @@ typedef GPB_ENUM(PB4UserSongReq_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *song;
 
 /** 播放类型，播放/停止 */
-@property(nonatomic, readwrite) enum PB4UserSongType playType;
+@property(nonatomic, readwrite) enum PB3UserSongType playType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4UserSongReq's @c playType property, even
+ * Fetches the raw value of a @c PB3UserSongReq's @c playType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4UserSongReq_PlayType_RawValue(PB4UserSongReq *message);
+int32_t PB3UserSongReq_PlayType_RawValue(PB3UserSongReq *message);
 /**
- * Sets the raw value of an @c PB4UserSongReq's @c playType property, allowing
+ * Sets the raw value of an @c PB3UserSongReq's @c playType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4UserSongReq_PlayType_RawValue(PB4UserSongReq *message, int32_t value);
+void SetPB3UserSongReq_PlayType_RawValue(PB3UserSongReq *message, int32_t value);
 
-#pragma mark - PB4UserSongRes
+#pragma mark - PB3UserSongRes
 
-@interface PB4UserSongRes : GPBMessage
+@interface PB3UserSongRes : GPBMessage
 
 @end
 
-#pragma mark - PB4PHomeSysToastMsg
+#pragma mark - PB3PHomeSysToastMsg
 
-typedef GPB_ENUM(PB4PHomeSysToastMsg_FieldNumber) {
-  PB4PHomeSysToastMsg_FieldNumber_Type = 1,
-  PB4PHomeSysToastMsg_FieldNumber_Msg = 2,
+typedef GPB_ENUM(PB3PHomeSysToastMsg_FieldNumber) {
+  PB3PHomeSysToastMsg_FieldNumber_Type = 1,
+  PB3PHomeSysToastMsg_FieldNumber_Msg = 2,
 };
 
-@interface PB4PHomeSysToastMsg : GPBMessage
+@interface PB3PHomeSysToastMsg : GPBMessage
 
 /** 类型 */
-@property(nonatomic, readwrite) PB4PHomeSysToastType type;
+@property(nonatomic, readwrite) PB3PHomeSysToastType type;
 
 /** 文字 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *msg;
@@ -4379,29 +4910,29 @@ typedef GPB_ENUM(PB4PHomeSysToastMsg_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeSysToastMsg's @c type property, even
+ * Fetches the raw value of a @c PB3PHomeSysToastMsg's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeSysToastMsg_Type_RawValue(PB4PHomeSysToastMsg *message);
+int32_t PB3PHomeSysToastMsg_Type_RawValue(PB3PHomeSysToastMsg *message);
 /**
- * Sets the raw value of an @c PB4PHomeSysToastMsg's @c type property, allowing
+ * Sets the raw value of an @c PB3PHomeSysToastMsg's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeSysToastMsg_Type_RawValue(PB4PHomeSysToastMsg *message, int32_t value);
+void SetPB3PHomeSysToastMsg_Type_RawValue(PB3PHomeSysToastMsg *message, int32_t value);
 
-#pragma mark - PB4SysMatchMsg
+#pragma mark - PB3SysMatchMsg
 
-typedef GPB_ENUM(PB4SysMatchMsg_FieldNumber) {
-  PB4SysMatchMsg_FieldNumber_MatchType = 1,
-  PB4SysMatchMsg_FieldNumber_DataByte = 2,
-  PB4SysMatchMsg_FieldNumber_MatchItemId = 3,
+typedef GPB_ENUM(PB3SysMatchMsg_FieldNumber) {
+  PB3SysMatchMsg_FieldNumber_MatchType = 1,
+  PB3SysMatchMsg_FieldNumber_DataByte = 2,
+  PB3SysMatchMsg_FieldNumber_MatchItemId = 3,
 };
 
-@interface PB4SysMatchMsg : GPBMessage
+@interface PB3SysMatchMsg : GPBMessage
 
 /** 匹配类型，有取消的操作 */
-@property(nonatomic, readwrite) PB4MatchDirectType matchType;
+@property(nonatomic, readwrite) PB3MatchDirectType matchType;
 
 /** 数据， 对应数据的结构MatchDirectType有说明 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *dataByte;
@@ -4412,40 +4943,40 @@ typedef GPB_ENUM(PB4SysMatchMsg_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4SysMatchMsg's @c matchType property, even
+ * Fetches the raw value of a @c PB3SysMatchMsg's @c matchType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4SysMatchMsg_MatchType_RawValue(PB4SysMatchMsg *message);
+int32_t PB3SysMatchMsg_MatchType_RawValue(PB3SysMatchMsg *message);
 /**
- * Sets the raw value of an @c PB4SysMatchMsg's @c matchType property, allowing
+ * Sets the raw value of an @c PB3SysMatchMsg's @c matchType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4SysMatchMsg_MatchType_RawValue(PB4SysMatchMsg *message, int32_t value);
+void SetPB3SysMatchMsg_MatchType_RawValue(PB3SysMatchMsg *message, int32_t value);
 
-#pragma mark - PB4MatchUserPageDataReq
+#pragma mark - PB3MatchUserPageDataReq
 
-typedef GPB_ENUM(PB4MatchUserPageDataReq_FieldNumber) {
-  PB4MatchUserPageDataReq_FieldNumber_MatchPageId = 1,
+typedef GPB_ENUM(PB3MatchUserPageDataReq_FieldNumber) {
+  PB3MatchUserPageDataReq_FieldNumber_MatchPageId = 1,
 };
 
-@interface PB4MatchUserPageDataReq : GPBMessage
+@interface PB3MatchUserPageDataReq : GPBMessage
 
 /** 匹配页id */
 @property(nonatomic, readwrite) int32_t matchPageId;
 
 @end
 
-#pragma mark - PB4MatchUserPageDataRes
+#pragma mark - PB3MatchUserPageDataRes
 
-typedef GPB_ENUM(PB4MatchUserPageDataRes_FieldNumber) {
-  PB4MatchUserPageDataRes_FieldNumber_MatchSourceListArray = 1,
-  PB4MatchUserPageDataRes_FieldNumber_MatchPageHeadimg = 2,
+typedef GPB_ENUM(PB3MatchUserPageDataRes_FieldNumber) {
+  PB3MatchUserPageDataRes_FieldNumber_MatchSourceListArray = 1,
+  PB3MatchUserPageDataRes_FieldNumber_MatchPageHeadimg = 2,
 };
 
-@interface PB4MatchUserPageDataRes : GPBMessage
+@interface PB3MatchUserPageDataRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MatchSource*> *matchSourceListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MatchSource*> *matchSourceListArray;
 /** The number of items in @c matchSourceListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger matchSourceListArray_Count;
 
@@ -4453,18 +4984,18 @@ typedef GPB_ENUM(PB4MatchUserPageDataRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchSource
+#pragma mark - PB3MatchSource
 
-typedef GPB_ENUM(PB4MatchSource_FieldNumber) {
-  PB4MatchSource_FieldNumber_Name = 1,
-  PB4MatchSource_FieldNumber_MatchItemId = 2,
-  PB4MatchSource_FieldNumber_Icon = 3,
-  PB4MatchSource_FieldNumber_SmallIcon = 4,
-  PB4MatchSource_FieldNumber_MatchType = 5,
-  PB4MatchSource_FieldNumber_Src = 6,
+typedef GPB_ENUM(PB3MatchSource_FieldNumber) {
+  PB3MatchSource_FieldNumber_Name = 1,
+  PB3MatchSource_FieldNumber_MatchItemId = 2,
+  PB3MatchSource_FieldNumber_Icon = 3,
+  PB3MatchSource_FieldNumber_SmallIcon = 4,
+  PB3MatchSource_FieldNumber_MatchType = 5,
+  PB3MatchSource_FieldNumber_Src = 6,
 };
 
-@interface PB4MatchSource : GPBMessage
+@interface PB3MatchSource : GPBMessage
 
 /** 名称 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
@@ -4479,7 +5010,7 @@ typedef GPB_ENUM(PB4MatchSource_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *smallIcon;
 
 /** 匹配类型 */
-@property(nonatomic, readwrite) PB4MatchDirectType matchType;
+@property(nonatomic, readwrite) PB3MatchDirectType matchType;
 
 /** 跳转路由 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *src;
@@ -4487,25 +5018,25 @@ typedef GPB_ENUM(PB4MatchSource_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4MatchSource's @c matchType property, even
+ * Fetches the raw value of a @c PB3MatchSource's @c matchType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MatchSource_MatchType_RawValue(PB4MatchSource *message);
+int32_t PB3MatchSource_MatchType_RawValue(PB3MatchSource *message);
 /**
- * Sets the raw value of an @c PB4MatchSource's @c matchType property, allowing
+ * Sets the raw value of an @c PB3MatchSource's @c matchType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MatchSource_MatchType_RawValue(PB4MatchSource *message, int32_t value);
+void SetPB3MatchSource_MatchType_RawValue(PB3MatchSource *message, int32_t value);
 
-#pragma mark - PB4MatchUserReq
+#pragma mark - PB3MatchUserReq
 
-typedef GPB_ENUM(PB4MatchUserReq_FieldNumber) {
-  PB4MatchUserReq_FieldNumber_MatchPageId = 1,
-  PB4MatchUserReq_FieldNumber_MatchItemId = 2,
+typedef GPB_ENUM(PB3MatchUserReq_FieldNumber) {
+  PB3MatchUserReq_FieldNumber_MatchPageId = 1,
+  PB3MatchUserReq_FieldNumber_MatchItemId = 2,
 };
 
-@interface PB4MatchUserReq : GPBMessage
+@interface PB3MatchUserReq : GPBMessage
 
 /** 匹配页id */
 @property(nonatomic, readwrite) int32_t matchPageId;
@@ -4515,13 +5046,13 @@ typedef GPB_ENUM(PB4MatchUserReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchUserRes
+#pragma mark - PB3MatchUserRes
 
-typedef GPB_ENUM(PB4MatchUserRes_FieldNumber) {
-  PB4MatchUserRes_FieldNumber_UserIconArray = 1,
+typedef GPB_ENUM(PB3MatchUserRes_FieldNumber) {
+  PB3MatchUserRes_FieldNumber_UserIconArray = 1,
 };
 
-@interface PB4MatchUserRes : GPBMessage
+@interface PB3MatchUserRes : GPBMessage
 
 /** 返回一批在线的用户的头像即可 */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *userIconArray;
@@ -4530,14 +5061,14 @@ typedef GPB_ENUM(PB4MatchUserRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchUserGameStatusReq
+#pragma mark - PB3MatchUserGameStatusReq
 
-typedef GPB_ENUM(PB4MatchUserGameStatusReq_FieldNumber) {
-  PB4MatchUserGameStatusReq_FieldNumber_RoomId = 1,
-  PB4MatchUserGameStatusReq_FieldNumber_GameId = 2,
+typedef GPB_ENUM(PB3MatchUserGameStatusReq_FieldNumber) {
+  PB3MatchUserGameStatusReq_FieldNumber_RoomId = 1,
+  PB3MatchUserGameStatusReq_FieldNumber_GameId = 2,
 };
 
-@interface PB4MatchUserGameStatusReq : GPBMessage
+@interface PB3MatchUserGameStatusReq : GPBMessage
 
 /** 房间id */
 @property(nonatomic, readwrite) int32_t roomId;
@@ -4547,48 +5078,48 @@ typedef GPB_ENUM(PB4MatchUserGameStatusReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4MatchUserGameStatusRes
+#pragma mark - PB3MatchUserGameStatusRes
 
-typedef GPB_ENUM(PB4MatchUserGameStatusRes_FieldNumber) {
-  PB4MatchUserGameStatusRes_FieldNumber_MatchStatus = 1,
+typedef GPB_ENUM(PB3MatchUserGameStatusRes_FieldNumber) {
+  PB3MatchUserGameStatusRes_FieldNumber_MatchStatus = 1,
 };
 
-@interface PB4MatchUserGameStatusRes : GPBMessage
+@interface PB3MatchUserGameStatusRes : GPBMessage
 
 /** 匹配状态 */
-@property(nonatomic, readwrite) PB4MatchStatusType matchStatus;
+@property(nonatomic, readwrite) PB3MatchStatusType matchStatus;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4MatchUserGameStatusRes's @c matchStatus property, even
+ * Fetches the raw value of a @c PB3MatchUserGameStatusRes's @c matchStatus property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MatchUserGameStatusRes_MatchStatus_RawValue(PB4MatchUserGameStatusRes *message);
+int32_t PB3MatchUserGameStatusRes_MatchStatus_RawValue(PB3MatchUserGameStatusRes *message);
 /**
- * Sets the raw value of an @c PB4MatchUserGameStatusRes's @c matchStatus property, allowing
+ * Sets the raw value of an @c PB3MatchUserGameStatusRes's @c matchStatus property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MatchUserGameStatusRes_MatchStatus_RawValue(PB4MatchUserGameStatusRes *message, int32_t value);
+void SetPB3MatchUserGameStatusRes_MatchStatus_RawValue(PB3MatchUserGameStatusRes *message, int32_t value);
 
-#pragma mark - PB4InterestConfReq
+#pragma mark - PB3InterestConfReq
 
-@interface PB4InterestConfReq : GPBMessage
+@interface PB3InterestConfReq : GPBMessage
 
 @end
 
-#pragma mark - PB4InterestConfRes
+#pragma mark - PB3InterestConfRes
 
-typedef GPB_ENUM(PB4InterestConfRes_FieldNumber) {
-  PB4InterestConfRes_FieldNumber_ListArray = 1,
-  PB4InterestConfRes_FieldNumber_MaxInterestNum = 2,
-  PB4InterestConfRes_FieldNumber_Sex = 3,
+typedef GPB_ENUM(PB3InterestConfRes_FieldNumber) {
+  PB3InterestConfRes_FieldNumber_ListArray = 1,
+  PB3InterestConfRes_FieldNumber_MaxInterestNum = 2,
+  PB3InterestConfRes_FieldNumber_Sex = 3,
 };
 
-@interface PB4InterestConfRes : GPBMessage
+@interface PB3InterestConfRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4InterestItem*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3InterestItem*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
@@ -4596,30 +5127,30 @@ typedef GPB_ENUM(PB4InterestConfRes_FieldNumber) {
 @property(nonatomic, readwrite) int32_t maxInterestNum;
 
 /** 用户性别 */
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4InterestConfRes's @c sex property, even
+ * Fetches the raw value of a @c PB3InterestConfRes's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4InterestConfRes_Sex_RawValue(PB4InterestConfRes *message);
+int32_t PB3InterestConfRes_Sex_RawValue(PB3InterestConfRes *message);
 /**
- * Sets the raw value of an @c PB4InterestConfRes's @c sex property, allowing
+ * Sets the raw value of an @c PB3InterestConfRes's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4InterestConfRes_Sex_RawValue(PB4InterestConfRes *message, int32_t value);
+void SetPB3InterestConfRes_Sex_RawValue(PB3InterestConfRes *message, int32_t value);
 
-#pragma mark - PB4InterestItem
+#pragma mark - PB3InterestItem
 
-typedef GPB_ENUM(PB4InterestItem_FieldNumber) {
-  PB4InterestItem_FieldNumber_Id_p = 1,
-  PB4InterestItem_FieldNumber_Name = 2,
+typedef GPB_ENUM(PB3InterestItem_FieldNumber) {
+  PB3InterestItem_FieldNumber_Id_p = 1,
+  PB3InterestItem_FieldNumber_Name = 2,
 };
 
-@interface PB4InterestItem : GPBMessage
+@interface PB3InterestItem : GPBMessage
 
 @property(nonatomic, readwrite) int32_t id_p;
 
@@ -4627,13 +5158,13 @@ typedef GPB_ENUM(PB4InterestItem_FieldNumber) {
 
 @end
 
-#pragma mark - PB4SetMyInterestReq
+#pragma mark - PB3SetMyInterestReq
 
-typedef GPB_ENUM(PB4SetMyInterestReq_FieldNumber) {
-  PB4SetMyInterestReq_FieldNumber_InterestIdsArray = 1,
+typedef GPB_ENUM(PB3SetMyInterestReq_FieldNumber) {
+  PB3SetMyInterestReq_FieldNumber_InterestIdsArray = 1,
 };
 
-@interface PB4SetMyInterestReq : GPBMessage
+@interface PB3SetMyInterestReq : GPBMessage
 
 /** 兴趣ID */
 @property(nonatomic, readwrite, strong, null_resettable) GPBInt32Array *interestIdsArray;
@@ -4642,19 +5173,19 @@ typedef GPB_ENUM(PB4SetMyInterestReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4SetMyInterestRes
+#pragma mark - PB3SetMyInterestRes
 
-@interface PB4SetMyInterestRes : GPBMessage
+@interface PB3SetMyInterestRes : GPBMessage
 
 @end
 
-#pragma mark - PB4SetNavSortReq
+#pragma mark - PB3SetNavSortReq
 
-typedef GPB_ENUM(PB4SetNavSortReq_FieldNumber) {
-  PB4SetNavSortReq_FieldNumber_NavIdsArray = 1,
+typedef GPB_ENUM(PB3SetNavSortReq_FieldNumber) {
+  PB3SetNavSortReq_FieldNumber_NavIdsArray = 1,
 };
 
-@interface PB4SetNavSortReq : GPBMessage
+@interface PB3SetNavSortReq : GPBMessage
 
 @property(nonatomic, readwrite, strong, null_resettable) GPBInt32Array *navIdsArray;
 /** The number of items in @c navIdsArray without causing the array to be created. */
@@ -4662,36 +5193,36 @@ typedef GPB_ENUM(PB4SetNavSortReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4SetNavSortRes
+#pragma mark - PB3SetNavSortRes
 
-@interface PB4SetNavSortRes : GPBMessage
+@interface PB3SetNavSortRes : GPBMessage
 
 @end
 
-#pragma mark - PB4PushUpdateAction
+#pragma mark - PB3PushUpdateAction
 
-typedef GPB_ENUM(PB4PushUpdateAction_FieldNumber) {
-  PB4PushUpdateAction_FieldNumber_Id_p = 1,
-  PB4PushUpdateAction_FieldNumber_DataType = 2,
-  PB4PushUpdateAction_FieldNumber_DataByte = 3,
-  PB4PushUpdateAction_FieldNumber_FilterArray = 4,
+typedef GPB_ENUM(PB3PushUpdateAction_FieldNumber) {
+  PB3PushUpdateAction_FieldNumber_Id_p = 1,
+  PB3PushUpdateAction_FieldNumber_DataType = 2,
+  PB3PushUpdateAction_FieldNumber_DataByte = 3,
+  PB3PushUpdateAction_FieldNumber_FilterArray = 4,
 };
 
 /**
  * cmdId=701052
  **/
-@interface PB4PushUpdateAction : GPBMessage
+@interface PB3PushUpdateAction : GPBMessage
 
 /** 模块ID */
 @property(nonatomic, readwrite) int32_t id_p;
 
 /** 数据类型 */
-@property(nonatomic, readwrite) PB4PHomeDataType dataType;
+@property(nonatomic, readwrite) PB3PHomeDataType dataType;
 
 /** 数据 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *dataByte;
 
-// |filterArray| contains |PB4FilterRule|
+// |filterArray| contains |PB3FilterRule|
 @property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *filterArray;
 /** The number of items in @c filterArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger filterArray_Count;
@@ -4699,78 +5230,78 @@ typedef GPB_ENUM(PB4PushUpdateAction_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4PushUpdateAction's @c dataType property, even
+ * Fetches the raw value of a @c PB3PushUpdateAction's @c dataType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PushUpdateAction_DataType_RawValue(PB4PushUpdateAction *message);
+int32_t PB3PushUpdateAction_DataType_RawValue(PB3PushUpdateAction *message);
 /**
- * Sets the raw value of an @c PB4PushUpdateAction's @c dataType property, allowing
+ * Sets the raw value of an @c PB3PushUpdateAction's @c dataType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PushUpdateAction_DataType_RawValue(PB4PushUpdateAction *message, int32_t value);
+void SetPB3PushUpdateAction_DataType_RawValue(PB3PushUpdateAction *message, int32_t value);
 
-#pragma mark - PB4PushModActionReset
+#pragma mark - PB3PushModActionReset
 
-typedef GPB_ENUM(PB4PushModActionReset_FieldNumber) {
-  PB4PushModActionReset_FieldNumber_Id_p = 1,
+typedef GPB_ENUM(PB3PushModActionReset_FieldNumber) {
+  PB3PushModActionReset_FieldNumber_Id_p = 1,
 };
 
 /**
  * cmdId=701053 timer定时检测推
  **/
-@interface PB4PushModActionReset : GPBMessage
+@interface PB3PushModActionReset : GPBMessage
 
 /** 模块ID */
 @property(nonatomic, readwrite) int32_t id_p;
 
 @end
 
-#pragma mark - PB4PhomeNavRed
+#pragma mark - PB3PhomeNavRed
 
-typedef GPB_ENUM(PB4PhomeNavRed_FieldNumber) {
-  PB4PhomeNavRed_FieldNumber_NavRedArray = 1,
+typedef GPB_ENUM(PB3PhomeNavRed_FieldNumber) {
+  PB3PhomeNavRed_FieldNumber_NavRedArray = 1,
 };
 
 /**
  * cmdId=701053
  **/
-@interface PB4PhomeNavRed : GPBMessage
+@interface PB3PhomeNavRed : GPBMessage
 
 /** 导航红点 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4NavRed*> *navRedArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3NavRed*> *navRedArray;
 /** The number of items in @c navRedArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger navRedArray_Count;
 
 @end
 
-#pragma mark - PB4NavRed
+#pragma mark - PB3NavRed
 
-typedef GPB_ENUM(PB4NavRed_FieldNumber) {
-  PB4NavRed_FieldNumber_Id_p = 1,
-  PB4NavRed_FieldNumber_SubNavArray = 2,
+typedef GPB_ENUM(PB3NavRed_FieldNumber) {
+  PB3NavRed_FieldNumber_Id_p = 1,
+  PB3NavRed_FieldNumber_SubNavArray = 2,
 };
 
-@interface PB4NavRed : GPBMessage
+@interface PB3NavRed : GPBMessage
 
 /** 一级导航ID */
 @property(nonatomic, readwrite) int32_t id_p;
 
 /** 二级导航 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4SubNavRed*> *subNavArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3SubNavRed*> *subNavArray;
 /** The number of items in @c subNavArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger subNavArray_Count;
 
 @end
 
-#pragma mark - PB4SubNavRed
+#pragma mark - PB3SubNavRed
 
-typedef GPB_ENUM(PB4SubNavRed_FieldNumber) {
-  PB4SubNavRed_FieldNumber_Id_p = 1,
-  PB4SubNavRed_FieldNumber_RedNum = 2,
+typedef GPB_ENUM(PB3SubNavRed_FieldNumber) {
+  PB3SubNavRed_FieldNumber_Id_p = 1,
+  PB3SubNavRed_FieldNumber_RedNum = 2,
 };
 
-@interface PB4SubNavRed : GPBMessage
+@interface PB3SubNavRed : GPBMessage
 
 /** 导航id */
 @property(nonatomic, readwrite) int32_t id_p;
@@ -4780,14 +5311,14 @@ typedef GPB_ENUM(PB4SubNavRed_FieldNumber) {
 
 @end
 
-#pragma mark - PB4ClearNavRedReq
+#pragma mark - PB3ClearNavRedReq
 
-typedef GPB_ENUM(PB4ClearNavRedReq_FieldNumber) {
-  PB4ClearNavRedReq_FieldNumber_NavId = 1,
-  PB4ClearNavRedReq_FieldNumber_SubNavId = 2,
+typedef GPB_ENUM(PB3ClearNavRedReq_FieldNumber) {
+  PB3ClearNavRedReq_FieldNumber_NavId = 1,
+  PB3ClearNavRedReq_FieldNumber_SubNavId = 2,
 };
 
-@interface PB4ClearNavRedReq : GPBMessage
+@interface PB3ClearNavRedReq : GPBMessage
 
 /** 导航ID */
 @property(nonatomic, readwrite) int32_t navId;
@@ -4797,186 +5328,440 @@ typedef GPB_ENUM(PB4ClearNavRedReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4ClearNavRedRes
+#pragma mark - PB3ClearNavRedRes
 
-@interface PB4ClearNavRedRes : GPBMessage
-
-@end
-
-#pragma mark - PB4PlayerSystemMsgSummayReq
-
-@interface PB4PlayerSystemMsgSummayReq : GPBMessage
+@interface PB3ClearNavRedRes : GPBMessage
 
 @end
 
-#pragma mark - PB4PlayerSystemMsgSummayRes
+#pragma mark - PB3PHomeRoomProgramShow
 
-typedef GPB_ENUM(PB4PlayerSystemMsgSummayRes_FieldNumber) {
-  PB4PlayerSystemMsgSummayRes_FieldNumber_ListsArray = 1,
-};
-
-@interface PB4PlayerSystemMsgSummayRes : GPBMessage
-
-/** 系统固定展示消息项，已排好序 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4SystemMiscMsgItem*> *listsArray;
-/** The number of items in @c listsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger listsArray_Count;
-
-@end
-
-#pragma mark - PB4CommunityTrendsPhotosReq
-
-typedef GPB_ENUM(PB4CommunityTrendsPhotosReq_FieldNumber) {
-  PB4CommunityTrendsPhotosReq_FieldNumber_Index = 1,
-  PB4CommunityTrendsPhotosReq_FieldNumber_PlayerId = 2,
-  PB4CommunityTrendsPhotosReq_FieldNumber_TrendId = 3,
-  PB4CommunityTrendsPhotosReq_FieldNumber_LastId = 4,
-};
-
-@interface PB4CommunityTrendsPhotosReq : GPBMessage
-
-@property(nonatomic, readwrite) int32_t index;
-
-/** 用户id */
-@property(nonatomic, readwrite) int64_t playerId;
-
-/** 上次最后的动态id */
-@property(nonatomic, readwrite) int64_t trendId;
-
-/** 上次最后的资源id */
-@property(nonatomic, readwrite) int32_t lastId;
-
-@end
-
-#pragma mark - PB4CommunityTrendsPhotosRes
-
-typedef GPB_ENUM(PB4CommunityTrendsPhotosRes_FieldNumber) {
-  PB4CommunityTrendsPhotosRes_FieldNumber_ListArray = 1,
-  PB4CommunityTrendsPhotosRes_FieldNumber_Index = 2,
-  PB4CommunityTrendsPhotosRes_FieldNumber_TrendId = 3,
-  PB4CommunityTrendsPhotosRes_FieldNumber_LastId = 4,
-  PB4CommunityTrendsPhotosRes_FieldNumber_IsEnd = 5,
-};
-
-@interface PB4CommunityTrendsPhotosRes : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4Photo*> *listArray;
-/** The number of items in @c listArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger listArray_Count;
-
-/** 分页页码 */
-@property(nonatomic, readwrite) int32_t index;
-
-/** 分表标识，需要客户端请求下一页时候上传 */
-@property(nonatomic, readwrite) int64_t trendId;
-
-/** 分表标识，需要客户端请求下一页时候上传 */
-@property(nonatomic, readwrite) int32_t lastId;
-
-@property(nonatomic, readwrite) BOOL isEnd;
-
-@end
-
-#pragma mark - PB4PHomeCPInfoList
-
-typedef GPB_ENUM(PB4PHomeCPInfoList_FieldNumber) {
-  PB4PHomeCPInfoList_FieldNumber_ListArray = 1,
-  PB4PHomeCPInfoList_FieldNumber_SameSexListArray = 2,
+typedef GPB_ENUM(PB3PHomeRoomProgramShow_FieldNumber) {
+  PB3PHomeRoomProgramShow_FieldNumber_Id_p = 1,
+  PB3PHomeRoomProgramShow_FieldNumber_Subject = 2,
+  PB3PHomeRoomProgramShow_FieldNumber_Intro = 3,
+  PB3PHomeRoomProgramShow_FieldNumber_StartTime = 4,
+  PB3PHomeRoomProgramShow_FieldNumber_EndTime = 5,
+  PB3PHomeRoomProgramShow_FieldNumber_StartTimeSeconds = 6,
+  PB3PHomeRoomProgramShow_FieldNumber_EndTimeSeconds = 7,
+  PB3PHomeRoomProgramShow_FieldNumber_DayType = 8,
+  PB3PHomeRoomProgramShow_FieldNumber_Cover = 9,
+  PB3PHomeRoomProgramShow_FieldNumber_RoomId = 10,
+  PB3PHomeRoomProgramShow_FieldNumber_PlayerName = 11,
 };
 
 /**
- * 首页心动8分钟配置
+ * 个播节目单
  **/
-@interface PB4PHomeCPInfoList : GPBMessage
+@interface PB3PHomeRoomProgramShow : GPBMessage
 
-/** CP配置 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeCPInfo*> *listArray;
-/** The number of items in @c listArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger listArray_Count;
+/** 节目单项目id */
+@property(nonatomic, readwrite) int64_t id_p;
 
-/** CP配置 同性的 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PHomeCPInfo*> *sameSexListArray;
-/** The number of items in @c sameSexListArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger sameSexListArray_Count;
+/** 主题 最长20个字 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *subject;
 
-@end
+/** 介绍 最长50个字 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *intro;
 
-#pragma mark - PB4PHomeCPInfo
+/** 节目开始时间 */
+@property(nonatomic, readwrite) int64_t startTime;
 
-typedef GPB_ENUM(PB4PHomeCPInfo_FieldNumber) {
-  PB4PHomeCPInfo_FieldNumber_ImageURL = 1,
-  PB4PHomeCPInfo_FieldNumber_VoiceURL = 2,
-  PB4PHomeCPInfo_FieldNumber_Condition = 3,
-  PB4PHomeCPInfo_FieldNumber_VoiceTime = 4,
-  PB4PHomeCPInfo_FieldNumber_VoiceId = 5,
-  PB4PHomeCPInfo_FieldNumber_Sex = 6,
-  PB4PHomeCPInfo_FieldNumber_Id_p = 7,
-  PB4PHomeCPInfo_FieldNumber_AnchorNum = 8,
-  PB4PHomeCPInfo_FieldNumber_Index = 9,
-  PB4PHomeCPInfo_FieldNumber_IsShowTone = 10,
-};
+/** 节目结束时间 */
+@property(nonatomic, readwrite) int64_t endTime;
 
-/**
- * CP图片配置
- **/
-@interface PB4PHomeCPInfo : GPBMessage
+/** 节目开始时间秒数 */
+@property(nonatomic, readwrite) int32_t startTimeSeconds;
 
-/** 图片 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *imageURL;
+/** 节目结束时间秒数 */
+@property(nonatomic, readwrite) int32_t endTimeSeconds;
 
-/** 语音条 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *voiceURL;
+/** 1 今天 2 明天 */
+@property(nonatomic, readwrite) PB3PhomeRoomProgramShowDayType dayType;
 
-/** 要求 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *condition;
+/** 封面 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cover;
 
-/** 音频时长 */
-@property(nonatomic, readwrite) int32_t voiceTime;
+/** 房间ID */
+@property(nonatomic, readwrite) int64_t roomId;
 
-/** 声鉴卡ID */
-@property(nonatomic, readwrite) int32_t voiceId;
-
-/** 性别 */
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
-
-/** 配置唯一ID */
-@property(nonatomic, readwrite) int32_t id_p;
-
-/** 主播人数 */
-@property(nonatomic, readwrite) int32_t anchorNum;
-
-@property(nonatomic, readwrite) int32_t index;
-
-/** 是否展示音色 */
-@property(nonatomic, readwrite) BOOL isShowTone;
+/** 房主昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *playerName;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4PHomeCPInfo's @c sex property, even
+ * Fetches the raw value of a @c PB3PHomeRoomProgramShow's @c dayType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4PHomeCPInfo_Sex_RawValue(PB4PHomeCPInfo *message);
+int32_t PB3PHomeRoomProgramShow_DayType_RawValue(PB3PHomeRoomProgramShow *message);
 /**
- * Sets the raw value of an @c PB4PHomeCPInfo's @c sex property, allowing
+ * Sets the raw value of an @c PB3PHomeRoomProgramShow's @c dayType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4PHomeCPInfo_Sex_RawValue(PB4PHomeCPInfo *message, int32_t value);
+void SetPB3PHomeRoomProgramShow_DayType_RawValue(PB3PHomeRoomProgramShow *message, int32_t value);
 
-#pragma mark - PB4PHomeCPPlayer
+#pragma mark - PB3PHomeRoomProgramShowList
 
-typedef GPB_ENUM(PB4PHomeCPPlayer_FieldNumber) {
-  PB4PHomeCPPlayer_FieldNumber_PicURL = 1,
-  PB4PHomeCPPlayer_FieldNumber_VoiceURL = 2,
-  PB4PHomeCPPlayer_FieldNumber_VoiceTime = 3,
-  PB4PHomeCPPlayer_FieldNumber_LabelsArray = 4,
+typedef GPB_ENUM(PB3PHomeRoomProgramShowList_FieldNumber) {
+  PB3PHomeRoomProgramShowList_FieldNumber_ListArray = 1,
+};
+
+/**
+ * 个播节目单列表
+ **/
+@interface PB3PHomeRoomProgramShowList : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeRoomProgramShow*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3PHomeEntryHotPointList
+
+typedef GPB_ENUM(PB3PHomeEntryHotPointList_FieldNumber) {
+  PB3PHomeEntryHotPointList_FieldNumber_ListArray = 1,
+};
+
+/**
+ * 热点榜
+ **/
+@interface PB3PHomeEntryHotPointList : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryHotPoint*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+@end
+
+#pragma mark - PB3UpdatePHomeEntryHotPoint
+
+typedef GPB_ENUM(PB3UpdatePHomeEntryHotPoint_FieldNumber) {
+  PB3UpdatePHomeEntryHotPoint_FieldNumber_OptType = 1,
+  PB3UpdatePHomeEntryHotPoint_FieldNumber_HotPoint = 2,
+};
+
+@interface PB3UpdatePHomeEntryHotPoint : GPBMessage
+
+/** 操作类型 */
+@property(nonatomic, readwrite) PB3UpdateHotPointType optType;
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3PHomeEntryHotPoint *hotPoint;
+/** Test to see if @c hotPoint has been set. */
+@property(nonatomic, readwrite) BOOL hasHotPoint;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3UpdatePHomeEntryHotPoint's @c optType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3UpdatePHomeEntryHotPoint_OptType_RawValue(PB3UpdatePHomeEntryHotPoint *message);
+/**
+ * Sets the raw value of an @c PB3UpdatePHomeEntryHotPoint's @c optType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3UpdatePHomeEntryHotPoint_OptType_RawValue(PB3UpdatePHomeEntryHotPoint *message, int32_t value);
+
+#pragma mark - PB3GetPHomeEntryHotPointListReq
+
+typedef GPB_ENUM(PB3GetPHomeEntryHotPointListReq_FieldNumber) {
+  PB3GetPHomeEntryHotPointListReq_FieldNumber_Index = 1,
+  PB3GetPHomeEntryHotPointListReq_FieldNumber_OwnerId = 2,
+  PB3GetPHomeEntryHotPointListReq_FieldNumber_Type = 3,
+  PB3GetPHomeEntryHotPointListReq_FieldNumber_PlayerId = 4,
+};
+
+@interface PB3GetPHomeEntryHotPointListReq : GPBMessage
+
+@property(nonatomic, readwrite) int32_t index;
+
+/** 热点发布者ID */
+@property(nonatomic, readwrite) int64_t ownerId;
+
+/** 请求类型 */
+@property(nonatomic, readwrite) PB3GetPHomeEntryHotPointType type;
+
+/** 接口请求用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3GetPHomeEntryHotPointListReq's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3GetPHomeEntryHotPointListReq_Type_RawValue(PB3GetPHomeEntryHotPointListReq *message);
+/**
+ * Sets the raw value of an @c PB3GetPHomeEntryHotPointListReq's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3GetPHomeEntryHotPointListReq_Type_RawValue(PB3GetPHomeEntryHotPointListReq *message, int32_t value);
+
+#pragma mark - PB3GetPHomeEntryHotPointListRes
+
+typedef GPB_ENUM(PB3GetPHomeEntryHotPointListRes_FieldNumber) {
+  PB3GetPHomeEntryHotPointListRes_FieldNumber_ListArray = 1,
+  PB3GetPHomeEntryHotPointListRes_FieldNumber_NextIndex = 2,
+  PB3GetPHomeEntryHotPointListRes_FieldNumber_Total = 3,
+  PB3GetPHomeEntryHotPointListRes_FieldNumber_Type = 4,
+  PB3GetPHomeEntryHotPointListRes_FieldNumber_TopNum = 5,
+};
+
+@interface PB3GetPHomeEntryHotPointListRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PHomeEntryHotPoint*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** -1代表列表没有下一页了, 否则可以用此值在CommunityTrendsListReq中请求下一页 */
+@property(nonatomic, readwrite) int32_t nextIndex;
+
+/** 总数 */
+@property(nonatomic, readwrite) int32_t total;
+
+/** 请求类型 */
+@property(nonatomic, readwrite) PB3GetPHomeEntryHotPointType type;
+
+/** 热点榜单配置大小 */
+@property(nonatomic, readwrite) int64_t topNum;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3GetPHomeEntryHotPointListRes's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3GetPHomeEntryHotPointListRes_Type_RawValue(PB3GetPHomeEntryHotPointListRes *message);
+/**
+ * Sets the raw value of an @c PB3GetPHomeEntryHotPointListRes's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3GetPHomeEntryHotPointListRes_Type_RawValue(PB3GetPHomeEntryHotPointListRes *message, int32_t value);
+
+#pragma mark - PB3DelPHomeEntryHotPointReq
+
+typedef GPB_ENUM(PB3DelPHomeEntryHotPointReq_FieldNumber) {
+  PB3DelPHomeEntryHotPointReq_FieldNumber_HotPointId = 1,
+  PB3DelPHomeEntryHotPointReq_FieldNumber_Type = 2,
+};
+
+@interface PB3DelPHomeEntryHotPointReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 请求类型，默认不可见 */
+@property(nonatomic, readwrite) PB3HotHideType type;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3DelPHomeEntryHotPointReq's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3DelPHomeEntryHotPointReq_Type_RawValue(PB3DelPHomeEntryHotPointReq *message);
+/**
+ * Sets the raw value of an @c PB3DelPHomeEntryHotPointReq's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3DelPHomeEntryHotPointReq_Type_RawValue(PB3DelPHomeEntryHotPointReq *message, int32_t value);
+
+#pragma mark - PB3DelPHomeEntryHotPointRes
+
+@interface PB3DelPHomeEntryHotPointRes : GPBMessage
+
+@end
+
+#pragma mark - PB3FirepowerRankReq
+
+typedef GPB_ENUM(PB3FirepowerRankReq_FieldNumber) {
+  PB3FirepowerRankReq_FieldNumber_HotPointId = 1,
+  PB3FirepowerRankReq_FieldNumber_Page = 2,
+  PB3FirepowerRankReq_FieldNumber_PageSize = 3,
+};
+
+/**
+ * 热点详情页
+ * 火力值排行榜
+ **/
+@interface PB3FirepowerRankReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 页数 */
+@property(nonatomic, readwrite) int32_t page;
+
+/** 大小 */
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3FirepowerRankRes
+
+typedef GPB_ENUM(PB3FirepowerRankRes_FieldNumber) {
+  PB3FirepowerRankRes_FieldNumber_ListArray = 1,
+  PB3FirepowerRankRes_FieldNumber_Count = 2,
+};
+
+@interface PB3FirepowerRankRes : GPBMessage
+
+/** 排行榜数据 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3FirepowerRank*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** 总数 */
+@property(nonatomic, readwrite) int64_t count;
+
+@end
+
+#pragma mark - PB3AddFirepowerReq
+
+typedef GPB_ENUM(PB3AddFirepowerReq_FieldNumber) {
+  PB3AddFirepowerReq_FieldNumber_HotPointId = 1,
+  PB3AddFirepowerReq_FieldNumber_Gold = 2,
+};
+
+/**
+ * 热点加热
+ **/
+@interface PB3AddFirepowerReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+@end
+
+#pragma mark - PB3AddFirepowerRes
+
+@interface PB3AddFirepowerRes : GPBMessage
+
+@end
+
+#pragma mark - PB3UnShelveReq
+
+typedef GPB_ENUM(PB3UnShelveReq_FieldNumber) {
+  PB3UnShelveReq_FieldNumber_HotPointId = 1,
+  PB3UnShelveReq_FieldNumber_Gold = 2,
+};
+
+/**
+ * 热点下架
+ **/
+@interface PB3UnShelveReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+@end
+
+#pragma mark - PB3UnShelveRes
+
+typedef GPB_ENUM(PB3UnShelveRes_FieldNumber) {
+  PB3UnShelveRes_FieldNumber_UnShelveGold = 1,
+};
+
+@interface PB3UnShelveRes : GPBMessage
+
+/** 最新下架金币数量 */
+@property(nonatomic, readwrite) int32_t unShelveGold;
+
+@end
+
+#pragma mark - PB3HotReplyReq
+
+typedef GPB_ENUM(PB3HotReplyReq_FieldNumber) {
+  PB3HotReplyReq_FieldNumber_HotPointId = 1,
+  PB3HotReplyReq_FieldNumber_Content = 2,
+  PB3HotReplyReq_FieldNumber_MediaUrlsArray = 3,
+  PB3HotReplyReq_FieldNumber_AtPlayerArray = 4,
+};
+
+/**
+ * 热点回复内容
+ **/
+@interface PB3HotReplyReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 文本内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 多媒体资源列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *mediaUrlsArray;
+/** The number of items in @c mediaUrlsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger mediaUrlsArray_Count;
+
+/** \@用户信息，上面的 at_player_id 弃用，客户端不再传值 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *atPlayerArray;
+/** The number of items in @c atPlayerArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger atPlayerArray_Count;
+
+@end
+
+#pragma mark - PB3HotReplyRes
+
+@interface PB3HotReplyRes : GPBMessage
+
+@end
+
+#pragma mark - PB3UnShelveGoldReq
+
+typedef GPB_ENUM(PB3UnShelveGoldReq_FieldNumber) {
+  PB3UnShelveGoldReq_FieldNumber_HotPointId = 1,
+};
+
+/**
+ * 最新下架金币数
+ **/
+@interface PB3UnShelveGoldReq : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+@end
+
+#pragma mark - PB3UnShelveGoldRes
+
+typedef GPB_ENUM(PB3UnShelveGoldRes_FieldNumber) {
+  PB3UnShelveGoldRes_FieldNumber_UnShelveGold = 1,
+};
+
+@interface PB3UnShelveGoldRes : GPBMessage
+
+/** 最新下架金币数 */
+@property(nonatomic, readwrite) int32_t unShelveGold;
+
+@end
+
+#pragma mark - PB3PHomeCPPlayer
+
+typedef GPB_ENUM(PB3PHomeCPPlayer_FieldNumber) {
+  PB3PHomeCPPlayer_FieldNumber_PicURL = 1,
+  PB3PHomeCPPlayer_FieldNumber_VoiceURL = 2,
+  PB3PHomeCPPlayer_FieldNumber_VoiceTime = 3,
+  PB3PHomeCPPlayer_FieldNumber_LabelsArray = 4,
 };
 
 /**
  * cp接线员信息
  **/
-@interface PB4PHomeCPPlayer : GPBMessage
+@interface PB3PHomeCPPlayer : GPBMessage
 
 /** 卡片大图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *picURL;
@@ -4991,6 +5776,43 @@ typedef GPB_ENUM(PB4PHomeCPPlayer_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *labelsArray;
 /** The number of items in @c labelsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger labelsArray_Count;
+
+@end
+
+#pragma mark - PB3HotShareReq
+
+typedef GPB_ENUM(PB3HotShareReq_FieldNumber) {
+  PB3HotShareReq_FieldNumber_ShareId = 1,
+};
+
+/**
+ * 获取分享热点详情
+ **/
+@interface PB3HotShareReq : GPBMessage
+
+/** 分享ID */
+@property(nonatomic, readwrite) int64_t shareId;
+
+@end
+
+#pragma mark - PB3HotShareRes
+
+typedef GPB_ENUM(PB3HotShareRes_FieldNumber) {
+  PB3HotShareRes_FieldNumber_DetailRes = 1,
+  PB3HotShareRes_FieldNumber_CommentRes = 2,
+};
+
+@interface PB3HotShareRes : GPBMessage
+
+/** 详情 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityTrendsDetailRes *detailRes;
+/** Test to see if @c detailRes has been set. */
+@property(nonatomic, readwrite) BOOL hasDetailRes;
+
+/** 评论 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityTrendsCommentsRes *commentRes;
+/** Test to see if @c commentRes has been set. */
+@property(nonatomic, readwrite) BOOL hasCommentRes;
 
 @end
 

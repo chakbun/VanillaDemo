@@ -1,0 +1,176 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+enum SongType {
+    ST_Normal = 0; // 普通歌曲
+    ST_Oxygen = 1; // 氧气歌手歌曲
+}
+
+//歌曲
+message Song{
+   int32 id = 1;
+   string name = 2;
+   string singer = 3;
+   string uploadsName = 4;
+   int32  uploadsId = 5;
+   float uploadSize = 6;
+   string download = 7;
+   int64 time = 8;  // 创建时间
+   repeated SongTag tag = 9; // 歌曲标签
+   int64 singer_id = 10; // 歌手ID
+   SongType song_type = 11; // 歌曲类型
+   string lyrics = 12; // 歌词地址
+   int64 room_id = 13; // 房间ID
+   bool red_heart = 14; // 红心
+   int64 song_time = 15; // 歌曲时长
+   string singer_icon = 16; // 歌手头像
+   int32 fans_num = 17; // 粉丝数
+   repeated string images = 18; // H5封面图
+}
+
+message SongTag {
+    string tag_name = 1;
+}
+
+//热门歌曲＆搜索歌曲
+message SongHotReq {
+   string name = 1;
+   int32 page = 2;
+   int32 pageSize = 3;
+   SongType song_type = 4;
+   int32 sex = 5; // SexType 0 全部，1 男，2 女
+}
+message SongHotRes {
+  repeated Song song = 1;
+}
+
+//我的曲库
+message GetPlayerSongReq{
+   int32 page = 1;
+   int32 pageSize = 2;
+}
+message GetPlayerSongRes {
+  repeated Song Song = 1;
+}
+
+//更新我的曲库
+message AddPlayerSongReq {
+    int32 id = 1;
+}
+message AddPlayerSongRes{
+    sint32 type = 1;//0成功，1失败
+}
+
+//删除我的曲库
+message DelPlayerSongReq {
+    int32 id = 1;
+}
+message DelPlayerSongRes{
+    sint32 type = 1;//0成功，1失败
+}
+//举报
+message ReportSongReq{
+    int32 id = 1;
+}
+message ReportSongRes{
+    sint32 type = 1;//0成功，1失败
+}
+
+enum LikeSongOperation {
+    LSO_None = 0; // 占位不用
+    LSO_Like = 1; // 点红心喜欢
+    LSO_Unlike = 2; // 点红心不喜欢
+    LSO_Play = 3; // 播放歌曲
+    LSO_Share = 4; // 分享歌曲
+}
+
+message LikeSongReq {
+    int32 id = 1; // 歌曲ID
+    LikeSongOperation operation_type = 2; // 操作类型
+    SongType type = 3; // 歌曲类型
+}
+message LikeSongRes {
+
+}
+
+message SongInfo{
+    int64 id = 1;
+    string name = 2;
+    string singer = 3;
+    int32  size = 4;
+    string url = 5;
+    int64 crated_at = 6;
+    AuditStatus audit_status = 7; // 审核状态
+    int32 duration = 8;           // 歌曲时长，单位秒
+}
+
+// 获取歌曲
+message FetchSongsOnWebsiteReq{
+    int32 page = 1;
+    int32 page_size = 2;
+}
+message FetchSongsOnWebsiteRes{
+    repeated SongInfo songs = 1;
+    int32 total = 3;  // 总数
+}
+
+// 上传歌曲
+message UploadSongOnWebsiteReq{
+    string name = 1;
+    string singer = 2;
+    string url = 3;
+    string md5 = 4;
+}
+message UploadSongOnWebsiteRes{
+}
+
+// 编辑歌曲
+message UpdateSongOnWebsiteReq{
+    int64 id = 1;
+    string name = 2;
+    string singer = 3;
+}
+message UpdateSongOnWebsiteRes{}
+
+// 删除歌曲
+message DeleteSongOnWebsiteReq {
+    repeated int64 ids = 1;
+}
+message DeleteSongOnWebsiteRes {
+}
+
+enum UploadSongMsgType {
+    USMT_NONE = 0;
+    USMT_DELETE = 1;
+    USMT_AUDIT = 2;
+}
+
+// 消息
+message UploadSongMsg {
+    int64 id = 1;
+    int64 created_at = 2;
+    bool is_read = 3;
+    string song_name = 4;
+    AuditStatus audit_status = 5;
+    UploadSongMsgType msg_type = 6;
+}
+
+message FetchUploadSongMsgOnWebsiteReq {
+    int32 page = 1;
+    int32 page_size = 2;
+}
+
+message FetchUploadSongMsgOnWebsiteRes {
+    repeated UploadSongMsg messages = 1;
+    int32 unread = 2; // 未读数
+    int32 total = 3;  // 总数
+}
+
+message ReadUploadSongMsgOnWebsiteReq {
+}
+
+message ReadUploadSongMsgOnWebsiteRes {
+}

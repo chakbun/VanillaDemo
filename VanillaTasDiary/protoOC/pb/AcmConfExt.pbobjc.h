@@ -27,10 +27,19 @@
 
 CF_EXTERN_C_BEGIN
 
+@class PB3CfgCultivateAwardScheme;
+@class PB3CfgCultivateLvUpScheme;
+@class PB3CfgCultivateStoreConf;
+@class PB3CfgCultivateStoreItemConf;
+@class PB3CfgIntimateCultivateScheme;
+@class PB3CfgIntimateCultivateTaskScheme;
 @class PB3CfgUserId2RandomScheme;
 @class PB3ConfActPage;
 @class PB3CouponGainRule;
 @class PB3CouponIssueRule;
+@class PB3CultivateHandbook;
+@class PB3CultivateStoreItemLimit;
+@class PB3CultivateStoreItemLvImage;
 @class PB3MobaTeamGameMemberCfg;
 @class PB3MobaTeamGameSettingCfg;
 @class PB3MobaTeamGameSettingData;
@@ -44,6 +53,7 @@ CF_EXTERN_C_BEGIN
 @class PB3XcmOfficialExamPassMemberCfg;
 @class PB3XcmRoomPatternCliCfg;
 GPB_ENUM_FWD_DECLARE(PB3CouponDiscountType);
+GPB_ENUM_FWD_DECLARE(PB3CouponDiscountUnit);
 GPB_ENUM_FWD_DECLARE(PB3CouponJumpType);
 GPB_ENUM_FWD_DECLARE(PB3CouponPackageType);
 GPB_ENUM_FWD_DECLARE(PB3CouponStatus);
@@ -598,6 +608,33 @@ GPBEnumDescriptor *PB3GiftSkinStoreSoldType_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PB3GiftSkinStoreSoldType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3OxygenCarGiftType
+
+typedef GPB_ENUM(PB3OxygenCarGiftType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3OxygenCarGiftType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 占位 */
+  PB3OxygenCarGiftType_OcgtNone = 0,
+
+  /** 试音 */
+  PB3OxygenCarGiftType_OcgtVoiceTest = 1,
+
+  /** 点唱 */
+  PB3OxygenCarGiftType_OcgtSingSong = 2,
+};
+
+GPBEnumDescriptor *PB3OxygenCarGiftType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3OxygenCarGiftType_IsValidValue(int32_t value);
 
 #pragma mark - PB3AcmConfExtRoot
 
@@ -1302,6 +1339,8 @@ typedef GPB_ENUM(PB3CouponCfg_FieldNumber) {
   PB3CouponCfg_FieldNumber_Status = 10,
   PB3CouponCfg_FieldNumber_DiscountUnit = 11,
   PB3CouponCfg_FieldNumber_OfficialSubsidyNum = 12,
+  PB3CouponCfg_FieldNumber_CouponUnit = 13,
+  PB3CouponCfg_FieldNumber_IsCheck = 14,
 };
 
 /**
@@ -1345,6 +1384,12 @@ typedef GPB_ENUM(PB3CouponCfg_FieldNumber) {
 /** 官方补贴金币数 */
 @property(nonatomic, readwrite) int64_t officialSubsidyNum;
 
+/** 实际折扣单位 */
+@property(nonatomic, readwrite) enum PB3CouponDiscountUnit couponUnit;
+
+/** 是否校验优惠券金额 */
+@property(nonatomic, readwrite) BOOL isCheck;
+
 @end
 
 /**
@@ -1382,6 +1427,18 @@ int32_t PB3CouponCfg_Status_RawValue(PB3CouponCfg *message);
  * was generated.
  **/
 void SetPB3CouponCfg_Status_RawValue(PB3CouponCfg *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3CouponCfg's @c couponUnit property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CouponCfg_CouponUnit_RawValue(PB3CouponCfg *message);
+/**
+ * Sets the raw value of an @c PB3CouponCfg's @c couponUnit property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CouponCfg_CouponUnit_RawValue(PB3CouponCfg *message, int32_t value);
 
 #pragma mark - PB3CouponIssueRule
 
@@ -1459,6 +1516,8 @@ typedef GPB_ENUM(PB3CouponGainRule_FieldNumber) {
   PB3CouponGainRule_FieldNumber_AdvendorId = 15,
   PB3CouponGainRule_FieldNumber_DeviceType = 16,
   PB3CouponGainRule_FieldNumber_AndOr = 17,
+  PB3CouponGainRule_FieldNumber_Application = 18,
+  PB3CouponGainRule_FieldNumber_JudgePhone = 19,
 };
 
 /**
@@ -1524,6 +1583,14 @@ typedef GPB_ENUM(PB3CouponGainRule_FieldNumber) {
 
 /** 全且 或 全或 */
 @property(nonatomic, readwrite) BOOL andOr;
+
+/** 渠道应用标识 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBStringBoolDictionary *application;
+/** The number of items in @c application without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger application_Count;
+
+/** 是否判断新手机 */
+@property(nonatomic, readwrite) BOOL judgePhone;
 
 @end
 
@@ -2309,6 +2376,7 @@ typedef GPB_ENUM(PB3XcmCfgUserId2Random_FieldNumber) {
 typedef GPB_ENUM(PB3XcmRoomPatternCliCfg_FieldNumber) {
   PB3XcmRoomPatternCliCfg_FieldNumber_Pattern = 1,
   PB3XcmRoomPatternCliCfg_FieldNumber_DefaultDecorateId = 2,
+  PB3XcmRoomPatternCliCfg_FieldNumber_BgmPlayerSwitch = 3,
 };
 
 /**
@@ -2321,6 +2389,9 @@ typedef GPB_ENUM(PB3XcmRoomPatternCliCfg_FieldNumber) {
 
 /** 房间模式默认背景（若为0，表示房间没有默认背景） */
 @property(nonatomic, readwrite) int64_t defaultDecorateId;
+
+/** 房间模式播放器功能开关 */
+@property(nonatomic, readwrite) BOOL bgmPlayerSwitch;
 
 @end
 
@@ -2406,6 +2477,797 @@ typedef GPB_ENUM(PB3XcmOfficialExamPassMemberCfgData_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) GPBInt64ObjectDictionary<PB3XcmOfficialExamPassMemberCfg*> *cfgMap;
 /** The number of items in @c cfgMap without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger cfgMap_Count;
+
+@end
+
+#pragma mark - PB3XcmIntimateBackgroundCfgData
+
+typedef GPB_ENUM(PB3XcmIntimateBackgroundCfgData_FieldNumber) {
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgId = 1,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgName = 2,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgStaticURLApp = 3,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgStaticURLPc = 4,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgDynamicURLApp = 5,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_BgDynamicURLPc = 6,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_IntimateLevelMin = 7,
+  PB3XcmIntimateBackgroundCfgData_FieldNumber_IntimateLevelMax = 8,
+};
+
+/**
+ * 挚友特殊背景配置
+ **/
+@interface PB3XcmIntimateBackgroundCfgData : GPBMessage
+
+/** 配置ID */
+@property(nonatomic, readwrite) int64_t bgId;
+
+/** 背景名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgName;
+
+/** 静态图URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgStaticURLApp;
+
+/** 静态图URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgStaticURLPc;
+
+/** 动态图URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgDynamicURLApp;
+
+/** 动态图URL */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bgDynamicURLPc;
+
+/** 挚友等级 */
+@property(nonatomic, readwrite) int32_t intimateLevelMin;
+
+/** 挚友等级 */
+@property(nonatomic, readwrite) int32_t intimateLevelMax;
+
+@end
+
+#pragma mark - PB3XcmIntimateMinTypeCfgData
+
+typedef GPB_ENUM(PB3XcmIntimateMinTypeCfgData_FieldNumber) {
+  PB3XcmIntimateMinTypeCfgData_FieldNumber_IntimateType = 1,
+  PB3XcmIntimateMinTypeCfgData_FieldNumber_IntimateTypeWeight = 2,
+};
+
+/**
+ * 挚友特殊背景最低挚友类型
+ **/
+@interface PB3XcmIntimateMinTypeCfgData : GPBMessage
+
+/** 挚友类型 */
+@property(nonatomic, readwrite) int32_t intimateType;
+
+/** 挚友类型权重 挚友类型:挚友权重 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32Int32Dictionary *intimateTypeWeight;
+/** The number of items in @c intimateTypeWeight without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger intimateTypeWeight_Count;
+
+@end
+
+#pragma mark - PB3XcmIntimateBackgroundIconCfgData
+
+typedef GPB_ENUM(PB3XcmIntimateBackgroundIconCfgData_FieldNumber) {
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconId = 1,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconName = 2,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconURLApp = 3,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IconURLPc = 4,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_JumpURL = 5,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_Weight = 6,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_OldIconURLApp = 7,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_OldIconURLPc = 8,
+  PB3XcmIntimateBackgroundIconCfgData_FieldNumber_IsShowOther = 9,
+};
+
+/**
+ * 挚友特殊背景跳转图标配置
+ **/
+@interface PB3XcmIntimateBackgroundIconCfgData : GPBMessage
+
+/** 配置ID */
+@property(nonatomic, readwrite) int64_t iconId;
+
+/** 配置名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iconName;
+
+/** 图标地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iconURLApp;
+
+/** 图标地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iconURLPc;
+
+/** 跳转地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *jumpURL;
+
+/** 权重 */
+@property(nonatomic, readwrite) int64_t weight;
+
+/** 图标地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *oldIconURLApp;
+
+/** 图标地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *oldIconURLPc;
+
+/** 客态是否展示；TRUE：展示；FALSE：不展示 */
+@property(nonatomic, readwrite) BOOL isShowOther;
+
+@end
+
+#pragma mark - PB3XcmRoomBgmPlayerCfg
+
+typedef GPB_ENUM(PB3XcmRoomBgmPlayerCfg_FieldNumber) {
+  PB3XcmRoomBgmPlayerCfg_FieldNumber_ClanMember = 2,
+  PB3XcmRoomBgmPlayerCfg_FieldNumber_SinglePlayer = 3,
+  PB3XcmRoomBgmPlayerCfg_FieldNumber_AllPlayer = 4,
+  PB3XcmRoomBgmPlayerCfg_FieldNumber_WhiteList = 5,
+};
+
+/**
+ * 音乐播放器入口配置
+ **/
+@interface PB3XcmRoomBgmPlayerCfg : GPBMessage
+
+/** 公会成员开关 */
+@property(nonatomic, readwrite) BOOL clanMember;
+
+/** 达人用户开关 */
+@property(nonatomic, readwrite) BOOL singlePlayer;
+
+/** 所有用户开关 */
+@property(nonatomic, readwrite) BOOL allPlayer;
+
+/** 白名单用户 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64BoolDictionary *whiteList;
+/** The number of items in @c whiteList without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger whiteList_Count;
+
+@end
+
+#pragma mark - PB3XcmMainTabCfgData
+
+typedef GPB_ENUM(PB3XcmMainTabCfgData_FieldNumber) {
+  PB3XcmMainTabCfgData_FieldNumber_Id_p = 1,
+  PB3XcmMainTabCfgData_FieldNumber_TabType = 2,
+  PB3XcmMainTabCfgData_FieldNumber_TabName = 3,
+  PB3XcmMainTabCfgData_FieldNumber_Weights = 4,
+  PB3XcmMainTabCfgData_FieldNumber_WealthLv = 5,
+  PB3XcmMainTabCfgData_FieldNumber_WealthLvMax = 6,
+  PB3XcmMainTabCfgData_FieldNumber_CharmLv = 7,
+  PB3XcmMainTabCfgData_FieldNumber_CharmLvMax = 8,
+  PB3XcmMainTabCfgData_FieldNumber_RegisDay = 9,
+  PB3XcmMainTabCfgData_FieldNumber_RegisXCanSee = 10,
+  PB3XcmMainTabCfgData_FieldNumber_AndroidVerMin = 11,
+  PB3XcmMainTabCfgData_FieldNumber_AndroidVerMax = 12,
+  PB3XcmMainTabCfgData_FieldNumber_IosVerMin = 13,
+  PB3XcmMainTabCfgData_FieldNumber_IosVerMax = 14,
+  PB3XcmMainTabCfgData_FieldNumber_PcVerMin = 15,
+  PB3XcmMainTabCfgData_FieldNumber_PcVerMax = 16,
+  PB3XcmMainTabCfgData_FieldNumber_Application = 17,
+  PB3XcmMainTabCfgData_FieldNumber_TabImg = 18,
+  PB3XcmMainTabCfgData_FieldNumber_TabImgActivated = 19,
+  PB3XcmMainTabCfgData_FieldNumber_IsShow = 20,
+  PB3XcmMainTabCfgData_FieldNumber_IsDefault = 21,
+  PB3XcmMainTabCfgData_FieldNumber_AppNameArray = 22,
+  PB3XcmMainTabCfgData_FieldNumber_IosVerifyHide = 23,
+  PB3XcmMainTabCfgData_FieldNumber_Route = 24,
+  PB3XcmMainTabCfgData_FieldNumber_AndroidVerifyHide = 25,
+  PB3XcmMainTabCfgData_FieldNumber_NewUserDefault = 26,
+  PB3XcmMainTabCfgData_FieldNumber_Channel = 27,
+  PB3XcmMainTabCfgData_FieldNumber_TabImgSwipe = 28,
+  PB3XcmMainTabCfgData_FieldNumber_IosVerifyShow = 29,
+};
+
+/**
+ * 底部导航配置
+ **/
+@interface PB3XcmMainTabCfgData : GPBMessage
+
+/** 配置ID */
+@property(nonatomic, readwrite) int64_t id_p;
+
+@property(nonatomic, readwrite) int32_t tabType;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tabName;
+
+@property(nonatomic, readwrite) int32_t weights;
+
+@property(nonatomic, readwrite) int32_t wealthLv;
+
+@property(nonatomic, readwrite) int32_t wealthLvMax;
+
+@property(nonatomic, readwrite) int32_t charmLv;
+
+@property(nonatomic, readwrite) int32_t charmLvMax;
+
+@property(nonatomic, readwrite) int32_t regisDay;
+
+@property(nonatomic, readwrite) int32_t regisXCanSee;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *androidVerMin;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *androidVerMax;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iosVerMin;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iosVerMax;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pcVerMin;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pcVerMax;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *application;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tabImg;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tabImgActivated;
+
+@property(nonatomic, readwrite) int32_t isShow;
+
+@property(nonatomic, readwrite) int32_t isDefault;
+
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32Array *appNameArray;
+/** The number of items in @c appNameArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger appNameArray_Count;
+
+@property(nonatomic, readwrite) BOOL iosVerifyHide;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *route;
+
+@property(nonatomic, readwrite) BOOL androidVerifyHide;
+
+@property(nonatomic, readwrite) int32_t newUserDefault;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *channel;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tabImgSwipe;
+
+@property(nonatomic, readwrite) BOOL iosVerifyShow;
+
+@end
+
+#pragma mark - PB3CfgCultivateLvUpScheme
+
+typedef GPB_ENUM(PB3CfgCultivateLvUpScheme_FieldNumber) {
+  PB3CfgCultivateLvUpScheme_FieldNumber_Level = 1,
+  PB3CfgCultivateLvUpScheme_FieldNumber_NeedExpNum = 3,
+};
+
+/**
+ * 挚友养成升级配置
+ **/
+@interface PB3CfgCultivateLvUpScheme : GPBMessage
+
+/** 等级 */
+@property(nonatomic, readwrite) int32_t level;
+
+@property(nonatomic, readwrite) int32_t needExpNum;
+
+@end
+
+#pragma mark - PB3CfgCultivateAwardScheme
+
+typedef GPB_ENUM(PB3CfgCultivateAwardScheme_FieldNumber) {
+  PB3CfgCultivateAwardScheme_FieldNumber_SendType = 1,
+  PB3CfgCultivateAwardScheme_FieldNumber_LevelOrNum = 2,
+  PB3CfgCultivateAwardScheme_FieldNumber_AwardType = 4,
+  PB3CfgCultivateAwardScheme_FieldNumber_AwardId = 5,
+  PB3CfgCultivateAwardScheme_FieldNumber_AwardNum = 6,
+  PB3CfgCultivateAwardScheme_FieldNumber_LoopReceive = 7,
+  PB3CfgCultivateAwardScheme_FieldNumber_Unit = 8,
+  PB3CfgCultivateAwardScheme_FieldNumber_AutoUse = 9,
+};
+
+/**
+ * 挚友养成升级配置
+ **/
+@interface PB3CfgCultivateAwardScheme : GPBMessage
+
+/** 奖励类型 */
+@property(nonatomic, readwrite) int32_t sendType;
+
+/** 等级或合种数 */
+@property(nonatomic, readwrite) int32_t levelOrNum;
+
+/** 奖励类型 0礼物 1特效 2挚友经验 */
+@property(nonatomic, readwrite) int32_t awardType;
+
+/** 奖励Id */
+@property(nonatomic, readwrite) int32_t awardId;
+
+/** 奖励数量 */
+@property(nonatomic, readwrite) int32_t awardNum;
+
+/** 重复领取 */
+@property(nonatomic, readwrite) int32_t loopReceive;
+
+/** 单位 0秒 1分 2时 3天 */
+@property(nonatomic, readwrite) int32_t unit;
+
+/** 是否自动穿戴 */
+@property(nonatomic, readwrite) BOOL autoUse;
+
+@end
+
+#pragma mark - PB3CfgIntimateCultivateScheme
+
+typedef GPB_ENUM(PB3CfgIntimateCultivateScheme_FieldNumber) {
+  PB3CfgIntimateCultivateScheme_FieldNumber_Id_p = 1,
+  PB3CfgIntimateCultivateScheme_FieldNumber_Name = 2,
+  PB3CfgIntimateCultivateScheme_FieldNumber_CultivateName = 3,
+  PB3CfgIntimateCultivateScheme_FieldNumber_CultivateLoop = 4,
+  PB3CfgIntimateCultivateScheme_FieldNumber_CultivateType = 5,
+  PB3CfgIntimateCultivateScheme_FieldNumber_LevelListArray = 6,
+  PB3CfgIntimateCultivateScheme_FieldNumber_DownTimeNum = 7,
+  PB3CfgIntimateCultivateScheme_FieldNumber_DownTimeUnit = 8,
+  PB3CfgIntimateCultivateScheme_FieldNumber_PerTimeNum = 9,
+  PB3CfgIntimateCultivateScheme_FieldNumber_PerTimeUnit = 10,
+  PB3CfgIntimateCultivateScheme_FieldNumber_DownPercent = 11,
+  PB3CfgIntimateCultivateScheme_FieldNumber_MaxNum = 12,
+  PB3CfgIntimateCultivateScheme_FieldNumber_MinNum = 13,
+  PB3CfgIntimateCultivateScheme_FieldNumber_OverMaxPercent = 14,
+  PB3CfgIntimateCultivateScheme_FieldNumber_InNum = 15,
+  PB3CfgIntimateCultivateScheme_FieldNumber_LevelAwardArray = 16,
+  PB3CfgIntimateCultivateScheme_FieldNumber_CultivateNumAwardArray = 17,
+  PB3CfgIntimateCultivateScheme_FieldNumber_SneakCdTime = 18,
+  PB3CfgIntimateCultivateScheme_FieldNumber_ExpActiveTime = 19,
+};
+
+/**
+ * 挚友养成配置
+ **/
+@interface PB3CfgIntimateCultivateScheme : GPBMessage
+
+@property(nonatomic, readwrite) int32_t id_p;
+
+/** 名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 养成物名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *cultivateName;
+
+/** 是否循环养成 */
+@property(nonatomic, readwrite) BOOL cultivateLoop;
+
+/** 养成条件 */
+@property(nonatomic, readwrite) int32_t cultivateType;
+
+/** 升级配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgCultivateLvUpScheme*> *levelListArray;
+/** The number of items in @c levelListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger levelListArray_Count;
+
+@property(nonatomic, readwrite) int32_t downTimeNum;
+
+@property(nonatomic, readwrite) int32_t downTimeUnit;
+
+@property(nonatomic, readwrite) int32_t perTimeNum;
+
+@property(nonatomic, readwrite) int32_t perTimeUnit;
+
+@property(nonatomic, readwrite) int32_t downPercent;
+
+@property(nonatomic, readwrite) int32_t maxNum;
+
+@property(nonatomic, readwrite) int32_t minNum;
+
+@property(nonatomic, readwrite) int32_t overMaxPercent;
+
+@property(nonatomic, readwrite) int32_t inNum;
+
+/** 升级奖励 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgCultivateAwardScheme*> *levelAwardArray;
+/** The number of items in @c levelAwardArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger levelAwardArray_Count;
+
+/** 种植数奖励 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgCultivateAwardScheme*> *cultivateNumAwardArray;
+/** The number of items in @c cultivateNumAwardArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cultivateNumAwardArray_Count;
+
+/** 偷取能量值CD时间 */
+@property(nonatomic, readwrite) int32_t sneakCdTime;
+
+/** 能量球有效时间 */
+@property(nonatomic, readwrite) int32_t expActiveTime;
+
+@end
+
+#pragma mark - PB3XcmCfgIntimateCultivate
+
+typedef GPB_ENUM(PB3XcmCfgIntimateCultivate_FieldNumber) {
+  PB3XcmCfgIntimateCultivate_FieldNumber_CfgListArray = 1,
+  PB3XcmCfgIntimateCultivate_FieldNumber_ActPage = 2,
+};
+
+@interface PB3XcmCfgIntimateCultivate : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgIntimateCultivateScheme*> *cfgListArray;
+/** The number of items in @c cfgListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cfgListArray_Count;
+
+/** 页面内容 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3ConfActPage *actPage;
+/** Test to see if @c actPage has been set. */
+@property(nonatomic, readwrite) BOOL hasActPage;
+
+@end
+
+#pragma mark - PB3CfgIntimateCultivateTaskScheme
+
+typedef GPB_ENUM(PB3CfgIntimateCultivateTaskScheme_FieldNumber) {
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_IndexId = 1,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_Name = 2,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_Description_p = 3,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_Type = 4,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_CountType = 5,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_Condition = 6,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_AwardMax = 7,
+  PB3CfgIntimateCultivateTaskScheme_FieldNumber_AwardNum = 8,
+};
+
+@interface PB3CfgIntimateCultivateTaskScheme : GPBMessage
+
+/** 任务序号 */
+@property(nonatomic, readwrite) int32_t indexId;
+
+/** 任务名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 任务描述 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *description_p;
+
+/** 任务类型 */
+@property(nonatomic, readwrite) int32_t type;
+
+/** 计算类型 */
+@property(nonatomic, readwrite) int32_t countType;
+
+/** 达成条件 */
+@property(nonatomic, readwrite) int32_t condition;
+
+/** 获得上限 */
+@property(nonatomic, readwrite) int32_t awardMax;
+
+/** 获得能量 */
+@property(nonatomic, readwrite) int32_t awardNum;
+
+@end
+
+#pragma mark - PB3XcmCfgIntimateCultivateTask
+
+typedef GPB_ENUM(PB3XcmCfgIntimateCultivateTask_FieldNumber) {
+  PB3XcmCfgIntimateCultivateTask_FieldNumber_CfgListArray = 1,
+  PB3XcmCfgIntimateCultivateTask_FieldNumber_IntimateSneakMax = 2,
+};
+
+/**
+ * 挚友合种养成任务配置
+ **/
+@interface PB3XcmCfgIntimateCultivateTask : GPBMessage
+
+/** 养成任务配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgIntimateCultivateTaskScheme*> *cfgListArray;
+/** The number of items in @c cfgListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cfgListArray_Count;
+
+/** 好友偷取上限 */
+@property(nonatomic, readwrite) int32_t intimateSneakMax;
+
+@end
+
+#pragma mark - PB3XcmOxygenCarGiftCfgData
+
+typedef GPB_ENUM(PB3XcmOxygenCarGiftCfgData_FieldNumber) {
+  PB3XcmOxygenCarGiftCfgData_FieldNumber_CfgMap = 1,
+};
+
+/**
+ * 氧气车载礼物配置
+ **/
+@interface PB3XcmOxygenCarGiftCfgData : GPBMessage
+
+/** 配置map key为OxygenCarGiftType value为礼物ID */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32UInt32Dictionary *cfgMap;
+/** The number of items in @c cfgMap without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cfgMap_Count;
+
+@end
+
+#pragma mark - PB3CultivateStoreItemLimit
+
+typedef GPB_ENUM(PB3CultivateStoreItemLimit_FieldNumber) {
+  PB3CultivateStoreItemLimit_FieldNumber_LimitNum = 1,
+  PB3CultivateStoreItemLimit_FieldNumber_LimitRange = 2,
+  PB3CultivateStoreItemLimit_FieldNumber_LimitCycle = 3,
+};
+
+@interface PB3CultivateStoreItemLimit : GPBMessage
+
+/** 限制数量 */
+@property(nonatomic, readwrite) int32_t limitNum;
+
+/** 限制范围 1全服 2个人 */
+@property(nonatomic, readwrite) int32_t limitRange;
+
+/** 重制类型 1每周重置 2每月重置 3每日重置 4不重置 */
+@property(nonatomic, readwrite) int32_t limitCycle;
+
+@end
+
+#pragma mark - PB3CultivateStoreItemLvImage
+
+typedef GPB_ENUM(PB3CultivateStoreItemLvImage_FieldNumber) {
+  PB3CultivateStoreItemLvImage_FieldNumber_Level = 1,
+  PB3CultivateStoreItemLvImage_FieldNumber_LevelImage = 2,
+  PB3CultivateStoreItemLvImage_FieldNumber_LevelSingleImage = 3,
+};
+
+@interface PB3CultivateStoreItemLvImage : GPBMessage
+
+/** 等级 */
+@property(nonatomic, readwrite) int32_t level;
+
+/** 等级对应树种皮肤 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *levelImage;
+
+/** 等级对应树种皮肤单帧 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *levelSingleImage;
+
+@end
+
+#pragma mark - PB3CfgCultivateStoreItemConf
+
+typedef GPB_ENUM(PB3CfgCultivateStoreItemConf_FieldNumber) {
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemId = 1,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemName = 2,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceType = 3,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceItem = 4,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPriceItemNum = 5,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemPrice = 6,
+  PB3CfgCultivateStoreItemConf_FieldNumber_SortWeight = 7,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemImage = 8,
+  PB3CfgCultivateStoreItemConf_FieldNumber_ShowStoreItemImage = 9,
+  PB3CfgCultivateStoreItemConf_FieldNumber_JsonLimitsArray = 10,
+  PB3CfgCultivateStoreItemConf_FieldNumber_LevelImageListArray = 11,
+  PB3CfgCultivateStoreItemConf_FieldNumber_ActiveTime = 12,
+  PB3CfgCultivateStoreItemConf_FieldNumber_ActiveTimeUnit = 13,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemType = 14,
+  PB3CfgCultivateStoreItemConf_FieldNumber_SellBeginTime = 15,
+  PB3CfgCultivateStoreItemConf_FieldNumber_SellEndTime = 16,
+  PB3CfgCultivateStoreItemConf_FieldNumber_IntimateTypeArray = 17,
+  PB3CfgCultivateStoreItemConf_FieldNumber_FlagImage = 18,
+  PB3CfgCultivateStoreItemConf_FieldNumber_TabType = 19,
+  PB3CfgCultivateStoreItemConf_FieldNumber_StoreItemDes = 20,
+};
+
+/**
+ * 挚友合种商城商品配置
+ **/
+@interface PB3CfgCultivateStoreItemConf : GPBMessage
+
+/** 挚友合种商城物品Id */
+@property(nonatomic, readwrite) int32_t storeItemId;
+
+/** 售卖商品名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *storeItemName;
+
+/** 售卖商品价格类型 0金币 1物品 */
+@property(nonatomic, readwrite) int32_t storeItemPriceType;
+
+/** 售卖商品价格物品ID */
+@property(nonatomic, readwrite) int32_t storeItemPriceItem;
+
+/** 售卖商品价格物品数量 */
+@property(nonatomic, readwrite) int32_t storeItemPriceItemNum;
+
+/** 售卖商品金币价格 */
+@property(nonatomic, readwrite) int32_t storeItemPrice;
+
+/** 展示权重 */
+@property(nonatomic, readwrite) int32_t sortWeight;
+
+/** 商品实际效果地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *storeItemImage;
+
+/** 商品售卖界面展示图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *showStoreItemImage;
+
+/** 商品售卖限制条件 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CultivateStoreItemLimit*> *jsonLimitsArray;
+/** The number of items in @c jsonLimitsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger jsonLimitsArray_Count;
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CultivateStoreItemLvImage*> *levelImageListArray;
+/** The number of items in @c levelImageListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger levelImageListArray_Count;
+
+/** 有效时间 */
+@property(nonatomic, readwrite) int64_t activeTime;
+
+/** 有效时间单位 */
+@property(nonatomic, readwrite) int32_t activeTimeUnit;
+
+/** 挚友合种商城物品类型 */
+@property(nonatomic, readwrite) int32_t storeItemType;
+
+/** 商品售卖开始时间 */
+@property(nonatomic, readwrite) int64_t sellBeginTime;
+
+/** 商品售卖结束时间 */
+@property(nonatomic, readwrite) int64_t sellEndTime;
+
+/** 挚友类型限定 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt32Array *intimateTypeArray;
+/** The number of items in @c intimateTypeArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger intimateTypeArray_Count;
+
+/** 商品标签 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *flagImage;
+
+/** 分栏类型 */
+@property(nonatomic, readwrite) int32_t tabType;
+
+/** 树种皮肤&背景介绍 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *storeItemDes;
+
+@end
+
+#pragma mark - PB3CfgCultivateStoreConf
+
+typedef GPB_ENUM(PB3CfgCultivateStoreConf_FieldNumber) {
+  PB3CfgCultivateStoreConf_FieldNumber_TabId = 1,
+  PB3CfgCultivateStoreConf_FieldNumber_TabName = 2,
+  PB3CfgCultivateStoreConf_FieldNumber_TabType = 3,
+  PB3CfgCultivateStoreConf_FieldNumber_SellType = 4,
+  PB3CfgCultivateStoreConf_FieldNumber_SortWeight = 5,
+  PB3CfgCultivateStoreConf_FieldNumber_AndroidMin = 6,
+  PB3CfgCultivateStoreConf_FieldNumber_AndroidMax = 7,
+  PB3CfgCultivateStoreConf_FieldNumber_IosMin = 8,
+  PB3CfgCultivateStoreConf_FieldNumber_IosMax = 9,
+  PB3CfgCultivateStoreConf_FieldNumber_PcMin = 10,
+  PB3CfgCultivateStoreConf_FieldNumber_PcMax = 11,
+  PB3CfgCultivateStoreConf_FieldNumber_AppletsMax = 12,
+  PB3CfgCultivateStoreConf_FieldNumber_AppletsMin = 13,
+  PB3CfgCultivateStoreConf_FieldNumber_StoreItemListArray = 14,
+  PB3CfgCultivateStoreConf_FieldNumber_WhiteUserListArray = 15,
+  PB3CfgCultivateStoreConf_FieldNumber_BlackUserListArray = 16,
+  PB3CfgCultivateStoreConf_FieldNumber_WhiteRoomListArray = 17,
+  PB3CfgCultivateStoreConf_FieldNumber_BlackRoomListArray = 18,
+};
+
+/**
+ * 挚友合种商城配置
+ **/
+@interface PB3CfgCultivateStoreConf : GPBMessage
+
+/** 分栏ID */
+@property(nonatomic, readwrite) int32_t tabId;
+
+/** 分栏名 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tabName;
+
+/** 分栏类型 0商城 */
+@property(nonatomic, readwrite) int32_t tabType;
+
+/** 售卖商品类型 0背景 1皮肤 */
+@property(nonatomic, readwrite) int32_t sellType;
+
+/** 分栏排序 */
+@property(nonatomic, readwrite) int32_t sortWeight;
+
+/** 安卓最小版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *androidMin;
+
+/** 安卓最大版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *androidMax;
+
+/** iOS最小版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iosMin;
+
+/** iOS最大版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *iosMax;
+
+/** PC最小版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pcMin;
+
+/** PC最大版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pcMax;
+
+/** 小程序最大版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *appletsMax;
+
+/** 小程序最小版本 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *appletsMin;
+
+/** 售卖商品列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgCultivateStoreItemConf*> *storeItemListArray;
+/** The number of items in @c storeItemListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger storeItemListArray_Count;
+
+/** 用户白名单列表 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *whiteUserListArray;
+/** The number of items in @c whiteUserListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger whiteUserListArray_Count;
+
+/** 用户黑名单列表 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *blackUserListArray;
+/** The number of items in @c blackUserListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger blackUserListArray_Count;
+
+/** 房间白名单列表 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *whiteRoomListArray;
+/** The number of items in @c whiteRoomListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger whiteRoomListArray_Count;
+
+/** 房间黑名单列表 */
+@property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *blackRoomListArray;
+/** The number of items in @c blackRoomListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger blackRoomListArray_Count;
+
+@end
+
+#pragma mark - PB3XcmCfgCultivateStoreConf
+
+typedef GPB_ENUM(PB3XcmCfgCultivateStoreConf_FieldNumber) {
+  PB3XcmCfgCultivateStoreConf_FieldNumber_CfgListArray = 1,
+};
+
+/**
+ * 挚友合种商城配置
+ **/
+@interface PB3XcmCfgCultivateStoreConf : GPBMessage
+
+/** 挚友合种商城配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CfgCultivateStoreConf*> *cfgListArray;
+/** The number of items in @c cfgListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cfgListArray_Count;
+
+@end
+
+#pragma mark - PB3CultivateHandbook
+
+typedef GPB_ENUM(PB3CultivateHandbook_FieldNumber) {
+  PB3CultivateHandbook_FieldNumber_RelateStoreId = 1,
+  PB3CultivateHandbook_FieldNumber_HandbookImage = 2,
+  PB3CultivateHandbook_FieldNumber_HandbookDes = 3,
+  PB3CultivateHandbook_FieldNumber_SortWeight = 4,
+};
+
+/**
+ * 挚友合种图鉴信息
+ **/
+@interface PB3CultivateHandbook : GPBMessage
+
+/** 关联商品ID */
+@property(nonatomic, readwrite) int32_t relateStoreId;
+
+/** 图鉴图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *handbookImage;
+
+/** 图鉴描述 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *handbookDes;
+
+/** 图鉴权重 */
+@property(nonatomic, readwrite) int32_t sortWeight;
+
+@end
+
+#pragma mark - PB3XcmCfgCultivateHandbookConf
+
+typedef GPB_ENUM(PB3XcmCfgCultivateHandbookConf_FieldNumber) {
+  PB3XcmCfgCultivateHandbookConf_FieldNumber_CfgListArray = 1,
+};
+
+/**
+ * 挚友合种图鉴配置
+ **/
+@interface PB3XcmCfgCultivateHandbookConf : GPBMessage
+
+/** 挚友合种图鉴配置 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CultivateHandbook*> *cfgListArray;
+/** The number of items in @c cfgListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger cfgListArray_Count;
 
 @end
 

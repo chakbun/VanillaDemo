@@ -1,0 +1,340 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/index.ext.proto";
+import "pb/user.int.proto";
+
+message UpdateHotWordReq {}
+message UpdateHotWordRes {}
+
+message UpdateHotSearchReq {}
+message UpdateHotSearchRes {}
+
+message UpdatePageSizeReq {
+    IndexTab tab = 1;
+    int32 page_size = 2;
+    int32 mid = 3;
+}
+message UpdatePageSizeRes {
+    int32 flag = 1; // 1成功，0失败
+}
+
+message GetPageSizeReq {
+    IndexTab tab = 1;
+    int32 mid = 2;
+}
+message GetPageSizeRes {
+    int32 page_size = 1;
+}
+
+message ReloadPlayerInfoReq {
+    int64 id = 1;
+}
+message ReloadPlayerInfoRes{
+}
+
+message UpdateTJUserIdsReq {
+    int32 opType = 1;     // 0删除; 1添加
+    repeated int64 ids = 2;
+}
+message UpdateTJUserIdsRes {
+    int32 code = 1;  // 0失败，1成功
+}
+
+message UpdateIndexConfReq {
+    int32 cate = 1; // 1-房间角标
+}
+
+message UpdateIndexConfRes {
+
+}
+
+message ReportAdReq {
+    int32 event_type = 1;       // 0=激活，1=注册，2=付费
+    int32 ad_channel = 2;       // 渠道号
+    int32 ad_type = 9;          // 渠道类型
+    string idfa = 3;
+    string imei = 4;
+    string android_id = 5;
+    string ip = 6;
+    string ua = 7;
+    string mac = 8;
+    string device_id = 10;
+}
+message ReportAdRes {
+}
+
+message NoticeUploadClientLogReq {
+    int64 player_id = 1;
+    int64 start_ts = 2;
+    int64 end_ts = 3;
+    int64 operator_id = 4;
+    string operator_name = 5;
+    string reason = 6;
+    int32 deviceType = 7;  // 20: Android，40: iOS，90: PC
+}
+message NoticeUploadClientLogRes {
+}
+
+message AddHistoryWeekStarReq {
+    int64 player_id  = 1; // 上周周星冠军
+    int64 value = 2;      // 魅力值或者贡献值
+    WeekStarRankType week_star_rank_type = 3;
+}
+
+message AddHistoryWeekStarRes {
+}
+
+// 推送配置更新,通知客户端来取最新配置
+message NoticeDynConfChangeReq {
+    string group = 1;
+}
+message NoticeDynConfChangeRes {
+}
+
+message AdvertReplyReq{
+    string event = 1;
+    bytes data = 2;
+}
+message AdvertReplyRes{
+    int32 code = 1;
+    string msg = 2;
+    bytes data = 3;
+
+}
+
+message AuditVersion {
+    string version = 1;
+    string application_name = 2;
+    string client = 3;  // ios or android
+}
+
+message GetAuditVersionReq {
+    string application = 1;
+}
+message GetAuditVersionRes {
+    repeated AuditVersion ios_ver = 1;     // ios审核列表
+    repeated AuditVersion android_ver = 2; // android审核列表
+}
+
+message OpenYoungModelReq {
+    int64 player_id = 1;
+}
+message OpenYoungModelRes {
+
+}
+
+// 诈骗风控请求 中台调用
+message SwindleRiskPushReq {
+    int64 cheat_id = 1; // 诈骗人id
+    int64 victim_id = 2; // 受害人id
+}
+
+message SwindleRiskPushRes {
+}
+
+// 风控数据记录，uauth 调用
+message LogRiskDataReq {
+    int64 player_id = 1;
+    EventType event_type = 2;
+    string payer_id = 3; // 支付id
+    string order_num = 4; // 订单号
+}
+message LogRiskDataRes {
+}
+
+// 支付宝投诉记录，uauth 调用
+
+    int64 player_id = 1;
+    string order_num = 2; // 订单号
+    string risk_type = 3; // 风险类型
+    string risk_msg = 4; // 风险描述
+    string remark = 5; // 备注信息
+    string app_id = 6;
+    string complaint_text = 7; // 投诉内容
+    string complaint_time = 8; // 投诉时间
+    string gmt_occur = 9;
+    string risk_task_id = 10;
+    string alipay_trade_nos = 11;
+    string trade_nos = 12;
+}
+
+}
+
+enum EventType {
+    Zero = 0;
+    AliPayNormal = 1; // 支付宝正常充值
+    AliPayAbnormal = 2; // 支付宝被投诉的充值
+    WeChatNormal = 3; // 微信正常充值
+    WeChatAbnormal = 4; // 微信被投诉的充值
+    PCDiffLocation = 5; // PC充值支付城市不一致，付款码生成的地方和付款设备所在地区不一致
+}
+
+message AccountRiskPushReq {
+    int64 account_id = 1;
+    bool has_risk = 2;
+}
+
+message AccountRiskPushRes {
+}
+
+message AdConfsReq {
+}
+message AdConfsRes {
+    repeated int64 confs = 1;
+}
+
+// 推送点单大神微信消息
+message WechatTplMsgKv {
+    string keyword = 1;
+    string value = 2;
+}
+
+message PushWechatTplMsgReq {
+    int64 player_id = 1;
+    WechatNotifyType msg_type = 2;
+    int64 cd = 3;
+    repeated WechatTplMsgKv data = 4;
+    int64 fromId = 5;
+}
+message PushWechatTplMsgRes {
+}
+
+// 更新点单大神绑定微信通知数据
+message BindWechatNotifyConfReq {
+    int64 player_id = 1;
+}
+message BindWechatNotifyConfRes {
+}
+
+// 删除点单大神绑定微信通知数据
+message DelBindWechatNotifyConfReq {
+    int64 player_id = 1;
+}
+message DelBindWechatNotifyConfRes {
+}
+
+message UpdateThemeConfReq{
+}
+
+message UpdateThemeConfRes{
+}
+
+message UpdatePendantConfReq {
+}
+
+message UpdatePendantConfRes{
+}
+
+// 获取歌单列表
+message PlayerSongListReq {
+    int64 player_id = 1;
+}
+message PlayerSongListRes {
+    repeated UploadSongInfo song_list = 1; // 歌曲列表
+}
+
+// 用户id查手机号码
+message GetPhoneByPlayerIdListReq {
+    repeated int64 player_id  = 1;
+}
+
+message GetPhoneByPlayerIdListRes {
+    repeated IdBindPhone id_phones = 1;
+}
+
+// 手机号码查用户id
+message GetPlayerIdByPhoneReq {
+    repeated string Phone = 1;
+}
+
+message GetPlayerIdByPhoneRes {
+    repeated IdBindPhone id_phones = 1;
+}
+
+message UpdatePlayerSongNumReq {
+    int64 player_id = 1;
+}
+message UpdatePlayerSongNumRes {
+}
+
+// 首充有礼充值回调
+message FirstPayGiftCallbackReq{
+    int64 player_id = 1; // 用户id
+}
+message FirstPayGiftCallbackRes{
+}
+
+// 首充有礼限定礼物开奖
+message FirstPayGiftOpenWorthReq{}
+message FirstPayGiftOpenWorthRes{}
+
+service IndexIntObj {
+    // 更新标签词条
+    rpc UpdateHotWord(UpdateHotWordReq) returns (UpdateHotWordRes);
+    // 更新热搜词条
+    rpc UpdateHotSearch(UpdateHotSearchReq) returns (UpdateHotSearchRes);
+    // 更新推荐栏模块显示个数
+    rpc UpdatePageSize(UpdatePageSizeReq) returns (UpdatePageSizeRes);
+    // 获取推荐栏模块显示个数
+    rpc GetPageSize (GetPageSizeReq) returns (GetPageSizeRes);
+    // 刷新首页展示给用户的个人信息
+    rpc ReloadPlayerInfo(ReloadPlayerInfoReq) returns (ReloadPlayerInfoRes);
+    // 更新推荐用户id缓存
+    rpc UpdateTJUserIds(UpdateTJUserIdsReq) returns (UpdateTJUserIdsRes);
+
+    //更新index配置
+    rpc UpdateIndexConf (UpdateIndexConfReq) returns (UpdateIndexConfRes);
+    // 上报广告
+    rpc ReportAd (ReportAdReq) returns (ReportAdRes);
+
+    // 上传客户端日志
+    rpc UploadClientLog(UploadClientLogReq) returns (UploadClientLogRes);
+    // 通知抓取日志
+    rpc NoticeUploadClientLog(NoticeUploadClientLogReq) returns (NoticeUploadClientLogRes);
+
+    // 增加历届周星擂主
+    rpc AddHistoryWeekStar(AddHistoryWeekStarReq) returns (AddHistoryWeekStarRes);
+    // 推送配置更新,通知客户端来取最新配置
+    rpc NoticeDynConfChange(NoticeDynConfChangeReq) returns (NoticeDynConfChangeRes);
+    //审核
+    rpc AdvertReply(AdvertReplyReq) returns (AdvertReplyRes);
+
+    // 获取审核版本
+    rpc GetAuditVersion(GetAuditVersionReq) returns (GetAuditVersionRes);
+
+    // 开通青少年模式
+    rpc OpenYoungModel(OpenYoungModelReq) returns (OpenYoungModelRes);
+
+    // 诈骗风控推送 中台调用
+    rpc SwindleRiskPush (SwindleRiskPushReq) returns (SwindleRiskPushRes);
+    // 风控数据记录，uauth 调用
+    rpc LogRiskData (LogRiskDataReq) returns (LogRiskDataRes);
+    // 支付宝投诉记录，uauth 调用
+
+    // 账户风向信息推送，uauth 调用
+    rpc AccountRiskPush (AccountRiskPushReq) returns (AccountRiskPushRes);
+    // 广告配置获取，渠道号
+    rpc AdConfs (AdConfsReq) returns (AdConfsRes);
+    // 推送点单大神微信消息
+    rpc PushWechatTplMsg (PushWechatTplMsgReq) returns (PushWechatTplMsgRes);
+    // 更新点单大神绑定微信通知数据
+    rpc BindWechatNotifyConf (BindWechatNotifyConfReq) returns (BindWechatNotifyConfRes);
+    // 删除点单大神绑定微信通知数据
+    rpc DelBindWechatNotifyConf (DelBindWechatNotifyConfReq) returns (DelBindWechatNotifyConfRes);
+    // 通知客户端更新房间主题配置
+    rpc UpdateThemeConf (UpdateThemeConfReq) returns (UpdateThemeConfRes);
+    // 通知客户端更新首页挂件配置
+    rpc UpdatePendantConf (UpdatePendantConfReq) returns (UpdatePendantConfRes);
+    // 获取我的歌单列表
+    rpc PlayerSongList (PlayerSongListReq) returns (PlayerSongListRes);
+    // 往短信中台提供playerId 查询手机号码
+    rpc GetPhoneByPlayerIdList (GetPhoneByPlayerIdListReq) returns (GetPhoneByPlayerIdListRes);
+    // 短信中台，手机号码查询用户id
+    rpc GetPlayerIdByPhone (GetPlayerIdByPhoneReq) returns (GetPlayerIdByPhoneRes);
+    // 更新用户歌曲数量
+    rpc UpdatePlayerSongNum(UpdatePlayerSongNumReq) returns (UpdatePlayerSongNumRes);
+    // 首充有礼限定礼物开奖
+    rpc FirstPayGiftOpenWorth(FirstPayGiftOpenWorthReq) returns (FirstPayGiftOpenWorthRes);
+}

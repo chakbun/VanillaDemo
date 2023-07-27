@@ -27,579 +27,639 @@
 
 CF_EXTERN_C_BEGIN
 
-@class PB4AtPlayer;
-@class PB4CommunityClanInfo;
-@class PB4CommunityGroupData;
-@class PB4CommunityGroupInfo;
-@class PB4CommunityGroupPlayerItem;
-@class PB4CommunityJoinInfo;
-@class PB4CommunityPlayerInfo;
-@class PB4CommunityPlayerMsg;
-@class PB4CommunityPlayerMsgRedPoint;
-@class PB4CommunityTrendData;
-@class PB4Effort;
-@class PB4GroupDetail;
-@class PB4GroupInfoSimple;
-@class PB4GroupListItem;
-@class PB4MediaResource;
-@class PB4MemberBaseInfo;
-@class PB4PAuthInfo;
-@class PB4PlayerLabel;
-@class PB4Publisher;
-@class PB4TrendGameInfo;
-@class PB4TrendTag;
-@class PB4TrendsComment;
-@class PB4TrendsCommentDetail;
-@class PB4TrendsInteractionInfo;
-@class PB4TrendsSkillInfo;
-@class PB4VerifyItem;
-@class PB4ViolationInfo;
-GPB_ENUM_FWD_DECLARE(PB4CommunityGroupLeaveOpt);
-GPB_ENUM_FWD_DECLARE(PB4CommunityGroupOpt);
-GPB_ENUM_FWD_DECLARE(PB4CommunityGroupType);
-GPB_ENUM_FWD_DECLARE(PB4CommunityPlayerGroupType);
-GPB_ENUM_FWD_DECLARE(PB4PluginSexType);
-GPB_ENUM_FWD_DECLARE(PB4VideoRecmdSource);
+@class PB3AtPlayer;
+@class PB3CommunityClanInfo;
+@class PB3CommunityGroupData;
+@class PB3CommunityGroupInfo;
+@class PB3CommunityGroupPlayerItem;
+@class PB3CommunityJoinInfo;
+@class PB3CommunityPlayerInfo;
+@class PB3CommunityPlayerMsg;
+@class PB3CommunityPlayerMsgRedPoint;
+@class PB3CommunityTrendData;
+@class PB3FirepowerRank;
+@class PB3GroupDetail;
+@class PB3GroupInfoSimple;
+@class PB3GroupListItem;
+@class PB3HotPointDetail;
+@class PB3MediaResource;
+@class PB3MemberBaseInfo;
+@class PB3PAuthInfo;
+@class PB3PluginEffect;
+@class PB3Publisher;
+@class PB3TrendTag;
+@class PB3TrendsComment;
+@class PB3TrendsCommentDetail;
+@class PB3TrendsInteractionInfo;
+@class PB3TrendsSkillInfo;
+@class PB3VerifyItem;
+@class PB3ViolationInfo;
+GPB_ENUM_FWD_DECLARE(PB3CommunityGroupLeaveOpt);
+GPB_ENUM_FWD_DECLARE(PB3CommunityGroupOpt);
+GPB_ENUM_FWD_DECLARE(PB3CommunityGroupType);
+GPB_ENUM_FWD_DECLARE(PB3CommunityPlayerGroupType);
+GPB_ENUM_FWD_DECLARE(PB3HotPointStatus);
+GPB_ENUM_FWD_DECLARE(PB3PluginHotPointType);
+GPB_ENUM_FWD_DECLARE(PB3PluginSexType);
+GPB_ENUM_FWD_DECLARE(PB3VideoRecmdSource);
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Enum PB4CommunityCmdId
+#pragma mark - Enum PB3CommunityCmdId
 
 /** 广播cmdId定义 // 204 */
-typedef GPB_ENUM(PB4CommunityCmdId) {
+typedef GPB_ENUM(PB3CommunityCmdId) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityCmdId_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4CommunityCmdId_IcCommunityZero = 0,
+  PB3CommunityCmdId_IcCommunityZero = 0,
 
   /** 个人消息红点 CommunityPlayerMsgRedPoint */
-  PB4CommunityCmdId_IcCommunity = 204001,
-  PB4CommunityCmdId_IcCommunityGroupLimit = 204002,
+  PB3CommunityCmdId_IcCommunity = 204001,
+  PB3CommunityCmdId_IcCommunityGroupLimit = 204002,
 
   /** 用户圈子列表 */
-  PB4CommunityCmdId_IcPlayerGroupList = 204003,
+  PB3CommunityCmdId_IcPlayerGroupList = 204003,
 
   /** 圈子申请消息红点 */
-  PB4CommunityCmdId_IcGroupApply = 204004,
+  PB3CommunityCmdId_IcGroupApply = 204004,
 
   /** 动态审核不通过 */
-  PB4CommunityCmdId_IcTrendsCheckNoPass = 204005,
+  PB3CommunityCmdId_IcTrendsCheckNoPass = 204005,
 
   /** 动态审核结果 TrendsCheckResult */
-  PB4CommunityCmdId_IcTrendsCheckResult = 204006,
+  PB3CommunityCmdId_IcTrendsCheckResult = 204006,
 
   /** 评论审核结果 TrendsCommentCheckResult */
-  PB4CommunityCmdId_IcTrendsCommentCheckResult = 204007,
+  PB3CommunityCmdId_IcTrendsCommentCheckResult = 204007,
 
-  /** 用户评论推送 CommunityPlayerMsg */
-  PB4CommunityCmdId_IcTrendsCommemtMsg = 204008,
+  /** 热点回复审核不通过 */
+  PB3CommunityCmdId_IcHotReplyCheckNoPass = 204008,
 
-  /** 用户点赞推送 CommunityPlayerMsg */
-  PB4CommunityCmdId_IcTrendsLikeMsg = 204009,
+  /** 热点回复审核结果 TrendsCheckResult */
+  PB3CommunityCmdId_IcHotReplyCheckResult = 204009,
 };
 
-GPBEnumDescriptor *PB4CommunityCmdId_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityCmdId_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityCmdId_IsValidValue(int32_t value);
+BOOL PB3CommunityCmdId_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityNavStyle
+#pragma mark - Enum PB3CommunityNavStyle
 
-typedef GPB_ENUM(PB4CommunityNavStyle) {
+typedef GPB_ENUM(PB3CommunityNavStyle) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityNavStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityNavStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 默认 */
-  PB4CommunityNavStyle_CnsNone = 0,
+  PB3CommunityNavStyle_CnsNone = 0,
 };
 
-GPBEnumDescriptor *PB4CommunityNavStyle_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityNavStyle_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityNavStyle_IsValidValue(int32_t value);
+BOOL PB3CommunityNavStyle_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityModuleType
+#pragma mark - Enum PB3CommunityModuleType
 
-typedef GPB_ENUM(PB4CommunityModuleType) {
+typedef GPB_ENUM(PB3CommunityModuleType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityModuleType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityModuleType_CmtNone = 0,
+  PB3CommunityModuleType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityModuleType_CmtNone = 0,
 
   /** 我的圈子 */
-  PB4CommunityModuleType_CmtGroupMy = 1,
+  PB3CommunityModuleType_CmtGroupMy = 1,
 
   /** 我收藏的圈子 */
-  PB4CommunityModuleType_CmtGroupCollection = 2,
+  PB3CommunityModuleType_CmtGroupCollection = 2,
 
   /** 最近看过的圈子 */
-  PB4CommunityModuleType_CmtGroupHistory = 3,
+  PB3CommunityModuleType_CmtGroupHistory = 3,
 
   /** 热门圈子 */
-  PB4CommunityModuleType_CmtGroupHot = 4,
+  PB3CommunityModuleType_CmtGroupHot = 4,
 
   /** 推荐的圈子 */
-  PB4CommunityModuleType_CmtGroupRecommend = 5,
+  PB3CommunityModuleType_CmtGroupRecommend = 5,
 
   /** 自定义圈子 */
-  PB4CommunityModuleType_CmtGroupDefine = 6,
+  PB3CommunityModuleType_CmtGroupDefine = 6,
 
   /** 我的动态 */
-  PB4CommunityModuleType_CmtTrendMy = 7,
+  PB3CommunityModuleType_CmtTrendMy = 7,
 
   /** 我关注的动态 */
-  PB4CommunityModuleType_CmtTrendFocus = 8,
+  PB3CommunityModuleType_CmtTrendFocus = 8,
 
   /** 最新动态 */
-  PB4CommunityModuleType_CmtTrendNew = 9,
+  PB3CommunityModuleType_CmtTrendNew = 9,
 
   /** 推荐动态 */
-  PB4CommunityModuleType_CmtTrendRecommend = 10,
+  PB3CommunityModuleType_CmtTrendRecommend = 10,
 
   /** 热门动态 */
-  PB4CommunityModuleType_CmtTrendHot = 11,
+  PB3CommunityModuleType_CmtTrendHot = 11,
 
   /** 自定仪分类 */
-  PB4CommunityModuleType_CmtTrendDefine = 12,
+  PB3CommunityModuleType_CmtTrendDefine = 12,
 
   /** 后台添加的标签 */
-  PB4CommunityModuleType_CmtTagAdmin = 13,
+  PB3CommunityModuleType_CmtTagAdmin = 13,
 
   /** 自定义的标签 */
-  PB4CommunityModuleType_CmtTagDefine = 14,
+  PB3CommunityModuleType_CmtTagDefine = 14,
 };
 
-GPBEnumDescriptor *PB4CommunityModuleType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityModuleType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityModuleType_IsValidValue(int32_t value);
+BOOL PB3CommunityModuleType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityRightRule
+#pragma mark - Enum PB3CommunityRightRule
 
-typedef GPB_ENUM(PB4CommunityRightRule) {
+typedef GPB_ENUM(PB3CommunityRightRule) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityRightRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityRightRule_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位 */
-  PB4CommunityRightRule_CrrNone = 0,
+  PB3CommunityRightRule_CrrNone = 0,
 
   /** 刷新 */
-  PB4CommunityRightRule_CrrRefresh = 1,
+  PB3CommunityRightRule_CrrRefresh = 1,
 
   /** 路由，跳转详情也用路由的方式跳转 */
-  PB4CommunityRightRule_CrrRoute = 2,
+  PB3CommunityRightRule_CrrRoute = 2,
 
   /** 清空 */
-  PB4CommunityRightRule_CrrClean = 3,
+  PB3CommunityRightRule_CrrClean = 3,
 
   /** 下一页 */
-  PB4CommunityRightRule_CrrNextPage = 4,
+  PB3CommunityRightRule_CrrNextPage = 4,
 
   /** 仅显示 */
-  PB4CommunityRightRule_CrrText = 6,
+  PB3CommunityRightRule_CrrText = 6,
 };
 
-GPBEnumDescriptor *PB4CommunityRightRule_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityRightRule_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityRightRule_IsValidValue(int32_t value);
+BOOL PB3CommunityRightRule_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityClanIconType
+#pragma mark - Enum PB3CommunityClanIconType
 
 /** 公会等级图标类型（与bill.ext.proto）一致 */
-typedef GPB_ENUM(PB4CommunityClanIconType) {
+typedef GPB_ENUM(PB3CommunityClanIconType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityClanIconType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityClanIconType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 普通公会 */
-  PB4CommunityClanIconType_CcitNormal = 0,
+  PB3CommunityClanIconType_CcitNormal = 0,
 
   /** 挂靠公会 */
-  PB4CommunityClanIconType_CcitRely = 1,
+  PB3CommunityClanIconType_CcitRely = 1,
 
   /** 点单公会 */
-  PB4CommunityClanIconType_CcitBill = 2,
+  PB3CommunityClanIconType_CcitBill = 2,
 };
 
-GPBEnumDescriptor *PB4CommunityClanIconType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityClanIconType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityClanIconType_IsValidValue(int32_t value);
+BOOL PB3CommunityClanIconType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityGroupStatus
+#pragma mark - Enum PB3CommunityGroupStatus
 
-typedef GPB_ENUM(PB4CommunityGroupStatus) {
+typedef GPB_ENUM(PB3CommunityGroupStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityGroupStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityGroupStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4CommunityGroupStatus_CgsNone = 0,
+  PB3CommunityGroupStatus_CgsNone = 0,
 
   /** 申请加入 */
-  PB4CommunityGroupStatus_CgsApplicable = 1,
+  PB3CommunityGroupStatus_CgsApplicable = 1,
 
   /** 申请中 */
-  PB4CommunityGroupStatus_CgsApplying = 2,
+  PB3CommunityGroupStatus_CgsApplying = 2,
 
   /** 已加入 */
-  PB4CommunityGroupStatus_CgsAdded = 3,
+  PB3CommunityGroupStatus_CgsAdded = 3,
 
   /** 圈主 */
-  PB4CommunityGroupStatus_CgsOwner = 4,
+  PB3CommunityGroupStatus_CgsOwner = 4,
 };
 
-GPBEnumDescriptor *PB4CommunityGroupStatus_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityGroupStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityGroupStatus_IsValidValue(int32_t value);
+BOOL PB3CommunityGroupStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4TrendTagStyle
+#pragma mark - Enum PB3TrendTagStyle
 
-typedef GPB_ENUM(PB4TrendTagStyle) {
+typedef GPB_ENUM(PB3TrendTagStyle) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4TrendTagStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3TrendTagStyle_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用，旧的样式 */
-  PB4TrendTagStyle_TrendTagStyleNone = 0,
+  PB3TrendTagStyle_TrendTagStyleNone = 0,
 
   /** 图文样式 */
-  PB4TrendTagStyle_TrendTagStyleImg = 1,
+  PB3TrendTagStyle_TrendTagStyleImg = 1,
 };
 
-GPBEnumDescriptor *PB4TrendTagStyle_EnumDescriptor(void);
+GPBEnumDescriptor *PB3TrendTagStyle_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4TrendTagStyle_IsValidValue(int32_t value);
+BOOL PB3TrendTagStyle_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4MediaType
+#pragma mark - Enum PB3MediaType
 
-typedef GPB_ENUM(PB4MediaType) {
+typedef GPB_ENUM(PB3MediaType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4MediaType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3MediaType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4MediaType_MediaTypeNone = 0,
+  PB3MediaType_MediaTypeNone = 0,
 
   /** 图片png */
-  PB4MediaType_MediaTypePng = 1,
+  PB3MediaType_MediaTypePng = 1,
 
   /** 图片git */
-  PB4MediaType_MediaTypeGif = 2,
+  PB3MediaType_MediaTypeGif = 2,
 
   /** 视频 */
-  PB4MediaType_MediaTypeVideo = 3,
+  PB3MediaType_MediaTypeVideo = 3,
 
   /** 声音 */
-  PB4MediaType_MediaTypeAudio = 4,
+  PB3MediaType_MediaTypeAudio = 4,
 };
 
-GPBEnumDescriptor *PB4MediaType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3MediaType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4MediaType_IsValidValue(int32_t value);
+BOOL PB3MediaType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4ContentType
+#pragma mark - Enum PB3ContentType
 
-typedef GPB_ENUM(PB4ContentType) {
+typedef GPB_ENUM(PB3ContentType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4ContentType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3ContentType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4ContentType_ContentTypeNone = 0,
+  PB3ContentType_ContentTypeNone = 0,
 
   /** 文字 */
-  PB4ContentType_ContentTypeText = 1,
+  PB3ContentType_ContentTypeText = 1,
 
-  /** 图文 默认全图片 */
-  PB4ContentType_ContentTypePictureText = 2,
+  /** 图文 */
+  PB3ContentType_ContentTypePictureText = 2,
 
   /** 视频 */
-  PB4ContentType_ContentTypeVideo = 3,
+  PB3ContentType_ContentTypeVideo = 3,
 
   /** 声音 */
-  PB4ContentType_ContentTypeAudio = 4,
-
-  /** 游戏 */
-  PB4ContentType_ContentTypeGame = 5,
+  PB3ContentType_ContentTypeAudio = 4,
 };
 
-GPBEnumDescriptor *PB4ContentType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3ContentType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4ContentType_IsValidValue(int32_t value);
+BOOL PB3ContentType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4PublishGroupType
+#pragma mark - Enum PB3TrendsType
 
-typedef GPB_ENUM(PB4PublishGroupType) {
+typedef GPB_ENUM(PB3TrendsType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4PublishGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3TrendsType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 普通 */
+  PB3TrendsType_TrendsTypeNormal = 0,
+
+  /** 热点 */
+  PB3TrendsType_TrendsTypeHotPoint = 1,
+};
+
+GPBEnumDescriptor *PB3TrendsType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3TrendsType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3PublishGroupType
+
+typedef GPB_ENUM(PB3PublishGroupType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PublishGroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4PublishGroupType_PublicGroupTypeNone = 0,
+  PB3PublishGroupType_PublicGroupTypeNone = 0,
 
   /** 公开 */
-  PB4PublishGroupType_PublicGroupTypePublic = 1,
+  PB3PublishGroupType_PublicGroupTypePublic = 1,
 
   /** 指定圈子 */
-  PB4PublishGroupType_PublicGroupTypeSelect = 2,
+  PB3PublishGroupType_PublicGroupTypeSelect = 2,
 };
 
-GPBEnumDescriptor *PB4PublishGroupType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3PublishGroupType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4PublishGroupType_IsValidValue(int32_t value);
+BOOL PB3PublishGroupType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4TrendsOperType
+#pragma mark - Enum PB3TrendsOperType
 
-typedef GPB_ENUM(PB4TrendsOperType) {
+typedef GPB_ENUM(PB3TrendsOperType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4TrendsOperType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3TrendsOperType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   /** 占位不用 */
-  PB4TrendsOperType_TrendsOperTypeNone = 0,
+  PB3TrendsOperType_TrendsOperTypeNone = 0,
 
   /** 点赞 */
-  PB4TrendsOperType_TrendsOperTypeLike = 1,
+  PB3TrendsOperType_TrendsOperTypeLike = 1,
 
   /** 取消点赞 */
-  PB4TrendsOperType_TrendsOperTypeUnlike = 2,
+  PB3TrendsOperType_TrendsOperTypeUnlike = 2,
 
   /** 评论 */
-  PB4TrendsOperType_TrendsOperTypeComment = 3,
+  PB3TrendsOperType_TrendsOperTypeComment = 3,
 
   /** 删除评论 */
-  PB4TrendsOperType_TrendsOperTypeDelComment = 4,
+  PB3TrendsOperType_TrendsOperTypeDelComment = 4,
 
   /** 删除动态 */
-  PB4TrendsOperType_TrendsOperTypeDelTrends = 5,
+  PB3TrendsOperType_TrendsOperTypeDelTrends = 5,
 
   /** 分享 */
-  PB4TrendsOperType_TrendsOperTypeShare = 6,
+  PB3TrendsOperType_TrendsOperTypeShare = 6,
 
   /** 划卡视频里点赞 */
-  PB4TrendsOperType_TrendsOperTypeLikeVideo = 7,
+  PB3TrendsOperType_TrendsOperTypeLikeVideo = 7,
 
   /** 划卡视频里取消点赞 */
-  PB4TrendsOperType_TrendsOperTypeUnlikeVideo = 8,
+  PB3TrendsOperType_TrendsOperTypeUnlikeVideo = 8,
 
-  /** 评论点赞 */
-  PB4TrendsOperType_TrendsOperTypeCommentLike = 9,
+  /** [外部分享]获取分享ID和链接 */
+  PB3TrendsOperType_TrendsOperTypeGetShareId = 9,
 
-  /** 取消评论点赞 */
-  PB4TrendsOperType_TrendsOperTypeCommentUnlike = 10,
+  /** [外部分享]累加分享次数 */
+  PB3TrendsOperType_TrendsOperTypeIncrShareNum = 10,
 };
 
-GPBEnumDescriptor *PB4TrendsOperType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3TrendsOperType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4TrendsOperType_IsValidValue(int32_t value);
+BOOL PB3TrendsOperType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityTrendsCommentsOrderType
+#pragma mark - Enum PB3ContentResStatus
 
-typedef GPB_ENUM(PB4CommunityTrendsCommentsOrderType) {
+typedef GPB_ENUM(PB3ContentResStatus) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityTrendsCommentsOrderType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** 热度排序 */
-  PB4CommunityTrendsCommentsOrderType_OrderHots = 0,
+  PB3ContentResStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 审核中 */
+  PB3ContentResStatus_Unaudit = 0,
 
-  /** 时间排序 */
-  PB4CommunityTrendsCommentsOrderType_OrderTime = 1,
+  /** 通过 */
+  PB3ContentResStatus_Pass = 1,
+
+  /** 拒绝 */
+  PB3ContentResStatus_Refuse = 2,
 };
 
-GPBEnumDescriptor *PB4CommunityTrendsCommentsOrderType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3ContentResStatus_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityTrendsCommentsOrderType_IsValidValue(int32_t value);
+BOOL PB3ContentResStatus_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityMsgShowType
+#pragma mark - Enum PB3CommentType
 
-typedef GPB_ENUM(PB4CommunityMsgShowType) {
+typedef GPB_ENUM(PB3CommentType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityMsgShowType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityMsgShowType_CmsgShowTypeNone = 0,
+  PB3CommentType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 普通评论 */
+  PB3CommentType_CommentTypeNormal = 0,
+
+  /** 精评 */
+  PB3CommentType_CommentTypeGood = 1,
+};
+
+GPBEnumDescriptor *PB3CommentType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3CommentType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PB3CommunityMsgShowType
+
+typedef GPB_ENUM(PB3CommunityMsgShowType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3CommunityMsgShowType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityMsgShowType_CmsgShowTypeNone = 0,
 
   /** 点赞 */
-  PB4CommunityMsgShowType_CmsgShowTypeLike = 1,
+  PB3CommunityMsgShowType_CmsgShowTypeLike = 1,
 
   /** 评论 */
-  PB4CommunityMsgShowType_CmsgShowTypeComments = 2,
-
-  /** 系统消息 */
-  PB4CommunityMsgShowType_CmsgShowTypeSystem = 3,
-
-  /** 关注 */
-  PB4CommunityMsgShowType_CmsgShowTypeFollow = 4,
-
-  /** 查询动态相关的所有 */
-  PB4CommunityMsgShowType_CmsgShowTypeTrendAll = 5,
+  PB3CommunityMsgShowType_CmsgShowTypeComments = 2,
 };
 
-GPBEnumDescriptor *PB4CommunityMsgShowType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityMsgShowType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityMsgShowType_IsValidValue(int32_t value);
+BOOL PB3CommunityMsgShowType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4CommunityPlayerMsgType
+#pragma mark - Enum PB3CommunityPlayerMsgType
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgType) {
+typedef GPB_ENUM(PB3CommunityPlayerMsgType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4CommunityPlayerMsgType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4CommunityPlayerMsgType_CmsgTypeNone = 0,
+  PB3CommunityPlayerMsgType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3CommunityPlayerMsgType_CmsgTypeNone = 0,
 
   /** 点赞 */
-  PB4CommunityPlayerMsgType_CmsgTypeLike = 1,
+  PB3CommunityPlayerMsgType_CmsgTypeLike = 1,
 
   /** 取消点赞 */
-  PB4CommunityPlayerMsgType_CmsgTypeUnLike = 2,
+  PB3CommunityPlayerMsgType_CmsgTypeUnLike = 2,
 
   /** 分享 */
-  PB4CommunityPlayerMsgType_CmsgTypeShare = 3,
+  PB3CommunityPlayerMsgType_CmsgTypeShare = 3,
 
   /** 评论 */
-  PB4CommunityPlayerMsgType_CmsgTypeComments = 4,
+  PB3CommunityPlayerMsgType_CmsgTypeComments = 4,
 
   /** 删除动态 */
-  PB4CommunityPlayerMsgType_CmsgTypeUnComments = 5,
+  PB3CommunityPlayerMsgType_CmsgTypeUnComments = 5,
 
   /** 回复评论 */
-  PB4CommunityPlayerMsgType_CmsgTypeReplyComments = 6,
+  PB3CommunityPlayerMsgType_CmsgTypeReplyComments = 6,
 
   /** 删除动态 */
-  PB4CommunityPlayerMsgType_CmsgTypeDel = 7,
+  PB3CommunityPlayerMsgType_CmsgTypeDel = 7,
 
   /** \@用户 */
-  PB4CommunityPlayerMsgType_CmsgTypeAtPlayer = 8,
+  PB3CommunityPlayerMsgType_CmsgTypeAtPlayer = 8,
 
   /** 关注了我 */
-  PB4CommunityPlayerMsgType_CmsgTypeFocusMe = 9,
-
-  /** 点赞评论 */
-  PB4CommunityPlayerMsgType_CmsgTypeLikeComment = 10,
-
-  /** 取消点赞评论 */
-  PB4CommunityPlayerMsgType_CmsgTypeUnLikeeComment = 11,
+  PB3CommunityPlayerMsgType_CmsgTypeFocusMe = 9,
 };
 
-GPBEnumDescriptor *PB4CommunityPlayerMsgType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3CommunityPlayerMsgType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4CommunityPlayerMsgType_IsValidValue(int32_t value);
+BOOL PB3CommunityPlayerMsgType_IsValidValue(int32_t value);
 
-#pragma mark - Enum PB4AgreementOperType
+#pragma mark - Enum PB3AgreementOperType
 
-typedef GPB_ENUM(PB4AgreementOperType) {
+typedef GPB_ENUM(PB3AgreementOperType) {
   /**
    * Value used if any message's field encounters a value that is not defined
    * by this enum. The message will also have C functions to get/set the rawValue
    * of the field.
    **/
-  PB4AgreementOperType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  PB4AgreementOperType_AgreementOperTypeNone = 0,
+  PB3AgreementOperType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3AgreementOperType_AgreementOperTypeNone = 0,
 
   /** 查看是否已经同意 */
-  PB4AgreementOperType_AgreementOperTypeCheck = 1,
+  PB3AgreementOperType_AgreementOperTypeCheck = 1,
 
   /** 同意发布动态的协议 */
-  PB4AgreementOperType_AgreementOperTypeAgree = 2,
+  PB3AgreementOperType_AgreementOperTypeAgree = 2,
 };
 
-GPBEnumDescriptor *PB4AgreementOperType_EnumDescriptor(void);
+GPBEnumDescriptor *PB3AgreementOperType_EnumDescriptor(void);
 
 /**
  * Checks to see if the given value is defined by the enum or was not known at
  * the time this source was generated.
  **/
-BOOL PB4AgreementOperType_IsValidValue(int32_t value);
+BOOL PB3AgreementOperType_IsValidValue(int32_t value);
 
-#pragma mark - PB4CommunityExtRoot
+#pragma mark - Enum PB3PluginEffectTimeType
+
+/** 300 */
+typedef GPB_ENUM(PB3PluginEffectTimeType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PluginEffectTimeType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /**  一直计时 */
+  PB3PluginEffectTimeType_PluginEffectTimeTypeAwary = 0,
+
+  /**  使用 */
+  PB3PluginEffectTimeType_PluginEffectTimeTypeUse = 1,
+};
+
+GPBEnumDescriptor *PB3PluginEffectTimeType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PluginEffectTimeType_IsValidValue(int32_t value);
+
+#pragma mark - PB3CommunityExtRoot
 
 /**
  * Exposes the extension registry for this file.
@@ -611,101 +671,136 @@ BOOL PB4AgreementOperType_IsValidValue(int32_t value);
  * which is a @c GPBExtensionRegistry that includes all the extensions defined by
  * this file and all files that it depends on.
  **/
-@interface PB4CommunityExtRoot : GPBRootObject
+@interface PB3CommunityExtRoot : GPBRootObject
 @end
 
-#pragma mark - PB4CommunityRightButton
+#pragma mark - PB3HotReplyCheckNoPass
 
-typedef GPB_ENUM(PB4CommunityRightButton_FieldNumber) {
-  PB4CommunityRightButton_FieldNumber_Icon = 1,
-  PB4CommunityRightButton_FieldNumber_Text = 2,
-  PB4CommunityRightButton_FieldNumber_Rule = 3,
-  PB4CommunityRightButton_FieldNumber_Route = 4,
+typedef GPB_ENUM(PB3HotReplyCheckNoPass_FieldNumber) {
+  PB3HotReplyCheckNoPass_FieldNumber_HotPointId = 1,
 };
 
-@interface PB4CommunityRightButton : GPBMessage
+/**
+ * 热点回复审核不通过
+ **/
+@interface PB3HotReplyCheckNoPass : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+@end
+
+#pragma mark - PB3HotReplyCheckResult
+
+typedef GPB_ENUM(PB3HotReplyCheckResult_FieldNumber) {
+  PB3HotReplyCheckResult_FieldNumber_HotPointId = 1,
+  PB3HotReplyCheckResult_FieldNumber_Pass = 2,
+};
+
+/**
+ * 热点回复审核结果
+ **/
+@interface PB3HotReplyCheckResult : GPBMessage
+
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+@property(nonatomic, readwrite) BOOL pass;
+
+@end
+
+#pragma mark - PB3CommunityRightButton
+
+typedef GPB_ENUM(PB3CommunityRightButton_FieldNumber) {
+  PB3CommunityRightButton_FieldNumber_Icon = 1,
+  PB3CommunityRightButton_FieldNumber_Text = 2,
+  PB3CommunityRightButton_FieldNumber_Rule = 3,
+  PB3CommunityRightButton_FieldNumber_Route = 4,
+};
+
+@interface PB3CommunityRightButton : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *text;
 
-@property(nonatomic, readwrite) PB4CommunityRightRule rule;
+@property(nonatomic, readwrite) PB3CommunityRightRule rule;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *route;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityRightButton's @c rule property, even
+ * Fetches the raw value of a @c PB3CommunityRightButton's @c rule property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityRightButton_Rule_RawValue(PB4CommunityRightButton *message);
+int32_t PB3CommunityRightButton_Rule_RawValue(PB3CommunityRightButton *message);
 /**
- * Sets the raw value of an @c PB4CommunityRightButton's @c rule property, allowing
+ * Sets the raw value of an @c PB3CommunityRightButton's @c rule property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityRightButton_Rule_RawValue(PB4CommunityRightButton *message, int32_t value);
+void SetPB3CommunityRightButton_Rule_RawValue(PB3CommunityRightButton *message, int32_t value);
 
-#pragma mark - PB4CommunityTagList
+#pragma mark - PB3CommunityTagList
 
-typedef GPB_ENUM(PB4CommunityTagList_FieldNumber) {
-  PB4CommunityTagList_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3CommunityTagList_FieldNumber) {
+  PB3CommunityTagList_FieldNumber_ListArray = 1,
 };
 
-@interface PB4CommunityTagList : GPBMessage
+@interface PB3CommunityTagList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendTag*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendTag*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4CommunityGroupDataList
+#pragma mark - PB3CommunityGroupDataList
 
-typedef GPB_ENUM(PB4CommunityGroupDataList_FieldNumber) {
-  PB4CommunityGroupDataList_FieldNumber_ListArray = 1,
-  PB4CommunityGroupDataList_FieldNumber_ModuleType = 2,
+typedef GPB_ENUM(PB3CommunityGroupDataList_FieldNumber) {
+  PB3CommunityGroupDataList_FieldNumber_ListArray = 1,
+  PB3CommunityGroupDataList_FieldNumber_ModuleType = 2,
 };
 
-@interface PB4CommunityGroupDataList : GPBMessage
+@interface PB3CommunityGroupDataList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityGroupData*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityGroupData*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 /** 模块数据类型 */
-@property(nonatomic, readwrite) PB4CommunityModuleType moduleType;
+@property(nonatomic, readwrite) PB3CommunityModuleType moduleType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityGroupDataList's @c moduleType property, even
+ * Fetches the raw value of a @c PB3CommunityGroupDataList's @c moduleType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityGroupDataList_ModuleType_RawValue(PB4CommunityGroupDataList *message);
+int32_t PB3CommunityGroupDataList_ModuleType_RawValue(PB3CommunityGroupDataList *message);
 /**
- * Sets the raw value of an @c PB4CommunityGroupDataList's @c moduleType property, allowing
+ * Sets the raw value of an @c PB3CommunityGroupDataList's @c moduleType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityGroupDataList_ModuleType_RawValue(PB4CommunityGroupDataList *message, int32_t value);
+void SetPB3CommunityGroupDataList_ModuleType_RawValue(PB3CommunityGroupDataList *message, int32_t value);
 
-#pragma mark - PB4CommunityGroupData
+#pragma mark - PB3CommunityGroupData
 
-typedef GPB_ENUM(PB4CommunityGroupData_FieldNumber) {
-  PB4CommunityGroupData_FieldNumber_GroupInfo = 1,
-  PB4CommunityGroupData_FieldNumber_Trend = 2,
-  PB4CommunityGroupData_FieldNumber_Index = 3,
+typedef GPB_ENUM(PB3CommunityGroupData_FieldNumber) {
+  PB3CommunityGroupData_FieldNumber_GroupInfo = 1,
+  PB3CommunityGroupData_FieldNumber_Trend = 2,
+  PB3CommunityGroupData_FieldNumber_Index = 3,
 };
 
-@interface PB4CommunityGroupData : GPBMessage
+@interface PB3CommunityGroupData : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityGroupInfo *groupInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityGroupInfo *groupInfo;
 /** Test to see if @c groupInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasGroupInfo;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityTrendData *trend;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityTrendData *trend;
 /** Test to see if @c trend has been set. */
 @property(nonatomic, readwrite) BOOL hasTrend;
 
@@ -713,45 +808,21 @@ typedef GPB_ENUM(PB4CommunityGroupData_FieldNumber) {
 
 @end
 
-#pragma mark - PB4Effort
+#pragma mark - PB3CommunityGroupInfo
 
-typedef GPB_ENUM(PB4Effort_FieldNumber) {
-  PB4Effort_FieldNumber_EffortId = 1,
-  PB4Effort_FieldNumber_EffortTitle = 2,
-  PB4Effort_FieldNumber_EffortContent = 3,
-  PB4Effort_FieldNumber_EffortIcon = 4,
+typedef GPB_ENUM(PB3CommunityGroupInfo_FieldNumber) {
+  PB3CommunityGroupInfo_FieldNumber_Id_p = 1,
+  PB3CommunityGroupInfo_FieldNumber_Icon = 2,
+  PB3CommunityGroupInfo_FieldNumber_Name = 3,
+  PB3CommunityGroupInfo_FieldNumber_MemberNum = 4,
+  PB3CommunityGroupInfo_FieldNumber_TrendNum = 5,
+  PB3CommunityGroupInfo_FieldNumber_Introduction = 6,
+  PB3CommunityGroupInfo_FieldNumber_RedNum = 7,
+  PB3CommunityGroupInfo_FieldNumber_Type = 8,
+  PB3CommunityGroupInfo_FieldNumber_IsAuditing = 9,
 };
 
-/**
- * 成就信息
- **/
-@interface PB4Effort : GPBMessage
-
-@property(nonatomic, readwrite) int64_t effortId;
-
-@property(nonatomic, readwrite, copy, null_resettable) NSString *effortTitle;
-
-@property(nonatomic, readwrite, copy, null_resettable) NSString *effortContent;
-
-@property(nonatomic, readwrite, copy, null_resettable) NSString *effortIcon;
-
-@end
-
-#pragma mark - PB4CommunityGroupInfo
-
-typedef GPB_ENUM(PB4CommunityGroupInfo_FieldNumber) {
-  PB4CommunityGroupInfo_FieldNumber_Id_p = 1,
-  PB4CommunityGroupInfo_FieldNumber_Icon = 2,
-  PB4CommunityGroupInfo_FieldNumber_Name = 3,
-  PB4CommunityGroupInfo_FieldNumber_MemberNum = 4,
-  PB4CommunityGroupInfo_FieldNumber_TrendNum = 5,
-  PB4CommunityGroupInfo_FieldNumber_Introduction = 6,
-  PB4CommunityGroupInfo_FieldNumber_RedNum = 7,
-  PB4CommunityGroupInfo_FieldNumber_Type = 8,
-  PB4CommunityGroupInfo_FieldNumber_IsAuditing = 9,
-};
-
-@interface PB4CommunityGroupInfo : GPBMessage
+@interface PB3CommunityGroupInfo : GPBMessage
 
 /** 圈子ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -775,7 +846,7 @@ typedef GPB_ENUM(PB4CommunityGroupInfo_FieldNumber) {
 @property(nonatomic, readwrite) int32_t redNum;
 
 /** 是否是公会圈子 */
-@property(nonatomic, readwrite) enum PB4CommunityGroupType type;
+@property(nonatomic, readwrite) enum PB3CommunityGroupType type;
 
 /** 是否审核中 */
 @property(nonatomic, readwrite) BOOL isAuditing;
@@ -783,98 +854,99 @@ typedef GPB_ENUM(PB4CommunityGroupInfo_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityGroupInfo's @c type property, even
+ * Fetches the raw value of a @c PB3CommunityGroupInfo's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityGroupInfo_Type_RawValue(PB4CommunityGroupInfo *message);
+int32_t PB3CommunityGroupInfo_Type_RawValue(PB3CommunityGroupInfo *message);
 /**
- * Sets the raw value of an @c PB4CommunityGroupInfo's @c type property, allowing
+ * Sets the raw value of an @c PB3CommunityGroupInfo's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityGroupInfo_Type_RawValue(PB4CommunityGroupInfo *message, int32_t value);
+void SetPB3CommunityGroupInfo_Type_RawValue(PB3CommunityGroupInfo *message, int32_t value);
 
-#pragma mark - PB4CommunityTrendDataList
+#pragma mark - PB3CommunityTrendDataList
 
-typedef GPB_ENUM(PB4CommunityTrendDataList_FieldNumber) {
-  PB4CommunityTrendDataList_FieldNumber_ListArray = 1,
-  PB4CommunityTrendDataList_FieldNumber_ModuleType = 2,
+typedef GPB_ENUM(PB3CommunityTrendDataList_FieldNumber) {
+  PB3CommunityTrendDataList_FieldNumber_ListArray = 1,
+  PB3CommunityTrendDataList_FieldNumber_ModuleType = 2,
 };
 
-@interface PB4CommunityTrendDataList : GPBMessage
+@interface PB3CommunityTrendDataList : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityTrendData*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityTrendData*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 /** 模块数据类型 */
-@property(nonatomic, readwrite) PB4CommunityModuleType moduleType;
+@property(nonatomic, readwrite) PB3CommunityModuleType moduleType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityTrendDataList's @c moduleType property, even
+ * Fetches the raw value of a @c PB3CommunityTrendDataList's @c moduleType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityTrendDataList_ModuleType_RawValue(PB4CommunityTrendDataList *message);
+int32_t PB3CommunityTrendDataList_ModuleType_RawValue(PB3CommunityTrendDataList *message);
 /**
- * Sets the raw value of an @c PB4CommunityTrendDataList's @c moduleType property, allowing
+ * Sets the raw value of an @c PB3CommunityTrendDataList's @c moduleType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityTrendDataList_ModuleType_RawValue(PB4CommunityTrendDataList *message, int32_t value);
+void SetPB3CommunityTrendDataList_ModuleType_RawValue(PB3CommunityTrendDataList *message, int32_t value);
 
-#pragma mark - PB4AtPlayer
+#pragma mark - PB3AtPlayer
 
-typedef GPB_ENUM(PB4AtPlayer_FieldNumber) {
-  PB4AtPlayer_FieldNumber_Id_p = 1,
-  PB4AtPlayer_FieldNumber_Name = 2,
+typedef GPB_ENUM(PB3AtPlayer_FieldNumber) {
+  PB3AtPlayer_FieldNumber_Id_p = 1,
+  PB3AtPlayer_FieldNumber_Name = 2,
+  PB3AtPlayer_FieldNumber_Icon = 3,
 };
 
-@interface PB4AtPlayer : GPBMessage
+@interface PB3AtPlayer : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
 @end
 
-#pragma mark - PB4CommunityTrendData
+#pragma mark - PB3CommunityTrendData
 
-typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
-  PB4CommunityTrendData_FieldNumber_Id_p = 1,
-  PB4CommunityTrendData_FieldNumber_Publisher = 2,
-  PB4CommunityTrendData_FieldNumber_Content = 3,
-  PB4CommunityTrendData_FieldNumber_LikeNum = 4,
-  PB4CommunityTrendData_FieldNumber_CommentNum = 5,
-  PB4CommunityTrendData_FieldNumber_TagsArray = 6,
-  PB4CommunityTrendData_FieldNumber_PublishAt = 7,
-  PB4CommunityTrendData_FieldNumber_MediaUrlsArray = 8,
-  PB4CommunityTrendData_FieldNumber_IsGaveLike = 9,
-  PB4CommunityTrendData_FieldNumber_Index = 10,
-  PB4CommunityTrendData_FieldNumber_GroupsArray = 11,
-  PB4CommunityTrendData_FieldNumber_AtPlayerArray = 12,
-  PB4CommunityTrendData_FieldNumber_Top = 13,
-  PB4CommunityTrendData_FieldNumber_SkillId = 14,
-  PB4CommunityTrendData_FieldNumber_IaId = 15,
-  PB4CommunityTrendData_FieldNumber_ActivityId = 16,
-  PB4CommunityTrendData_FieldNumber_AuthInfoListArray = 17,
-  PB4CommunityTrendData_FieldNumber_TagURL = 18,
-  PB4CommunityTrendData_FieldNumber_PlayNum = 19,
-  PB4CommunityTrendData_FieldNumber_Game = 20,
-  PB4CommunityTrendData_FieldNumber_IsLike = 21,
-  PB4CommunityTrendData_FieldNumber_Comments = 22,
-  PB4CommunityTrendData_FieldNumber_Ago = 23,
-  PB4CommunityTrendData_FieldNumber_Effort = 24,
+typedef GPB_ENUM(PB3CommunityTrendData_FieldNumber) {
+  PB3CommunityTrendData_FieldNumber_Id_p = 1,
+  PB3CommunityTrendData_FieldNumber_Publisher = 2,
+  PB3CommunityTrendData_FieldNumber_Content = 3,
+  PB3CommunityTrendData_FieldNumber_LikeNum = 4,
+  PB3CommunityTrendData_FieldNumber_CommentNum = 5,
+  PB3CommunityTrendData_FieldNumber_TagsArray = 6,
+  PB3CommunityTrendData_FieldNumber_PublishAt = 7,
+  PB3CommunityTrendData_FieldNumber_MediaUrlsArray = 8,
+  PB3CommunityTrendData_FieldNumber_IsGaveLike = 9,
+  PB3CommunityTrendData_FieldNumber_Index = 10,
+  PB3CommunityTrendData_FieldNumber_GroupsArray = 11,
+  PB3CommunityTrendData_FieldNumber_AtPlayerArray = 12,
+  PB3CommunityTrendData_FieldNumber_Top = 13,
+  PB3CommunityTrendData_FieldNumber_SkillId = 14,
+  PB3CommunityTrendData_FieldNumber_IaId = 15,
+  PB3CommunityTrendData_FieldNumber_ActivityId = 16,
+  PB3CommunityTrendData_FieldNumber_AuthInfoListArray = 17,
+  PB3CommunityTrendData_FieldNumber_TagURL = 18,
+  PB3CommunityTrendData_FieldNumber_PlayNum = 19,
+  PB3CommunityTrendData_FieldNumber_TrendsType = 20,
+  PB3CommunityTrendData_FieldNumber_IpArea = 21,
+  PB3CommunityTrendData_FieldNumber_ShareNum = 22,
 };
 
-@interface PB4CommunityTrendData : GPBMessage
+@interface PB3CommunityTrendData : GPBMessage
 
 /** 动态ID */
 @property(nonatomic, readwrite) int64_t id_p;
 
 /** 发布者ID */
-@property(nonatomic, readwrite, strong, null_resettable) PB4Publisher *publisher;
+@property(nonatomic, readwrite, strong, null_resettable) PB3Publisher *publisher;
 /** Test to see if @c publisher has been set. */
 @property(nonatomic, readwrite) BOOL hasPublisher;
 
@@ -888,7 +960,7 @@ typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
 @property(nonatomic, readwrite) int32_t commentNum;
 
 /** 标签 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendTag*> *tagsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendTag*> *tagsArray;
 /** The number of items in @c tagsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
 
@@ -896,7 +968,7 @@ typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
 @property(nonatomic, readwrite) int64_t publishAt;
 
 /** 多媒体资源列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MediaResource*> *mediaUrlsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *mediaUrlsArray;
 /** The number of items in @c mediaUrlsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger mediaUrlsArray_Count;
 
@@ -905,12 +977,12 @@ typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
 
 @property(nonatomic, readwrite) int32_t index;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4GroupInfoSimple*> *groupsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3GroupInfoSimple*> *groupsArray;
 /** The number of items in @c groupsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger groupsArray_Count;
 
 /** \@用户 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4AtPlayer*> *atPlayerArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *atPlayerArray;
 /** The number of items in @c atPlayerArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger atPlayerArray_Count;
 
@@ -927,7 +999,7 @@ typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
 @property(nonatomic, readwrite) int32_t activityId;
 
 /** 用户认证信息 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PAuthInfo*> *authInfoListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PAuthInfo*> *authInfoListArray;
 /** The number of items in @c authInfoListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger authInfoListArray_Count;
 
@@ -937,74 +1009,52 @@ typedef GPB_ENUM(PB4CommunityTrendData_FieldNumber) {
 /** 播放次数 */
 @property(nonatomic, readwrite) int32_t playNum;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4TrendGameInfo *game;
-/** Test to see if @c game has been set. */
-@property(nonatomic, readwrite) BOOL hasGame;
+/** 动态类型 */
+@property(nonatomic, readwrite) PB3TrendsType trendsType;
 
-/** 是否已赞 */
-@property(nonatomic, readwrite) BOOL isLike;
+/** ip地区 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *ipArea;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4TrendsComment *comments;
-/** Test to see if @c comments has been set. */
-@property(nonatomic, readwrite) BOOL hasComments;
-
-/** 时间 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *ago;
-
-/** 成就信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4Effort *effort;
-/** Test to see if @c effort has been set. */
-@property(nonatomic, readwrite) BOOL hasEffort;
+/** 分享数量 */
+@property(nonatomic, readwrite) int32_t shareNum;
 
 @end
-
-#pragma mark - PB4TrendGameInfo
-
-typedef GPB_ENUM(PB4TrendGameInfo_FieldNumber) {
-  PB4TrendGameInfo_FieldNumber_GameIcon = 1,
-  PB4TrendGameInfo_FieldNumber_GameName = 2,
-  PB4TrendGameInfo_FieldNumber_GameMsg = 3,
-  PB4TrendGameInfo_FieldNumber_GameId = 4,
-  PB4TrendGameInfo_FieldNumber_ScreenDirection = 5,
-};
 
 /**
- * 动态游戏数据结构
+ * Fetches the raw value of a @c PB3CommunityTrendData's @c trendsType property, even
+ * if the value was not defined by the enum at the time the code was generated.
  **/
-@interface PB4TrendGameInfo : GPBMessage
+int32_t PB3CommunityTrendData_TrendsType_RawValue(PB3CommunityTrendData *message);
+/**
+ * Sets the raw value of an @c PB3CommunityTrendData's @c trendsType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CommunityTrendData_TrendsType_RawValue(PB3CommunityTrendData *message, int32_t value);
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameIcon;
+#pragma mark - PB3Publisher
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameName;
-
-/** 游戏播报信息 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *gameMsg;
-
-/** 游戏id */
-@property(nonatomic, readwrite) int64_t gameId;
-
-@property(nonatomic, readwrite) int32_t screenDirection;
-
-@end
-
-#pragma mark - PB4Publisher
-
-typedef GPB_ENUM(PB4Publisher_FieldNumber) {
-  PB4Publisher_FieldNumber_Id_p = 1,
-  PB4Publisher_FieldNumber_Id2 = 2,
-  PB4Publisher_FieldNumber_Sex = 3,
-  PB4Publisher_FieldNumber_Name = 4,
-  PB4Publisher_FieldNumber_Icon = 5,
-  PB4Publisher_FieldNumber_RoomId = 6,
-  PB4Publisher_FieldNumber_IsBillPlayer = 7,
-  PB4Publisher_FieldNumber_WealthLevel = 8,
-  PB4Publisher_FieldNumber_CharmLevel = 9,
-  PB4Publisher_FieldNumber_Signature = 10,
-  PB4Publisher_FieldNumber_Clan = 11,
-  PB4Publisher_FieldNumber_PlayerLabelArray = 12,
+typedef GPB_ENUM(PB3Publisher_FieldNumber) {
+  PB3Publisher_FieldNumber_Id_p = 1,
+  PB3Publisher_FieldNumber_Id2 = 2,
+  PB3Publisher_FieldNumber_Sex = 3,
+  PB3Publisher_FieldNumber_Name = 4,
+  PB3Publisher_FieldNumber_Icon = 5,
+  PB3Publisher_FieldNumber_RoomId = 6,
+  PB3Publisher_FieldNumber_IsBillPlayer = 7,
+  PB3Publisher_FieldNumber_WealthLevel = 8,
+  PB3Publisher_FieldNumber_CharmLevel = 9,
+  PB3Publisher_FieldNumber_ClanId = 10,
+  PB3Publisher_FieldNumber_ClanName = 11,
+  PB3Publisher_FieldNumber_ClanLevel = 12,
+  PB3Publisher_FieldNumber_ClanIconWord = 13,
+  PB3Publisher_FieldNumber_IconType = 15,
+  PB3Publisher_FieldNumber_Signature = 16,
+  PB3Publisher_FieldNumber_EffectArray = 17,
+  PB3Publisher_FieldNumber_IsDeleted = 18,
 };
 
-@interface PB4Publisher : GPBMessage
+@interface PB3Publisher : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -1025,65 +1075,60 @@ typedef GPB_ENUM(PB4Publisher_FieldNumber) {
 
 @property(nonatomic, readwrite) int32_t charmLevel;
 
+@property(nonatomic, readwrite) int64_t clanId;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *clanName;
+
+@property(nonatomic, readwrite) int64_t clanLevel;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *clanIconWord;
+
+/** 公会等级图标类型 */
+@property(nonatomic, readwrite) PB3CommunityClanIconType iconType;
+
 /** 用户签名 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *signature;
 
-/** 公会信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityClanInfo *clan;
-/** Test to see if @c clan has been set. */
-@property(nonatomic, readwrite) BOOL hasClan;
+/** 特效 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PluginEffect*> *effectArray;
+/** The number of items in @c effectArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger effectArray_Count;
 
-/** 用户标签 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PlayerLabel*> *playerLabelArray;
-/** The number of items in @c playerLabelArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger playerLabelArray_Count;
+/** 注销账号 */
+@property(nonatomic, readwrite) BOOL isDeleted;
 
 @end
 
-#pragma mark - PB4PlayerLabel
+/**
+ * Fetches the raw value of a @c PB3Publisher's @c iconType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3Publisher_IconType_RawValue(PB3Publisher *message);
+/**
+ * Sets the raw value of an @c PB3Publisher's @c iconType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3Publisher_IconType_RawValue(PB3Publisher *message, int32_t value);
 
-typedef GPB_ENUM(PB4PlayerLabel_FieldNumber) {
-  PB4PlayerLabel_FieldNumber_LabelIcon = 1,
-  PB4PlayerLabel_FieldNumber_LabelWord = 4,
-  PB4PlayerLabel_FieldNumber_DialogImg = 5,
+#pragma mark - PB3CommunityGroupTrendList
+
+typedef GPB_ENUM(PB3CommunityGroupTrendList_FieldNumber) {
+  PB3CommunityGroupTrendList_FieldNumber_ListArray = 1,
+  PB3CommunityGroupTrendList_FieldNumber_GroupInfo = 2,
+  PB3CommunityGroupTrendList_FieldNumber_Collection = 3,
+  PB3CommunityGroupTrendList_FieldNumber_Status = 4,
+  PB3CommunityGroupTrendList_FieldNumber_ApplyingNum = 5,
 };
 
-/**
- * 个人标签信息
- **/
-@interface PB4PlayerLabel : GPBMessage
+@interface PB3CommunityGroupTrendList : GPBMessage
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelIcon;
-
-/**
- * bool show_in_community = 2;//是否展示在动态
- * bool show_in_search_player = 3;//是否展示在用户搜索页面
- **/
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelWord;
-
-/** 弹窗图片 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *dialogImg;
-
-@end
-
-#pragma mark - PB4CommunityGroupTrendList
-
-typedef GPB_ENUM(PB4CommunityGroupTrendList_FieldNumber) {
-  PB4CommunityGroupTrendList_FieldNumber_ListArray = 1,
-  PB4CommunityGroupTrendList_FieldNumber_GroupInfo = 2,
-  PB4CommunityGroupTrendList_FieldNumber_Collection = 3,
-  PB4CommunityGroupTrendList_FieldNumber_Status = 4,
-  PB4CommunityGroupTrendList_FieldNumber_ApplyingNum = 5,
-};
-
-@interface PB4CommunityGroupTrendList : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityTrendData*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityTrendData*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 /** 圈子信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityGroupInfo *groupInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityGroupInfo *groupInfo;
 /** Test to see if @c groupInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasGroupInfo;
 
@@ -1091,7 +1136,7 @@ typedef GPB_ENUM(PB4CommunityGroupTrendList_FieldNumber) {
 @property(nonatomic, readwrite) BOOL collection;
 
 /** 状态 */
-@property(nonatomic, readwrite) PB4CommunityGroupStatus status;
+@property(nonatomic, readwrite) PB3CommunityGroupStatus status;
 
 /** 申请人数 */
 @property(nonatomic, readwrite) int32_t applyingNum;
@@ -1099,32 +1144,32 @@ typedef GPB_ENUM(PB4CommunityGroupTrendList_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityGroupTrendList's @c status property, even
+ * Fetches the raw value of a @c PB3CommunityGroupTrendList's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityGroupTrendList_Status_RawValue(PB4CommunityGroupTrendList *message);
+int32_t PB3CommunityGroupTrendList_Status_RawValue(PB3CommunityGroupTrendList *message);
 /**
- * Sets the raw value of an @c PB4CommunityGroupTrendList's @c status property, allowing
+ * Sets the raw value of an @c PB3CommunityGroupTrendList's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityGroupTrendList_Status_RawValue(PB4CommunityGroupTrendList *message, int32_t value);
+void SetPB3CommunityGroupTrendList_Status_RawValue(PB3CommunityGroupTrendList *message, int32_t value);
 
-#pragma mark - PB4TrendTag
+#pragma mark - PB3TrendTag
 
-typedef GPB_ENUM(PB4TrendTag_FieldNumber) {
-  PB4TrendTag_FieldNumber_Id_p = 1,
-  PB4TrendTag_FieldNumber_Name = 2,
-  PB4TrendTag_FieldNumber_Index = 3,
-  PB4TrendTag_FieldNumber_Icon = 4,
-  PB4TrendTag_FieldNumber_Hot = 5,
-  PB4TrendTag_FieldNumber_Comment = 6,
-  PB4TrendTag_FieldNumber_URL = 7,
-  PB4TrendTag_FieldNumber_ButtonText = 8,
-  PB4TrendTag_FieldNumber_StyleId = 9,
+typedef GPB_ENUM(PB3TrendTag_FieldNumber) {
+  PB3TrendTag_FieldNumber_Id_p = 1,
+  PB3TrendTag_FieldNumber_Name = 2,
+  PB3TrendTag_FieldNumber_Index = 3,
+  PB3TrendTag_FieldNumber_Icon = 4,
+  PB3TrendTag_FieldNumber_Hot = 5,
+  PB3TrendTag_FieldNumber_Comment = 6,
+  PB3TrendTag_FieldNumber_URL = 7,
+  PB3TrendTag_FieldNumber_ButtonText = 8,
+  PB3TrendTag_FieldNumber_StyleId = 9,
 };
 
-@interface PB4TrendTag : GPBMessage
+@interface PB3TrendTag : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -1148,35 +1193,33 @@ typedef GPB_ENUM(PB4TrendTag_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *buttonText;
 
 /** 标签展开样式id */
-@property(nonatomic, readwrite) PB4TrendTagStyle styleId;
+@property(nonatomic, readwrite) PB3TrendTagStyle styleId;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4TrendTag's @c styleId property, even
+ * Fetches the raw value of a @c PB3TrendTag's @c styleId property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4TrendTag_StyleId_RawValue(PB4TrendTag *message);
+int32_t PB3TrendTag_StyleId_RawValue(PB3TrendTag *message);
 /**
- * Sets the raw value of an @c PB4TrendTag's @c styleId property, allowing
+ * Sets the raw value of an @c PB3TrendTag's @c styleId property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4TrendTag_StyleId_RawValue(PB4TrendTag *message, int32_t value);
+void SetPB3TrendTag_StyleId_RawValue(PB3TrendTag *message, int32_t value);
 
-#pragma mark - PB4CommunityPlayerInfo
+#pragma mark - PB3CommunityPlayerInfo
 
-typedef GPB_ENUM(PB4CommunityPlayerInfo_FieldNumber) {
-  PB4CommunityPlayerInfo_FieldNumber_Id_p = 1,
-  PB4CommunityPlayerInfo_FieldNumber_Id2 = 2,
-  PB4CommunityPlayerInfo_FieldNumber_NickName = 3,
-  PB4CommunityPlayerInfo_FieldNumber_Icon = 4,
-  PB4CommunityPlayerInfo_FieldNumber_Sex = 5,
-  PB4CommunityPlayerInfo_FieldNumber_Clan = 6,
-  PB4CommunityPlayerInfo_FieldNumber_PlayerLabelArray = 7,
+typedef GPB_ENUM(PB3CommunityPlayerInfo_FieldNumber) {
+  PB3CommunityPlayerInfo_FieldNumber_Id_p = 1,
+  PB3CommunityPlayerInfo_FieldNumber_Id2 = 2,
+  PB3CommunityPlayerInfo_FieldNumber_NickName = 3,
+  PB3CommunityPlayerInfo_FieldNumber_Icon = 4,
+  PB3CommunityPlayerInfo_FieldNumber_Sex = 5,
 };
 
-@interface PB4CommunityPlayerInfo : GPBMessage
+@interface PB3CommunityPlayerInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -1186,53 +1229,42 @@ typedef GPB_ENUM(PB4CommunityPlayerInfo_FieldNumber) {
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
-@property(nonatomic, readwrite) enum PB4PluginSexType sex;
-
-/** 公会信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityClanInfo *clan;
-/** Test to see if @c clan has been set. */
-@property(nonatomic, readwrite) BOOL hasClan;
-
-/** 用户标签 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PlayerLabel*> *playerLabelArray;
-/** The number of items in @c playerLabelArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger playerLabelArray_Count;
+@property(nonatomic, readwrite) enum PB3PluginSexType sex;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPlayerInfo's @c sex property, even
+ * Fetches the raw value of a @c PB3CommunityPlayerInfo's @c sex property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPlayerInfo_Sex_RawValue(PB4CommunityPlayerInfo *message);
+int32_t PB3CommunityPlayerInfo_Sex_RawValue(PB3CommunityPlayerInfo *message);
 /**
- * Sets the raw value of an @c PB4CommunityPlayerInfo's @c sex property, allowing
+ * Sets the raw value of an @c PB3CommunityPlayerInfo's @c sex property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPlayerInfo_Sex_RawValue(PB4CommunityPlayerInfo *message, int32_t value);
+void SetPB3CommunityPlayerInfo_Sex_RawValue(PB3CommunityPlayerInfo *message, int32_t value);
 
-#pragma mark - PB4MediaResource
+#pragma mark - PB3MediaResource
 
-typedef GPB_ENUM(PB4MediaResource_FieldNumber) {
-  PB4MediaResource_FieldNumber_MediaType = 1,
-  PB4MediaResource_FieldNumber_MediaURL = 2,
-  PB4MediaResource_FieldNumber_CoverURL = 3,
-  PB4MediaResource_FieldNumber_MediaWidth = 4,
-  PB4MediaResource_FieldNumber_MediaHeight = 5,
-  PB4MediaResource_FieldNumber_MediaSecond = 6,
-  PB4MediaResource_FieldNumber_VideoURL = 7,
-  PB4MediaResource_FieldNumber_AudioURL = 8,
-  PB4MediaResource_FieldNumber_VideoId = 9,
-  PB4MediaResource_FieldNumber_TransVideoURL = 10,
-  PB4MediaResource_FieldNumber_TransCoverURL = 11,
-  PB4MediaResource_FieldNumber_TrendId = 12,
+typedef GPB_ENUM(PB3MediaResource_FieldNumber) {
+  PB3MediaResource_FieldNumber_MediaType = 1,
+  PB3MediaResource_FieldNumber_MediaURL = 2,
+  PB3MediaResource_FieldNumber_CoverURL = 3,
+  PB3MediaResource_FieldNumber_MediaWidth = 4,
+  PB3MediaResource_FieldNumber_MediaHeight = 5,
+  PB3MediaResource_FieldNumber_MediaSecond = 6,
+  PB3MediaResource_FieldNumber_VideoURL = 7,
+  PB3MediaResource_FieldNumber_AudioURL = 8,
+  PB3MediaResource_FieldNumber_VideoId = 9,
+  PB3MediaResource_FieldNumber_TransVideoURL = 10,
+  PB3MediaResource_FieldNumber_TransCoverURL = 11,
 };
 
-@interface PB4MediaResource : GPBMessage
+@interface PB3MediaResource : GPBMessage
 
 /** 多媒体类型 */
-@property(nonatomic, readwrite) PB4MediaType mediaType;
+@property(nonatomic, readwrite) PB3MediaType mediaType;
 
 /** 多媒体资源url  传全地址 http://xxx.c/ddd, 兼容旧版本：如果是视频/音频，则该字段为封面图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *mediaURL;
@@ -1262,83 +1294,58 @@ typedef GPB_ENUM(PB4MediaResource_FieldNumber) {
 /** 转码后 封面图 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *transCoverURL;
 
-/** 动态id */
-@property(nonatomic, readwrite) int64_t trendId;
-
 @end
 
 /**
- * Fetches the raw value of a @c PB4MediaResource's @c mediaType property, even
+ * Fetches the raw value of a @c PB3MediaResource's @c mediaType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4MediaResource_MediaType_RawValue(PB4MediaResource *message);
+int32_t PB3MediaResource_MediaType_RawValue(PB3MediaResource *message);
 /**
- * Sets the raw value of an @c PB4MediaResource's @c mediaType property, allowing
+ * Sets the raw value of an @c PB3MediaResource's @c mediaType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4MediaResource_MediaType_RawValue(PB4MediaResource *message, int32_t value);
+void SetPB3MediaResource_MediaType_RawValue(PB3MediaResource *message, int32_t value);
 
-#pragma mark - PB4Photo
+#pragma mark - PB3CommunityPublishReq
 
-typedef GPB_ENUM(PB4Photo_FieldNumber) {
-  PB4Photo_FieldNumber_Media = 1,
-  PB4Photo_FieldNumber_TrendContent = 2,
-  PB4Photo_FieldNumber_MediaId = 3,
+typedef GPB_ENUM(PB3CommunityPublishReq_FieldNumber) {
+  PB3CommunityPublishReq_FieldNumber_Content = 1,
+  PB3CommunityPublishReq_FieldNumber_MediaUrlsArray = 2,
+  PB3CommunityPublishReq_FieldNumber_ContentType = 3,
+  PB3CommunityPublishReq_FieldNumber_TagsArray = 4,
+  PB3CommunityPublishReq_FieldNumber_GroupType = 5,
+  PB3CommunityPublishReq_FieldNumber_GroupsArray = 6,
+  PB3CommunityPublishReq_FieldNumber_AtPlayerIdArray = 7,
+  PB3CommunityPublishReq_FieldNumber_AtPlayerArray = 8,
+  PB3CommunityPublishReq_FieldNumber_SkillId = 9,
+  PB3CommunityPublishReq_FieldNumber_InteractionId = 10,
+  PB3CommunityPublishReq_FieldNumber_TrendsType = 11,
 };
 
-@interface PB4Photo : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) PB4MediaResource *media;
-/** Test to see if @c media has been set. */
-@property(nonatomic, readwrite) BOOL hasMedia;
-
-/** 动态内容 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *trendContent;
-
-/** 媒体id */
-@property(nonatomic, readwrite) int32_t mediaId;
-
-@end
-
-#pragma mark - PB4CommunityPublishReq
-
-typedef GPB_ENUM(PB4CommunityPublishReq_FieldNumber) {
-  PB4CommunityPublishReq_FieldNumber_Content = 1,
-  PB4CommunityPublishReq_FieldNumber_MediaUrlsArray = 2,
-  PB4CommunityPublishReq_FieldNumber_ContentType = 3,
-  PB4CommunityPublishReq_FieldNumber_TagsArray = 4,
-  PB4CommunityPublishReq_FieldNumber_GroupType = 5,
-  PB4CommunityPublishReq_FieldNumber_GroupsArray = 6,
-  PB4CommunityPublishReq_FieldNumber_AtPlayerIdArray = 7,
-  PB4CommunityPublishReq_FieldNumber_AtPlayerArray = 8,
-  PB4CommunityPublishReq_FieldNumber_SkillId = 9,
-  PB4CommunityPublishReq_FieldNumber_InteractionId = 10,
-  PB4CommunityPublishReq_FieldNumber_GameId = 11,
-  PB4CommunityPublishReq_FieldNumber_Effort = 12,
-};
-
-@interface PB4CommunityPublishReq : GPBMessage
+@interface PB3CommunityPublishReq : GPBMessage
 
 /** 文本内容 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *content;
 
 /** 多媒体资源列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MediaResource*> *mediaUrlsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *mediaUrlsArray;
 /** The number of items in @c mediaUrlsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger mediaUrlsArray_Count;
 
-@property(nonatomic, readwrite) PB4ContentType contentType;
+/** 内容类型 */
+@property(nonatomic, readwrite) PB3ContentType contentType;
 
-/** 标签列表 (留空) */
+/** 标签列表 */
 @property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *tagsArray;
 /** The number of items in @c tagsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
 
-/** 发到圈子类型 (留空) */
-@property(nonatomic, readwrite) PB4PublishGroupType groupType;
+/** 发到圈子类型 */
+@property(nonatomic, readwrite) PB3PublishGroupType groupType;
 
-/** 发到圈子列表 (留空) */
+/** 发到圈子列表 */
 @property(nonatomic, readwrite, strong, null_resettable) GPBInt64Array *groupsArray;
 /** The number of items in @c groupsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger groupsArray_Count;
@@ -1348,8 +1355,8 @@ typedef GPB_ENUM(PB4CommunityPublishReq_FieldNumber) {
 /** The number of items in @c atPlayerIdArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger atPlayerIdArray_Count;
 
-/** \@用户信息，上面的 at_player_id 弃用，客户端不再传值 (留空） */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4AtPlayer*> *atPlayerArray;
+/** \@用户信息，上面的 at_player_id 弃用，客户端不再传值 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *atPlayerArray;
 /** The number of items in @c atPlayerArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger atPlayerArray_Count;
 
@@ -1359,49 +1366,56 @@ typedef GPB_ENUM(PB4CommunityPublishReq_FieldNumber) {
 /** 互动ID */
 @property(nonatomic, readwrite) int64_t interactionId;
 
-/** 游戏id (客户端留空) */
-@property(nonatomic, readwrite) int64_t gameId;
-
-/** 成就信息 (客户端留空) */
-@property(nonatomic, readwrite, strong, null_resettable) PB4Effort *effort;
-/** Test to see if @c effort has been set. */
-@property(nonatomic, readwrite) BOOL hasEffort;
+/** 动态类型 */
+@property(nonatomic, readwrite) PB3TrendsType trendsType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPublishReq's @c contentType property, even
+ * Fetches the raw value of a @c PB3CommunityPublishReq's @c contentType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPublishReq_ContentType_RawValue(PB4CommunityPublishReq *message);
+int32_t PB3CommunityPublishReq_ContentType_RawValue(PB3CommunityPublishReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityPublishReq's @c contentType property, allowing
+ * Sets the raw value of an @c PB3CommunityPublishReq's @c contentType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPublishReq_ContentType_RawValue(PB4CommunityPublishReq *message, int32_t value);
+void SetPB3CommunityPublishReq_ContentType_RawValue(PB3CommunityPublishReq *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4CommunityPublishReq's @c groupType property, even
+ * Fetches the raw value of a @c PB3CommunityPublishReq's @c groupType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPublishReq_GroupType_RawValue(PB4CommunityPublishReq *message);
+int32_t PB3CommunityPublishReq_GroupType_RawValue(PB3CommunityPublishReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityPublishReq's @c groupType property, allowing
+ * Sets the raw value of an @c PB3CommunityPublishReq's @c groupType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPublishReq_GroupType_RawValue(PB4CommunityPublishReq *message, int32_t value);
+void SetPB3CommunityPublishReq_GroupType_RawValue(PB3CommunityPublishReq *message, int32_t value);
 
-#pragma mark - PB4CommunityPublishRes
+/**
+ * Fetches the raw value of a @c PB3CommunityPublishReq's @c trendsType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CommunityPublishReq_TrendsType_RawValue(PB3CommunityPublishReq *message);
+/**
+ * Sets the raw value of an @c PB3CommunityPublishReq's @c trendsType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CommunityPublishReq_TrendsType_RawValue(PB3CommunityPublishReq *message, int32_t value);
 
-typedef GPB_ENUM(PB4CommunityPublishRes_FieldNumber) {
-  PB4CommunityPublishRes_FieldNumber_TrendsId = 1,
-  PB4CommunityPublishRes_FieldNumber_ToastText = 2,
-  PB4CommunityPublishRes_FieldNumber_CreateAt = 3,
+#pragma mark - PB3CommunityPublishRes
+
+typedef GPB_ENUM(PB3CommunityPublishRes_FieldNumber) {
+  PB3CommunityPublishRes_FieldNumber_TrendsId = 1,
+  PB3CommunityPublishRes_FieldNumber_ToastText = 2,
+  PB3CommunityPublishRes_FieldNumber_CreateAt = 3,
 };
 
-@interface PB4CommunityPublishRes : GPBMessage
+@interface PB3CommunityPublishRes : GPBMessage
 
 /** 动态id */
 @property(nonatomic, readwrite) int64_t trendsId;
@@ -1414,24 +1428,24 @@ typedef GPB_ENUM(PB4CommunityPublishRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityTrendsOperReq
+#pragma mark - PB3CommunityTrendsOperReq
 
-typedef GPB_ENUM(PB4CommunityTrendsOperReq_FieldNumber) {
-  PB4CommunityTrendsOperReq_FieldNumber_OperType = 1,
-  PB4CommunityTrendsOperReq_FieldNumber_TrendsId = 2,
-  PB4CommunityTrendsOperReq_FieldNumber_CommentId = 3,
-  PB4CommunityTrendsOperReq_FieldNumber_Comment = 4,
-  PB4CommunityTrendsOperReq_FieldNumber_CommentMediaUrlsArray = 5,
-  PB4CommunityTrendsOperReq_FieldNumber_AtPlayerArray = 6,
-  PB4CommunityTrendsOperReq_FieldNumber_RecmdSource = 7,
-  PB4CommunityTrendsOperReq_FieldNumber_RecmdSourceId = 8,
-  PB4CommunityTrendsOperReq_FieldNumber_TraceInfo = 9,
+typedef GPB_ENUM(PB3CommunityTrendsOperReq_FieldNumber) {
+  PB3CommunityTrendsOperReq_FieldNumber_OperType = 1,
+  PB3CommunityTrendsOperReq_FieldNumber_TrendsId = 2,
+  PB3CommunityTrendsOperReq_FieldNumber_CommentId = 3,
+  PB3CommunityTrendsOperReq_FieldNumber_Comment = 4,
+  PB3CommunityTrendsOperReq_FieldNumber_CommentMediaUrlsArray = 5,
+  PB3CommunityTrendsOperReq_FieldNumber_AtPlayerArray = 6,
+  PB3CommunityTrendsOperReq_FieldNumber_RecmdSource = 7,
+  PB3CommunityTrendsOperReq_FieldNumber_RecmdSourceId = 8,
+  PB3CommunityTrendsOperReq_FieldNumber_TraceInfo = 9,
 };
 
-@interface PB4CommunityTrendsOperReq : GPBMessage
+@interface PB3CommunityTrendsOperReq : GPBMessage
 
 /** 动态操作类型 */
-@property(nonatomic, readwrite) PB4TrendsOperType operType;
+@property(nonatomic, readwrite) PB3TrendsOperType operType;
 
 /** 动态id */
 @property(nonatomic, readwrite) int64_t trendsId;
@@ -1443,17 +1457,17 @@ typedef GPB_ENUM(PB4CommunityTrendsOperReq_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *comment;
 
 /** 评论多媒体资源列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MediaResource*> *commentMediaUrlsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *commentMediaUrlsArray;
 /** The number of items in @c commentMediaUrlsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger commentMediaUrlsArray_Count;
 
 /** \@用户信息 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4AtPlayer*> *atPlayerArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *atPlayerArray;
 /** The number of items in @c atPlayerArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger atPlayerArray_Count;
 
 /** 划卡视频推荐来源 */
-@property(nonatomic, readwrite) enum PB4VideoRecmdSource recmdSource;
+@property(nonatomic, readwrite) enum PB3VideoRecmdSource recmdSource;
 
 /** 算法ID */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *recmdSourceId;
@@ -1464,50 +1478,58 @@ typedef GPB_ENUM(PB4CommunityTrendsOperReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityTrendsOperReq's @c operType property, even
+ * Fetches the raw value of a @c PB3CommunityTrendsOperReq's @c operType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityTrendsOperReq_OperType_RawValue(PB4CommunityTrendsOperReq *message);
+int32_t PB3CommunityTrendsOperReq_OperType_RawValue(PB3CommunityTrendsOperReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityTrendsOperReq's @c operType property, allowing
+ * Sets the raw value of an @c PB3CommunityTrendsOperReq's @c operType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityTrendsOperReq_OperType_RawValue(PB4CommunityTrendsOperReq *message, int32_t value);
+void SetPB3CommunityTrendsOperReq_OperType_RawValue(PB3CommunityTrendsOperReq *message, int32_t value);
 
 /**
- * Fetches the raw value of a @c PB4CommunityTrendsOperReq's @c recmdSource property, even
+ * Fetches the raw value of a @c PB3CommunityTrendsOperReq's @c recmdSource property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityTrendsOperReq_RecmdSource_RawValue(PB4CommunityTrendsOperReq *message);
+int32_t PB3CommunityTrendsOperReq_RecmdSource_RawValue(PB3CommunityTrendsOperReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityTrendsOperReq's @c recmdSource property, allowing
+ * Sets the raw value of an @c PB3CommunityTrendsOperReq's @c recmdSource property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityTrendsOperReq_RecmdSource_RawValue(PB4CommunityTrendsOperReq *message, int32_t value);
+void SetPB3CommunityTrendsOperReq_RecmdSource_RawValue(PB3CommunityTrendsOperReq *message, int32_t value);
 
-#pragma mark - PB4CommunityTrendsOperRes
+#pragma mark - PB3CommunityTrendsOperRes
 
-typedef GPB_ENUM(PB4CommunityTrendsOperRes_FieldNumber) {
-  PB4CommunityTrendsOperRes_FieldNumber_CommentId = 1,
+typedef GPB_ENUM(PB3CommunityTrendsOperRes_FieldNumber) {
+  PB3CommunityTrendsOperRes_FieldNumber_CommentId = 1,
+  PB3CommunityTrendsOperRes_FieldNumber_ShareId = 2,
+  PB3CommunityTrendsOperRes_FieldNumber_ShareURL = 3,
 };
 
-@interface PB4CommunityTrendsOperRes : GPBMessage
+@interface PB3CommunityTrendsOperRes : GPBMessage
 
 /** 评论id, oper_type = TrendsOperType_Comment 时使用 */
 @property(nonatomic, readwrite) int32_t commentId;
 
+/** 分享ID, oper_type = TrendsOperType_GetShareId 且为热点时使用 */
+@property(nonatomic, readwrite) int64_t shareId;
+
+/** 分享URL, oper_type = TrendsOperType_GetShareId 且为热点时使用 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *shareURL;
+
 @end
 
-#pragma mark - PB4CommunityTrendsListReq
+#pragma mark - PB3CommunityTrendsListReq
 
-typedef GPB_ENUM(PB4CommunityTrendsListReq_FieldNumber) {
-  PB4CommunityTrendsListReq_FieldNumber_PlayerId = 1,
-  PB4CommunityTrendsListReq_FieldNumber_Index = 2,
+typedef GPB_ENUM(PB3CommunityTrendsListReq_FieldNumber) {
+  PB3CommunityTrendsListReq_FieldNumber_PlayerId = 1,
+  PB3CommunityTrendsListReq_FieldNumber_Index = 2,
 };
 
-@interface PB4CommunityTrendsListReq : GPBMessage
+@interface PB3CommunityTrendsListReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
@@ -1516,71 +1538,63 @@ typedef GPB_ENUM(PB4CommunityTrendsListReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityTrendsListRes
+#pragma mark - PB3CommunityTrendsListRes
 
-typedef GPB_ENUM(PB4CommunityTrendsListRes_FieldNumber) {
-  PB4CommunityTrendsListRes_FieldNumber_ListArray = 1,
-  PB4CommunityTrendsListRes_FieldNumber_NextIndex = 2,
-  PB4CommunityTrendsListRes_FieldNumber_IsPrivacy = 3,
-  PB4CommunityTrendsListRes_FieldNumber_IsBlack = 4,
+typedef GPB_ENUM(PB3CommunityTrendsListRes_FieldNumber) {
+  PB3CommunityTrendsListRes_FieldNumber_ListArray = 1,
+  PB3CommunityTrendsListRes_FieldNumber_NextIndex = 2,
 };
 
-@interface PB4CommunityTrendsListRes : GPBMessage
+@interface PB3CommunityTrendsListRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityTrendData*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityTrendData*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 /** -1代表列表没有下一页了, 否则可以用此值在CommunityTrendsListReq中请求下一页 */
 @property(nonatomic, readwrite) int32_t nextIndex;
 
-/** 是否隐私, 如果是true，则用户开启隐私，需要关注才能看，false则是废隐私 */
-@property(nonatomic, readwrite) BOOL isPrivacy;
-
-/** 是否拉黑，如果是true，则被拉黑 */
-@property(nonatomic, readwrite) BOOL isBlack;
-
 @end
 
-#pragma mark - PB4CommunityLastTrendsReq
+#pragma mark - PB3CommunityLastTrendsReq
 
-typedef GPB_ENUM(PB4CommunityLastTrendsReq_FieldNumber) {
-  PB4CommunityLastTrendsReq_FieldNumber_PlayerId = 1,
+typedef GPB_ENUM(PB3CommunityLastTrendsReq_FieldNumber) {
+  PB3CommunityLastTrendsReq_FieldNumber_PlayerId = 1,
 };
 
-@interface PB4CommunityLastTrendsReq : GPBMessage
+@interface PB3CommunityLastTrendsReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
 @end
 
-#pragma mark - PB4CommunityLastTrendsRes
+#pragma mark - PB3CommunityLastTrendsRes
 
-typedef GPB_ENUM(PB4CommunityLastTrendsRes_FieldNumber) {
-  PB4CommunityLastTrendsRes_FieldNumber_ListArray = 1,
+typedef GPB_ENUM(PB3CommunityLastTrendsRes_FieldNumber) {
+  PB3CommunityLastTrendsRes_FieldNumber_ListArray = 1,
 };
 
-@interface PB4CommunityLastTrendsRes : GPBMessage
+@interface PB3CommunityLastTrendsRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityTrendData*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityTrendData*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
 @end
 
-#pragma mark - PB4TrendsComment
+#pragma mark - PB3TrendsComment
 
-typedef GPB_ENUM(PB4TrendsComment_FieldNumber) {
-  PB4TrendsComment_FieldNumber_TrendsId = 1,
-  PB4TrendsComment_FieldNumber_TrendsPlayerId = 2,
-  PB4TrendsComment_FieldNumber_CommentId = 3,
-  PB4TrendsComment_FieldNumber_Level = 4,
-  PB4TrendsComment_FieldNumber_CommentNum = 5,
-  PB4TrendsComment_FieldNumber_DetailsArray = 6,
-  PB4TrendsComment_FieldNumber_NextIndex = 7,
+typedef GPB_ENUM(PB3TrendsComment_FieldNumber) {
+  PB3TrendsComment_FieldNumber_TrendsId = 1,
+  PB3TrendsComment_FieldNumber_TrendsPlayerId = 2,
+  PB3TrendsComment_FieldNumber_CommentId = 3,
+  PB3TrendsComment_FieldNumber_Level = 4,
+  PB3TrendsComment_FieldNumber_CommentNum = 5,
+  PB3TrendsComment_FieldNumber_DetailsArray = 6,
+  PB3TrendsComment_FieldNumber_NextIndex = 7,
 };
 
-@interface PB4TrendsComment : GPBMessage
+@interface PB3TrendsComment : GPBMessage
 
 @property(nonatomic, readwrite) int64_t trendsId;
 
@@ -1595,7 +1609,8 @@ typedef GPB_ENUM(PB4TrendsComment_FieldNumber) {
 /** 评论数量 */
 @property(nonatomic, readwrite) int32_t commentNum;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendsCommentDetail*> *detailsArray;
+/** 评论 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendsCommentDetail*> *detailsArray;
 /** The number of items in @c detailsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger detailsArray_Count;
 
@@ -1604,36 +1619,36 @@ typedef GPB_ENUM(PB4TrendsComment_FieldNumber) {
 
 @end
 
-#pragma mark - PB4TrendsCommentDetail
+#pragma mark - PB3TrendsCommentDetail
 
-typedef GPB_ENUM(PB4TrendsCommentDetail_FieldNumber) {
-  PB4TrendsCommentDetail_FieldNumber_TrendsId = 1,
-  PB4TrendsCommentDetail_FieldNumber_CommentId = 2,
-  PB4TrendsCommentDetail_FieldNumber_CommentPlayer = 3,
-  PB4TrendsCommentDetail_FieldNumber_ToPlayer = 4,
-  PB4TrendsCommentDetail_FieldNumber_Content = 5,
-  PB4TrendsCommentDetail_FieldNumber_CommentTime = 6,
-  PB4TrendsCommentDetail_FieldNumber_Comments = 7,
-  PB4TrendsCommentDetail_FieldNumber_MediaUrlsArray = 8,
-  PB4TrendsCommentDetail_FieldNumber_AtPlayerArray = 9,
-  PB4TrendsCommentDetail_FieldNumber_LikeNum = 10,
-  PB4TrendsCommentDetail_FieldNumber_IsLike = 11,
-  PB4TrendsCommentDetail_FieldNumber_Ago = 12,
+typedef GPB_ENUM(PB3TrendsCommentDetail_FieldNumber) {
+  PB3TrendsCommentDetail_FieldNumber_TrendsId = 1,
+  PB3TrendsCommentDetail_FieldNumber_CommentId = 2,
+  PB3TrendsCommentDetail_FieldNumber_CommentPlayer = 3,
+  PB3TrendsCommentDetail_FieldNumber_ToPlayer = 4,
+  PB3TrendsCommentDetail_FieldNumber_Content = 5,
+  PB3TrendsCommentDetail_FieldNumber_CommentTime = 6,
+  PB3TrendsCommentDetail_FieldNumber_Comments = 7,
+  PB3TrendsCommentDetail_FieldNumber_MediaUrlsArray = 8,
+  PB3TrendsCommentDetail_FieldNumber_AtPlayerArray = 9,
+  PB3TrendsCommentDetail_FieldNumber_LikeNum = 10,
+  PB3TrendsCommentDetail_FieldNumber_IsGaveLike = 11,
+  PB3TrendsCommentDetail_FieldNumber_IpArea = 12,
 };
 
-@interface PB4TrendsCommentDetail : GPBMessage
+@interface PB3TrendsCommentDetail : GPBMessage
 
 @property(nonatomic, readwrite) int64_t trendsId;
 
 @property(nonatomic, readwrite) int32_t commentId;
 
 /** 评论者， 我是评论者可以删除动态 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityPlayerInfo *commentPlayer;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityPlayerInfo *commentPlayer;
 /** Test to see if @c commentPlayer has been set. */
 @property(nonatomic, readwrite) BOOL hasCommentPlayer;
 
 /** 被评论者， 被评论者为空表示没有被评论者 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityPlayerInfo *toPlayer;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityPlayerInfo *toPlayer;
 /** Test to see if @c toPlayer has been set. */
 @property(nonatomic, readwrite) BOOL hasToPlayer;
 
@@ -1641,72 +1656,235 @@ typedef GPB_ENUM(PB4TrendsCommentDetail_FieldNumber) {
 
 @property(nonatomic, readwrite) int64_t commentTime;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4TrendsComment *comments;
+@property(nonatomic, readwrite, strong, null_resettable) PB3TrendsComment *comments;
 /** Test to see if @c comments has been set. */
 @property(nonatomic, readwrite) BOOL hasComments;
 
 /** 多媒体资源列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4MediaResource*> *mediaUrlsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *mediaUrlsArray;
 /** The number of items in @c mediaUrlsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger mediaUrlsArray_Count;
 
 /** \@用户 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4AtPlayer*> *atPlayerArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *atPlayerArray;
 /** The number of items in @c atPlayerArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger atPlayerArray_Count;
 
-/** 点赞数 */
+/** 评论点赞数量 */
 @property(nonatomic, readwrite) int32_t likeNum;
 
-@property(nonatomic, readwrite) BOOL isLike;
+/** 是否点过赞 */
+@property(nonatomic, readwrite) BOOL isGaveLike;
 
-/** 格式化时间 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *ago;
+/** ip地区 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *ipArea;
 
 @end
 
-#pragma mark - PB4CommunityTrendsDetailReq
+#pragma mark - PB3HotPointDetail
 
-typedef GPB_ENUM(PB4CommunityTrendsDetailReq_FieldNumber) {
-  PB4CommunityTrendsDetailReq_FieldNumber_TrendsId = 1,
+typedef GPB_ENUM(PB3HotPointDetail_FieldNumber) {
+  PB3HotPointDetail_FieldNumber_HotPointId = 1,
+  PB3HotPointDetail_FieldNumber_PlayerId = 2,
+  PB3HotPointDetail_FieldNumber_Name = 3,
+  PB3HotPointDetail_FieldNumber_Icon = 4,
+  PB3HotPointDetail_FieldNumber_Gold = 5,
+  PB3HotPointDetail_FieldNumber_Heat = 6,
+  PB3HotPointDetail_FieldNumber_Content = 7,
+  PB3HotPointDetail_FieldNumber_ContentResponse = 8,
+  PB3HotPointDetail_FieldNumber_ContentResponseTime = 9,
+  PB3HotPointDetail_FieldNumber_ContentResponseStatus = 10,
+  PB3HotPointDetail_FieldNumber_ContentResponseMediaUrlsArray = 11,
+  PB3HotPointDetail_FieldNumber_IsValid = 12,
+  PB3HotPointDetail_FieldNumber_HeatRankArray = 13,
+  PB3HotPointDetail_FieldNumber_ResAtPlayerArray = 14,
+  PB3HotPointDetail_FieldNumber_UnShelveGold = 15,
+  PB3HotPointDetail_FieldNumber_Type = 16,
+  PB3HotPointDetail_FieldNumber_Status = 17,
+  PB3HotPointDetail_FieldNumber_ResponseLimit = 18,
+  PB3HotPointDetail_FieldNumber_IsOnRank = 19,
+  PB3HotPointDetail_FieldNumber_RemoveHotPointCoefficient = 20,
+  PB3HotPointDetail_FieldNumber_HeatGoldLimit = 21,
 };
 
-@interface PB4CommunityTrendsDetailReq : GPBMessage
+@interface PB3HotPointDetail : GPBMessage
 
+/** 热点ID */
+@property(nonatomic, readwrite) int64_t hotPointId;
+
+/** 用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 用户昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 用户头像 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 金币 */
+@property(nonatomic, readwrite) int32_t gold;
+
+/** 热度值 */
+@property(nonatomic, readwrite) int32_t heat;
+
+/** 热点内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 热点回应内容 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *contentResponse;
+
+/** 热点回应时间(时间戳:秒) */
+@property(nonatomic, readwrite) int64_t contentResponseTime;
+
+/** 热点回应内容状态 */
+@property(nonatomic, readwrite) PB3ContentResStatus contentResponseStatus;
+
+/** 热点回应多媒体资源列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3MediaResource*> *contentResponseMediaUrlsArray;
+/** The number of items in @c contentResponseMediaUrlsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger contentResponseMediaUrlsArray_Count;
+
+/** 是否7天有效 */
+@property(nonatomic, readwrite) BOOL isValid;
+
+/** 火力值榜前3 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3FirepowerRank*> *heatRankArray;
+/** The number of items in @c heatRankArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger heatRankArray_Count;
+
+/** 热点回应 \@用户 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3AtPlayer*> *resAtPlayerArray;
+/** The number of items in @c resAtPlayerArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger resAtPlayerArray_Count;
+
+/** 最新下架金币数量 */
+@property(nonatomic, readwrite) int32_t unShelveGold;
+
+/** 热点类型 */
+@property(nonatomic, readwrite) enum PB3PluginHotPointType type;
+
+/** 热点状态 */
+@property(nonatomic, readwrite) enum PB3HotPointStatus status;
+
+/** 回应字数限制 */
+@property(nonatomic, readwrite) int32_t responseLimit;
+
+/** 是否在榜 */
+@property(nonatomic, readwrite) BOOL isOnRank;
+
+/** 撤榜系数 */
+@property(nonatomic, readwrite) float removeHotPointCoefficient;
+
+/** 最低加热金币 */
+@property(nonatomic, readwrite) int32_t heatGoldLimit;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3HotPointDetail's @c contentResponseStatus property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3HotPointDetail_ContentResponseStatus_RawValue(PB3HotPointDetail *message);
+/**
+ * Sets the raw value of an @c PB3HotPointDetail's @c contentResponseStatus property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3HotPointDetail_ContentResponseStatus_RawValue(PB3HotPointDetail *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3HotPointDetail's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3HotPointDetail_Type_RawValue(PB3HotPointDetail *message);
+/**
+ * Sets the raw value of an @c PB3HotPointDetail's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3HotPointDetail_Type_RawValue(PB3HotPointDetail *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3HotPointDetail's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3HotPointDetail_Status_RawValue(PB3HotPointDetail *message);
+/**
+ * Sets the raw value of an @c PB3HotPointDetail's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3HotPointDetail_Status_RawValue(PB3HotPointDetail *message, int32_t value);
+
+#pragma mark - PB3CommunityTrendsDetailReq
+
+typedef GPB_ENUM(PB3CommunityTrendsDetailReq_FieldNumber) {
+  PB3CommunityTrendsDetailReq_FieldNumber_TrendsId = 1,
+  PB3CommunityTrendsDetailReq_FieldNumber_TrendsType = 2,
+  PB3CommunityTrendsDetailReq_FieldNumber_IsView = 3,
+};
+
+@interface PB3CommunityTrendsDetailReq : GPBMessage
+
+/** 动态ID */
 @property(nonatomic, readwrite) int64_t trendsId;
 
+/** 动态类型 */
+@property(nonatomic, readwrite) PB3TrendsType trendsType;
+
+/** 是否统计浏览量 */
+@property(nonatomic, readwrite) BOOL isView;
+
 @end
 
-#pragma mark - PB4CommunityTrendsDetailRes
+/**
+ * Fetches the raw value of a @c PB3CommunityTrendsDetailReq's @c trendsType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3CommunityTrendsDetailReq_TrendsType_RawValue(PB3CommunityTrendsDetailReq *message);
+/**
+ * Sets the raw value of an @c PB3CommunityTrendsDetailReq's @c trendsType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3CommunityTrendsDetailReq_TrendsType_RawValue(PB3CommunityTrendsDetailReq *message, int32_t value);
 
-typedef GPB_ENUM(PB4CommunityTrendsDetailRes_FieldNumber) {
-  PB4CommunityTrendsDetailRes_FieldNumber_Trends = 1,
-  PB4CommunityTrendsDetailRes_FieldNumber_LikersArray = 2,
+#pragma mark - PB3CommunityTrendsDetailRes
+
+typedef GPB_ENUM(PB3CommunityTrendsDetailRes_FieldNumber) {
+  PB3CommunityTrendsDetailRes_FieldNumber_Trends = 1,
+  PB3CommunityTrendsDetailRes_FieldNumber_LikersArray = 2,
+  PB3CommunityTrendsDetailRes_FieldNumber_Hot = 3,
 };
 
-@interface PB4CommunityTrendsDetailRes : GPBMessage
+@interface PB3CommunityTrendsDetailRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityTrendData *trends;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityTrendData *trends;
 /** Test to see if @c trends has been set. */
 @property(nonatomic, readwrite) BOOL hasTrends;
 
 /** 点赞id列表预览 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityPlayerInfo*> *likersArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityPlayerInfo*> *likersArray;
 /** The number of items in @c likersArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger likersArray_Count;
 
+/** 热点信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3HotPointDetail *hot;
+/** Test to see if @c hot has been set. */
+@property(nonatomic, readwrite) BOOL hasHot;
+
 @end
 
-#pragma mark - PB4CommunityTrendsCommentsReq
+#pragma mark - PB3CommunityTrendsCommentsReq
 
-typedef GPB_ENUM(PB4CommunityTrendsCommentsReq_FieldNumber) {
-  PB4CommunityTrendsCommentsReq_FieldNumber_TrendsId = 1,
-  PB4CommunityTrendsCommentsReq_FieldNumber_CommentId = 2,
-  PB4CommunityTrendsCommentsReq_FieldNumber_Index = 3,
-  PB4CommunityTrendsCommentsReq_FieldNumber_OrderType = 4,
+typedef GPB_ENUM(PB3CommunityTrendsCommentsReq_FieldNumber) {
+  PB3CommunityTrendsCommentsReq_FieldNumber_TrendsId = 1,
+  PB3CommunityTrendsCommentsReq_FieldNumber_CommentId = 2,
+  PB3CommunityTrendsCommentsReq_FieldNumber_Index = 3,
+  PB3CommunityTrendsCommentsReq_FieldNumber_CommentType = 4,
 };
 
-@interface PB4CommunityTrendsCommentsReq : GPBMessage
+@interface PB3CommunityTrendsCommentsReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t trendsId;
 
@@ -1715,57 +1893,49 @@ typedef GPB_ENUM(PB4CommunityTrendsCommentsReq_FieldNumber) {
 /** 用于翻页, 请求第一页时传0 */
 @property(nonatomic, readwrite) int32_t index;
 
-/** 排序方式 */
-@property(nonatomic, readwrite) PB4CommunityTrendsCommentsOrderType orderType;
+/** 评论类型 */
+@property(nonatomic, readwrite) PB3CommentType commentType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityTrendsCommentsReq's @c orderType property, even
+ * Fetches the raw value of a @c PB3CommunityTrendsCommentsReq's @c commentType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityTrendsCommentsReq_OrderType_RawValue(PB4CommunityTrendsCommentsReq *message);
+int32_t PB3CommunityTrendsCommentsReq_CommentType_RawValue(PB3CommunityTrendsCommentsReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityTrendsCommentsReq's @c orderType property, allowing
+ * Sets the raw value of an @c PB3CommunityTrendsCommentsReq's @c commentType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityTrendsCommentsReq_OrderType_RawValue(PB4CommunityTrendsCommentsReq *message, int32_t value);
+void SetPB3CommunityTrendsCommentsReq_CommentType_RawValue(PB3CommunityTrendsCommentsReq *message, int32_t value);
 
-#pragma mark - PB4CommunityTrendsCommentsRes
+#pragma mark - PB3CommunityTrendsCommentsRes
 
-typedef GPB_ENUM(PB4CommunityTrendsCommentsRes_FieldNumber) {
-  PB4CommunityTrendsCommentsRes_FieldNumber_Comments = 1,
-  PB4CommunityTrendsCommentsRes_FieldNumber_CommentNum = 2,
-  PB4CommunityTrendsCommentsRes_FieldNumber_LikeNum = 3,
-  PB4CommunityTrendsCommentsRes_FieldNumber_IsLike = 4,
+typedef GPB_ENUM(PB3CommunityTrendsCommentsRes_FieldNumber) {
+  PB3CommunityTrendsCommentsRes_FieldNumber_Comments = 1,
+  PB3CommunityTrendsCommentsRes_FieldNumber_CommentNum = 2,
 };
 
-@interface PB4CommunityTrendsCommentsRes : GPBMessage
+@interface PB3CommunityTrendsCommentsRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4TrendsComment *comments;
+@property(nonatomic, readwrite, strong, null_resettable) PB3TrendsComment *comments;
 /** Test to see if @c comments has been set. */
 @property(nonatomic, readwrite) BOOL hasComments;
 
 /** 评论数量 */
 @property(nonatomic, readwrite) int32_t commentNum;
 
-/** 点赞数量 */
-@property(nonatomic, readwrite) int32_t likeNum;
-
-/** 是否已赞 */
-@property(nonatomic, readwrite) BOOL isLike;
-
 @end
 
-#pragma mark - PB4CommunityTrendsLikersReq
+#pragma mark - PB3CommunityTrendsLikersReq
 
-typedef GPB_ENUM(PB4CommunityTrendsLikersReq_FieldNumber) {
-  PB4CommunityTrendsLikersReq_FieldNumber_TrendsId = 1,
-  PB4CommunityTrendsLikersReq_FieldNumber_Index = 2,
+typedef GPB_ENUM(PB3CommunityTrendsLikersReq_FieldNumber) {
+  PB3CommunityTrendsLikersReq_FieldNumber_TrendsId = 1,
+  PB3CommunityTrendsLikersReq_FieldNumber_Index = 2,
 };
 
-@interface PB4CommunityTrendsLikersReq : GPBMessage
+@interface PB3CommunityTrendsLikersReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t trendsId;
 
@@ -1774,17 +1944,17 @@ typedef GPB_ENUM(PB4CommunityTrendsLikersReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityTrendsLikersRes
+#pragma mark - PB3CommunityTrendsLikersRes
 
-typedef GPB_ENUM(PB4CommunityTrendsLikersRes_FieldNumber) {
-  PB4CommunityTrendsLikersRes_FieldNumber_LikersArray = 1,
-  PB4CommunityTrendsLikersRes_FieldNumber_NextIndex = 2,
+typedef GPB_ENUM(PB3CommunityTrendsLikersRes_FieldNumber) {
+  PB3CommunityTrendsLikersRes_FieldNumber_LikersArray = 1,
+  PB3CommunityTrendsLikersRes_FieldNumber_NextIndex = 2,
 };
 
-@interface PB4CommunityTrendsLikersRes : GPBMessage
+@interface PB3CommunityTrendsLikersRes : GPBMessage
 
 /** 点赞id列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityGroupPlayerItem*> *likersArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityGroupPlayerItem*> *likersArray;
 /** The number of items in @c likersArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger likersArray_Count;
 
@@ -1793,22 +1963,21 @@ typedef GPB_ENUM(PB4CommunityTrendsLikersRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityClanInfo
+#pragma mark - PB3CommunityClanInfo
 
-typedef GPB_ENUM(PB4CommunityClanInfo_FieldNumber) {
-  PB4CommunityClanInfo_FieldNumber_Id_p = 1,
-  PB4CommunityClanInfo_FieldNumber_IconWord = 2,
-  PB4CommunityClanInfo_FieldNumber_LevelName = 3,
-  PB4CommunityClanInfo_FieldNumber_Name = 4,
-  PB4CommunityClanInfo_FieldNumber_Level = 6,
-  PB4CommunityClanInfo_FieldNumber_IconType = 7,
-  PB4CommunityClanInfo_FieldNumber_LabelIcon = 10,
+typedef GPB_ENUM(PB3CommunityClanInfo_FieldNumber) {
+  PB3CommunityClanInfo_FieldNumber_Id_p = 1,
+  PB3CommunityClanInfo_FieldNumber_IconWord = 2,
+  PB3CommunityClanInfo_FieldNumber_LevelName = 3,
+  PB3CommunityClanInfo_FieldNumber_Name = 4,
+  PB3CommunityClanInfo_FieldNumber_Level = 6,
+  PB3CommunityClanInfo_FieldNumber_IconType = 7,
 };
 
 /**
  * 公会信息
  **/
-@interface PB4CommunityClanInfo : GPBMessage
+@interface PB3CommunityClanInfo : GPBMessage
 
 /** 公会id； 当状态开关列表中公会开启时， 判断clan_id>0时，显示公会入口, 入口url找h5同事提供 */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -1826,38 +1995,35 @@ typedef GPB_ENUM(PB4CommunityClanInfo_FieldNumber) {
 @property(nonatomic, readwrite) int64_t level;
 
 /** 公会等级图标类型 */
-@property(nonatomic, readwrite) PB4CommunityClanIconType iconType;
-
-/** 公会标签 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *labelIcon;
+@property(nonatomic, readwrite) PB3CommunityClanIconType iconType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityClanInfo's @c iconType property, even
+ * Fetches the raw value of a @c PB3CommunityClanInfo's @c iconType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityClanInfo_IconType_RawValue(PB4CommunityClanInfo *message);
+int32_t PB3CommunityClanInfo_IconType_RawValue(PB3CommunityClanInfo *message);
 /**
- * Sets the raw value of an @c PB4CommunityClanInfo's @c iconType property, allowing
+ * Sets the raw value of an @c PB3CommunityClanInfo's @c iconType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityClanInfo_IconType_RawValue(PB4CommunityClanInfo *message, int32_t value);
+void SetPB3CommunityClanInfo_IconType_RawValue(PB3CommunityClanInfo *message, int32_t value);
 
-#pragma mark - PB4CommunityCreateOrUpdateGroupReq
+#pragma mark - PB3CommunityCreateOrUpdateGroupReq
 
-typedef GPB_ENUM(PB4CommunityCreateOrUpdateGroupReq_FieldNumber) {
-  PB4CommunityCreateOrUpdateGroupReq_FieldNumber_GroupId = 1,
-  PB4CommunityCreateOrUpdateGroupReq_FieldNumber_GroupName = 2,
-  PB4CommunityCreateOrUpdateGroupReq_FieldNumber_GroupImg = 3,
-  PB4CommunityCreateOrUpdateGroupReq_FieldNumber_GroupDescribe = 4,
+typedef GPB_ENUM(PB3CommunityCreateOrUpdateGroupReq_FieldNumber) {
+  PB3CommunityCreateOrUpdateGroupReq_FieldNumber_GroupId = 1,
+  PB3CommunityCreateOrUpdateGroupReq_FieldNumber_GroupName = 2,
+  PB3CommunityCreateOrUpdateGroupReq_FieldNumber_GroupImg = 3,
+  PB3CommunityCreateOrUpdateGroupReq_FieldNumber_GroupDescribe = 4,
 };
 
 /**
  * 创建圈子
  **/
-@interface PB4CommunityCreateOrUpdateGroupReq : GPBMessage
+@interface PB3CommunityCreateOrUpdateGroupReq : GPBMessage
 
 /** 圈子Id 0创建 非0更新 */
 @property(nonatomic, readwrite) int64_t groupId;
@@ -1873,30 +2039,30 @@ typedef GPB_ENUM(PB4CommunityCreateOrUpdateGroupReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityCreateOrUpdateGroupRes
+#pragma mark - PB3CommunityCreateOrUpdateGroupRes
 
-typedef GPB_ENUM(PB4CommunityCreateOrUpdateGroupRes_FieldNumber) {
-  PB4CommunityCreateOrUpdateGroupRes_FieldNumber_GroupId = 1,
+typedef GPB_ENUM(PB3CommunityCreateOrUpdateGroupRes_FieldNumber) {
+  PB3CommunityCreateOrUpdateGroupRes_FieldNumber_GroupId = 1,
 };
 
-@interface PB4CommunityCreateOrUpdateGroupRes : GPBMessage
+@interface PB3CommunityCreateOrUpdateGroupRes : GPBMessage
 
 /** 圈子id */
 @property(nonatomic, readwrite) int64_t groupId;
 
 @end
 
-#pragma mark - PB4CommunityJoinGroupReq
+#pragma mark - PB3CommunityJoinGroupReq
 
-typedef GPB_ENUM(PB4CommunityJoinGroupReq_FieldNumber) {
-  PB4CommunityJoinGroupReq_FieldNumber_GroupId = 1,
-  PB4CommunityJoinGroupReq_FieldNumber_ApplyMsg = 2,
+typedef GPB_ENUM(PB3CommunityJoinGroupReq_FieldNumber) {
+  PB3CommunityJoinGroupReq_FieldNumber_GroupId = 1,
+  PB3CommunityJoinGroupReq_FieldNumber_ApplyMsg = 2,
 };
 
 /**
  * 加入圈子
  **/
-@interface PB4CommunityJoinGroupReq : GPBMessage
+@interface PB3CommunityJoinGroupReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
@@ -1904,22 +2070,22 @@ typedef GPB_ENUM(PB4CommunityJoinGroupReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityJoinGroupRes
+#pragma mark - PB3CommunityJoinGroupRes
 
-@interface PB4CommunityJoinGroupRes : GPBMessage
+@interface PB3CommunityJoinGroupRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityJoinInfo
+#pragma mark - PB3CommunityJoinInfo
 
-typedef GPB_ENUM(PB4CommunityJoinInfo_FieldNumber) {
-  PB4CommunityJoinInfo_FieldNumber_PlayerId = 1,
-  PB4CommunityJoinInfo_FieldNumber_GroupId = 2,
-  PB4CommunityJoinInfo_FieldNumber_ApplyAt = 3,
-  PB4CommunityJoinInfo_FieldNumber_ApplyMsg = 4,
+typedef GPB_ENUM(PB3CommunityJoinInfo_FieldNumber) {
+  PB3CommunityJoinInfo_FieldNumber_PlayerId = 1,
+  PB3CommunityJoinInfo_FieldNumber_GroupId = 2,
+  PB3CommunityJoinInfo_FieldNumber_ApplyAt = 3,
+  PB3CommunityJoinInfo_FieldNumber_ApplyMsg = 4,
 };
 
-@interface PB4CommunityJoinInfo : GPBMessage
+@interface PB3CommunityJoinInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
@@ -1931,17 +2097,17 @@ typedef GPB_ENUM(PB4CommunityJoinInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityVerifyListReq
+#pragma mark - PB3CommunityVerifyListReq
 
-typedef GPB_ENUM(PB4CommunityVerifyListReq_FieldNumber) {
-  PB4CommunityVerifyListReq_FieldNumber_GroupId = 1,
-  PB4CommunityVerifyListReq_FieldNumber_Index = 2,
+typedef GPB_ENUM(PB3CommunityVerifyListReq_FieldNumber) {
+  PB3CommunityVerifyListReq_FieldNumber_GroupId = 1,
+  PB3CommunityVerifyListReq_FieldNumber_Index = 2,
 };
 
 /**
  * 审核列表
  **/
-@interface PB4CommunityVerifyListReq : GPBMessage
+@interface PB3CommunityVerifyListReq : GPBMessage
 
 /** 圈子Id */
 @property(nonatomic, readwrite) int64_t groupId;
@@ -1950,16 +2116,16 @@ typedef GPB_ENUM(PB4CommunityVerifyListReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityVerifyListRes
+#pragma mark - PB3CommunityVerifyListRes
 
-typedef GPB_ENUM(PB4CommunityVerifyListRes_FieldNumber) {
-  PB4CommunityVerifyListRes_FieldNumber_ItemArray = 1,
-  PB4CommunityVerifyListRes_FieldNumber_NextIndex = 2,
+typedef GPB_ENUM(PB3CommunityVerifyListRes_FieldNumber) {
+  PB3CommunityVerifyListRes_FieldNumber_ItemArray = 1,
+  PB3CommunityVerifyListRes_FieldNumber_NextIndex = 2,
 };
 
-@interface PB4CommunityVerifyListRes : GPBMessage
+@interface PB3CommunityVerifyListRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4VerifyItem*> *itemArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3VerifyItem*> *itemArray;
 /** The number of items in @c itemArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemArray_Count;
 
@@ -1967,41 +2133,40 @@ typedef GPB_ENUM(PB4CommunityVerifyListRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4VerifyItem
+#pragma mark - PB3VerifyItem
 
-typedef GPB_ENUM(PB4VerifyItem_FieldNumber) {
-  PB4VerifyItem_FieldNumber_Info = 1,
-  PB4VerifyItem_FieldNumber_BaseInfo = 2,
+typedef GPB_ENUM(PB3VerifyItem_FieldNumber) {
+  PB3VerifyItem_FieldNumber_Info = 1,
+  PB3VerifyItem_FieldNumber_BaseInfo = 2,
 };
 
-@interface PB4VerifyItem : GPBMessage
+@interface PB3VerifyItem : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityJoinInfo *info;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityJoinInfo *info;
 /** Test to see if @c info has been set. */
 @property(nonatomic, readwrite) BOOL hasInfo;
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4MemberBaseInfo *baseInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3MemberBaseInfo *baseInfo;
 /** Test to see if @c baseInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasBaseInfo;
 
 @end
 
-#pragma mark - PB4MemberBaseInfo
+#pragma mark - PB3MemberBaseInfo
 
-typedef GPB_ENUM(PB4MemberBaseInfo_FieldNumber) {
-  PB4MemberBaseInfo_FieldNumber_PlayerId = 1,
-  PB4MemberBaseInfo_FieldNumber_PlayerId2 = 2,
-  PB4MemberBaseInfo_FieldNumber_Sex = 3,
-  PB4MemberBaseInfo_FieldNumber_Name = 4,
-  PB4MemberBaseInfo_FieldNumber_Signature = 5,
-  PB4MemberBaseInfo_FieldNumber_CharmLv = 6,
-  PB4MemberBaseInfo_FieldNumber_WealthLv = 7,
-  PB4MemberBaseInfo_FieldNumber_Icon = 8,
-  PB4MemberBaseInfo_FieldNumber_Clan = 9,
-  PB4MemberBaseInfo_FieldNumber_PlayerLabelArray = 10,
+typedef GPB_ENUM(PB3MemberBaseInfo_FieldNumber) {
+  PB3MemberBaseInfo_FieldNumber_PlayerId = 1,
+  PB3MemberBaseInfo_FieldNumber_PlayerId2 = 2,
+  PB3MemberBaseInfo_FieldNumber_Sex = 3,
+  PB3MemberBaseInfo_FieldNumber_Name = 4,
+  PB3MemberBaseInfo_FieldNumber_Signature = 5,
+  PB3MemberBaseInfo_FieldNumber_CharmLv = 6,
+  PB3MemberBaseInfo_FieldNumber_WealthLv = 7,
+  PB3MemberBaseInfo_FieldNumber_Icon = 8,
+  PB3MemberBaseInfo_FieldNumber_Clan = 9,
 };
 
-@interface PB4MemberBaseInfo : GPBMessage
+@interface PB3MemberBaseInfo : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
@@ -2021,68 +2186,63 @@ typedef GPB_ENUM(PB4MemberBaseInfo_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
 
 /** 公会信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityClanInfo *clan;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityClanInfo *clan;
 /** Test to see if @c clan has been set. */
 @property(nonatomic, readwrite) BOOL hasClan;
 
-/** 个人标签 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4PlayerLabel*> *playerLabelArray;
-/** The number of items in @c playerLabelArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger playerLabelArray_Count;
-
 @end
 
-#pragma mark - PB4CommunityVerifyJoinReq
+#pragma mark - PB3CommunityVerifyJoinReq
 
-typedef GPB_ENUM(PB4CommunityVerifyJoinReq_FieldNumber) {
-  PB4CommunityVerifyJoinReq_FieldNumber_GroupId = 1,
-  PB4CommunityVerifyJoinReq_FieldNumber_PlayerId = 2,
-  PB4CommunityVerifyJoinReq_FieldNumber_Opt = 3,
+typedef GPB_ENUM(PB3CommunityVerifyJoinReq_FieldNumber) {
+  PB3CommunityVerifyJoinReq_FieldNumber_GroupId = 1,
+  PB3CommunityVerifyJoinReq_FieldNumber_PlayerId = 2,
+  PB3CommunityVerifyJoinReq_FieldNumber_Opt = 3,
 };
 
 /**
  * 审核操作
  **/
-@interface PB4CommunityVerifyJoinReq : GPBMessage
+@interface PB3CommunityVerifyJoinReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
 @property(nonatomic, readwrite) int64_t playerId;
 
 /** 0拒绝 1允许 2全部拒绝 */
-@property(nonatomic, readwrite) enum PB4CommunityGroupOpt opt;
+@property(nonatomic, readwrite) enum PB3CommunityGroupOpt opt;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityVerifyJoinReq's @c opt property, even
+ * Fetches the raw value of a @c PB3CommunityVerifyJoinReq's @c opt property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityVerifyJoinReq_Opt_RawValue(PB4CommunityVerifyJoinReq *message);
+int32_t PB3CommunityVerifyJoinReq_Opt_RawValue(PB3CommunityVerifyJoinReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityVerifyJoinReq's @c opt property, allowing
+ * Sets the raw value of an @c PB3CommunityVerifyJoinReq's @c opt property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityVerifyJoinReq_Opt_RawValue(PB4CommunityVerifyJoinReq *message, int32_t value);
+void SetPB3CommunityVerifyJoinReq_Opt_RawValue(PB3CommunityVerifyJoinReq *message, int32_t value);
 
-#pragma mark - PB4CommunityVerifyJoinRes
+#pragma mark - PB3CommunityVerifyJoinRes
 
-@interface PB4CommunityVerifyJoinRes : GPBMessage
+@interface PB3CommunityVerifyJoinRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityStoreGroupReq
+#pragma mark - PB3CommunityStoreGroupReq
 
-typedef GPB_ENUM(PB4CommunityStoreGroupReq_FieldNumber) {
-  PB4CommunityStoreGroupReq_FieldNumber_GroupId = 1,
-  PB4CommunityStoreGroupReq_FieldNumber_Opt = 2,
+typedef GPB_ENUM(PB3CommunityStoreGroupReq_FieldNumber) {
+  PB3CommunityStoreGroupReq_FieldNumber_GroupId = 1,
+  PB3CommunityStoreGroupReq_FieldNumber_Opt = 2,
 };
 
 /**
  * 收藏圈子
  **/
-@interface PB4CommunityStoreGroupReq : GPBMessage
+@interface PB3CommunityStoreGroupReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
@@ -2091,40 +2251,40 @@ typedef GPB_ENUM(PB4CommunityStoreGroupReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityStoreGroupRes
+#pragma mark - PB3CommunityStoreGroupRes
 
-@interface PB4CommunityStoreGroupRes : GPBMessage
+@interface PB3CommunityStoreGroupRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityGroupInfoReq
+#pragma mark - PB3CommunityGroupInfoReq
 
-typedef GPB_ENUM(PB4CommunityGroupInfoReq_FieldNumber) {
-  PB4CommunityGroupInfoReq_FieldNumber_GroupId = 1,
+typedef GPB_ENUM(PB3CommunityGroupInfoReq_FieldNumber) {
+  PB3CommunityGroupInfoReq_FieldNumber_GroupId = 1,
 };
 
 /**
  * 查看圈子信息
  **/
-@interface PB4CommunityGroupInfoReq : GPBMessage
+@interface PB3CommunityGroupInfoReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
 @end
 
-#pragma mark - PB4CommunityGroupInfoRes
+#pragma mark - PB3CommunityGroupInfoRes
 
-typedef GPB_ENUM(PB4CommunityGroupInfoRes_FieldNumber) {
-  PB4CommunityGroupInfoRes_FieldNumber_BaseDetail = 1,
-  PB4CommunityGroupInfoRes_FieldNumber_MemberNum = 2,
-  PB4CommunityGroupInfoRes_FieldNumber_TrendNum = 3,
-  PB4CommunityGroupInfoRes_FieldNumber_OwnerInfo = 4,
-  PB4CommunityGroupInfoRes_FieldNumber_ApplyNum = 5,
+typedef GPB_ENUM(PB3CommunityGroupInfoRes_FieldNumber) {
+  PB3CommunityGroupInfoRes_FieldNumber_BaseDetail = 1,
+  PB3CommunityGroupInfoRes_FieldNumber_MemberNum = 2,
+  PB3CommunityGroupInfoRes_FieldNumber_TrendNum = 3,
+  PB3CommunityGroupInfoRes_FieldNumber_OwnerInfo = 4,
+  PB3CommunityGroupInfoRes_FieldNumber_ApplyNum = 5,
 };
 
-@interface PB4CommunityGroupInfoRes : GPBMessage
+@interface PB3CommunityGroupInfoRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4GroupDetail *baseDetail;
+@property(nonatomic, readwrite, strong, null_resettable) PB3GroupDetail *baseDetail;
 /** Test to see if @c baseDetail has been set. */
 @property(nonatomic, readwrite) BOOL hasBaseDetail;
 
@@ -2133,7 +2293,7 @@ typedef GPB_ENUM(PB4CommunityGroupInfoRes_FieldNumber) {
 @property(nonatomic, readwrite) int32_t trendNum;
 
 /** 圈主信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4MemberBaseInfo *ownerInfo;
+@property(nonatomic, readwrite, strong, null_resettable) PB3MemberBaseInfo *ownerInfo;
 /** Test to see if @c ownerInfo has been set. */
 @property(nonatomic, readwrite) BOOL hasOwnerInfo;
 
@@ -2142,20 +2302,20 @@ typedef GPB_ENUM(PB4CommunityGroupInfoRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GroupDetail
+#pragma mark - PB3GroupDetail
 
-typedef GPB_ENUM(PB4GroupDetail_FieldNumber) {
-  PB4GroupDetail_FieldNumber_GroupId = 1,
-  PB4GroupDetail_FieldNumber_GroupName = 2,
-  PB4GroupDetail_FieldNumber_GroupImg = 3,
-  PB4GroupDetail_FieldNumber_GroupDescribe = 4,
-  PB4GroupDetail_FieldNumber_ClanId = 5,
-  PB4GroupDetail_FieldNumber_Status = 6,
-  PB4GroupDetail_FieldNumber_IsStore = 7,
-  PB4GroupDetail_FieldNumber_IsAuditing = 8,
+typedef GPB_ENUM(PB3GroupDetail_FieldNumber) {
+  PB3GroupDetail_FieldNumber_GroupId = 1,
+  PB3GroupDetail_FieldNumber_GroupName = 2,
+  PB3GroupDetail_FieldNumber_GroupImg = 3,
+  PB3GroupDetail_FieldNumber_GroupDescribe = 4,
+  PB3GroupDetail_FieldNumber_ClanId = 5,
+  PB3GroupDetail_FieldNumber_Status = 6,
+  PB3GroupDetail_FieldNumber_IsStore = 7,
+  PB3GroupDetail_FieldNumber_IsAuditing = 8,
 };
 
-@interface PB4GroupDetail : GPBMessage
+@interface PB3GroupDetail : GPBMessage
 
 /** 圈子Id 0创建 非0更新 */
 @property(nonatomic, readwrite) int64_t groupId;
@@ -2172,7 +2332,7 @@ typedef GPB_ENUM(PB4GroupDetail_FieldNumber) {
 /** 圈子的公会id */
 @property(nonatomic, readwrite) int64_t clanId;
 
-@property(nonatomic, readwrite) PB4CommunityGroupStatus status;
+@property(nonatomic, readwrite) PB3CommunityGroupStatus status;
 
 /** 是否收藏 */
 @property(nonatomic, readwrite) BOOL isStore;
@@ -2183,29 +2343,29 @@ typedef GPB_ENUM(PB4GroupDetail_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4GroupDetail's @c status property, even
+ * Fetches the raw value of a @c PB3GroupDetail's @c status property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4GroupDetail_Status_RawValue(PB4GroupDetail *message);
+int32_t PB3GroupDetail_Status_RawValue(PB3GroupDetail *message);
 /**
- * Sets the raw value of an @c PB4GroupDetail's @c status property, allowing
+ * Sets the raw value of an @c PB3GroupDetail's @c status property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4GroupDetail_Status_RawValue(PB4GroupDetail *message, int32_t value);
+void SetPB3GroupDetail_Status_RawValue(PB3GroupDetail *message, int32_t value);
 
-#pragma mark - PB4CommunityLeaveGroupReq
+#pragma mark - PB3CommunityLeaveGroupReq
 
-typedef GPB_ENUM(PB4CommunityLeaveGroupReq_FieldNumber) {
-  PB4CommunityLeaveGroupReq_FieldNumber_GroupId = 1,
-  PB4CommunityLeaveGroupReq_FieldNumber_LeavePlayerId = 2,
-  PB4CommunityLeaveGroupReq_FieldNumber_Opt = 3,
+typedef GPB_ENUM(PB3CommunityLeaveGroupReq_FieldNumber) {
+  PB3CommunityLeaveGroupReq_FieldNumber_GroupId = 1,
+  PB3CommunityLeaveGroupReq_FieldNumber_LeavePlayerId = 2,
+  PB3CommunityLeaveGroupReq_FieldNumber_Opt = 3,
 };
 
 /**
  * 离开圈子(主动/被动/解散)
  **/
-@interface PB4CommunityLeaveGroupReq : GPBMessage
+@interface PB3CommunityLeaveGroupReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
@@ -2213,43 +2373,43 @@ typedef GPB_ENUM(PB4CommunityLeaveGroupReq_FieldNumber) {
 @property(nonatomic, readwrite) int64_t leavePlayerId;
 
 /** 0离开1踢出2解散 */
-@property(nonatomic, readwrite) enum PB4CommunityGroupLeaveOpt opt;
+@property(nonatomic, readwrite) enum PB3CommunityGroupLeaveOpt opt;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityLeaveGroupReq's @c opt property, even
+ * Fetches the raw value of a @c PB3CommunityLeaveGroupReq's @c opt property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityLeaveGroupReq_Opt_RawValue(PB4CommunityLeaveGroupReq *message);
+int32_t PB3CommunityLeaveGroupReq_Opt_RawValue(PB3CommunityLeaveGroupReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityLeaveGroupReq's @c opt property, allowing
+ * Sets the raw value of an @c PB3CommunityLeaveGroupReq's @c opt property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityLeaveGroupReq_Opt_RawValue(PB4CommunityLeaveGroupReq *message, int32_t value);
+void SetPB3CommunityLeaveGroupReq_Opt_RawValue(PB3CommunityLeaveGroupReq *message, int32_t value);
 
-#pragma mark - PB4CommunityLeaveGroupRes
+#pragma mark - PB3CommunityLeaveGroupRes
 
-@interface PB4CommunityLeaveGroupRes : GPBMessage
+@interface PB3CommunityLeaveGroupRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityPlayerGroupListReq
+#pragma mark - PB3CommunityPlayerGroupListReq
 
-typedef GPB_ENUM(PB4CommunityPlayerGroupListReq_FieldNumber) {
-  PB4CommunityPlayerGroupListReq_FieldNumber_PlayerGroupType = 1,
-  PB4CommunityPlayerGroupListReq_FieldNumber_PlayerId = 2,
-  PB4CommunityPlayerGroupListReq_FieldNumber_Index = 3,
+typedef GPB_ENUM(PB3CommunityPlayerGroupListReq_FieldNumber) {
+  PB3CommunityPlayerGroupListReq_FieldNumber_PlayerGroupType = 1,
+  PB3CommunityPlayerGroupListReq_FieldNumber_PlayerId = 2,
+  PB3CommunityPlayerGroupListReq_FieldNumber_Index = 3,
 };
 
 /**
  * 用户圈子(加入、收藏)
  **/
-@interface PB4CommunityPlayerGroupListReq : GPBMessage
+@interface PB3CommunityPlayerGroupListReq : GPBMessage
 
 /** 0加入1收藏 */
-@property(nonatomic, readwrite) enum PB4CommunityPlayerGroupType playerGroupType;
+@property(nonatomic, readwrite) enum PB3CommunityPlayerGroupType playerGroupType;
 
 @property(nonatomic, readwrite) int64_t playerId;
 
@@ -2259,27 +2419,27 @@ typedef GPB_ENUM(PB4CommunityPlayerGroupListReq_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPlayerGroupListReq's @c playerGroupType property, even
+ * Fetches the raw value of a @c PB3CommunityPlayerGroupListReq's @c playerGroupType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPlayerGroupListReq_PlayerGroupType_RawValue(PB4CommunityPlayerGroupListReq *message);
+int32_t PB3CommunityPlayerGroupListReq_PlayerGroupType_RawValue(PB3CommunityPlayerGroupListReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityPlayerGroupListReq's @c playerGroupType property, allowing
+ * Sets the raw value of an @c PB3CommunityPlayerGroupListReq's @c playerGroupType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPlayerGroupListReq_PlayerGroupType_RawValue(PB4CommunityPlayerGroupListReq *message, int32_t value);
+void SetPB3CommunityPlayerGroupListReq_PlayerGroupType_RawValue(PB3CommunityPlayerGroupListReq *message, int32_t value);
 
-#pragma mark - PB4CommunityPlayerGroupListRes
+#pragma mark - PB3CommunityPlayerGroupListRes
 
-typedef GPB_ENUM(PB4CommunityPlayerGroupListRes_FieldNumber) {
-  PB4CommunityPlayerGroupListRes_FieldNumber_ItemArray = 1,
-  PB4CommunityPlayerGroupListRes_FieldNumber_NextIndex = 2,
+typedef GPB_ENUM(PB3CommunityPlayerGroupListRes_FieldNumber) {
+  PB3CommunityPlayerGroupListRes_FieldNumber_ItemArray = 1,
+  PB3CommunityPlayerGroupListRes_FieldNumber_NextIndex = 2,
 };
 
-@interface PB4CommunityPlayerGroupListRes : GPBMessage
+@interface PB3CommunityPlayerGroupListRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4GroupListItem*> *itemArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3GroupListItem*> *itemArray;
 /** The number of items in @c itemArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemArray_Count;
 
@@ -2288,18 +2448,18 @@ typedef GPB_ENUM(PB4CommunityPlayerGroupListRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4GroupListItem
+#pragma mark - PB3GroupListItem
 
-typedef GPB_ENUM(PB4GroupListItem_FieldNumber) {
-  PB4GroupListItem_FieldNumber_BaseDetail = 1,
-  PB4GroupListItem_FieldNumber_MemberNum = 2,
-  PB4GroupListItem_FieldNumber_TrendNum = 3,
-  PB4GroupListItem_FieldNumber_IsOwner = 4,
+typedef GPB_ENUM(PB3GroupListItem_FieldNumber) {
+  PB3GroupListItem_FieldNumber_BaseDetail = 1,
+  PB3GroupListItem_FieldNumber_MemberNum = 2,
+  PB3GroupListItem_FieldNumber_TrendNum = 3,
+  PB3GroupListItem_FieldNumber_IsOwner = 4,
 };
 
-@interface PB4GroupListItem : GPBMessage
+@interface PB3GroupListItem : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4GroupDetail *baseDetail;
+@property(nonatomic, readwrite, strong, null_resettable) PB3GroupDetail *baseDetail;
 /** Test to see if @c baseDetail has been set. */
 @property(nonatomic, readwrite) BOOL hasBaseDetail;
 
@@ -2311,17 +2471,17 @@ typedef GPB_ENUM(PB4GroupListItem_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityGroupPlayerListReq
+#pragma mark - PB3CommunityGroupPlayerListReq
 
-typedef GPB_ENUM(PB4CommunityGroupPlayerListReq_FieldNumber) {
-  PB4CommunityGroupPlayerListReq_FieldNumber_GroupId = 1,
-  PB4CommunityGroupPlayerListReq_FieldNumber_Index = 2,
+typedef GPB_ENUM(PB3CommunityGroupPlayerListReq_FieldNumber) {
+  PB3CommunityGroupPlayerListReq_FieldNumber_GroupId = 1,
+  PB3CommunityGroupPlayerListReq_FieldNumber_Index = 2,
 };
 
 /**
  * 圈子成员列表
  **/
-@interface PB4CommunityGroupPlayerListReq : GPBMessage
+@interface PB3CommunityGroupPlayerListReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
@@ -2329,16 +2489,16 @@ typedef GPB_ENUM(PB4CommunityGroupPlayerListReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityGroupPlayerListRes
+#pragma mark - PB3CommunityGroupPlayerListRes
 
-typedef GPB_ENUM(PB4CommunityGroupPlayerListRes_FieldNumber) {
-  PB4CommunityGroupPlayerListRes_FieldNumber_ItemArray = 1,
-  PB4CommunityGroupPlayerListRes_FieldNumber_NextIndex = 2,
+typedef GPB_ENUM(PB3CommunityGroupPlayerListRes_FieldNumber) {
+  PB3CommunityGroupPlayerListRes_FieldNumber_ItemArray = 1,
+  PB3CommunityGroupPlayerListRes_FieldNumber_NextIndex = 2,
 };
 
-@interface PB4CommunityGroupPlayerListRes : GPBMessage
+@interface PB3CommunityGroupPlayerListRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityGroupPlayerItem*> *itemArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityGroupPlayerItem*> *itemArray;
 /** The number of items in @c itemArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemArray_Count;
 
@@ -2346,16 +2506,16 @@ typedef GPB_ENUM(PB4CommunityGroupPlayerListRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityGroupPlayerItem
+#pragma mark - PB3CommunityGroupPlayerItem
 
-typedef GPB_ENUM(PB4CommunityGroupPlayerItem_FieldNumber) {
-  PB4CommunityGroupPlayerItem_FieldNumber_Info = 1,
-  PB4CommunityGroupPlayerItem_FieldNumber_RoomId = 2,
+typedef GPB_ENUM(PB3CommunityGroupPlayerItem_FieldNumber) {
+  PB3CommunityGroupPlayerItem_FieldNumber_Info = 1,
+  PB3CommunityGroupPlayerItem_FieldNumber_RoomId = 2,
 };
 
-@interface PB4CommunityGroupPlayerItem : GPBMessage
+@interface PB3CommunityGroupPlayerItem : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4MemberBaseInfo *info;
+@property(nonatomic, readwrite, strong, null_resettable) PB3MemberBaseInfo *info;
 /** Test to see if @c info has been set. */
 @property(nonatomic, readwrite) BOOL hasInfo;
 
@@ -2364,218 +2524,205 @@ typedef GPB_ENUM(PB4CommunityGroupPlayerItem_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityCreateTagReq
+#pragma mark - PB3CommunityCreateTagReq
 
-typedef GPB_ENUM(PB4CommunityCreateTagReq_FieldNumber) {
-  PB4CommunityCreateTagReq_FieldNumber_TagName = 1,
+typedef GPB_ENUM(PB3CommunityCreateTagReq_FieldNumber) {
+  PB3CommunityCreateTagReq_FieldNumber_TagName = 1,
 };
 
 /**
  * 创建标签
  **/
-@interface PB4CommunityCreateTagReq : GPBMessage
+@interface PB3CommunityCreateTagReq : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *tagName;
 
 @end
 
-#pragma mark - PB4CommunityCreateTagRes
+#pragma mark - PB3CommunityCreateTagRes
 
-@interface PB4CommunityCreateTagRes : GPBMessage
+@interface PB3CommunityCreateTagRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityAllTagReq
+#pragma mark - PB3CommunityAllTagReq
 
 /**
  * 所有标签
  **/
-@interface PB4CommunityAllTagReq : GPBMessage
+@interface PB3CommunityAllTagReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityAllTagRes
+#pragma mark - PB3CommunityAllTagRes
 
-typedef GPB_ENUM(PB4CommunityAllTagRes_FieldNumber) {
-  PB4CommunityAllTagRes_FieldNumber_ItemArray = 1,
+typedef GPB_ENUM(PB3CommunityAllTagRes_FieldNumber) {
+  PB3CommunityAllTagRes_FieldNumber_ItemArray = 1,
 };
 
-@interface PB4CommunityAllTagRes : GPBMessage
+@interface PB3CommunityAllTagRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendTag*> *itemArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendTag*> *itemArray;
 /** The number of items in @c itemArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemArray_Count;
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgRedPointReq
+#pragma mark - PB3CommunityPlayerMsgRedPointReq
 
 /**
  * 个人消息
  * 请求当前红点
  **/
-@interface PB4CommunityPlayerMsgRedPointReq : GPBMessage
+@interface PB3CommunityPlayerMsgRedPointReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgRedPointRes
+#pragma mark - PB3CommunityPlayerMsgRedPointRes
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgRedPointRes_FieldNumber) {
-  PB4CommunityPlayerMsgRedPointRes_FieldNumber_RedPoint = 1,
+typedef GPB_ENUM(PB3CommunityPlayerMsgRedPointRes_FieldNumber) {
+  PB3CommunityPlayerMsgRedPointRes_FieldNumber_RedPoint = 1,
 };
 
-@interface PB4CommunityPlayerMsgRedPointRes : GPBMessage
+@interface PB3CommunityPlayerMsgRedPointRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityPlayerMsgRedPoint *redPoint;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityPlayerMsgRedPoint *redPoint;
 /** Test to see if @c redPoint has been set. */
 @property(nonatomic, readwrite) BOOL hasRedPoint;
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgClearRedPointReq
+#pragma mark - PB3CommunityPlayerMsgClearRedPointReq
 
 /**
  * 清除当前红点
  **/
-@interface PB4CommunityPlayerMsgClearRedPointReq : GPBMessage
+@interface PB3CommunityPlayerMsgClearRedPointReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgClearRedPointRes
+#pragma mark - PB3CommunityPlayerMsgClearRedPointRes
 
-@interface PB4CommunityPlayerMsgClearRedPointRes : GPBMessage
+@interface PB3CommunityPlayerMsgClearRedPointRes : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgRedPoint
+#pragma mark - PB3CommunityPlayerMsgRedPoint
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgRedPoint_FieldNumber) {
-  PB4CommunityPlayerMsgRedPoint_FieldNumber_Num = 1,
+typedef GPB_ENUM(PB3CommunityPlayerMsgRedPoint_FieldNumber) {
+  PB3CommunityPlayerMsgRedPoint_FieldNumber_Num = 1,
 };
 
 /**
  * 推送当前红点
  **/
-@interface PB4CommunityPlayerMsgRedPoint : GPBMessage
+@interface PB3CommunityPlayerMsgRedPoint : GPBMessage
 
 @property(nonatomic, readwrite) int32_t num;
 
 @end
 
-#pragma mark - PB4CommunityPlayerMsgReq
+#pragma mark - PB3CommunityPlayerMsgReq
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgReq_FieldNumber) {
-  PB4CommunityPlayerMsgReq_FieldNumber_Index = 1,
-  PB4CommunityPlayerMsgReq_FieldNumber_ShowType = 2,
+typedef GPB_ENUM(PB3CommunityPlayerMsgReq_FieldNumber) {
+  PB3CommunityPlayerMsgReq_FieldNumber_Index = 1,
+  PB3CommunityPlayerMsgReq_FieldNumber_ShowType = 2,
 };
 
 /**
  * 请求个人消息
  **/
-@interface PB4CommunityPlayerMsgReq : GPBMessage
+@interface PB3CommunityPlayerMsgReq : GPBMessage
 
 /** 用于翻页, 请求第一页时传0 */
 @property(nonatomic, readwrite) int32_t index;
 
 /** 展示类型 */
-@property(nonatomic, readwrite) PB4CommunityMsgShowType showType;
+@property(nonatomic, readwrite) PB3CommunityMsgShowType showType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPlayerMsgReq's @c showType property, even
+ * Fetches the raw value of a @c PB3CommunityPlayerMsgReq's @c showType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPlayerMsgReq_ShowType_RawValue(PB4CommunityPlayerMsgReq *message);
+int32_t PB3CommunityPlayerMsgReq_ShowType_RawValue(PB3CommunityPlayerMsgReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityPlayerMsgReq's @c showType property, allowing
+ * Sets the raw value of an @c PB3CommunityPlayerMsgReq's @c showType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPlayerMsgReq_ShowType_RawValue(PB4CommunityPlayerMsgReq *message, int32_t value);
+void SetPB3CommunityPlayerMsgReq_ShowType_RawValue(PB3CommunityPlayerMsgReq *message, int32_t value);
 
-#pragma mark - PB4CommunityPlayerMsgRes
+#pragma mark - PB3CommunityPlayerMsgRes
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgRes_FieldNumber) {
-  PB4CommunityPlayerMsgRes_FieldNumber_List = 1,
-  PB4CommunityPlayerMsgRes_FieldNumber_NextIndex = 2,
-  PB4CommunityPlayerMsgRes_FieldNumber_ShowType = 3,
+typedef GPB_ENUM(PB3CommunityPlayerMsgRes_FieldNumber) {
+  PB3CommunityPlayerMsgRes_FieldNumber_ListArray = 1,
+  PB3CommunityPlayerMsgRes_FieldNumber_NextIndex = 2,
+  PB3CommunityPlayerMsgRes_FieldNumber_ShowType = 3,
 };
 
-@interface PB4CommunityPlayerMsgRes : GPBMessage
+@interface PB3CommunityPlayerMsgRes : GPBMessage
 
-/** 客户端需要根据id去重，消息数组，当为show_type为CMsgShowType_Like or CMsgShowType_Comments时，为CommunityPlayerMsgs；当show_type为CMsgShowType_System，使用protocol协议src/main/proto/pb中的MailMsgs */
-@property(nonatomic, readwrite, copy, null_resettable) NSData *list;
+/** 客户端需要根据id去重 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3CommunityPlayerMsg*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
 
 /** -1代表列表没有下一页了, 下一页index */
 @property(nonatomic, readwrite) int32_t nextIndex;
 
 /** 展示类型 */
-@property(nonatomic, readwrite) PB4CommunityMsgShowType showType;
+@property(nonatomic, readwrite) PB3CommunityMsgShowType showType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPlayerMsgRes's @c showType property, even
+ * Fetches the raw value of a @c PB3CommunityPlayerMsgRes's @c showType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPlayerMsgRes_ShowType_RawValue(PB4CommunityPlayerMsgRes *message);
+int32_t PB3CommunityPlayerMsgRes_ShowType_RawValue(PB3CommunityPlayerMsgRes *message);
 /**
- * Sets the raw value of an @c PB4CommunityPlayerMsgRes's @c showType property, allowing
+ * Sets the raw value of an @c PB3CommunityPlayerMsgRes's @c showType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPlayerMsgRes_ShowType_RawValue(PB4CommunityPlayerMsgRes *message, int32_t value);
+void SetPB3CommunityPlayerMsgRes_ShowType_RawValue(PB3CommunityPlayerMsgRes *message, int32_t value);
 
-#pragma mark - PB4CommunityPlayerMsgs
+#pragma mark - PB3CommunityPlayerMsg
 
-typedef GPB_ENUM(PB4CommunityPlayerMsgs_FieldNumber) {
-  PB4CommunityPlayerMsgs_FieldNumber_MsgArray = 1,
-};
-
-@interface PB4CommunityPlayerMsgs : GPBMessage
-
-/** 个人消息列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityPlayerMsg*> *msgArray;
-/** The number of items in @c msgArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger msgArray_Count;
-
-@end
-
-#pragma mark - PB4CommunityPlayerMsg
-
-typedef GPB_ENUM(PB4CommunityPlayerMsg_FieldNumber) {
-  PB4CommunityPlayerMsg_FieldNumber_Id_p = 1,
-  PB4CommunityPlayerMsg_FieldNumber_Trend = 2,
-  PB4CommunityPlayerMsg_FieldNumber_Player = 3,
-  PB4CommunityPlayerMsg_FieldNumber_CommentedPlayer = 4,
-  PB4CommunityPlayerMsg_FieldNumber_CommentId = 5,
-  PB4CommunityPlayerMsg_FieldNumber_SelfTrend = 6,
-  PB4CommunityPlayerMsg_FieldNumber_Comment = 7,
-  PB4CommunityPlayerMsg_FieldNumber_CreatAt = 8,
-  PB4CommunityPlayerMsg_FieldNumber_Type = 9,
-  PB4CommunityPlayerMsg_FieldNumber_Desc = 10,
+typedef GPB_ENUM(PB3CommunityPlayerMsg_FieldNumber) {
+  PB3CommunityPlayerMsg_FieldNumber_Id_p = 1,
+  PB3CommunityPlayerMsg_FieldNumber_Trend = 2,
+  PB3CommunityPlayerMsg_FieldNumber_Player = 3,
+  PB3CommunityPlayerMsg_FieldNumber_CommentedPlayer = 4,
+  PB3CommunityPlayerMsg_FieldNumber_CommentId = 5,
+  PB3CommunityPlayerMsg_FieldNumber_SelfTrend = 6,
+  PB3CommunityPlayerMsg_FieldNumber_Comment = 7,
+  PB3CommunityPlayerMsg_FieldNumber_CreatAt = 8,
+  PB3CommunityPlayerMsg_FieldNumber_Type = 9,
+  PB3CommunityPlayerMsg_FieldNumber_Desc = 10,
 };
 
 /**
  * 个人消息结构
  **/
-@interface PB4CommunityPlayerMsg : GPBMessage
+@interface PB3CommunityPlayerMsg : GPBMessage
 
 @property(nonatomic, readwrite) int32_t id_p;
 
 /** nil 显示动态已删除 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityTrendData *trend;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityTrendData *trend;
 /** Test to see if @c trend has been set. */
 @property(nonatomic, readwrite) BOOL hasTrend;
 
 /** 评论者 id=-1 为系统操作；id=自己; 根据这个主语会不一样，当CommunityPlayerMsgType 为 9，10，11 时，这里存来源者的信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityPlayerInfo *player;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityPlayerInfo *player;
 /** Test to see if @c player has been set. */
 @property(nonatomic, readwrite) BOOL hasPlayer;
 
 /** 被评论者 id > 0 */
-@property(nonatomic, readwrite, strong, null_resettable) PB4CommunityPlayerInfo *commentedPlayer;
+@property(nonatomic, readwrite, strong, null_resettable) PB3CommunityPlayerInfo *commentedPlayer;
 /** Test to see if @c commentedPlayer has been set. */
 @property(nonatomic, readwrite) BOOL hasCommentedPlayer;
 
@@ -2592,7 +2739,7 @@ typedef GPB_ENUM(PB4CommunityPlayerMsg_FieldNumber) {
 @property(nonatomic, readwrite) int64_t creatAt;
 
 /** 消息类型 */
-@property(nonatomic, readwrite) PB4CommunityPlayerMsgType type;
+@property(nonatomic, readwrite) PB3CommunityPlayerMsgType type;
 
 /** 说明 点赞，取消点赞的文案客户端自己写，emoji服务端没有 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
@@ -2600,62 +2747,37 @@ typedef GPB_ENUM(PB4CommunityPlayerMsg_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityPlayerMsg's @c type property, even
+ * Fetches the raw value of a @c PB3CommunityPlayerMsg's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityPlayerMsg_Type_RawValue(PB4CommunityPlayerMsg *message);
+int32_t PB3CommunityPlayerMsg_Type_RawValue(PB3CommunityPlayerMsg *message);
 /**
- * Sets the raw value of an @c PB4CommunityPlayerMsg's @c type property, allowing
+ * Sets the raw value of an @c PB3CommunityPlayerMsg's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityPlayerMsg_Type_RawValue(PB4CommunityPlayerMsg *message, int32_t value);
+void SetPB3CommunityPlayerMsg_Type_RawValue(PB3CommunityPlayerMsg *message, int32_t value);
 
-#pragma mark - PB4CommunityPlayerStatReq
+#pragma mark - PB3CommunityPlayerStatReq
 
-typedef GPB_ENUM(PB4CommunityPlayerStatReq_FieldNumber) {
-  PB4CommunityPlayerStatReq_FieldNumber_PlayerId = 1,
+typedef GPB_ENUM(PB3CommunityPlayerStatReq_FieldNumber) {
+  PB3CommunityPlayerStatReq_FieldNumber_PlayerId = 1,
 };
 
-@interface PB4CommunityPlayerStatReq : GPBMessage
+@interface PB3CommunityPlayerStatReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t playerId;
 
 @end
 
-#pragma mark - PB4CommunityMailMsgItem
+#pragma mark - PB3CommunityPlayerStatRes
 
-typedef GPB_ENUM(PB4CommunityMailMsgItem_FieldNumber) {
-  PB4CommunityMailMsgItem_FieldNumber_Id_p = 1,
-  PB4CommunityMailMsgItem_FieldNumber_CmdId = 2,
-  PB4CommunityMailMsgItem_FieldNumber_CreateAt = 3,
-  PB4CommunityMailMsgItem_FieldNumber_Data_p = 4,
+typedef GPB_ENUM(PB3CommunityPlayerStatRes_FieldNumber) {
+  PB3CommunityPlayerStatRes_FieldNumber_TrendsNum = 1,
+  PB3CommunityPlayerStatRes_FieldNumber_JoinGroupNum = 2,
 };
 
-@interface PB4CommunityMailMsgItem : GPBMessage
-
-/** 系统消息id */
-@property(nonatomic, readwrite) int64_t id_p;
-
-/** 广播的cmdId */
-@property(nonatomic, readwrite) int32_t cmdId;
-
-/** 创建时间 */
-@property(nonatomic, readwrite) int32_t createAt;
-
-/** 根据cmdId，创建对应的结构体 */
-@property(nonatomic, readwrite, copy, null_resettable) NSData *data_p;
-
-@end
-
-#pragma mark - PB4CommunityPlayerStatRes
-
-typedef GPB_ENUM(PB4CommunityPlayerStatRes_FieldNumber) {
-  PB4CommunityPlayerStatRes_FieldNumber_TrendsNum = 1,
-  PB4CommunityPlayerStatRes_FieldNumber_JoinGroupNum = 2,
-};
-
-@interface PB4CommunityPlayerStatRes : GPBMessage
+@interface PB3CommunityPlayerStatRes : GPBMessage
 
 /** 动态数量 */
 @property(nonatomic, readwrite) int32_t trendsNum;
@@ -2665,59 +2787,59 @@ typedef GPB_ENUM(PB4CommunityPlayerStatRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityAgreementReq
+#pragma mark - PB3CommunityAgreementReq
 
-typedef GPB_ENUM(PB4CommunityAgreementReq_FieldNumber) {
-  PB4CommunityAgreementReq_FieldNumber_OperType = 1,
+typedef GPB_ENUM(PB3CommunityAgreementReq_FieldNumber) {
+  PB3CommunityAgreementReq_FieldNumber_OperType = 1,
 };
 
-@interface PB4CommunityAgreementReq : GPBMessage
+@interface PB3CommunityAgreementReq : GPBMessage
 
-@property(nonatomic, readwrite) PB4AgreementOperType operType;
+@property(nonatomic, readwrite) PB3AgreementOperType operType;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4CommunityAgreementReq's @c operType property, even
+ * Fetches the raw value of a @c PB3CommunityAgreementReq's @c operType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4CommunityAgreementReq_OperType_RawValue(PB4CommunityAgreementReq *message);
+int32_t PB3CommunityAgreementReq_OperType_RawValue(PB3CommunityAgreementReq *message);
 /**
- * Sets the raw value of an @c PB4CommunityAgreementReq's @c operType property, allowing
+ * Sets the raw value of an @c PB3CommunityAgreementReq's @c operType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4CommunityAgreementReq_OperType_RawValue(PB4CommunityAgreementReq *message, int32_t value);
+void SetPB3CommunityAgreementReq_OperType_RawValue(PB3CommunityAgreementReq *message, int32_t value);
 
-#pragma mark - PB4CommunityAgreementRes
+#pragma mark - PB3CommunityAgreementRes
 
-typedef GPB_ENUM(PB4CommunityAgreementRes_FieldNumber) {
-  PB4CommunityAgreementRes_FieldNumber_IsAgree = 1,
+typedef GPB_ENUM(PB3CommunityAgreementRes_FieldNumber) {
+  PB3CommunityAgreementRes_FieldNumber_IsAgree = 1,
 };
 
-@interface PB4CommunityAgreementRes : GPBMessage
+@interface PB3CommunityAgreementRes : GPBMessage
 
 /** 查看是否已经同意时使用 */
 @property(nonatomic, readwrite) BOOL isAgree;
 
 @end
 
-#pragma mark - PB4CommunityPublishPermissionReq
+#pragma mark - PB3CommunityPublishPermissionReq
 
-@interface PB4CommunityPublishPermissionReq : GPBMessage
+@interface PB3CommunityPublishPermissionReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityPublishPermissionRes
+#pragma mark - PB3CommunityPublishPermissionRes
 
-typedef GPB_ENUM(PB4CommunityPublishPermissionRes_FieldNumber) {
-  PB4CommunityPublishPermissionRes_FieldNumber_IsPermit = 1,
-  PB4CommunityPublishPermissionRes_FieldNumber_MaxSelectLabelNum = 2,
-  PB4CommunityPublishPermissionRes_FieldNumber_MaxSelectGroupNum = 3,
-  PB4CommunityPublishPermissionRes_FieldNumber_MaxSelectMediaNum = 4,
+typedef GPB_ENUM(PB3CommunityPublishPermissionRes_FieldNumber) {
+  PB3CommunityPublishPermissionRes_FieldNumber_IsPermit = 1,
+  PB3CommunityPublishPermissionRes_FieldNumber_MaxSelectLabelNum = 2,
+  PB3CommunityPublishPermissionRes_FieldNumber_MaxSelectGroupNum = 3,
+  PB3CommunityPublishPermissionRes_FieldNumber_MaxSelectMediaNum = 4,
 };
 
-@interface PB4CommunityPublishPermissionRes : GPBMessage
+@interface PB3CommunityPublishPermissionRes : GPBMessage
 
 /** true:允许发动态 */
 @property(nonatomic, readwrite) BOOL isPermit;
@@ -2733,26 +2855,26 @@ typedef GPB_ENUM(PB4CommunityPublishPermissionRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityGroupLimitReq
+#pragma mark - PB3CommunityGroupLimitReq
 
-@interface PB4CommunityGroupLimitReq : GPBMessage
+@interface PB3CommunityGroupLimitReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityGroupLimitRes
+#pragma mark - PB3CommunityGroupLimitRes
 
-typedef GPB_ENUM(PB4CommunityGroupLimitRes_FieldNumber) {
-  PB4CommunityGroupLimitRes_FieldNumber_WealthLv = 1,
-  PB4CommunityGroupLimitRes_FieldNumber_CharmLv = 2,
-  PB4CommunityGroupLimitRes_FieldNumber_AndOr = 3,
-  PB4CommunityGroupLimitRes_FieldNumber_MaxActiveGroupNum = 4,
-  PB4CommunityGroupLimitRes_FieldNumber_MaxGroupMemberNum = 5,
-  PB4CommunityGroupLimitRes_FieldNumber_ShowCreateButton = 6,
-  PB4CommunityGroupLimitRes_FieldNumber_InvitedInvalidTime = 7,
-  PB4CommunityGroupLimitRes_FieldNumber_CreateMsg = 8,
+typedef GPB_ENUM(PB3CommunityGroupLimitRes_FieldNumber) {
+  PB3CommunityGroupLimitRes_FieldNumber_WealthLv = 1,
+  PB3CommunityGroupLimitRes_FieldNumber_CharmLv = 2,
+  PB3CommunityGroupLimitRes_FieldNumber_AndOr = 3,
+  PB3CommunityGroupLimitRes_FieldNumber_MaxActiveGroupNum = 4,
+  PB3CommunityGroupLimitRes_FieldNumber_MaxGroupMemberNum = 5,
+  PB3CommunityGroupLimitRes_FieldNumber_ShowCreateButton = 6,
+  PB3CommunityGroupLimitRes_FieldNumber_InvitedInvalidTime = 7,
+  PB3CommunityGroupLimitRes_FieldNumber_CreateMsg = 8,
 };
 
-@interface PB4CommunityGroupLimitRes : GPBMessage
+@interface PB3CommunityGroupLimitRes : GPBMessage
 
 @property(nonatomic, readwrite) int32_t wealthLv;
 
@@ -2776,26 +2898,26 @@ typedef GPB_ENUM(PB4CommunityGroupLimitRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4ClearCommunityPlayerMsgReq
+#pragma mark - PB3ClearCommunityPlayerMsgReq
 
-@interface PB4ClearCommunityPlayerMsgReq : GPBMessage
-
-@end
-
-#pragma mark - PB4ClearCommunityPlayerMsgRes
-
-@interface PB4ClearCommunityPlayerMsgRes : GPBMessage
+@interface PB3ClearCommunityPlayerMsgReq : GPBMessage
 
 @end
 
-#pragma mark - PB4GroupInfoSimple
+#pragma mark - PB3ClearCommunityPlayerMsgRes
 
-typedef GPB_ENUM(PB4GroupInfoSimple_FieldNumber) {
-  PB4GroupInfoSimple_FieldNumber_Id_p = 1,
-  PB4GroupInfoSimple_FieldNumber_Name = 2,
+@interface PB3ClearCommunityPlayerMsgRes : GPBMessage
+
+@end
+
+#pragma mark - PB3GroupInfoSimple
+
+typedef GPB_ENUM(PB3GroupInfoSimple_FieldNumber) {
+  PB3GroupInfoSimple_FieldNumber_Id_p = 1,
+  PB3GroupInfoSimple_FieldNumber_Name = 2,
 };
 
-@interface PB4GroupInfoSimple : GPBMessage
+@interface PB3GroupInfoSimple : GPBMessage
 
 /** 圈子ID */
 @property(nonatomic, readwrite) int64_t id_p;
@@ -2805,29 +2927,29 @@ typedef GPB_ENUM(PB4GroupInfoSimple_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CheckCreateGroupReq
+#pragma mark - PB3CheckCreateGroupReq
 
-@interface PB4CheckCreateGroupReq : GPBMessage
-
-@end
-
-#pragma mark - PB4CheckCreateGroupRes
-
-@interface PB4CheckCreateGroupRes : GPBMessage
+@interface PB3CheckCreateGroupReq : GPBMessage
 
 @end
 
-#pragma mark - PB4ApplyJoinNumPush
+#pragma mark - PB3CheckCreateGroupRes
 
-typedef GPB_ENUM(PB4ApplyJoinNumPush_FieldNumber) {
-  PB4ApplyJoinNumPush_FieldNumber_ApplyNum = 1,
-  PB4ApplyJoinNumPush_FieldNumber_GroupId = 2,
+@interface PB3CheckCreateGroupRes : GPBMessage
+
+@end
+
+#pragma mark - PB3ApplyJoinNumPush
+
+typedef GPB_ENUM(PB3ApplyJoinNumPush_FieldNumber) {
+  PB3ApplyJoinNumPush_FieldNumber_ApplyNum = 1,
+  PB3ApplyJoinNumPush_FieldNumber_GroupId = 2,
 };
 
 /**
  * 申请数量推送
  **/
-@interface PB4ApplyJoinNumPush : GPBMessage
+@interface PB3ApplyJoinNumPush : GPBMessage
 
 @property(nonatomic, readwrite) int32_t applyNum;
 
@@ -2835,34 +2957,34 @@ typedef GPB_ENUM(PB4ApplyJoinNumPush_FieldNumber) {
 
 @end
 
-#pragma mark - PB4PlayerGroupListResPush
+#pragma mark - PB3PlayerGroupListResPush
 
-typedef GPB_ENUM(PB4PlayerGroupListResPush_FieldNumber) {
-  PB4PlayerGroupListResPush_FieldNumber_ItemArray = 1,
+typedef GPB_ENUM(PB3PlayerGroupListResPush_FieldNumber) {
+  PB3PlayerGroupListResPush_FieldNumber_ItemArray = 1,
 };
 
 /**
  * 用户加入圈子数推送
  **/
-@interface PB4PlayerGroupListResPush : GPBMessage
+@interface PB3PlayerGroupListResPush : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4GroupListItem*> *itemArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3GroupListItem*> *itemArray;
 /** The number of items in @c itemArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemArray_Count;
 
 @end
 
-#pragma mark - PB4InviteJoinGroupReq
+#pragma mark - PB3InviteJoinGroupReq
 
-typedef GPB_ENUM(PB4InviteJoinGroupReq_FieldNumber) {
-  PB4InviteJoinGroupReq_FieldNumber_InvitedId = 1,
-  PB4InviteJoinGroupReq_FieldNumber_GroupId = 2,
+typedef GPB_ENUM(PB3InviteJoinGroupReq_FieldNumber) {
+  PB3InviteJoinGroupReq_FieldNumber_InvitedId = 1,
+  PB3InviteJoinGroupReq_FieldNumber_GroupId = 2,
 };
 
 /**
  * 邀请加入
  **/
-@interface PB4InviteJoinGroupReq : GPBMessage
+@interface PB3InviteJoinGroupReq : GPBMessage
 
 /** 被邀请人id */
 @property(nonatomic, readwrite) int64_t invitedId;
@@ -2871,57 +2993,57 @@ typedef GPB_ENUM(PB4InviteJoinGroupReq_FieldNumber) {
 
 @end
 
-#pragma mark - PB4InviteJoinGroupRes
+#pragma mark - PB3InviteJoinGroupRes
 
-@interface PB4InviteJoinGroupRes : GPBMessage
+@interface PB3InviteJoinGroupRes : GPBMessage
 
 @end
 
-#pragma mark - PB4ImmediateJoinGroupReq
+#pragma mark - PB3ImmediateJoinGroupReq
 
-typedef GPB_ENUM(PB4ImmediateJoinGroupReq_FieldNumber) {
-  PB4ImmediateJoinGroupReq_FieldNumber_GroupId = 1,
+typedef GPB_ENUM(PB3ImmediateJoinGroupReq_FieldNumber) {
+  PB3ImmediateJoinGroupReq_FieldNumber_GroupId = 1,
 };
 
-@interface PB4ImmediateJoinGroupReq : GPBMessage
+@interface PB3ImmediateJoinGroupReq : GPBMessage
 
 @property(nonatomic, readwrite) int64_t groupId;
 
 @end
 
-#pragma mark - PB4ImmediateJoinGroupRes
+#pragma mark - PB3ImmediateJoinGroupRes
 
-@interface PB4ImmediateJoinGroupRes : GPBMessage
+@interface PB3ImmediateJoinGroupRes : GPBMessage
 
 @end
 
-#pragma mark - PB4TrendsCheckNoPass
+#pragma mark - PB3TrendsCheckNoPass
 
-typedef GPB_ENUM(PB4TrendsCheckNoPass_FieldNumber) {
-  PB4TrendsCheckNoPass_FieldNumber_TrendsId = 1,
+typedef GPB_ENUM(PB3TrendsCheckNoPass_FieldNumber) {
+  PB3TrendsCheckNoPass_FieldNumber_TrendsId = 1,
 };
 
 /**
  * 推送: IC_TrendsCheckNoPass = 204005; //动态审核不通过
  **/
-@interface PB4TrendsCheckNoPass : GPBMessage
+@interface PB3TrendsCheckNoPass : GPBMessage
 
 /** 动态id */
 @property(nonatomic, readwrite) int64_t trendsId;
 
 @end
 
-#pragma mark - PB4ContentSensitiveCheck
+#pragma mark - PB3ContentSensitiveCheck
 
-typedef GPB_ENUM(PB4ContentSensitiveCheck_FieldNumber) {
-  PB4ContentSensitiveCheck_FieldNumber_ToastText = 1,
-  PB4ContentSensitiveCheck_FieldNumber_CheckedContent = 2,
+typedef GPB_ENUM(PB3ContentSensitiveCheck_FieldNumber) {
+  PB3ContentSensitiveCheck_FieldNumber_ToastText = 1,
+  PB3ContentSensitiveCheck_FieldNumber_CheckedContent = 2,
 };
 
 /**
  * 敏感词检查
  **/
-@interface PB4ContentSensitiveCheck : GPBMessage
+@interface PB3ContentSensitiveCheck : GPBMessage
 
 /** toast 提示文案 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *toastText;
@@ -2931,17 +3053,17 @@ typedef GPB_ENUM(PB4ContentSensitiveCheck_FieldNumber) {
 
 @end
 
-#pragma mark - PB4TrendsCheckResult
+#pragma mark - PB3TrendsCheckResult
 
-typedef GPB_ENUM(PB4TrendsCheckResult_FieldNumber) {
-  PB4TrendsCheckResult_FieldNumber_TrendsId = 1,
-  PB4TrendsCheckResult_FieldNumber_Pass = 2,
+typedef GPB_ENUM(PB3TrendsCheckResult_FieldNumber) {
+  PB3TrendsCheckResult_FieldNumber_TrendsId = 1,
+  PB3TrendsCheckResult_FieldNumber_Pass = 2,
 };
 
 /**
  * 动态审核结果
  **/
-@interface PB4TrendsCheckResult : GPBMessage
+@interface PB3TrendsCheckResult : GPBMessage
 
 /** 动态id */
 @property(nonatomic, readwrite) int64_t trendsId;
@@ -2950,18 +3072,18 @@ typedef GPB_ENUM(PB4TrendsCheckResult_FieldNumber) {
 
 @end
 
-#pragma mark - PB4TrendsCommentCheckResult
+#pragma mark - PB3TrendsCommentCheckResult
 
-typedef GPB_ENUM(PB4TrendsCommentCheckResult_FieldNumber) {
-  PB4TrendsCommentCheckResult_FieldNumber_TrendsId = 1,
-  PB4TrendsCommentCheckResult_FieldNumber_CommentId = 2,
-  PB4TrendsCommentCheckResult_FieldNumber_Pass = 3,
+typedef GPB_ENUM(PB3TrendsCommentCheckResult_FieldNumber) {
+  PB3TrendsCommentCheckResult_FieldNumber_TrendsId = 1,
+  PB3TrendsCommentCheckResult_FieldNumber_CommentId = 2,
+  PB3TrendsCommentCheckResult_FieldNumber_Pass = 3,
 };
 
 /**
  * 评论审核结果
  **/
-@interface PB4TrendsCommentCheckResult : GPBMessage
+@interface PB3TrendsCommentCheckResult : GPBMessage
 
 /** 动态id */
 @property(nonatomic, readwrite) int64_t trendsId;
@@ -2973,20 +3095,20 @@ typedef GPB_ENUM(PB4TrendsCommentCheckResult_FieldNumber) {
 
 @end
 
-#pragma mark - PB4CommunityFocusFriendReq
+#pragma mark - PB3CommunityFocusFriendReq
 
-@interface PB4CommunityFocusFriendReq : GPBMessage
+@interface PB3CommunityFocusFriendReq : GPBMessage
 
 @end
 
-#pragma mark - PB4CommunityFocusFriendRes
+#pragma mark - PB3CommunityFocusFriendRes
 
-typedef GPB_ENUM(PB4CommunityFocusFriendRes_FieldNumber) {
-  PB4CommunityFocusFriendRes_FieldNumber_Num = 1,
-  PB4CommunityFocusFriendRes_FieldNumber_Route = 2,
+typedef GPB_ENUM(PB3CommunityFocusFriendRes_FieldNumber) {
+  PB3CommunityFocusFriendRes_FieldNumber_Num = 1,
+  PB3CommunityFocusFriendRes_FieldNumber_Route = 2,
 };
 
-@interface PB4CommunityFocusFriendRes : GPBMessage
+@interface PB3CommunityFocusFriendRes : GPBMessage
 
 @property(nonatomic, readwrite) int32_t num;
 
@@ -2995,35 +3117,35 @@ typedef GPB_ENUM(PB4CommunityFocusFriendRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4ClearFocusFriendReq
+#pragma mark - PB3ClearFocusFriendReq
 
-@interface PB4ClearFocusFriendReq : GPBMessage
-
-@end
-
-#pragma mark - PB4ClearFocusFriendRes
-
-@interface PB4ClearFocusFriendRes : GPBMessage
+@interface PB3ClearFocusFriendReq : GPBMessage
 
 @end
 
-#pragma mark - PB4ViolationPictureExampleReq
+#pragma mark - PB3ClearFocusFriendRes
+
+@interface PB3ClearFocusFriendRes : GPBMessage
+
+@end
+
+#pragma mark - PB3ViolationPictureExampleReq
 
 /**
  * 获取违规图片示例
  **/
-@interface PB4ViolationPictureExampleReq : GPBMessage
+@interface PB3ViolationPictureExampleReq : GPBMessage
 
 @end
 
-#pragma mark - PB4ViolationInfo
+#pragma mark - PB3ViolationInfo
 
-typedef GPB_ENUM(PB4ViolationInfo_FieldNumber) {
-  PB4ViolationInfo_FieldNumber_URL = 1,
-  PB4ViolationInfo_FieldNumber_Content = 2,
+typedef GPB_ENUM(PB3ViolationInfo_FieldNumber) {
+  PB3ViolationInfo_FieldNumber_URL = 1,
+  PB3ViolationInfo_FieldNumber_Content = 2,
 };
 
-@interface PB4ViolationInfo : GPBMessage
+@interface PB3ViolationInfo : GPBMessage
 
 /** 地址 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
@@ -3033,21 +3155,21 @@ typedef GPB_ENUM(PB4ViolationInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4ViolationPictureExampleRes
+#pragma mark - PB3ViolationPictureExampleRes
 
-typedef GPB_ENUM(PB4ViolationPictureExampleRes_FieldNumber) {
-  PB4ViolationPictureExampleRes_FieldNumber_Title = 1,
-  PB4ViolationPictureExampleRes_FieldNumber_ListArray = 2,
-  PB4ViolationPictureExampleRes_FieldNumber_Remark = 3,
+typedef GPB_ENUM(PB3ViolationPictureExampleRes_FieldNumber) {
+  PB3ViolationPictureExampleRes_FieldNumber_Title = 1,
+  PB3ViolationPictureExampleRes_FieldNumber_ListArray = 2,
+  PB3ViolationPictureExampleRes_FieldNumber_Remark = 3,
 };
 
-@interface PB4ViolationPictureExampleRes : GPBMessage
+@interface PB3ViolationPictureExampleRes : GPBMessage
 
 /** 标题 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
 
 /** 示例列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4ViolationInfo*> *listArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3ViolationInfo*> *listArray;
 /** The number of items in @c listArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger listArray_Count;
 
@@ -3056,72 +3178,72 @@ typedef GPB_ENUM(PB4ViolationPictureExampleRes_FieldNumber) {
 
 @end
 
-#pragma mark - PB4TrendTagInfoReq
+#pragma mark - PB3TrendTagInfoReq
 
-typedef GPB_ENUM(PB4TrendTagInfoReq_FieldNumber) {
-  PB4TrendTagInfoReq_FieldNumber_Id_p = 1,
+typedef GPB_ENUM(PB3TrendTagInfoReq_FieldNumber) {
+  PB3TrendTagInfoReq_FieldNumber_Id_p = 1,
 };
 
-@interface PB4TrendTagInfoReq : GPBMessage
+@interface PB3TrendTagInfoReq : GPBMessage
 
 /** 动态标签id */
 @property(nonatomic, readwrite) int64_t id_p;
 
 @end
 
-#pragma mark - PB4TrendTagInfoRes
+#pragma mark - PB3TrendTagInfoRes
 
-typedef GPB_ENUM(PB4TrendTagInfoRes_FieldNumber) {
-  PB4TrendTagInfoRes_FieldNumber_Tag = 1,
+typedef GPB_ENUM(PB3TrendTagInfoRes_FieldNumber) {
+  PB3TrendTagInfoRes_FieldNumber_Tag = 1,
 };
 
-@interface PB4TrendTagInfoRes : GPBMessage
+@interface PB3TrendTagInfoRes : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) PB4TrendTag *tag;
+@property(nonatomic, readwrite, strong, null_resettable) PB3TrendTag *tag;
 /** Test to see if @c tag has been set. */
 @property(nonatomic, readwrite) BOOL hasTag;
 
 @end
 
-#pragma mark - PB4SkillInteractionInfoReq
+#pragma mark - PB3SkillInteractionInfoReq
 
 /**
  * 获取技能、互动信息
  **/
-@interface PB4SkillInteractionInfoReq : GPBMessage
+@interface PB3SkillInteractionInfoReq : GPBMessage
 
 @end
 
-#pragma mark - PB4SkillInteractionInfoRes
+#pragma mark - PB3SkillInteractionInfoRes
 
-typedef GPB_ENUM(PB4SkillInteractionInfoRes_FieldNumber) {
-  PB4SkillInteractionInfoRes_FieldNumber_SkillListArray = 1,
-  PB4SkillInteractionInfoRes_FieldNumber_InteractionListArray = 2,
+typedef GPB_ENUM(PB3SkillInteractionInfoRes_FieldNumber) {
+  PB3SkillInteractionInfoRes_FieldNumber_SkillListArray = 1,
+  PB3SkillInteractionInfoRes_FieldNumber_InteractionListArray = 2,
 };
 
-@interface PB4SkillInteractionInfoRes : GPBMessage
+@interface PB3SkillInteractionInfoRes : GPBMessage
 
 /** 技能列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendsSkillInfo*> *skillListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendsSkillInfo*> *skillListArray;
 /** The number of items in @c skillListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger skillListArray_Count;
 
 /** 互动列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4TrendsInteractionInfo*> *interactionListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3TrendsInteractionInfo*> *interactionListArray;
 /** The number of items in @c interactionListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger interactionListArray_Count;
 
 @end
 
-#pragma mark - PB4TrendsSkillInfo
+#pragma mark - PB3TrendsSkillInfo
 
-typedef GPB_ENUM(PB4TrendsSkillInfo_FieldNumber) {
-  PB4TrendsSkillInfo_FieldNumber_SkillId = 1,
-  PB4TrendsSkillInfo_FieldNumber_SkillName = 2,
-  PB4TrendsSkillInfo_FieldNumber_Icon = 3,
+typedef GPB_ENUM(PB3TrendsSkillInfo_FieldNumber) {
+  PB3TrendsSkillInfo_FieldNumber_SkillId = 1,
+  PB3TrendsSkillInfo_FieldNumber_SkillName = 2,
+  PB3TrendsSkillInfo_FieldNumber_Icon = 3,
 };
 
-@interface PB4TrendsSkillInfo : GPBMessage
+@interface PB3TrendsSkillInfo : GPBMessage
 
 /** 技能ID */
 @property(nonatomic, readwrite) int64_t skillId;
@@ -3134,15 +3256,15 @@ typedef GPB_ENUM(PB4TrendsSkillInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4TrendsInteractionInfo
+#pragma mark - PB3TrendsInteractionInfo
 
-typedef GPB_ENUM(PB4TrendsInteractionInfo_FieldNumber) {
-  PB4TrendsInteractionInfo_FieldNumber_InteractionId = 1,
-  PB4TrendsInteractionInfo_FieldNumber_InteractionName = 2,
-  PB4TrendsInteractionInfo_FieldNumber_Icon = 3,
+typedef GPB_ENUM(PB3TrendsInteractionInfo_FieldNumber) {
+  PB3TrendsInteractionInfo_FieldNumber_InteractionId = 1,
+  PB3TrendsInteractionInfo_FieldNumber_InteractionName = 2,
+  PB3TrendsInteractionInfo_FieldNumber_Icon = 3,
 };
 
-@interface PB4TrendsInteractionInfo : GPBMessage
+@interface PB3TrendsInteractionInfo : GPBMessage
 
 /** 互动ID */
 @property(nonatomic, readwrite) int64_t interactionId;
@@ -3155,69 +3277,91 @@ typedef GPB_ENUM(PB4TrendsInteractionInfo_FieldNumber) {
 
 @end
 
-#pragma mark - PB4SystemMiscMsgItem
+#pragma mark - PB3PluginEffect
 
-typedef GPB_ENUM(PB4SystemMiscMsgItem_FieldNumber) {
-  PB4SystemMiscMsgItem_FieldNumber_ShowType = 1,
-  PB4SystemMiscMsgItem_FieldNumber_UnreadNum = 2,
-  PB4SystemMiscMsgItem_FieldNumber_Desc = 3,
-  PB4SystemMiscMsgItem_FieldNumber_MsgTime = 4,
+typedef GPB_ENUM(PB3PluginEffect_FieldNumber) {
+  PB3PluginEffect_FieldNumber_Id_p = 1,
+  PB3PluginEffect_FieldNumber_Flag = 2,
+  PB3PluginEffect_FieldNumber_Str = 3,
+  PB3PluginEffect_FieldNumber_TimeType = 4,
+  PB3PluginEffect_FieldNumber_EndTime = 5,
+  PB3PluginEffect_FieldNumber_IsUse = 6,
+  PB3PluginEffect_FieldNumber_EffectDecOwn = 7,
+  PB3PluginEffect_FieldNumber_IsAllow = 8,
+  PB3PluginEffect_FieldNumber_EffectDecReview = 9,
+  PB3PluginEffect_FieldNumber_DecCreateAt = 10,
+  PB3PluginEffect_FieldNumber_ProtectSecond = 11,
+  PB3PluginEffect_FieldNumber_ProtectStartAt = 12,
+  PB3PluginEffect_FieldNumber_EndTimeNew = 13,
+  PB3PluginEffect_FieldNumber_EffectType = 14,
+  PB3PluginEffect_FieldNumber_EffectSubType = 15,
+  PB3PluginEffect_FieldNumber_Counter = 16,
 };
 
-@interface PB4SystemMiscMsgItem : GPBMessage
+/**
+ * 特效
+ **/
+@interface PB3PluginEffect : GPBMessage
 
-/** 消息类型 */
-@property(nonatomic, readwrite) PB4CommunityMsgShowType showType;
+/** id */
+@property(nonatomic, readwrite) int32_t id_p;
 
-/** 未读消息数 */
-@property(nonatomic, readwrite) int64_t unreadNum;
+/** 标志预留 */
+@property(nonatomic, readwrite) int32_t flag;
 
-/** 内容描述，由于多语言问题，CMsgShowType_Like，CMsgShowType_Comments，CMsgShowType_Follow消息类型只会返回用户昵称，客户端需要额外补充 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
+/** 说明预留 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *str;
 
-/** unix时间戳，单位秒 */
-@property(nonatomic, readwrite) int64_t msgTime;
+/** 时间类型 */
+@property(nonatomic, readwrite) PB3PluginEffectTimeType timeType;
+
+/** 结束时间 -1永久 */
+@property(nonatomic, readwrite) int32_t endTime;
+
+/** 是否使用中 */
+@property(nonatomic, readwrite) BOOL isUse;
+
+/** 自定义荣耀宣言 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *effectDecOwn;
+
+/** 审核状态，0:初始化状态，1:审核中，2:已通过，-1:未通过 */
+@property(nonatomic, readwrite) int32_t isAllow;
+
+/** 审核中荣耀宣言 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *effectDecReview;
+
+/** 创建时间 */
+@property(nonatomic, readwrite) int64_t decCreateAt;
+
+/** 保护期秒数，保护期特效才有值 */
+@property(nonatomic, readwrite) int32_t protectSecond;
+
+/** 保护期开始时间戳，保护期特效才有值 */
+@property(nonatomic, readwrite) int64_t protectStartAt;
+
+/** 新 结束时间 -1永久， 由于上面的 end_time 位数不够用，这里增加新的字段，客户新版本不再用旧字段 */
+@property(nonatomic, readwrite) int64_t endTimeNew;
+
+@property(nonatomic, readwrite) int32_t effectType;
+
+@property(nonatomic, readwrite) int32_t effectSubType;
+
+/** 上麦特效计数 */
+@property(nonatomic, readwrite) int32_t counter;
 
 @end
 
 /**
- * Fetches the raw value of a @c PB4SystemMiscMsgItem's @c showType property, even
+ * Fetches the raw value of a @c PB3PluginEffect's @c timeType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PB4SystemMiscMsgItem_ShowType_RawValue(PB4SystemMiscMsgItem *message);
+int32_t PB3PluginEffect_TimeType_RawValue(PB3PluginEffect *message);
 /**
- * Sets the raw value of an @c PB4SystemMiscMsgItem's @c showType property, allowing
+ * Sets the raw value of an @c PB3PluginEffect's @c timeType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPB4SystemMiscMsgItem_ShowType_RawValue(PB4SystemMiscMsgItem *message, int32_t value);
-
-#pragma mark - PB4CommunityNewTrendsReq
-
-typedef GPB_ENUM(PB4CommunityNewTrendsReq_FieldNumber) {
-  PB4CommunityNewTrendsReq_FieldNumber_Index = 1,
-};
-
-@interface PB4CommunityNewTrendsReq : GPBMessage
-
-/** 用于翻页, 请求第一页时传0 */
-@property(nonatomic, readwrite) int32_t index;
-
-@end
-
-#pragma mark - PB4CommunityNewTrendsRes
-
-typedef GPB_ENUM(PB4CommunityNewTrendsRes_FieldNumber) {
-  PB4CommunityNewTrendsRes_FieldNumber_ListArray = 1,
-};
-
-@interface PB4CommunityNewTrendsRes : GPBMessage
-
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB4CommunityTrendData*> *listArray;
-/** The number of items in @c listArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger listArray_Count;
-
-@end
+void SetPB3PluginEffect_TimeType_RawValue(PB3PluginEffect *message, int32_t value);
 
 NS_ASSUME_NONNULL_END
 

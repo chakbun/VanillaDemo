@@ -1,0 +1,138 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+message ResetHeadlineTimerReq {
+    sint64 create_at = 1;
+    sint64 timeout = 2;
+}
+message ResetHeadlineTimerRes {
+
+}
+
+enum TimerCountStyle {
+    TCS_NONE = 0;
+    TCS_NEW_YEAR = 1;
+}
+
+message UpdateAdminTimerReq {
+    int32 opt_type = 1;
+}
+message UpdateAdminTimerRes {
+
+}
+
+enum EXE_TASK_TYPE {
+    EXE_TT_NONE = 0;
+    EXE_TT_CLEAR_ACCOUNT = 1;
+    EXE_TT_WEEK_STAR = 2;
+    EXE_TT_TODAY_BIRTHDAY = 3;
+    EXE_TT_Gift_Conf = 4;
+    EXE_TT_CHANNEL_SYNC = 5;
+    EXE_TT_Mysql_Clickhouse = 6;
+    EXE_TT_DAILY_EARNING_SETTLEMENT_AMOUNT = 7;
+    EXE_TT_DAILY_EARNING = 8;
+    EXE_TT_GREET = 9;
+    EXE_TT_PULL_SONG = 10;
+    EXE_TT_FIX_NEW_ACCOUNT_DATA = 12;
+    EXE_TT_CLAN_HOUR_RANK = 13;
+    EXE_TT_HOT_POINT_TIME_OUT = 14; // 手动触发热点过期
+}
+
+message ExecuteTaskReq {
+    EXE_TASK_TYPE exe_type = 1;
+    bytes data = 2;
+}
+message ExecuteTaskRes {
+
+}
+
+message CheckComplaintRiskReq {
+    int64 player_id = 1;
+}
+message CheckComplaintRiskRes {
+}
+
+
+message AccountParam {
+    string date = 1;
+}
+message ExecuteDelAccountTaskReq {
+}
+message ExecuteDelAccountTaskRes {
+
+}
+
+message CalcIndebtedReq {
+}
+message CalcIndebtedRes {
+}
+
+message WeekStarConfReq {
+
+}
+
+message WeekStarConfRes {
+
+}
+
+message AnonymousThemeReq {
+    bool is_today = 1;
+}
+
+message AnonymousThemeRes {
+
+}
+
+message LogGoldTickStatisticsMonthlyReq{}
+message LogGoldTickStatisticsMonthlyRes{}
+
+// 浇花2.0 快捷换新立即执行
+message RunCrackEgg2QuickChangeReq{}
+message RunCrackEgg2QuickChangeRes{}
+
+// 支付宝充值买一送一重置奖励时间点
+message AliPayBonusResetTimeReq{}
+message AliPayBonusResetTimeRes{}
+
+service TimerIntObj {
+    // 重置头条定时任务
+    rpc ResetHeadlineTimer (ResetHeadlineTimerReq) returns (ResetHeadlineTimerRes);
+    // 设置倒计时
+    rpc UpdateAdminTimer (UpdateAdminTimerReq) returns (UpdateAdminTimerRes);
+    // notice execute task
+    rpc ExecuteTask (ExecuteTaskReq) returns (ExecuteTaskRes);
+    // index 服务受到支付投诉，调用检查是否需要对该用户进行风控
+    rpc CheckComplaintRisk(CheckComplaintRiskReq) returns (CheckComplaintRiskRes);
+
+    //ReportMonthlyBalanceLog的结果统计
+    rpc ReportMonthlyBalanceLog(AccountParam) returns (ExecuteTaskRes);
+
+    //UpdateDbInfoByDay
+    rpc UpdateDbInfoByDay(AccountParam) returns (ExecuteTaskRes);
+
+    //BroadcastLastWeekStarByHour
+    rpc BroadcastLastWeekStarByHour(AccountParam) returns (ExecuteTaskRes);
+
+    //计算用户的留存和活跃
+    rpc CalAccountRetentionAndActivity(AccountParam) returns (ExecuteTaskRes);
+    //计算活动用户的留存
+    rpc CalAccountActivityRetention(AccountParam) returns (ExecuteTaskRes);
+
+    // admin执行删除账号
+    rpc ExecuteDelAccountTask (ExecuteDelAccountTaskReq) returns (ExecuteDelAccountTaskRes);
+    // 内部触发钻石负债核算
+    rpc CalcIndebted (CalcIndebtedReq) returns (CalcIndebtedRes);
+    // 更新周星配置
+    rpc UpdateWeekStarConf (WeekStarConfReq) returns (WeekStarConfRes);
+    // 更新传闻频道主题
+    rpc UpdateAnonymousTheme(AnonymousThemeReq) returns (AnonymousThemeRes);
+    // 财务数据汇总
+    rpc LogGoldTickStatisticsMonthly(LogGoldTickStatisticsMonthlyReq) returns (LogGoldTickStatisticsMonthlyRes);
+    // 浇花2.0快捷换新立即执行
+    rpc RunCrackEgg2QuickChange(RunCrackEgg2QuickChangeReq) returns (RunCrackEgg2QuickChangeRes);
+
+    // 支付宝充值买一送一重置奖励时间点
+    rpc AliPayBonusResetTime(AliPayBonusResetTimeReq) returns (AliPayBonusResetTimeRes);
+}
+

@@ -1,0 +1,104 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+
+import "pb/common.ext.proto";
+
+// 模块索引项V2
+message ModIndexEntry {
+    sint32 index = 1;
+    string name = 2;
+    sint32 expand_weight = 3;       // 展开权重
+    string data_source_attribute = 4; //模块关联的数据源的属性
+    sint32 link_app_mod_id = 5;     //大于0时, 表示该模块关联了app的模块, 需要获取app模块数据
+    bool  sort_icon = 6;            // 是否显示图标(新版本)
+    bool  name_is_visible = 7;      // 模块名称是否显示(新版本)
+}
+
+// 导航索引项V2
+message BarIndexEntry {
+    repeated ModIndexEntry mods = 1;   // 模块索引列表
+    sint32 index = 2;                  // 索引
+    string name = 3;                   // 导航
+    sint32 attribute = 4;              // 属性
+    bool   is_selected = 5;             // 是否选中
+    NavPosition position = 6;           //导航显示位置
+}
+
+// 首页导航V2请求
+message NavigationBarV2Req {
+}
+
+// 首页导航V2返回
+message NavigationBarV2Res {
+    repeated BarIndexEntry tabs = 1;   // 标签
+}
+
+// 列表请求
+message BarListV2Req {
+    sint32 bar_index = 1;         // 导航ID
+    sint32 mod_index = 2;         // 模块ID
+    int32 page = 3;               // 请求的页面
+}
+
+// 列表请求
+message BarListV2Res {
+    repeated IndexEntry bars = 1;   // 首页导航条目
+    bool  sort_icon = 2;            // 是否显示图标
+    bool  is_visible  = 3;          // 是否可见
+    bool  name_is_visible = 4;      // 模块名称是否显示
+}
+
+//版本升级
+message UpgradeVersionReq {
+    sint64 uid = 1;                 //客户登录后的id
+    string source_version = 2;      //当前版本号
+    string channel = 3;             //渠道号
+}
+
+message UpgradeVersionRes {
+    sint32 vid = 1;                 //版本信息id
+    string target_version = 2;      //升级版本号
+    string type = 3;                //类型
+    string description = 4;         //详情
+    string pkg = 5;                 //安装包路径
+}
+
+//版本升级统计
+message UpgradeCountReq {
+    sint64 uid = 1;                 //客户登录后的id
+    sint32 vid = 2;                 //版本信息id
+    string target_version = 3;      //升级后的版本号
+}
+message UpgradeCountRes {
+}
+
+//首页banner V2请求
+message IndexBannerV2Req{
+    sint32 mod_index = 1;           // 模块ID
+}
+//banner列表项
+message IndexBannerV2{
+    string name                 = 1; //打开窗口的标题名称
+    string banner_url           = 2;
+    string tran_url             = 3; //跳转url
+}
+//首页banner V2返回
+message IndexBannerV2Res{
+    repeated IndexBannerV2 list = 1;
+}
+
+//导航显示位置
+enum NavPosition {
+    NP_INDEX_DEFAULT    = 0;    // 导航默认位置
+    NP_INDEX_SUB_WIN    = 1;    // 主面板子窗口
+}
+
+service PCIndexExtObj {
+
+    rpc NavigationBarV2 (NavigationBarV2Req) returns (NavigationBarV2Res);      // 获取PC首页导航tab
+    rpc BarListV2 (BarListV2Req) returns (BarListV2Res);                        // 导航模块列表
+    rpc GetUpgradeVersion (UpgradeVersionReq) returns (UpgradeVersionRes);     //获取版本升级策略
+    rpc CountVersionUpgrade (UpgradeCountReq) returns (UpgradeCountRes);       //统计版本升级
+    rpc GetIndexBannerV2 (IndexBannerV2Req) returns (IndexBannerV2Res);        //获取PC首页banner
+}

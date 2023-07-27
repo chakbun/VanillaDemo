@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option objc_class_prefix = "PB3";
+
+package pb;
+
+//配置名
+//商城-store
+
+message Service {
+    string name = 1; //传入对应的配置名（后台按需开放给前端），如商城--store
+    bytes data = 2; //这里是返回的数据 json格式
+    string md5 = 3; //这里是数据的md5，如果是重复拿数据，可传入md5进行对比，相同不会返回，不同才会返回数据
+}
+//请求 只传入name，可选传入md5
+message ConfReq {
+    repeated Service services = 1; //微服
+}
+
+message ConfRes {
+    repeated Service services = 1; //数据
+}
+
+message OSConfigReq {
+	string os_type = 1;			// 操作系统
+	string req_version = 2;		// 请求的版本
+}
+
+message OSConfigRes {
+	string cru_version = 1;		// 当前版本
+}
+
+service ConfExtObj {
+    rpc GetConf (ConfReq) returns (ConfRes);
+    rpc GetOSConf (OSConfigReq) returns (OSConfigRes);
+}

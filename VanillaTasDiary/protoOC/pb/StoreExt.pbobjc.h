@@ -27,6 +27,16 @@
 
 CF_EXTERN_C_BEGIN
 
+@class PB3BlackWhaleEffect;
+@class PB3BlackWhaleExchangeLog;
+@class PB3BlackWhaleExchangeLogDetail;
+@class PB3BlackWhaleExchangeRecordReq;
+@class PB3BlackWhaleExpCard;
+@class PB3BlackWhaleGift;
+@class PB3BlackWhaleModule;
+@class PB3BlackWhaleScoreLog;
+@class PB3BlackWhaleScoreLogDetail;
+@class PB3BlackWhaleStoreItem;
 @class PB3BuyRecord;
 @class PB3ClassifyTabInfo;
 @class PB3Exchange;
@@ -36,10 +46,14 @@ CF_EXTERN_C_BEGIN
 @class PB3LogExchange;
 @class PB3LogPointExchange;
 @class PB3PlayerAddr;
+@class PB3PointsMallGoods;
 @class PB3SaleGiftInfo;
 @class PB3Store;
 @class PB3StoreClassify;
 @class PB3StoreClassifyConf;
+GPB_ENUM_FWD_DECLARE(PB3BlackWhaleItemType);
+GPB_ENUM_FWD_DECLARE(PB3BlackWhaleLimitType);
+GPB_ENUM_FWD_DECLARE(PB3BlackWhaleModuleStyle);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -181,6 +195,32 @@ GPBEnumDescriptor *PB3ClassifyTabType_EnumDescriptor(void);
  **/
 BOOL PB3ClassifyTabType_IsValidValue(int32_t value);
 
+#pragma mark - Enum PB3PointsMallGoodsType
+
+typedef GPB_ENUM(PB3PointsMallGoodsType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PB3PointsMallGoodsType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PB3PointsMallGoodsType_PmgtZero = 0,
+
+  /** 礼物 */
+  PB3PointsMallGoodsType_PmgtGift = 1,
+
+  /** 特效 */
+  PB3PointsMallGoodsType_PmgtEffect = 2,
+};
+
+GPBEnumDescriptor *PB3PointsMallGoodsType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PB3PointsMallGoodsType_IsValidValue(int32_t value);
+
 #pragma mark - PB3StoreExtRoot
 
 /**
@@ -229,6 +269,8 @@ typedef GPB_ENUM(PB3Store_FieldNumber) {
   PB3Store_FieldNumber_Limit = 28,
   PB3Store_FieldNumber_ExtraGiftStr = 29,
   PB3Store_FieldNumber_DetailLink = 30,
+  PB3Store_FieldNumber_ApplicationArray = 31,
+  PB3Store_FieldNumber_UnlockDays = 32,
 };
 
 @interface PB3Store : GPBMessage
@@ -319,6 +361,14 @@ typedef GPB_ENUM(PB3Store_FieldNumber) {
 /** 礼物详情链接 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *detailLink;
 
+/** 应用包名 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *applicationArray;
+/** The number of items in @c applicationArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger applicationArray_Count;
+
+/** 解锁天数 */
+@property(nonatomic, readwrite) int32_t unlockDays;
+
 @end
 
 /**
@@ -344,6 +394,7 @@ typedef GPB_ENUM(PB3ExchangeGoods_FieldNumber) {
   PB3ExchangeGoods_FieldNumber_OriginalPrice = 6,
   PB3ExchangeGoods_FieldNumber_GiftType = 7,
   PB3ExchangeGoods_FieldNumber_Price = 8,
+  PB3ExchangeGoods_FieldNumber_GiftValue = 9,
 };
 
 /**
@@ -369,11 +420,14 @@ typedef GPB_ENUM(PB3ExchangeGoods_FieldNumber) {
 /** 原价 */
 @property(nonatomic, readwrite) int64_t originalPrice;
 
-/** 兑换类型　0-物品 1-房间背景 2-特效 3-金币 */
+/** 兑换类型　0-物品 1-房间背景 2-特效 3-金币 4-爵位 5-皮肤 */
 @property(nonatomic, readwrite) int32_t giftType;
 
 /** 单价 */
 @property(nonatomic, readwrite) int32_t price;
+
+/** 兑换物品价值 */
+@property(nonatomic, readwrite) int32_t giftValue;
 
 @end
 
@@ -384,11 +438,13 @@ typedef GPB_ENUM(PB3ExchangeExtend_FieldNumber) {
   PB3ExchangeExtend_FieldNumber_PriceLimitType = 2,
   PB3ExchangeExtend_FieldNumber_MinPrice = 3,
   PB3ExchangeExtend_FieldNumber_MaxPrice = 4,
+  PB3ExchangeExtend_FieldNumber_MinNum = 5,
+  PB3ExchangeExtend_FieldNumber_MaxNum = 6,
 };
 
 @interface PB3ExchangeExtend : GPBMessage
 
-/** 兑换类型 0-普通兑换 1-按比例兑换 */
+/** 兑换类型 0普通 1按价值比例兑换 2拼手气兑换 3榜首奖励标签兑换 */
 @property(nonatomic, readwrite) int32_t exchangeType;
 
 /** 价值范围类型 0-普通 1-物品价值范围 */
@@ -399,6 +455,12 @@ typedef GPB_ENUM(PB3ExchangeExtend_FieldNumber) {
 
 /** 价值区间 */
 @property(nonatomic, readwrite) int32_t maxPrice;
+
+/** 最小兑换数量 */
+@property(nonatomic, readwrite) int32_t minNum;
+
+/** 最大兑换数量 */
+@property(nonatomic, readwrite) int32_t maxNum;
 
 @end
 
@@ -422,6 +484,9 @@ typedef GPB_ENUM(PB3Exchange_FieldNumber) {
   PB3Exchange_FieldNumber_Remark = 15,
   PB3Exchange_FieldNumber_Extend = 16,
   PB3Exchange_FieldNumber_RelActId = 17,
+  PB3Exchange_FieldNumber_ShowStartTime = 18,
+  PB3Exchange_FieldNumber_ShowEndTime = 19,
+  PB3Exchange_FieldNumber_CanBuyStatus = 20,
 };
 
 @interface PB3Exchange : GPBMessage
@@ -481,6 +546,13 @@ typedef GPB_ENUM(PB3Exchange_FieldNumber) {
 
 /** 子活动ID */
 @property(nonatomic, readwrite) int32_t relActId;
+
+@property(nonatomic, readwrite) int64_t showStartTime;
+
+@property(nonatomic, readwrite) int64_t showEndTime;
+
+/** 是否能购买 */
+@property(nonatomic, readwrite) int32_t canBuyStatus;
 
 @end
 
@@ -755,6 +827,7 @@ typedef GPB_ENUM(PB3GetExchangeConfRes_FieldNumber) {
 
 @interface PB3GetExchangeConfRes : GPBMessage
 
+/** 兑换配置 */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Exchange*> *storeArray;
 /** The number of items in @c storeArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger storeArray_Count;
@@ -807,6 +880,7 @@ typedef GPB_ENUM(PB3ExchangeRecordReq_FieldNumber) {
   PB3ExchangeRecordReq_FieldNumber_PageSize = 5,
   PB3ExchangeRecordReq_FieldNumber_PlayerId = 6,
   PB3ExchangeRecordReq_FieldNumber_All = 7,
+  PB3ExchangeRecordReq_FieldNumber_RelActId = 8,
 };
 
 /**
@@ -834,6 +908,9 @@ typedef GPB_ENUM(PB3ExchangeRecordReq_FieldNumber) {
 
 /** 是否获取所有人的记录 */
 @property(nonatomic, readwrite) BOOL all;
+
+/** 默认为0（表示不以子活动来筛选） */
+@property(nonatomic, readwrite) int32_t relActId;
 
 @end
 
@@ -1286,6 +1363,684 @@ typedef GPB_ENUM(PB3PointStoreLimit_FieldNumber) {
 
 /** 目前已被使用的数量 */
 @property(nonatomic, readwrite) int32_t useNum;
+
+@end
+
+#pragma mark - PB3StoreCfgReq
+
+typedef GPB_ENUM(PB3StoreCfgReq_FieldNumber) {
+  PB3StoreCfgReq_FieldNumber_IsHtml = 1,
+  PB3StoreCfgReq_FieldNumber_PlayerId = 2,
+};
+
+@interface PB3StoreCfgReq : GPBMessage
+
+/** 判断是否h5请求 如果是则不判断版本 */
+@property(nonatomic, readwrite) BOOL isHtml;
+
+/** 人员id */
+@property(nonatomic, readwrite) int64_t playerId;
+
+@end
+
+#pragma mark - PB3StoreCfgRes
+
+typedef GPB_ENUM(PB3StoreCfgRes_FieldNumber) {
+  PB3StoreCfgRes_FieldNumber_StoreArray = 1,
+};
+
+@interface PB3StoreCfgRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3Store*> *storeArray;
+/** The number of items in @c storeArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger storeArray_Count;
+
+@end
+
+#pragma mark - PB3BlackWhaleStoreReq
+
+/**
+ * 黑鲸商城
+ **/
+@interface PB3BlackWhaleStoreReq : GPBMessage
+
+@end
+
+#pragma mark - PB3BlackWhaleStoreRes
+
+typedef GPB_ENUM(PB3BlackWhaleStoreRes_FieldNumber) {
+  PB3BlackWhaleStoreRes_FieldNumber_IsVip = 1,
+  PB3BlackWhaleStoreRes_FieldNumber_Score = 2,
+  PB3BlackWhaleStoreRes_FieldNumber_ModuleArray = 3,
+};
+
+@interface PB3BlackWhaleStoreRes : GPBMessage
+
+/** 是否为黑鲸VIP */
+@property(nonatomic, readwrite) BOOL isVip;
+
+/** 积分 */
+@property(nonatomic, readwrite) int64_t score;
+
+/** 模块列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleModule*> *moduleArray;
+/** The number of items in @c moduleArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger moduleArray_Count;
+
+@end
+
+#pragma mark - PB3BlackWhaleModule
+
+typedef GPB_ENUM(PB3BlackWhaleModule_FieldNumber) {
+  PB3BlackWhaleModule_FieldNumber_Name = 1,
+  PB3BlackWhaleModule_FieldNumber_Style = 2,
+  PB3BlackWhaleModule_FieldNumber_ItemsArray = 3,
+};
+
+/**
+ * 黑鲸商城兑换模块
+ **/
+@interface PB3BlackWhaleModule : GPBMessage
+
+/** 模块名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 样式 */
+@property(nonatomic, readwrite) enum PB3BlackWhaleModuleStyle style;
+
+/** 兑换物品列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleStoreItem*> *itemsArray;
+/** The number of items in @c itemsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger itemsArray_Count;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BlackWhaleModule's @c style property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BlackWhaleModule_Style_RawValue(PB3BlackWhaleModule *message);
+/**
+ * Sets the raw value of an @c PB3BlackWhaleModule's @c style property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BlackWhaleModule_Style_RawValue(PB3BlackWhaleModule *message, int32_t value);
+
+#pragma mark - PB3BlackWhaleStoreItem
+
+typedef GPB_ENUM(PB3BlackWhaleStoreItem_FieldNumber) {
+  PB3BlackWhaleStoreItem_FieldNumber_Id_p = 1,
+  PB3BlackWhaleStoreItem_FieldNumber_ItemType = 2,
+  PB3BlackWhaleStoreItem_FieldNumber_ItemId = 3,
+  PB3BlackWhaleStoreItem_FieldNumber_Desc = 4,
+  PB3BlackWhaleStoreItem_FieldNumber_Content = 5,
+  PB3BlackWhaleStoreItem_FieldNumber_LimitType = 6,
+  PB3BlackWhaleStoreItem_FieldNumber_LimitNum = 7,
+  PB3BlackWhaleStoreItem_FieldNumber_Num = 8,
+  PB3BlackWhaleStoreItem_FieldNumber_ExchangeScore = 9,
+  PB3BlackWhaleStoreItem_FieldNumber_ExchangeNum = 10,
+  PB3BlackWhaleStoreItem_FieldNumber_ExpCard = 11,
+  PB3BlackWhaleStoreItem_FieldNumber_Gift = 12,
+  PB3BlackWhaleStoreItem_FieldNumber_Effect = 13,
+};
+
+typedef GPB_ENUM(PB3BlackWhaleStoreItem_Data_OneOfCase) {
+  PB3BlackWhaleStoreItem_Data_OneOfCase_GPBUnsetOneOfCase = 0,
+  PB3BlackWhaleStoreItem_Data_OneOfCase_ExpCard = 11,
+  PB3BlackWhaleStoreItem_Data_OneOfCase_Gift = 12,
+  PB3BlackWhaleStoreItem_Data_OneOfCase_Effect = 13,
+};
+
+/**
+ * 黑鲸商城兑换物品
+ **/
+@interface PB3BlackWhaleStoreItem : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 物品类型 */
+@property(nonatomic, readwrite) enum PB3BlackWhaleItemType itemType;
+
+/** 物品ID */
+@property(nonatomic, readwrite) int64_t itemId;
+
+/** 简介 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
+
+/** 详情介绍 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
+
+/** 限制类型 */
+@property(nonatomic, readwrite) enum PB3BlackWhaleLimitType limitType;
+
+/** 限制兑换次数 */
+@property(nonatomic, readwrite) int32_t limitNum;
+
+/** 已兑换次数 */
+@property(nonatomic, readwrite) int32_t num;
+
+/** 兑换分数 */
+@property(nonatomic, readwrite) int32_t exchangeScore;
+
+/** 单次兑换个数 */
+@property(nonatomic, readwrite) int32_t exchangeNum;
+
+@property(nonatomic, readonly) PB3BlackWhaleStoreItem_Data_OneOfCase dataOneOfCase;
+
+/** 经验卡 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleExpCard *expCard;
+
+/** 礼物 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleGift *gift;
+
+/** 特效 */
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleEffect *effect;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BlackWhaleStoreItem's @c itemType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BlackWhaleStoreItem_ItemType_RawValue(PB3BlackWhaleStoreItem *message);
+/**
+ * Sets the raw value of an @c PB3BlackWhaleStoreItem's @c itemType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BlackWhaleStoreItem_ItemType_RawValue(PB3BlackWhaleStoreItem *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PB3BlackWhaleStoreItem's @c limitType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BlackWhaleStoreItem_LimitType_RawValue(PB3BlackWhaleStoreItem *message);
+/**
+ * Sets the raw value of an @c PB3BlackWhaleStoreItem's @c limitType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BlackWhaleStoreItem_LimitType_RawValue(PB3BlackWhaleStoreItem *message, int32_t value);
+
+/**
+ * Clears whatever value was set for the oneof 'data'.
+ **/
+void PB3BlackWhaleStoreItem_ClearDataOneOfCase(PB3BlackWhaleStoreItem *message);
+
+#pragma mark - PB3BlackWhaleExpCard
+
+typedef GPB_ENUM(PB3BlackWhaleExpCard_FieldNumber) {
+  PB3BlackWhaleExpCard_FieldNumber_SmallIcon = 1,
+  PB3BlackWhaleExpCard_FieldNumber_BigIcon = 2,
+  PB3BlackWhaleExpCard_FieldNumber_Name = 3,
+  PB3BlackWhaleExpCard_FieldNumber_MinLevel = 4,
+  PB3BlackWhaleExpCard_FieldNumber_MaxLevel = 5,
+};
+
+/**
+ * 兑换经验清除卡片
+ **/
+@interface PB3BlackWhaleExpCard : GPBMessage
+
+/** 小图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *smallIcon;
+
+/** 大图 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *bigIcon;
+
+/** 经验卡名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 最低等级 */
+@property(nonatomic, readwrite) int32_t minLevel;
+
+/** 最高等级 */
+@property(nonatomic, readwrite) int32_t maxLevel;
+
+@end
+
+#pragma mark - PB3BlackWhaleGift
+
+/**
+ * 兑换礼物
+ **/
+@interface PB3BlackWhaleGift : GPBMessage
+
+@end
+
+#pragma mark - PB3BlackWhaleEffect
+
+typedef GPB_ENUM(PB3BlackWhaleEffect_FieldNumber) {
+  PB3BlackWhaleEffect_FieldNumber_ValidityTime = 1,
+  PB3BlackWhaleEffect_FieldNumber_AddType = 2,
+};
+
+/**
+ * 兑换特效
+ **/
+@interface PB3BlackWhaleEffect : GPBMessage
+
+/** 有效期，-1表示永久 */
+@property(nonatomic, readwrite) int64_t validityTime;
+
+/** 添加类型 0:指定时间延长,1:覆盖,2:叠加,3:永不过期,4:计数覆盖 */
+@property(nonatomic, readwrite) int64_t addType;
+
+@end
+
+#pragma mark - PB3BlackWhaleScoreReq
+
+typedef GPB_ENUM(PB3BlackWhaleScoreReq_FieldNumber) {
+  PB3BlackWhaleScoreReq_FieldNumber_StartTime = 1,
+  PB3BlackWhaleScoreReq_FieldNumber_EndTime = 2,
+  PB3BlackWhaleScoreReq_FieldNumber_Page = 3,
+  PB3BlackWhaleScoreReq_FieldNumber_PageSize = 4,
+};
+
+/**
+ * 黑鲸商城积分明细
+ **/
+@interface PB3BlackWhaleScoreReq : GPBMessage
+
+/** 查询的开始时间 */
+@property(nonatomic, readwrite) int64_t startTime;
+
+/** 查询的结束时间 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 页码 */
+@property(nonatomic, readwrite) int32_t page;
+
+/** 页数 */
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3BlackWhaleScoreRes
+
+typedef GPB_ENUM(PB3BlackWhaleScoreRes_FieldNumber) {
+  PB3BlackWhaleScoreRes_FieldNumber_ListArray = 1,
+  PB3BlackWhaleScoreRes_FieldNumber_Total = 2,
+};
+
+@interface PB3BlackWhaleScoreRes : GPBMessage
+
+/** 积分明细 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleScoreLog*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** page为1时才返回total */
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3BlackWhaleScoreLog
+
+typedef GPB_ENUM(PB3BlackWhaleScoreLog_FieldNumber) {
+  PB3BlackWhaleScoreLog_FieldNumber_Remark = 1,
+  PB3BlackWhaleScoreLog_FieldNumber_ChangeScore = 2,
+  PB3BlackWhaleScoreLog_FieldNumber_Score = 3,
+  PB3BlackWhaleScoreLog_FieldNumber_CreateAt = 4,
+};
+
+/**
+ * 黑鲸积分流水
+ **/
+@interface PB3BlackWhaleScoreLog : GPBMessage
+
+/** 积分说明 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *remark;
+
+/** 变更的分数 */
+@property(nonatomic, readwrite) int64_t changeScore;
+
+/** 最终分数 */
+@property(nonatomic, readwrite) int64_t score;
+
+/** 时间 */
+@property(nonatomic, readwrite) int64_t createAt;
+
+@end
+
+#pragma mark - PB3BlackWhaleScoreLogDetail
+
+typedef GPB_ENUM(PB3BlackWhaleScoreLogDetail_FieldNumber) {
+  PB3BlackWhaleScoreLogDetail_FieldNumber_PlayerId = 1,
+  PB3BlackWhaleScoreLogDetail_FieldNumber_Log = 2,
+  PB3BlackWhaleScoreLogDetail_FieldNumber_Name = 3,
+};
+
+/**
+ * 黑鲸积分流水(后台)
+ **/
+@interface PB3BlackWhaleScoreLogDetail : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleScoreLog *log;
+/** Test to see if @c log has been set. */
+@property(nonatomic, readwrite) BOOL hasLog;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangeRecordReq
+
+typedef GPB_ENUM(PB3BlackWhaleExchangeRecordReq_FieldNumber) {
+  PB3BlackWhaleExchangeRecordReq_FieldNumber_StartTime = 1,
+  PB3BlackWhaleExchangeRecordReq_FieldNumber_EndTime = 2,
+  PB3BlackWhaleExchangeRecordReq_FieldNumber_Page = 3,
+  PB3BlackWhaleExchangeRecordReq_FieldNumber_PageSize = 4,
+};
+
+/**
+ * 黑鲸商城兑换记录
+ **/
+@interface PB3BlackWhaleExchangeRecordReq : GPBMessage
+
+/** 查询的开始时间 */
+@property(nonatomic, readwrite) int64_t startTime;
+
+/** 查询的结束时间 */
+@property(nonatomic, readwrite) int64_t endTime;
+
+/** 页码 */
+@property(nonatomic, readwrite) int32_t page;
+
+/** 页数 */
+@property(nonatomic, readwrite) int32_t pageSize;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangeRecordRes
+
+typedef GPB_ENUM(PB3BlackWhaleExchangeRecordRes_FieldNumber) {
+  PB3BlackWhaleExchangeRecordRes_FieldNumber_ListArray = 1,
+  PB3BlackWhaleExchangeRecordRes_FieldNumber_Total = 2,
+};
+
+@interface PB3BlackWhaleExchangeRecordRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleExchangeLog*> *listArray;
+/** The number of items in @c listArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger listArray_Count;
+
+/** page为1时才返回total */
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangeLog
+
+typedef GPB_ENUM(PB3BlackWhaleExchangeLog_FieldNumber) {
+  PB3BlackWhaleExchangeLog_FieldNumber_ItemName = 1,
+  PB3BlackWhaleExchangeLog_FieldNumber_ExchangeScore = 2,
+  PB3BlackWhaleExchangeLog_FieldNumber_ExchangeNum = 3,
+  PB3BlackWhaleExchangeLog_FieldNumber_Icon = 4,
+  PB3BlackWhaleExchangeLog_FieldNumber_CreateAt = 5,
+  PB3BlackWhaleExchangeLog_FieldNumber_TargetId = 6,
+  PB3BlackWhaleExchangeLog_FieldNumber_ItemType = 7,
+};
+
+/**
+ * 黑鲸积分兑换记录
+ **/
+@interface PB3BlackWhaleExchangeLog : GPBMessage
+
+/** 兑换的物品名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *itemName;
+
+/** 兑换分数 */
+@property(nonatomic, readwrite) int64_t exchangeScore;
+
+/** 兑换数量 */
+@property(nonatomic, readwrite) int32_t exchangeNum;
+
+/** 物品图标 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *icon;
+
+/** 时间 */
+@property(nonatomic, readwrite) int64_t createAt;
+
+/** 目标ID */
+@property(nonatomic, readwrite) int64_t targetId;
+
+/** 物品类型 */
+@property(nonatomic, readwrite) enum PB3BlackWhaleItemType itemType;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3BlackWhaleExchangeLog's @c itemType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3BlackWhaleExchangeLog_ItemType_RawValue(PB3BlackWhaleExchangeLog *message);
+/**
+ * Sets the raw value of an @c PB3BlackWhaleExchangeLog's @c itemType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3BlackWhaleExchangeLog_ItemType_RawValue(PB3BlackWhaleExchangeLog *message, int32_t value);
+
+#pragma mark - PB3BlackWhaleExchangeLogDetail
+
+typedef GPB_ENUM(PB3BlackWhaleExchangeLogDetail_FieldNumber) {
+  PB3BlackWhaleExchangeLogDetail_FieldNumber_PlayerId = 1,
+  PB3BlackWhaleExchangeLogDetail_FieldNumber_ItemId = 2,
+  PB3BlackWhaleExchangeLogDetail_FieldNumber_Log = 3,
+  PB3BlackWhaleExchangeLogDetail_FieldNumber_Name = 4,
+};
+
+/**
+ * 黑鲸积分兑换记录 (后台)
+ **/
+@interface PB3BlackWhaleExchangeLogDetail : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+/** 物品ID */
+@property(nonatomic, readwrite) int64_t itemId;
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleExchangeLog *log;
+/** Test to see if @c log has been set. */
+@property(nonatomic, readwrite) BOOL hasLog;
+
+/** 昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangerLogAdminReq
+
+typedef GPB_ENUM(PB3BlackWhaleExchangerLogAdminReq_FieldNumber) {
+  PB3BlackWhaleExchangerLogAdminReq_FieldNumber_PlayerId = 1,
+  PB3BlackWhaleExchangerLogAdminReq_FieldNumber_Filter = 2,
+};
+
+/**
+ * 后台使用 黑鲸商城兑换记录
+ **/
+@interface PB3BlackWhaleExchangerLogAdminReq : GPBMessage
+
+@property(nonatomic, readwrite) int64_t playerId;
+
+@property(nonatomic, readwrite, strong, null_resettable) PB3BlackWhaleExchangeRecordReq *filter;
+/** Test to see if @c filter has been set. */
+@property(nonatomic, readwrite) BOOL hasFilter;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangerLogAdmin
+
+typedef GPB_ENUM(PB3BlackWhaleExchangerLogAdmin_FieldNumber) {
+  PB3BlackWhaleExchangerLogAdmin_FieldNumber_LogArray = 1,
+  PB3BlackWhaleExchangerLogAdmin_FieldNumber_Total = 2,
+};
+
+/**
+ * 后台使用 黑鲸积分兑换记录
+ **/
+@interface PB3BlackWhaleExchangerLogAdmin : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleExchangeLogDetail*> *logArray;
+/** The number of items in @c logArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger logArray_Count;
+
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3BlackWhaleScoreLogAdmin
+
+typedef GPB_ENUM(PB3BlackWhaleScoreLogAdmin_FieldNumber) {
+  PB3BlackWhaleScoreLogAdmin_FieldNumber_LogArray = 1,
+  PB3BlackWhaleScoreLogAdmin_FieldNumber_Total = 2,
+};
+
+/**
+ * 后台使用 黑鲸积分明细
+ **/
+@interface PB3BlackWhaleScoreLogAdmin : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3BlackWhaleScoreLogDetail*> *logArray;
+/** The number of items in @c logArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger logArray_Count;
+
+@property(nonatomic, readwrite) int32_t total;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangeReq
+
+typedef GPB_ENUM(PB3BlackWhaleExchangeReq_FieldNumber) {
+  PB3BlackWhaleExchangeReq_FieldNumber_Id_p = 1,
+  PB3BlackWhaleExchangeReq_FieldNumber_PlayerId = 2,
+};
+
+/**
+ * 兑换物品
+ **/
+@interface PB3BlackWhaleExchangeReq : GPBMessage
+
+/** 唯一ID */
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 需要清除经验的用户ID */
+@property(nonatomic, readwrite) int64_t playerId;
+
+@end
+
+#pragma mark - PB3BlackWhaleExchangeRes
+
+@interface PB3BlackWhaleExchangeRes : GPBMessage
+
+@end
+
+#pragma mark - PB3PointsMallReq
+
+@interface PB3PointsMallReq : GPBMessage
+
+@end
+
+#pragma mark - PB3PointsMallRes
+
+typedef GPB_ENUM(PB3PointsMallRes_FieldNumber) {
+  PB3PointsMallRes_FieldNumber_GoodsArray = 1,
+};
+
+@interface PB3PointsMallRes : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PB3PointsMallGoods*> *goodsArray;
+/** The number of items in @c goodsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger goodsArray_Count;
+
+@end
+
+#pragma mark - PB3PointsMallGoods
+
+typedef GPB_ENUM(PB3PointsMallGoods_FieldNumber) {
+  PB3PointsMallGoods_FieldNumber_Id_p = 1,
+  PB3PointsMallGoods_FieldNumber_Type = 2,
+  PB3PointsMallGoods_FieldNumber_Name = 3,
+  PB3PointsMallGoods_FieldNumber_Img = 4,
+  PB3PointsMallGoods_FieldNumber_PointNum = 5,
+  PB3PointsMallGoods_FieldNumber_ValidDay = 6,
+  PB3PointsMallGoods_FieldNumber_RemainedNum = 7,
+  PB3PointsMallGoods_FieldNumber_ExchangedNum = 8,
+  PB3PointsMallGoods_FieldNumber_ExchangeLimit = 9,
+  PB3PointsMallGoods_FieldNumber_GiftGold = 10,
+};
+
+@interface PB3PointsMallGoods : GPBMessage
+
+/** 商品ID */
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 商品类型 */
+@property(nonatomic, readwrite) PB3PointsMallGoodsType type;
+
+/** 名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+/** 图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *img;
+
+/** 兑换所需积分数 */
+@property(nonatomic, readwrite) int64_t pointNum;
+
+/** 兑换天数 */
+@property(nonatomic, readwrite) int64_t validDay;
+
+/** 剩余数量 */
+@property(nonatomic, readwrite) int64_t remainedNum;
+
+/** 已兑换数量 */
+@property(nonatomic, readwrite) int64_t exchangedNum;
+
+/** 限制兑换额度 */
+@property(nonatomic, readwrite) int64_t exchangeLimit;
+
+/** 礼物所需的金币 */
+@property(nonatomic, readwrite) int64_t giftGold;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PB3PointsMallGoods's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PB3PointsMallGoods_Type_RawValue(PB3PointsMallGoods *message);
+/**
+ * Sets the raw value of an @c PB3PointsMallGoods's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPB3PointsMallGoods_Type_RawValue(PB3PointsMallGoods *message, int32_t value);
+
+#pragma mark - PB3PointsMallExchangeReq
+
+typedef GPB_ENUM(PB3PointsMallExchangeReq_FieldNumber) {
+  PB3PointsMallExchangeReq_FieldNumber_GoodsId = 1,
+  PB3PointsMallExchangeReq_FieldNumber_Num = 2,
+};
+
+@interface PB3PointsMallExchangeReq : GPBMessage
+
+/** 商品ID */
+@property(nonatomic, readwrite) int64_t goodsId;
+
+/** 数量 */
+@property(nonatomic, readwrite) int32_t num;
+
+@end
+
+#pragma mark - PB3PointsMallExchangeRes
+
+@interface PB3PointsMallExchangeRes : GPBMessage
 
 @end
 

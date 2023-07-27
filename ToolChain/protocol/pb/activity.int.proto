@@ -1,0 +1,559 @@
+syntax = "proto3";
+option objc_class_prefix = "PB3";
+package pb;
+import "pb/activity_common.proto";
+import "pb/activity_cli.ext.proto";
+import "pb/common.ext.proto";
+
+//###########请求
+
+//统计送礼
+message CountSendGiftReq {
+    int64 player_id = 1;
+    int64 target_id = 2;
+    int64 room_id = 3;
+    int32 gift_id = 4;
+    int64 gift_num = 5;
+    int64 gold = 6; //总金币
+    string msg = 7; //送礼时的祝福
+    bool is_new = 8; // 是否为新手单
+    int32 order_num = 9; // 下单件数
+    int32 skill_id = 10; // 技能ID 点单类型
+    int32 type = 11; // 0 送礼， 1 点单 2 礼物馈赠
+}
+
+message CountSendGiftRes {
+
+}
+
+//统计支付
+message CountPayReq {
+    int64 player_id = 1;
+    int64 gold = 2; //充值总金币
+    bool first_pay = 3; //判断是否首充
+    string order_id = 4; //订单号
+    string business_num = 5; //商户号
+    string remark = 6; //备注  时间戳_子活动id 1576512000_220012
+}
+
+message CountPayRes {
+
+}
+
+//统计消费
+message CountConsumeReq {
+    int64 player_id = 1;
+    int64 gold = 2;
+    uint64 consume_type = 3; //消费类型 see AssetsMoneyLogType
+}
+message CountConsumeRes {
+
+}
+
+//更新活动
+//0-全部 1-活动 2-福利 3-抽奖管理 4-礼物墙 //5-自动发奖 6-抽奖码管理
+//7-盘点 8-奖励配置 9-拼图配置  10-推送配置 11-投票 12-礼物馈赠配置
+//13-养成 14-充值返现 15-合成
+message UpdateActivityReq {
+    int32 cate = 1;
+}
+
+message UpdateActivityRes {
+
+}
+
+//更新主题配置
+message UpdateThemeReq {
+
+}
+
+message UpdateThemeRes {
+
+}
+
+//获取活动配置
+message GetIntActivityReq {
+
+}
+
+message GetIntActivityRes {
+    bytes data = 1; //
+}
+
+//更新玩家性别
+message UpdatePlayerGenderReq {
+    int64 player_id = 1; //人员id
+    int32 gender = 2; //1-男 2-女
+}
+
+message UpdatePlayerGenderRes {
+
+}
+
+//更改积分
+message UpdateUsePointReq {
+    int32 rel_activity_id = 1; //子活动id
+    int64 player_id = 2;
+    int64 use_point = 3; //已使用积分
+}
+
+message UpdateUsePointRes {
+
+}
+
+//定时处理数据
+message TimerHandleReq {
+
+}
+//定时处理数据，每小时
+message TimerHandleHourlyReq {
+}
+//定时处理数据，每分钟
+message TimerHandleMinutelyReq {
+}
+message TimerHandleRes {
+
+}
+
+//计算榜单top数据
+message CalcTopGroupSortReq {
+    int32 act_id=1;//活动id
+    int32 rel_act_id=2;//子活动id
+    int32 type=3;
+}
+message CalcTopGroupSortRes {
+}
+
+//邀请回调
+message InviteCallBackReq {
+    int64 player_id = 1; //个人id
+    int64 target_id = 2; //目标id
+}
+
+message InviteCallBackRes {
+
+}
+
+//点单回调
+message OrderBillCallBackReq {
+    int64 player_id = 1; //个人id
+    int32 bill_type = 2; //点单类型
+    int64 target_id = 3; //接单人id
+}
+
+message OrderBillCallBackRes {
+
+}
+
+//兑换回调
+message ExchangeCallBackReq {
+    int64 player_id = 1; //个人id
+    int32 exchange_id = 2; //兑换id
+    int32 num = 3; //兑换数量
+}
+
+message ExchangeCallBackRes {
+
+}
+
+//购买回调
+message BuyCallBackReq {
+    int64 player_id = 1; //个人id
+    int32 store_id = 2; //兑换id
+    int32 num = 3; //兑换数量
+    int32 gift_id = 4; //礼物id
+    int32 gift_num = 5; //礼物数量
+}
+
+message BuyCallBackRes {
+
+}
+
+//获取个人福利信息
+message AcWelfareListReq {
+    int64 activity_id = 1; //活动id
+}
+
+message AcWelfareListRes {
+    repeated ConfWelfare welfare_list = 1; // 福利列表
+    Activity activity = 2; // 主活动
+}
+
+message NewVoteAwardReq {
+    int32 rel_id = 1; //
+    int32 conf_vote_id = 2; //投票配置id
+}
+
+message NewVoteAwardRes {
+
+}
+
+message ActWeiXinAlarmReq {
+    int32 rel_id = 1; //子活动id
+}
+message ActWeiXinAlarmRes {
+}
+
+message ActPileUpDrawReq {
+
+}
+message ActPileUpDrawRes {
+
+}
+
+message ActCashBackReq {
+    int32 conf_cash_back_id = 1; //返现配置id
+}
+
+message ActCashBackRes {
+}
+
+// 人员排行榜名次所得 - 请求参数
+message SortRankPlayerGainsReq {
+    int32 rel_act_id = 1; // 子活动id
+    int64 player_id = 2; // 人员id
+    int32 page = 3; // 页码
+    int32 pageSize = 4; // 每页显示数量
+    int32 group = 5; 
+}
+
+// 人员排行榜名次所得 - 响应
+message SortRankPlayerGainsRes {
+    repeated SortRankPlayerGainsInfo gains = 1;
+}
+
+// 人员排行榜名次所得
+message SortRankPlayerGainsInfo {
+    int32 act_id = 1; // 活动id
+    int32 rel_act_id = 2; // 子活动id
+    int64 player_id = 3; // 用户id
+    int32 relate_id = 4; // 关联id
+    int32 stage = 5; // 关联阶段
+    int64 point = 6; // 积分数量
+    string gifts = 7; // 所得物品描述  物品*数量,物品2*数量2
+}
+
+// 人工退回许愿物品
+message TreasureRefundReq{
+    int32 treasure_id = 1; // 许愿配置id
+    string period_num = 2; // 期号
+    int32 rewardType = 3; // 1许愿退回 2许愿安慰奖
+}
+
+message TreasureRefundRes{
+
+}
+
+// 重置排行榜数据请求
+message ResetActivityRankDataReq {
+    repeated int32 rel_act_id = 1; // 子活动id
+}
+
+// 重置排行榜数据返回
+message ResetActivityRankDataRes {
+}
+
+
+//更新排行榜积分-请求
+message UpdateRankListPointReq {
+    int32 act_id = 1;
+    int32 rel_act_id = 2;
+    int64 item_id = 3; //人员/房间id
+    int64 point = 4; //更新积分 加用正数 减用负数
+    int64 TimeZeroPoint = 5; //如果是日榜，周榜生效，传零点
+}
+
+//更新排行榜积分-响应
+message UpdateRankListPointRes {
+
+}
+
+
+//小游戏完成信息
+message MiniGameCompleteInfo {
+    int64 player_id = 1;            // 玩家ID
+    int32 mini_game_type = 2;       // 小游戏类型
+    bool isVictory = 3;             // 是否胜利
+}
+
+// 请求通知活动小游戏完成
+message ActNoticeMiniGameCompleteReq {
+    repeated MiniGameCompleteInfo complete_info = 1;   //小游戏完成信息
+}
+
+// 请求通知活动小游戏完成返回
+message ActNoticeMiniGameCompleteRes {
+}
+
+
+// 同步用户考试成绩请求
+message ExamSyncUserScoreReq {
+    int32 rel_act_id = 1;       //子活动ID
+    int64 player_id = 2;        //用户ID
+    int32 score = 3;            //用户得分
+    int32 score_time = 4;       //用的得分时间
+}
+
+// 同步用户考试成绩返回
+message ExamSyncUserScoreRes {
+
+}
+
+message ActNoticeUpdateLotteryIssueReq {
+
+}
+
+message ActNoticeUpdateLotteryIssueRes {
+
+}
+
+message ActNoticeRemainderReq {
+    int32 scheduler_type = 1; // 1秒 2分 3时 4天
+}
+
+message ActNoticeRemainderRes {
+
+}
+
+//更新投票数请求
+message UpdateVoteNumReq {
+    int32 act_id = 1; //活动ID
+    int32 rel_act_id = 2; //子活动ID
+    repeated int64 by_vote_players = 3;   //被投票人
+    int32 update_num = 4;   //更新值，正数加，负数减
+    int32 update_type = 5;  //更新类型 0更新 1删除
+}
+
+//更新投票数返回
+message UpdateVoteNumRes {
+
+}
+
+//是否cps邀请人
+message CheckCpsInviteeByPlayerIdsReq {
+    repeated int64 player_ids = 1;
+}
+
+//是否cps邀请人
+message CheckCpsInviteeByPlayerIdsRes {
+    map<int64, bool> invitee_id_map = 1;
+}
+
+//表单审核通过
+message FormVerifyPassReq {
+    int32 act_id = 1; //活动ID
+    int32 rel_act_id = 2; //子活动ID
+    repeated int64 player_ids = 3; //用户Id
+    int32 verify_status = 4;    //审核是否通过
+}
+
+//更新投票数返回
+message FormVerifyPassRes {
+
+}
+
+//修改可以转移奖励榜单
+message ModifyTransferAwardNumReq {
+    int32 act_id = 1; //活动ID
+    int32 rel_act_id = 2; //子活动ID
+    int64 player_id = 3; //用户Id
+    int32 modify_num = 4; //修改值
+}
+
+//更新投票数返回
+message ModifyTransferAwardNumRes {
+
+}
+
+// 用户在线时长rpc
+message PlayerOnlineTimeReq {
+    int64 player_id = 1; //用户Id
+    int64 online_time = 2; //在线时长
+}
+
+message PlayerOnlineTimeRes {
+
+}
+
+// 用户房间在线时长rpc
+message PlayerRoomOnlineTimeReq {
+    int64 player_id = 1; //用户Id
+    int64 room_id = 2;   //房间Id
+    int64 enter_time = 3; //进房时间
+}
+
+message PlayerRoomOnlineTimeRes {
+
+}
+
+// 用户进房rpc
+message PlayerEnterRoomReq {
+    int64 player_id = 1; //用户Id
+    int64 room_id = 2;   //房间Id
+}
+
+message PlayerEnterRoomRes {
+
+}
+
+// 用户进房成功rpc
+message PlayerEnterRoomSuccessReq {
+    int64 player_id = 1; //用户Id
+    int64 room_id = 2;   //房间Id
+}
+
+message PlayerEnterRoomSuccessRes {
+
+}
+// 获取首充配置福利奖励物品信息 rpc
+message ChargeFirstWelfareItemReq {
+
+}
+
+message ChargeFirstWelfareItemRes {
+    repeated ChargeFirstWelfareItem items = 1;
+}
+
+// 触发聊天特效
+message PlayerTriggerChatEffectReq {
+    int64 player_id = 1; //用户Id
+    int64 room_id = 2;   //房间Id
+    int64 trigger_id = 3; //触发特效ID
+}
+
+message PlayerTriggerChatEffectRes {
+
+}
+
+//补发或扣减实时排行榜数据
+message CompensateRankDataReq {
+    int32 act_id = 1;
+    int32 rel_act_id = 2;
+    string rank_type = 3;
+    int64 player_id = 4;
+    int64 point = 5;
+}
+
+message CompensateRankDataRes {
+
+}
+
+message RecallPromoterManualDispatchOrderReq {
+
+}
+
+message RecallPromoterManualDispatchOrderRes {
+
+}
+
+message RecallPromoterDispatchOrderReq {
+
+}
+
+message RecallPromoterDispatchOrderRes {
+    
+}
+
+message SendGoldFeedbackRewardReq {
+    int64 day_dot = 1; // 结算零点时间戳
+}
+
+message SendGoldFeedbackRewardRes {
+
+}
+
+message AddGoldFeedbackPoolGoldReq {
+    int32 act_id = 1;
+    int64 gold = 2;
+}
+
+message AddGoldFeedbackPoolGoldRes {
+
+}
+
+message GetJigsawGiftStatusReq {
+    int64 player_id=1;
+    repeated int32 gift_ids=2;//合拍礼物栏里的礼物id
+}
+
+message GetJigsawGiftStatusRes {
+    repeated JigsawGiftStatus list=1;
+}
+
+message JigsawGiftStatus {
+    int32 gift_id=1;//合拍礼物id
+    int32 status=2;//状态，0未激活，1收集中，2已激活/已拥有，3普通
+    bool is_encore=3;//是否返场
+    bool is_show=4;//是否展示在礼物栏上
+}
+
+service ActivityIntObj {
+    rpc CountPay (CountPayReq) returns (CountPayRes);
+    rpc UpdateActivity (UpdateActivityReq) returns (UpdateActivityRes);
+    rpc UpdateTheme (UpdateThemeReq) returns (UpdateThemeRes);
+    rpc CountConsume (CountConsumeReq) returns (CountConsumeRes);
+    rpc UpdateUsePoint (UpdateUsePointReq) returns (UpdateUsePointRes);
+    rpc TimerHandle (TimerHandleReq) returns (TimerHandleRes);
+    rpc InviteCallBack (InviteCallBackReq) returns (InviteCallBackRes);
+    rpc AcWelfareList (AcWelfareListReq) returns (AcWelfareListRes);
+    rpc ListWelfare (ListWelfareReq) returns (ListWelfareRes);
+    rpc NewVoteAward (NewVoteAwardReq) returns (NewVoteAwardRes);
+    rpc ActWeiXinAlarm (ActWeiXinAlarmReq) returns (ActWeiXinAlarmRes);
+    rpc ActCashBack (ActCashBackReq) returns (ActCashBackRes);
+    rpc ListSortRankPlayerGains (SortRankPlayerGainsReq) returns (SortRankPlayerGainsRes);
+    // 退回许愿物品
+    rpc DoTreasureRefund(TreasureRefundReq) returns(TreasureRefundRes);
+    // 重置排行榜数据
+    rpc ResetActivityRankData(ResetActivityRankDataReq) returns(ResetActivityRankDataRes);
+    //更新排行榜积分
+    rpc UpdateRankListPoint(UpdateRankListPointReq) returns(UpdateRankListPointRes);
+    // 小游戏完成通知
+    rpc ActNoticeMiniGameComplete(ActNoticeMiniGameCompleteReq) returns(ActNoticeMiniGameCompleteRes);
+    // 同步用户考试成绩
+    rpc ExamSyncUserScore(ExamSyncUserScoreReq) returns(ExamSyncUserScoreRes);
+    // 通知更新抽奖投放配置
+    rpc ActNoticeUpdateLotteryIssue(ActNoticeUpdateLotteryIssueReq) returns(ActNoticeUpdateLotteryIssueRes);
+    // 活动到期机器人提醒
+    rpc ActExpireRemainder(ActNoticeRemainderReq) returns (ActNoticeRemainderRes);
+    // 更新投票数请求
+    rpc UpdateVoteNum(UpdateVoteNumReq) returns (UpdateVoteNumRes);
+    //是否cps邀请人
+    rpc CheckCpsInviteeByPlayerIds(CheckCpsInviteeByPlayerIdsReq) returns(CheckCpsInviteeByPlayerIdsRes);
+    // 表单审核通过
+    rpc FormVerifyPass(FormVerifyPassReq) returns (FormVerifyPassRes);
+    // 修改可以转移奖励榜单
+    rpc ModifyTransferAwardNum(ModifyTransferAwardNumReq) returns (ModifyTransferAwardNumRes);
+    // 用户在线时长rpc
+    rpc PlayerOnlineTime(PlayerOnlineTimeReq) returns (PlayerOnlineTimeRes);
+    // 用户房间在线时长
+    rpc PlayerRoomOnlineTime(PlayerRoomOnlineTimeReq) returns (PlayerRoomOnlineTimeRes);
+    // 用户进房rpc
+    rpc PlayerEnterRoom(PlayerEnterRoomReq) returns (PlayerEnterRoomRes);
+    // 用户进房成功rpc
+    rpc PlayerEnterRoomSuccess(PlayerEnterRoomSuccessReq) returns (PlayerEnterRoomSuccessRes);
+    // 触发聊天特效
+    rpc PlayerTriggerChatEffect(PlayerTriggerChatEffectReq) returns (PlayerTriggerChatEffectRes);
+    // 获取首充配置福利奖励物品信息
+    rpc ChargeFirstWelfareItem(ChargeFirstWelfareItemReq) returns (ChargeFirstWelfareItemRes);
+    // 补发或扣减实时排行榜数据
+    rpc CompensateRankData(CompensateRankDataReq) returns (CompensateRankDataRes);
+    // 推广员系统-运营派单推送
+    rpc RecallPromoterManualDispatchOrder(RecallPromoterManualDispatchOrderReq) returns (RecallPromoterManualDispatchOrderRes);
+    // 推广员系统-定时任务
+    rpc RecallPromoterDispatchOrder(RecallPromoterDispatchOrderReq) returns (RecallPromoterDispatchOrderRes);
+    // 消费回馈瓜分金币
+    rpc SendGoldFeedbackReward(SendGoldFeedbackRewardReq) returns (SendGoldFeedbackRewardRes);
+    // 消费回馈奖金池手动注入金币
+    rpc AddGoldFeedbackPoolGold(AddGoldFeedbackPoolGoldReq) returns (AddGoldFeedbackPoolGoldRes);
+    // 获取用户的合拍礼物id的状态
+    rpc GetJigsawGiftStatus(GetJigsawGiftStatusReq) returns (GetJigsawGiftStatusRes);
+    // 房间角标活动数据
+    rpc IconData(IconDataReq) returns (IconDataRes);
+
+    //每小时0分请求一次
+    rpc TimerHandleHourly (TimerHandleHourlyReq) returns (TimerHandleRes);
+    //计算榜单top数据
+    rpc CalcTopGroupSort (CalcTopGroupSortReq) returns (CalcTopGroupSortRes);
+    //每分钟请求一次
+    rpc TimerHandleMinutely (TimerHandleMinutelyReq) returns (TimerHandleRes);
+}
