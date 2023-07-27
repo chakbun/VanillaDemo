@@ -105,6 +105,14 @@
 		4947CB352A7247AE00946307 /* VTDCommunityNotesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB342A7247AE00946307 /* VTDCommunityNotesController.m */; };
 		4947CB382A7247CD00946307 /* VTDNoteListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB372A7247CD00946307 /* VTDNoteListController.m */; };
 		4947CB3C2A72482300946307 /* VTDProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB3B2A72482300946307 /* VTDProfileController.m */; };
+		4947CB3F2A72521500946307 /* VTDSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB3E2A72521500946307 /* VTDSettingsController.m */; };
+		4947CB422A72541700946307 /* VTDWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB412A72541700946307 /* VTDWebController.m */; };
+		4947CB452A72559400946307 /* VTDAboutAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB442A72559400946307 /* VTDAboutAppController.m */; };
+		4947CB482A72569800946307 /* VTDProfileEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB472A72569800946307 /* VTDProfileEditController.m */; };
+		4947CB4B2A7256AD00946307 /* VTDFeedBackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB4A2A7256AD00946307 /* VTDFeedBackController.m */; };
+		4947CB4F2A725BC400946307 /* CountryInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB4E2A725BC400946307 /* CountryInformation.m */; };
+		4947CB522A725BDB00946307 /* CountryListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB512A725BDB00946307 /* CountryListController.m */; };
+		4947CB552A725C1200946307 /* CountryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB532A725C1200946307 /* CountryTableViewCell.m */; };
 		C171CF3A442CE5D56DBE7645 /* libPods-VanillaTasDiary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */; };
 /* End PBXBuildFile section */
 
@@ -299,6 +307,22 @@
 		4947CB372A7247CD00946307 /* VTDNoteListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteListController.m; sourceTree = "<group>"; };
 		4947CB3A2A72482300946307 /* VTDProfileController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDProfileController.h; sourceTree = "<group>"; };
 		4947CB3B2A72482300946307 /* VTDProfileController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDProfileController.m; sourceTree = "<group>"; };
+		4947CB3D2A72521500946307 /* VTDSettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDSettingsController.h; sourceTree = "<group>"; };
+		4947CB3E2A72521500946307 /* VTDSettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDSettingsController.m; sourceTree = "<group>"; };
+		4947CB402A72541700946307 /* VTDWebController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDWebController.h; sourceTree = "<group>"; };
+		4947CB412A72541700946307 /* VTDWebController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDWebController.m; sourceTree = "<group>"; };
+		4947CB432A72559400946307 /* VTDAboutAppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDAboutAppController.h; sourceTree = "<group>"; };
+		4947CB442A72559400946307 /* VTDAboutAppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDAboutAppController.m; sourceTree = "<group>"; };
+		4947CB462A72569800946307 /* VTDProfileEditController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDProfileEditController.h; sourceTree = "<group>"; };
+		4947CB472A72569800946307 /* VTDProfileEditController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDProfileEditController.m; sourceTree = "<group>"; };
+		4947CB492A7256AD00946307 /* VTDFeedBackController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDFeedBackController.h; sourceTree = "<group>"; };
+		4947CB4A2A7256AD00946307 /* VTDFeedBackController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDFeedBackController.m; sourceTree = "<group>"; };
+		4947CB4D2A725BC400946307 /* CountryInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryInformation.h; sourceTree = "<group>"; };
+		4947CB4E2A725BC400946307 /* CountryInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryInformation.m; sourceTree = "<group>"; };
+		4947CB502A725BDB00946307 /* CountryListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryListController.h; sourceTree = "<group>"; };
+		4947CB512A725BDB00946307 /* CountryListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryListController.m; sourceTree = "<group>"; };
+		4947CB532A725C1200946307 /* CountryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryTableViewCell.m; sourceTree = "<group>"; };
+		4947CB542A725C1200946307 /* CountryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryTableViewCell.h; sourceTree = "<group>"; };
 		543F62DD3DC93CC3B185C61B /* Pods-VanillaTasDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.debug.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		7225A02B88AF3F719E1AFCEC /* Pods-VanillaTasDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.release.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.release.xcconfig"; sourceTree = "<group>"; };
 		F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VanillaTasDiary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,6 +450,7 @@
 		491AF76E2A70B240003B3B65 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4947CB4C2A725BB000946307 /* Area */,
 				491AF7842A70CB61003B3B65 /* config_appkey.json */,
 				491AF7832A70CB61003B3B65 /* DYAppKeyList.h */,
 				491AF7822A70CB61003B3B65 /* DYAppKeyList.m */,
@@ -798,8 +823,31 @@
 			children = (
 				4947CB3A2A72482300946307 /* VTDProfileController.h */,
 				4947CB3B2A72482300946307 /* VTDProfileController.m */,
+				4947CB3D2A72521500946307 /* VTDSettingsController.h */,
+				4947CB3E2A72521500946307 /* VTDSettingsController.m */,
+				4947CB402A72541700946307 /* VTDWebController.h */,
+				4947CB412A72541700946307 /* VTDWebController.m */,
+				4947CB432A72559400946307 /* VTDAboutAppController.h */,
+				4947CB442A72559400946307 /* VTDAboutAppController.m */,
+				4947CB462A72569800946307 /* VTDProfileEditController.h */,
+				4947CB472A72569800946307 /* VTDProfileEditController.m */,
+				4947CB492A7256AD00946307 /* VTDFeedBackController.h */,
+				4947CB4A2A7256AD00946307 /* VTDFeedBackController.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		4947CB4C2A725BB000946307 /* Area */ = {
+			isa = PBXGroup;
+			children = (
+				4947CB542A725C1200946307 /* CountryTableViewCell.h */,
+				4947CB532A725C1200946307 /* CountryTableViewCell.m */,
+				4947CB4D2A725BC400946307 /* CountryInformation.h */,
+				4947CB4E2A725BC400946307 /* CountryInformation.m */,
+				4947CB502A725BDB00946307 /* CountryListController.h */,
+				4947CB512A725BDB00946307 /* CountryListController.m */,
+			);
+			path = Area;
 			sourceTree = "<group>";
 		};
 		6FF2E8819996CE394FFC30B2 /* Frameworks */ = {
@@ -964,8 +1012,10 @@
 				491AF8122A70CBBD003B3B65 /* StoreExt.pbobjc.m in Sources */,
 				491AF8272A70CBBD003B3B65 /* ClanCliExt.pbobjc.m in Sources */,
 				491AF86C2A70D023003B3B65 /* IAssetsServiceProtocol.m in Sources */,
+				4947CB422A72541700946307 /* VTDWebController.m in Sources */,
 				491AF8062A70CBBD003B3B65 /* RoomPatternExt.pbobjc.m in Sources */,
 				491AF8222A70CBBD003B3B65 /* RedEnvelopeExt.pbobjc.m in Sources */,
+				4947CB3F2A72521500946307 /* VTDSettingsController.m in Sources */,
 				491AF8952A720DB7003B3B65 /* VTDHomeTabbarController.m in Sources */,
 				4947CB352A7247AE00946307 /* VTDCommunityNotesController.m in Sources */,
 				491AF8192A70CBBD003B3B65 /* BillExt.pbobjc.m in Sources */,
@@ -981,12 +1031,14 @@
 				491AF7FD2A70CBBD003B3B65 /* KtvExt.pbobjc.m in Sources */,
 				491AF8772A70EB4D003B3B65 /* UserManager.m in Sources */,
 				491AF76D2A70B1B8003B3B65 /* NetConfigModel.m in Sources */,
+				4947CB482A72569800946307 /* VTDProfileEditController.m in Sources */,
 				491AF8572A70D008003B3B65 /* PlayerManager.m in Sources */,
 				491AF86D2A70D023003B3B65 /* AssetsManager.m in Sources */,
 				491AF8132A70CBBD003B3B65 /* ActivityCommon.pbobjc.m in Sources */,
 				491AF81E2A70CBBD003B3B65 /* CloudDiscoExt.pbobjc.m in Sources */,
 				491AF8432A70CF45003B3B65 /* DYAccountPromptTool.m in Sources */,
 				491AF8852A710E4C003B3B65 /* MissionExt.pbobjc.m in Sources */,
+				4947CB4B2A7256AD00946307 /* VTDFeedBackController.m in Sources */,
 				491AF8212A70CBBD003B3B65 /* PlayExt.pbobjc.m in Sources */,
 				491AF8842A710E4C003B3B65 /* CubismExt.pbobjc.m in Sources */,
 				491AF82C2A70CBBD003B3B65 /* UpgradeExt.pbobjc.m in Sources */,
@@ -999,10 +1051,12 @@
 				491AF8692A70D023003B3B65 /* AssetsExtraManager.m in Sources */,
 				491AF8582A70D008003B3B65 /* IPlayerProtocol.m in Sources */,
 				491AF7FB2A70CBBD003B3B65 /* PhomeExt.pbobjc.m in Sources */,
+				4947CB452A72559400946307 /* VTDAboutAppController.m in Sources */,
 				491AF8032A70CBBD003B3B65 /* SystemExt.pbobjc.m in Sources */,
 				491AF8892A7110AF003B3B65 /* VTDLoginViewController.m in Sources */,
 				491AF81C2A70CBBD003B3B65 /* RoomExt.pbobjc.m in Sources */,
 				491AF82B2A70CBBD003B3B65 /* UauthCommon.pbobjc.m in Sources */,
+				4947CB4F2A725BC400946307 /* CountryInformation.m in Sources */,
 				4947CB382A7247CD00946307 /* VTDNoteListController.m in Sources */,
 				491AF8292A70CBBD003B3B65 /* UpushExt.pbobjc.m in Sources */,
 				491AF80E2A70CBBD003B3B65 /* ChatExt.pbobjc.m in Sources */,
@@ -1011,6 +1065,7 @@
 				491AF8162A70CBBD003B3B65 /* ConfExt.pbobjc.m in Sources */,
 				4947CB3C2A72482300946307 /* VTDProfileController.m in Sources */,
 				491AF80D2A70CBBD003B3B65 /* CollectExt.pbobjc.m in Sources */,
+				4947CB552A725C1200946307 /* CountryTableViewCell.m in Sources */,
 				491AF80F2A70CBBD003B3B65 /* CommonExt.pbobjc.m in Sources */,
 				491AF8152A70CBBD003B3B65 /* ActivityCliExt.pbobjc.m in Sources */,
 				491AF81A2A70CBBD003B3B65 /* AlarmExt.pbobjc.m in Sources */,
@@ -1021,6 +1076,7 @@
 				491AF7602A6FD8D0003B3B65 /* AppDelegate.m in Sources */,
 				491AF8052A70CBBD003B3B65 /* CrackEggExt.pbobjc.m in Sources */,
 				491AF87F2A70EB7D003B3B65 /* DYAlertConfigModel.m in Sources */,
+				4947CB522A725BDB00946307 /* CountryListController.m in Sources */,
 				491AF7862A70CB62003B3B65 /* DYAppKeyManager.m in Sources */,
 				491AF82A2A70CBBD003B3B65 /* UauthExt.pbobjc.m in Sources */,
 				491AF7872A70CB62003B3B65 /* DYAppKeyList.m in Sources */,

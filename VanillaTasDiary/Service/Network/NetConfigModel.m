@@ -17,7 +17,7 @@
 #import <ZygoteFoundation/DYTestModeDef.h>
 
 NSString *const kNetApiServicePrefix = @"hydrogen";
-NSString *const kNetApiConfigurationServicePrefix = @"appcommon";  //动态配置专用
+//NSString *const kNetApiConfigurationServicePrefix = @"appcommon";  //动态配置专用
 
 NSString *kNetApiActivityExtService;
 NSString *kNetApiAssetExtService;
@@ -328,23 +328,22 @@ N_Def(kNotificationNetworkReachableChanged);
     kNetApiUserExtService = [kNetApiServicePrefix stringByAppendingString:@".user.UserExtObj"];
     kNetApiIndexExtService = [kNetApiServicePrefix stringByAppendingString:@".index.IndexExtObj"];
     kNetApiChatExtService = [kNetApiServicePrefix stringByAppendingFormat:@".chat.ChatExtObj"];
-    // kNetApiEggExtService  = [kNetApiServicePrefix stringByAppendingString:@".crackegg.CrackEggExtObj"];
     kNetApiPluginHomeExtService = [kNetApiServicePrefix stringByAppendingString:@".phome.PHomeExtObj"];
     //动态配置专用
-    kNetApiConfigurationExtService = [kNetApiConfigurationServicePrefix stringByAppendingString:@".dynconf.DynconfExtObj"];
+    kNetApiConfigurationExtService = [kNetApiServicePrefix stringByAppendingString:@".dynconf.DynconfExtObj"];
     kNetApiBillExtService = [kNetApiServicePrefix stringByAppendingString:@".index.BillExt.pbobjc"];
     kNetApiCouponExtService = [kNetApiServicePrefix stringByAppendingString:@".coupon.CouponExtObj"];
     kNetApiKtvExtService = [kNetApiServicePrefix stringByAppendingString:@".ktv.KtvExtObj"];
     //
     kNetApiUpgradeExtService = [kNetApiServicePrefix stringByAppendingString:@".upgrade.UpgradeExtObj"];
-    kNetApiUpgradeExtServiceReport = [kNetApiConfigurationServicePrefix stringByAppendingString:@".upgrade.UpgradeExtObj"];
-    kNetApiAuthExtService = [kNetApiConfigurationServicePrefix stringByAppendingString:@".uauth.AuthExtObj"];
+    kNetApiUpgradeExtServiceReport = [kNetApiServicePrefix stringByAppendingString:@".upgrade.UpgradeExtObj"];
+    kNetApiAuthExtService = [kNetApiServicePrefix stringByAppendingString:@".uauth.AuthExtObj"];
     kNetApiNobilityExtService = [kNetApiServicePrefix stringByAppendingString:@".nobility.NobilityExtObj"];
     kNetUserStatusExtService = [kNetApiServicePrefix stringByAppendingString:@".userstatus.UserStatusExtObj"];
     kNetApiEffectExtService = [kNetApiServicePrefix stringByAppendingString:@".effect.EffectExtObj"];
     kNetApiClanExtService = [kNetApiServicePrefix stringByAppendingString:@".clan.ClanExtObj"];
     kNetApiRoomPatternExtService = [kNetApiServicePrefix stringByAppendingString:@".room.RoomPatternExtObj"];
-    kNetApiConfigUresExtObjService = [kNetApiConfigurationServicePrefix stringByAppendingString:@".ures.UresExtObj"];
+    kNetApiConfigUresExtObjService = [kNetApiServicePrefix stringByAppendingString:@".ures.UresExtObj"];
 #if ENABLE_ALIAS_CARAMEL
     //连麦匹配专用
     kNetApiLiveExtService = [kNetApiServicePrefix stringByAppendingString:@".live.LiveExtObj"];
