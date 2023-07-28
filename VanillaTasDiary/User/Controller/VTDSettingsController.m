@@ -10,6 +10,7 @@
 #import "VTDWebController.h"
 #import "ILoginProtocol.h"
 #import "VTDLoginViewController.h"
+#import "NetConfigModel.h"
 
 @interface VTDSettingsController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -68,8 +69,11 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 1) {
+        NetConfigModel *networkConfig = [NetConfigModel shareInstance];
+        NSString *urlMsg = [NSString stringWithFormat:@"%@://%@/beta/yes/commonality/logoutAccount/index.html", networkConfig.scheme, networkConfig.staticHtml];
         VTDWebController *webController = [[VTDWebController alloc] init];
-        webController.url = [NSURL URLWithString:@"https://www.163.com"];
+        webController.title = @"账号注销";
+        webController.url = [NSURL URLWithString:urlMsg];
         [self.navigationController pushViewController:webController animated:YES];
     }else if(indexPath.row == 0) {
         //退出登录

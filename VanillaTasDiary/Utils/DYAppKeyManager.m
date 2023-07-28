@@ -283,7 +283,7 @@ WF_DEF_SINGLETION(DYAppKeyManager);
 - (DYAppkeyConfig *)dyrpcSdkConfig
 {
     DYAppkeyConfig* cfg = [DYAppkeyConfig new];
-    cfg.appId = @"1";
+    cfg.appId = @"33";
     return cfg;
 }
 
@@ -365,6 +365,10 @@ WF_DEF_SINGLETION(DYAppKeyManager);
     DYAppkeyConfig *cfg = [DYAppkeyConfig new];
     
     return cfg;
+}
+
++ (NSString *)innerVersion {
+    return @"6.0.0";
 }
 
 @end

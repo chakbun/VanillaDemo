@@ -1311,9 +1311,9 @@ static NSString * const kPlayerServiceNetEaseTokenKey = @"kPlayerServiceNetEaseT
         token = ZYGService(ILoginService).token;
     }
     NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    opt[@"version"] = [AppUtils bundleAppVersion];
+    opt[@"version"] = [DYAppKeyManager innerVersion];
     opt[@"X-Token"] = token;
-    opt[@"appid"] = @"1";
+    opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     if (!token.length) {
         opt = nil;
     }
@@ -1363,9 +1363,9 @@ static NSString * const kPlayerServiceNetEaseTokenKey = @"kPlayerServiceNetEaseT
         xToken = @"";
     }
     NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    opt[@"version"] = [AppUtils bundleAppVersion];
+    opt[@"version"] = [DYAppKeyManager innerVersion];
     opt[@"X-Token"] = xToken;
-    opt[@"appid"] = @"1";
+    opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     @weakify(self);
     [ZYGService(IZYGNetworkService) sendRequestWithReq:req
                                                 header:opt

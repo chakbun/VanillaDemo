@@ -20,6 +20,7 @@ pod 'UIColor-ColorWithHexAndAlpha'
 pod 'SVProgressHUD'
 pod 'AliyunOSSiOS', '2.10.15'
 pod 'ZygoteNetwork', '1.1.57'
+#pod 'ZygoteNetwork', :path => '../ZygoteNetwork/ZygoteNetwork.podspec'
 pod 'DYBusinessServices', '0.1.999.1.SNAPSHOT'
 pod 'BlocksKit','0.0.4.6.SNAPSHOT',:source => "https://git.2tianxin.com/zygote/zygotespec.git"
 pod 'ZygoteFoundation', '1.0.33'

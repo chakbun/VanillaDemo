@@ -8,6 +8,7 @@
 #import "VTDAboutAppController.h"
 #import "Masonry.h"
 #import "VTDWebController.h"
+#import "NetConfigModel.h"
 
 @interface VTDAboutAppController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -21,7 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"关于";
     
     self.itemArray = @[@"用户协议", @"隐私协议"];
@@ -45,7 +45,7 @@
     }];
     
     UILabel *versionLabel = [[UILabel alloc] init];
-    versionLabel.textColor = UIColor.lightTextColor;
+    versionLabel.textColor = UIColor.blackColor;
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.text = [NSString stringWithFormat:@"当前版本:%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     versionLabel.font = [UIFont systemFontOfSize:12.f];
@@ -125,7 +125,22 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-//        [self go2PolicyWebPage];
+        //用户协议：https://beta-hydrogen-cdn.2tianxin.com/beta/yes/commonality/pages/service.html?debug=1
+        NetConfigModel *networkConfig = [NetConfigModel shareInstance];
+        NSString *urlMsg = [NSString stringWithFormat:@"%@://%@/beta/yes/commonality/pages/service.html", networkConfig.scheme, networkConfig.staticHtml];
+        VTDWebController *webController = [[VTDWebController alloc] init];
+        webController.title = @"用户协议";
+        webController.url = [NSURL URLWithString:urlMsg];
+        [self.navigationController pushViewController:webController animated:YES];
+        
+    }else if (indexPath.row == 1) {
+        //隐私协议：https://beta-hydrogen-cdn.2tianxin.com/beta/yes/commonality/pages/privacyPolicy.html?debug=1
+        NetConfigModel *networkConfig = [NetConfigModel shareInstance];
+        NSString *urlMsg = [NSString stringWithFormat:@"%@://%@/beta/yes/commonality/pages/privacyPolicy.html", networkConfig.scheme, networkConfig.staticHtml];
+        VTDWebController *webController = [[VTDWebController alloc] init];
+        webController.title = @"隐私协议";
+        webController.url = [NSURL URLWithString:urlMsg];
+        [self.navigationController pushViewController:webController animated:YES];
     }
 }
 

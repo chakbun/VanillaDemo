@@ -11,8 +11,11 @@
 #import "NetConfigModel.h"
 #import "VTDSharedDefault.h"
 #import "ILoginProtocol.h"
+#import "IPlayerProtocol.h"
 #import <ZygoteServiceCenter/ZYGServiceMediator.h>
 #import <ZygoteServiceCenter/ZYGServiceCenter.h>
+#import "DYAppKeyManager.h"
+#import <ZygoteFoundation/AppUtils.h>
 
 @interface AppDelegate ()<ZYGNetWorkServiceDelegate>
 
@@ -64,7 +67,7 @@
     
     //初始化网络
     ZYGNetworkServiceConfig* config = [ZYGNetworkServiceConfig new];
-    config.appId  = @"33"; //[DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
+    config.appId  = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     config.schema = [NetConfigModel shareInstance].scheme;
     config.longLinkHost = [NetConfigModel shareInstance].socketHost;
     config.longLinkPort = [NetConfigModel shareInstance].port;
@@ -92,42 +95,43 @@
 }
 
 - (void)willSendRequestWithConfig:(ZYGNetworkServiceReqConfig *)config channelType:(ZYGChannelType)channelType {
-    NSLog(@"==============> willSendRequestWithConfig %@ %@",config.serviceName,config.functionName);
-    config.header[@"lang"] = VTDSharedDefault.shared.languageCode;
+    NSLog(@"[willSendRequestWithConfig]service:%@,func:%@",config.serviceName,config.functionName);
+//    config.header[@"lang"] = VTDSharedDefault.shared.languageCode;
     //TODO: 处理下面的参数来源
-//    config.header[@"no_auth_id"] = [NSString stringWithFormat:@"%@", @(ZYGService(IPlayerService).accountID ?:ZYGService(IPlayerService).playId)];
-//    config.header[@"application"] = @"breathinglove";
-//    config.header[@"app"] = @"breathinglove";
-//    config.header[@"uid"] = [NSString stringWithFormat:@"%@", @(ZYGService(IPlayerService).accountID ?:ZYGService(IPlayerService).playId)];
-//
-//    if ([config.serviceName hasPrefix:@"platform"]) {
-//        config.header[@"device_type"] = [NSString stringWithFormat:@"%d", 2];
-//    } else {
-//        config.header[@"device_type"] = [NSString stringWithFormat:@"%d", PB3DeviceType_DtIosPhone];
-//    }
-//
-//    //新注册用户，需要在header带上注册时间，方便服务器更新首页缓存等操作
-//    if (ZYGService(ILoginService).currentNewUserId > 0 &&
-//        ZYGService(ILoginService).newUserRegisterTimestamp > 0) {
-//        config.header[@"create-time"] = [NSString stringWithFormat:@"%lld", ZYGService(ILoginService).newUserRegisterTimestamp];
-//    }
-
-    kServerType baseNetType = [NetConfigModel shareInstance].baseNetType;
-    if (kServerTypeBeta == baseNetType) {
-        config.header[@"env"] = @"beta";
-    } else if (kServerTypeAudit == baseNetType) {
-        config.header[@"env"] = @"audit";
-    } else if (kServerTypePre == baseNetType) {
-        config.header[@"env"] = @"pre";
-    } else if (kServerTypeTxCloudPre == baseNetType) {
-        config.header[@"env"] = @"pre";
-    } else if (kServerTypeTxCloudBeta == baseNetType) {
-        config.header[@"env"] = @"beta";
-    } else if (kServerTypeTxCloudAudit == baseNetType) {
-        config.header[@"env"] = @"audit";
+    NSLog(@"[willSendRequestWithConfig]accountID:%@,playId:%@", @(ZYGService(IPlayerService).accountID), @(ZYGService(IPlayerService).playId));
+    config.header[@"no_auth_id"] = [NSString stringWithFormat:@"%@", @(ZYGService(IPlayerService).accountID ?:ZYGService(IPlayerService).playId)];
+    config.header[@"application"] = @"yes";
+    config.header[@"app"] = @"yes";
+    config.header[@"uid"] = [NSString stringWithFormat:@"%@", @(ZYGService(IPlayerService).accountID ?:ZYGService(IPlayerService).playId)];
+//    config.header[@"deviceid"] = ZYGService(IPlayerService).deviceIDInKeychain;
+    if ([config.serviceName hasPrefix:@"platform"]) {
+        config.header[@"device_type"] = [NSString stringWithFormat:@"%d", 2];
+    } else {
+        config.header[@"device_type"] = [NSString stringWithFormat:@"%d", PB3DeviceType_DtIosPhone];
     }
-    config.header[@"env"] = @"pre";
-    config.header[@"appid"] = @"153";
+
+    //新注册用户，需要在header带上注册时间，方便服务器更新首页缓存等操作
+    if (ZYGService(ILoginService).currentNewUserId > 0 &&
+        ZYGService(ILoginService).newUserRegisterTimestamp > 0) {
+        config.header[@"create-time"] = [NSString stringWithFormat:@"%lld", ZYGService(ILoginService).newUserRegisterTimestamp];
+    }
+
+//    kServerType baseNetType = [NetConfigModel shareInstance].baseNetType;
+//    if (kServerTypeBeta == baseNetType) {
+//        config.header[@"env"] = @"beta";
+//    } else if (kServerTypeAudit == baseNetType) {
+//        config.header[@"env"] = @"audit";
+//    } else if (kServerTypePre == baseNetType) {
+//        config.header[@"env"] = @"pre";
+//    } else if (kServerTypeTxCloudPre == baseNetType) {
+//        config.header[@"env"] = @"pre";
+//    } else if (kServerTypeTxCloudBeta == baseNetType) {
+//        config.header[@"env"] = @"beta";
+//    } else if (kServerTypeTxCloudAudit == baseNetType) {
+//        config.header[@"env"] = @"audit";
+//    }
+    config.header[@"env"] = @"beta";
+    config.header[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
 
     if ([config.serviceName isEqualToString:kNetApiConfigurationExtService]) {
         config.cgi = @"https://pub-dt-ops.shuntongtong.com/proxycommon";
@@ -137,13 +141,25 @@
 //        config.header[@"roomid"] = [NSString stringWithFormat:@"%lld", roomId];
 //    }
 //    //去掉长链接时请求头的X-Token
-//    if (ZYGChannelType_LongConn != channelType) {
-//        NSString *loginKey = ZYGService(ILoginService).loginKey.length ? ZYGService(ILoginService).loginKey : ZYGService(ILoginService).token;
-//        if (loginKey.length) {
-//            config.header[@"X-Token"] = [NSString stringWithFormat:@"%@", loginKey];
-//        }
-//    }
+    if (ZYGChannelType_LongConn != channelType) {
+        NSString *loginKey = ZYGService(ILoginService).loginKey.length ? ZYGService(ILoginService).loginKey : ZYGService(ILoginService).token;
+        if (loginKey.length) {
+            config.header[@"X-Token"] = [NSString stringWithFormat:@"%@", loginKey];
+        }
+    }
+    config.header[@"version"] = [DYAppKeyManager innerVersion];
+    NSLog(@"[willSendRequestWithConfig]header:%@", config.header);
 }
+
+- (NSString *)appClient {
+    NSString *system = [[UIDevice currentDevice] hy_systemVersion];
+    NSString *device = [UIDevice currentDevice].machineModelName;
+    NSString *appVersion = [DYAppKeyManager innerVersion];
+    NSString *bundleBuildVersion = [AppUtils bundleBuildVersion];
+    return [NSString stringWithFormat:@"ios;%@;%@;%@;%@",system,device,appVersion,bundleBuildVersion];
+}
+
+
 - (bool)makesureAuthed {
     return ZYGService(IZYGConnectorService).isLongLinkAuthed;
 }

@@ -697,12 +697,12 @@
 			isa = PBXGroup;
 			children = (
 				491AF84C2A70D008003B3B65 /* Impl */,
+				491AF8542A70D008003B3B65 /* IPlayerProtocol.h */,
 				491AF84F2A70D008003B3B65 /* IPlayerProtocol.m */,
 				491AF8502A70D008003B3B65 /* DYPlayerType.h */,
 				491AF8512A70D008003B3B65 /* DYPlayerHelper.h */,
 				491AF8522A70D008003B3B65 /* DYNeteaseToken.m */,
 				491AF8532A70D008003B3B65 /* DYPlayerType.m */,
-				491AF8542A70D008003B3B65 /* IPlayerProtocol.h */,
 				491AF8552A70D008003B3B65 /* DYPlayerHelper.m */,
 				491AF8562A70D008003B3B65 /* DYNeteaseToken.h */,
 			);
@@ -1299,7 +1299,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xy.zb.VanillaTasDiary.VanillaTasDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1360,7 +1360,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xy.zb.VanillaTasDiary.VanillaTasDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

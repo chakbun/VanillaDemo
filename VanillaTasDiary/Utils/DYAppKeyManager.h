@@ -79,4 +79,6 @@ WF_AS_SINGLETION(DYAppKeyManager);
 
 - (DYAppkeyConfig *)ameSdkConfig;
 
++ (NSString *)innerVersion;
+
 @end

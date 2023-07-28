@@ -250,9 +250,9 @@ WF_DEF_SINGLETION(LoginManager)
     ZYGService(IPlayerService).loginKey = loginkey;
     
     NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    opt[@"version"] = [AppUtils bundleAppVersion];
+    opt[@"version"] = [DYAppKeyManager innerVersion];
     opt[@"X-Token"] = loginkey;
-    opt[@"appid"] = @"1";
+    opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     
     
     [ZYGService(IZYGNetworkService) sendRequestWithReq:req
@@ -261,7 +261,7 @@ WF_DEF_SINGLETION(LoginManager)
                                               rspClass:[PB3LoginRes class]
                                            channelType:ZYGChannelType_LongConn
                                             needAuthed:NO
-                                           ServiceName:@"breathinglove.userstatus.UserStatusExtObj"
+                                           ServiceName:@"hydrogen.userstatus.UserStatusExtObj"
                                           functionName:@"Login"
                                             completion:^(id rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
         
@@ -2133,9 +2133,9 @@ WF_DEF_SINGLETION(LoginManager)
         token = self.loginKey;
     }
     NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    opt[@"version"] = [AppUtils bundleAppVersion];
+    opt[@"version"] = [DYAppKeyManager innerVersion];
     opt[@"X-Token"] = token;
-    opt[@"appid"] = @"1";
+    opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:opt channelType:ZYGChannelType_ShortConn rspClass:[PB3ShowBindPhoneIdsRes class] ServiceName:kNetApiUserExtService functionName:@"ShowBindPhoneIds" completion:^(PB3ShowBindPhoneIdsRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
         DYLogInfo(@"PB3ShowBindPhoneIdsRes = %@,error = %@", rsp, error);
         if (error) {
@@ -2192,9 +2192,9 @@ WF_DEF_SINGLETION(LoginManager)
     //       token = self.loginKey;
     //   }
     //   NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    //   opt[@"version"] = [AppUtils bundleAppVersion];
+    //   opt[@"version"] = [DYAppKeyManager innerVersion];
     //   opt[@"X-Token"] = token;
-    //   opt[@"appid"] = @"1";
+    //   opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     //   [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:opt channelType:ZYGChannelType_ShortConn rspClass:[PB3GetShowBindPhoneIdsRes class] ServiceName:kNetApiUserExtService functionName:@"GetShowBindPhoneIds" completion:^(PB3GetShowBindPhoneIdsRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
     //      if (error) {
     //          if (failBlock) {
@@ -2249,9 +2249,9 @@ WF_DEF_SINGLETION(LoginManager)
         token = self.loginKey;
     }
     NSMutableDictionary *opt = [NSMutableDictionary dictionary];
-    opt[@"version"] = [AppUtils bundleAppVersion];
+    opt[@"version"] = [DYAppKeyManager innerVersion];
     opt[@"X-Token"] = token;
-    opt[@"appid"] = @"1";
+    opt[@"appid"] = [DYAppKeyManager sharedInstance].dyrpcSdkConfig.appId;
     @weakify(self);
     [ZYGService(IZYGNetworkService) sendRequestWithReq:req header:opt channelType:ZYGChannelType_ShortConn rspClass:[PB3CreateNewTokenRes class] ServiceName:kNetApiUserExtService functionName:@"CreateNewToken" completion:^(PB3CreateNewTokenRes *rsp, ZYGNetRequestError *error, ZYGNetRequestInfo *info) {
         @strongify(self);
