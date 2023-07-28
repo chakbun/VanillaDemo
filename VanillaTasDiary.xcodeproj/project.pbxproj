@@ -115,6 +115,7 @@
 		4947CB552A725C1200946307 /* CountryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB532A725C1200946307 /* CountryTableViewCell.m */; };
 		4947CB592A726F4B00946307 /* PasswordGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB582A726F4B00946307 /* PasswordGridView.m */; };
 		4947CB5C2A7270FD00946307 /* VTDSmsInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */; };
+		49BE6CF52A73C816001CC365 /* VTDLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6CF42A73C816001CC365 /* VTDLabel.m */; };
 		C171CF3A442CE5D56DBE7645 /* libPods-VanillaTasDiary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */; };
 /* End PBXBuildFile section */
 
@@ -329,6 +330,8 @@
 		4947CB582A726F4B00946307 /* PasswordGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordGridView.m; sourceTree = "<group>"; };
 		4947CB5A2A7270FD00946307 /* VTDSmsInputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDSmsInputController.h; sourceTree = "<group>"; };
 		4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDSmsInputController.m; sourceTree = "<group>"; };
+		49BE6CF32A73C816001CC365 /* VTDLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDLabel.h; sourceTree = "<group>"; };
+		49BE6CF42A73C816001CC365 /* VTDLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDLabel.m; sourceTree = "<group>"; };
 		543F62DD3DC93CC3B185C61B /* Pods-VanillaTasDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.debug.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		7225A02B88AF3F719E1AFCEC /* Pods-VanillaTasDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.release.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.release.xcconfig"; sourceTree = "<group>"; };
 		F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VanillaTasDiary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -424,6 +427,7 @@
 		491AF75B2A6FD8D0003B3B65 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				49BE6CF22A73C7FA001CC365 /* View */,
 				491AF8862A711084003B3B65 /* Controller */,
 			);
 			path = Login;
@@ -868,6 +872,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		49BE6CF22A73C7FA001CC365 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				49BE6CF32A73C816001CC365 /* VTDLabel.h */,
+				49BE6CF42A73C816001CC365 /* VTDLabel.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		6FF2E8819996CE394FFC30B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1090,6 +1103,7 @@
 				491AF81A2A70CBBD003B3B65 /* AlarmExt.pbobjc.m in Sources */,
 				491AF7FC2A70CBBD003B3B65 /* VideoExt.pbobjc.m in Sources */,
 				491AF8492A70CF45003B3B65 /* ILoginProtocol.m in Sources */,
+				49BE6CF52A73C816001CC365 /* VTDLabel.m in Sources */,
 				491AF8702A70EB0D003B3B65 /* DBManager.m in Sources */,
 				491AF7F92A70CBBD003B3B65 /* PluginExt.pbobjc.m in Sources */,
 				491AF7602A6FD8D0003B3B65 /* AppDelegate.m in Sources */,
