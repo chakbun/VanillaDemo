@@ -316,9 +316,7 @@ N_Def(kNotificationNetworkReachableChanged);
     _staticHtml = host;
 }
 
-- (void)setNetApiExtService
-{
-    NSString *roomExt = @".room.RoomExtObj";
+- (void)setNetApiExtService {
     kNetApiActivityExtService = [kNetApiServicePrefix stringByAppendingString:@".activity.ActivityExtObj"];
     kNetApiAssetExtService = [kNetApiServicePrefix stringByAppendingString:@".assets.AssetsExtObj"];
     kNetApiGiftExtService = [kNetApiServicePrefix stringByAppendingString:@".gift.GiftExtObj"];

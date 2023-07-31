@@ -116,6 +116,11 @@
 		4947CB592A726F4B00946307 /* PasswordGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB582A726F4B00946307 /* PasswordGridView.m */; };
 		4947CB5C2A7270FD00946307 /* VTDSmsInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */; };
 		49BE6CF52A73C816001CC365 /* VTDLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6CF42A73C816001CC365 /* VTDLabel.m */; };
+		49BE6CF92A7781E6001CC365 /* DYUserPrivacyProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6CF82A7781E6001CC365 /* DYUserPrivacyProfileView.m */; };
+		49BE6CFC2A778934001CC365 /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6CFB2A778934001CC365 /* UIImage+Ext.m */; };
+		49BE6D002A778DB5001CC365 /* VTDNoteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6CFF2A778DB5001CC365 /* VTDNoteManager.m */; };
+		49BE6D032A7792B7001CC365 /* VTDNoteCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6D022A7792B7001CC365 /* VTDNoteCategoryModel.m */; };
+		49BE6D072A7792D1001CC365 /* VTDNoteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE6D062A7792D1001CC365 /* VTDNoteModel.m */; };
 		C171CF3A442CE5D56DBE7645 /* libPods-VanillaTasDiary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */; };
 /* End PBXBuildFile section */
 
@@ -332,6 +337,16 @@
 		4947CB5B2A7270FD00946307 /* VTDSmsInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDSmsInputController.m; sourceTree = "<group>"; };
 		49BE6CF32A73C816001CC365 /* VTDLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDLabel.h; sourceTree = "<group>"; };
 		49BE6CF42A73C816001CC365 /* VTDLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDLabel.m; sourceTree = "<group>"; };
+		49BE6CF72A7781E6001CC365 /* DYUserPrivacyProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYUserPrivacyProfileView.h; sourceTree = "<group>"; };
+		49BE6CF82A7781E6001CC365 /* DYUserPrivacyProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYUserPrivacyProfileView.m; sourceTree = "<group>"; };
+		49BE6CFA2A778934001CC365 /* UIImage+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Ext.h"; sourceTree = "<group>"; };
+		49BE6CFB2A778934001CC365 /* UIImage+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Ext.m"; sourceTree = "<group>"; };
+		49BE6CFE2A778DB5001CC365 /* VTDNoteManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDNoteManager.h; sourceTree = "<group>"; };
+		49BE6CFF2A778DB5001CC365 /* VTDNoteManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteManager.m; sourceTree = "<group>"; };
+		49BE6D012A7792B7001CC365 /* VTDNoteCategoryModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDNoteCategoryModel.h; sourceTree = "<group>"; };
+		49BE6D022A7792B7001CC365 /* VTDNoteCategoryModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteCategoryModel.m; sourceTree = "<group>"; };
+		49BE6D052A7792D1001CC365 /* VTDNoteModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDNoteModel.h; sourceTree = "<group>"; };
+		49BE6D062A7792D1001CC365 /* VTDNoteModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDNoteModel.m; sourceTree = "<group>"; };
 		543F62DD3DC93CC3B185C61B /* Pods-VanillaTasDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.debug.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		7225A02B88AF3F719E1AFCEC /* Pods-VanillaTasDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanillaTasDiary.release.xcconfig"; path = "Target Support Files/Pods-VanillaTasDiary/Pods-VanillaTasDiary.release.xcconfig"; sourceTree = "<group>"; };
 		F1E3C713B38CC80DD5B4AD60 /* libPods-VanillaTasDiary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VanillaTasDiary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -436,6 +451,7 @@
 		491AF7672A70B1B8003B3B65 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				49BE6CFD2A778D87001CC365 /* NoteService */,
 				491AF8902A7203A6003B3B65 /* ZYGServices.plist */,
 				491AF8712A70EB4D003B3B65 /* UserService */,
 				491AF85C2A70D023003B3B65 /* AssetsExtraService */,
@@ -476,6 +492,8 @@
 				491AF87D2A70EB7D003B3B65 /* DYAlertConfigModel.h */,
 				491AF87A2A70EB7C003B3B65 /* DYAlertConfigModel.m */,
 				491AF87C2A70EB7D003B3B65 /* DYAlertHelper.h */,
+				49BE6CFA2A778934001CC365 /* UIImage+Ext.h */,
+				49BE6CFB2A778934001CC365 /* UIImage+Ext.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -866,6 +884,7 @@
 		4947CB562A726F1600946307 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				49BE6CF62A7781E6001CC365 /* UserPrivacy */,
 				4947CB572A726F4B00946307 /* PasswordGridView.h */,
 				4947CB582A726F4B00946307 /* PasswordGridView.m */,
 			);
@@ -879,6 +898,36 @@
 				49BE6CF42A73C816001CC365 /* VTDLabel.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		49BE6CF62A7781E6001CC365 /* UserPrivacy */ = {
+			isa = PBXGroup;
+			children = (
+				49BE6CF72A7781E6001CC365 /* DYUserPrivacyProfileView.h */,
+				49BE6CF82A7781E6001CC365 /* DYUserPrivacyProfileView.m */,
+			);
+			path = UserPrivacy;
+			sourceTree = "<group>";
+		};
+		49BE6CFD2A778D87001CC365 /* NoteService */ = {
+			isa = PBXGroup;
+			children = (
+				49BE6D042A7792BB001CC365 /* Model */,
+				49BE6CFE2A778DB5001CC365 /* VTDNoteManager.h */,
+				49BE6CFF2A778DB5001CC365 /* VTDNoteManager.m */,
+			);
+			path = NoteService;
+			sourceTree = "<group>";
+		};
+		49BE6D042A7792BB001CC365 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				49BE6D012A7792B7001CC365 /* VTDNoteCategoryModel.h */,
+				49BE6D022A7792B7001CC365 /* VTDNoteCategoryModel.m */,
+				49BE6D052A7792D1001CC365 /* VTDNoteModel.h */,
+				49BE6D062A7792D1001CC365 /* VTDNoteModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6FF2E8819996CE394FFC30B2 /* Frameworks */ = {
@@ -1045,11 +1094,14 @@
 				491AF86C2A70D023003B3B65 /* IAssetsServiceProtocol.m in Sources */,
 				4947CB422A72541700946307 /* VTDWebController.m in Sources */,
 				491AF8062A70CBBD003B3B65 /* RoomPatternExt.pbobjc.m in Sources */,
+				49BE6CF92A7781E6001CC365 /* DYUserPrivacyProfileView.m in Sources */,
 				491AF8222A70CBBD003B3B65 /* RedEnvelopeExt.pbobjc.m in Sources */,
 				4947CB3F2A72521500946307 /* VTDSettingsController.m in Sources */,
 				491AF8952A720DB7003B3B65 /* VTDHomeTabbarController.m in Sources */,
 				4947CB352A7247AE00946307 /* VTDCommunityNotesController.m in Sources */,
 				491AF8192A70CBBD003B3B65 /* BillExt.pbobjc.m in Sources */,
+				49BE6D002A778DB5001CC365 /* VTDNoteManager.m in Sources */,
+				49BE6CFC2A778934001CC365 /* UIImage+Ext.m in Sources */,
 				491AF7FA2A70CBBD003B3B65 /* CommunityExt.pbobjc.m in Sources */,
 				491AF8182A70CBBD003B3B65 /* AcmConfExt.pbobjc.m in Sources */,
 				491AF8442A70CF45003B3B65 /* DYSafetyAuthorizationInterceptTool.m in Sources */,
@@ -1110,6 +1162,7 @@
 				4947CB592A726F4B00946307 /* PasswordGridView.m in Sources */,
 				491AF8052A70CBBD003B3B65 /* CrackEggExt.pbobjc.m in Sources */,
 				491AF87F2A70EB7D003B3B65 /* DYAlertConfigModel.m in Sources */,
+				49BE6D072A7792D1001CC365 /* VTDNoteModel.m in Sources */,
 				4947CB522A725BDB00946307 /* CountryListController.m in Sources */,
 				491AF7862A70CB62003B3B65 /* DYAppKeyManager.m in Sources */,
 				491AF82A2A70CBBD003B3B65 /* UauthExt.pbobjc.m in Sources */,
@@ -1117,6 +1170,7 @@
 				491AF85B2A70D008003B3B65 /* DYPlayerHelper.m in Sources */,
 				491AF86B2A70D023003B3B65 /* AssetsModel.m in Sources */,
 				491AF8472A70CF45003B3B65 /* UserChooseAccountModel.m in Sources */,
+				49BE6D032A7792B7001CC365 /* VTDNoteCategoryModel.m in Sources */,
 				491AF8422A70CF45003B3B65 /* LoginManager.m in Sources */,
 				491AF84A2A70CF45003B3B65 /* ConfigCenterComponentTypes.m in Sources */,
 				491AF80B2A70CBBD003B3B65 /* FriendExt.pbobjc.m in Sources */,
